@@ -41,7 +41,7 @@ public class ViewPatientRecordsAdapter extends RecyclerView.Adapter<ViewPatientR
     }
 
     /**
-     * Constructor of the ViewSinglePatientCardAdapter
+     * Constructor of the SinglePatientCard
      *
      * @param context
      * @param sessions

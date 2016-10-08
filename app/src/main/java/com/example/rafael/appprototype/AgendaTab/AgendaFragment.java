@@ -27,7 +27,7 @@ public class AgendaFragment extends Fragment {
 
         // fill the GridView
         //gridView = (GridView) myInflatedView.findViewById(R.id.gridView);
-        // gridView.setAdapter(new PatientsGridViewAdapter(getActivity(), patients));
+        // gridView.setAdapter(new ShowDailyHistory(getActivity(), patients));
 
         return myInflatedView;
     }

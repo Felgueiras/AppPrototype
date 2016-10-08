@@ -89,11 +89,21 @@ public class ViewSinglePatientFragment extends Fragment {
 
         // set Patient age
         TextView patientAge = (TextView) view.findViewById(R.id.patientAge);
-        // patientAge.setText(patient.getAge());
+        patientAge.setText(patient.getAge() + "");
 
         // set Patient address
         TextView patientAddress = (TextView) view.findViewById(R.id.patientAddress);
-        patientAddress.setText("Address");
+        patientAddress.setText(patient.getAddress());
+
+        // set Patient photo
+        ImageView patientPhoto = (ImageView) view.findViewById(R.id.patientPhoto);
+        patientPhoto.setImageResource(patient.getPicture());
+        /*
+        if (patient.getGender() == Constants.MALE) {
+            patientPhoto.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.male));
+        } else {
+            patientPhoto.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.female));
+        }*/
 
 
         recyclerView = (RecyclerView) view.findViewById(R.id.patientRecords);
@@ -109,14 +119,6 @@ public class ViewSinglePatientFragment extends Fragment {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
-
-        ImageView patientPhoto = (ImageView) view.findViewById(R.id.patientPhoto);
-        if (patient.getGender() == Constants.MALE) {
-            patientPhoto.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.male));
-        } else {
-            patientPhoto.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.female));
-        }
 
         return view;
     }

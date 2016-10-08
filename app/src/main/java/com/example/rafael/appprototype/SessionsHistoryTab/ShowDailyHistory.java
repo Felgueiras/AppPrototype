@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.PatientsHistoryTab;
+package com.example.rafael.appprototype.SessionsHistoryTab;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
+import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.R;
@@ -19,43 +21,42 @@ import com.example.rafael.appprototype.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by rafael on 03-10-2016.
- */
-public class PatientsGridViewAdapter extends BaseAdapter {
+
+public class ShowDailyHistory extends BaseAdapter {
     private final List<Patient> patients;
     private RecyclerView recyclerView;
-    private ArrayList<Patient> patientsList;
-    private ViewSinglePatientCardAdapter adapter;
+    private ArrayList<Patient> patientsForADate;
+    private SinglePatientCard adapter;
     Context context;
 
-    public PatientsGridViewAdapter(Context context, List<Patient> patients) {
+    public ShowDailyHistory(Context context, List<Patient> patients) {
         this.context = context;
         this.patients = patients;
-        Log.d("aba", "Grid view adapter size " + patients.size());
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // each view is a Fragment layout that holds a Fragment with a Recycler View inside
         View gridElement = inflater.inflate(R.layout.content_patients_history, null);
+        // get the date
+        String currentDate = Session.getSessionDates().get(position).getDate();
+        TextView dateTextView = (TextView) gridElement.findViewById(R.id.dateText);
+        dateTextView.setText(currentDate);
+        // get Sessions for that date
+        List<Session> sessionsFromDate = Session.getSessionsFromDate(currentDate);
+        patientsForADate = new ArrayList<>();
+        for (Session sess : sessionsFromDate) {
+            patientsForADate.add(sess.getPatient());
 
-        Patient patient = patients.get(position);
+        }
+        Log.d("PatientsForDate","Size is " + patientsForADate.size());
+
         // fill the RecyclerView
         recyclerView = (RecyclerView) gridElement.findViewById(R.id.recycler_view);
-
-        patientsList = new ArrayList<>();
-        patientsList.add(patient);
-        patientsList.add(patient);
-        patientsList.add(patient);
-        patientsList.add(patient);
-        patientsList.add(patient);
-
         context = parent.getContext();
-        adapter = new ViewSinglePatientCardAdapter(context, patientsList);
+        adapter = new SinglePatientCard(context, patientsForADate);
 
         // create Layout
         int numbercolumns = 3;
@@ -64,8 +65,6 @@ public class PatientsGridViewAdapter extends BaseAdapter {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
-
         return gridElement;
     }
 
@@ -79,7 +78,8 @@ public class PatientsGridViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        // get number of different dates
+        return Session.getSessionDates().size();
     }
 
     @Override

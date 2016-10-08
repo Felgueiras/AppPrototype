@@ -35,6 +35,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
     private final Context context;
     private final GeriatricTest test;
+    private final boolean testAlreadyOpened;
     /**
      * Adapter to dislay the choices for a single Question
      */
@@ -56,12 +57,13 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
      * @param questions ArrayList of Questions
      * @param test      GeriatricTest that is being filled up
      */
-    public ViewQuestionsListAdapter(Context context, ArrayList<QuestionNonDB> questions, GeriatricTest test) {
+    public ViewQuestionsListAdapter(Context context, ArrayList<QuestionNonDB> questions, GeriatricTest test, boolean alreadyOpened) {
         this.context = context;
         this.questions = questions;
         this.test = test;
         numquestions = questions.size();
         numquestions = 3;
+        testAlreadyOpened = alreadyOpened;
         inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -100,46 +102,73 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        View questionView = inflater.inflate(R.layout.content_question_yes_no, null);
+        // check if question in DB
         QuestionNonDB currentQuestion = questions.get(position);
-        View questionView;
-        // check if question is multiple choice or yes/no
-        if (currentQuestion.isYesOrNo()) {
-            /**
-             * Create Question and add to DB
-             */
-            Question question = new Question();
-            String dummyID = test.getGuid() + "-" + currentQuestion.getDescription();
-            question.setGuid(dummyID);
-            question.setTest(test);
-            question.setYesOrNo(true);
-            question.setYesValue(currentQuestion.getYesScore());
-            question.setNoValue(currentQuestion.getNoScore());
-            question.save();
-            //Question retrievedQuestion = Question.getQuestionByID(dummyID);
-            //Log.d("NewSession", "Retrieved Question ID is " + retrievedQuestion.getGuid());
+        if (!testAlreadyOpened) {
 
-            /**
-             * Create View to hold the Question and its Choices
-             */
-            questionView = inflater.inflate(R.layout.content_question_yes_no, null);
-            Holder holder = new Holder();
-            holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
-            holder.question.setText((position + 1) + " - " + currentQuestion.getDescription());
-            /**
-             * Detect when Choice changed
-             */
-            RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
-            radioGroup.setOnCheckedChangeListener(new YesNoQuestionHandler(question, this, position));
+
+            // check if question is multiple choice or yes/no
+            if (currentQuestion.isYesOrNo()) {
+                /**
+                 * Create Question and add to DB
+                 */
+                Question question = new Question();
+                String dummyID = test.getGuid() + "-" + currentQuestion.getDescription();
+                question.setGuid(dummyID);
+                question.setTest(test);
+                question.setYesOrNo(true);
+                question.setYesValue(currentQuestion.getYesScore());
+                question.setNoValue(currentQuestion.getNoScore());
+                question.save();
+                //Question retrievedQuestion = Question.getQuestionByID(dummyID);
+                //Log.d("NewSession", "Retrieved Question ID is " + retrievedQuestion.getGuid());
+
+                /**
+                 * Create View to hold the Question and its Choices
+                 */
+
+                Holder holder = new Holder();
+                holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
+                holder.question.setText((position + 1) + " - " + currentQuestion.getDescription());
+                /**
+                 * Detect when Choice changed
+                 */
+                RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
+                radioGroup.setOnCheckedChangeListener(new YesNoQuestionHandler(question, this, position));
+            } else {
+                questionView = inflater.inflate(R.layout.content_question_multiple_choice, null);
+                Holder holder = new Holder();
+                holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
+                holder.question.setText((position + 1) + " - " + currentQuestion.getDescription());
+                holder.choices = (GridView) questionView.findViewById(R.id.questionChoices);
+
+                adapter = new SingleQuestionGridAdapter(context, currentQuestion.getChoices());
+                holder.choices.setAdapter(adapter);
+            }
         } else {
-            questionView = inflater.inflate(R.layout.content_question_multiple_choice, null);
-            Holder holder = new Holder();
-            holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
-            holder.question.setText((position + 1) + " - " + currentQuestion.getDescription());
-            holder.choices = (GridView) questionView.findViewById(R.id.questionChoices);
-            adapter = new SingleQuestionGridAdapter(context, currentQuestion.getChoices());
-            holder.choices.setAdapter(adapter);
-        }
 
+            Log.d("NewSession", "Test-" + test.getGuid());
+
+            // check if question is multiple choice or yes/no
+            if (currentQuestion.isYesOrNo()) {
+                Question question = test.getQuestionsFromTest().get(position);
+                // get question by id
+                // Question question = Question.getQuestionByID(test.getGuid() + "-" + currentQuestion.getDescription());
+
+                Holder holder = new Holder();
+                holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
+                holder.question.setText((position + 1) + " - " + currentQuestion.getDescription());
+
+                RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
+                radioGroup.setOnCheckedChangeListener(new YesNoQuestionHandler(question, this, position));
+                if (question.getSelectedYesNoChoice().equals("yes")) {
+                    radioGroup.check(R.id.yesChoice);
+                } else {
+                    radioGroup.check(R.id.noChoice);
+                }
+            }
+        }
         return questionView;
     }
 

@@ -7,11 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.R;
+
+import java.util.List;
 
 
 public class DisplaySingleTestFragment extends Fragment {
@@ -67,10 +70,13 @@ public class DisplaySingleTestFragment extends Fragment {
         // get the list of tests
         Bundle bundle = getArguments();
         test = (GeriatricTestNonDB) bundle.getSerializable(testObject);
-        alreadyOpened = bundle.getBoolean(alreadyOpenedBefore);
         session = (Session) bundle.getSerializable(sessionID);
+        alreadyOpened = bundle.getBoolean(alreadyOpenedBefore);
+        // check if this Session holds info about this Test
+        List<GeriatricTest> testsFromSession = session.getTestsFromSession();
+
         if (!alreadyOpened) {
-            Log.d("NewSession","Not opened, adding to DB");
+            Log.d("NewSession", "Not opened, adding to DB");
             // create new Test and add to DB
             testDB = new GeriatricTest();
             String dummyID = session.getGuid() + "-" + test.getTestName();
@@ -82,10 +88,9 @@ public class DisplaySingleTestFragment extends Fragment {
             // retrieve to check
             // GeriatricTest retrievedTest = GeriatricTest.getTestByID(dummyID);
             // Log.d("NewSession", "Test with SessionID " + retrievedTest.getGuid());
-        }
-        else
-        {
-            Log.d("NewSession","Already opened, not adding to DB");
+        } else {
+            Log.d("NewSession", "Already opened, not adding to DB");
+            testDB = GeriatricTest.getTestByID(session.getGuid() + "-" + test.getTestName());
         }
     }
 
@@ -96,9 +101,7 @@ public class DisplaySingleTestFragment extends Fragment {
         // populate the ListView
         testQuestions = (ListView) view.findViewById(R.id.testQuestions);
         // create the adapter
-        adapter = new ViewQuestionsListAdapter(this.getActivity(),
-                test.getQuestions(),
-                testDB);
+        adapter = new ViewQuestionsListAdapter(this.getActivity(), test.getQuestions(), testDB, alreadyOpened);
         testQuestions.setAdapter(adapter);
         return view;
     }

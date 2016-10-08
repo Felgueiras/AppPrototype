@@ -32,7 +32,7 @@
     <string name="title_activity_create_record">Criar registo</string>
     <string name="title_activity_tabs">Separadores</string>
     <string name="action_add_favourite">Adicionar aos favoritos</string>
-    <string name="patients_history">Histórico de pacientes</string>
+    <string name="patients_history">Histórico de sessões</string>
     <string name="consult_agenda">Ver a agenda</string>
     <string name="create_new_session">Criar nova sessão</string>
     <string name="my_patients">Os meus pacientes</string>
@@ -49,4 +49,5 @@
     <string name="test_incomplete">Teste incompleto</string>
     <string name="test_not_selected">Teste não selecionado</string>
     <string name="test_result">Resultado</string>
+    <string name="patient_sessions">Sessões do paciente</string>
 </resources>

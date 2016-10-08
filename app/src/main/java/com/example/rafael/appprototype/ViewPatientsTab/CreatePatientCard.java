@@ -22,7 +22,7 @@ import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewSingleP
 
 import java.util.ArrayList;
 
-public class ViewPatientsGridAdapter extends RecyclerView.Adapter<ViewPatientsGridAdapter.MyViewHolder> {
+public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.MyViewHolder> {
 
     private Context context;
     /**
@@ -47,12 +47,12 @@ public class ViewPatientsGridAdapter extends RecyclerView.Adapter<ViewPatientsGr
     }
 
     /**
-     * Constructor of the ViewSinglePatientCardAdapter
+     * Constructor of the SinglePatientCard
      *
      * @param context
      * @param patients
      */
-    public ViewPatientsGridAdapter(Context context, ArrayList<Patient> patients) {
+    public CreatePatientCard(Context context, ArrayList<Patient> patients) {
         this.context = context;
         this.patients = patients;
     }

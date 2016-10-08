@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.PatientsHistoryTab;
+package com.example.rafael.appprototype.SessionsHistoryTab;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -11,9 +11,8 @@ import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class PatientsHistoryFragment extends Fragment {
+public class SessionsHistoryFragment extends Fragment {
     private GridView gridView;
 
     @Override
@@ -23,13 +22,11 @@ public class PatientsHistoryFragment extends Fragment {
         View myInflatedView = inflater.inflate(R.layout.content_grid_view, container, false);
 
         // get the patients
-        List<Patient> patients = Patient.getAllPatients();
-        ArrayList<Patient> patientsArrayList = new ArrayList<>();
-        patientsArrayList.addAll(patients);
+        ArrayList<Patient> patients = Patient.getAllPatients();
 
         // fill the GridView
         gridView = (GridView) myInflatedView.findViewById(R.id.gridView);
-        gridView.setAdapter(new PatientsGridViewAdapter(getActivity(), patients));
+        gridView.setAdapter(new ShowDailyHistory(getActivity(), patients));
 
         return myInflatedView;
     }

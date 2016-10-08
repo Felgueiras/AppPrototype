@@ -26,7 +26,7 @@ public class PatientsGridViewAdapter extends BaseAdapter {
      */
     private ArrayList<Patient> patients;
     private RecyclerView recyclerView;
-    private ViewPatientsGridAdapter adapter;
+    private CreatePatientCard adapter;
     Context context;
 
     public PatientsGridViewAdapter(Context context, ArrayList<Patient> patients) {
@@ -48,7 +48,7 @@ public class PatientsGridViewAdapter extends BaseAdapter {
 
 
         context = parent.getContext();
-        adapter = new ViewPatientsGridAdapter(context, patients);
+        adapter = new CreatePatientCard(context, patients);
 
         // create Layout
         int numbercolumns = 3;

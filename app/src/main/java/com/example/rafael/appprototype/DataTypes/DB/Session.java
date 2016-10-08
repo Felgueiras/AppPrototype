@@ -91,7 +91,7 @@ public class Session extends Model implements Serializable {
      * @param date
      * @return
      */
-    public static List<Session> getRecordsFromDate(Date date) {
+    public static List<Session> getSessionsFromDate(String date) {
         return new Select()
                 .from(Session.class)
                 .where("date = ?", date)
@@ -122,6 +122,7 @@ public class Session extends Model implements Serializable {
                 .distinct()
                 .from(Session.class)
                 .groupBy("date")
+                .orderBy("date DESC")
                 .execute();
     }
 

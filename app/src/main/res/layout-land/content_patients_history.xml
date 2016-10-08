@@ -13,7 +13,9 @@
         android:layout_height="wrap_content"
         android:text="Hoje"
         android:id="@+id/dateText"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        android:textSize="25dp"
+        android:padding="10dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"

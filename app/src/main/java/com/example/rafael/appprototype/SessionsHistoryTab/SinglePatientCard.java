@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.PatientsHistoryTab;
+package com.example.rafael.appprototype.SessionsHistoryTab;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -22,7 +22,7 @@ import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewSingleP
 
 import java.util.ArrayList;
 
-public class ViewSinglePatientCardAdapter extends RecyclerView.Adapter<ViewSinglePatientCardAdapter.MyViewHolder> {
+public class SinglePatientCard extends RecyclerView.Adapter<SinglePatientCard.MyViewHolder> {
 
     private Context context;
     /**
@@ -47,12 +47,12 @@ public class ViewSinglePatientCardAdapter extends RecyclerView.Adapter<ViewSingl
     }
 
     /**
-     * Constructor of the ViewSinglePatientCardAdapter
+     * Constructor of the SinglePatientCard
      *
      * @param context
      * @param patientsList
      */
-    public ViewSinglePatientCardAdapter(Context context, ArrayList<Patient> patientsList) {
+    public SinglePatientCard(Context context, ArrayList<Patient> patientsList) {
         this.context = context;
         this.patientsList = patientsList;
         // which layout to inflate??
@@ -60,8 +60,7 @@ public class ViewSinglePatientCardAdapter extends RecyclerView.Adapter<ViewSingl
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.content_patient_card, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_patient_card, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -69,8 +68,10 @@ public class ViewSinglePatientCardAdapter extends RecyclerView.Adapter<ViewSingl
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final Patient patient = patientsList.get(position);
+        Log.d("NewSession","PatientList size "+patientsList.size());
+
         holder.name.setText(patient.getName());
-        // holder.type.setText(patient.getAge());
+        holder.age.setText(patient.getAge()+"");
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

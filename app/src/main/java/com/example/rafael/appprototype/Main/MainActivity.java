@@ -12,20 +12,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
-import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
 import com.example.rafael.appprototype.NewSessionTab.DisplayTest.SingleTest.DisplaySingleTestFragment;
 import com.example.rafael.appprototype.NewSessionTab.ViewAvailableTests.NewSessionFragment;
-import com.example.rafael.appprototype.PatientsHistoryTab.PatientsHistoryFragment;
+import com.example.rafael.appprototype.SessionsHistoryTab.SessionsHistoryFragment;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.ViewPatientsTab.ViewPatientsFragment;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,25 +42,46 @@ public class MainActivity extends AppCompatActivity {
         ActiveAndroid.initialize(getApplication());
         setContentView(R.layout.activity_main_activity_recycler);
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        // String json = gson.toJson(StaticTestDefinition.escalaDeKatz());
-
         // insert data in DB (if first run)
         sharedPreferences = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
         if (sharedPreferences.getBoolean("firstrun", true)) {
             sharedPreferences.edit().putBoolean("firstrun", false).commit();
             Log.d("FIRST RUN", "first run");
-            preparePatients();
-        } else {
-            Log.d("FIRST RUN", "not first run");
+            DatabaseOps.insertDataToDB();
+            // display login screen
+            //Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            //startActivity(i);
         }
+        DatabaseOps.eraseAll();
+        DatabaseOps.insertDataToDB();
+
+        /*
+        getFragmentManager().
+                addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+
+                    @Override
+                    public void onBackStackChanged() {
+                        Log.d("BackStack", "BackStack changed");
+                        if (getFragmentManager().getBackStackEntryCount() == 0)
+                            return;
+                        String fragmentName = getFragmentManager().getBackStackEntryAt(0).getName();
+                        Fragment fr = getFragmentManager().findFragmentById(R.id.content_frame);
+                        if (fragmentName.equals("displayTest")) {
+                            Log.d("BackStack", "Fragment class is " + fr.getClass().getSimpleName());
+                            Bundle arguments = fr.getArguments();
+                            Session currentSession = (Session) arguments.getSerializable(DisplaySingleTestFragment.sessionID);
+                            Log.d("BackStack", "SessionID is " + currentSession.getGuid());
+                        }
+                    }
+                });
+                */
+
         // set default fragment
-        Fragment fragment = new NewSessionFragment();
-        setTitle(getResources().getString(R.string.tab_new_session));
+        Fragment fragment = new SessionsHistoryFragment();
+        setTitle(getResources().getString(R.string.patients_history));
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
-                .addToBackStack("viewSession")
                 .commit();
 
         drawerPages = new String[]{getResources().getString(R.string.patients_history),
@@ -84,17 +102,16 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Display a single Test for the doctor
      *
-     * @param selectedTest  Test that was selected from a Session
-     * @param alreadyOpened
-     * @param session       ID for the current Session
+     * @param selectedTest Test that was selected from a Session
+     * @param session      ID for the current Session
      */
-    public void displaySessionTest(GeriatricTestNonDB selectedTest, boolean alreadyOpened, Session session) {
+    public void displaySessionTest(GeriatricTestNonDB selectedTest, Session session, boolean alreadyOpened) {
         // Create new fragment and transaction
         Fragment newFragment = new DisplaySingleTestFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(DisplaySingleTestFragment.testObject, selectedTest);
-        bundle.putBoolean(DisplaySingleTestFragment.alreadyOpenedBefore, alreadyOpened);
         bundle.putSerializable(DisplaySingleTestFragment.sessionID, session);
+        bundle.putBoolean(DisplaySingleTestFragment.alreadyOpenedBefore, alreadyOpened);
         newFragment.setArguments(bundle);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.content_frame, newFragment);
@@ -110,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             String selectedPage = drawerPages[position];
             Fragment fragment = null;
             if (selectedPage == getResources().getString(R.string.patients_history)) {
-                fragment = new PatientsHistoryFragment();
+                fragment = new SessionsHistoryFragment();
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, fragment)
@@ -190,57 +207,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Adding few albums for testing
-     */
-    private void preparePatients() {
-        int numPatients = 10;
-        int numRecordsPerPatient = 5;
-        for (int i = 0; i < numPatients; i++) {
-            // create patients
-            Patient patient = new Patient();
-            patient.setName("Patient " + i);
-            patient.setAge(78);
-            patient.setGuid("PatientID" + i);
-            patient.setPicture(R.drawable.female);
-            patient.save();
-
-            // create records for that patient
-            for (int rec = 0; rec < numRecordsPerPatient; rec++) {
-                Session session = new Session();
-                session.setGuid("RecordID-" + rec + "-" + i);
-                session.setDate(Session.dateToString(Session.createCustomDate(1999, 2, rec)));
-                session.setPatient(patient);
-                session.save();
-
-
-            }
-
-        }
-    }
-
     @Override
     public void onBackPressed() {
         Log.d("Backstack", "onBackPressed");
         FragmentManager fragmentManager = getFragmentManager();
         if (fragmentManager.getBackStackEntryCount() > 0) {
-            /**
-             * Check the Fragment that was on top of the stack
-             */
-            String fragmentName = fragmentManager.getBackStackEntryAt(0).getName();
-            Fragment fr = fragmentManager.findFragmentById(R.id.content_frame);
-            //Log.d("NewSession2", "Fragment name is " + fragmentName);
-            //Log.d("NewSession2", "Fragment class is " + fr.getClass().getSimpleName());
+            String fragmentName = getFragmentManager().getBackStackEntryAt(0).getName();
+            Fragment fr = getFragmentManager().findFragmentById(R.id.content_frame);
             fragmentManager.popBackStack();
-            fragmentManager.popBackStack();
-            if (fragmentName.equals("viewSession")) {
+            if (fragmentName.equals("displayTest")) {
                 // get the arguments
                 Bundle arguments = fr.getArguments();
                 Session session = (Session) arguments.getSerializable(DisplaySingleTestFragment.sessionID);
-                //Log.d("NewSession2", "ID is " + session.getGuid());
-                /**
-                 * Pass arguments - sessionID
-                 */
                 Bundle args = new Bundle();
                 args.putSerializable(NewSessionFragment.sessionObject, session);
                 Fragment fragment = new NewSessionFragment();

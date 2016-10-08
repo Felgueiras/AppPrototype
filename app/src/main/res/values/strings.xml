@@ -41,7 +41,7 @@
     <string name="backdrop_title">LOVE MUSIC</string>
     <string name="backdrop_subtitle">This season top 20 albums</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="patients_history">Patients history</string>
+    <string name="patients_history">Sessions history</string>
     <string name="consult_agenda">Consult agenda</string>
     <string name="create_new_session">Create new session</string>
     <string name="my_patients">My patients</string>
@@ -58,4 +58,5 @@
     <string name="test_not_selected">Test not selected</string>
     <string name="test_incomplete">Test is incomplete</string>
     <string name="test_result">Test result</string>
+    <string name="patient_sessions">Patient sessions</string>
 </resources>

@@ -26,11 +26,10 @@ public class ViewPatientsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View myInflatedView = inflater.inflate(R.layout.content_grid_view, container, false);
+        getActivity().setTitle(getResources().getString(R.string.tab_my_patients));
 
         // get the patients
         ArrayList<Patient> patients = Patient.getAllPatients();
-
-        Log.d("Patients","Viewing patients");
 
         // fill the GridView
         gridView = (GridView) myInflatedView.findViewById(R.id.gridView);
