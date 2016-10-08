@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.rafael.appprototype">
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <application
+        android:name="com.activeandroid.app.Application"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="patients.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="1" />
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="com.example.rafael.appprototype.DataTypes.Patient,
+            com.example.rafael.appprototype.DataTypes.DB.Session,
+            com.example.rafael.appprototype.DataTypes.DB.GeriatricTest,
+            com.example.rafael.appprototype.DataTypes.DB.Scoring,
+            com.example.rafael.appprototype.DataTypes.DB.Grading,
+            com.example.rafael.appprototype.DataTypes.DB.Question,
+            com.example.rafael.appprototype.DataTypes.DB.Choice"
+        />
+
+
+        <provider
+            android:name=".ContentProvider.CitySuggestionProvider"
+            android:authorities="ngvl.android.demosearch.citysuggestion"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".Tutorial.RecyclerViewActivity" />
+        <activity android:name=".Tutorial.CardViewActivity">
+
+        </activity>
+
+        <activity
+            android:name=".Login.LoginActivity"
+            android:label="@string/title_activity_login" />
+
+        <activity
+            android:name=".Tutorial.OtherActivity"
+            android:launchMode="singleTop" />
+        <activity android:name=".Tutorial.SearchableActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity android:name=".Tutorial.ViewTest" />
+        <activity
+            android:name=".Tutorial.Tabs"
+            android:label="@string/title_activity_tabs"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Tutorial.CalendarView" />
+        <activity android:name=".Tutorial.DatePickerActivity" />
+        <activity android:name=".Main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

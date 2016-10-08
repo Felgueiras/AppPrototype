@@ -1,0 +1,56 @@
+package com.example.rafael.appprototype.DataTypes.DB;
+
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
+/**
+ * Created by rafael on 30-09-2016.
+ */
+@Table(name = "Gradings")
+public class Grading {
+
+    @Column(name = "guid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    String guid;
+    /**
+     * Name of the category (full dependency, mild dependency, etc)
+     */
+    @Column(name = "grade")
+    String grade;
+    /**
+     * Score corresponding to that category. Can be a single value or a list of values.
+     */
+    @Column(name = "score")
+    String score;
+
+    /**
+     * Create a new Grading category (single score)
+     *
+     * @param grade textual description
+     * @param score numerical value for the score
+     */
+    public Grading(String grade, int score) {
+        super();
+        this.grade = grade;
+        this.score = score + "";
+
+    }
+
+    public Grading() {
+        super();
+    }
+
+    /**
+     * Create a new Grading category (multiple values)
+     *
+     * @param grade
+     * @param values
+     */
+    public Grading(String grade, int[] values) {
+        super();
+        this.grade = grade;
+        this.score = values[0] + "";
+        for (int i = 1; i < values.length; i++) {
+            this.score += "," + values[i];
+        }
+    }
+}

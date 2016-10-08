@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">AppPrototype</string>
+    <string name="patient_name">Manuel Lopes</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale" translatable="false">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="search_hint">Search something...</string>
+    <string name="hint_search">Search now</string>
+    <string name="male">M</string>
+    <string name="female">F</string>
+    <string name="dependent">Dependent</string>
+    <string name="indenpendent">Independent</string>
+    <string name="action_log_in">Log in</string>
+    <string name="check_patient_profile">Check patient profile</string>
+    <string name="new_patient">New patient</string>
+    <string name="patients">Patients</string>
+    <string name="sort_by_date">Sort by Date</string>
+    <string name="patient">Patient</string>
+    <string name="create_new_record">Create new Record</string>
+    <string name="previous_records">Previous sessions</string>
+    <string name="title_activity_tabs">Tabs</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="addPatientConfirm">New patient added</string>
+    <string name="title_activity_create_record">CreateRecord</string>
+    <string name="new_record">New session</string>
+    <string name="action_add_favourite">Add to Favourites</string>
+    <string name="action_play_next">Play Next</string>
+    <string name="backdrop_title">LOVE MUSIC</string>
+    <string name="backdrop_subtitle">This season top 20 albums</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="patients_history">Patients history</string>
+    <string name="consult_agenda">Consult agenda</string>
+    <string name="create_new_session">Create new session</string>
+    <string name="my_patients">My patients</string>
+    <string name="add_new_patient">Add new Patient</string>
+    <string name="tab_patients">Patients</string>
+    <string name="tab_agenda">Agenda</string>
+    <string name="tab_new_session">New session</string>
+    <string name="tab_my_patients">My patients</string>
+    <string name="tab_add_new_patient">Add new patient</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="pinCode">Write your 4-digits pin code</string>
+    <string name="finish_session">Finish session</string>
+    <string name="test_not_selected">Test not selected</string>
+    <string name="test_incomplete">Test is incomplete</string>
+    <string name="test_result">Test result</string>
+</resources>
