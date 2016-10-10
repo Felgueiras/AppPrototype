@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewPatientRecordsAdapter;
+import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewPatientSessionsAdapter;
 import com.example.rafael.appprototype.ViewPatientsTab.ViewPatientsFragment;
 
 /**
@@ -26,7 +26,7 @@ public class SelectPatientFragment extends Fragment {
     /**
      * Adapter to the RecyclerView
      */
-    private ViewPatientRecordsAdapter adapter;
+    private ViewPatientSessionsAdapter adapter;
 
 
     @Override

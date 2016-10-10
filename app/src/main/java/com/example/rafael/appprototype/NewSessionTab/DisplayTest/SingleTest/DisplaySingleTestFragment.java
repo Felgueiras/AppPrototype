@@ -28,6 +28,7 @@ public class DisplaySingleTestFragment extends Fragment {
      * ID of the Session which this Test belongs
      */
     public static String sessionID = "session";
+    public static String patient = "patient";
     Session session;
 
     /**
@@ -72,8 +73,6 @@ public class DisplaySingleTestFragment extends Fragment {
         test = (GeriatricTestNonDB) bundle.getSerializable(testObject);
         session = (Session) bundle.getSerializable(sessionID);
         alreadyOpened = bundle.getBoolean(alreadyOpenedBefore);
-        // check if this Session holds info about this Test
-        List<GeriatricTest> testsFromSession = session.getTestsFromSession();
 
         if (!alreadyOpened) {
             Log.d("NewSession", "Not opened, adding to DB");
@@ -89,9 +88,9 @@ public class DisplaySingleTestFragment extends Fragment {
             // GeriatricTest retrievedTest = GeriatricTest.getTestByID(dummyID);
             // Log.d("NewSession", "Test with SessionID " + retrievedTest.getGuid());
         } else {
-            Log.d("NewSession", "Already opened, not adding to DB");
             testDB = GeriatricTest.getTestByID(session.getGuid() + "-" + test.getTestName());
         }
+
     }
 
     // Inflate the view for the fragment based on layout XML

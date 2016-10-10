@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.NewSessionTab.ViewAvailableTests;
+package com.example.rafael.appprototype.ReviewSession;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -15,11 +15,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
+import com.example.rafael.appprototype.NewSessionTab.ViewAvailableTests.CreateTestCard;
+import com.example.rafael.appprototype.NewSessionTab.ViewAvailableTests.SelectPatientFragment;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewSinglePatientInfoAndSessions;
 import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewSinglePatientOnlyInfo;
@@ -28,7 +30,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class NewSessionFragment extends Fragment {
+/**
+ * Fragment that will display info for a Session that is being reviewed
+ */
+public class ReviewSessionFragment extends Fragment {
 
     /**
      * Recycler view that will hold the cards of the different tests
@@ -46,9 +51,8 @@ public class NewSessionFragment extends Fragment {
     /**
      * Patient for this Session
      */
-    public static String PATIENT = "patient";
-
-    Patient patientForThisSession;
+    Patient patient;
+    public static String patientObject = "patient";
     /**
      * The ID for this Session
      */
@@ -57,50 +61,32 @@ public class NewSessionFragment extends Fragment {
      * Session object
      */
     private Session session;
-
     public static String sessionObject = "session";
 
-    boolean resuming = false;
-
-    // TODO replace add button with another one more suitable
+    boolean resuming = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View myInflatedView = inflater.inflate(R.layout.content_new_session_tab, container, false);
+        View myInflatedView = inflater.inflate(R.layout.content_review_session, container, false);
         Bundle args = getArguments();
         if (args != null) {
             session = (Session) args.getSerializable(sessionObject);
-            if (session != null) {
-                resuming = true;
-                Log.d("NewSession", "Resuming");
-            } else {
-                // generate a new ID for this Session
-                createNewSessionID();
-            }
-            patientForThisSession = (Patient) args.getSerializable(PATIENT);
-            Log.d("New Session","We have patient: " + (patientForThisSession!=null));
+            patient = (Patient) args.getSerializable(patientObject);
             // create a new Fragment to hold info about the Patient
             Fragment fragment = new ViewSinglePatientOnlyInfo();
             Bundle newArgs = new Bundle();
-            if (patientForThisSession != null) {
-                // set the patient for this session
-                session.setPatient(patientForThisSession);
-                session.save();
-                Log.d("NewSession","Added patient to session");
-                newArgs.putSerializable(ViewSinglePatientInfoAndSessions.PATIENT, patientForThisSession);
-                fragment.setArguments(newArgs);
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.patientInfo, fragment)
-                        .commit();
-            } else {
-                fragment = new SelectPatientFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.patientInfo, fragment)
-                        .commit();
-            }
+            // set the patient for this session
+            session.setPatient(patient);
+            session.save();
+            Log.d("ReviewSession", "Added patient to session");
+            newArgs.putSerializable(ViewSinglePatientInfoAndSessions.PATIENT, patient);
+            fragment.setArguments(newArgs);
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.patientInfo, fragment)
+                    .commit();
+
 
         } else {
             // generate a new ID for this Session
@@ -120,11 +106,11 @@ public class NewSessionFragment extends Fragment {
          */
         recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.testsRecyclerView);
         testsList = new ArrayList<>();
-        testsList.add(StaticTestDefinition.escalaDeKatz());
+        //testsList.add(StaticTestDefinition.escalaDeKatz());
         testsList.add(StaticTestDefinition.escalaDepressao());
         //testsList.add(StaticTestDefinition.escalaLawtonBrody());
         //testsList.add(StaticTestDefinition.marchaHolden());
-        adapter = new CreateTestCard(getActivity(), testsList, session, resuming, patientForThisSession);
+        adapter = new CreateTestCard(getActivity(), testsList, session, resuming, patient);
 
         // create Layout
         int numbercolumns = 2;
@@ -133,22 +119,6 @@ public class NewSessionFragment extends Fragment {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
-        // add on click listener to the button
-        Button btn = (Button) myInflatedView.findViewById(R.id.finishSessionButton);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("Session", "Finishing!");
-                // check if there is an added patient or not
-                if (patientForThisSession == null) {
-                    Toast.makeText(getActivity(), "You must add a patient before proceding", Toast.LENGTH_SHORT).show();
-                }
-
-                // check if there is any incomplete test
-                // if not, go to review session panel
-            }
-        });
 
         return myInflatedView;
     }

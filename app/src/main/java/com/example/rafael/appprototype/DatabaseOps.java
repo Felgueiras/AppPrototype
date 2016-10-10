@@ -43,7 +43,7 @@ public class DatabaseOps {
      * Insert dummy data into DB
      */
     public static void insertDataToDB() {
-        int numSessionsPerPacient = 3;
+        int numSessionsPerPacient = 0;
         String[] patientNames = new String[]{
                 "João Almeida",
                 "Maria da Luz",

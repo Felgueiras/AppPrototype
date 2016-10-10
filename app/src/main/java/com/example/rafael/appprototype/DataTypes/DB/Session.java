@@ -126,14 +126,15 @@ public class Session extends Model implements Serializable {
                 .execute();
     }
 
-    public static Date createCustomDate(int year, int month, int day) {
+    public static Date createCustomDate(int year, int month, int day, int hour, int minute) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.MONTH, month);
         cal.set(Calendar.DAY_OF_MONTH, day);
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+
         /*
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         */
@@ -166,7 +167,7 @@ public class Session extends Model implements Serializable {
      * @return String representation of that Date
      */
     public static String dateToString(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         String datetime = "";
         datetime = format.format(date);
         return datetime;

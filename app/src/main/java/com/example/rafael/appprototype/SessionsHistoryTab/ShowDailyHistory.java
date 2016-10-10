@@ -49,9 +49,7 @@ public class ShowDailyHistory extends BaseAdapter {
         patientsForADate = new ArrayList<>();
         for (Session sess : sessionsFromDate) {
             patientsForADate.add(sess.getPatient());
-
         }
-        Log.d("PatientsForDate","Size is " + patientsForADate.size());
 
         // fill the RecyclerView
         recyclerView = (RecyclerView) gridElement.findViewById(R.id.recycler_view);

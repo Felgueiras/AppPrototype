@@ -1,7 +1,9 @@
 package com.example.rafael.appprototype.ViewPatientsTab.SinglePatient;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,18 +14,27 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.ReviewSession.ReviewSessionFragment;
 
 import java.util.ArrayList;
 
-public class ViewPatientRecordsAdapter extends RecyclerView.Adapter<ViewPatientRecordsAdapter.MyViewHolder> {
+public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatientSessionsAdapter.MyViewHolder> {
 
+    /**
+     * Patient which has these Sessions.
+     */
+    private final Patient patient;
     private Context context;
     /**
      * Records from that patient
      */
     private ArrayList<Session> sessions;
+    private Session currentSession;
 
     /**
      * Create a View
@@ -45,15 +56,29 @@ public class ViewPatientRecordsAdapter extends RecyclerView.Adapter<ViewPatientR
      *
      * @param context
      * @param sessions
+     * @param patient
      */
-    public ViewPatientRecordsAdapter(Context context, ArrayList<Session> sessions) {
+    public ViewPatientSessionsAdapter(Context context, ArrayList<Session> sessions, Patient patient) {
         this.context = context;
         this.sessions = sessions;
+        this.patient = patient;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_record_info, parent, false);
+
+
+        // add on click listener for the Session
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle args = new Bundle();
+                args.putSerializable(ReviewSessionFragment.patientObject, patient);
+                args.putSerializable(ReviewSessionFragment.sessionObject,currentSession);
+                ((MainActivity) context).replaceFragment(ReviewSessionFragment.class, args, Constants.tag_review_session);
+            }
+        });
 
         return new MyViewHolder(itemView);
     }
@@ -62,18 +87,8 @@ public class ViewPatientRecordsAdapter extends RecyclerView.Adapter<ViewPatientR
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final Session session = sessions.get(position);
         holder.date.setText(session.getDate());
+        currentSession =sessions.get(position);
 
-        /*
-        // add on click listener for the photo
-        holder.photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle args = new Bundle();
-                args.putSerializable(ViewSinglePatientFragment.PATIENT, session);
-                ((MainActivity) context).replaceFragment(ViewSinglePatientFragment.class, args);
-            }
-        });
-        */
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override

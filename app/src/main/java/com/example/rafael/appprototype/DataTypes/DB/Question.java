@@ -39,6 +39,10 @@ public class Question extends Model {
     int yesValue;
     @Column(name = "noValue")
     int noValue;
+    @Column(name = "answered")
+    boolean answered;
+    @Column(name = "selectedChoice")
+    int selectedChoice;
 
     /**
      * Create a new Question
@@ -94,6 +98,14 @@ public class Question extends Model {
         this.test = test;
     }
 
+    public int getSelectedChoice() {
+        return selectedChoice;
+    }
+
+    public void setSelectedChoice(int selectedChoice) {
+        this.selectedChoice = selectedChoice;
+    }
+
     /**
      * Get guid for the Question
      * @return
@@ -135,6 +147,14 @@ public class Question extends Model {
         this.noValue = noValue;
     }
 
+    public boolean isAnswered() {
+        return answered;
+    }
+
+    public void setAnswered(boolean answered) {
+        this.answered = answered;
+    }
+
     /**
      * Get a Question by its ID
      * @param questionID ID of the Question
@@ -145,6 +165,17 @@ public class Question extends Model {
                 .from(Question.class)
                 .where("guid = ?", questionID)
                 .executeSingle();
+    }
+
+    @Override
+    public String toString(){
+        String str = "";
+        str += "ID - " +guid;
+        str += "Description - " +description;
+        str += "Already answered? " + answered;
+        return str;
+
+
     }
 
 }

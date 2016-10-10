@@ -40,7 +40,7 @@ public class StaticTestDefinition {
         QuestionNonDB banho = new QuestionNonDB("Banho", false);
         ArrayList<ChoiceNonDB> ChoiceNonDBs = new ArrayList<>();
         ChoiceNonDBs.add(new ChoiceNonDB("Independente", "necessita de ajuda apenas para lavar uma parte do corpo", 1));
-        ChoiceNonDBs.add(new ChoiceNonDB("Dependente", "necessita de ajuda para lavar masi que uma parte do corpo", 0));
+        ChoiceNonDBs.add(new ChoiceNonDB("Dependente", "necessita de ajuda para lavar mai que uma parte do corpo", 0));
         banho.setChoices(ChoiceNonDBs);
         testeDeKatz.addQuestion(banho);
 

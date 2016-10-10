@@ -4,6 +4,7 @@ package com.example.rafael.appprototype.DataTypes.DB;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 /**
  * Created by rafael on 30-09-2016.
@@ -58,27 +59,36 @@ public class Choice extends Model {
         this.score = score;
     }
 
+    /**
+     * Create a new Choice for a Question
+     *
+     * @param description description of that Choice
+     * @param score       score for that Choice
+     */
     public Choice(String description, int score) {
         super();
         this.description = description;
         this.score = score;
     }
 
-    public Choice(int yes, int no) {
-        super();
-        this.yes = yes;
-        this.no = no;
-    }
-
     public Choice() {
         super();
     }
 
-
+    /**
+     * Get the name of the Choice
+     *
+     * @return name of the Choice
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Set the name of the Choice
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
@@ -91,10 +101,20 @@ public class Choice extends Model {
         this.description = description;
     }
 
+    /**
+     * Get the score for this Choice
+     *
+     * @return
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Set the score for this Choice
+     *
+     * @param score
+     */
     public void setScore(int score) {
         this.score = score;
     }
@@ -129,5 +149,12 @@ public class Choice extends Model {
 
     public void setGuid(String guid) {
         this.guid = guid;
+    }
+
+    public static Choice getChoiceByID(String choiceID) {
+        return new Select()
+                .from(Choice.class)
+                .where("guid = ?", choiceID)
+                .executeSingle();
     }
 }

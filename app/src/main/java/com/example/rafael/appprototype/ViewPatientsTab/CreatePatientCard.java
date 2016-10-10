@@ -3,7 +3,6 @@ package com.example.rafael.appprototype.ViewPatientsTab;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,10 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewSinglePatientFragment;
+import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewSinglePatientInfoAndSessions;
 
 import java.util.ArrayList;
 
@@ -77,10 +77,9 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Patients","Clicked photo");
                 Bundle args = new Bundle();
-                args.putSerializable(ViewSinglePatientFragment.PATIENT, patient);
-                ((MainActivity) context).replaceFragment(ViewSinglePatientFragment.class, args);
+                args.putSerializable(ViewSinglePatientInfoAndSessions.PATIENT, patient);
+                ((MainActivity) context).replaceFragment(ViewSinglePatientInfoAndSessions.class, args, Constants.tag_view_patien_info_records);
             }
         });
 

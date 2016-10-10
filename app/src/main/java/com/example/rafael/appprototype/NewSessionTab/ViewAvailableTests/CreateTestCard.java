@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.rafael.appprototype.DataTypes.DB.Choice;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
@@ -29,6 +31,10 @@ public class CreateTestCard extends RecyclerView.Adapter<CreateTestCard.MyViewHo
      * ID for this Session
      */
     private final Session session;
+    /**
+     * Patient for this Session
+     */
+    private final Patient patient;
     private Context context;
     /**
      * Data to be displayed.
@@ -65,14 +71,16 @@ public class CreateTestCard extends RecyclerView.Adapter<CreateTestCard.MyViewHo
     /**
      * Constructor of the SinglePatientCard
      *
-     * @param context   current Context
-     * @param testsList List of the Tests for this Session
-     * @param resuming  true if we are resuming a Session
+     * @param context               current Context
+     * @param testsList             List of the Tests for this Session
+     * @param resuming              true if we are resuming a Session
+     * @param patientForThisSession
      */
-    public CreateTestCard(Context context, ArrayList<GeriatricTestNonDB> testsList, Session session, boolean resuming) {
+    public CreateTestCard(Context context, ArrayList<GeriatricTestNonDB> testsList, Session session, boolean resuming, Patient patientForThisSession) {
         this.context = context;
         this.testsList = testsList;
         this.session = session;
+        this.patient = patientForThisSession;
     }
 
     @Override
@@ -91,9 +99,10 @@ public class CreateTestCard extends RecyclerView.Adapter<CreateTestCard.MyViewHo
                         alreadyOpened = true;
                     }
                 }
+                Log.d("Session","Already opened is " + alreadyOpened);
                 ((MainActivity) context).displaySessionTest(StaticTestDefinition.getTestByName(selectedTestName),
                         session,
-                        alreadyOpened);
+                        alreadyOpened, patient);
             }
         });
         return new MyViewHolder(testCard);
@@ -102,13 +111,16 @@ public class CreateTestCard extends RecyclerView.Adapter<CreateTestCard.MyViewHo
     /**
      * Get the result for the Test
      *
-     * @param questionsFromTest
-     * @return
+     * @param questionsFromTest Questions for a Test
+     * @return final result for the Test
      */
     private int getResult(ArrayList<Question> questionsFromTest) {
         int res = 0;
 
         for (Question question : questionsFromTest) {
+            /**
+             * Yes/no Question
+             */
             if (question.isYesOrNo()) {
                 String selectedYesNoChoice = question.getSelectedYesNoChoice();
                 if (selectedYesNoChoice.equals("yes")) {
@@ -117,6 +129,14 @@ public class CreateTestCard extends RecyclerView.Adapter<CreateTestCard.MyViewHo
                 } else {
                     res += question.getNoValue();
                 }
+            }
+            /**
+             * Multiple Choice Question
+             */
+            else {
+                // get the selected Choice
+                Choice selectedChoice = question.getChoicesForQuestion().get(question.getSelectedChoice());
+                res+= selectedChoice.getScore();
             }
         }
         return res;
@@ -128,16 +148,18 @@ public class CreateTestCard extends RecyclerView.Adapter<CreateTestCard.MyViewHo
         String testCompletionSelectedIncomplete = context.getResources().getString(R.string.test_incomplete);
         String testCompletionResult = context.getResources().getString(R.string.test_result);
 
+        // access a given Test from the DB
         GeriatricTestNonDB test = testsList.get(position);
         holder.name.setText(test.getTestName());
         holder.type.setText(test.getType());
         testName = (String) holder.name.getText();
         List<GeriatricTest> testsFromSession = session.getTestsFromSession();
 
-
+        // fill the View
         holder.testCompletion.setText(testCompletionNotSelected);
         holder.testCard.setAlpha(unselected);
         for (int i = 0; i < testsFromSession.size(); i++) {
+            // access current Test
             GeriatricTest currentTestDB = testsFromSession.get(i);
             if (currentTestDB.getTestName().equals(testName)) {
                 holder.alreadyOpened = true;

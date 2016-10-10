@@ -18,18 +18,12 @@ public class YesNoQuestionHandler implements RadioGroup.OnCheckedChangeListener 
     private final ViewQuestionsListAdapter adapter;
     private final int position;
 
-    /**
-     * Signal if the Question is answered or not
-     */
-    boolean answered = false;
 
     public YesNoQuestionHandler(Question question, ViewQuestionsListAdapter adapter, int position) {
         this.question = question;
-        answered = false;
         this.adapter = adapter;
         this.position = position;
     }
-
 
 
     @Override
@@ -39,17 +33,14 @@ public class YesNoQuestionHandler implements RadioGroup.OnCheckedChangeListener 
          */
         if (checkedId == R.id.yesChoice) {
             question.setSelectedYesNoChoice("yes");
-            question.save();
         } else if (checkedId == R.id.noChoice) {
             question.setSelectedYesNoChoice("no");
-            question.save();
         }
-        String selectedYesNoChoice = question.getSelectedYesNoChoice();
-        Log.d("NewSession", selectedYesNoChoice);
+        question.setAnswered(true);
+        question.save();
         /**
-         * Set answered to true
+         * Signal that que Question was answered
          */
-        answered = true;
         adapter.questionAnswered(position);
     }
 }

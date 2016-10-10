@@ -1,36 +1,24 @@
 package com.example.rafael.appprototype.ViewPatientsTab.SinglePatient;
 
 import android.app.Fragment;
-import android.content.res.Resources;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
-import com.example.rafael.appprototype.Main.MainActivity;
-import com.example.rafael.appprototype.NewSessionTab.ViewAvailableTests.NewSessionFragment;
 import com.example.rafael.appprototype.R;
-
-import java.util.ArrayList;
 
 /**
  * Created by rafael on 05-10-2016.
  */
-public class ViewSinglePatientFragment extends Fragment {
+public class ViewSinglePatientOnlyInfo extends Fragment {
 
     public static final String PATIENT = "patient";
     /**
@@ -44,7 +32,7 @@ public class ViewSinglePatientFragment extends Fragment {
     /**
      * Adapter to the RecyclerView
      */
-    private ViewPatientRecordsAdapter adapter;
+    private ViewPatientSessionsAdapter adapter;
 
 
     @Override
@@ -59,25 +47,13 @@ public class ViewSinglePatientFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.newSession:
-                Bundle args = new Bundle();
-                args.putSerializable(NewSessionFragment.PATIENT, patient);
-                ((MainActivity) getActivity()).replaceFragment(NewSessionFragment.class, args);
-                break;
-        }
-        return true;
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.patient_info_main, container, false);
-
+        View view = inflater.inflate(R.layout.patient_info_data, container, false);
+        Log.d("NewSession","View single patient fragment");
         // get patient
         Bundle bundle = getArguments();
         patient = (Patient) bundle.getSerializable(PATIENT);
@@ -105,30 +81,7 @@ public class ViewSinglePatientFragment extends Fragment {
             patientPhoto.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.female));
         }*/
 
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.patientRecords);
-
-        // get list of Records from this patient
-        ArrayList<Session> recordsFromPatient = patient.getRecordsFromPatient();
-        adapter = new ViewPatientRecordsAdapter(getActivity(), recordsFromPatient);
-
-        // create Layout
-        int numbercolumns = 3;
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-
         return view;
-    }
-
-    /**
-     * Converting dp to pixel
-     */
-    private int dpToPx(int dp) {
-        Resources r = getActivity().getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 }
 

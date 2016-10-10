@@ -3,7 +3,6 @@ package com.example.rafael.appprototype.SessionsHistoryTab;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,10 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewSinglePatientFragment;
+import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewSinglePatientInfoAndSessions;
 
 import java.util.ArrayList;
 
@@ -68,7 +68,6 @@ public class SinglePatientCard extends RecyclerView.Adapter<SinglePatientCard.My
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final Patient patient = patientsList.get(position);
-        Log.d("NewSession","PatientList size "+patientsList.size());
 
         holder.name.setText(patient.getName());
         holder.age.setText(patient.getAge()+"");
@@ -76,9 +75,9 @@ public class SinglePatientCard extends RecyclerView.Adapter<SinglePatientCard.My
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                args.putSerializable(ViewSinglePatientFragment.PATIENT, patient);
-                ((MainActivity) context).replaceFragment(ViewSinglePatientFragment.class, args);
-
+                args.putSerializable(ViewSinglePatientInfoAndSessions.PATIENT, patient);
+                String addToBackStackTag = Constants.tag_view_patien_info_records;
+                ((MainActivity) context).replaceFragment(ViewSinglePatientInfoAndSessions.class, args, addToBackStackTag);
             }
         });
 

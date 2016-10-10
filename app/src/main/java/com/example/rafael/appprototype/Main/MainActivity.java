@@ -4,24 +4,29 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.activeandroid.ActiveAndroid;
-import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
+import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DatabaseOps;
+import com.example.rafael.appprototype.HandleStack;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
 import com.example.rafael.appprototype.NewSessionTab.DisplayTest.SingleTest.DisplaySingleTestFragment;
 import com.example.rafael.appprototype.NewSessionTab.ViewAvailableTests.NewSessionFragment;
-import com.example.rafael.appprototype.SessionsHistoryTab.SessionsHistoryFragment;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.SessionsHistoryTab.SessionsHistoryFragment;
 import com.example.rafael.appprototype.ViewPatientsTab.ViewPatientsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,12 +34,17 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] drawerPages;
     private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
     private ListView drawerList;
     SharedPreferences sharedPreferences;
     /**
      * Hold the current fragment before going to lock screen
      */
     private Fragment currentFragment;
+    /**
+     * Default Fragment to open when the app starts
+     */
+    private String defaultFragment = Constants.fragment_create_new_session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,40 +65,33 @@ public class MainActivity extends AppCompatActivity {
         DatabaseOps.eraseAll();
         DatabaseOps.insertDataToDB();
 
-        /*
-        getFragmentManager().
-                addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-
-                    @Override
-                    public void onBackStackChanged() {
-                        Log.d("BackStack", "BackStack changed");
-                        if (getFragmentManager().getBackStackEntryCount() == 0)
-                            return;
-                        String fragmentName = getFragmentManager().getBackStackEntryAt(0).getName();
-                        Fragment fr = getFragmentManager().findFragmentById(R.id.content_frame);
-                        if (fragmentName.equals("displayTest")) {
-                            Log.d("BackStack", "Fragment class is " + fr.getClass().getSimpleName());
-                            Bundle arguments = fr.getArguments();
-                            Session currentSession = (Session) arguments.getSerializable(DisplaySingleTestFragment.sessionID);
-                            Log.d("BackStack", "SessionID is " + currentSession.getGuid());
-                        }
-                    }
-                });
-                */
+        // set handler for the Fragment stack
+        HandleStack handler = new HandleStack(getFragmentManager());
+        getFragmentManager().addOnBackStackChangedListener(handler);
 
         // set default fragment
-        Fragment fragment = new SessionsHistoryFragment();
-        setTitle(getResources().getString(R.string.patients_history));
+        Fragment fragment = null;
+        if (defaultFragment.equals(Constants.fragment_create_new_session)) {
+            fragment = new NewSessionFragment();
+            setTitle(getResources().getString(R.string.tab_new_session));
+        } else if (defaultFragment.equals(Constants.fragment_show_patients)) {
+            fragment = new ViewPatientsFragment();
+            setTitle(getResources().getString(R.string.tab_my_patients));
+        } else if (defaultFragment.equals(Constants.fragment_show_sessions_history)) {
+            fragment = new SessionsHistoryFragment();
+            setTitle(getResources().getString(R.string.tab_patients));
+        }
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .commit();
 
+        /**
+         * Set the NavigationDrawer items
+         */
         drawerPages = new String[]{getResources().getString(R.string.patients_history),
-                //getResources().getString(R.string.consult_agenda),
-                getResources().getString(R.string.create_new_session),
+                getResources().getString(R.string.new_record),
                 getResources().getString(R.string.my_patients)};
-        //getResources().getString(R.string.add_new_patient)};
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -96,7 +99,16 @@ public class MainActivity extends AppCompatActivity {
         drawerList.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, drawerPages));
         // Set the list's click listener
-        drawerList.setOnItemClickListener(new DrawerItemClickListener());
+        DrawerItemClickListener drawerListener = new DrawerItemClickListener(drawerPages, getFragmentManager(), this,
+                drawerList, drawerLayout);
+        drawerList.setOnItemClickListener(drawerListener);
+    }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     /**
@@ -104,75 +116,23 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param selectedTest Test that was selected from a Session
      * @param session      ID for the current Session
+     * @param patient
      */
-    public void displaySessionTest(GeriatricTestNonDB selectedTest, Session session, boolean alreadyOpened) {
+    public void displaySessionTest(GeriatricTestNonDB selectedTest, Session session, boolean alreadyOpened, Patient patient) {
         // Create new fragment and transaction
         Fragment newFragment = new DisplaySingleTestFragment();
+        // add arguments
         Bundle bundle = new Bundle();
         bundle.putSerializable(DisplaySingleTestFragment.testObject, selectedTest);
         bundle.putSerializable(DisplaySingleTestFragment.sessionID, session);
         bundle.putBoolean(DisplaySingleTestFragment.alreadyOpenedBefore, alreadyOpened);
+        if (patient != null)
+            bundle.putSerializable(DisplaySingleTestFragment.patient, patient);
         newFragment.setArguments(bundle);
+        // setup the transaction
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.content_frame, newFragment);
-        transaction.addToBackStack("displayTest").commit();
-    }
-
-
-    private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            // Check which action to perform
-            String selectedPage = drawerPages[position];
-            Fragment fragment = null;
-            if (selectedPage == getResources().getString(R.string.patients_history)) {
-                fragment = new SessionsHistoryFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment)
-                        .commit();
-                setTitle(getResources().getString(R.string.tab_patients));
-            } /*else if (selectedPage == getResources().getString(R.string.consult_agenda)) {
-                fragment = new AgendaFragment();
-                Bundle args = new Bundle();
-                args.putInt(ArticleFragment.ARG_PLANET_NUMBER, position);
-                fragment.setArguments(args);
-                setTitle(getResources().getString(R.string.tab_agenda));
-            }*/ else if (selectedPage == getResources().getString(R.string.create_new_session)) {
-                fragment = new NewSessionFragment();
-                setTitle(getResources().getString(R.string.tab_new_session));
-            } else if (selectedPage == getResources().getString(R.string.my_patients)) {
-                fragment = new ViewPatientsFragment();
-                /*
-                Bundle args = new Bundle();
-                args.putInt(ArticleFragment.ARG_PLANET_NUMBER, position);
-                fragment.setArguments(args);
-                */
-                setTitle(getResources().getString(R.string.tab_my_patients));
-            }
-            /*else if (selectedPage == getResources().getString(R.string.add_new_patient)) {
-                fragment = new ArticleFragment();
-                Bundle args = new Bundle();
-                args.putInt(ArticleFragment.ARG_PLANET_NUMBER, position);
-                fragment.setArguments(args);
-                setTitle(getResources().getString(R.string.tab_add_new_patient));
-            }
-            */
-
-
-            // Insert the fragment by replacing any existing fragment
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .commit();
-
-
-            // Highlight the selected item, update the date, and close the drawer
-            drawerList.setItemChecked(position, true);
-            // setTitle(drawerPages[position]);
-            drawerLayout.closeDrawer(drawerList);
-        }
+        transaction.addToBackStack(Constants.tag_display_session_test).commit();
     }
 
     /**
@@ -181,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
      * @param fragmentClass
      * @param args
      */
-    public void replaceFragment(Class fragmentClass, Bundle args) {
+    public void replaceFragment(Class fragmentClass, Bundle args, String addToBackStackTag) {
         Fragment newFragment = null;
         try {
             newFragment = (Fragment) fragmentClass.newInstance();
@@ -189,47 +149,31 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if (args != null) {
-            // add Bundle to the Fragment
             newFragment.setArguments(args);
         }
-        // Create new fragment and transaction
+        // Create new transaction and add to back stack
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.content_frame, newFragment);
-        transaction.addToBackStack("frag").commit();
-
-        // add on backstack changed listener
-        getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                int backCount = getFragmentManager().getBackStackEntryCount();
-            }
-        });
+        transaction.addToBackStack(addToBackStackTag).commit();
     }
 
 
     @Override
     public void onBackPressed() {
-        Log.d("Backstack", "onBackPressed");
         FragmentManager fragmentManager = getFragmentManager();
-        if (fragmentManager.getBackStackEntryCount() > 0) {
-            String fragmentName = getFragmentManager().getBackStackEntryAt(0).getName();
-            Fragment fr = getFragmentManager().findFragmentById(R.id.content_frame);
-            fragmentManager.popBackStack();
-            if (fragmentName.equals("displayTest")) {
-                // get the arguments
-                Bundle arguments = fr.getArguments();
-                Session session = (Session) arguments.getSerializable(DisplaySingleTestFragment.sessionID);
-                Bundle args = new Bundle();
-                args.putSerializable(NewSessionFragment.sessionObject, session);
-                Fragment fragment = new NewSessionFragment();
-                fragment.setArguments(args);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment)
-                        .commit();
-            }
-        } else {
-            super.onBackPressed();
+        HandleStack.handleBackButton(fragmentManager);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
         }
+        // Handle your other action bar items...
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
