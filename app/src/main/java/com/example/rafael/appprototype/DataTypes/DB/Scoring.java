@@ -30,17 +30,17 @@ public class Scoring extends Model {
     /**
      * Correspondence between score and category.
      */
-    @Column(name = "values")
+    @Column(name = "values", onDelete = Column.ForeignKeyAction.CASCADE)
     Grading[] values;
     /**
      * Grading particular to men
      */
-    @Column(name = "valuesMen")
+    @Column(name = "valuesMen", onDelete = Column.ForeignKeyAction.CASCADE)
     Grading[] valuesMen;
     /**
      * Grading particular to women
      */
-    @Column(name = "testName")
+    @Column(name = "testName", onDelete = Column.ForeignKeyAction.CASCADE)
     Grading[] valuesWomen;
 
     /**

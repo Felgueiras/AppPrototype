@@ -20,7 +20,6 @@ import java.util.Calendar;
 public class ViewPatient extends AppCompatActivity {
 
     private Patient patient;
-    private MyPagerAdapter adapterViewPager;
 
 
     @Override
@@ -74,7 +73,7 @@ public class ViewPatient extends AppCompatActivity {
         // get the ViewPager
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
         // create an adapter to be used by the ViewPager
-        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), sessions);
+        MyPagerAdapter adapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), sessions);
         vpPager.setAdapter(adapterViewPager);
 
         // Attach the page change listener inside the activity

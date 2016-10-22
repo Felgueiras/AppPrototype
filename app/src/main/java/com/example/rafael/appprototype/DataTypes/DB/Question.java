@@ -28,7 +28,7 @@ public class Question extends Model {
     @Column(name = "yesOrNo")
     boolean yesOrNo;
 
-    @Column(name = "test")
+    @Column(name = "test", onDelete = Column.ForeignKeyAction.CASCADE)
     GeriatricTest test;
     /**
      * If yes or no question, holds the Choice

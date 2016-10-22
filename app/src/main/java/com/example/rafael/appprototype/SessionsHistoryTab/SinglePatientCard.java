@@ -84,12 +84,14 @@ public class SinglePatientCard extends RecyclerView.Adapter<SinglePatientCard.My
         // loading album cover using Glide library
         Glide.with(context).load(patient.getPicture()).into(holder.photo);
 
+        /*
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showPopupMenu(holder.overflow);
             }
         });
+        */
     }
 
     /**

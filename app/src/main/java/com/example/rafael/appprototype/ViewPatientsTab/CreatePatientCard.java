@@ -3,6 +3,7 @@ package com.example.rafael.appprototype.ViewPatientsTab;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.NewSessionTab.ViewAvailableTests.NewSessionFragment;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewSinglePatientInfoAndSessions;
 
@@ -77,18 +79,31 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle args = new Bundle();
-                args.putSerializable(ViewSinglePatientInfoAndSessions.PATIENT, patient);
-                ((MainActivity) context).replaceFragment(ViewSinglePatientInfoAndSessions.class, args, Constants.tag_view_patien_info_records);
+                if (Constants.selectPatient) {
+                    Log.d("Patient", "Selected patient");
+                    // go back to CreateSession
+                    Bundle args = new Bundle();
+                    args.putSerializable(NewSessionFragment.PATIENT,patient);
+                    ((MainActivity) context).replaceFragment(NewSessionFragment.class, args, "");
+                    Constants.selectPatient = false;
+                    return;
+                } else {
+                    Bundle args = new Bundle();
+                    args.putSerializable(ViewSinglePatientInfoAndSessions.PATIENT, patient);
+                    ((MainActivity) context).replaceFragment(ViewSinglePatientInfoAndSessions.class, args, Constants.tag_view_patien_info_records);
+                }
+
             }
         });
 
+        /*
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showPopupMenu(holder.overflow);
             }
         });
+        */
     }
 
     /**

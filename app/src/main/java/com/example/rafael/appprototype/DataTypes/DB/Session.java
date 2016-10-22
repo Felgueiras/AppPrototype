@@ -24,7 +24,7 @@ public class Session extends Model implements Serializable {
     String date;
     @Column(name = "guid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     String guid;
-    @Column(name = "patient")
+    @Column(name = "patient", onDelete = Column.ForeignKeyAction.CASCADE)
     Patient patient;
 
 
@@ -57,8 +57,8 @@ public class Session extends Model implements Serializable {
     @Override
     public String toString() {
         String ret = "";
-        ret += guid.toString() + "\n";
-        ret += date.toString() + "\n";
+        ret += guid + "\n";
+        ret += date + "\n";
         /*
         for (int i = 0; i < tests.size(); i++) {
             ret += "\t" + tests.get(i).toString() + "\n";
@@ -168,7 +168,7 @@ public class Session extends Model implements Serializable {
      */
     public static String dateToString(Date date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-        String datetime = "";
+        String datetime;
         datetime = format.format(date);
         return datetime;
     }

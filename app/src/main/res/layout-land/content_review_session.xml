@@ -10,7 +10,7 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/patientInfo"></FrameLayout>
+        android:id="@+id/patientInfo"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/testsRecyclerView"

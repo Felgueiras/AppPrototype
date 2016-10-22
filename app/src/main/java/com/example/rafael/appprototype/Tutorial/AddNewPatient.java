@@ -33,7 +33,6 @@ public class AddNewPatient extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
     private Bitmap bitmap;
     ImageView patientPhoto;
-    private Calendar calendar;
     private int year, month, day;
 
 
@@ -65,6 +64,7 @@ public class AddNewPatient extends AppCompatActivity {
         });
 
         Button setDate = (Button) findViewById(R.id.setDate);
+        assert setDate != null;
         setDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +73,7 @@ public class AddNewPatient extends AppCompatActivity {
             }
         });
 
-        calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);

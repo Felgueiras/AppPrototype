@@ -37,14 +37,6 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
      * Patient to be displayed
      */
     private Patient patient;
-    /**
-     * RecyclerView to display the Patient's Records
-     */
-    private RecyclerView recyclerView;
-    /**
-     * Adapter to the RecyclerView
-     */
-    private ViewPatientSessionsAdapter adapter;
 
 
     @Override
@@ -66,6 +58,8 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
                 Bundle args = new Bundle();
                 args.putSerializable(NewSessionFragment.PATIENT, patient);
                 ((MainActivity) getActivity()).replaceFragment(NewSessionFragment.class, args, Constants.tag_create_new_session_for_patient);
+                // change the title
+                getActivity().setTitle(getResources().getString(R.string.tab_new_session));
                 break;
         }
         return true;
@@ -77,7 +71,6 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.patient_info_main, container, false);
-        Log.d("NewSession","View single patient fragment");
         // get patient
         Bundle bundle = getArguments();
         patient = (Patient) bundle.getSerializable(PATIENT);
@@ -99,11 +92,17 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
         ImageView patientPhoto = (ImageView) view.findViewById(R.id.patientPhoto);
         patientPhoto.setImageResource(patient.getPicture());
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.patientRecords);
+        /*
+      RecyclerView to display the Patient's Records
+     */
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.patientRecords);
 
         // get list of Records from this patient
         ArrayList<Session> sessionsFromPatient = patient.getRecordsFromPatient();
-        adapter = new ViewPatientSessionsAdapter(getActivity(), sessionsFromPatient,patient);
+        /*
+      Adapter to the RecyclerView
+     */
+        ViewPatientSessionsAdapter adapter = new ViewPatientSessionsAdapter(getActivity(), sessionsFromPatient, patient);
 
         // create Layout
         int numbercolumns = 3;

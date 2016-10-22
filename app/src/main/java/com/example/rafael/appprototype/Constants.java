@@ -34,12 +34,14 @@ public class Constants {
     public static final String tag_display_session_test = "displaySessionTest";
     public static final String tag_create_new_session_for_patient = "createNewSessionForPatient";
     public static final String tag_review_session = "reviewSession";
+    public static final String tag_view_sessions_history = "viewSessionsHistory";
     /**
      * Fragment identifiers
      */
     public static final String fragment_show_patients = "showPatients";
     public static final String fragment_show_sessions_history = "showSessionsHistory";
+
+
     public static final String fragment_create_new_session = "createNewSession";
-
-
+    public static boolean selectPatient =false;
 }

@@ -44,7 +44,7 @@ public class GeriatricTest extends Model implements Serializable {
     /**
      * Scoring definition, min and man score and categories of scores.
      */
-    @Column(name = "scoring")
+    @Column(name = "scoring", onDelete = Column.ForeignKeyAction.CASCADE)
     Scoring scoring;
     /**
      * Numerical result of the GeriatricTest
@@ -59,7 +59,7 @@ public class GeriatricTest extends Model implements Serializable {
     /**
      * Session to which it belongs.
      */
-    @Column(name = "session")
+    @Column(name = "session", onDelete = Column.ForeignKeyAction.CASCADE)
     Session session;
 
     @Column(name = "completed")

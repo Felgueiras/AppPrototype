@@ -2,19 +2,15 @@ package com.example.rafael.appprototype.NewSessionTab.DisplayTest.SingleQuestion
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.DataTypes.DB.Choice;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
 import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
-import com.example.rafael.appprototype.NewSessionTab.DisplayTest.SingleTest.DisplaySingleTestFragment;
 import com.example.rafael.appprototype.NewSessionTab.DisplayTest.SingleTest.ViewQuestionsListAdapter;
 import com.example.rafael.appprototype.R;
 
@@ -29,14 +25,12 @@ public class MultipleChoiceHandler extends BaseAdapter implements AdapterView.On
      */
     private final ArrayList<ChoiceNonDB> choices;
     private static LayoutInflater inflater = null;
-    private final Context context;
     private final Question question;
     private final ViewQuestionsListAdapter adapter;
     private int questionNumber;
 
 
     public MultipleChoiceHandler(Context context, ArrayList<ChoiceNonDB> choices, Question question, ViewQuestionsListAdapter adapter, int questionNumber) {
-        this.context = context;
         this.choices = choices;
         this.question = question;
         this.adapter = adapter;
@@ -74,8 +68,8 @@ public class MultipleChoiceHandler extends BaseAdapter implements AdapterView.On
 
         // highlight the chosen item from the ListView
 
-        for (int index = 0; index < ((ViewGroup) parent).getChildCount(); ++index) {
-            View nextChild = ((ViewGroup) parent).getChildAt(index);
+        for (int index = 0; index < parent.getChildCount(); ++index) {
+            View nextChild = parent.getChildAt(index);
             nextChild.setBackgroundColor(notSelected);
         }
         view.setBackgroundColor(selected);

@@ -1,6 +1,5 @@
 package com.example.rafael.appprototype.NewSessionTab.DisplayTest.SingleQuestion;
 
-import android.util.Log;
 import android.widget.RadioGroup;
 
 import com.example.rafael.appprototype.DataTypes.DB.Question;

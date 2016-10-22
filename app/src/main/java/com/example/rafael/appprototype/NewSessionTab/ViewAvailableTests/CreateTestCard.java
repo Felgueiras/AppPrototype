@@ -40,14 +40,6 @@ public class CreateTestCard extends RecyclerView.Adapter<CreateTestCard.MyViewHo
      * Data to be displayed.
      */
     private List<GeriatricTestNonDB> testsList;
-    /**
-     * Alpha value when test is unselected
-     */
-    private float unselected = 0.5f;
-    /**
-     * Alpha value when test is selected
-     */
-    private float selected = 1f;
     private String testName;
 
 
@@ -157,12 +149,20 @@ public class CreateTestCard extends RecyclerView.Adapter<CreateTestCard.MyViewHo
 
         // fill the View
         holder.testCompletion.setText(testCompletionNotSelected);
+        /*
+      Alpha value when test is unselected
+     */
+        float unselected = 0.5f;
         holder.testCard.setAlpha(unselected);
         for (int i = 0; i < testsFromSession.size(); i++) {
             // access current Test
             GeriatricTest currentTestDB = testsFromSession.get(i);
             if (currentTestDB.getTestName().equals(testName)) {
                 holder.alreadyOpened = true;
+                /*
+      Alpha value when test is selected
+     */
+                float selected = 1f;
                 holder.testCard.setAlpha(selected);
                 holder.testCompletion.setText(testCompletionSelectedIncomplete);
                 if (currentTestDB.isCompleted()) {

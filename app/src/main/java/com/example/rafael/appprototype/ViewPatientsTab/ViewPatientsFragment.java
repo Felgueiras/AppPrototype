@@ -8,18 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ViewPatientsFragment extends Fragment {
 
-    /**
-     * Grid view that will hold info about the Patients
-     */
-    private GridView gridView;
+    public static String selectPatient = "selectPatient";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,8 +28,19 @@ public class ViewPatientsFragment extends Fragment {
         // get the patients
         ArrayList<Patient> patients = Patient.getAllPatients();
 
-        // fill the GridView
-        gridView = (GridView) myInflatedView.findViewById(R.id.gridView);
+        // read arguments
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            if (arguments.getBoolean(selectPatient, false)) {
+                Log.d("Patient", "Going to select patient");
+                Constants.selectPatient = true;
+            }
+        }
+
+        /*
+      Grid view that will hold info about the Patients
+     */
+        GridView gridView = (GridView) myInflatedView.findViewById(R.id.gridView);
         gridView.setAdapter(new PatientsGridViewAdapter(getActivity(), patients));
 
         return myInflatedView;

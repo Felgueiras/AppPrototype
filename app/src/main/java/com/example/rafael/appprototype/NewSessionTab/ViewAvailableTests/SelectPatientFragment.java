@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewPatientSessionsAdapter;
 import com.example.rafael.appprototype.ViewPatientsTab.ViewPatientsFragment;
@@ -33,20 +35,17 @@ public class SelectPatientFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.add_button, container, false);
+        View view = inflater.inflate(R.layout.select_patient, container, false);
 
         // add patient button
-        ImageView addPatient = (ImageView) view.findViewById(R.id.plusButton);
+        TextView addPatient = (TextView) view.findViewById(R.id.selectPatient);
         addPatient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // open the list of patients
-                Fragment fragment = new ViewPatientsFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.patientInfo, fragment)
-                        .addToBackStack(null)
-                        .commit();
+                Bundle args = new Bundle();
+                args.putBoolean(ViewPatientsFragment.selectPatient, true);
+                ((MainActivity) getActivity()).replaceFragment(ViewPatientsFragment.class, args, Constants.fragment_show_patients);
             }
         });
 

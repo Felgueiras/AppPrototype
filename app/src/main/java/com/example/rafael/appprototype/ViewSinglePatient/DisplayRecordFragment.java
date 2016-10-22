@@ -12,9 +12,6 @@ import com.example.rafael.appprototype.R;
 
 
 public class DisplayRecordFragment extends Fragment {
-    // Store instance variables
-    private ListView lv;
-    private ViewTestsListAdapter adapter;
     private Session session;
 
     // newInstance constructor for creating fragment with arguments
@@ -40,9 +37,9 @@ public class DisplayRecordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_second, container, false);
         // populate the ListView
-        lv = (ListView) view.findViewById(R.id.recordInfo);
+        ListView lv = (ListView) view.findViewById(R.id.recordInfo);
         // create the adapter
-        adapter = new ViewTestsListAdapter(this, session.getTestsFromSession());
+        ViewTestsListAdapter adapter = new ViewTestsListAdapter(this, session.getTestsFromSession());
         lv.setAdapter(adapter);
         return view;
     }

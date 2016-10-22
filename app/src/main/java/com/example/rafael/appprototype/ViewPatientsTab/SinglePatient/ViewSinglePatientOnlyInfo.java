@@ -22,10 +22,6 @@ public class ViewSinglePatientOnlyInfo extends Fragment {
 
     public static final String PATIENT = "patient";
     /**
-     * Patient to be displayed
-     */
-    private Patient patient;
-    /**
      * RecyclerView to display the Patient's Records
      */
     private RecyclerView recyclerView;
@@ -53,10 +49,12 @@ public class ViewSinglePatientOnlyInfo extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.patient_info_data, container, false);
-        Log.d("NewSession","View single patient fragment");
         // get patient
         Bundle bundle = getArguments();
-        patient = (Patient) bundle.getSerializable(PATIENT);
+        /*
+      Patient to be displayed
+     */
+        Patient patient = (Patient) bundle.getSerializable(PATIENT);
         getActivity().setTitle(patient.getName());
 
         // set Patient date

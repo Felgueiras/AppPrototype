@@ -25,8 +25,6 @@ public class PatientsGridViewAdapter extends BaseAdapter {
      * All the Patients
      */
     private ArrayList<Patient> patients;
-    private RecyclerView recyclerView;
-    private CreatePatientCard adapter;
     Context context;
 
     public PatientsGridViewAdapter(Context context, ArrayList<Patient> patients) {
@@ -43,12 +41,12 @@ public class PatientsGridViewAdapter extends BaseAdapter {
 
         //Patient patient = patients.get(position);
         // fill the RecyclerView
-        recyclerView = (RecyclerView) gridElement.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) gridElement.findViewById(R.id.recycler_view);
         // get the patients that start with a letter
 
 
         context = parent.getContext();
-        adapter = new CreatePatientCard(context, patients);
+        CreatePatientCard adapter = new CreatePatientCard(context, patients);
 
         // create Layout
         int numbercolumns = 3;

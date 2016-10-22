@@ -23,15 +23,10 @@ import java.util.List;
 
 
 public class ShowDailyHistory extends BaseAdapter {
-    private final List<Patient> patients;
-    private RecyclerView recyclerView;
-    private ArrayList<Patient> patientsForADate;
-    private SinglePatientCard adapter;
     Context context;
 
     public ShowDailyHistory(Context context, List<Patient> patients) {
         this.context = context;
-        this.patients = patients;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -46,15 +41,17 @@ public class ShowDailyHistory extends BaseAdapter {
         dateTextView.setText(currentDate);
         // get Sessions for that date
         List<Session> sessionsFromDate = Session.getSessionsFromDate(currentDate);
-        patientsForADate = new ArrayList<>();
+        Log.d("Session","We have " + sessionsFromDate.size() + " sessions");
+        ArrayList<Patient> patientsForADate = new ArrayList<>();
         for (Session sess : sessionsFromDate) {
             patientsForADate.add(sess.getPatient());
         }
+        Log.d("Session","For this date we have " + patientsForADate.size() + " patients");
 
         // fill the RecyclerView
-        recyclerView = (RecyclerView) gridElement.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) gridElement.findViewById(R.id.recycler_view);
         context = parent.getContext();
-        adapter = new SinglePatientCard(context, patientsForADate);
+        SinglePatientCard adapter = new SinglePatientCard(context, patientsForADate);
 
         // create Layout
         int numbercolumns = 3;
@@ -77,6 +74,7 @@ public class ShowDailyHistory extends BaseAdapter {
     @Override
     public int getCount() {
         // get number of different dates
+        Log.d("history","We have" +  Session.getSessionDates().size() +" session dates");
         return Session.getSessionDates().size();
     }
 

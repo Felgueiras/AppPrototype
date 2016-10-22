@@ -12,6 +12,8 @@ import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.SessionsHistoryTab.SessionsHistoryFragment;
 import com.example.rafael.appprototype.ViewPatientsTab.ViewPatientsFragment;
 
+import java.util.Objects;
+
 /**
  * Handle the selection of an item from the NaviagtionDrawer
  */
@@ -38,16 +40,18 @@ public class DrawerItemClickListener implements android.widget.AdapterView.OnIte
         // Check which action to perform
         String selectedPage = drawerPages[position];
         Fragment fragment = null;
-        if (selectedPage == context.getResources().getString(R.string.patients_history)) {
+
+
+        if (Objects.equals(selectedPage, context.getResources().getString(R.string.patients_history))) {
             fragment = new SessionsHistoryFragment();
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, fragment)
                     .commit();
-            context.setTitle(context.getResources().getString(R.string.tab_patients));
-        } else if (selectedPage == context.getResources().getString(R.string.create_new_session)) {
+            context.setTitle(context.getResources().getString(R.string.tab_patients_history));
+        } else if (Objects.equals(selectedPage, context.getResources().getString(R.string.create_new_session))) {
             fragment = new NewSessionFragment();
             context.setTitle(context.getResources().getString(R.string.tab_new_session));
-        } else if (selectedPage == context.getResources().getString(R.string.my_patients)) {
+        } else if (Objects.equals(selectedPage, context.getResources().getString(R.string.my_patients))) {
             fragment = new ViewPatientsFragment();
                 /*
                 Bundle args = new Bundle();

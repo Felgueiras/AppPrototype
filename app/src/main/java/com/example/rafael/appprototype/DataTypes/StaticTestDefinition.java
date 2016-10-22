@@ -2,13 +2,13 @@ package com.example.rafael.appprototype.DataTypes;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
-import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.ScoringNonDB;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * This class holds  definition of all the tests that exist
@@ -342,13 +342,13 @@ public class StaticTestDefinition {
      * @return
      */
     public static GeriatricTestNonDB getTestByName(String testName) {
-        if (testName == Constants.test_name_testeDeKatz) {
+        if (Objects.equals(testName, Constants.test_name_testeDeKatz)) {
             return escalaDeKatz();
-        } else if (testName == Constants.test_name_escalaDepressao) {
+        } else if (Objects.equals(testName, Constants.test_name_escalaDepressao)) {
             return escalaDepressao();
-        } else if (testName == Constants.test_name_marchaHolden) {
+        } else if (Objects.equals(testName, Constants.test_name_marchaHolden)) {
             return marchaHolden();
-        } else if (testName == Constants.test_name_escalaLawtonBrody) {
+        } else if (Objects.equals(testName, Constants.test_name_escalaLawtonBrody)) {
             return escalaLawtonBrody();
         }
         return null;

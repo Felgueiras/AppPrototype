@@ -42,6 +42,7 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
                 // get the arguments
                 Bundle arguments = fr.getArguments();
                 Session session = (Session) arguments.getSerializable(DisplaySingleTestFragment.sessionID);
+                Log.d("Session","HandleStack -> " + session.toString());
                 Patient patient = (Patient) arguments.getSerializable(DisplaySingleTestFragment.patient);
 
                 Bundle args = new Bundle();
@@ -53,6 +54,11 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
                         .replace(R.id.content_frame, fragment)
                         .commit();
             } else if (tag.equals(Constants.tag_view_patien_info_records)) {
+                Fragment fragment = new ViewPatientsFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .commit();
+            }else if (tag.equals(Constants.tag_view_sessions_history)) {
                 Fragment fragment = new ViewPatientsFragment();
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, fragment)

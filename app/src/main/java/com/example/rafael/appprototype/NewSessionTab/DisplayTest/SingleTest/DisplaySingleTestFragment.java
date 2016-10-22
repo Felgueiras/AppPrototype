@@ -7,14 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.R;
-
-import java.util.List;
 
 
 public class DisplaySingleTestFragment extends Fragment {
@@ -41,14 +38,6 @@ public class DisplaySingleTestFragment extends Fragment {
      */
     private GeriatricTestNonDB test;
     /**
-     * ListView that will hold the Questions
-     */
-    private ListView testQuestions;
-    /**
-     * Adapter to the ListView
-     */
-    private ViewQuestionsListAdapter adapter;
-    /**
      * GeriatricTest which will be written to the DB.
      */
     private GeriatricTest testDB;
@@ -66,16 +55,19 @@ public class DisplaySingleTestFragment extends Fragment {
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
+
         // get the list of tests
         Bundle bundle = getArguments();
         test = (GeriatricTestNonDB) bundle.getSerializable(testObject);
         session = (Session) bundle.getSerializable(sessionID);
         alreadyOpened = bundle.getBoolean(alreadyOpenedBefore);
 
+        // set the title
+        getActivity().setTitle(test.getTestName());
+
         if (!alreadyOpened) {
-            Log.d("NewSession", "Not opened, adding to DB");
             // create new Test and add to DB
             testDB = new GeriatricTest();
             String dummyID = session.getGuid() + "-" + test.getTestName();
@@ -84,9 +76,6 @@ public class DisplaySingleTestFragment extends Fragment {
             testDB.setType(test.getType());
             testDB.setSession(session);
             testDB.save();
-            // retrieve to check
-            // GeriatricTest retrievedTest = GeriatricTest.getTestByID(dummyID);
-            // Log.d("NewSession", "Test with SessionID " + retrievedTest.getGuid());
         } else {
             testDB = GeriatricTest.getTestByID(session.getGuid() + "-" + test.getTestName());
         }
@@ -98,9 +87,15 @@ public class DisplaySingleTestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_display_single_test, container, false);
         // populate the ListView
-        testQuestions = (ListView) view.findViewById(R.id.testQuestions);
+        /*
+      ListView that will hold the Questions
+     */
+        ListView testQuestions = (ListView) view.findViewById(R.id.testQuestions);
         // create the adapter
-        adapter = new ViewQuestionsListAdapter(this.getActivity(), test.getQuestions(), testDB, alreadyOpened);
+        /*
+      Adapter to the ListView
+     */
+        ViewQuestionsListAdapter adapter = new ViewQuestionsListAdapter(this.getActivity(), test.getQuestions(), testDB, alreadyOpened);
         testQuestions.setAdapter(adapter);
         return view;
     }

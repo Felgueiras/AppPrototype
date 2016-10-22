@@ -1,6 +1,9 @@
 package com.example.rafael.appprototype.NewSessionTab.DisplayTest.SingleTest;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +25,8 @@ import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+
+import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * Create the layout of the Questions
@@ -66,6 +71,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         this.questions = questions;
         this.test = test;
         numquestions = questions.size();
+        numquestions = 5;
         testAlreadyOpened = alreadyOpened;
         inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -94,7 +100,8 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         positionsFilled.add(position);
         if (positionsFilled.size() == numquestions) {
             allQuestionsAnswered = true;
-            Toast.makeText(context, "All questions were answered", Toast.LENGTH_SHORT).show();
+            // Snackbar.make(, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE);
+            Toast.makeText(context, "Todas as questões foram respondidas", Toast.LENGTH_SHORT).show();
             // write that to DB
             test.setCompleted(true);
             test.save();
@@ -114,30 +121,30 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         if (!testAlreadyOpened) {
             // yes/no question
             if (currentQuestionNonDB.isYesOrNo()) {
-                questionView = yesNoNotOpened(questionView, currentQuestionNonDB, position);
+                questionView = yesNoNotOpened(currentQuestionNonDB, position);
             }
             // multiple Choice
             else {
-                questionView = multipleChoiceNotOpened(questionView, currentQuestionNonDB, position);
+                questionView = multipleChoiceNotOpened(currentQuestionNonDB, position);
             }
         }
         // Test already opened
         else {
             // check if question is multiple choice or yes/no
             if (currentQuestionNonDB.isYesOrNo()) {
-                questionView = yesNoAlreadyOpened(questionView, currentQuestionNonDB, position);
+                questionView = yesNoAlreadyOpened(currentQuestionNonDB, position);
             } else {
-                questionView = multipleChoiceAlreadyOpened(questionView, currentQuestionNonDB, position);
+                questionView = multipleChoiceAlreadyOpened(currentQuestionNonDB, position);
             }
         }
         return questionView;
     }
 
-    private View multipleChoiceNotOpened(View questionView, QuestionNonDB currentQuestionNonDB, int position) {
+    private View multipleChoiceNotOpened(QuestionNonDB currentQuestionNonDB, int position) {
         /**
          * Inflate the corresponding layout
          */
-        questionView = inflater.inflate(R.layout.content_question_multiple_choice, null);
+        View questionView = inflater.inflate(R.layout.content_question_multiple_choice, null);
 
         // create question and add to DB
         Question question = new Question();
@@ -190,13 +197,12 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
     /**
      * Multiple Choice Qustion, already opened before
      *
-     * @param questionView
      * @param currentQuestionNonDB
      * @param position
      * @return
      */
-    private View multipleChoiceAlreadyOpened(View questionView, QuestionNonDB currentQuestionNonDB, int position) {
-        questionView = inflater.inflate(R.layout.content_question_multiple_choice, null);
+    private View multipleChoiceAlreadyOpened(QuestionNonDB currentQuestionNonDB, int position) {
+        View questionView = inflater.inflate(R.layout.content_question_multiple_choice, null);
         Question questionInDB = test.getQuestionsFromTest().get(position);
 
         if (questionInDB.isAnswered()) {
@@ -228,8 +234,8 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         return questionView;
     }
 
-    private View yesNoAlreadyOpened(View questionView, QuestionNonDB currentQuestionNonDB, int position) {
-        questionView = inflater.inflate(R.layout.content_question_yes_no, null);
+    private View yesNoAlreadyOpened(QuestionNonDB currentQuestionNonDB, int position) {
+        View questionView = inflater.inflate(R.layout.content_question_yes_no, null);
         Question questionInDB = test.getQuestionsFromTest().get(position);
 
         if (questionInDB.isAnswered()) {
@@ -258,13 +264,11 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
 
     /**
      * Yes/No question, Test not opened before
-     *
-     * @param questionView
-     * @param currentQuestionNonDB
+     *  @param currentQuestionNonDB
      * @param position
      */
-    private View yesNoNotOpened(View questionView, QuestionNonDB currentQuestionNonDB, int position) {
-        questionView = inflater.inflate(R.layout.content_question_yes_no, null);
+    private View yesNoNotOpened(QuestionNonDB currentQuestionNonDB, int position) {
+        View questionView = inflater.inflate(R.layout.content_question_yes_no, null);
         // create question and add to DB
         Question question = new Question();
         String dummyID = test.getGuid() + "-" + currentQuestionNonDB.getDescription();

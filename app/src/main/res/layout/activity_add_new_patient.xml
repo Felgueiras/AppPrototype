@@ -7,8 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Tutorial.AddNewPatient"
-    android:id="@+id/addNewPatientLayout">
+    tools:context=".Tutorial.AddNewPatient">
 
     <LinearLayout
         android:layout_width="match_parent"

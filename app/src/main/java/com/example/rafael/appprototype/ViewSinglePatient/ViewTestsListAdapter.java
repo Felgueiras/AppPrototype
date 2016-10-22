@@ -18,13 +18,11 @@ import java.util.List;
 public class ViewTestsListAdapter extends BaseAdapter {
     private final List<GeriatricTest> geriatricTests;
     private static LayoutInflater inflater = null;
-    private final DisplayRecordFragment context;
 
 
     public ViewTestsListAdapter(DisplayRecordFragment viewTests, List<GeriatricTest> geriatricTests) {
-        context = viewTests;
         this.geriatricTests = geriatricTests;
-        inflater = (LayoutInflater) context.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) viewTests.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override

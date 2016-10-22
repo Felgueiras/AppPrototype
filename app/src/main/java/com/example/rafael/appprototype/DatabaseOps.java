@@ -2,10 +2,8 @@ package com.example.rafael.appprototype;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.activeandroid.ActiveAndroid;
-import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 
 import java.util.ArrayList;
@@ -17,6 +15,9 @@ import java.util.List;
 public class DatabaseOps {
 
 
+    /**
+     * Erase all data from the DB.
+     */
     public static void eraseAll() {
         SQLiteDatabase db = ActiveAndroid.getDatabase();
         List<String> tables = new ArrayList<>();
@@ -33,6 +34,7 @@ public class DatabaseOps {
         cursor.close();
         if (tables.size() > 0) {
             for (String tableName : tables) {
+                System.out.println("Table - " + tableName);
                 db.execSQL("DELETE FROM " + tableName);
             }
         }

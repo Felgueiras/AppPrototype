@@ -42,7 +42,7 @@ public class Choice extends Model {
     /**
      * Question for this Choice
      */
-    @Column(name = "question")
+    @Column(name = "question", onDelete = Column.ForeignKeyAction.CASCADE)
     Question question;
 
     /**

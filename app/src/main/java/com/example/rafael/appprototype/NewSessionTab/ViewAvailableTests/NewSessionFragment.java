@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,35 +14,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
+import com.example.rafael.appprototype.Constants;
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
+import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
+import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.SessionsHistoryTab.SessionsHistoryFragment;
 import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewSinglePatientInfoAndSessions;
 import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewSinglePatientOnlyInfo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class NewSessionFragment extends Fragment {
-
-    /**
-     * Recycler view that will hold the cards of the different tests
-     */
-    private RecyclerView recyclerView;
-    /**
-     * List of all the tests available
-     */
-    private ArrayList<GeriatricTestNonDB> testsList;
-    /**
-     * Adapter to the RecyclerView
-     */
-    private CreateTestCard adapter;
 
     /**
      * Patient for this Session
@@ -49,10 +42,6 @@ public class NewSessionFragment extends Fragment {
     public static String PATIENT = "patient";
 
     Patient patientForThisSession;
-    /**
-     * The ID for this Session
-     */
-    private String sessionID;
     /**
      * Session object
      */
@@ -71,23 +60,27 @@ public class NewSessionFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             session = (Session) args.getSerializable(sessionObject);
+            Log.d("Session","NewSessionFragment" + session);
             if (session != null) {
                 resuming = true;
                 Log.d("NewSession", "Resuming");
             } else {
                 // generate a new ID for this Session
+                Log.d("Session", "Generating new Session ID");
+                // only create a new ID when we have a patient
                 createNewSessionID();
             }
+
             patientForThisSession = (Patient) args.getSerializable(PATIENT);
-            Log.d("New Session","We have patient: " + (patientForThisSession!=null));
+            Log.d("New Session", "We have patient: " + (patientForThisSession != null));
             // create a new Fragment to hold info about the Patient
             Fragment fragment = new ViewSinglePatientOnlyInfo();
             Bundle newArgs = new Bundle();
             if (patientForThisSession != null) {
                 // set the patient for this session
+                Log.d("Session", "Setting patient");
                 session.setPatient(patientForThisSession);
                 session.save();
-                Log.d("NewSession","Added patient to session");
                 newArgs.putSerializable(ViewSinglePatientInfoAndSessions.PATIENT, patientForThisSession);
                 fragment.setArguments(newArgs);
                 FragmentManager fragmentManager = getFragmentManager();
@@ -95,6 +88,8 @@ public class NewSessionFragment extends Fragment {
                         .replace(R.id.patientInfo, fragment)
                         .commit();
             } else {
+                newArgs.putSerializable(SelectPatientFragment.PATIENT, patientForThisSession);
+                fragment.setArguments(newArgs);
                 fragment = new SelectPatientFragment();
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction()
@@ -118,13 +113,22 @@ public class NewSessionFragment extends Fragment {
         /**
          * Setup the recycler view for the list of available tests
          */
-        recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.testsRecyclerView);
-        testsList = new ArrayList<>();
-        testsList.add(StaticTestDefinition.escalaDeKatz());
+        /*
+      Recycler view that will hold the cards of the different tests
+     */
+        RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.testsRecyclerView);
+        /*
+      List of all the tests available
+     */
+        ArrayList<GeriatricTestNonDB> testsList = new ArrayList<>();
+        // testsList.add(StaticTestDefinition.escalaDeKatz());
         testsList.add(StaticTestDefinition.escalaDepressao());
         //testsList.add(StaticTestDefinition.escalaLawtonBrody());
         //testsList.add(StaticTestDefinition.marchaHolden());
-        adapter = new CreateTestCard(getActivity(), testsList, session, resuming, patientForThisSession);
+        /*
+      Adapter to the RecyclerView
+     */
+        CreateTestCard adapter = new CreateTestCard(getActivity(), testsList, session, resuming, patientForThisSession);
 
         // create Layout
         int numbercolumns = 2;
@@ -139,14 +143,31 @@ public class NewSessionFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Session", "Finishing!");
                 // check if there is an added patient or not
+                LinearLayout linearLayout = (LinearLayout) getActivity().findViewById(R.id.newSessionLayout);
+                // no patient selected
                 if (patientForThisSession == null) {
-                    Toast.makeText(getActivity(), "You must add a patient before proceding", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(linearLayout, getResources().getString(R.string.you_must_add_patient), Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // no test selected
+                if (session.getTestsFromSession().size() == 0) {
+                    Snackbar.make(linearLayout, getResources().getString(R.string.you_must_select_test), Snackbar.LENGTH_SHORT).show();
+                    return;
                 }
 
                 // check if there is any incomplete test
-                // if not, go to review session panel
+                List<GeriatricTest> testsFromSession = session.getTestsFromSession();
+                for (GeriatricTest test : testsFromSession) {
+                    // incomplete test
+                    if (!test.isCompleted()) {
+                        Snackbar.make(linearLayout, getResources().getString(R.string.not_all_tests_complete), Snackbar.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                Log.d("Session", "Finishing!");
+                ((MainActivity) getActivity()).replaceFragment(SessionsHistoryFragment.class, null, Constants.tag_view_sessions_history);
             }
         });
 
@@ -154,15 +175,19 @@ public class NewSessionFragment extends Fragment {
     }
 
     /**
-     * Generate a new sessionIDString
+     * Generate a new sessionID.
      */
     private void createNewSessionID() {
         Calendar c = Calendar.getInstance();
         Date time = c.getTime();
-        sessionID = time.toString();
+        /*
+      The ID for this Session
+     */
+        String sessionID = time.toString();
         // save to dabatase
         session = new Session();
         session.setGuid(sessionID);
+
         // set date
         Calendar now = Calendar.getInstance();
         int year = now.get(Calendar.YEAR);
@@ -187,11 +212,6 @@ public class NewSessionFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 
 

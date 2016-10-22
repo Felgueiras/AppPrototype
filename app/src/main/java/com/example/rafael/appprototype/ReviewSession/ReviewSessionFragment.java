@@ -12,8 +12,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
@@ -36,27 +34,10 @@ import java.util.Date;
 public class ReviewSessionFragment extends Fragment {
 
     /**
-     * Recycler view that will hold the cards of the different tests
-     */
-    private RecyclerView recyclerView;
-    /**
-     * List of all the tests available
-     */
-    private ArrayList<GeriatricTestNonDB> testsList;
-    /**
-     * Adapter to the RecyclerView
-     */
-    private CreateTestCard adapter;
-
-    /**
      * Patient for this Session
      */
     Patient patient;
     public static String patientObject = "patient";
-    /**
-     * The ID for this Session
-     */
-    private String sessionID;
     /**
      * Session object
      */
@@ -104,13 +85,22 @@ public class ReviewSessionFragment extends Fragment {
         /**
          * Setup the recycler view for the list of available tests
          */
-        recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.testsRecyclerView);
-        testsList = new ArrayList<>();
+        /*
+      Recycler view that will hold the cards of the different tests
+     */
+        RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.testsRecyclerView);
+        /*
+      List of all the tests available
+     */
+        ArrayList<GeriatricTestNonDB> testsList = new ArrayList<>();
         //testsList.add(StaticTestDefinition.escalaDeKatz());
         testsList.add(StaticTestDefinition.escalaDepressao());
         //testsList.add(StaticTestDefinition.escalaLawtonBrody());
         //testsList.add(StaticTestDefinition.marchaHolden());
-        adapter = new CreateTestCard(getActivity(), testsList, session, resuming, patient);
+        /*
+      Adapter to the RecyclerView
+     */
+        CreateTestCard adapter = new CreateTestCard(getActivity(), testsList, session, resuming, patient);
 
         // create Layout
         int numbercolumns = 2;
@@ -129,7 +119,10 @@ public class ReviewSessionFragment extends Fragment {
     private void createNewSessionID() {
         Calendar c = Calendar.getInstance();
         Date time = c.getTime();
-        sessionID = time.toString();
+        /*
+      The ID for this Session
+     */
+        String sessionID = time.toString();
         // save to dabatase
         session = new Session();
         session.setGuid(sessionID);
@@ -157,11 +150,6 @@ public class ReviewSessionFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 
 

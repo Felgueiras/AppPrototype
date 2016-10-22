@@ -13,7 +13,6 @@ import com.example.rafael.appprototype.R;
 import java.util.ArrayList;
 
 public class SessionsHistoryFragment extends Fragment {
-    private GridView gridView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,7 +24,7 @@ public class SessionsHistoryFragment extends Fragment {
         ArrayList<Patient> patients = Patient.getAllPatients();
 
         // fill the GridView
-        gridView = (GridView) myInflatedView.findViewById(R.id.gridView);
+        GridView gridView = (GridView) myInflatedView.findViewById(R.id.gridView);
         gridView.setAdapter(new ShowDailyHistory(getActivity(), patients));
 
         return myInflatedView;
