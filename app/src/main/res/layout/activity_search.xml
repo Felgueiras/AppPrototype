@@ -2,15 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <!-- Editext for Search -->
     <EditText
         android:id="@+id/inputSearch"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Search products.."
+        android:hint="Search drugs.."
         android:inputType="textVisiblePassword" />
 
     <!-- List View -->
@@ -18,11 +17,19 @@
         android:id="@+id/list_view"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
+
 
     <!-- List View -->
+    <!--
     <ListView
         android:id="@+id/selectedItems"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+        -->
+    <TextView
+        android:id="@+id/selectedDrugInfo"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
