@@ -1,76 +1,71 @@
 package com.example.rafael.appprototype.DrugPrescription;
 
-import android.net.Uri;
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.rafael.appprototype.DrugPrescription.BeersCriteria.BeersRecommendation;
 import com.example.rafael.appprototype.DrugPrescription.BeersCriteria.RecommendationInfo;
 import com.example.rafael.appprototype.DrugPrescription.BeersCriteria.TherapeuticCategoryEntry;
+import com.example.rafael.appprototype.DrugPrescription.StartStopp.Issue;
+import com.example.rafael.appprototype.DrugPrescription.StartStopp.Prescription;
+import com.example.rafael.appprototype.DrugPrescription.StartStopp.PrescriptionStart;
+import com.example.rafael.appprototype.DrugPrescription.StartStopp.StartCriterion;
+import com.example.rafael.appprototype.DrugPrescription.StartStopp.StoppCriterion;
+import com.example.rafael.appprototype.DrugPrescription.StartStopp.StoppGeneral;
 import com.example.rafael.appprototype.R;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
-public class DrugPrescription extends AppCompatActivity {
+public class StoppCriteriaFragment extends Fragment {
 
     // List view
-    private ListView lv, selectedItemsListView;
+    private ListView drugsSearchList, selectedDrugsList;
 
     // Listview Adapter
-    ArrayAdapter<String> adapter, itemsAdapter;
+    ArrayAdapter<String> drugsListAdapter, selectedDrugsAdapter;
 
     // Search EditText
     EditText inputSearch;
 
-    TextView selectedDrugInfo;
-
-
-    // ArrayList for Listview
-    ArrayList<HashMap<String, String>> productList;
-
-    ArrayList<StoppCriterion> stopCriteria;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
     private BeersRecommendation recommendation;
+
+    ArrayList<String> selectedDrugsArray = new ArrayList<>();
+    private StoppGeneral stoppGeneral;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
 
         // add start, stopp and beers criteria
         addStartStoppBeersData();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.activity_search, container, false);
 
         /**
          * Set the items on the GUI
          */
-        // Listview Data
-        final Set<String> selected = new HashSet<>();
+        //selectedDrugInfo = (TextView) findViewById(R.id.selectedDrugInfo);
 
-        selectedDrugInfo = (TextView) findViewById(R.id.selectedDrugInfo);
-
-        // list view with possible choices
-        lv = (ListView) findViewById(R.id.list_view);
-        inputSearch = (EditText) findViewById(R.id.inputSearch);
+        // list view with possible choices and selected ones
+        drugsSearchList = (ListView) v.findViewById(R.id.list_view);
+        selectedDrugsList = (ListView) v.findViewById(R.id.selectedDrugs);
+        inputSearch = (EditText) v.findViewById(R.id.inputSearch);
 
         /**
          * Test the Stopp criteria
@@ -99,16 +94,23 @@ public class DrugPrescription extends AppCompatActivity {
         beersCriteriaDrugs.add("Cyproheptadine");
 
 
-        final String testType = "beers";
+        final String testType = "stopp";
         if (testType.equals("stopp")) {
             // stopp Criteria
-            adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.product_name, stoppCriteriaDrugs);
+            drugsListAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item, R.id.drug_name, stoppCriteriaDrugs);
         } else if (testType.equals("beers")) {
             // Beers criteria
-            adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.product_name, beersCriteriaDrugs);
+            drugsListAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item, R.id.drug_name, beersCriteriaDrugs);
         }
-        lv.setAdapter(adapter);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        drugsSearchList.setAdapter(drugsListAdapter);
+        selectedDrugsArray.add(stoppCriteriaDrugs.get(1));
+        selectedDrugsAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item, R.id.drug_name, selectedDrugsArray);
+
+        SelectedDrugsListAdapter customAdapter = new SelectedDrugsListAdapter(getActivity(), selectedDrugsArray, stoppGeneral);
+        selectedDrugsList.setAdapter(customAdapter);
+
+        drugsSearchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedDrug;
@@ -116,76 +118,67 @@ public class DrugPrescription extends AppCompatActivity {
                 if (testType.equals("stopp")) {
                     selectedDrug = stoppCriteriaDrugs.get(position);
                     // get info about the Stopp criteria for that drug
-                    selectedDrugInfo.setText("");
-                    Prescription pr = getStoppCriteriaPresciptionForDrug(selectedDrug);
-                    //itemsAdapter.notifyDataSetChanged();
+                    //selectedDrugInfo.setText("");
+                    Prescription pr = stoppGeneral.getStoppCriteriaPresciptionForDrug(selectedDrug);
+                    //selectedDrugsAdapter.notifyDataSetChanged();
                     if (pr != null) {
-                        ArrayList<Issue> situations = pr.getSituations();
+                        ArrayList<Issue> situations = pr.getIssues();
                         String drugInfo = "";
                         for (Issue issue : situations) {
                             Log.d("Search", String.valueOf(issue));
                             drugInfo += issue.toString() + "\n";
                         }
-                        selectedDrugInfo.setText(selectedDrug);
-                        selectedDrugInfo.append(drugInfo);
+                        //selectedDrugInfo.setText(selectedDrug);
+                        //selectedDrugInfo.append(drugInfo);
+
                     }
+                    // add to selected list
+                    Log.d("Drugs", "Adding to selected list");
+                    selectedDrugsArray.add(selectedDrug);
+                    selectedDrugsAdapter.notifyDataSetChanged();
                 } else if (testType.equals("beers")) {
                     selectedDrug = beersCriteriaDrugs.get(position);
                     RecommendationInfo drugInfo = getBeersCriteriaInfoAboutDrug(selectedDrug);
-                    if (drugInfo != null)
-                    {
-                        selectedDrugInfo.setText(drugInfo.toString());
+                    if (drugInfo != null) {
+                        //selectedDrugInfo.setText(drugInfo.toString());
                     }
                 }
 
             }
 
 
+        });
+
+        inputSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                drugsListAdapter.getFilter().filter("a0s0a0aa0s0");
+            }
         });
 
         inputSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 // When user changed the Text
-                DrugPrescription.this.adapter.getFilter().filter(cs);
+                drugsListAdapter.getFilter().filter(cs);
+                if (cs.length() == 0) {
+                    drugsListAdapter.getFilter().filter("a0s0a0aa0s0");
+                }
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
                                           int arg3) {
-                // TODO Auto-generated method stub
 
             }
 
             @Override
             public void afterTextChanged(Editable arg0) {
-                // TODO Auto-generated method stub
             }
         });
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-    }
 
-    /**
-     * Get the StoppCriteria for a given drug.
-     *
-     * @param drugSearchingFor
-     * @return
-     */
-    public Prescription getStoppCriteriaPresciptionForDrug(String drugSearchingFor) {
-        for (StoppCriterion criterion : stopCriteria) {
-            ArrayList<Prescription> prescriptions = criterion.getPrescriptions();
-            for (Prescription pr : prescriptions) {
-                String drugName = pr.getDrugName();
-                if (drugName.equals(drugSearchingFor)) {
-                    Log.d("Drugs", "Found");
-                    return pr;
-                }
-            }
-        }
-        return null;
+        return v;
     }
 
 
@@ -216,8 +209,9 @@ public class DrugPrescription extends AppCompatActivity {
         pr.addIssue(new Issue("with chronic glaucoma", "risk of acute exacerbation of glaucoma"));
         // add Prescription to StoppCriterion
         urogenitalSystem.addPrescription(pr);
-        stopCriteria = new ArrayList<>();
-        stopCriteria.add(urogenitalSystem);
+        stoppGeneral = new StoppGeneral();
+        stoppGeneral.addStoppCriterion(urogenitalSystem);
+
 
         // add StartCriterions
         StartCriterion endocryneSystem = new StartCriterion("Endocrine System");
@@ -243,42 +237,5 @@ public class DrugPrescription extends AppCompatActivity {
         entry.setDrugs(drugs);
 
         recommendation.addEntry(entry);
-    }
-
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("DrugPrescription Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
     }
 }

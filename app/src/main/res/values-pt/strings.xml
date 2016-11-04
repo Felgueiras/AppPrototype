@@ -39,4 +39,5 @@
     <string name="you_must_add_patient">Tem de selecionar um paciente para esta sessão</string>
     <string name="you_must_select_test">Tem de selecionar pelo menos um teste</string>
     <string name="selectPatient">Selecione um paciente</string>
+    <string name="drug_prescription">Prescrição</string>
 </resources>

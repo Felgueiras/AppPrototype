@@ -4,16 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/viewBg"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Main.MainActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hoje"
-        android:id="@+id/dateText"
-        android:clipToPadding="false"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"

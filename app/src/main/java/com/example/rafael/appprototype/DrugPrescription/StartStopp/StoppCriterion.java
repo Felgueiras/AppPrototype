@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription;
+package com.example.rafael.appprototype.DrugPrescription.StartStopp;
 
 import java.util.ArrayList;
 
@@ -28,4 +28,6 @@ public class StoppCriterion {
     public ArrayList<Prescription> getPrescriptions() {
         return prescriptions;
     }
+
+
 }

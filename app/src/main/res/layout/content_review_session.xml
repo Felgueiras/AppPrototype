@@ -19,12 +19,4 @@
         android:clipToPadding="false"
         android:scrollbars="vertical"/>
 
-    <Button
-        android:id="@+id/finishSessionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/finish_session"
-        android:textSize="25dp"/>
-
 </LinearLayout>

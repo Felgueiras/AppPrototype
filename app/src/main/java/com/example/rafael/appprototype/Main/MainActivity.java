@@ -22,6 +22,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DatabaseOps;
+import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.HandleStack;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
 import com.example.rafael.appprototype.Login.LoginActivity;
@@ -73,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
         /*
       Default Fragment to open when the app starts
      */
-        String defaultFragment = Constants.fragment_show_patients;
+
+        String defaultFragment = Constants.fragment_drug_prescription;
         switch (defaultFragment) {
             case Constants.fragment_create_new_session:
                 fragment = new NewSessionFragment();
@@ -87,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new SessionsHistoryFragment();
                 setTitle(getResources().getString(R.string.tab_patients_history));
                 break;
+            case Constants.fragment_drug_prescription:
+                fragment = new DrugPrescriptionMain();
+                setTitle(getResources().getString(R.string.tab_drug_prescription));
+                break;
         }
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
@@ -98,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
          */
         String[] drawerPages = new String[]{getResources().getString(R.string.patients_history),
                 getResources().getString(R.string.create_new_session),
-                getResources().getString(R.string.my_patients)};
+                getResources().getString(R.string.my_patients),
+                getResources().getString(R.string.drug_prescription),};
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ListView drawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -139,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putSerializable(DisplaySingleTestFragment.testObject, selectedTest);
         bundle.putSerializable(DisplaySingleTestFragment.sessionID, session);
-        Log.d("Session","Putting session: " + session.toString());
+        Log.d("Session", "Putting session: " + session.toString());
         bundle.putBoolean(DisplaySingleTestFragment.alreadyOpenedBefore, alreadyOpened);
         if (patient != null)
             bundle.putSerializable(DisplaySingleTestFragment.patient, patient);

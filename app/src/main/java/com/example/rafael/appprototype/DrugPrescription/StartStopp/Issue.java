@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription;
+package com.example.rafael.appprototype.DrugPrescription.StartStopp;
 
 /**
  * Created by rafael on 01-11-2016.
@@ -11,6 +11,14 @@ public class Issue {
     public Issue(String desc, String risk) {
         this.description = desc;
         this.risk = risk;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getRisk() {
+        return risk;
     }
 
     @Override

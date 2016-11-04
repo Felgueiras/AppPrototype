@@ -47,4 +47,9 @@
     <string name="you_must_select_test">You must select at least one test</string>
     <string name="selectPatient">Select patient</string>
     <string name="search_hint">Search hint</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="drug_prescription">Drug prescription</string>
+    <string name="tab_drug_prescription">Drug prescription</string>
 </resources>

@@ -1,11 +1,10 @@
-package com.example.rafael.appprototype.DrugPrescription;
+package com.example.rafael.appprototype.DrugPrescription.StartStopp;
 
 import java.util.ArrayList;
 
 /**
- * Created by rafael on 01-11-2016.
+ * Information about a StartCriterion for a certain category.
  */
-
 public class StartCriterion {
 
     String category;
@@ -13,10 +12,18 @@ public class StartCriterion {
 
     public StartCriterion(String category) {
         this.category = category;
-        prescriptions = new ArrayList<>();
+        this.prescriptions = new ArrayList<>();
     }
 
     public void addPrescription(PrescriptionStart prescriptionStart) {
         prescriptions.add(prescriptionStart);
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public ArrayList<PrescriptionStart> getPrescriptions() {
+        return prescriptions;
     }
 }

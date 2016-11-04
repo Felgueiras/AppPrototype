@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.NewSessionTab.ViewAvailableTests.NewSessionFragment;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.SessionsHistoryTab.SessionsHistoryFragment;
@@ -59,6 +60,9 @@ public class DrawerItemClickListener implements android.widget.AdapterView.OnIte
                 fragment.setArguments(args);
                 */
             context.setTitle(context.getResources().getString(R.string.tab_my_patients));
+        } else if (Objects.equals(selectedPage, context.getResources().getString(R.string.drug_prescription))) {
+            fragment = new DrugPrescriptionMain();
+            context.setTitle(context.getResources().getString(R.string.tab_drug_prescription));
         }
 
 

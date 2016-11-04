@@ -44,4 +44,5 @@ public class Constants {
 
     public static final String fragment_create_new_session = "createNewSession";
     public static boolean selectPatient =false;
+    public static final String fragment_drug_prescription = "drugPrescription";
 }

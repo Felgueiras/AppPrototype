@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription;
+package com.example.rafael.appprototype.DrugPrescription.StartStopp;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class Prescription {
         return drugName;
     }
 
-    public ArrayList<Issue> getSituations() {
+    public ArrayList<Issue> getIssues() {
         return situations;
     }
 }

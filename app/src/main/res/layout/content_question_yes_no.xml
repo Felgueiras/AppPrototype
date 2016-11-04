@@ -2,54 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
     <!-- Text of the question-->
     <TextView
         android:id="@+id/nameQuestion"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="2"
         android:layout_height="wrap_content"
-        android:text="1 - Banho"
+        android:text="1 - Está satisfeito com a sua vida?"
         android:textSize="30dp" />
 
-    <!-- Choices for that question -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <GridView
-            android:id="@+id/questionChoices"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="3"
-            />
-
-    </LinearLayout>
-
-    <!--
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+    <RadioGroup
+        android:layout_width="0dp"
         android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioGroup"
         android:orientation="horizontal">
-        <TextView
+
+        <RadioButton
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Independente (necessita de ajuda apenas para lavar uma parte do corpo,
-p.ex.costas ou extremidades)"
-            android:textSize="30dp" />
+            android:layout_height="wrap_content"
+            android:id="@+id/yesChoice"
+            android:text="@string/yes"
+            android:textSize="20dp"/>
 
-        <TextView
+        <RadioButton
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Dependente (necessita de ajuda para lavar mais que uma parte do corpo;
-necessita de ajuda para entrar e sair da banheira; não se lava sozinho)"
-            android:textSize="30dp" />
+            android:layout_height="wrap_content"
+            android:id="@+id/noChoice"
+            android:text="@string/no"
+            android:textSize="20dp"/>
 
-
-    </LinearLayout>
-    -->
-
+    </RadioGroup>
 
 </LinearLayout>
