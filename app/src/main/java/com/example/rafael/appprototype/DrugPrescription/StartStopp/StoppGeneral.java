@@ -60,7 +60,6 @@ public class StoppGeneral {
             for (Prescription pr : prescriptions) {
                 String drugName = pr.getDrugName();
                 if (drugName.equals(drugSearchingFor)) {
-                    Log.d("Drugs", "Found");
                     return pr;
                 }
             }

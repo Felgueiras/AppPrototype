@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription;
+package com.example.rafael.appprototype.DrugPrescription.StartStopp;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.PrescriptionStart;
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.StartCriterion;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -22,28 +20,10 @@ public class StartCriteriaFragment extends Fragment {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<PrescriptionStart>> listDataChild;
-    private ArrayList<StartCriterion> start;
+    private ArrayList<StartCriterion> startGeneral;
 
     public StartCriteriaFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StartCriteriaFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static StartCriteriaFragment newInstance(String param1, String param2) {
-        StartCriteriaFragment fragment = new StartCriteriaFragment();
-        Bundle args = new Bundle();
-        //args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -55,7 +35,6 @@ public class StartCriteriaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_start_criteria, container, false);
-
 
         // get the listview
         expListView = (ExpandableListView) v.findViewById(R.id.lvExp);
@@ -127,20 +106,23 @@ public class StartCriteriaFragment extends Fragment {
     }
 
 
+    /**
+     * Create startGeneral criteria.
+     */
     private void createStartData() {
-        start = new ArrayList<>();
+        startGeneral = new ArrayList<>();
         // Encodrine
         StartCriterion criterion = new StartCriterion("Endocrine System");
         PrescriptionStart prescriptionStart = new PrescriptionStart("Metformin", "Metformin with type 2 diabetes +/- metabolic syndrome" +
                 "(in the absence of renal impairment—estimated GFR <50ml/ min).");
         criterion.addPrescription(prescriptionStart);
-        start.add(criterion);
+        startGeneral.add(criterion);
         // Musculoskeletal
         criterion = new StartCriterion("Musculoskeletal System");
         prescriptionStart = new PrescriptionStart("Disease-modifying anti-rheumatic drug (DMARD)",
                 "with active moderate-severe rheumatoid disease lasting > 12 weeks");
         criterion.addPrescription(prescriptionStart);
-        start.add(criterion);
+        startGeneral.add(criterion);
         //Gastrointestinal
         criterion = new StartCriterion("Gastrointestinal System");
         prescriptionStart = new PrescriptionStart("Proton Pump Inhibitor",
@@ -149,7 +131,7 @@ public class StartCriteriaFragment extends Fragment {
         prescriptionStart = new PrescriptionStart("Fibre supplement",
                 "for chronic, symptomatic diverticular disease with constipation.");
         criterion.addPrescription(prescriptionStart);
-        start.add(criterion);
+        startGeneral.add(criterion);
     }
 
     /*
@@ -160,12 +142,11 @@ public class StartCriteriaFragment extends Fragment {
         listDataChild = new HashMap<>();
 
         // Adding child data
-        for (int i = 0; i < start.size(); i++) {
-            StartCriterion s = start.get(i);
+        for (int i = 0; i < startGeneral.size(); i++) {
+            StartCriterion s = startGeneral.get(i);
             // header
             listDataHeader.add(s.getCategory());
             // child
-            // Adding child data
             List<PrescriptionStart> child = new ArrayList<>();
             for (PrescriptionStart pr : s.getPrescriptions()) {
                 child.add(pr);

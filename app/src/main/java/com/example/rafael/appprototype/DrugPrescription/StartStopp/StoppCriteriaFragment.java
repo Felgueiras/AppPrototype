@@ -1,10 +1,9 @@
-package com.example.rafael.appprototype.DrugPrescription;
+package com.example.rafael.appprototype.DrugPrescription.StartStopp;
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +11,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.rafael.appprototype.DrugPrescription.BeersCriteria.BeersRecommendation;
 import com.example.rafael.appprototype.DrugPrescription.BeersCriteria.RecommendationInfo;
 import com.example.rafael.appprototype.DrugPrescription.BeersCriteria.TherapeuticCategoryEntry;
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.Issue;
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.Prescription;
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.PrescriptionStart;
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.StartCriterion;
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.StoppCriterion;
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.StoppGeneral;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -32,23 +26,21 @@ public class StoppCriteriaFragment extends Fragment {
     private ListView drugsSearchList, selectedDrugsList;
 
     // Listview Adapter
-    ArrayAdapter<String> drugsListAdapter, selectedDrugsAdapter;
+    ArrayAdapter<String> drugsListAdapter;
 
     // Search EditText
     EditText inputSearch;
 
     private BeersRecommendation recommendation;
 
-    ArrayList<String> selectedDrugsArray = new ArrayList<>();
+    ArrayList<Prescription> selectedPrescriptions = new ArrayList<>();
     private StoppGeneral stoppGeneral;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // add start, stopp and beers criteria
-        addStartStoppBeersData();
+        addStoppBeersData();
     }
 
     @Override
@@ -57,35 +49,12 @@ public class StoppCriteriaFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.activity_search, container, false);
 
-        /**
-         * Set the items on the GUI
-         */
-        //selectedDrugInfo = (TextView) findViewById(R.id.selectedDrugInfo);
-
         // list view with possible choices and selected ones
         drugsSearchList = (ListView) v.findViewById(R.id.list_view);
         selectedDrugsList = (ListView) v.findViewById(R.id.selectedDrugs);
         inputSearch = (EditText) v.findViewById(R.id.inputSearch);
 
-        /**
-         * Test the Stopp criteria
-         */
-        final ArrayList<String> stoppCriteriaDrugs = new ArrayList<>();
-        stoppCriteriaDrugs.add("Non-steroidal anti-inflammatory drug (NSAID)");
-        stoppCriteriaDrugs.add("Bladder antimuscarinic drugs");
-        stoppCriteriaDrugs.add("Alpha-blockers");
-        stoppCriteriaDrugs.add("Diphenoxylate, loperamide or codeine phosphate");
-        stoppCriteriaDrugs.add("Prochlorperazine or metoclopramide");
-        stoppCriteriaDrugs.add("Proton pump inhibitor at treatment dose");
-        stoppCriteriaDrugs.add("Anticholinergic antispasmodic drugs");
-        stoppCriteriaDrugs.add("Glibenclamide or chlorpropamide");
-        stoppCriteriaDrugs.add("Beta-blockers");
-        stoppCriteriaDrugs.add("Oestrogens");
-        stoppCriteriaDrugs.add("Digoxin");
-
-        /**
-         * Test the Beers criteria.
-         */
+        final ArrayList<String> stoppCriteriaDrugs = getAllDrugsStopp(stoppGeneral);
         final ArrayList<String> beersCriteriaDrugs = new ArrayList<>();
         beersCriteriaDrugs.add("Brompheniramine");
         beersCriteriaDrugs.add("Carbinoxamine");
@@ -104,50 +73,46 @@ public class StoppCriteriaFragment extends Fragment {
         }
 
         drugsSearchList.setAdapter(drugsListAdapter);
-        selectedDrugsArray.add(stoppCriteriaDrugs.get(1));
-        selectedDrugsAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item, R.id.drug_name, selectedDrugsArray);
-
-        SelectedDrugsListAdapter customAdapter = new SelectedDrugsListAdapter(getActivity(), selectedDrugsArray, stoppGeneral);
+        // TODO remove
+        //selectedBeers.add(stoppCriteriaDrugs.get(1));
+        final SelectedDrugsListAdapter customAdapter = new SelectedDrugsListAdapter(getActivity(), selectedPrescriptions, stoppGeneral);
         selectedDrugsList.setAdapter(customAdapter);
-
+        /**
+         * Item was selected from list.
+         */
         drugsSearchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedDrug;
 
                 if (testType.equals("stopp")) {
-                    selectedDrug = stoppCriteriaDrugs.get(position);
+                    TextView textView = (TextView) view.findViewById(R.id.drug_name);
+                    selectedDrug = (String) textView.getText();
                     // get info about the Stopp criteria for that drug
-                    //selectedDrugInfo.setText("");
                     Prescription pr = stoppGeneral.getStoppCriteriaPresciptionForDrug(selectedDrug);
-                    //selectedDrugsAdapter.notifyDataSetChanged();
+                    String drugInfo = "";
                     if (pr != null) {
                         ArrayList<Issue> situations = pr.getIssues();
-                        String drugInfo = "";
+
                         for (Issue issue : situations) {
-                            Log.d("Search", String.valueOf(issue));
                             drugInfo += issue.toString() + "\n";
                         }
-                        //selectedDrugInfo.setText(selectedDrug);
-                        //selectedDrugInfo.append(drugInfo);
 
                     }
-                    // add to selected list
-                    Log.d("Drugs", "Adding to selected list");
-                    selectedDrugsArray.add(selectedDrug);
-                    selectedDrugsAdapter.notifyDataSetChanged();
+                    selectedPrescriptions.add(pr);
+                    customAdapter.notifyDataSetChanged();
                 } else if (testType.equals("beers")) {
                     selectedDrug = beersCriteriaDrugs.get(position);
                     RecommendationInfo drugInfo = getBeersCriteriaInfoAboutDrug(selectedDrug);
                     if (drugInfo != null) {
-                        //selectedDrugInfo.setText(drugInfo.toString());
+
                     }
                 }
 
             }
-
-
         });
+
+
 
         inputSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -199,8 +164,14 @@ public class StoppCriteriaFragment extends Fragment {
         return null;
     }
 
-    private void addStartStoppBeersData() {
-        // add StoppCriterion
+    /**
+     * Add Stopp and Beers data.
+     */
+    private void addStoppBeersData() {
+        /**
+         * Stopp criteria.
+         */
+        // Urogenital
         StoppCriterion urogenitalSystem = new StoppCriterion("Urogenital System");
         Prescription pr = new Prescription("Bladder antimuscarinic drugs");
         Issue issue = new Issue("with dementia", "risk of increased confusion, agitation");
@@ -209,17 +180,34 @@ public class StoppCriteriaFragment extends Fragment {
         pr.addIssue(new Issue("with chronic glaucoma", "risk of acute exacerbation of glaucoma"));
         // add Prescription to StoppCriterion
         urogenitalSystem.addPrescription(pr);
+        pr = new Prescription("Alpha-blockers");
+        issue = new Issue("in males with frequent incontinence i.e. one or more episodes\n" +
+                "of incontinence daily",
+                "risk of urinary frequency and worsening\n" +
+                        "of incontinence");
+        pr.addIssue(issue);
+        urogenitalSystem.addPrescription(pr);
         stoppGeneral = new StoppGeneral();
         stoppGeneral.addStoppCriterion(urogenitalSystem);
+        // Endocrine
+        StoppCriterion endocrineSystem = new StoppCriterion("Endocrine System");
+        pr = new Prescription("Glibenclamide or chlorpropamide");
+        issue = new Issue("with type 2 diabetes\n" +
+                "mellitus", "risk of prolonged hypoglycaemia");
+        // add Issue to Prescription
+        pr.addIssue(issue);
+        // add Prescription to StoppCriterion
+        endocrineSystem.addPrescription(pr);
+        pr = new Prescription("Oestrogens");
+        issue = new Issue("with a history of breast cancer or venous thromboembolism",
+                "ncreased risk of recurrence");
+        pr.addIssue(issue);
+        endocrineSystem.addPrescription(pr);
+        stoppGeneral.addStoppCriterion(endocrineSystem);
 
-
-        // add StartCriterions
-        StartCriterion endocryneSystem = new StartCriterion("Endocrine System");
-        PrescriptionStart prescriptionStart = new PrescriptionStart("Metformin", "Metformin with type 2 diabetes +/- metabolic syndrome" +
-                "(in the absence of renal impairment—estimated GFR <50ml/ min).");
-        endocryneSystem.addPrescription(prescriptionStart);
-
-        // add BeersCriteria
+        /**
+         * Beers criteria.
+         */
         recommendation = new BeersRecommendation("Anticholinergics (excludes TCAs)");
         TherapeuticCategoryEntry entry = new TherapeuticCategoryEntry("First-generation" +
                 " antihistamines (as single agent or as part of combination products)");
@@ -237,5 +225,21 @@ public class StoppCriteriaFragment extends Fragment {
         entry.setDrugs(drugs);
 
         recommendation.addEntry(entry);
+    }
+
+    /**
+     * Get all the drugs from StoppGeneral.
+     * @return
+     */
+    public ArrayList<String> getAllDrugsStopp(StoppGeneral general) {
+        ArrayList<String> drugs = new ArrayList<>();
+        ArrayList<StoppCriterion> criterions = general.getCriterions();
+        for (StoppCriterion cr : criterions) {
+            ArrayList<Prescription> prescriptions = cr.getPrescriptions();
+            for (Prescription pr : prescriptions) {
+                drugs.add(pr.getDrugName());
+            }
+        }
+        return drugs;
     }
 }

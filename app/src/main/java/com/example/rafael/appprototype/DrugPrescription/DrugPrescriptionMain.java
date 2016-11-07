@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rafael.appprototype.DrugPrescription.BeersCriteria.BeersCriteriaFragment;
+import com.example.rafael.appprototype.DrugPrescription.StartStopp.StartCriteriaFragment;
+import com.example.rafael.appprototype.DrugPrescription.StartStopp.StoppCriteriaFragment;
 import com.example.rafael.appprototype.R;
 
 
@@ -47,13 +50,15 @@ public class DrugPrescriptionMain extends Fragment {
                 return new StoppCriteriaFragment();
             } else if (position == 1) {
                 return new StartCriteriaFragment();
+            } else if (position == 2) {
+                return new BeersCriteriaFragment();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Override
@@ -62,7 +67,9 @@ public class DrugPrescriptionMain extends Fragment {
                 case 0:
                     return "Critérios STOPP";
                 case 1:
-                    return "Critértios START";
+                    return "Critérios START";
+                case 2:
+                    return "Critérios BEERS";
             }
             return null;
         }

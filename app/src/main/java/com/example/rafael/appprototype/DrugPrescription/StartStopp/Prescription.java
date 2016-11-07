@@ -9,6 +9,7 @@ public class Prescription {
 
     String drugName;
     ArrayList<Issue> situations;
+    private String issuesText;
 
     public Prescription(String name) {
         this.drugName = name;
@@ -25,5 +26,13 @@ public class Prescription {
 
     public ArrayList<Issue> getIssues() {
         return situations;
+    }
+
+    public String getIssuesText() {
+        String ret = "";
+        for (Issue issue : situations) {
+            ret += issue.toString();
+        }
+        return ret;
     }
 }

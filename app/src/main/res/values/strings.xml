@@ -52,4 +52,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="drug_prescription">Drug prescription</string>
     <string name="tab_drug_prescription">Drug prescription</string>
+    <string name="search_drugs">Search drugs..</string>
+    <string name="selected_drugs">Selected drugs:</string>
 </resources>
