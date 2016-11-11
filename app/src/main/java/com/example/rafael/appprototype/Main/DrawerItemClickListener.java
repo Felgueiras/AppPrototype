@@ -9,10 +9,8 @@ import android.widget.ListView;
 
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Patients.PatientsMain;
-import com.example.rafael.appprototype.Sessions.NewSessionTab.Sessions;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.Sessions.SessionsHistoryTab.SessionsHistoryFragment;
-import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewPatientsFragment;
+import com.example.rafael.appprototype.Sessions.NewSessionTab.Sessions;
 
 import java.util.Objects;
 

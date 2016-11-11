@@ -64,4 +64,6 @@
     <string name="create_patient_error_name">You need to give a name to the patient</string>
     <string name="create_patient_success">Patient created with success</string>
     <string name="create_patient_error_gender">You need to select the patient\'s gender</string>
+    <string name="title_activity_main3">Main3Activity</string>
+    <string name="title_activity_navigation_drawer_test">NavigationDrawerTest</string>
 </resources>

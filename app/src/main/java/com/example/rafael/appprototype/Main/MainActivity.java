@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -31,7 +33,7 @@ import com.example.rafael.appprototype.Sessions.NewSessionTab.Sessions;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     SharedPreferences sharedPreferences;
@@ -44,10 +46,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActiveAndroid.initialize(getApplication());
-        setContentView(R.layout.activity_main_activity_recycler);
+        setContentView(R.layout.activity_navigation_drawer_test);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
 
         // insert data in DB (if first run)
         sharedPreferences = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
@@ -74,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
       Default Fragment to open when the app starts
      */
 
+
         String defaultFragment = Constants.fragment_show_patients;
         switch (defaultFragment) {
             case Constants.fragment_sessions:
@@ -94,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.content_frame, fragment)
                 .commit();
 
+
         /**
          * Set the NavigationDrawer items
          */
@@ -102,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 getResources().getString(R.string.tab_drug_prescription),
                 getResources().getString(R.string.tab_my_patients),
         };
+        /*
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ListView drawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -119,6 +127,15 @@ public class MainActivity extends AppCompatActivity {
         DrawerItemClickListener drawerListener = new DrawerItemClickListener(drawerPages, getFragmentManager(), this,
                 drawerList, drawerLayout);
         drawerList.setOnItemClickListener(drawerListener);
+        */
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
 
@@ -186,19 +203,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        /*
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        */
-        // Handle your other action bar items...
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         if (getLockStatus()) {
@@ -263,6 +267,37 @@ public class MainActivity extends AppCompatActivity {
             // we are not locked.
             Log.d("Lock", "not locked");
         }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.evaluations) {
+            // Insert the fragment by replacing any existing fragment
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.content_frame, new Sessions())
+                    .commit();
+
+        } else if (id == R.id.prescription) {
+            // Insert the fragment by replacing any existing fragment
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.content_frame, new DrugPrescriptionMain())
+                    .commit();
+
+        } else if (id == R.id.patients) {
+            // Insert the fragment by replacing any existing fragment
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.content_frame, new PatientsMain())
+                    .commit();
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
 }
