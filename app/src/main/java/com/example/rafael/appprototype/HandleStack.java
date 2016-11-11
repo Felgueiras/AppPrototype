@@ -7,9 +7,10 @@ import android.util.Log;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.NewSessionTab.DisplayTest.SingleTest.DisplaySingleTestFragment;
-import com.example.rafael.appprototype.NewSessionTab.NewSessionFragment;
-import com.example.rafael.appprototype.ViewPatientsTab.ViewPatientsFragment;
+import com.example.rafael.appprototype.Patients.PatientsMain;
+import com.example.rafael.appprototype.Sessions.NewSessionTab.DisplayTest.SingleTest.DisplaySingleTestFragment;
+import com.example.rafael.appprototype.Sessions.NewSessionTab.Sessions;
+import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewPatientsFragment;
 
 /**
  * Created by rafael on 09-10-2016.
@@ -46,15 +47,15 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
                 Patient patient = (Patient) arguments.getSerializable(DisplaySingleTestFragment.patient);
 
                 Bundle args = new Bundle();
-                args.putSerializable(NewSessionFragment.sessionObject, session);
-                args.putSerializable(NewSessionFragment.PATIENT, patient);
-                Fragment fragment = new NewSessionFragment();
+                args.putSerializable(Sessions.sessionObject, session);
+                args.putSerializable(Sessions.PATIENT, patient);
+                Fragment fragment = new Sessions();
                 fragment.setArguments(args);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, fragment)
                         .commit();
             } else if (tag.equals(Constants.tag_view_patien_info_records)) {
-                Fragment fragment = new ViewPatientsFragment();
+                Fragment fragment = new PatientsMain();
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, fragment)
                         .commit();

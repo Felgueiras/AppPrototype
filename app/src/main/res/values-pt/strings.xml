@@ -20,10 +20,10 @@
     <string name="title_activity_tabs">Separadores</string>
     <string name="action_add_favourite">Adicionar aos favoritos</string>
     <string name="patients_history">Histórico de pacientes</string>
-    <string name="create_new_session">Criar nova sessão</string>
+    <string name="sessions">Avaliações</string>
     <string name="my_patients">Os meus pacientes</string>
     <string name="tab_my_patients">Pacientes</string>
-    <string name="tab_new_session">Nova sessão</string>
+    <string name="tab_sessions">Avaliações</string>
     <string name="tab_patients_history">Histórico de pacientes</string>
     <string name="no">Não</string>
     <string name="yes">Sim</string>
@@ -46,4 +46,6 @@
     <string name="stoppCriteriaDisclaimer">Pesquise pelo nome de um composto ativo ou medicamento e veja os critérios Stopp associados</string>
     <string name="startCriteriaDisclaimer">Primeiro selecione o sistema em causa e tenha acesso aos critérios Start relativos aos medicamentos</string>
     <string name="beersCriteriaDisclaimer">Pesquise pelo nome de um composto ativo ou medicamento e veja os critérios Beers associados</string>
+    <string name="patient_favorite_add">Paciente adicionado aos favoritos</string>
+    <string name="patient_favorite_remove">Paciente removido dos favoritos</string>
 </resources>

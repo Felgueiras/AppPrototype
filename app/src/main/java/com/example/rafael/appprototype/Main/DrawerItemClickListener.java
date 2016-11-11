@@ -8,10 +8,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
-import com.example.rafael.appprototype.NewSessionTab.NewSessionFragment;
+import com.example.rafael.appprototype.Patients.PatientsMain;
+import com.example.rafael.appprototype.Sessions.NewSessionTab.Sessions;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.SessionsHistoryTab.SessionsHistoryFragment;
-import com.example.rafael.appprototype.ViewPatientsTab.ViewPatientsFragment;
+import com.example.rafael.appprototype.Sessions.SessionsHistoryTab.SessionsHistoryFragment;
+import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewPatientsFragment;
 
 import java.util.Objects;
 
@@ -43,17 +44,11 @@ public class DrawerItemClickListener implements android.widget.AdapterView.OnIte
         Fragment fragment = null;
 
 
-        if (Objects.equals(selectedPage, context.getResources().getString(R.string.patients_history))) {
-            fragment = new SessionsHistoryFragment();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .commit();
-            context.setTitle(context.getResources().getString(R.string.tab_patients_history));
-        } else if (Objects.equals(selectedPage, context.getResources().getString(R.string.create_new_session))) {
-            fragment = new NewSessionFragment();
-            context.setTitle(context.getResources().getString(R.string.tab_new_session));
-        } else if (Objects.equals(selectedPage, context.getResources().getString(R.string.my_patients))) {
-            fragment = new ViewPatientsFragment();
+        if (Objects.equals(selectedPage, context.getResources().getString(R.string.tab_sessions))) {
+            fragment = new Sessions();
+            context.setTitle(context.getResources().getString(R.string.tab_sessions));
+        } else if (Objects.equals(selectedPage, context.getResources().getString(R.string.tab_my_patients))) {
+            fragment = new PatientsMain();
                 /*
                 Bundle args = new Bundle();
                 args.putInt(ArticleFragment.ARG_PLANET_NUMBER, position);

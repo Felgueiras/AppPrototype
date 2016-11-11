@@ -26,11 +26,10 @@ import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.HandleStack;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
 import com.example.rafael.appprototype.Login.LoginActivity;
-import com.example.rafael.appprototype.NewSessionTab.DisplayTest.SingleTest.DisplaySingleTestFragment;
-import com.example.rafael.appprototype.NewSessionTab.NewSessionFragment;
+import com.example.rafael.appprototype.Sessions.NewSessionTab.DisplayTest.SingleTest.DisplaySingleTestFragment;
+import com.example.rafael.appprototype.Sessions.NewSessionTab.Sessions;
+import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.SessionsHistoryTab.SessionsHistoryFragment;
-import com.example.rafael.appprototype.ViewPatientsTab.ViewPatientsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -75,19 +74,15 @@ public class MainActivity extends AppCompatActivity {
       Default Fragment to open when the app starts
      */
 
-        String defaultFragment = Constants.fragment_drug_prescription;
+        String defaultFragment = Constants.fragment_show_patients;
         switch (defaultFragment) {
-            case Constants.fragment_create_new_session:
-                fragment = new NewSessionFragment();
-                setTitle(getResources().getString(R.string.tab_new_session));
+            case Constants.fragment_sessions:
+                fragment = new Sessions();
+                setTitle(getResources().getString(R.string.tab_sessions));
                 break;
             case Constants.fragment_show_patients:
-                fragment = new ViewPatientsFragment();
+                fragment = new PatientsMain();
                 setTitle(getResources().getString(R.string.tab_my_patients));
-                break;
-            case Constants.fragment_show_sessions_history:
-                fragment = new SessionsHistoryFragment();
-                setTitle(getResources().getString(R.string.tab_patients_history));
                 break;
             case Constants.fragment_drug_prescription:
                 fragment = new DrugPrescriptionMain();
@@ -103,10 +98,9 @@ public class MainActivity extends AppCompatActivity {
          * Set the NavigationDrawer items
          */
         String[] drawerPages = new String[]{
-                getResources().getString(R.string.create_new_session),
-                getResources().getString(R.string.drug_prescription),
-                getResources().getString(R.string.patients_history),
-                getResources().getString(R.string.my_patients),
+                getResources().getString(R.string.tab_sessions),
+                getResources().getString(R.string.tab_drug_prescription),
+                getResources().getString(R.string.tab_my_patients),
         };
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ListView drawerList = (ListView) findViewById(R.id.left_drawer);

@@ -31,6 +31,8 @@ public class Patient extends Model implements Serializable {
     private int picture;
     @Column(name = "address")
     private String address;
+    @Column(name = "favorite")
+    private boolean favorite;
 
     public Patient(String patientsName, int gender, int image) {
         super();
@@ -127,6 +129,14 @@ public class Patient extends Model implements Serializable {
         this.address = address;
     }
 
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
     /**
      * Get a list of all the Patients
      *
@@ -134,6 +144,17 @@ public class Patient extends Model implements Serializable {
      */
     public static ArrayList<Patient> getAllPatients() {
         List<Patient> list = new Select().from(Patient.class).orderBy("name ASC").execute();
+        ArrayList<Patient> patients = new ArrayList<>();
+        patients.addAll(list);
+        return patients;
+    }
+
+    /**
+     * Get a list of the favorite Patients
+     * @return
+     */
+    public static ArrayList<Patient> getFavoritePatients() {
+        List<Patient> list = new Select().from(Patient.class).where("favorite = ?",true).orderBy("name ASC").execute();
         ArrayList<Patient> patients = new ArrayList<>();
         patients.addAll(list);
         return patients;

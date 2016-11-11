@@ -86,6 +86,7 @@ public class DatabaseOps {
             else {
                 patient.setPicture(R.drawable.female);
             }
+            patient.setFavorite(false);
             patient.save();
 
             /*

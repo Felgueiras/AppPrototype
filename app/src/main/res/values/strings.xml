@@ -26,10 +26,10 @@
     <string name="action_add_favourite">Add to Favourites</string>
     <string name="action_play_next">Play Next</string>
     <string name="patients_history">Patients history</string>
-    <string name="create_new_session">Create new session</string>
+    <string name="sessions">Evaluations</string>
     <string name="my_patients">My patients</string>
     <string name="tab_patients_history">Patients history</string>
-    <string name="tab_new_session">New session</string>
+    <string name="tab_sessions">Evaluations</string>
     <string name="tab_my_patients">My patients</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -57,4 +57,7 @@
     <string name="stoppCriteriaDisclaimer">Search the name of a drug and view the Stopp criterias associated with it</string>
     <string name="startCriteriaDisclaimer" >First select the organ system and then view the Start criteria for the related drugs</string>
     <string name="beersCriteriaDisclaimer" >Search the name of a drug and view the Beers criterias associated with it</string>
+    <string name="action_favorite">favorite</string>
+    <string name="patient_favorite_add" >Patient added to favorites</string>
+    <string name="patient_favorite_remove" >Patient removed from favorites</string>
 </resources>
