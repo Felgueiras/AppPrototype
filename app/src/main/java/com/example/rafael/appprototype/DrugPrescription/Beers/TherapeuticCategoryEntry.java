@@ -1,11 +1,11 @@
-package com.example.rafael.appprototype.DrugPrescription.BeersCriteria;
+package com.example.rafael.appprototype.DrugPrescription.Beers;
 
 import java.util.ArrayList;
 
 /**
  * Created by rafael on 01-11-2016.
  */
-public class                        TherapeuticCategoryEntry {
+public class TherapeuticCategoryEntry {
 
     String categoryName;
     ArrayList<String> drugs;
@@ -36,5 +36,10 @@ public class                        TherapeuticCategoryEntry {
 
     public void setInfo(RecommendationInfo info) {
         this.info = info;
+    }
+
+    @Override
+    public String toString() {
+        return info.toString();
     }
 }

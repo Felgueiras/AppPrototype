@@ -182,6 +182,11 @@ public class NewSessionFragment extends Fragment {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
+                                    // reset this Session
+                                    FragmentManager fragmentManager = getFragmentManager();
+                                    fragmentManager.beginTransaction()
+                                            .replace(R.id.content_frame, new NewSessionFragment())
+                                            .commit();
                                 }
                             });
                     alertDialog.show();

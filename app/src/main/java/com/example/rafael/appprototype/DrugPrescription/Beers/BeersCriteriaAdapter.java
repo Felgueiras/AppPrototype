@@ -1,19 +1,14 @@
-package com.example.rafael.appprototype.DrugPrescription.BeersCriteria;
+package com.example.rafael.appprototype.DrugPrescription.Beers;
 
 import android.content.Context;
-import android.os.Handler;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.R;
-import com.google.android.gms.common.SignInButton;
 
 import java.util.ArrayList;
 
@@ -21,10 +16,10 @@ import java.util.ArrayList;
 public class BeersCriteriaAdapter extends ArrayAdapter<String> {
     private final Context context;
     private final ArrayList<String> drugs;
-    private final ArrayList<BeersRecommendation> beersData;
+    private final ArrayList<BeersCriteria> beersData;
     BeersCriteriaAdapter adapter;
 
-    public BeersCriteriaAdapter(Context context, ArrayList<String> values, ArrayList<BeersRecommendation> beersData) {
+    public BeersCriteriaAdapter(Context context, ArrayList<String> values, ArrayList<BeersCriteria> beersData) {
         super(context, -1, values);
         this.context = context;
         this.drugs = values;
@@ -60,13 +55,13 @@ public class BeersCriteriaAdapter extends ArrayAdapter<String> {
     }
 
     /**
-     * Return the Beers criteria beersData for a certain drug name.
+     * Return the Beers criteria beersGeneral for a certain drug name.
      *
      * @param selectedDrug
      * @return
      */
     public RecommendationInfo getBeersCriteriaInfoAboutDrug(String selectedDrug) {
-        for (BeersRecommendation rec : beersData) {
+        for (BeersCriteria rec : beersData) {
             for (TherapeuticCategoryEntry entry : rec.getEntries()) {
                 ArrayList<String> drugs = entry.getDrugs();
                 if (drugs.contains(selectedDrug)) {

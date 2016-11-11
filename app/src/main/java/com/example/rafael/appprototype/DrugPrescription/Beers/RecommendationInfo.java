@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription.BeersCriteria;
+package com.example.rafael.appprototype.DrugPrescription.Beers;
 
 /**
  * Created by rafael on 03-11-2016.

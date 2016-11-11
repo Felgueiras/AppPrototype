@@ -10,7 +10,7 @@
         android:layout_weight="2"
         android:layout_height="wrap_content"
         android:text="1 - Está satisfeito com a sua vida?"
-        android:textSize="30dp" />
+         />
 
     <RadioGroup
         android:layout_width="0dp"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/yesChoice"
             android:text="@string/yes"
-            android:textSize="20dp"/>
+            />
 
         <RadioButton
             android:layout_width="0dp"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/noChoice"
             android:text="@string/no"
-            android:textSize="20dp"/>
+            />
 
     </RadioGroup>
 

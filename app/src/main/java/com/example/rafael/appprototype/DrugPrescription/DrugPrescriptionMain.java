@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rafael.appprototype.DrugPrescription.BeersCriteria.BeersCriteriaFragment;
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.StartCriteriaFragment;
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.StoppCriteriaFragment;
+import com.example.rafael.appprototype.DrugPrescription.Beers.BeersCriteriaFragment;
+import com.example.rafael.appprototype.DrugPrescription.Start.StartCriteriaFragment;
+import com.example.rafael.appprototype.DrugPrescription.Stopp.StoppCriteriaFragment;
 import com.example.rafael.appprototype.R;
 
 
@@ -45,16 +45,18 @@ public class DrugPrescriptionMain extends Fragment {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-            Log.d("Drugs","SectionsPagerAdapter");
+            Log.d("Drugs", "SectionsPagerAdapter");
         }
 
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new StoppCriteriaFragment();
+                return new SearchAllDrugs();
             } else if (position == 1) {
-                return new StartCriteriaFragment();
+                return new StoppCriteriaFragment();
             } else if (position == 2) {
+                return new StartCriteriaFragment();
+            } else if (position == 3) {
                 return new BeersCriteriaFragment();
             }
             return null;
@@ -62,18 +64,20 @@ public class DrugPrescriptionMain extends Fragment {
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Critérios STOPP";
+                    return "Pesquisa";
                 case 1:
-                    return "Critérios START";
+                    return "STOPP";
                 case 2:
-                    return "Critérios BEERS";
+                    return "START";
+                case 3:
+                    return "BEERS";
             }
             return null;
         }

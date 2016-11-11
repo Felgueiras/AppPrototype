@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription.StartStopp;
+package com.example.rafael.appprototype.DrugPrescription.Start;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.PrescriptionStart;
 import com.example.rafael.appprototype.R;
 
 import java.util.HashMap;
@@ -17,7 +16,7 @@ import java.util.List;
 /**
  * Created by rafael on 03-11-2016.
  */
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+public class ExpandableListAdapterStart extends BaseExpandableListAdapter {
 
     private Context _context;
     /**
@@ -29,8 +28,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
      */
     private HashMap<String, List<PrescriptionStart>> _listDataChild;
 
-    public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<PrescriptionStart>> listChildData) {
+    public ExpandableListAdapterStart(Context context, List<String> listDataHeader,
+                                      HashMap<String, List<PrescriptionStart>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;

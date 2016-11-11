@@ -1,27 +1,21 @@
-package com.example.rafael.appprototype.DrugPrescription.StartStopp;
+package com.example.rafael.appprototype.DrugPrescription.Stopp;
+
+import com.example.rafael.appprototype.DrugPrescription.PrescriptionGeneral;
 
 import java.util.ArrayList;
 
-/**
- * Created by rafael on 01-11-2016.
- */
-public class Prescription {
 
-    String drugName;
+public class PrescriptionStopp extends PrescriptionGeneral {
+
     ArrayList<Issue> situations;
-    private String issuesText;
 
-    public Prescription(String name) {
-        this.drugName = name;
+    public PrescriptionStopp(String drugName) {
+        super(drugName);
         this.situations = new ArrayList<>();
     }
 
     public void addIssue(Issue issue) {
         situations.add(issue);
-    }
-
-    public String getDrugName() {
-        return drugName;
     }
 
     public ArrayList<Issue> getIssues() {
@@ -34,5 +28,10 @@ public class Prescription {
             ret += issue.toString();
         }
         return ret;
+    }
+
+    @Override
+    public String toString() {
+        return super.getDrugName() + ": " + getIssuesText();
     }
 }
