@@ -1,10 +1,12 @@
-package com.example.rafael.appprototype.NewSessionTab.ViewAvailableTests;
+package com.example.rafael.appprototype.NewSessionTab;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,10 +26,13 @@ import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.NewSessionTab.ViewAvailableTests.CreateTestCard;
+import com.example.rafael.appprototype.NewSessionTab.ViewAvailableTests.SelectPatientFragment;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.SessionsHistoryTab.SessionsHistoryFragment;
 import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewSinglePatientInfoAndSessions;
 import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewSinglePatientOnlyInfo;
+import com.example.rafael.appprototype.ViewPatientsTab.ViewPatientsFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,6 +41,7 @@ import java.util.List;
 
 public class NewSessionFragment extends Fragment {
 
+    public static final String SAVE_SESSION = "save";
     /**
      * Patient for this Session
      */
@@ -51,8 +57,6 @@ public class NewSessionFragment extends Fragment {
 
     boolean resuming = false;
 
-    // TODO replace add button with another one more suitable
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -60,7 +64,7 @@ public class NewSessionFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             session = (Session) args.getSerializable(sessionObject);
-            Log.d("Session","NewSessionFragment" + session);
+            Log.d("Session", "NewSessionFragment" + session);
             if (session != null) {
                 resuming = true;
                 Log.d("NewSession", "Resuming");
@@ -78,16 +82,24 @@ public class NewSessionFragment extends Fragment {
             Bundle newArgs = new Bundle();
             if (patientForThisSession != null) {
                 // set the patient for this session
-                Log.d("Session", "Setting patient");
                 session.setPatient(patientForThisSession);
+                Log.d("Session", "Setting patient");
                 session.save();
+                /*
                 newArgs.putSerializable(ViewSinglePatientInfoAndSessions.PATIENT, patientForThisSession);
                 fragment.setArguments(newArgs);
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.patientInfo, fragment)
                         .commit();
+                        */
+                // save this session and start a new one
+                boolean save = args.getBoolean(SAVE_SESSION);
+                if (save) {
+                    Log.d("Session", "Saving!");
+                }
             } else {
+                /*
                 newArgs.putSerializable(SelectPatientFragment.PATIENT, patientForThisSession);
                 fragment.setArguments(newArgs);
                 fragment = new SelectPatientFragment();
@@ -95,6 +107,7 @@ public class NewSessionFragment extends Fragment {
                 fragmentManager.beginTransaction()
                         .replace(R.id.patientInfo, fragment)
                         .commit();
+                        */
             }
 
         } else {
@@ -103,11 +116,13 @@ public class NewSessionFragment extends Fragment {
             /**
              * Assuming we don't have the Patient
              */
+            /*
             Fragment fragment = new SelectPatientFragment();
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.patientInfo, fragment)
                     .commit();
+                    */
         }
 
         /**
@@ -147,7 +162,30 @@ public class NewSessionFragment extends Fragment {
                 LinearLayout linearLayout = (LinearLayout) getActivity().findViewById(R.id.newSessionLayout);
                 // no patient selected
                 if (patientForThisSession == null) {
-                    Snackbar.make(linearLayout, getResources().getString(R.string.you_must_add_patient), Snackbar.LENGTH_SHORT).show();
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                    //alertDialog.setTitle("Criar paciente");
+                    alertDialog.setMessage("Deseja adicionar paciente a esta sessão?");
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    /**
+                                     * Open the fragment to pick an already existing Patient.
+                                     */
+                                    Bundle args = new Bundle();
+                                    args.putBoolean(ViewPatientsFragment.selectPatient, true);
+                                    ((MainActivity) getActivity()).replaceFragment(ViewPatientsFragment.class, args,
+                                            Constants.fragment_show_patients);
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                    //Snackbar.make(linearLayout, getResources().getString(R.string.you_must_add_patient), Snackbar.LENGTH_SHORT).show();
                     return;
                 }
 

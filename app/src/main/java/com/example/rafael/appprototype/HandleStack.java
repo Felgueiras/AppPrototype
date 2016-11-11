@@ -8,7 +8,7 @@ import android.util.Log;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.NewSessionTab.DisplayTest.SingleTest.DisplaySingleTestFragment;
-import com.example.rafael.appprototype.NewSessionTab.ViewAvailableTests.NewSessionFragment;
+import com.example.rafael.appprototype.NewSessionTab.NewSessionFragment;
 import com.example.rafael.appprototype.ViewPatientsTab.ViewPatientsFragment;
 
 /**

@@ -25,11 +25,15 @@ public class DrugPrescriptionMain extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // set the title
+        getActivity().setTitle(getResources().getString(R.string.tab_drug_prescription));
+
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.activity_tabs2, container, false);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
-        Log.d("Drugs","DrugPrescriptionMain");
+
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) v.findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);

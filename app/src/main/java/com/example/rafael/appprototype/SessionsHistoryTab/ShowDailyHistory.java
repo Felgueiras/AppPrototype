@@ -44,9 +44,11 @@ public class ShowDailyHistory extends BaseAdapter {
         Log.d("Session","We have " + sessionsFromDate.size() + " sessions");
         ArrayList<Patient> patientsForADate = new ArrayList<>();
         for (Session sess : sessionsFromDate) {
-            patientsForADate.add(sess.getPatient());
+            if(sess.getPatient()!=null)
+                patientsForADate.add(sess.getPatient());
         }
         Log.d("Session","For this date we have " + patientsForADate.size() + " patients");
+
 
         // fill the RecyclerView
         RecyclerView recyclerView = (RecyclerView) gridElement.findViewById(R.id.recycler_view);
@@ -73,9 +75,24 @@ public class ShowDailyHistory extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // get number of different dates
-        Log.d("history","We have" +  Session.getSessionDates().size() +" session dates");
-        return Session.getSessionDates().size();
+        // get number of different dates where patients is not null
+        int numDates = 0;
+        for(int i = 0 ; i < Session.getSessionDates().size(); i++)
+        {
+            String currentDate = Session.getSessionDates().get(i).getDate();
+            // get Sessions for that date
+            List<Session> sessionsFromDate = Session.getSessionsFromDate(currentDate);
+            ArrayList<Patient> patientsForADate = new ArrayList<>();
+            for (Session sess : sessionsFromDate) {
+                if(sess.getPatient()!=null)
+                {
+                    numDates++;
+                    break;
+                }
+            }
+        }
+
+        return numDates;
     }
 
     @Override

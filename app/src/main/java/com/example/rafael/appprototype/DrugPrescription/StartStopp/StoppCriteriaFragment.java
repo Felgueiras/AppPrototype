@@ -47,7 +47,7 @@ public class StoppCriteriaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.activity_search, container, false);
+        View v = inflater.inflate(R.layout.stopp_criteria, container, false);
 
         // list view with possible choices and selected ones
         drugsSearchList = (ListView) v.findViewById(R.id.list_view);
@@ -73,8 +73,6 @@ public class StoppCriteriaFragment extends Fragment {
         }
 
         drugsSearchList.setAdapter(drugsListAdapter);
-        // TODO remove
-        //selectedBeers.add(stoppCriteriaDrugs.get(1));
         final SelectedDrugsListAdapter customAdapter = new SelectedDrugsListAdapter(getActivity(), selectedPrescriptions, stoppGeneral);
         selectedDrugsList.setAdapter(customAdapter);
         /**
@@ -108,10 +106,12 @@ public class StoppCriteriaFragment extends Fragment {
 
                     }
                 }
+                // reset
+                inputSearch.setText("");
+                drugsListAdapter.getFilter().filter("a0s0a0aa0s0");
 
             }
         });
-
 
 
         inputSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -204,31 +204,31 @@ public class StoppCriteriaFragment extends Fragment {
         pr.addIssue(issue);
         endocrineSystem.addPrescription(pr);
         stoppGeneral.addStoppCriterion(endocrineSystem);
-
-        /**
-         * Beers criteria.
-         */
-        recommendation = new BeersRecommendation("Anticholinergics (excludes TCAs)");
-        TherapeuticCategoryEntry entry = new TherapeuticCategoryEntry("First-generation" +
-                " antihistamines (as single agent or as part of combination products)");
-        RecommendationInfo recommendationInfo = new RecommendationInfo("Avoid", "Highly anticholinergic; clearance reduced with advanced age, and\n" +
-                "tolerance develops when used as hypnotic; increased risk of confu-\n" +
-                "sion, dry mouth, constipation, and other anticholinergic effects/\n" +
-                "toxicity.");
-        recommendationInfo.setQualityOfEvidence("High (Hydroxyzine and Promethazine), Moderate (All others)");
-        recommendationInfo.setStrengthOfRecommendation("Strong");
-        entry.setInfo(recommendationInfo);
-        ArrayList<String> drugs = new ArrayList<>();
-        drugs.add("Brompheniramine");
-        drugs.add("Carbinoxamine");
-        drugs.add("Chlorpheniramine");
-        entry.setDrugs(drugs);
-
-        recommendation.addEntry(entry);
+        // Musculoskeletal
+        StoppCriterion musculoskeletalSystem = new StoppCriterion("Musculoskeletal System");
+        pr = new Prescription("Non-steroidal anti-inflammatory drug (NSAID)");
+        issue = new Issue("with history of peptic ulcer disease or gastrointestinal bleeding, unless\n" +
+                "with concurrent histamine H2 receptor antagonist, PPI or misoprostol",
+                "risk of peptic ulcer relapse");
+        // add Issue to Prescription
+        pr.addIssue(issue);
+        musculoskeletalSystem.addPrescription(pr);
+        stoppGeneral.addStoppCriterion(musculoskeletalSystem);
+        // Gastrointestinal
+        StoppCriterion gastrointestinalSystem = new StoppCriterion("Gastrointestinal System");
+        pr = new Prescription("Diphenoxylate, loperamide or codeine phosphate");
+        issue = new Issue("for treatment of severe infective gastroenteritis i.e. bloody " +
+                "diarrhoea, high fever or severe systemic toxicity",
+                "risk of exacerbation or protraction of infection");
+        // add Issue to Prescription
+        pr.addIssue(issue);
+        gastrointestinalSystem.addPrescription(pr);
+        stoppGeneral.addStoppCriterion(gastrointestinalSystem);
     }
 
     /**
      * Get all the drugs from StoppGeneral.
+     *
      * @return
      */
     public ArrayList<String> getAllDrugsStopp(StoppGeneral general) {

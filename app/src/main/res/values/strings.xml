@@ -54,4 +54,7 @@
     <string name="tab_drug_prescription">Drug prescription</string>
     <string name="search_drugs">Search drugs..</string>
     <string name="selected_drugs">Selected drugs:</string>
+    <string name="stoppCriteriaDisclaimer">Search the name of a drug and view the Stopp criterias associated with it</string>
+    <string name="startCriteriaDisclaimer" >First select the organ system and then view the Start criteria for the related drugs</string>
+    <string name="beersCriteriaDisclaimer" >Search the name of a drug and view the Beers criterias associated with it</string>
 </resources>

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by rafael on 01-11-2016.
  */
-public class TherapeuticCategoryEntry {
+public class                        TherapeuticCategoryEntry {
 
     String categoryName;
     ArrayList<String> drugs;

@@ -13,9 +13,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.Prescription;
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.StoppCriterion;
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.StoppGeneral;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -31,9 +28,9 @@ public class BeersCriteriaFragment extends Fragment {
     // Search EditText
     EditText inputSearch;
 
-    BeersRecommendation beersData;
+    ArrayList<BeersRecommendation> beersData = new ArrayList<>();
 
-    ArrayList<RecommendationInfo> selectedBeers = new ArrayList<>();
+    ArrayList<String> selectedDrugs = new ArrayList<>();
 
 
     @Override
@@ -46,19 +43,14 @@ public class BeersCriteriaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.activity_search, container, false);
+        View v = inflater.inflate(R.layout.stopp_criteria, container, false);
 
         // list view with possible choices and selected ones
         drugsSearchList = (ListView) v.findViewById(R.id.list_view);
         selectedDrugsList = (ListView) v.findViewById(R.id.selectedDrugs);
         inputSearch = (EditText) v.findViewById(R.id.inputSearch);
 
-        final ArrayList<String> beersCriteriaDrugs = new ArrayList<>();
-        beersCriteriaDrugs.add("Brompheniramine");
-        beersCriteriaDrugs.add("Carbinoxamine");
-        beersCriteriaDrugs.add("Chlorpheniramine");
-        beersCriteriaDrugs.add("Clemastine");
-        beersCriteriaDrugs.add("Cyproheptadine");
+        final ArrayList<String> beersCriteriaDrugs = getAllDrugsBeers(beersData);
 
 
         final String testType = "beers";
@@ -68,9 +60,7 @@ public class BeersCriteriaFragment extends Fragment {
         }
 
         drugsSearchList.setAdapter(drugsListAdapter);
-        // TODO remove
-        //selectedBeers.add(stoppCriteriaDrugs.get(1));
-        BeersCriteriaAdapter customAdapter = new BeersCriteriaAdapter(getActivity(), selectedBeers, beersData);
+        BeersCriteriaAdapter customAdapter = new BeersCriteriaAdapter(getActivity(), selectedDrugs, beersData);
         selectedDrugsList.setAdapter(customAdapter);
         /**
          * Item was selected from list.
@@ -83,12 +73,15 @@ public class BeersCriteriaFragment extends Fragment {
                 if (testType.equals("beers")) {
                     TextView textView = (TextView) view.findViewById(R.id.drug_name);
                     selectedDrug = (String) textView.getText();
+
                     RecommendationInfo drugInfo = getBeersCriteriaInfoAboutDrug(selectedDrug);
                     if (drugInfo != null) {
-
+                        selectedDrugs.add(selectedDrug);
                     }
-                    selectedBeers.add(drugInfo);
                 }
+                // reset
+                inputSearch.setText("");
+                drugsListAdapter.getFilter().filter("a0s0a0aa0s0");
             }
         });
 
@@ -133,25 +126,24 @@ public class BeersCriteriaFragment extends Fragment {
      * @return
      */
     public RecommendationInfo getBeersCriteriaInfoAboutDrug(String selectedDrug) {
-        ArrayList<TherapeuticCategoryEntry> entries = beersData.getEntries();
-        for (TherapeuticCategoryEntry entry : entries) {
-            ArrayList<String> drugs = entry.getDrugs();
-            if (drugs.contains(selectedDrug)) {
-                return entry.getInfo();
+        for (BeersRecommendation rec : beersData) {
+            for (TherapeuticCategoryEntry entry : rec.getEntries()) {
+                ArrayList<String> drugs = entry.getDrugs();
+                if (drugs.contains(selectedDrug)) {
+                    return entry.getInfo();
+                }
             }
         }
         return null;
     }
 
     /**
-     * Add Stopp and Beers data.
+     * Add Beers data.
      */
     private void addBeersData() {
 
-        /**
-         * Beers criteria.
-         */
-        beersData = new BeersRecommendation("Anticholinergics (excludes TCAs)");
+        // Anticholinergics (excludes TCAs)
+        BeersRecommendation rec = new BeersRecommendation("Anticholinergics (excludes TCAs)");
         TherapeuticCategoryEntry entry = new TherapeuticCategoryEntry("First-generation" +
                 " antihistamines (as single agent or as part of combination products)");
         RecommendationInfo recommendationInfo = new RecommendationInfo("Avoid", "Highly anticholinergic; clearance reduced with advanced age, and\n" +
@@ -166,22 +158,56 @@ public class BeersCriteriaFragment extends Fragment {
         drugs.add("Carbinoxamine");
         drugs.add("Chlorpheniramine");
         entry.setDrugs(drugs);
+        rec.addEntry(entry);
+        beersData.add(rec);
 
-        beersData.addEntry(entry);
+        // Cardiovascular
+        rec = new BeersRecommendation("Cardiovascular");
+        entry = new TherapeuticCategoryEntry("Alpha 1 blockers");
+        recommendationInfo = new RecommendationInfo("Avoid use as an antihypertensive",
+                "High risk of orthostatic hypotension; not recommended as routine\n" +
+                        "treatment for hypertension; alternative agents have superior risk/\n" +
+                        "benefit profile");
+        recommendationInfo.setQualityOfEvidence("Moderate");
+        recommendationInfo.setStrengthOfRecommendation("Strong");
+        entry.setInfo(recommendationInfo);
+        drugs = new ArrayList<>();
+        drugs.add("Doxazosin");
+        drugs.add("Prazosin");
+        drugs.add("Terazosin");
+        entry.setDrugs(drugs);
+        rec.addEntry(entry);
+        beersData.add(rec);
+
+        // Endocrine
+        rec = new BeersRecommendation("Endocrine");
+        entry = new TherapeuticCategoryEntry("Androgens");
+        recommendationInfo = new RecommendationInfo("Avoid unless indicated for moderate to severe hypogonadism.",
+                "Potential for cardiac problems and contraindicated in men with\n" +
+                        "prostate cancer");
+        recommendationInfo.setQualityOfEvidence("Moderate");
+        recommendationInfo.setStrengthOfRecommendation("Weak");
+        entry.setInfo(recommendationInfo);
+        drugs = new ArrayList<>();
+        drugs.add("Methyltestosterone*");
+        drugs.add("Testosterone");
+        entry.setDrugs(drugs);
+        rec.addEntry(entry);
+        beersData.add(rec);
+
     }
 
     /**
-     * Get all the drugs from StoppGeneral.
+     * Get all the drugs from Beers criterias.
      *
-     * @return
+     * @return list of drugs from beers criteria
      */
-    public ArrayList<String> getAllDrugsStopp(StoppGeneral general) {
+    public ArrayList<String> getAllDrugsBeers(ArrayList<BeersRecommendation> beersData) {
+
         ArrayList<String> drugs = new ArrayList<>();
-        ArrayList<StoppCriterion> criterions = general.getCriterions();
-        for (StoppCriterion cr : criterions) {
-            ArrayList<Prescription> prescriptions = cr.getPrescriptions();
-            for (Prescription pr : prescriptions) {
-                drugs.add(pr.getDrugName());
+        for (BeersRecommendation rec : beersData) {
+            for (TherapeuticCategoryEntry entry : rec.getEntries()) {
+                drugs.addAll(entry.getDrugs());
             }
         }
         return drugs;

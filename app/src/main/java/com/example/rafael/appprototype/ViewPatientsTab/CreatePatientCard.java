@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.MainActivity;
-import com.example.rafael.appprototype.NewSessionTab.ViewAvailableTests.NewSessionFragment;
+import com.example.rafael.appprototype.NewSessionTab.NewSessionFragment;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.ViewPatientsTab.SinglePatient.ViewSinglePatientInfoAndSessions;
 
@@ -84,6 +84,7 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
                     // go back to CreateSession
                     Bundle args = new Bundle();
                     args.putSerializable(NewSessionFragment.PATIENT,patient);
+                    args.putBoolean(NewSessionFragment.SAVE_SESSION,true);
                     ((MainActivity) context).replaceFragment(NewSessionFragment.class, args, "");
                     Constants.selectPatient = false;
                     return;

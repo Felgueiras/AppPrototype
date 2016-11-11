@@ -37,9 +37,9 @@ public class ViewPatientsFragment extends Fragment {
             }
         }
 
-        /*
-      Grid view that will hold info about the Patients
-     */
+        /**
+         Grid view that will hold info about the Patients
+         **/
         GridView gridView = (GridView) myInflatedView.findViewById(R.id.gridView);
         gridView.setAdapter(new PatientsGridViewAdapter(getActivity(), patients));
 

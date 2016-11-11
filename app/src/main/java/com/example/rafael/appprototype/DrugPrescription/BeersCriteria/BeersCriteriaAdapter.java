@@ -8,99 +8,73 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.Issue;
-import com.example.rafael.appprototype.DrugPrescription.StartStopp.Prescription;
 import com.example.rafael.appprototype.R;
+import com.google.android.gms.common.SignInButton;
 
 import java.util.ArrayList;
 
 
-public class BeersCriteriaAdapter extends ArrayAdapter<RecommendationInfo> {
+public class BeersCriteriaAdapter extends ArrayAdapter<String> {
     private final Context context;
-    private final ArrayList<RecommendationInfo> values;
-    private final BeersRecommendation beersRecommendations;
+    private final ArrayList<String> drugs;
+    private final ArrayList<BeersRecommendation> beersData;
     BeersCriteriaAdapter adapter;
 
-    public BeersCriteriaAdapter(Context context, ArrayList<RecommendationInfo> values, BeersRecommendation beersRecommendations) {
+    public BeersCriteriaAdapter(Context context, ArrayList<String> values, ArrayList<BeersRecommendation> beersData) {
         super(context, -1, values);
         this.context = context;
-        this.values = values;
-        this.beersRecommendations = beersRecommendations;
+        this.drugs = values;
+        this.beersData = beersData;
         adapter = this;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        final Prescription selectedDrug = values.get(position);
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        // get RecommendationInfo for that drug
+        String drugName = drugs.get(position);
+        RecommendationInfo selectedDrug = getBeersCriteriaInfoAboutDrug(drugName);
         final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.selected_drug, parent, false);
-        TextView drugName = (TextView) rowView.findViewById(R.id.drug_name);
+        TextView drugNameTextView = (TextView) rowView.findViewById(R.id.drug_name);
         TextView drugDescription = (TextView) rowView.findViewById(R.id.drugDescription);
-        //ImageView colorCode = (ImageView) rowView.findViewById(R.id.color_code);
-        //colorCode.setBackgroundColor(Color.RED);
-        drugName.setText(selectedDrug.getDrugName());
-        drugDescription.setText(selectedDrug.getIssuesText());
+        drugNameTextView.setText(drugName);
+        drugDescription.setText(selectedDrug.toString());
 
-        rowView.setOnLongClickListener(new View.OnLongClickListener() {
+        Button closeButton = (Button) rowView.findViewById(R.id.close_button);
+        closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                return false;
-            }
-        });
-        /**
-         * Drug was clicked.
-         */
-
-        rowView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                System.out.println("Clicked something - " + selectedDrug);
-                /**
-                 * Show PopupWindow with information about that drug
-                 */
-                int[] location = new int[2];
-                view.getLocationOnScreen(location);
-                View drugInfo = inflater.inflate(R.layout.drug_info, null, false);
-                /**
-                 * Fill the popup view
-                 */
-                // get all the issues related to that drug (display only one issue)
-                ArrayList<Issue> issuesForGivenDrug = stoppGeneral.getIssuesForGivenDrug(selectedDrug.getDrugName());
-                TextView issueDescription = (TextView) drugInfo.findViewById(R.id.description);
-                Issue currentIssue = issuesForGivenDrug.get(0);
-                issueDescription.setText(currentIssue.getDescription());
-                final PopupWindow popUp = new PopupWindow(drugInfo, 500, 500, false);
-                popUp.setTouchable(false);
-                popUp.setFocusable(false);
-                popUp.setOutsideTouchable(true);
-                popUp.showAtLocation(view, Gravity.NO_GRAVITY, location[0], location[1] + 200);
-                Handler handler = new Handler();
-                Runnable r = new Runnable() {
-                    public void run() {
-                        popUp.dismiss();
-                    }
-                };
-                handler.postDelayed(r, 1000);
-                return false;
-            }
-        });
-        /**
-         * Long press - remove from list.
-         */
-        rowView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
+            public void onClick(View view) {
                 System.out.println("Long press");
-                values.remove(0);
+                drugs.remove(position);
                 // update gui
                 adapter.notifyDataSetChanged();
-                return false;
             }
         });
+
+
         return rowView;
+    }
+
+    /**
+     * Return the Beers criteria beersData for a certain drug name.
+     *
+     * @param selectedDrug
+     * @return
+     */
+    public RecommendationInfo getBeersCriteriaInfoAboutDrug(String selectedDrug) {
+        for (BeersRecommendation rec : beersData) {
+            for (TherapeuticCategoryEntry entry : rec.getEntries()) {
+                ArrayList<String> drugs = entry.getDrugs();
+                if (drugs.contains(selectedDrug)) {
+                    return entry.getInfo();
+                }
+            }
+        }
+        return null;
     }
 
 

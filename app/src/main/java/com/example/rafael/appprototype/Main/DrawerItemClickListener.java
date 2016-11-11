@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
-import com.example.rafael.appprototype.NewSessionTab.ViewAvailableTests.NewSessionFragment;
+import com.example.rafael.appprototype.NewSessionTab.NewSessionFragment;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.SessionsHistoryTab.SessionsHistoryFragment;
 import com.example.rafael.appprototype.ViewPatientsTab.ViewPatientsFragment;

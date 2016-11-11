@@ -27,7 +27,7 @@ import com.example.rafael.appprototype.HandleStack;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
 import com.example.rafael.appprototype.Login.LoginActivity;
 import com.example.rafael.appprototype.NewSessionTab.DisplayTest.SingleTest.DisplaySingleTestFragment;
-import com.example.rafael.appprototype.NewSessionTab.ViewAvailableTests.NewSessionFragment;
+import com.example.rafael.appprototype.NewSessionTab.NewSessionFragment;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.SessionsHistoryTab.SessionsHistoryFragment;
 import com.example.rafael.appprototype.ViewPatientsTab.ViewPatientsFragment;
@@ -102,10 +102,12 @@ public class MainActivity extends AppCompatActivity {
         /**
          * Set the NavigationDrawer items
          */
-        String[] drawerPages = new String[]{getResources().getString(R.string.patients_history),
+        String[] drawerPages = new String[]{
                 getResources().getString(R.string.create_new_session),
+                getResources().getString(R.string.drug_prescription),
+                getResources().getString(R.string.patients_history),
                 getResources().getString(R.string.my_patients),
-                getResources().getString(R.string.drug_prescription),};
+        };
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ListView drawerList = (ListView) findViewById(R.id.left_drawer);
 
