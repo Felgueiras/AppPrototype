@@ -30,7 +30,7 @@ public class DrugPrescriptionMain extends Fragment {
         getActivity().setTitle(getResources().getString(R.string.tab_drug_prescription));
 
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.activity_tabs2, container, false);
+        View v = inflater.inflate(R.layout.patients_main, container, false);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
 

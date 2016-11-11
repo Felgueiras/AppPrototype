@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Tutorial.AddNewPatient">
+    tools:context=".Tutorial.CreatePatient">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,6 +26,7 @@
                 android:orientation="vertical">
 
                 <EditText
+                    android:id="@+id/patientName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -84,30 +85,6 @@
                 android:text="@string/female"
                 android:textAlignment="center" />
         </RadioGroup>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/cancelNewPatient"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_cancel" />
-
-            <ImageView
-                android:id="@+id/confirmNewPatient"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_done" />
-
-
-        </LinearLayout>
 
 
     </LinearLayout>

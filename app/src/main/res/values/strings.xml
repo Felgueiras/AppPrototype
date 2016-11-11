@@ -55,9 +55,13 @@
     <string name="search_drugs">Search drugs..</string>
     <string name="selected_drugs">Selected drugs:</string>
     <string name="stoppCriteriaDisclaimer">Search the name of a drug and view the Stopp criterias associated with it</string>
-    <string name="startCriteriaDisclaimer" >First select the organ system and then view the Start criteria for the related drugs</string>
-    <string name="beersCriteriaDisclaimer" >Search the name of a drug and view the Beers criterias associated with it</string>
+    <string name="startCriteriaDisclaimer">First select the organ system and then view the Start criteria for the related drugs</string>
+    <string name="beersCriteriaDisclaimer">Search the name of a drug and view the Beers criterias associated with it</string>
     <string name="action_favorite">favorite</string>
-    <string name="patient_favorite_add" >Patient added to favorites</string>
-    <string name="patient_favorite_remove" >Patient removed from favorites</string>
+    <string name="patient_favorite_add">Patient added to favorites</string>
+    <string name="patient_favorite_remove">Patient removed from favorites</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="create_patient_error_name">You need to give a name to the patient</string>
+    <string name="create_patient_success">Patient created with success</string>
+    <string name="create_patient_error_gender">You need to select the patient\'s gender</string>
 </resources>

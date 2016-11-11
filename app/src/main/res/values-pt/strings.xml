@@ -48,4 +48,11 @@
     <string name="beersCriteriaDisclaimer">Pesquise pelo nome de um composto ativo ou medicamento e veja os critérios Beers associados</string>
     <string name="patient_favorite_add">Paciente adicionado aos favoritos</string>
     <string name="patient_favorite_remove">Paciente removido dos favoritos</string>
+    <string name="create_patient_error_gender">Precisa de selecionar o género do paciente</string>
+    <string name="create_patient_error_name">Precisa de escrever o nome do paciente</string>
+    <string name="action_favorite">favorito</string>
+    <string name="search_hint">Dica de pesquisa</string>
+    <string name="selected_drugs">Medicamentos selecionados:</string>
+    <string name="title_activity_main">a</string>
+    <string name="create_patient_success">Paciente criado com sucesso</string>
 </resources>

@@ -1,32 +1,32 @@
 package com.example.rafael.appprototype.Tutorial;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.app.Fragment;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.Snackbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.example.rafael.appprototype.Constants;
+import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Calendar;
+import java.util.Random;
 
-public class AddNewPatient extends AppCompatActivity {
+public class CreatePatient extends Fragment {
 
     RadioGroup radioGroup;
     private static final int REQUEST_CODE = 1;
@@ -34,82 +34,63 @@ public class AddNewPatient extends AppCompatActivity {
     private Bitmap bitmap;
     ImageView patientPhoto;
     private int year, month, day;
+    private EditText patientName;
+    private String patientGender = null;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_new_patient);
+        setHasOptionsMenu(true);
+    }
 
-        patientPhoto = (ImageView) findViewById(R.id.patientPhoto);
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.create_patient, container, false);
+
+        patientPhoto = (ImageView) v.findViewById(R.id.patientPhoto);
         patientPhoto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                selectImage();
+                // selectImage();
             }
         });
 
-        radioGroup = (RadioGroup) findViewById(R.id.myRadioGroup);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        patientName = (EditText) v.findViewById(R.id.patientName);
 
+        radioGroup = (RadioGroup) v.findViewById(R.id.myRadioGroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // find which radio button is selected
                 if (checkedId == R.id.maleButton) {
-                    Toast.makeText(getApplicationContext(), "choice: Silent", Toast.LENGTH_SHORT).show();
+                    patientGender = "male";
                 } else if (checkedId == R.id.femaleButton) {
-                    Toast.makeText(getApplicationContext(), "choice: Sound", Toast.LENGTH_SHORT).show();
+                    patientGender = "female";
                 }
             }
-
         });
 
-        Button setDate = (Button) findViewById(R.id.setDate);
+        Button setDate = (Button) v.findViewById(R.id.setDate);
         assert setDate != null;
         setDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(999);
-                Toast.makeText(getApplicationContext(), "ca", Toast.LENGTH_SHORT).show();
+
             }
         });
-
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
         showDate(year, month + 1, day);
 
-        ImageView cancel = (ImageView) findViewById(R.id.cancelNewPatient);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // cancel the action and go back to the main menu
-                Intent intent=new Intent();
-                intent.putExtra(Constants.message,Constants.cancel);
-                setResult(Constants.ADD_NEW_PATIENT,intent);
-                finish();
-            }
-        });
-        ImageView confirm = (ImageView) findViewById(R.id.confirmNewPatient);
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // go to main menu and show snackbar
-                Intent intent=new Intent();
-                intent.putExtra(Constants.message,Constants.confirm);
-                setResult(Constants.ADD_NEW_PATIENT,intent);
-                finish();
-            }
-        });
+        return v;
+
     }
 
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        if (id == 999) {
-            return new DatePickerDialog(this, myDateListener, year, month, day);
-        }
-        return null;
-    }
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -123,19 +104,59 @@ public class AddNewPatient extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_search, menu);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_create_patient, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_cancel:
+                Bundle args = new Bundle();
+                ((MainActivity) getActivity()).replaceFragment(PatientsMain.class, args, Constants.tag_create_new_session_for_patient);
+                break;
+            case R.id.action_save:
+                if (patientName.getText().length() == 0) {
+                    Snackbar.make(getView(), R.string.create_patient_error_name, Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
+                if (patientGender == null) {
+                    Snackbar.make(getView(), R.string.create_patient_error_gender, Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
+
+                // TODO set date of birth + address + photo
+                Patient patient = new Patient();
+                patient.setName(patientName.getText().toString());
+                patient.setAge(90);
+                patient.setGuid("patient" + new Random().nextInt());
+                patient.setAddress("address");
+                if (patientGender.equals("male"))
+                    patient.setPicture(R.drawable.male);
+                else {
+                    patient.setPicture(R.drawable.female);
+                }
+                patient.setFavorite(false);
+                patient.save();
+
+                args = new Bundle();
+                ((MainActivity) getActivity()).replaceFragment(PatientsMain.class, args, Constants.tag_create_new_session_for_patient);
+                Snackbar.make(getView(), R.string.create_patient_success, Snackbar.LENGTH_SHORT).show();
+                break;
+        }
         return true;
+
     }
 
 
     /**
      * Launch an AlertDialog that lets the user take a photo or select one from the device.
      */
+    /*
     private void selectImage() {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(AddNewPatient.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(CreatePatient.this);
         builder.setTitle("Add Photo!");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
@@ -156,8 +177,10 @@ public class AddNewPatient extends AppCompatActivity {
         });
         builder.show();
     }
+    */
 
 
+    /*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         InputStream stream = null;
@@ -167,7 +190,7 @@ public class AddNewPatient extends AppCompatActivity {
                 if (bitmap != null) {
                     bitmap.recycle();
                 }
-                stream = getContentResolver().openInputStream(data.getData());
+                stream = getActivity().getContentResolver().openInputStream(data.getData());
                 bitmap = BitmapFactory.decodeStream(stream);
                 patientPhoto.setImageBitmap(bitmap);
             } catch (FileNotFoundException e) {
@@ -184,9 +207,11 @@ public class AddNewPatient extends AppCompatActivity {
                 }
             }
         }
+        /*
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             patientPhoto.setImageBitmap(photo);
         }
-    }
+        */
+
 }
