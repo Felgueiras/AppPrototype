@@ -49,7 +49,7 @@ public class ViewPatientsList extends BaseAdapter {
         CreatePatientCard adapter = new CreatePatientCard(context, patients);
 
         // create Layout
-        int numbercolumns = 3;
+        int numbercolumns = 2;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));

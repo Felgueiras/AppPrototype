@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         // set default fragment
         Fragment fragment = null;
-        String defaultFragment = Constants.fragment_drug_prescription;
+        String defaultFragment = Constants.fragment_show_patients;
         switch (defaultFragment) {
             case Constants.fragment_sessions:
                 fragment = new EvaluationsMainFragment();

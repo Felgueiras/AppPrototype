@@ -18,7 +18,7 @@ public class SessionsHistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View myInflatedView = inflater.inflate(R.layout.content_grid_view, container, false);
+        View myInflatedView = inflater.inflate(R.layout.content_view_patients, container, false);
 
         // get the patients
         ArrayList<Patient> patients = Patient.getAllPatients();

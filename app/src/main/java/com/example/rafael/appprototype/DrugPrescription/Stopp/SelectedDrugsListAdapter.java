@@ -55,17 +55,18 @@ public class SelectedDrugsListAdapter extends ArrayAdapter<PrescriptionGeneral> 
         if (className.equals(PrescriptionStopp.class.getName())) {
             // stopp
             drugDescription.setText(((PrescriptionStopp) selectedDrug).getIssuesText());
-            colorCode.setBackgroundColor(Color.RED);
+            colorCode.setBackgroundColor(getContext().getResources().getColor(R.color.colorStopp));
 
         } else if (className.equals(PrescriptionStart.class.getName())) {
             // start
             drugDescription.setText(((PrescriptionStart) selectedDrug).getDescription());
-            colorCode.setBackgroundColor(Color.GREEN);
+            colorCode.setBackgroundColor(getContext().getResources().getColor(R.color.colorStart));
         } else if(className.equals(RecommendationInfo.class.getName()))
         {
             // beers
             drugDescription.setText(((RecommendationInfo) selectedDrug).getDescription());
-            colorCode.setBackgroundColor(Color.BLUE);
+            colorCode.setBackgroundColor(getContext().getResources().getColor(R.color.colorBeers));
+
         }
 
 

@@ -15,8 +15,8 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
 import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewPatientsFragment;
-import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.Evaluations.SessionsHistoryTab.SessionsHistoryFragment;
+import com.example.rafael.appprototype.R;
 
 
 public class PatientsMain extends Fragment {
@@ -41,6 +41,7 @@ public class PatientsMain extends Fragment {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         // FAB
+        /*
         FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.patients_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +51,7 @@ public class PatientsMain extends Fragment {
                 ((MainActivity) getActivity()).replaceFragment(CreatePatient.class, args, Constants.create_patient);
             }
         });
+        */
         return v;
     }
 
@@ -69,13 +71,15 @@ public class PatientsMain extends Fragment {
                 return new SessionsHistoryFragment();
             } else if (position == 2) {
                 return new FavoritePatientsFragment();
+            } else if (position==3){
+                return new FABTest();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
 
         @Override
@@ -87,6 +91,8 @@ public class PatientsMain extends Fragment {
                     return "Últimos";
                 case 2:
                     return "Favoritos";
+                case 3:
+                    return "Teste";
             }
             return null;
         }

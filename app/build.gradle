@@ -37,5 +37,7 @@ dependencies {
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile 'com.android.support:support-v13:23.4.0'
     compile 'com.google.android.gms:play-services-appindexing:9.8.0'
+    compile 'com.github.fafaldo:fab-toolbar:1.2.0'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
     testCompile 'junit:junit:4.12'
 }
