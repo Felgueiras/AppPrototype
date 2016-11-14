@@ -55,4 +55,6 @@
     <string name="selected_drugs">Medicamentos selecionados:</string>
     <string name="title_activity_main">a</string>
     <string name="create_patient_success">Paciente criado com sucesso</string>
+    <string name="session_created">Avaliação criada com sucesso</string>
+    <string name="drugSearchDisclaimer">Search by the name of a drug</string>
 </resources>

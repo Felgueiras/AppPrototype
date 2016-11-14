@@ -5,14 +5,9 @@ package com.example.rafael.appprototype;
  */
 public class Constants {
     public static final int MALE = 0;
-    public static final int FEMALE = 1;
-    public static final int ADD_NEW_PATIENT = 12;
 
     public static String patient = "patientObject";
     public static String test = "TEST";
-    public static String message = "MESSAGE";
-    public static final String cancel = "CANCEL";
-    public static final String confirm = "CONFIRM";
 
     /**
      * Test types
@@ -39,11 +34,15 @@ public class Constants {
      * Fragment identifiers
      */
     public static final String fragment_show_patients = "showPatients";
-    public static final String fragment_show_sessions_history = "showSessionsHistory";
 
 
     public static final String fragment_sessions = "sessions";
-    public static boolean selectPatient =false;
+    public static boolean selectPatient = false;
     public static final String fragment_drug_prescription = "drugPrescription";
     public static String create_patient = "createPatient";
+    /**
+     * Current Session ID.
+     */
+    public static String sessionID = null;
+    public static boolean pickingPatient = false;
 }

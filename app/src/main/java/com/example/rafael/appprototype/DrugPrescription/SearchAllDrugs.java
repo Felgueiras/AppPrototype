@@ -24,6 +24,9 @@ import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
 
+/**
+ * Search a drug by its name.
+ */
 public class SearchAllDrugs extends Fragment {
 
     // List view
@@ -35,15 +38,28 @@ public class SearchAllDrugs extends Fragment {
     // Search EditText
     EditText inputSearch;
 
+    /**
+     * Selected drugs.
+     */
     ArrayList<PrescriptionGeneral> selectedDrugs = new ArrayList<>();
+    /**
+     * Stopp criteria.
+     */
     private ArrayList<StoppCriteria> stoppGeneral;
+    /**
+     * Beers criteria.
+     */
     private ArrayList<BeersCriteria> beersData;
+    /**
+     * Start criteria.
+     */
     private ArrayList<StartCriteria> startGeneral;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // get all the criterias
         beersData = BeersCriteria.getBeersData();
         stoppGeneral = StoppCriteria.getStoppData();
         startGeneral = StartCriteria.getStartData();
@@ -53,7 +69,7 @@ public class SearchAllDrugs extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.stopp_criteria, container, false);
+        View v = inflater.inflate(R.layout.search_drugs, container, false);
 
         // list view with possible choices and selected ones
         drugsSearchListView = (ListView) v.findViewById(R.id.list_view);
@@ -69,19 +85,16 @@ public class SearchAllDrugs extends Fragment {
 
         // mix into a single ArrayList
         ArrayList<String> allDrugs = new ArrayList<>();
-        allDrugs.addAll(stoppCriteriaDrugs);
-        allDrugs.addAll(startCriteriaDrugs);
-        //allDrugs.addAll(beersCriteriaDrugs);
+        //allDrugs.addAll(stoppCriteriaDrugs);
+        //allDrugs.addAll(startCriteriaDrugs);
+        allDrugs.addAll(beersCriteriaDrugs);
         // TODO check for duplicates
         drugsListAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item, R.id.drug_name, allDrugs);
-
 
         drugsSearchListView.setAdapter(drugsListAdapter);
         final SelectedDrugsListAdapter displaySelectedDrugsAdapter = new SelectedDrugsListAdapter(getActivity(), selectedDrugs);
         selectedDrugsListView.setAdapter(displaySelectedDrugsAdapter);
-        /**
-         * Item was selected from list.
-         */
+
         drugsSearchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -102,12 +115,9 @@ public class SearchAllDrugs extends Fragment {
                     displaySelectedDrugsAdapter.notifyDataSetChanged();
                 } else if (beersCriteriaDrugs.contains(selectedDrug)) {
                     RecommendationInfo drugInfo = BeersCriteria.getBeersCriteriaInfoAboutDrug(selectedDrug, beersData);
-                    if (drugInfo != null) {
-                        //selectedDrugs.add(selectedDrug);
-                        // TODO beers criteria
-                    }
+                    drugInfo.setDrugName(selectedDrug);
+                    selectedDrugs.add(drugInfo);
                 }
-
 
                 // reset
                 inputSearch.setText("");

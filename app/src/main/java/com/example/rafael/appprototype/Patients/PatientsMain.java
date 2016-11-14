@@ -13,11 +13,10 @@ import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
 import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewPatientsFragment;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.Sessions.NewSessionTab.Sessions;
-import com.example.rafael.appprototype.Sessions.SessionsHistoryTab.SessionsHistoryFragment;
-import com.example.rafael.appprototype.Tutorial.CreatePatient;
+import com.example.rafael.appprototype.Evaluations.SessionsHistoryTab.SessionsHistoryFragment;
 
 
 public class PatientsMain extends Fragment {

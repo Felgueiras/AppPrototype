@@ -15,7 +15,9 @@ import com.example.rafael.appprototype.DrugPrescription.Start.StartCriteriaFragm
 import com.example.rafael.appprototype.DrugPrescription.Stopp.StoppCriteriaFragment;
 import com.example.rafael.appprototype.R;
 
-
+/**
+ * Main fragment for the DrugPrescriptions; creates a ViewPager for the multiple sections (Pesquisa, Start, Stopp and Beers).
+ */
 public class DrugPrescriptionMain extends Fragment {
 
 
@@ -30,7 +32,7 @@ public class DrugPrescriptionMain extends Fragment {
         getActivity().setTitle(getResources().getString(R.string.tab_drug_prescription));
 
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.patients_main, container, false);
+        View v = inflater.inflate(R.layout.prescription_main, container, false);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
 
@@ -45,7 +47,6 @@ public class DrugPrescriptionMain extends Fragment {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-            Log.d("Drugs", "SectionsPagerAdapter");
         }
 
         @Override

@@ -7,9 +7,9 @@ import android.util.Log;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.Patients.PatientsMain;
-import com.example.rafael.appprototype.Sessions.NewSessionTab.DisplayTest.SingleTest.DisplaySingleTestFragment;
-import com.example.rafael.appprototype.Sessions.NewSessionTab.Sessions;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.DisplaySingleTestFragment;
 import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewPatientsFragment;
 
 /**
@@ -37,7 +37,7 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
             int index = fragmentManager.getBackStackEntryCount() - 1;
             FragmentManager.BackStackEntry backEntry = fragmentManager.getBackStackEntryAt(index);
             String tag = backEntry.getName();
-            Log.d("Backstack", "Frag name is " + fragmentName + ", tag is " + tag);
+            Log.d("Backstack", "Frag patientName is " + fragmentName + ", tag is " + tag);
             fragmentManager.popBackStack();
             if (tag.equals(Constants.tag_display_session_test)) {
                 // get the arguments
@@ -47,9 +47,9 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
                 Patient patient = (Patient) arguments.getSerializable(DisplaySingleTestFragment.patient);
 
                 Bundle args = new Bundle();
-                args.putSerializable(Sessions.sessionObject, session);
-                args.putSerializable(Sessions.PATIENT, patient);
-                Fragment fragment = new Sessions();
+                args.putSerializable(NewEvaluation.sessionObject, session);
+                args.putSerializable(NewEvaluation.PATIENT, patient);
+                Fragment fragment = new NewEvaluation();
                 fragment.setArguments(args);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, fragment)

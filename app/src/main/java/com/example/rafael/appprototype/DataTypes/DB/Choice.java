@@ -16,7 +16,7 @@ public class Choice extends Model {
     /**
      * Name of the choice.
      */
-    @Column(name = "name")
+    @Column(name = "patientName")
     String name;
     /**
      * Description of the choice.
@@ -76,16 +76,16 @@ public class Choice extends Model {
     }
 
     /**
-     * Get the name of the Choice
+     * Get the patientName of the Choice
      *
-     * @return name of the Choice
+     * @return patientName of the Choice
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Set the name of the Choice
+     * Set the patientName of the Choice
      *
      * @param name
      */

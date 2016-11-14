@@ -90,7 +90,7 @@ public class DatabaseOps {
             patient.save();
 
             /*
-            // create Sessions for that patient
+            // create NewEvaluation for that patient
             for (int sess = 0; sess < numSessionsPerPacient; sess++) {
                 Session session = new Session();
                 session.setGuid("session" + sess + "-" + i);

@@ -8,15 +8,14 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.Constants;
@@ -25,15 +24,15 @@ import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
+import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
 import com.example.rafael.appprototype.HandleStack;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
 import com.example.rafael.appprototype.Login.LoginActivity;
-import com.example.rafael.appprototype.Sessions.NewSessionTab.DisplayTest.SingleTest.DisplaySingleTestFragment;
-import com.example.rafael.appprototype.Sessions.NewSessionTab.Sessions;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.DisplaySingleTestFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
 
     SharedPreferences sharedPreferences;
@@ -48,8 +47,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActiveAndroid.initialize(getApplication());
         setContentView(R.layout.activity_navigation_drawer_test);
 
-
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -65,6 +62,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // startActivity(i);
 
         }
+
+        // TODO set the user photo and patientName after having logged in
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerLayout = navigationView.getHeaderView(0);
+        TextView userName = (TextView) headerLayout.findViewById(R.id.userName);
+        userName.setText("Médico X");
+        ImageView userImage = (ImageView) headerLayout.findViewById(R.id.userPhoto);
+        //userImage.setImageResource(R.drawable.male);
+        TextView userSubtext = (TextView) headerLayout.findViewById(R.id.userSubText);
+        userSubtext.setText("[Some text here]");
+
+
         DatabaseOps.eraseAll();
         DatabaseOps.insertDataToDB();
 
@@ -73,17 +82,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getFragmentManager().addOnBackStackChangedListener(handler);
 
         // set default fragment
-
         Fragment fragment = null;
-        /*
-      Default Fragment to open when the app starts
-     */
-
-
-        String defaultFragment = Constants.fragment_show_patients;
+        String defaultFragment = Constants.fragment_drug_prescription;
         switch (defaultFragment) {
             case Constants.fragment_sessions:
-                fragment = new Sessions();
+                fragment = new EvaluationsMainFragment();
                 setTitle(getResources().getString(R.string.tab_sessions));
                 break;
             case Constants.fragment_show_patients:
@@ -101,14 +104,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .commit();
 
 
-        /**
-         * Set the NavigationDrawer items
-         */
-        String[] drawerPages = new String[]{
-                getResources().getString(R.string.tab_sessions),
-                getResources().getString(R.string.tab_drug_prescription),
-                getResources().getString(R.string.tab_my_patients),
-        };
         /*
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ListView drawerList = (ListView) findViewById(R.id.left_drawer);
@@ -134,8 +129,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(new DrawerItemClickListener(getFragmentManager(), drawer));
     }
 
 
@@ -158,9 +152,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // add arguments
         Bundle bundle = new Bundle();
         bundle.putSerializable(DisplaySingleTestFragment.testObject, selectedTest);
-        bundle.putSerializable(DisplaySingleTestFragment.sessionID, session);
-        Log.d("Session", "Putting session: " + session.toString());
         bundle.putBoolean(DisplaySingleTestFragment.alreadyOpenedBefore, alreadyOpened);
+        bundle.putSerializable(DisplaySingleTestFragment.sessionID,session);
         if (patient != null)
             bundle.putSerializable(DisplaySingleTestFragment.patient, patient);
         newFragment.setArguments(bundle);
@@ -267,37 +260,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // we are not locked.
             Log.d("Lock", "not locked");
         }
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.evaluations) {
-            // Insert the fragment by replacing any existing fragment
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame, new Sessions())
-                    .commit();
-
-        } else if (id == R.id.prescription) {
-            // Insert the fragment by replacing any existing fragment
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame, new DrugPrescriptionMain())
-                    .commit();
-
-        } else if (id == R.id.patients) {
-            // Insert the fragment by replacing any existing fragment
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame, new PatientsMain())
-                    .commit();
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
 }

@@ -1,73 +1,61 @@
 package com.example.rafael.appprototype.Main;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.view.MenuItem;
 
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
+import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.Sessions.NewSessionTab.Sessions;
-
-import java.util.Objects;
 
 /**
  * Handle the selection of an item from the NaviagtionDrawer
  */
-public class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
-    private final String[] drawerPages;
-    private final FragmentManager fragmentManager;
-    private final MainActivity context;
-    private final ListView drawerList;
-    private final DrawerLayout drawerLayout;
+public class DrawerItemClickListener implements NavigationView.OnNavigationItemSelectedListener {
 
-    public DrawerItemClickListener(String[] drawerPages, FragmentManager fragmentManager,
-                                   MainActivity mainActivity, ListView drawerList,
-                                   DrawerLayout drawerLayout) {
-        this.drawerPages = drawerPages;
+
+    private final FragmentManager fragmentManager;
+    private final DrawerLayout drawer;
+
+    public DrawerItemClickListener(FragmentManager fragmentManager, DrawerLayout drawer) {
         this.fragmentManager = fragmentManager;
-        this.context = mainActivity;
-        this.drawerList = drawerList;
-        this.drawerLayout = drawerLayout;
+        this.drawer = drawer;
     }
 
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
 
-        // Check which action to perform
-        String selectedPage = drawerPages[position];
-        Fragment fragment = null;
+        if (id == R.id.evaluations) {
+            // Insert the fragment by replacing any existing fragment
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new EvaluationsMainFragment())
+                    .commit();
 
+        } else if (id == R.id.prescription) {
+            // Insert the fragment by replacing any existing fragment
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new DrugPrescriptionMain())
+                    .commit();
 
-        if (Objects.equals(selectedPage, context.getResources().getString(R.string.tab_sessions))) {
-            fragment = new Sessions();
-            context.setTitle(context.getResources().getString(R.string.tab_sessions));
-        } else if (Objects.equals(selectedPage, context.getResources().getString(R.string.tab_my_patients))) {
-            fragment = new PatientsMain();
-                /*
-                Bundle args = new Bundle();
-                args.putInt(ArticleFragment.ARG_PLANET_NUMBER, position);
-                fragment.setArguments(args);
-                */
-            context.setTitle(context.getResources().getString(R.string.tab_my_patients));
-        } else if (Objects.equals(selectedPage, context.getResources().getString(R.string.drug_prescription))) {
-            fragment = new DrugPrescriptionMain();
-            context.setTitle(context.getResources().getString(R.string.tab_drug_prescription));
+        } else if (id == R.id.patients) {
+            // Insert the fragment by replacing any existing fragment
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, new PatientsMain())
+                    .commit();
+
         }
 
-
-        // Insert the fragment by replacing any existing fragment
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
-
-
-        // Highlight the selected item, update the date, and close the drawer
-        drawerList.setItemChecked(position, true);
-        // setTitle(drawerPages[position]);
-        drawerLayout.closeDrawer(drawerList);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
+
+
 }

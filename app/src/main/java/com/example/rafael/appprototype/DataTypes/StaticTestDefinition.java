@@ -272,6 +272,8 @@ public class StaticTestDefinition {
                         "tados são sobreponíveis aos da versão completa, pelo que é a mais utilizada.\n" +
                         "É constituída por 15 questões com resposta dicotómica (Sim ou Não).As respos-\n" +
                         "tas sugestivas de existência de depressão correspondem a 1 ponto.");
+        // short name
+        escalaDepressao.setShortName("Escala Depressão Yesavage (curta)");
         // create Scoring
         ScoringNonDB depressionScoring = new ScoringNonDB(0, 15, false);
         // create Gradings

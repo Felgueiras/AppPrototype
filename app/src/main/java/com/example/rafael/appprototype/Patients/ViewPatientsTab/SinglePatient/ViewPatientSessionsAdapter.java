@@ -18,14 +18,14 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.Sessions.ReviewSession.ReviewSessionFragment;
+import com.example.rafael.appprototype.Evaluations.ReviewSession.ReviewSessionFragment;
 
 import java.util.ArrayList;
 
 public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatientSessionsAdapter.MyViewHolder> {
 
     /**
-     * Patient which has these Sessions.
+     * Patient which has these NewEvaluation.
      */
     private final Patient patient;
     private Context context;
@@ -51,7 +51,7 @@ public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatient
     }
 
     /**
-     * Constructor of the SinglePatientCard
+     * Constructor of the ShowSingleEvaluation
      *
      * @param context
      * @param sessions

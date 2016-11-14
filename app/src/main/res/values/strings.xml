@@ -48,7 +48,6 @@
     <string name="selectPatient">Select patient</string>
     <string name="search_hint">Search hint</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="drug_prescription">Drug prescription</string>
     <string name="tab_drug_prescription">Drug prescription</string>
@@ -66,4 +65,6 @@
     <string name="create_patient_error_gender">You need to select the patient\'s gender</string>
     <string name="title_activity_main3">Main3Activity</string>
     <string name="title_activity_navigation_drawer_test">NavigationDrawerTest</string>
+    <string name="session_created">Evaluation created with success</string>
+    <string name="drugSearchDisclaimer" >Search by the name of a drug</string>
 </resources>

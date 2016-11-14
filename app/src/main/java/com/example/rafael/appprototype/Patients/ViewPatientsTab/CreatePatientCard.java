@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.MainActivity;
-import com.example.rafael.appprototype.Sessions.NewSessionTab.Sessions;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.Patients.ViewPatientsTab.SinglePatient.ViewSinglePatientInfoAndSessions;
 
@@ -49,7 +49,7 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
     }
 
     /**
-     * Constructor of the SinglePatientCard
+     * Constructor of the ShowSingleEvaluation
      *
      * @param context
      * @param patients
@@ -80,13 +80,16 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /**
+                 * Pick a patient to be associated with a Session.
+                 */
                 if (Constants.selectPatient) {
                     Log.d("Patient", "Selected patient");
                     // go back to CreateSession
                     Bundle args = new Bundle();
-                    args.putSerializable(Sessions.PATIENT,patient);
-                    args.putBoolean(Sessions.SAVE_SESSION,true);
-                    ((MainActivity) context).replaceFragment(Sessions.class, args, "");
+                    args.putSerializable(NewEvaluation.PATIENT,patient);
+                    args.putBoolean(NewEvaluation.SAVE_SESSION,true);
+                    ((MainActivity) context).replaceFragment(NewEvaluation.class, args, "");
                     Constants.selectPatient = false;
                     return;
                 } else {

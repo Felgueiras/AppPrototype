@@ -65,6 +65,9 @@ public class GeriatricTest extends Model implements Serializable {
     @Column(name = "completed")
     boolean completed;
 
+    @Column(name="shortName")
+    String shortName;
+
 
 
     /**
@@ -190,6 +193,15 @@ public class GeriatricTest extends Model implements Serializable {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     @Override

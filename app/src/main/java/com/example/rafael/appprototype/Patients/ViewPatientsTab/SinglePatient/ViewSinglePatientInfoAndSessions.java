@@ -20,9 +20,9 @@ import android.widget.TextView;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.Main.MainActivity;
-import com.example.rafael.appprototype.Sessions.NewSessionTab.Sessions;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -56,8 +56,8 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
         switch (item.getItemId()) {
             case R.id.newSession:
                 Bundle args = new Bundle();
-                args.putSerializable(Sessions.PATIENT, patient);
-                ((MainActivity) getActivity()).replaceFragment(Sessions.class, args, Constants.tag_create_new_session_for_patient);
+                args.putSerializable(NewEvaluation.PATIENT, patient);
+                ((MainActivity) getActivity()).replaceFragment(NewEvaluation.class, args, Constants.tag_create_new_session_for_patient);
                 // change the title
                 getActivity().setTitle(getResources().getString(R.string.tab_sessions));
                 break;

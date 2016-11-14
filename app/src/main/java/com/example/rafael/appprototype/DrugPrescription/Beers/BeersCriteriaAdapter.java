@@ -55,7 +55,7 @@ public class BeersCriteriaAdapter extends ArrayAdapter<String> {
     }
 
     /**
-     * Return the Beers criteria beersGeneral for a certain drug name.
+     * Return the Beers criteria beersGeneral for a certain drug patientName.
      *
      * @param selectedDrug
      * @return

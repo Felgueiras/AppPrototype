@@ -2,15 +2,13 @@ package com.example.rafael.appprototype.Patients;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.Patients.ViewPatientsTab.PatientsGridViewAdapter;
+import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewPatientsList;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ public class FavoritePatientsFragment extends Fragment {
          Grid view that will hold info about the Patients
          **/
         GridView gridView = (GridView) myInflatedView.findViewById(R.id.gridView);
-        gridView.setAdapter(new PatientsGridViewAdapter(getActivity(), patients));
+        gridView.setAdapter(new ViewPatientsList(getActivity(), patients));
 
         return myInflatedView;
     }

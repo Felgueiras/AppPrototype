@@ -39,6 +39,10 @@ public class GeriatricTestNonDB implements Serializable {
      * Time it takes to be completed.
      */
     int time;
+    /**
+     * Short name for display purposes.
+     */
+    String shortName;
 
     Session session;
 
@@ -152,4 +156,11 @@ public class GeriatricTestNonDB implements Serializable {
         questions.add(question);
     }
 
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
 }

@@ -5,4 +5,8 @@
     <color name="colorAccent">#ff4081</color>
     <color name="viewBg">#f1f5f8</color>
     <color name="album_title">#4c4c4c</color>
+    <!--Color codes for different criteria-->
+    <color name="colorBeers">#0000ff</color>
+    <color name="colorStopp">#ff0000</color>
+    <color name="colorStart">#00ff00</color>
 </resources>

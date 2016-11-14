@@ -14,6 +14,9 @@ import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
 
+/**
+ * Display the list of Patients to view them or select one of them.
+ */
 public class ViewPatientsFragment extends Fragment {
 
     public static String selectPatient = "selectPatient";
@@ -42,7 +45,7 @@ public class ViewPatientsFragment extends Fragment {
          Grid view that will hold info about the Patients
          **/
         GridView gridView = (GridView) myInflatedView.findViewById(R.id.gridView);
-        gridView.setAdapter(new PatientsGridViewAdapter(getActivity(), patients));
+        gridView.setAdapter(new ViewPatientsList(getActivity(), patients));
 
         return myInflatedView;
     }

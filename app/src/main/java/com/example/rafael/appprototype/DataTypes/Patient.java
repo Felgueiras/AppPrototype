@@ -19,7 +19,7 @@ public class Patient extends Model implements Serializable {
 
     @Column(name = "guid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     public String guid;
-    @Column(name = "name")
+    @Column(name = "patientName")
     private String name;
     @Column(name = "birthDate")
     private String birthDate;
@@ -143,7 +143,7 @@ public class Patient extends Model implements Serializable {
      * @return
      */
     public static ArrayList<Patient> getAllPatients() {
-        List<Patient> list = new Select().from(Patient.class).orderBy("name ASC").execute();
+        List<Patient> list = new Select().from(Patient.class).orderBy("patientName ASC").execute();
         ArrayList<Patient> patients = new ArrayList<>();
         patients.addAll(list);
         return patients;
@@ -154,7 +154,7 @@ public class Patient extends Model implements Serializable {
      * @return
      */
     public static ArrayList<Patient> getFavoritePatients() {
-        List<Patient> list = new Select().from(Patient.class).where("favorite = ?",true).orderBy("name ASC").execute();
+        List<Patient> list = new Select().from(Patient.class).where("favorite = ?",true).orderBy("patientName ASC").execute();
         ArrayList<Patient> patients = new ArrayList<>();
         patients.addAll(list);
         return patients;
