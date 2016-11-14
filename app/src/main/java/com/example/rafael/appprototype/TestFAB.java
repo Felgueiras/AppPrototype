@@ -1,6 +1,5 @@
 package com.example.rafael.appprototype;
 
-import com.example.rafael.appprototype.R;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
@@ -36,24 +35,12 @@ public class TestFAB extends Activity {
         ShapeDrawable drawable = new ShapeDrawable(new OvalShape());
         drawable.getPaint().setColor(getResources().getColor(R.color.white));
 
-        final FloatingActionButton actionA = (FloatingActionButton) findViewById(R.id.action_a);
+        final FloatingActionButton actionA = (FloatingActionButton) findViewById(R.id.session_save);
         actionA.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 actionA.setTitle("Action A clicked");
             }
         });
-
-
-        //FloatingActionsMenu rightLabels = (FloatingActionsMenu) findViewById(R.id.right_labels);
-        FloatingActionButton addedOnce = new FloatingActionButton(this);
-        addedOnce.setTitle("Added once");
-        //rightLabels.addButton(addedOnce);
-
-        FloatingActionButton addedTwice = new FloatingActionButton(this);
-        addedTwice.setTitle("Added twice");
-        //rightLabels.addButton(addedTwice);
-        //rightLabels.removeButton(addedTwice);
-        //rightLabels.addButton(addedTwice);
     }
 }

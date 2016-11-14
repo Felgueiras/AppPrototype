@@ -16,7 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
@@ -31,6 +31,7 @@ import com.example.rafael.appprototype.Evaluations.NewEvaluation.ViewAvailableTe
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.Evaluations.SessionsHistoryTab.SessionsHistoryFragment;
 import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewPatientsFragment;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,6 +67,7 @@ public class NewEvaluation extends Fragment {
         // check the Constants
         Bundle args = getArguments();
 
+
         /**
          * Resume an Evaluation.
          */
@@ -80,8 +82,7 @@ public class NewEvaluation extends Fragment {
                 session.setPatient(patientForThisSession);
                 Log.d("Session", "Setting patient");
                 session.save();
-                if(Constants.pickingPatient)
-                {
+                if (Constants.pickingPatient) {
                     Constants.pickingPatient = false;
                     Constants.sessionID = null;
                     Log.d("Session", "Finishing!");
@@ -123,13 +124,29 @@ public class NewEvaluation extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        // add on click listener to the finish session button
-        Button btn = (Button) myInflatedView.findViewById(R.id.finishSessionButton);
-        btn.setOnClickListener(new View.OnClickListener() {
+        final FloatingActionButton saveFAB = (FloatingActionButton) myInflatedView.findViewById(R.id.session_save);
+        saveFAB.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.newSessionLayout);
+
+                // no test selected
+                if (session.getTestsFromSession().size() == 0) {
+                    Snackbar.make(layout, getResources().getString(R.string.you_must_select_test), Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // check if there is any incomplete test
+                List<GeriatricTest> testsFromSession = session.getTestsFromSession();
+                for (GeriatricTest test : testsFromSession) {
+                    // incomplete test
+                    if (!test.isCompleted()) {
+                        Snackbar.make(layout, getResources().getString(R.string.not_all_tests_complete), Snackbar.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
                 // check if there is an added patient or not
-                LinearLayout linearLayout = (LinearLayout) getActivity().findViewById(R.id.newSessionLayout);
                 // no patient selected
                 if (patientForThisSession == null) {
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
@@ -167,23 +184,40 @@ public class NewEvaluation extends Fragment {
                     return;
                 }
 
-                // no test selected
-                if (session.getTestsFromSession().size() == 0) {
-                    Snackbar.make(linearLayout, getResources().getString(R.string.you_must_select_test), Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
 
-                // check if there is any incomplete test
-                List<GeriatricTest> testsFromSession = session.getTestsFromSession();
-                for (GeriatricTest test : testsFromSession) {
-                    // incomplete test
-                    if (!test.isCompleted()) {
-                        Snackbar.make(linearLayout, getResources().getString(R.string.not_all_tests_complete), Snackbar.LENGTH_SHORT).show();
-                        return;
-                    }
-                }
                 Log.d("Session", "Finishing!");
                 ((MainActivity) getActivity()).replaceFragment(SessionsHistoryFragment.class, null, Constants.tag_view_sessions_history);
+            }
+        });
+
+        final FloatingActionButton discardFAB = (FloatingActionButton) myInflatedView.findViewById(R.id.session_discard);
+        discardFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                alertDialog.setTitle(getResources().getString(R.string.session_discard));
+                alertDialog.setMessage(getResources().getString(R.string.session_discard_question));
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // remove session
+                                session.delete();
+                                Constants.sessionID = null;
+                                FragmentManager fragmentManager = getFragmentManager();
+                                fragmentManager.beginTransaction()
+                                        .replace(R.id.content_frame, new EvaluationsMainFragment())
+                                        .commit();
+                                dialog.dismiss();
+                                // Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
             }
         });
 

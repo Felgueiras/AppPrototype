@@ -57,4 +57,7 @@
     <string name="create_patient_success">Paciente criado com sucesso</string>
     <string name="session_created">Avaliação criada com sucesso</string>
     <string name="drugSearchDisclaimer">Search by the name of a drug</string>
+    <string name="session_discard">Descartar</string>
+    <string name="session_save">Guardar</string>
+    <string name="session_discard_question">Deseja descartar a avaliação atual?</string>
 </resources>

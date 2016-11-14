@@ -74,7 +74,6 @@ public class ShowSingleEvaluation extends RecyclerView.Adapter<ShowSingleEvaluat
         final Session session = sessionsList.get(position);
         List<GeriatricTest> testsFromSession = session.getTestsFromSession();
         Patient patient = session.getPatient();
-        Log.d("Patient",patient.toString());
         if(patient!=null){
             holder.patientName.setText(patient.getName());
             //holder.age.setText(patient.getAge());

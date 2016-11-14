@@ -21,7 +21,7 @@
     <string name="previous_records">Previous sessions</string>
     <string name="title_activity_tabs">Tabs</string>
     <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="section_format" translatable="false">Hello World from section: %1$d</string>
     <string name="date_of_birth">Date of birth</string>
     <string name="action_add_favourite">Add to Favourites</string>
     <string name="action_play_next">Play Next</string>
@@ -38,7 +38,7 @@
     <string name="test_incomplete">Test is incomplete</string>
     <string name="test_result">Test result</string>
     <string name="patient_sessions">Patient sessions</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_main2" translatable="false">Main2Activity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -59,12 +59,15 @@
     <string name="action_favorite">favorite</string>
     <string name="patient_favorite_add">Patient added to favorites</string>
     <string name="patient_favorite_remove">Patient removed from favorites</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main" translatable="false">MainActivity</string>
     <string name="create_patient_error_name">You need to give a name to the patient</string>
     <string name="create_patient_success">Patient created with success</string>
     <string name="create_patient_error_gender">You need to select the patient\'s gender</string>
-    <string name="title_activity_main3">Main3Activity</string>
-    <string name="title_activity_navigation_drawer_test">NavigationDrawerTest</string>
+    <string name="title_activity_main3" translatable="false">Main3Activity</string>
+    <string name="title_activity_navigation_drawer_test" translatable="false">NavigationDrawerTest</string>
     <string name="session_created">Evaluation created with success</string>
     <string name="drugSearchDisclaimer">Search by the name of a drug</string>
+    <string name="session_save">Save</string>
+    <string name="session_discard">Discard</string>
+    <string name="session_discard_question">Do you want to discard the current session?</string>
 </resources>
