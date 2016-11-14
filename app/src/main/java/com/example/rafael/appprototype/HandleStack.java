@@ -28,16 +28,20 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
         this.fragmentManager = fragmentManager;
     }
 
-
     public static void handleBackButton(FragmentManager fragmentManager) {
         Log.d("Backstack", "onBackPressed");
         if (fragmentManager.getBackStackEntryCount() > 0) {
-            String fragmentName = fragmentManager.getBackStackEntryAt(0).getName();
+            // get fragment on top of stack
+            String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
+            Fragment currentFragment = fragmentManager.findFragmentByTag(fragmentTag);
+
+
+            //String fragmentName = fragmentManager.getBackStackEntryAt(0).getName();
             Fragment fr = fragmentManager.findFragmentById(R.id.content_frame);
             int index = fragmentManager.getBackStackEntryCount() - 1;
             FragmentManager.BackStackEntry backEntry = fragmentManager.getBackStackEntryAt(index);
             String tag = backEntry.getName();
-            Log.d("Backstack", "Frag patientName is " + fragmentName + ", tag is " + tag);
+            //Log.d("Backstack", "Frag patientName is " + fragmentName + ", tag is " + tag);
             fragmentManager.popBackStack();
             if (tag.equals(Constants.tag_display_session_test)) {
                 // get the arguments
@@ -64,6 +68,9 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, fragment)
                         .commit();
+            }else if (tag.equals(Constants.create_session)){
+                ((NewEvaluation)currentFragment).discardFAB.performClick();
+
             }
         }
     }

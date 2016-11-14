@@ -70,4 +70,5 @@
     <string name="session_save">Save</string>
     <string name="session_discard">Discard</string>
     <string name="session_discard_question">Do you want to discard the current session?</string>
+    <string name="add_session">Add a session</string>
 </resources>

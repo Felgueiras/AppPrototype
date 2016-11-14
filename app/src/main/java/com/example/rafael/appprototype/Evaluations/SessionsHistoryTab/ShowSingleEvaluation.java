@@ -3,7 +3,6 @@ package com.example.rafael.appprototype.Evaluations.SessionsHistoryTab;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +10,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.MainActivity;
-import com.example.rafael.appprototype.Patients.ViewPatientsTab.SinglePatient.ViewSinglePatientInfoAndSessions;
+import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewSinglePatientInfoAndSessions;
 import com.example.rafael.appprototype.R;
 
 import java.util.List;

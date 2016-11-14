@@ -59,6 +59,8 @@ public class NewEvaluation extends Fragment {
 
     boolean resuming = false;
 
+    public static FloatingActionButton discardFAB;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -75,7 +77,7 @@ public class NewEvaluation extends Fragment {
             // get session by ID
             session = Session.getSessionByID(Constants.sessionID);
             patientForThisSession = (Patient) args.getSerializable(PATIENT);
-            //Log.d("New Session", "We have patient: " + (patientForThisSession != null));
+            Log.d("New Session", "We have patient: " + (patientForThisSession != null));
             // create a new Fragment to hold info about the Patient
             if (patientForThisSession != null) {
                 // set the patient for this session
@@ -190,7 +192,7 @@ public class NewEvaluation extends Fragment {
             }
         });
 
-        final FloatingActionButton discardFAB = (FloatingActionButton) myInflatedView.findViewById(R.id.session_discard);
+        discardFAB = (FloatingActionButton) myInflatedView.findViewById(R.id.session_discard);
         discardFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -272,6 +274,8 @@ public class NewEvaluation extends Fragment {
         Resources r = getActivity().getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
+
+
 
 }
 

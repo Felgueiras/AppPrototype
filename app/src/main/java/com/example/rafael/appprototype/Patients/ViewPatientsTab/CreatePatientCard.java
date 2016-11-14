@@ -20,7 +20,6 @@ import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.Patients.ViewPatientsTab.SinglePatient.ViewSinglePatientInfoAndSessions;
 
 import java.util.ArrayList;
 

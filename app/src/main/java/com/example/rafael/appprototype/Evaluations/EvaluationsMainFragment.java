@@ -36,7 +36,7 @@ public class EvaluationsMainFragment extends Fragment {
                 public void onClick(View view) {
                     // create a new Session - switch to CreatePatient Fragment
                     Bundle args = new Bundle();
-                    ((MainActivity) getActivity()).replaceFragment(NewEvaluation.class, args, Constants.create_patient);
+                    ((MainActivity) getActivity()).replaceFragment(NewEvaluation.class, args, Constants.create_session);
                 }
             });
         } else {

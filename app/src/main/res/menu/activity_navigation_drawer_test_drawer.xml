@@ -16,6 +16,7 @@
             android:title="@string/tab_my_patients" />
     </group>
 
+    <!--
     <item android:title="Communicate">
         <menu>
             <item
@@ -28,5 +29,6 @@
                 android:title="Send" />
         </menu>
     </item>
+    -->
 
 </menu>

@@ -21,7 +21,7 @@ import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.ViewAvailableTests.DisplayTestCard;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.ViewAvailableTests.SelectPatientFragment;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.Patients.ViewPatientsTab.SinglePatient.ViewSinglePatientInfoAndSessions;
+import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewSinglePatientInfoAndSessions;
 import com.example.rafael.appprototype.Patients.ViewPatientsTab.SinglePatient.ViewSinglePatientOnlyInfo;
 
 import java.util.ArrayList;

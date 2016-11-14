@@ -3,7 +3,6 @@ package com.example.rafael.appprototype.Patients;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -11,11 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.Main.MainActivity;
-import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
-import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewPatientsFragment;
 import com.example.rafael.appprototype.Evaluations.SessionsHistoryTab.SessionsHistoryFragment;
+import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewPatientsFragment;
 import com.example.rafael.appprototype.R;
 
 

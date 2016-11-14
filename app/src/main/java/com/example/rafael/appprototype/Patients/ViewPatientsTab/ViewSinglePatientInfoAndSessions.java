@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ViewPatientsTab.SinglePatient;
+package com.example.rafael.appprototype.Patients.ViewPatientsTab;
 
 import android.app.Fragment;
 import android.content.res.Resources;
@@ -23,7 +23,10 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Patients.ViewPatientsTab.SinglePatient.ViewPatientSessionsAdapter;
 import com.example.rafael.appprototype.R;
+import com.getbase.floatingactionbutton.AddFloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -42,14 +45,15 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        // setHasOptionsMenu(true);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_patient_profile, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+    /**
+     * @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+     * inflater.inflate(R.menu.menu_patient_profile, menu);
+     * super.onCreateOptionsMenu(menu, inflater);
+     * }
+     **/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -65,7 +69,7 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
                 // set Patient as favorite
                 patient.setFavorite(!patient.isFavorite());
                 patient.save();
-                if(patient.isFavorite())
+                if (patient.isFavorite())
                     Snackbar.make(getView(), R.string.patient_favorite_add, Snackbar.LENGTH_SHORT).show();
                 else
                     Snackbar.make(getView(), R.string.patient_favorite_remove, Snackbar.LENGTH_SHORT).show();
@@ -119,6 +123,40 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+
+        /**
+         * Setup FABS
+         */
+        AddFloatingActionButton fabAddSession = (AddFloatingActionButton) view.findViewById(R.id.patient_createSession);
+        fabAddSession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putSerializable(NewEvaluation.PATIENT, patient);
+                ((MainActivity) getActivity()).replaceFragment(NewEvaluation.class, args, Constants.tag_create_new_session_for_patient);
+                getActivity().setTitle(getResources().getString(R.string.tab_sessions));
+            }
+        });
+        final FloatingActionButton fabFavorite = (FloatingActionButton) view.findViewById(R.id.patient_favorite);
+        if (patient.isFavorite())
+            fabFavorite.setIconDrawable(getResources().getDrawable(R.drawable.ic_favorite_remove));
+        else
+            fabFavorite.setIconDrawable(getResources().getDrawable(R.drawable.ic_favorite_add));
+        fabFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // set Patient as favorite
+                patient.setFavorite(!patient.isFavorite());
+                patient.save();
+                if (patient.isFavorite()) {
+                    Snackbar.make(getView(), R.string.patient_favorite_add, Snackbar.LENGTH_SHORT).show();
+                    fabFavorite.setIconDrawable(getResources().getDrawable(R.drawable.ic_favorite_remove));
+                } else {
+                    Snackbar.make(getView(), R.string.patient_favorite_remove, Snackbar.LENGTH_SHORT).show();
+                    fabFavorite.setIconDrawable(getResources().getDrawable(R.drawable.ic_favorite_add));
+                }
+            }
+        });
 
         return view;
     }
