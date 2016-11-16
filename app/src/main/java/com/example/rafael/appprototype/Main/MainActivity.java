@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActiveAndroid.initialize(getApplication());
-        setContentView(R.layout.activity_navigation_drawer_test);
+        setContentView(R.layout.activity_navigation_drawer);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,15 +63,15 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        // TODO set the user photo and patientName after having logged in
+        // TODO set the doctor photo and name after having logged in
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerLayout = navigationView.getHeaderView(0);
         TextView userName = (TextView) headerLayout.findViewById(R.id.userName);
         userName.setText("Médico X");
         ImageView userImage = (ImageView) headerLayout.findViewById(R.id.userPhoto);
         //userImage.setImageResource(R.drawable.male);
-        TextView userSubtext = (TextView) headerLayout.findViewById(R.id.userSubText);
-        userSubtext.setText("[Some text here]");
+        //TextView userSubtext = (TextView) headerLayout.findViewById(R.id.userSubText);
+        //userSubtext.setText("[Some text here]");
 
 
         DatabaseOps.eraseAll();

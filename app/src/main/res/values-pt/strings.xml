@@ -60,4 +60,6 @@
     <string name="session_discard">Descartar</string>
     <string name="session_save">Guardar</string>
     <string name="session_discard_question">Deseja descartar a avaliação atual?</string>
+    <string name="evaluation_results">Resultados da avaliação</string>
+    <string name="all_questions_answered">Todas as questões respondidas</string>
 </resources>

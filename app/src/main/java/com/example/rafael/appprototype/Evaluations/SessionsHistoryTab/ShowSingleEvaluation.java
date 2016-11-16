@@ -10,12 +10,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.Evaluations.ReviewSession.ReviewSessionFragment;
 import com.example.rafael.appprototype.Main.MainActivity;
-import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewSinglePatientInfoAndSessions;
 import com.example.rafael.appprototype.R;
 
 import java.util.List;
@@ -30,19 +29,22 @@ public class ShowSingleEvaluation extends RecyclerView.Adapter<ShowSingleEvaluat
      * Data to be displayed.
      */
     private List<Session> sessionsList;
+    /**
+     * View that holds the current evaluation.
+     */
+    private View evaluationView;
 
     /**
      * Create a View
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView patientName, age;
+        public TextView patientName;
         public ImageView photo, overflow;
         public ListView testsList;
 
         public MyViewHolder(View view) {
             super(view);
             patientName = (TextView) view.findViewById(R.id.patientName);
-            age = (TextView) view.findViewById(R.id.patientAge);
             photo = (ImageView) view.findViewById(R.id.patientPhoto);
             overflow = (ImageView) view.findViewById(R.id.overflow);
             testsList = (ListView) view.findViewById(R.id.session_tests_results);
@@ -62,8 +64,8 @@ public class ShowSingleEvaluation extends RecyclerView.Adapter<ShowSingleEvaluat
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.session_card, parent, false);
-        return new MyViewHolder(itemView);
+        evaluationView = LayoutInflater.from(parent.getContext()).inflate(R.layout.session_card, parent, false);
+        return new MyViewHolder(evaluationView);
     }
 
     @Override
@@ -79,6 +81,18 @@ public class ShowSingleEvaluation extends RecyclerView.Adapter<ShowSingleEvaluat
             //Glide.with(context).load(patient.getPicture()).into(holder.photo);
         }
 
+        /**
+         * Review a Session.
+         */
+        evaluationView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putSerializable(ReviewSessionFragment.SESSION, session);
+                ((MainActivity) context).replaceFragment(ReviewSessionFragment.class, args, "");
+            }
+        });
+        /**
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,17 +102,9 @@ public class ShowSingleEvaluation extends RecyclerView.Adapter<ShowSingleEvaluat
                 ((MainActivity) context).replaceFragment(ViewSinglePatientInfoAndSessions.class, args, addToBackStackTag);
             }
         });
+         */
 
 
-
-        /*
-        holder.overflow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPopupMenu(holder.overflow);
-            }
-        });
-        */
         // display the result for the tests
         ShowTestsForEvaluation adapter = new ShowTestsForEvaluation(context, testsFromSession);
         holder.testsList.setAdapter(adapter);

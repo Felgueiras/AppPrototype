@@ -18,8 +18,8 @@
         android:layout_height="wrap_content">
         <ImageView
             android:layout_height="match_parent"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="10dp"
+            android:layout_margin="2dp"
             android:background="@color/colorBeers"/>
         <TextView
             android:layout_width="0dp"
@@ -32,8 +32,8 @@
         android:layout_height="wrap_content">
         <ImageView
             android:layout_height="match_parent"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="10dp"
+            android:layout_margin="2dp"
             android:background="@color/colorStart"/>
         <TextView
             android:layout_width="0dp"
@@ -46,8 +46,8 @@
         android:layout_height="wrap_content">
         <ImageView
             android:layout_height="match_parent"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="10dp"
+            android:layout_margin="2dp"
             android:background="@color/colorStopp"/>
         <TextView
             android:layout_width="0dp"

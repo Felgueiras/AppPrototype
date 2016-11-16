@@ -68,6 +68,9 @@ public class NewEvaluation extends Fragment {
         getActivity().setTitle(getResources().getString(R.string.tab_sessions));
         // check the Constants
         Bundle args = getArguments();
+        patientForThisSession = (Patient) args.getSerializable(PATIENT);
+        if(patientForThisSession!=null)
+            Log.d("Patient","we already have patient!!");
 
 
         /**
@@ -251,20 +254,6 @@ public class NewEvaluation extends Fragment {
         Constants.sessionID = sessionID;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
 
 
     /**

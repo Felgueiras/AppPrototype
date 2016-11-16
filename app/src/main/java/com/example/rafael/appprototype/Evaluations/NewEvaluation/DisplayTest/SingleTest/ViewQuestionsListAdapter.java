@@ -1,6 +1,7 @@
 package com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
     boolean allQuestionsAnswered = false;
 
     int numquestions;
+    private View questionView;
 
 
     /**
@@ -95,8 +97,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         positionsFilled.add(position);
         if (positionsFilled.size() == numquestions) {
             allQuestionsAnswered = true;
-            // Snackbar.make(, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE);
-            Toast.makeText(context, "Todas as questões foram respondidas", Toast.LENGTH_SHORT).show();
+            Snackbar.make(questionView, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
             // write that to DB
             test.setCompleted(true);
             test.save();
@@ -111,7 +112,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        View questionView = null;
+        questionView = null;
         QuestionNonDB currentQuestionNonDB = questions.get(position);
         if (!testAlreadyOpened) {
             // yes/no question

@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
+import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
 import com.example.rafael.appprototype.R;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class ShowTestsForEvaluation extends BaseAdapter {
      */
     private final List<GeriatricTest> tests;
     private static LayoutInflater inflater = null;
+    private View testView;
 
     /**
      * Display all Questions for a GeriatricTest
@@ -36,14 +38,13 @@ public class ShowTestsForEvaluation extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // setup views
-        View testView = inflater.inflate(R.layout.test_result, parent, false);
+        testView = inflater.inflate(R.layout.test_result, parent, false);
         TextView testName = (TextView) testView.findViewById(R.id.testName);
         TextView testResult = (TextView) testView.findViewById(R.id.testResult);
 
         // get values
         GeriatricTest geriatricTest = tests.get(position);
-        // TODO get short name from static test definition
-        String name = geriatricTest.getTestName();
+        String name = StaticTestDefinition.getShortName(geriatricTest.getTestName());
         int result = geriatricTest.getResult();
 
         // update views

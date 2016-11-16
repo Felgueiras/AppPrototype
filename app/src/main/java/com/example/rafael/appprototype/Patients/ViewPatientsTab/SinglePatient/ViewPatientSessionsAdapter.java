@@ -40,7 +40,7 @@ public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatient
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView date;
-        public ImageView photo, overflow;
+        public ImageView overflow;
 
         public MyViewHolder(View view) {
             super(view);
@@ -74,7 +74,7 @@ public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatient
             public void onClick(View v) {
                 Bundle args = new Bundle();
                 args.putSerializable(ReviewSessionFragment.patientObject, patient);
-                args.putSerializable(ReviewSessionFragment.sessionObject,currentSession);
+                args.putSerializable(ReviewSessionFragment.SESSION,currentSession);
                 ((MainActivity) context).replaceFragment(ReviewSessionFragment.class, args, Constants.tag_review_session);
             }
         });
@@ -87,50 +87,11 @@ public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatient
         final Session session = sessions.get(position);
         holder.date.setText(session.getDate());
         currentSession =sessions.get(position);
-
-
-        holder.overflow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPopupMenu(holder.overflow);
-            }
-        });
     }
 
-    /**
-     * Showing popup menu when tapping on 3 dots
-     */
-    private void showPopupMenu(View view) {
-        // inflate menu
-        PopupMenu popup = new PopupMenu(context, view);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_album, popup.getMenu());
-        popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
-        popup.show();
-    }
 
-    /**
-     * Click listener for popup menu items
-     */
-    class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
 
-        public MyMenuItemClickListener() {
-        }
 
-        @Override
-        public boolean onMenuItemClick(MenuItem menuItem) {
-            switch (menuItem.getItemId()) {
-                case R.id.action_add_favourite:
-                    Toast.makeText(context, "Add to favourite", Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.action_play_next:
-                    Toast.makeText(context, "Play next", Toast.LENGTH_SHORT).show();
-                    return true;
-                default:
-            }
-            return false;
-        }
-    }
 
     @Override
     public int getItemCount() {

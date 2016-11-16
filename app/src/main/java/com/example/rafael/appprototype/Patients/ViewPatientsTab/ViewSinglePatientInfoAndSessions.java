@@ -117,7 +117,7 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
         ViewPatientSessionsAdapter adapter = new ViewPatientSessionsAdapter(getActivity(), sessionsFromPatient, patient);
 
         // create Layout
-        int numbercolumns = 3;
+        int numbercolumns = 2;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));

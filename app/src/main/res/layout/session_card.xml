@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!--
             <ImageView
                 android:id="@+id/patientPhoto"
                 android:layout_width="match_parent"
@@ -23,6 +24,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:scaleType="fitXY" />
+                -->
 
             <TextView
                 android:id="@+id/patientName"
@@ -33,22 +35,22 @@
                 android:paddingRight="@dimen/album_title_padding"
                 android:paddingTop="@dimen/album_title_padding"
                 android:textColor="@color/album_title"
-                android:textSize="@dimen/album_title" />
+                android:textSize="@dimen/album_title"
+                android:text="Nome do paciente"/>
+
 
             <TextView
-                android:id="@+id/patientAge"
+                android:id="@+id/evaluationResults"
+                android:layout_below="@+id/patientName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/patientName"
-                android:paddingBottom="@dimen/songs_count_padding_bottom"
-                android:paddingLeft="@dimen/album_title_padding"
-                android:paddingRight="@dimen/album_title_padding"
-                android:textSize="@dimen/songs_count" />
+                android:text="@string/evaluation_results"/>
 
             <ListView
+                android:layout_below="@+id/evaluationResults"
                 android:id="@+id/session_tests_results"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></ListView>
+                android:layout_height="wrap_content"/>
 
             <!--
             <ImageView

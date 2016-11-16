@@ -356,4 +356,11 @@ public class StaticTestDefinition {
         return null;
     }
 
+    /**
+     * Get the short name for a given test.
+     * @param testName
+     */
+    public static String getShortName(String testName) {
+        return getTestByName(testName).getShortName();
+    }
 }

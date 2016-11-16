@@ -42,7 +42,7 @@ public class ReviewSessionFragment extends Fragment {
      * Session object
      */
     private Session session;
-    public static String sessionObject = "session";
+    public static String SESSION = "session";
 
     boolean resuming = true;
 
@@ -52,8 +52,8 @@ public class ReviewSessionFragment extends Fragment {
         View myInflatedView = inflater.inflate(R.layout.content_review_session, container, false);
         Bundle args = getArguments();
         if (args != null) {
-            session = (Session) args.getSerializable(sessionObject);
-            patient = (Patient) args.getSerializable(patientObject);
+            session = (Session) args.getSerializable(SESSION);
+            patient = session.getPatient();
             // create a new Fragment to hold info about the Patient
             Fragment fragment = new ViewSinglePatientOnlyInfo();
             Bundle newArgs = new Bundle();
