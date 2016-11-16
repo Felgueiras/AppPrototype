@@ -49,29 +49,34 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
 
         // insert data in DB (if first run)
         sharedPreferences = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
-        if (sharedPreferences.getBoolean("firstrun", true)) {
-            sharedPreferences.edit().putBoolean("firstrun", false).commit();
+        // user not logged in
+        if (sharedPreferences.getString(Constants.userName, null) == null  ) {
             Log.d("FIRST RUN", "first run");
             DatabaseOps.insertDataToDB();
             // display login screen
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
-            // startActivity(i);
+            startActivity(i);
+        }
+        // user already logged in
 
+        else
+        {
+            // TODO set the doctor photo after having logged in
+            View headerLayout = navigationView.getHeaderView(0);
+            TextView userName = (TextView) headerLayout.findViewById(R.id.userName);
+            userName.setText(sharedPreferences.getString(Constants.userName, null));
+            ImageView userImage = (ImageView) headerLayout.findViewById(R.id.userPhoto);
+            //userImage.setImageResource(R.drawable.male);
+            //TextView userSubtext = (TextView) headerLayout.findViewById(R.id.userSubText);
+            //userSubtext.setText("[Some text here]");
         }
 
-        // TODO set the doctor photo and name after having logged in
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View headerLayout = navigationView.getHeaderView(0);
-        TextView userName = (TextView) headerLayout.findViewById(R.id.userName);
-        userName.setText("Médico X");
-        ImageView userImage = (ImageView) headerLayout.findViewById(R.id.userPhoto);
-        //userImage.setImageResource(R.drawable.male);
-        //TextView userSubtext = (TextView) headerLayout.findViewById(R.id.userSubText);
-        //userSubtext.setText("[Some text here]");
+
 
 
         DatabaseOps.eraseAll();
@@ -129,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView.setNavigationItemSelectedListener(new DrawerItemClickListener(getFragmentManager(), drawer));
+
+        navigationView.setNavigationItemSelectedListener(new DrawerItemClickListener(this, getFragmentManager(), drawer));
     }
 
 

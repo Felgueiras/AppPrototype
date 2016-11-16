@@ -21,7 +21,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_navigation_drawer"
-        app:menu="@menu/activity_navigation_drawer_test_drawer" />
+        app:menu="@menu/menu_navigation_drawer_items" />
 
 
 </android.support.v4.widget.DrawerLayout>

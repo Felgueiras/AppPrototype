@@ -46,4 +46,5 @@ public class Constants {
     public static String sessionID = null;
     public static boolean pickingPatient = false;
     public static String create_session = "createSession";
+    public static String userName = "userName";
 }

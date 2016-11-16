@@ -73,4 +73,5 @@
     <string name="add_session">Add a session</string>
     <string name="evaluation_results">Evaluation results</string>
     <string name="all_questions_answered">All questions answered</string>
+    <string name="actions_account">Account</string>
 </resources>

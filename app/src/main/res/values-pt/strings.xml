@@ -62,4 +62,6 @@
     <string name="session_discard_question">Deseja descartar a avaliação atual?</string>
     <string name="evaluation_results">Resultados da avaliação</string>
     <string name="all_questions_answered">Todas as questões respondidas</string>
+    <string name="actions_account">Conta</string>
+    <string name="add_session">Adicionar uma avaliação</string>
 </resources>
