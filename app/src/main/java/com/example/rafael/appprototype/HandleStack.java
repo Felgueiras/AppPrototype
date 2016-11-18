@@ -5,12 +5,13 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.DisplaySingleTestFragment;
-import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewPatientsFragment;
+import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 
 /**
  * Created by rafael on 09-10-2016.
@@ -46,8 +47,8 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
             if (tag.equals(Constants.tag_display_session_test)) {
                 // get the arguments
                 Bundle arguments = fr.getArguments();
-                Session session = (Session) arguments.getSerializable(DisplaySingleTestFragment.sessionID);
-                Log.d("Session","HandleStack -> " + session.toString());
+                GeriatricTest test = (GeriatricTest) arguments.getSerializable(DisplaySingleTestFragment.testDBobject);
+                Session session = test.getSession();
                 Patient patient = (Patient) arguments.getSerializable(DisplaySingleTestFragment.patient);
 
                 Bundle args = new Bundle();

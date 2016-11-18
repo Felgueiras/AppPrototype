@@ -2,6 +2,7 @@ package com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.Si
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,44 +16,29 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.R;
 
-
+/**
+ * Display a list of Questions for a single Test.
+ */
 public class DisplaySingleTestFragment extends Fragment {
 
     /**
      * String identifier for the Test.
      */
-    public static final String testObject = "test";
-    public static String alreadyOpenedBefore = "alreadyOpened";
-    /**
-     * ID of the Session which this Test belongs
-     */
-    public static String sessionID = "session";
-    public static String patient = "patient";
-    Session session;
+    public static final String testObject = "testNonDB";
 
-    /**
-     * Yes if already opened before for this session, no otherwise
-     */
-    private boolean alreadyOpened;
+    public static String patient = "patient";
+    public static String testDBobject = "testDBObject";
+    Session session;
 
     /**
      * Selected Test.
      */
-    private GeriatricTestNonDB test;
+    private GeriatricTestNonDB testNonDB;
     /**
      * GeriatricTest which will be written to the DB.
      */
     private GeriatricTest testDB;
 
-
-    // newInstance constructor for creating fragment with arguments
-    public static DisplaySingleTestFragment newInstance(int page, String title, GeriatricTestNonDB test) {
-        DisplaySingleTestFragment fragmentFirst = new DisplaySingleTestFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("test", test);
-        fragmentFirst.setArguments(args);
-        return fragmentFirst;
-    }
 
     // Store instance variables based on arguments passed
     @Override
@@ -63,26 +49,12 @@ public class DisplaySingleTestFragment extends Fragment {
 
         // get the list of tests
         Bundle bundle = getArguments();
-        test = (GeriatricTestNonDB) bundle.getSerializable(testObject);
-        session = (Session) bundle.getSerializable(sessionID);
-        alreadyOpened = bundle.getBoolean(alreadyOpenedBefore);
+        testNonDB = (GeriatricTestNonDB) bundle.getSerializable(testObject);
+        testDB = (GeriatricTest) bundle.getSerializable(testDBobject);
+        session = testDB.getSession();
 
         // set the title
-        getActivity().setTitle(test.getTestName());
-
-        if (!alreadyOpened) {
-            // create new Test and add to DB
-            testDB = new GeriatricTest();
-            String dummyID = session.getGuid() + "-" + test.getTestName();
-            testDB.setGuid(dummyID);
-            testDB.setTestName(test.getTestName());
-            testDB.setType(test.getType());
-            testDB.setSession(session);
-            testDB.save();
-        } else {
-            testDB = GeriatricTest.getTestByID(session.getGuid() + "-" + test.getTestName());
-        }
-
+        getActivity().setTitle(testNonDB.getTestName());
     }
 
     // Inflate the view for the fragment based on layout XML
@@ -90,15 +62,9 @@ public class DisplaySingleTestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_display_single_test, container, false);
         // populate the ListView
-        /*
-      ListView that will hold the Questions
-     */
         ListView testQuestions = (ListView) view.findViewById(R.id.testQuestions);
         // create the adapter
-        /*
-      Adapter to the ListView
-     */
-        ViewQuestionsListAdapter adapter = new ViewQuestionsListAdapter(this.getActivity(), test.getQuestions(), testDB, alreadyOpened);
+        ViewQuestionsListAdapter adapter = new ViewQuestionsListAdapter(this.getActivity(), testNonDB.getQuestions(), testDB);
         testQuestions.setAdapter(adapter);
         return view;
     }
@@ -116,6 +82,8 @@ public class DisplaySingleTestFragment extends Fragment {
                 /**
                  * Go back to display the list of tests
                  */
+                testDB.setAlreadyOpened(true);
+                testDB.save();
                 getActivity().onBackPressed();
         }
         return true;

@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients;
+package com.example.rafael.appprototype.Patients.FavoritePatients;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewPatientsList;
+import com.example.rafael.appprototype.Patients.ViewPatients.CreatePatientsList;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class FavoritePatientsFragment extends Fragment {
          Grid view that will hold info about the Patients
          **/
         GridView gridView = (GridView) myInflatedView.findViewById(R.id.gridView);
-        gridView.setAdapter(new ViewPatientsList(getActivity(), patients));
+        gridView.setAdapter(new CreatePatientsList(getActivity(), patients));
 
         return myInflatedView;
     }

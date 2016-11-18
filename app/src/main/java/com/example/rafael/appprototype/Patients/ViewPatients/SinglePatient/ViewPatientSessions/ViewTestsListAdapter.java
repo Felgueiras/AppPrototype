@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ViewPatientsTab.SinglePatient.ViewSinglePatient;
+package com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewPatientSessions;
 
 import android.content.Context;
 import android.os.Bundle;

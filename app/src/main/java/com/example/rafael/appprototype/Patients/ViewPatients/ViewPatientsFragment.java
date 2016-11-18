@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ViewPatientsTab;
+package com.example.rafael.appprototype.Patients.ViewPatients;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -45,7 +45,7 @@ public class ViewPatientsFragment extends Fragment {
          Grid view that will hold info about the Patients
          **/
         GridView gridView = (GridView) myInflatedView.findViewById(R.id.gridView);
-        gridView.setAdapter(new ViewPatientsList(getActivity(), patients));
+        gridView.setAdapter(new CreatePatientsList(getActivity(), patients));
 
         return myInflatedView;
     }

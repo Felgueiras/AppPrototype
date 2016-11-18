@@ -58,18 +58,18 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
 
     /**
      * Display all Questions for a GeriatricTest
-     *
-     * @param context   current Context
+     *  @param context   current Context
      * @param questions ArrayList of Questions
      * @param test      GeriatricTest that is being filled up
      */
-    public ViewQuestionsListAdapter(Context context, ArrayList<QuestionNonDB> questions, GeriatricTest test, boolean alreadyOpened) {
+    public ViewQuestionsListAdapter(Context context, ArrayList<QuestionNonDB> questions, GeriatricTest test) {
         this.context = context;
         this.questions = questions;
         this.test = test;
         numquestions = questions.size();
+        // TODO display all questions
         numquestions = 5;
-        testAlreadyOpened = alreadyOpened;
+        testAlreadyOpened = test.isAlreadyOpened();
         inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 

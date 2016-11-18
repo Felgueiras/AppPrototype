@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ViewPatientsTab;
+package com.example.rafael.appprototype.Patients.ViewPatients;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
+import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.CreatePatientCard;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -20,14 +21,14 @@ import java.util.ArrayList;
 /**
  * Created by rafael on 03-10-2016.
  */
-public class ViewPatientsList extends BaseAdapter {
+public class CreatePatientsList extends BaseAdapter {
     /**
      * All the Patients
      */
     private ArrayList<Patient> patients;
     Context context;
 
-    public ViewPatientsList(Context context, ArrayList<Patient> patients) {
+    public CreatePatientsList(Context context, ArrayList<Patient> patients) {
         this.context = context;
         this.patients = patients;
     }

@@ -15,7 +15,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.example.rafael.appprototype.Constants;
@@ -30,7 +29,7 @@ import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.ViewAvailableTests.DisplayTestCard;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.Evaluations.SessionsHistoryTab.SessionsHistoryFragment;
-import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewPatientsFragment;
+import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -69,10 +68,10 @@ public class NewEvaluation extends Fragment {
         // check the Constants
         Bundle args = getArguments();
         patientForThisSession = (Patient) args.getSerializable(PATIENT);
+
+        // read patient for this session
         if(patientForThisSession!=null)
             Log.d("Patient","we already have patient!!");
-
-
         /**
          * Resume an Evaluation.
          */
@@ -109,10 +108,12 @@ public class NewEvaluation extends Fragment {
             test.setTestName(escalaDep.getTestName());
             test.setShortName(escalaDep.getShortName());
             test.setSession(session);
+            test.setAlreadyOpened(false);
+            test.save();
         }
 
 
-        RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.testsRecyclerView);
+        RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.reviewsTestsRV);
         // create list of tests (NonDB)
         ArrayList<GeriatricTestNonDB> testsList = new ArrayList<>();
         testsList.add(StaticTestDefinition.escalaDepressao());
@@ -239,6 +240,7 @@ public class NewEvaluation extends Fragment {
         // save to dabatase
         session = new Session();
         session.setGuid(sessionID);
+        session.setPatient(patientForThisSession);
 
         // set date
         Calendar now = Calendar.getInstance();

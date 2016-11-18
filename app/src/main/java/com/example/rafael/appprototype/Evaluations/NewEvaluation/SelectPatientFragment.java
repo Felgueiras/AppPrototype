@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Evaluations.NewEvaluation.ViewAvailableTests;
+package com.example.rafael.appprototype.Evaluations.NewEvaluation;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -11,8 +11,8 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.Patients.ViewPatientsTab.SinglePatient.ViewPatientSessionsAdapter;
-import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewPatientsFragment;
+import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewPatientSessions.ViewPatientSessionsAdapter;
+import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 
 /**
  * Created by rafael on 06-10-2016.

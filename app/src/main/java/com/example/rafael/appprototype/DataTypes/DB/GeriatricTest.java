@@ -68,6 +68,9 @@ public class GeriatricTest extends Model implements Serializable {
     @Column(name="shortName")
     String shortName;
 
+    @Column(name="alreadyOpened")
+    boolean alreadyOpened;
+
 
 
     /**
@@ -211,6 +214,13 @@ public class GeriatricTest extends Model implements Serializable {
         return ret;
     }
 
+    public boolean isAlreadyOpened() {
+        return alreadyOpened;
+    }
+
+    public void setAlreadyOpened(boolean alreadyOpened) {
+        this.alreadyOpened = alreadyOpened;
+    }
 
     public void setGuid(String guid) {
         this.guid = guid;

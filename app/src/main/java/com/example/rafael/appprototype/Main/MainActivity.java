@@ -19,12 +19,14 @@ import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.Constants;
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.ViewAvailableTests.DisplayTestCard;
 import com.example.rafael.appprototype.HandleStack;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
 import com.example.rafael.appprototype.Login.LoginActivity;
@@ -147,19 +149,17 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Display a single Test for the doctor
-     *
      * @param selectedTest Test that was selected from a Session
-     * @param session      ID for the current Session
-     * @param patient
+     * @param testDB holder for the Test Card view
      */
-    public void displaySessionTest(GeriatricTestNonDB selectedTest, Session session, boolean alreadyOpened, Patient patient) {
+    public void displaySessionTest(GeriatricTestNonDB selectedTest, GeriatricTest testDB) {
         // Create new fragment and transaction
         Fragment newFragment = new DisplaySingleTestFragment();
         // add arguments
         Bundle bundle = new Bundle();
         bundle.putSerializable(DisplaySingleTestFragment.testObject, selectedTest);
-        bundle.putBoolean(DisplaySingleTestFragment.alreadyOpenedBefore, alreadyOpened);
-        bundle.putSerializable(DisplaySingleTestFragment.sessionID,session);
+        bundle.putSerializable(DisplaySingleTestFragment.testDBobject, testDB);
+        Patient patient = testDB.getSession().getPatient();
         if (patient != null)
             bundle.putSerializable(DisplaySingleTestFragment.patient, patient);
         newFragment.setArguments(bundle);

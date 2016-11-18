@@ -14,8 +14,9 @@ import android.view.ViewGroup;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Evaluations.SessionsHistoryTab.SessionsHistoryFragment;
 import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Patients.FavoritePatients.FavoritePatientsFragment;
 import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
-import com.example.rafael.appprototype.Patients.ViewPatientsTab.ViewPatientsFragment;
+import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 import com.example.rafael.appprototype.R;
 
 
@@ -70,8 +71,6 @@ public class PatientsMain extends Fragment {
                 return new SessionsHistoryFragment();
             } else if (position == 2) {
                 return new FavoritePatientsFragment();
-            } else if (position==3){
-                return new FABTest();
             }
             return null;
         }
@@ -90,8 +89,6 @@ public class PatientsMain extends Fragment {
                     return "Últimos";
                 case 2:
                     return "Favoritos";
-                case 3:
-                    return "Teste";
             }
             return null;
         }

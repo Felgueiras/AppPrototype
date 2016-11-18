@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.Evaluations.ReviewSession.ReviewSessionFragment;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSessionFragment;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
 

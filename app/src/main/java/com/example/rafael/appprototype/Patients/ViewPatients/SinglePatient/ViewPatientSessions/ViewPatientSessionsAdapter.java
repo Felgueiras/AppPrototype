@@ -1,24 +1,20 @@
-package com.example.rafael.appprototype.Patients.ViewPatientsTab.SinglePatient;
+package com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewPatientSessions;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.Evaluations.ReviewSession.ReviewSessionFragment;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSessionFragment;
 
 import java.util.ArrayList;
 

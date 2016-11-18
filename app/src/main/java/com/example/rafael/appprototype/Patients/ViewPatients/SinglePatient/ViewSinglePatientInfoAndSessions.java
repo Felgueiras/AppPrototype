@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ViewPatientsTab;
+package com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient;
 
 import android.app.Fragment;
 import android.content.res.Resources;
@@ -9,8 +9,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +21,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.Main.MainActivity;
-import com.example.rafael.appprototype.Patients.ViewPatientsTab.SinglePatient.ViewPatientSessionsAdapter;
+import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewPatientSessions.ViewPatientSessionsAdapter;
 import com.example.rafael.appprototype.R;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -45,15 +43,8 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setHasOptionsMenu(true);
     }
 
-    /**
-     * @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-     * inflater.inflate(R.menu.menu_patient_profile, menu);
-     * super.onCreateOptionsMenu(menu, inflater);
-     * }
-     **/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -1,8 +1,7 @@
-package com.example.rafael.appprototype.Patients.ViewPatientsTab.SinglePatient;
+package com.example.rafael.appprototype.Evaluations.ReviewEvaluation;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,14 +19,6 @@ import com.example.rafael.appprototype.R;
 public class ViewSinglePatientOnlyInfo extends Fragment {
 
     public static final String PATIENT = "patient";
-    /**
-     * RecyclerView to display the Patient's Records
-     */
-    private RecyclerView recyclerView;
-    /**
-     * Adapter to the RecyclerView
-     */
-    private ViewPatientSessionsAdapter adapter;
 
 
     @Override
