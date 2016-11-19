@@ -81,39 +81,6 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
         return new TestCardHolder(testCard);
     }
 
-    /**
-     * Get the result for the Test
-     *
-     * @param questionsFromTest Questions for a Test
-     * @return final result for the Test
-     */
-    private int getTestResult(ArrayList<Question> questionsFromTest) {
-        int res = 0;
-
-        for (Question question : questionsFromTest) {
-            /**
-             * Yes/no Question
-             */
-            if (question.isYesOrNo()) {
-                String selectedYesNoChoice = question.getSelectedYesNoChoice();
-                if (selectedYesNoChoice.equals("yes")) {
-                    res += question.getYesValue();
-
-                } else {
-                    res += question.getNoValue();
-                }
-            }
-            /**
-             * Multiple Choice Question
-             */
-            else {
-                // get the selected Choice
-                Choice selectedChoice = question.getChoicesForQuestion().get(question.getSelectedChoice());
-                res += selectedChoice.getScore();
-            }
-        }
-        return res;
-    }
 
     @Override
     public void onBindViewHolder(final TestCardHolder holder, int position) {
@@ -143,7 +110,7 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
             if (currentTest.isCompleted()) {
                 // go fetch the result
                 ArrayList<Question> questionsFromTest = currentTest.getQuestionsFromTest();
-                int testResult = getTestResult(questionsFromTest);
+                int testResult = currentTest.getTestResult();
                 // save the result
                 currentTest.setResult(testResult);
                 currentTest.save();

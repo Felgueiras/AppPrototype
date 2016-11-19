@@ -3,6 +3,7 @@ package com.example.rafael.appprototype.Evaluations;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,6 @@ public class EvaluationsMainFragment extends Fragment {
             Bundle args = new Bundle();
             ((MainActivity) getActivity()).replaceFragment(NewEvaluation.class, args, Constants.create_patient);
         }
-
 
         return v;
     }

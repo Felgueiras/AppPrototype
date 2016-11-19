@@ -269,6 +269,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         Question question = new Question();
         String dummyID = test.getGuid() + "-" + currentQuestionNonDB.getDescription();
         question.setGuid(dummyID);
+        question.setDescription(currentQuestionNonDB.getDescription());
         question.setTest(test);
         question.setYesOrNo(true);
         question.setYesValue(currentQuestionNonDB.getYesScore());

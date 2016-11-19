@@ -24,15 +24,7 @@ public class ViewSinglePatientOnlyInfo extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_patient_profile, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

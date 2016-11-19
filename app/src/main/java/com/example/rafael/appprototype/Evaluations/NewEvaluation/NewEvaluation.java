@@ -189,7 +189,7 @@ public class NewEvaluation extends Fragment {
                     alertDialog.show();
                     return;
                 }
-
+                Constants.sessionID = null;
 
                 Log.d("Session", "Finishing!");
                 ((MainActivity) getActivity()).replaceFragment(SessionsHistoryFragment.class, null, Constants.tag_view_sessions_history);

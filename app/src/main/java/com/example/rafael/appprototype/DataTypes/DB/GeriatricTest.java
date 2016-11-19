@@ -243,4 +243,36 @@ public class GeriatricTest extends Model implements Serializable {
                 .executeSingle();
     }
 
+    /**
+     * Get the result for a Test.
+     * @return
+     */
+    public int getTestResult() {
+        int res = 0;
+        ArrayList<Question> questionsFromTest = getQuestionsFromTest();
+
+        for (Question question : questionsFromTest) {
+            /**
+             * Yes/no Question
+             */
+            if (question.isYesOrNo()) {
+                String selectedYesNoChoice = question.getSelectedYesNoChoice();
+                if (selectedYesNoChoice.equals("yes")) {
+                    res += question.getYesValue();
+
+                } else {
+                    res += question.getNoValue();
+                }
+            }
+            /**
+             * Multiple Choice Question
+             */
+            else {
+                // get the selected Choice
+                Choice selectedChoice = question.getChoicesForQuestion().get(question.getSelectedChoice());
+                res += selectedChoice.getScore();
+            }
+        }
+        return res;
+    }
 }

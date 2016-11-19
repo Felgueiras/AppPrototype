@@ -20,7 +20,7 @@ import com.example.rafael.appprototype.R;
 /**
  * Fragment that will display info for a Session that is being reviewed.
  */
-public class ReviewSessionFragment extends Fragment {
+public class ReviewEvaluationFragment extends Fragment {
 
     /**
      * Patient for this Session
@@ -55,7 +55,7 @@ public class ReviewSessionFragment extends Fragment {
          Recycler view that will hold the cards of the different tests to be reviewed.
          **/
         RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.reviewsTestsRV);
-        ReviewTest adapter = new ReviewTest(getActivity(), session);
+        ReviewTests adapter = new ReviewTests(getActivity(), session);
         int numbercolumns = 1;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);

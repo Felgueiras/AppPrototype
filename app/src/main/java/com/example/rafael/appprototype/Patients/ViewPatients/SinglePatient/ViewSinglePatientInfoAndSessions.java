@@ -48,6 +48,7 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.newSession:
                 Bundle args = new Bundle();

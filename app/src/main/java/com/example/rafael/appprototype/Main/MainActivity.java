@@ -27,6 +27,7 @@ import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.ViewAvailableTests.DisplayTestCard;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewSingleTestFragment;
 import com.example.rafael.appprototype.HandleStack;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
 import com.example.rafael.appprototype.Login.LoginActivity;

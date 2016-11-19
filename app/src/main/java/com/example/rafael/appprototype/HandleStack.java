@@ -9,6 +9,7 @@ import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewEvaluationFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.DisplaySingleTestFragment;
 import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
@@ -30,12 +31,10 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
     }
 
     public static void handleBackButton(FragmentManager fragmentManager) {
-        Log.d("Backstack", "onBackPressed");
         if (fragmentManager.getBackStackEntryCount() > 0) {
             // get fragment on top of stack
             String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
             Fragment currentFragment = fragmentManager.findFragmentByTag(fragmentTag);
-
 
             //String fragmentName = fragmentManager.getBackStackEntryAt(0).getName();
             Fragment fr = fragmentManager.findFragmentById(R.id.content_frame);
@@ -71,8 +70,15 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
                         .commit();
             }else if (tag.equals(Constants.create_session)){
                 ((NewEvaluation)currentFragment).discardFAB.performClick();
-
             }
+            /**
+            else if (tag.equals(Constants.tag_review_session)){
+                Fragment fragment = new ReviewEvaluationFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .commit();
+            }
+             **/
         }
     }
 
