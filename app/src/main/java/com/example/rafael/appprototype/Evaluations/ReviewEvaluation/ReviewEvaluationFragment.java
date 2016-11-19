@@ -55,7 +55,7 @@ public class ReviewEvaluationFragment extends Fragment {
          Recycler view that will hold the cards of the different tests to be reviewed.
          **/
         RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.reviewsTestsRV);
-        ReviewTests adapter = new ReviewTests(getActivity(), session);
+        ReviewCreateTestCard adapter = new ReviewCreateTestCard(getActivity(), session);
         int numbercolumns = 1;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);

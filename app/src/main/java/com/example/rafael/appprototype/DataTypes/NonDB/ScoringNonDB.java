@@ -1,11 +1,15 @@
 package com.example.rafael.appprototype.DataTypes.NonDB;
 
+import android.util.Log;
+
+import com.example.rafael.appprototype.Constants;
+
 import java.util.ArrayList;
 
 /**
  * Created by rafael on 30-09-2016.
  */
-public class ScoringNonDB  {
+public class ScoringNonDB {
 
     /**
      * Min score for a given test
@@ -22,7 +26,7 @@ public class ScoringNonDB  {
     /**
      * Correspondence between score and category.
      */
-    ArrayList<GradingNonDB> values;
+    ArrayList<GradingNonDB> valuesBoth;
     /**
      * Grading particular to men
      */
@@ -70,12 +74,12 @@ public class ScoringNonDB  {
         this.differentMenWomen = differentMenWomen;
     }
 
-    public ArrayList<GradingNonDB> getValues() {
-        return values;
+    public ArrayList<GradingNonDB> getValuesBoth() {
+        return valuesBoth;
     }
 
-    public void setValues(ArrayList<GradingNonDB> values) {
-        this.values = values;
+    public void setValuesBoth(ArrayList<GradingNonDB> valuesBoth) {
+        this.valuesBoth = valuesBoth;
     }
 
     public ArrayList<GradingNonDB> getValuesMen() {
@@ -92,5 +96,24 @@ public class ScoringNonDB  {
 
     public void setValuesWomen(ArrayList<GradingNonDB> valuesWomen) {
         this.valuesWomen = valuesWomen;
+    }
+
+    public GradingNonDB getGrading(int testResult, int gender) {
+        GradingNonDB match = null;
+        ArrayList<GradingNonDB> toConsider = null;
+        if (gender == Constants.MALE)
+            toConsider = valuesMen;
+        else if (gender == Constants.FEMALE)
+            toConsider = valuesWomen;
+        else
+            toConsider = valuesBoth;
+        for (GradingNonDB grading : toConsider) {
+            // check the grading for the result we have
+            if (grading.containsScore(testResult)) {
+                match = grading;
+                break;
+            }
+        }
+        return match;
     }
 }

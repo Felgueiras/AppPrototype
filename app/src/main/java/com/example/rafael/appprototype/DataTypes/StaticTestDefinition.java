@@ -1,5 +1,7 @@
 package com.example.rafael.appprototype.DataTypes;
 
+import android.util.Log;
+
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
@@ -31,7 +33,7 @@ public class StaticTestDefinition {
         gradings.add(new GradingNonDB("Dependência ligeira", 5));
         gradings.add(new GradingNonDB("Independência total", 6));
         // add Gradings to Scoring
-        katzScoring.setValues(gradings);
+        katzScoring.setValuesBoth(gradings);
         // add Scoring to Test
         testeDeKatz.setScoring(katzScoring);
         // create Questions
@@ -81,7 +83,7 @@ public class StaticTestDefinition {
 
         // continencia
         QuestionNonDB food = new QuestionNonDB("Alimentação", false);
-         ChoiceNonDBs = new ArrayList<>();
+        ChoiceNonDBs = new ArrayList<>();
         ChoiceNonDBs.add(new ChoiceNonDB("Independente", "leva a comida do prato à boca sem ajuda; exclui cortar a carne", 1));
         ChoiceNonDBs.add(new ChoiceNonDB("Dependente", "necessita de ajuda para comer; não come em absoluto ou necessita\n" +
                 "de nutrição entérica / parentérica", 0));
@@ -109,7 +111,7 @@ public class StaticTestDefinition {
         gradingsMen.add(new GradingNonDB("Dependência ligeira", 4));
         gradingsMen.add(new GradingNonDB("Independência total", 5));
         // add Gradings to Scoring
-        lawtonScoring.setValues(gradingsMen);
+        lawtonScoring.setValuesBoth(gradingsMen);
 
         // create Gradings for women
         ArrayList<GradingNonDB> gradingsWomen = new ArrayList<>();
@@ -119,7 +121,7 @@ public class StaticTestDefinition {
         gradingsWomen.add(new GradingNonDB("Dependência ligeira", new int[]{6, 7}));
         gradingsWomen.add(new GradingNonDB("Independência total", 8));
         // add Gradings to Scoring
-        lawtonScoring.setValues(gradingsWomen);
+        lawtonScoring.setValuesBoth(gradingsWomen);
         // add Scoring to Test
         escalaLawtonBrody.setScoring(lawtonScoring);
         // create Questions
@@ -249,7 +251,7 @@ public class StaticTestDefinition {
                 "não planos"));
         gradings.add(new GradingNonDB("Marcha independente", 5, "O idoso é capaz de andar independentemente em superfícies planas, inclinadas ou escadas"));
         // add Gradings to Scoring
-        marchaScoring.setValues(gradings);
+        marchaScoring.setValuesBoth(gradings);
         // add Scoring to Test
         marcha.setScoring(marchaScoring);
 
@@ -282,7 +284,7 @@ public class StaticTestDefinition {
         gradings.add(new GradingNonDB("Depressão ligeira", new int[]{6, 7, 8, 9, 10}));
         gradings.add(new GradingNonDB("Depressão grave", new int[]{11, 12, 13, 14, 15}));
         // add Gradings to Scoring
-        depressionScoring.setValues(gradings);
+        depressionScoring.setValuesBoth(gradings);
         // add Scoring to Test
         escalaDepressao.setScoring(depressionScoring);
 
@@ -358,9 +360,35 @@ public class StaticTestDefinition {
 
     /**
      * Get the short name for a given test.
+     *
      * @param testName
      */
     public static String getShortName(String testName) {
         return getTestByName(testName).getShortName();
+    }
+
+    /**
+     * Get Scoring info for a Test
+     *
+     * @param testName name of Test
+     * @param gender
+     * @param testResult
+     * @return Scoring info
+     */
+    public static GradingNonDB getGradingForTest(String testName, int gender, int testResult) {
+        ScoringNonDB scoring = getTestByName(testName).getScoring();
+        GradingNonDB match = null;
+        // check if it's different for men and women
+        if (scoring.isDifferentMenWomen()) {
+            if (gender == Constants.MALE) {
+                match = scoring.getGrading(testResult, Constants.MALE);
+            } else {
+                match = scoring.getGrading(testResult, Constants.FEMALE);
+            }
+
+        } else {
+            match = scoring.getGrading(testResult, Constants.BOTH);
+        }
+        return  match;
     }
 }

@@ -5,6 +5,8 @@ package com.example.rafael.appprototype;
  */
 public class Constants {
     public static final int MALE = 0;
+    public static final int FEMALE = 1;
+    public static final int BOTH = 2;
 
     public static String patient = "patientObject";
     public static String test = "TEST";

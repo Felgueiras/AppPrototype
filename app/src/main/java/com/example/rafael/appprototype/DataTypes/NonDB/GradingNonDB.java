@@ -1,6 +1,9 @@
 package com.example.rafael.appprototype.DataTypes.NonDB;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by rafael on 30-09-2016.
  */
@@ -12,7 +15,7 @@ public class GradingNonDB {
      */
     String grade;
     /**
-     * Score corresponding to that category. Can be a single value or a list of values.
+     * Score corresponding to that category. Can be a single value or a list of valuesBoth.
      */
     String score;
     /**
@@ -37,13 +40,8 @@ public class GradingNonDB {
         this.description = description;
     }
 
-
-    public GradingNonDB() {
-
-    }
-
     /**
-     * Create a new Grading category (multiple values)
+     * Create a new Grading category (multiple valuesBoth)
      *
      * @param grade
      * @param values
@@ -55,5 +53,44 @@ public class GradingNonDB {
         for (int i = 1; i < values.length; i++) {
             this.score += "," + values[i];
         }
+    }
+
+    /**
+     * Check if the result we have for the Test corresponds to this Grading category.
+     *
+     * @param testResult
+     * @return
+     */
+    public boolean containsScore(int testResult) {
+        List<String> values = Arrays.asList(score.split(","));
+        System.out.println(testResult + "->" + values);
+        if (values.contains(Integer.toString(testResult)))
+            return true;
+        return false;
+    }
+
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
