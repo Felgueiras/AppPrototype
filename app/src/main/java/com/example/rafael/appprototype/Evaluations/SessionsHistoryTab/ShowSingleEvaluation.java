@@ -47,7 +47,7 @@ public class ShowSingleEvaluation extends RecyclerView.Adapter<ShowSingleEvaluat
             super(view);
             patientName = (TextView) view.findViewById(R.id.patientName);
             photo = (ImageView) view.findViewById(R.id.patientPhoto);
-            overflow = (ImageView) view.findViewById(R.id.overflow);
+            //overflow = (ImageView) view.findViewById(R.id.overflow);
             testsList = (ListView) view.findViewById(R.id.session_tests_results);
         }
     }

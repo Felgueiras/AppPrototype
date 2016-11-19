@@ -88,7 +88,6 @@ public class SearchAllDrugs extends Fragment {
         allDrugs.addAll(stoppCriteriaDrugs);
         allDrugs.addAll(startCriteriaDrugs);
         allDrugs.addAll(beersCriteriaDrugs);
-        // TODO check for duplicates
         drugsListAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item, R.id.drug_name, allDrugs);
 
         drugsSearchListView.setAdapter(drugsListAdapter);

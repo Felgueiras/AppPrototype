@@ -37,7 +37,9 @@
     </LinearLayout>
 
     <ImageView
+        android:background="@color/album_title"
         android:id="@+id/patientPhoto"
+        android:adjustViewBounds="true"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

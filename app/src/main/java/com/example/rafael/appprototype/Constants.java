@@ -28,8 +28,9 @@ public class Constants {
      * Back stack tags.
      */
     public static final String tag_view_patien_info_records = "viewPatientInfoRecords";
-    public static final String tag_display_session_test = "displaySessionTest";
+    // create new Session
     public static final String tag_create_new_session_for_patient = "createNewSessionForPatient";
+    public static final String tag_display_session_test = "displaySessionTest";
     // review Evaluation
     public static final String tag_view_sessions_history = "viewSessionsHistory";
     public static final String tag_review_session = "reviewSession";

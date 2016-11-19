@@ -5,13 +5,22 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <!--Infos about Patient-->
     <include
         android:id="@+id/patientInfoInclude"
         layout="@layout/patient_info_data" />
 
+    <View
+        android:id="@+id/separator"
+        android:layout_below="@+id/patientInfoInclude"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#000000" />
+
+    <!--Infos about Sessions-->
     <TextView
         android:id="@+id/patientSessionsText"
-        android:layout_below="@+id/patientInfoInclude"
+        android:layout_below="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/patient_sessions"
@@ -19,8 +28,7 @@
         android:padding="10dp"/>
 
     <android.support.v7.widget.RecyclerView
-
-        android:id="@+id/patientRecords"
+        android:id="@+id/patientSessions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/patientSessionsText"

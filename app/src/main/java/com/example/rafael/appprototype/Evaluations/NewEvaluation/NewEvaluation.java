@@ -103,7 +103,6 @@ public class NewEvaluation extends Fragment {
             // add the tests to the DB
             GeriatricTest test = new GeriatricTest();
             // set name and session
-            // TODO get from StaticTestDefinition
             GeriatricTestNonDB escalaDep = StaticTestDefinition.escalaDepressao();
             test.setTestName(escalaDep.getTestName());
             test.setShortName(escalaDep.getShortName());

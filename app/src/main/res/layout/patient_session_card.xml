@@ -26,6 +26,13 @@
                 android:textColor="@color/album_title"
                 android:textSize="@dimen/album_title" />
 
+            <ListView
+                android:layout_below="@+id/recordDate"
+                android:id="@+id/session_tests_results"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <!--
             <ImageView
                 android:id="@+id/overflow"
                 android:layout_width="@dimen/ic_album_overflow_width"
@@ -35,6 +42,7 @@
                 android:layout_marginTop="@dimen/ic_album_overflow_margin_top"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_dots" />
+                -->
 
         </RelativeLayout>
 

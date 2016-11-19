@@ -43,7 +43,7 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
             name = (TextView) view.findViewById(R.id.patientName);
             //age = (TextView) view.findViewById(R.id.patientAge);
             photo = (ImageView) view.findViewById(R.id.patientPhoto);
-            overflow = (ImageView) view.findViewById(R.id.overflow);
+            //overflow = (ImageView) view.findViewById(R.id.overflow);
         }
     }
 

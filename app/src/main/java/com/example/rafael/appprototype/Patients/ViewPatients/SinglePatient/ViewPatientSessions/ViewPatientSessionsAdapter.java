@@ -7,16 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.Evaluations.SessionsHistoryTab.ShowTestsForEvaluation;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewEvaluationMain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatientSessionsAdapter.MyViewHolder> {
 
@@ -37,12 +41,14 @@ public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatient
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView date;
         public ImageView overflow;
+        public ListView testsList;
 
         public MyViewHolder(View view) {
             super(view);
 
             date = (TextView) view.findViewById(R.id.recordDate);
-            overflow = (ImageView) view.findViewById(R.id.overflow);
+            testsList = (ListView) view.findViewById(R.id.session_tests_results);
+            //overflow = (ImageView) view.findViewById(R.id.overflow);
         }
     }
 
@@ -61,7 +67,7 @@ public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatient
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_record_info, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.patient_session_card, parent, false);
 
 
         // add on click listener for the Session
@@ -82,6 +88,11 @@ public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatient
         final Session session = sessions.get(position);
         holder.date.setText(session.getDate());
         currentSession =sessions.get(position);
+        List<GeriatricTest> testsFromSession = currentSession.getTestsFromSession();
+
+        // display the result for the tests
+        ShowTestsForEvaluation adapter = new ShowTestsForEvaluation(context, testsFromSession);
+        holder.testsList.setAdapter(adapter);
     }
 
 

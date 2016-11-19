@@ -1,0 +1,3 @@
+- viewPatientInfoRecords -> createNewSessionForPatient -> displaySessionTest
+- createSession -> displaySessionTest
+- viewSessionsHistory -> reviewSession -> reviewTest
