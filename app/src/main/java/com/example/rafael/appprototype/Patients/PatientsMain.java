@@ -24,7 +24,7 @@ public class PatientsMain extends Fragment {
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,11 +38,28 @@ public class PatientsMain extends Fragment {
 
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) v.findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        viewPager = (ViewPager) v.findViewById(R.id.container);
+        viewPager.setAdapter(mSectionsPagerAdapter);
+        viewPager.setCurrentItem(Constants.vpPatientsPage);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                System.out.println(position);
+                Constants.vpPatientsPage = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         // FAB
-
         FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.patients_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

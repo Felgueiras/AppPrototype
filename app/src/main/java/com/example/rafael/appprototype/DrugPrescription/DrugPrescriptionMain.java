@@ -5,11 +5,11 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DrugPrescription.Beers.BeersCriteriaFragment;
 import com.example.rafael.appprototype.DrugPrescription.Start.StartCriteriaFragment;
 import com.example.rafael.appprototype.DrugPrescription.Stopp.StoppCriteriaFragment;
@@ -22,7 +22,7 @@ public class DrugPrescriptionMain extends Fragment {
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,8 +37,26 @@ public class DrugPrescriptionMain extends Fragment {
 
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) v.findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        viewPager = (ViewPager) v.findViewById(R.id.container);
+        viewPager.setAdapter(mSectionsPagerAdapter);
+        viewPager.setCurrentItem(Constants.vpPrescriptionPage);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                System.out.println(position);
+                Constants.vpPrescriptionPage = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         return v;
     }
 

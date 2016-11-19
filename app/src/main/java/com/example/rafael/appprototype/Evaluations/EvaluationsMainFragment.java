@@ -45,7 +45,7 @@ public class EvaluationsMainFragment extends Fragment {
              * Resume the ongoing session.
              */
             Bundle args = new Bundle();
-            ((MainActivity) getActivity()).replaceFragment(NewEvaluation.class, args, Constants.create_patient);
+            ((MainActivity) getActivity()).replaceFragment(NewEvaluation.class, args, Constants.create_session);
         }
 
         return v;

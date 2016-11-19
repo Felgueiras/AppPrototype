@@ -41,9 +41,10 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
             int index = fragmentManager.getBackStackEntryCount() - 1;
             FragmentManager.BackStackEntry backEntry = fragmentManager.getBackStackEntryAt(index);
             String tag = backEntry.getName();
-            //Log.d("Backstack", "Frag patientName is " + fragmentName + ", tag is " + tag);
-            fragmentManager.popBackStack();
+            Log.d("Stack", tag);
             if (tag.equals(Constants.tag_display_session_test)) {
+                fragmentManager.popBackStack();
+
                 // get the arguments
                 Bundle arguments = fr.getArguments();
                 GeriatricTest test = (GeriatricTest) arguments.getSerializable(DisplaySingleTestFragment.testDBobject);
@@ -59,26 +60,26 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
                         .replace(R.id.content_frame, fragment)
                         .commit();
             } else if (tag.equals(Constants.tag_view_patien_info_records)) {
+                fragmentManager.popBackStack();
                 Fragment fragment = new PatientsMain();
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, fragment)
                         .commit();
-            }else if (tag.equals(Constants.tag_view_sessions_history)) {
+            } else if (tag.equals(Constants.tag_view_sessions_history)) {
+                fragmentManager.popBackStack();
+
                 Fragment fragment = new ViewPatientsFragment();
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, fragment)
                         .commit();
-            }else if (tag.equals(Constants.create_session)){
-                ((NewEvaluation)currentFragment).discardFAB.performClick();
+            } else if (tag.equals(Constants.create_session)) {
+                fragmentManager.popBackStack();
+                Log.d("Stack", "pressed back in new session");
+                ((NewEvaluation) currentFragment).discardFAB.performClick();
+            } else if (tag.equals(Constants.tag_create_new_session_for_patient)) {
+                Log.d("Stack", "pressed back in new session with patient");
+                ((NewEvaluation) currentFragment).discardFAB.performClick();
             }
-            /**
-            else if (tag.equals(Constants.tag_review_session)){
-                Fragment fragment = new ReviewEvaluationFragment();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment)
-                        .commit();
-            }
-             **/
         }
     }
 
