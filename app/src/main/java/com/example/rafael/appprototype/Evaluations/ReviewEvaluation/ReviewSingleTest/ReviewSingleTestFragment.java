@@ -41,7 +41,7 @@ public class ReviewSingleTestFragment extends Fragment {
         session = test.getSession();
 
         // set the title
-        getActivity().setTitle(test.getTestName());
+        getActivity().setTitle(test.getShortName());
     }
 
     // Inflate the view for the fragment based on layout XML

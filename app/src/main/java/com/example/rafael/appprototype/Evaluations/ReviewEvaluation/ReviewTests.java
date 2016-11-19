@@ -118,7 +118,7 @@ public class ReviewTests extends RecyclerView.Adapter<ReviewTests.TestCardHolder
         testName = (String) holder.name.getText();
 
         // update the view
-        holder.name.setText(currentTest.getTestName());
+        holder.name.setText(currentTest.getShortName());
         holder.type.setText(currentTest.getType());
         holder.testCompletion.setText(testCompletionResult + "-" + currentTest.getTestResult());
 

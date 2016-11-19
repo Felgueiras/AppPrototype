@@ -5,6 +5,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
+import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -200,7 +201,7 @@ public class GeriatricTest extends Model implements Serializable {
 
 
     public String getShortName() {
-        return shortName;
+        return StaticTestDefinition.getShortName(this.getTestName());
     }
 
     public void setShortName(String shortName) {

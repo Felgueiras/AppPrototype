@@ -32,16 +32,12 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
      * ID for this Session
      */
     private final Session session;
-    /**
-     * Patient for this Session
-     */
-    private final Patient patient;
+
     private Context context;
     /**
      * Data to be displayed.
      */
     private List<GeriatricTestNonDB> testsList;
-    private String testName;
 
 
     /**
@@ -72,7 +68,6 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
         this.context = context;
         this.testsList = testsList;
         this.session = session;
-        this.patient = patientForThisSession;
     }
 
     @Override
@@ -92,7 +87,7 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
         // access a given Test from the DB
         List<GeriatricTest> testsFromSession = session.getTestsFromSession();
         final GeriatricTest currentTest = testsFromSession.get(position);
-        holder.name.setText(currentTest.getTestName());
+        holder.name.setText(currentTest.getShortName());
         holder.type.setText(currentTest.getType());
 
         // fill the View

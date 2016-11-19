@@ -54,7 +54,7 @@ public class DisplaySingleTestFragment extends Fragment {
         session = testDB.getSession();
 
         // set the title
-        getActivity().setTitle(testNonDB.getTestName());
+        getActivity().setTitle(testNonDB.getShortName());
     }
 
     // Inflate the view for the fragment based on layout XML
