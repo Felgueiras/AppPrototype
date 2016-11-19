@@ -8,8 +8,10 @@ import android.util.Log;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewEvaluationFragment;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewEvaluationMain;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewSingleTestFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.DisplaySingleTestFragment;
 import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
@@ -79,6 +81,31 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
             } else if (tag.equals(Constants.tag_create_new_session_for_patient)) {
                 Log.d("Stack", "pressed back in new session with patient");
                 ((NewEvaluation) currentFragment).discardFAB.performClick();
+
+            }
+            /**
+             * Sessions history / review
+             */
+            else if (tag.equals(Constants.tag_review_session)) {
+                fragmentManager.popBackStack();
+                Fragment fragment = new EvaluationsMainFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .commit();
+            } else if (tag.equals(Constants.tag_review_test)) {
+                fragmentManager.popBackStack();
+                // get the arguments
+                Bundle arguments = fr.getArguments();
+                GeriatricTest test = (GeriatricTest) arguments.getSerializable(ReviewSingleTestFragment.testDBobject);
+                Session session = test.getSession();
+
+                Bundle args = new Bundle();
+                args.putSerializable(ReviewEvaluationMain.SESSION, session);
+                Fragment fragment = new ReviewEvaluationMain();
+                fragment.setArguments(args);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .commit();
             }
         }
     }

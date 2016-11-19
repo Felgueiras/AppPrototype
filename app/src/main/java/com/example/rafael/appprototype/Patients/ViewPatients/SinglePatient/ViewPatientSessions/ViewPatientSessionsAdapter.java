@@ -14,7 +14,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewEvaluationFragment;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewEvaluationMain;
 
 import java.util.ArrayList;
 
@@ -69,9 +69,8 @@ public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatient
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                args.putSerializable(ReviewEvaluationFragment.patientObject, patient);
-                args.putSerializable(ReviewEvaluationFragment.SESSION,currentSession);
-                ((MainActivity) context).replaceFragment(ReviewEvaluationFragment.class, args, Constants.tag_review_session);
+                args.putSerializable(ReviewEvaluationMain.SESSION,currentSession);
+                ((MainActivity) context).replaceFragment(ReviewEvaluationMain.class, args, Constants.tag_review_session);
             }
         });
 

@@ -139,7 +139,7 @@ public class ReviewCreateTestCard extends RecyclerView.Adapter<ReviewCreateTestC
                 // setup the transaction
                 FragmentTransaction transaction = ((MainActivity) context).getFragmentManager().beginTransaction();
                 transaction.replace(R.id.content_frame, newFragment);
-                transaction.addToBackStack(Constants.tag_review_session).commit();
+                transaction.addToBackStack(Constants.tag_review_test).commit();
             }
         });
 

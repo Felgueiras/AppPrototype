@@ -20,17 +20,19 @@ import com.example.rafael.appprototype.R;
 /**
  * Fragment that will display info for a Session that is being reviewed.
  */
-public class ReviewEvaluationFragment extends Fragment {
+public class ReviewEvaluationMain extends Fragment {
 
     /**
      * Patient for this Session
      */
     Patient patient;
-    public static String patientObject = "patient";
     /**
      * Session object
      */
     private Session session;
+    /**
+     * String that identifies the Session to be passed as argument.
+     */
     public static String SESSION = "session";
 
     @Override
@@ -65,7 +67,6 @@ public class ReviewEvaluationFragment extends Fragment {
 
         return myInflatedView;
     }
-
 
 
     /**

@@ -10,10 +10,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewEvaluationFragment;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewEvaluationMain;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
 
@@ -88,8 +89,8 @@ public class ShowSingleEvaluation extends RecyclerView.Adapter<ShowSingleEvaluat
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                args.putSerializable(ReviewEvaluationFragment.SESSION, session);
-                ((MainActivity) context).replaceFragment(ReviewEvaluationFragment.class, args, "");
+                args.putSerializable(ReviewEvaluationMain.SESSION, session);
+                ((MainActivity) context).replaceFragment(ReviewEvaluationMain.class, args, Constants.tag_review_session);
             }
         });
         /**
