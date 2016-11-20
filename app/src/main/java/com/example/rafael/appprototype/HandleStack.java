@@ -12,6 +12,7 @@ import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewEvaluationMain;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewSingleTestFragment;
+import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.DisplaySingleTestFragment;
 import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
@@ -21,15 +22,18 @@ import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragmen
  */
 public class HandleStack implements FragmentManager.OnBackStackChangedListener {
 
+    private final MainActivity context;
     FragmentManager fragmentManager;
 
     /**
      * Constructor for the HandleStack class
      *
      * @param fragmentManager
+     * @param mainActivity
      */
-    public HandleStack(FragmentManager fragmentManager) {
+    public HandleStack(FragmentManager fragmentManager, MainActivity mainActivity) {
         this.fragmentManager = fragmentManager;
+        this.context = mainActivity;
     }
 
     public static void handleBackButton(FragmentManager fragmentManager) {
@@ -113,7 +117,10 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
     @Override
     public void onBackStackChanged() {
         if (fragmentManager.getBackStackEntryCount() == 0)
+        {
             return;
+        }
+        // context.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String fragmentName = fragmentManager.getBackStackEntryAt(0).getName();
         int index = fragmentManager.getBackStackEntryCount() - 1;
         FragmentManager.BackStackEntry backEntry = fragmentManager.getBackStackEntryAt(index);

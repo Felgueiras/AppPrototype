@@ -97,7 +97,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         positionsFilled.add(position);
         if (positionsFilled.size() == numquestions) {
             allQuestionsAnswered = true;
-            Snackbar.make(questionView, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
+            //Snackbar.make(questionView, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
             // write that to DB
             test.setCompleted(true);
             test.save();

@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
 
 
         // insert data in DB (if first run)
@@ -86,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         DatabaseOps.insertDataToDB();
 
         // set handler for the Fragment stack
-        HandleStack handler = new HandleStack(getFragmentManager());
+        HandleStack handler = new HandleStack(getFragmentManager(), this);
         getFragmentManager().addOnBackStackChangedListener(handler);
 
         // set default fragment
@@ -112,41 +115,21 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
 
 
-        /*
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ListView drawerList = (ListView) findViewById(R.id.left_drawer);
-
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, myToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        assert drawerLayout != null;
-        drawerLayout.setDrawerListener(toggle);
-        toggle.syncState();
-
-        // Set the adapter for the list view
-        drawerList.setAdapter(new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, drawerPages));
-        // Set the list's click listener
-        DrawerItemClickListener drawerListener = new DrawerItemClickListener(drawerPages, getFragmentManager(), this,
-                drawerList, drawerLayout);
-        drawerList.setOnItemClickListener(drawerListener);
-        */
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Log","Clicked");
+            }
+        });
+        drawer.setDrawerListener(toggle);
         navigationView.setNavigationItemSelectedListener(new DrawerItemClickListener(this, getFragmentManager(), drawer));
+
     }
 
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // mDrawerToggle.onConfigurationChanged(newConfig);
-    }
 
     /**
      * Display a single Test for the doctor
@@ -198,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Log.d("Back","...");
         FragmentManager fragmentManager = getFragmentManager();
         HandleStack.handleBackButton(fragmentManager);
     }
@@ -268,5 +252,6 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Lock", "not locked");
         }
     }
+
 
 }
