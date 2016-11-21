@@ -21,7 +21,7 @@ public class FavoritePatientsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View myInflatedView = inflater.inflate(R.layout.content_view_patients, container, false);
+        View myInflatedView = inflater.inflate(R.layout.content_grid, container, false);
         getActivity().setTitle(getResources().getString(R.string.tab_my_patients));
 
         // get the patients - filter to display only favorites

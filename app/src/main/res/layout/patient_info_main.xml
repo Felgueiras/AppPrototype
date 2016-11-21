@@ -17,23 +17,12 @@
         android:layout_height="1dp"
         android:background="#000000" />
 
-    <!--Infos about Sessions-->
-    <TextView
-        android:id="@+id/patientSessionsText"
-        android:layout_below="@+id/separator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/patient_sessions"
-        android:textSize="20dp"
-        android:padding="10dp"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/patientSessions"
+    <FrameLayout
+        android:layout_below="@+id/separator"
+        android:id="@+id/patientSessionsFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/patientSessionsText"
-        android:clipToPadding="false"
-        android:scrollbars="vertical" />
+        android:layout_height="fill_parent"/>
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/patient_favorite"

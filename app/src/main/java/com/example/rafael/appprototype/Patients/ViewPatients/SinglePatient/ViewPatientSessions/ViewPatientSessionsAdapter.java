@@ -14,7 +14,7 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.Evaluations.SessionsHistoryTab.ShowTestsForEvaluation;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowTestsForEvaluation;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewEvaluationMain;

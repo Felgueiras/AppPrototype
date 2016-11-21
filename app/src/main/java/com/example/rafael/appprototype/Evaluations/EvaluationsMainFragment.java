@@ -3,7 +3,6 @@ package com.example.rafael.appprototype.Evaluations;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import android.widget.GridView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
-import com.example.rafael.appprototype.Evaluations.SessionsHistoryTab.ShowEvaluationsForDay;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowEvaluationsForDay;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
 

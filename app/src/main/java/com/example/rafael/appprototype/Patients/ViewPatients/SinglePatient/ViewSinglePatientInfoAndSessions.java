@@ -1,13 +1,9 @@
 package com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient;
 
 import android.app.Fragment;
-import android.content.res.Resources;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,10 +15,10 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
-import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.Main.MainActivity;
-import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewPatientSessions.ViewPatientSessionsAdapter;
+import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewPatientSessions.ViewPatientSessionsFragment;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.EmptyStateFragment;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
@@ -65,19 +61,29 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
         /**
          RecyclerView to display the Patient's Records
          **/
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.patientSessions);
 
         // get list of Records from this patient
         ArrayList<Session> sessionsFromPatient = patient.getRecordsFromPatient();
-        ViewPatientSessionsAdapter adapter = new ViewPatientSessionsAdapter(getActivity(), sessionsFromPatient, patient);
+        if (sessionsFromPatient.isEmpty()) {
+            FragmentManager fragmentManager = getFragmentManager();
+            Fragment fragment = new EmptyStateFragment();
+            Bundle args = new Bundle();
+            args.putString(EmptyStateFragment.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
+            fragment.setArguments(args);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.patientSessionsFragment, fragment)
+                    .commit();
+        } else {
+            FragmentManager fragmentManager = getFragmentManager();
+            Fragment fragment = new ViewPatientSessionsFragment();
+            Bundle args = new Bundle();
+            args.putSerializable(ViewPatientSessionsFragment.PATIENT, patient);
+            fragment.setArguments(args);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.patientSessionsFragment, fragment)
+                    .commit();
+        }
 
-        // create Layout
-        int numbercolumns = 1;
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
 
         /**
          * Setup FABS
@@ -144,14 +150,6 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
         }
         return true;
 
-    }
-
-    /**
-     * Converting dp to pixel
-     */
-    private int dpToPx(int dp) {
-        Resources r = getActivity().getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 }
 

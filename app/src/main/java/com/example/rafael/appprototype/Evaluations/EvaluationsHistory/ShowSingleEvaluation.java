@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Evaluations.SessionsHistoryTab;
+package com.example.rafael.appprototype.Evaluations.EvaluationsHistory;
 
 import android.content.Context;
 import android.os.Bundle;

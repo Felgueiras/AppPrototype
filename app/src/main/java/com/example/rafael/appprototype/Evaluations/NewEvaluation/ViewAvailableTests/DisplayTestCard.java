@@ -34,10 +34,6 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
     private final Session session;
 
     private Context context;
-    /**
-     * Data to be displayed.
-     */
-    private List<GeriatricTestNonDB> testsList;
 
 
     /**
@@ -60,13 +56,11 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
      * Constructor of the ShowSingleEvaluation
      *
      * @param context               current Context
-     * @param testsList             List of the Tests for this Session
      * @param resuming              true if we are resuming a Session
      * @param patientForThisSession
      */
-    public DisplayTestCard(Context context, ArrayList<GeriatricTestNonDB> testsList, Session session, boolean resuming, Patient patientForThisSession) {
+    public DisplayTestCard(Context context, Session session, boolean resuming, Patient patientForThisSession) {
         this.context = context;
-        this.testsList = testsList;
         this.session = session;
     }
 
@@ -134,7 +128,7 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
 
     @Override
     public int getItemCount() {
-        return testsList.size();
+        return session.getTestsFromSession().size();
     }
 
 }

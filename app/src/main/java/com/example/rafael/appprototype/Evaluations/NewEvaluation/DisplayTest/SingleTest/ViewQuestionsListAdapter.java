@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,7 +60,8 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
 
     /**
      * Display all Questions for a GeriatricTest
-     *  @param context   current Context
+     *
+     * @param context   current Context
      * @param questions ArrayList of Questions
      * @param test      GeriatricTest that is being filled up
      */
@@ -136,10 +139,14 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         return questionView;
     }
 
+    /**
+     * Multiple choice question that's being opened for the first time.
+     *
+     * @param currentQuestionNonDB
+     * @param position
+     * @return
+     */
     private View multipleChoiceNotOpened(QuestionNonDB currentQuestionNonDB, int position) {
-        /**
-         * Inflate the corresponding layout
-         */
         View questionView = inflater.inflate(R.layout.content_question_multiple_choice, null);
 
         // create question and add to DB
@@ -153,13 +160,13 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
 
         // create Choices and add to DB
         ArrayList<ChoiceNonDB> choicesNonDB = currentQuestionNonDB.getChoices();
+        RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
+
         for (ChoiceNonDB currentChoice : choicesNonDB) {
             Choice choice = new Choice();
             String choiceID = test.getGuid() + "-" + currentQuestionNonDB.getDescription() + "-" + currentChoice.getDescription();
-            Log.d("ChoiceID", choiceID);
             // check if already in DB
             if (Choice.getChoiceByID(choiceID) == null) {
-
                 choice.setGuid(choiceID);
                 choice.setQuestion(question);
                 if (currentChoice.getName() != null)
@@ -168,24 +175,27 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
                 choice.setScore(currentChoice.getScore());
                 choice.save();
             }
+
+            // create RadioButton for that choice
+            RadioButton newRadioButton = new RadioButton(context);
+            newRadioButton.setText(choice.getName());
+
+            LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
+                    RadioGroup.LayoutParams.WRAP_CONTENT,
+                    RadioGroup.LayoutParams.WRAP_CONTENT);
+            radioGroup.addView(newRadioButton, 0, layoutParams);
         }
+        radioGroup.setOnCheckedChangeListener(new MultipleChoiceHandler(question, this, position));
 
 
         Holder holder = new Holder();
         holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
-        holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
-        holder.choicesList = (ListView) questionView.findViewById(R.id.questionChoices);
+        holder.question.setText((position + 1) + " - " + question.getDescription());
 
         // Setup the adapter
-        Log.d("Question created", question.toString());
         if (question.getGuid() == null) {
             Log.e("Error", "Must have ID!");
-
         }
-        MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(context, currentQuestionNonDB.getChoices(), question, this, position);
-        holder.choicesList.setAdapter(multipleChoiceHandler);
-        holder.choicesList.setOnItemClickListener(multipleChoiceHandler);
-
         return questionView;
     }
 
@@ -199,33 +209,41 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
      */
     private View multipleChoiceAlreadyOpened(QuestionNonDB currentQuestionNonDB, int position) {
         View questionView = inflater.inflate(R.layout.content_question_multiple_choice, null);
-        Question questionInDB = test.getQuestionsFromTest().get(position);
+        // get Question from DB
+        Question question = test.getQuestionsFromTest().get(position);
 
-        if (questionInDB.isAnswered()) {
+        // create Radio Group from the info in DB
+        RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
+
+        for (Choice currentChoice : question.getChoicesForQuestion()) {
+
+            // create RadioButton for that choice
+            RadioButton newRadioButton = new RadioButton(context);
+            newRadioButton.setText(currentChoice.getName());
+
+            LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
+                    RadioGroup.LayoutParams.WRAP_CONTENT,
+                    RadioGroup.LayoutParams.WRAP_CONTENT);
+            radioGroup.addView(newRadioButton, 0, layoutParams);
+        }
+        radioGroup.setOnCheckedChangeListener(new MultipleChoiceHandler(question, this, position));
+
+        Log.d("Multiple","Already answered - " + question.isAnswered());
+        if (question.isAnswered()) {
             Holder holder = new Holder();
             holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
             holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
-            holder.choicesList = (ListView) questionView.findViewById(R.id.questionChoices);
-
-            MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(context, currentQuestionNonDB.getChoices(), questionInDB, this, position);
-            holder.choicesList.setAdapter(multipleChoiceHandler);
-            holder.choicesList.setOnItemClickListener(multipleChoiceHandler);
-
-            // highlight the already selected item from ListView
+            // set the selected option
+            int selectedChoice = question.getSelectedChoice();
+            RadioButton selectedButton = (RadioButton) radioGroup.getChildAt(selectedChoice);
+            selectedButton.setChecked(true);
         }
 
         // Test already opened, but question not answered
         else {
-            Log.d("question", "not answered");
             Holder holder = new Holder();
             holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
             holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
-            holder.choicesList = (ListView) questionView.findViewById(R.id.questionChoices);
-
-            MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(context, currentQuestionNonDB.getChoices(), questionInDB, this, position);
-            holder.choicesList.setAdapter(multipleChoiceHandler);
-            holder.choicesList.setOnItemClickListener(multipleChoiceHandler);
-
         }
         return questionView;
     }
@@ -260,7 +278,8 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
 
     /**
      * Yes/No question, Test not opened before
-     *  @param currentQuestionNonDB
+     *
+     * @param currentQuestionNonDB
      * @param position
      */
     private View yesNoNotOpened(QuestionNonDB currentQuestionNonDB, int position) {

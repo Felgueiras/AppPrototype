@@ -108,7 +108,7 @@ public class ReviewQuestionsListAdapter extends BaseAdapter {
             Holder holder = new Holder();
             holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
             holder.question.setText((position + 1) + " - " + currentQuestion.getDescription());
-            holder.choicesList = (ListView) questionView.findViewById(R.id.questionChoices);
+            //holder.choicesList = (ListView) questionView.findViewById(R.id.questionChoices);
 
             /**
              ReviewMultipleChoiceHandler multipleChoiceHandler = new ReviewMultipleChoiceHandler(context, currentQuestion.getChoices(), questionInDB, this, position);
@@ -124,7 +124,7 @@ public class ReviewQuestionsListAdapter extends BaseAdapter {
             Holder holder = new Holder();
             holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
             holder.question.setText((position + 1) + " - " + currentQuestion.getDescription());
-            holder.choicesList = (ListView) questionView.findViewById(R.id.questionChoices);
+            //holder.choicesList = (ListView) questionView.findViewById(R.id.questionChoices);
 
             /**
              ReviewMultipleChoiceHandler multipleChoiceHandler = new ReviewMultipleChoiceHandler(context, currentQuestion.getChoices(), questionInDB, this, position);

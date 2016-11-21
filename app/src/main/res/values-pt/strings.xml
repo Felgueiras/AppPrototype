@@ -64,4 +64,6 @@
     <string name="all_questions_answered">Todas as questões respondidas</string>
     <string name="actions_account">Conta</string>
     <string name="add_session">Adicionar uma avaliação</string>
+    <string name="no_sessions_for_patient">Paciente ainda não foi avaliado</string>
+    <string name="no_sessions_history">Não avaliou ainda nenhum paciente</string>
 </resources>

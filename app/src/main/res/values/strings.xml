@@ -74,4 +74,6 @@
     <string name="evaluation_results">Evaluation results</string>
     <string name="all_questions_answered">All questions answered</string>
     <string name="actions_account">Account</string>
+    <string name="no_sessions_for_patient">This patient has no sessions</string>
+    <string name="no_sessions_history">You have no sessions</string>
 </resources>

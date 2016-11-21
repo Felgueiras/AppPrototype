@@ -28,7 +28,7 @@ import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.ViewAvailableTests.DisplayTestCard;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.Evaluations.SessionsHistoryTab.SessionsHistoryFragment;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
@@ -70,8 +70,8 @@ public class NewEvaluation extends Fragment {
         patientForThisSession = (Patient) args.getSerializable(PATIENT);
 
         // read patient for this session
-        if(patientForThisSession!=null)
-            Log.d("Patient","we already have patient!!");
+        if (patientForThisSession != null)
+            Log.d("Patient", "we already have patient!!");
         /**
          * Resume an Evaluation.
          */
@@ -90,7 +90,7 @@ public class NewEvaluation extends Fragment {
                     Constants.pickingPatient = false;
                     Constants.sessionID = null;
                     Log.d("Session", "Finishing!");
-                    ((MainActivity) getActivity()).replaceFragment(SessionsHistoryFragment.class, null, Constants.tag_view_sessions_history);
+                    ((MainActivity) getActivity()).replaceFragment(EvaluationsHistoryMain.class, null, Constants.tag_view_sessions_history);
                 }
             }
         }
@@ -100,26 +100,12 @@ public class NewEvaluation extends Fragment {
         else {
             // create a new session
             createNewSession();
-            // add the tests to the DB
-            GeriatricTest test = new GeriatricTest();
-            // set name and session
-            GeriatricTestNonDB escalaDep = StaticTestDefinition.escalaDepressao();
-            test.setTestName(escalaDep.getTestName());
-            test.setShortName(escalaDep.getShortName());
-            test.setSession(session);
-            test.setAlreadyOpened(false);
-            test.save();
+            addTestsToSession();
         }
 
 
         RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.reviewsTestsRV);
-        // create list of tests (NonDB)
-        ArrayList<GeriatricTestNonDB> testsList = new ArrayList<>();
-        testsList.add(StaticTestDefinition.escalaDepressao());
-        // testsList.add(StaticTestDefinition.escalaDeKatz());
-        //testsList.add(StaticTestDefinition.escalaLawtonBrody());
-        //testsList.add(StaticTestDefinition.marchaHolden());
-        DisplayTestCard adapter = new DisplayTestCard(getActivity(), testsList, session, resuming, patientForThisSession);
+        DisplayTestCard adapter = new DisplayTestCard(getActivity(), session, resuming, patientForThisSession);
 
         // create Layout
         int numbercolumns = 1;
@@ -191,7 +177,7 @@ public class NewEvaluation extends Fragment {
                 Constants.sessionID = null;
 
                 Log.d("Session", "Finishing!");
-                ((MainActivity) getActivity()).replaceFragment(SessionsHistoryFragment.class, null, Constants.tag_view_sessions_history);
+                ((MainActivity) getActivity()).replaceFragment(EvaluationsHistoryMain.class, null, Constants.tag_view_sessions_history);
             }
         });
 
@@ -230,6 +216,39 @@ public class NewEvaluation extends Fragment {
     }
 
     /**
+     * Add Tests to a Session
+     */
+    private void addTestsToSession() {
+        // add the tests to the DB
+        GeriatricTest test = new GeriatricTest();
+        // set name and session
+        GeriatricTestNonDB testNonDB = StaticTestDefinition.escalaDepressao();
+        test.setTestName(testNonDB.getTestName());
+        test.setShortName(testNonDB.getShortName());
+        test.setSession(session);
+        test.setAlreadyOpened(false);
+        test.save();
+
+        test = new GeriatricTest();
+        // set name and session
+        testNonDB = StaticTestDefinition.escalaDeKatz();
+        test.setTestName(testNonDB.getTestName());
+        test.setShortName(testNonDB.getShortName());
+        test.setSession(session);
+        test.setAlreadyOpened(false);
+        test.save();
+
+        test = new GeriatricTest();
+        // set name and session
+        testNonDB = StaticTestDefinition.escalaLawtonBrody();
+        test.setTestName(testNonDB.getTestName());
+        test.setShortName(testNonDB.getShortName());
+        test.setSession(session);
+        test.setAlreadyOpened(false);
+        //test.save();
+    }
+
+    /**
      * Generate a new sessionID.
      */
     private void createNewSession() {
@@ -254,7 +273,6 @@ public class NewEvaluation extends Fragment {
         // save the ID
         Constants.sessionID = sessionID;
     }
-
 
 
     /**

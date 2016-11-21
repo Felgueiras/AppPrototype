@@ -23,6 +23,7 @@ public class StaticTestDefinition {
     public static GeriatricTestNonDB escalaDeKatz() {
         GeriatricTestNonDB testeDeKatz = new GeriatricTestNonDB(Constants.test_name_testeDeKatz, Constants.test_type_estadoFuncional, "Atividades de Vida Diária Básicas",
                 "sample description");
+        testeDeKatz.setShortName("Escala Katz");
         // create Scoring
         ScoringNonDB katzScoring = new ScoringNonDB(0, 6, false);
         // create Gradings
@@ -100,6 +101,7 @@ public class StaticTestDefinition {
         GeriatricTestNonDB escalaLawtonBrody = new GeriatricTestNonDB(Constants.test_name_escalaLawtonBrody,
                 Constants.test_type_estadoFuncional, "Atividades Instrumentais de Vida Diária",
                 "sample description");
+        escalaLawtonBrody.setShortName("Escala Lawton Brody");
         // create Scoring
         ScoringNonDB lawtonScoring = new ScoringNonDB(0, 8, false);
         lawtonScoring.setDifferentMenWomen(true);
