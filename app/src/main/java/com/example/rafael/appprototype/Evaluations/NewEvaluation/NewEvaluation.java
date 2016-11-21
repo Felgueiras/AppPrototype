@@ -127,14 +127,16 @@ public class NewEvaluation extends Fragment {
                     return;
                 }
 
-                // check if there is any incomplete test
+                // check how many tests were completed
+                int numTestsCompleted = 0;
                 List<GeriatricTest> testsFromSession = session.getTestsFromSession();
                 for (GeriatricTest test : testsFromSession) {
-                    // incomplete test
-                    if (!test.isCompleted()) {
-                        Snackbar.make(layout, getResources().getString(R.string.not_all_tests_complete), Snackbar.LENGTH_SHORT).show();
-                        return;
-                    }
+                    if (test.isCompleted())
+                        numTestsCompleted++;
+                }
+                if (numTestsCompleted == 0) {
+                    Snackbar.make(layout, getResources().getString(R.string.not_all_tests_complete), Snackbar.LENGTH_SHORT).show();
+                    return;
                 }
 
                 // check if there is an added patient or not
@@ -175,6 +177,13 @@ public class NewEvaluation extends Fragment {
                     return;
                 }
                 Constants.sessionID = null;
+                List<GeriatricTest> finalTests = session.getTestsFromSession();
+                for (GeriatricTest test : finalTests) {
+                    if (!test.isCompleted()) {
+                        test.setSession(null);
+                        test.delete();
+                    }
+                }
 
                 Log.d("Session", "Finishing!");
                 ((MainActivity) getActivity()).replaceFragment(EvaluationsHistoryMain.class, null, Constants.tag_view_sessions_history);
@@ -245,7 +254,7 @@ public class NewEvaluation extends Fragment {
         test.setShortName(testNonDB.getShortName());
         test.setSession(session);
         test.setAlreadyOpened(false);
-        test.save();
+        //test.save();
     }
 
     /**
