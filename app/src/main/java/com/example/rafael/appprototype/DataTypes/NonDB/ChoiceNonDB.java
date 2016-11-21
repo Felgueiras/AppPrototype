@@ -47,6 +47,7 @@ public class ChoiceNonDB {
 
     public ChoiceNonDB(String description, int score) {
         super();
+        this.name = null;
         this.description = description;
         this.score = score;
     }

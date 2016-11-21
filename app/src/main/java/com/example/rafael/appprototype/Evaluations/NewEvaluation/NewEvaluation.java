@@ -245,7 +245,7 @@ public class NewEvaluation extends Fragment {
         test.setShortName(testNonDB.getShortName());
         test.setSession(session);
         test.setAlreadyOpened(false);
-        //test.save();
+        test.save();
     }
 
     /**

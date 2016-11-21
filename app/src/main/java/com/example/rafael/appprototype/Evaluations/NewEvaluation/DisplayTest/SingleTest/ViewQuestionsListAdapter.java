@@ -25,6 +25,7 @@ import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
  * Create the layout of the Questions
@@ -178,7 +179,12 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
 
             // create RadioButton for that choice
             RadioButton newRadioButton = new RadioButton(context);
-            newRadioButton.setText(choice.getName());
+            if (Objects.equals(choice.getName(), "") || choice.getName() == null) {
+                newRadioButton.setText(choice.getDescription());
+            } else {
+                newRadioButton.setText(choice.getName());
+
+            }
 
             LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
                     RadioGroup.LayoutParams.WRAP_CONTENT,
@@ -215,11 +221,16 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         // create Radio Group from the info in DB
         RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
 
-        for (Choice currentChoice : question.getChoicesForQuestion()) {
+        for (Choice choice : question.getChoicesForQuestion()) {
 
             // create RadioButton for that choice
             RadioButton newRadioButton = new RadioButton(context);
-            newRadioButton.setText(currentChoice.getName());
+            if (Objects.equals(choice.getName(), "") || choice.getName() == null) {
+                newRadioButton.setText(choice.getDescription());
+            } else {
+                newRadioButton.setText(choice.getName());
+
+            }
 
             LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
                     RadioGroup.LayoutParams.WRAP_CONTENT,
@@ -228,7 +239,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         }
         radioGroup.setOnCheckedChangeListener(new MultipleChoiceHandler(question, this, position));
 
-        Log.d("Multiple","Already answered - " + question.isAnswered());
+        Log.d("Multiple", "Already answered - " + question.isAnswered());
         if (question.isAnswered()) {
             Holder holder = new Holder();
             holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
