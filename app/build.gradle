@@ -40,4 +40,5 @@ dependencies {
     compile 'com.github.fafaldo:fab-toolbar:1.2.0'
     compile 'com.getbase:floatingactionbutton:1.10.1'
     testCompile 'junit:junit:4.12'
+    compile 'com.jjoe64:graphview:4.2.1'
 }

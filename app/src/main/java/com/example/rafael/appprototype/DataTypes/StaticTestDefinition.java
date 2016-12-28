@@ -1,7 +1,5 @@
 package com.example.rafael.appprototype.DataTypes;
 
-import android.util.Log;
-
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
@@ -265,7 +263,7 @@ public class StaticTestDefinition {
      * Get infos about 'Escala de Depressão Geriátrica de Yesavage – versão curta'
      */
     public static GeriatricTestNonDB escalaDepressao() {
-        GeriatricTestNonDB escalaDepressao = new GeriatricTestNonDB(Constants.test_name_escalaDepressao,
+        GeriatricTestNonDB escalaDepressao = new GeriatricTestNonDB(Constants.test_name_escalaDepressaoYesavage,
                 Constants.test_type_estadoAfetivo, "",
                 "Escala utilizada para o rastreio da depressão, avaliando aspectos cognitivos e\n" +
                         "comportamentais tipicamente afectados na depressão do idoso.\n" +
@@ -350,7 +348,7 @@ public class StaticTestDefinition {
     public static GeriatricTestNonDB getTestByName(String testName) {
         if (Objects.equals(testName, Constants.test_name_testeDeKatz)) {
             return escalaDeKatz();
-        } else if (Objects.equals(testName, Constants.test_name_escalaDepressao)) {
+        } else if (Objects.equals(testName, Constants.test_name_escalaDepressaoYesavage)) {
             return escalaDepressao();
         } else if (Objects.equals(testName, Constants.test_name_marchaHolden)) {
             return marchaHolden();

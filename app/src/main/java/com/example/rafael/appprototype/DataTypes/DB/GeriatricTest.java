@@ -66,12 +66,17 @@ public class GeriatricTest extends Model implements Serializable {
     @Column(name = "completed")
     boolean completed;
 
-    @Column(name="shortName")
+    @Column(name = "shortName")
     String shortName;
 
-    @Column(name="alreadyOpened")
-    boolean alreadyOpened;
+    /**
+     * Notes for a test, can explain why the result is this one.
+     */
+    @Column(name = "notes")
+    String notes;
 
+    @Column(name = "alreadyOpened")
+    boolean alreadyOpened;
 
 
     /**
@@ -244,8 +249,10 @@ public class GeriatricTest extends Model implements Serializable {
                 .executeSingle();
     }
 
+
     /**
      * Get the result for a Test.
+     *
      * @return
      */
     public int getTestResult() {
@@ -275,5 +282,23 @@ public class GeriatricTest extends Model implements Serializable {
             }
         }
         return res;
+    }
+
+    /**
+     * Set the notes for this test,
+     *
+     * @param notes
+     */
+    public void setNotes(String notes) {
+        System.out.println("Adding note for this test");
+        this.notes = notes;
+    }
+
+    public boolean hasNotes() {
+        return notes!=null;
+    }
+
+    public String getNotes() {
+        return notes;
     }
 }

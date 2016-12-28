@@ -172,4 +172,8 @@ public class Session extends Model implements Serializable {
         datetime = format.format(date);
         return datetime;
     }
+
+    public Date getDateAsString() {
+        return stringToDate(date);
+    }
 }

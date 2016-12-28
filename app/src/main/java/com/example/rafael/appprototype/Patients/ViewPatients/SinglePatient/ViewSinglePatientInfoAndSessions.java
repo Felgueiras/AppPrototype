@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,10 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewPatientSessions.ViewPatientEvolutionFragment;
 import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewPatientSessions.ViewPatientSessionsFragment;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.EmptyStateFragment;
@@ -23,6 +26,8 @@ import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by rafael on 05-10-2016.
@@ -74,6 +79,7 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
                     .replace(R.id.patientSessionsFragment, fragment)
                     .commit();
         } else {
+            /*
             FragmentManager fragmentManager = getFragmentManager();
             Fragment fragment = new ViewPatientSessionsFragment();
             Bundle args = new Bundle();
@@ -82,6 +88,16 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
             fragmentManager.beginTransaction()
                     .replace(R.id.patientSessionsFragment, fragment)
                     .commit();
+                    */
+            FragmentManager fragmentManager = getFragmentManager();
+            Fragment fragment = new ViewPatientEvolutionFragment();
+            Bundle args = new Bundle();
+            args.putSerializable(ViewPatientEvolutionFragment.PATIENT, patient);
+            fragment.setArguments(args);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.patientSessionsFragment, fragment)
+                    .commit();
+
         }
 
 

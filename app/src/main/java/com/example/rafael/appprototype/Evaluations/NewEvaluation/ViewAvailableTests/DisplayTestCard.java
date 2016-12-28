@@ -2,10 +2,13 @@ package com.example.rafael.appprototype.Evaluations.NewEvaluation.ViewAvailableT
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.DB.Choice;
@@ -42,12 +45,14 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
     public class TestCardHolder extends RecyclerView.ViewHolder implements Serializable {
         public TextView name, type, testCompletion;
         public View view;
+        public EditText notes;
 
         public TestCardHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.testName);
             type = (TextView) view.findViewById(R.id.testType);
             testCompletion = (TextView) view.findViewById(R.id.testCompletion);
+            notes = (EditText) view.findViewById(R.id.testNotes);
             this.view = view;
         }
     }
@@ -98,7 +103,6 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
             // already complete
             if (currentTest.isCompleted()) {
                 // go fetch the result
-                ArrayList<Question> questionsFromTest = currentTest.getQuestionsFromTest();
                 int testResult = currentTest.getTestResult();
                 // save the result
                 currentTest.setResult(testResult);
@@ -112,6 +116,10 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
 
         }
 
+        if (currentTest.hasNotes()) {
+            holder.notes.setText(currentTest.getNotes());
+        }
+
         /**
          * For when the Test is selected.
          */
@@ -122,6 +130,27 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
                 String selectedTestName = currentTest.getTestName();
                 ((MainActivity) context).displaySessionTest(StaticTestDefinition.getTestByName(selectedTestName),
                         currentTest);
+            }
+        });
+
+        /**
+         * Add a listener for when a note is added.
+         */
+        holder.notes.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                currentTest.setNotes(charSequence.toString());
+                currentTest.save();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
     }

@@ -23,7 +23,10 @@ public class Constants {
     public static final String test_name_testeDeKatz = "Escala de Katz";
     public static final String test_name_escalaLawtonBrody = "Escala de Lawton & Brody";
     public static final String test_name_marchaHolden = "Classificaçao Funcional da Marcha de Holden";
-    public static final String test_name_escalaDepressao = "Escala de Depressão Geriátrica de Yesavage – versão curta";
+    public static final String test_name_escalaDepressaoYesavage = "Escala de Depressão Geriátrica de Yesavage – versão curta";
+    public static final String[] allTests = new String[]{test_name_escalaDepressaoYesavage,
+            test_name_testeDeKatz, test_name_escalaLawtonBrody,
+            test_name_marchaHolden};
     /**
      * Back stack tags.
      */
