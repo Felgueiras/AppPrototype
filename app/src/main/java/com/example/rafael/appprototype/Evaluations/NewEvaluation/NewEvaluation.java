@@ -32,7 +32,6 @@ import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.Evaluation
 import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -231,7 +230,7 @@ public class NewEvaluation extends Fragment {
         // add the tests to the DB
         GeriatricTest test = new GeriatricTest();
         // set name and session
-        GeriatricTestNonDB testNonDB = StaticTestDefinition.escalaDepressao();
+        GeriatricTestNonDB testNonDB = StaticTestDefinition.escalaDepressaoYesavage();
         test.setTestName(testNonDB.getTestName());
         test.setShortName(testNonDB.getShortName());
         test.setSession(session);

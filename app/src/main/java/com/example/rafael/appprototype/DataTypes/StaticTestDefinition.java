@@ -262,7 +262,7 @@ public class StaticTestDefinition {
     /**
      * Get infos about 'Escala de Depressão Geriátrica de Yesavage – versão curta'
      */
-    public static GeriatricTestNonDB escalaDepressao() {
+    public static GeriatricTestNonDB escalaDepressaoYesavage() {
         GeriatricTestNonDB escalaDepressao = new GeriatricTestNonDB(Constants.test_name_escalaDepressaoYesavage,
                 Constants.test_type_estadoAfetivo, "",
                 "Escala utilizada para o rastreio da depressão, avaliando aspectos cognitivos e\n" +
@@ -349,7 +349,7 @@ public class StaticTestDefinition {
         if (Objects.equals(testName, Constants.test_name_testeDeKatz)) {
             return escalaDeKatz();
         } else if (Objects.equals(testName, Constants.test_name_escalaDepressaoYesavage)) {
-            return escalaDepressao();
+            return escalaDepressaoYesavage();
         } else if (Objects.equals(testName, Constants.test_name_marchaHolden)) {
             return marchaHolden();
         } else if (Objects.equals(testName, Constants.test_name_escalaLawtonBrody)) {
@@ -370,7 +370,7 @@ public class StaticTestDefinition {
     /**
      * Get Scoring info for a Test
      *
-     * @param testName name of Test
+     * @param testName   name of Test
      * @param gender
      * @param testResult
      * @return Scoring info
@@ -389,6 +389,6 @@ public class StaticTestDefinition {
         } else {
             match = scoring.getGrading(testResult, Constants.BOTH);
         }
-        return  match;
+        return match;
     }
 }

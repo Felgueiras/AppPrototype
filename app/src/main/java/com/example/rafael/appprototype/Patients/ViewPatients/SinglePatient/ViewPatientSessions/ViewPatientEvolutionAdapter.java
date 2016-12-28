@@ -14,7 +14,9 @@ import android.widget.TextView;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowTestsForEvaluation;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewEvaluationMain;
 import com.example.rafael.appprototype.Main.MainActivity;
@@ -89,6 +91,10 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
         String testName = Constants.allTests[position];
         // set test name in the gui
         holder.testName.setText(testName);
+        // get test from static definition
+        GeriatricTestNonDB testInfo = StaticTestDefinition.getTestByName(testName);
+
+
 
         // get all the instances of that Test for this Patient
         ArrayList<GeriatricTest> testInstances = new ArrayList<>();
@@ -140,8 +146,7 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
             // set manual Y bounds
             graph.getViewport().setYAxisBoundsManual(true);
             graph.getViewport().setMinY(0);
-            // TODO set max based on test max result
-            graph.getViewport().setMaxY(5);
+            graph.getViewport().setMaxY(testInfo.getScoring().getMaxScore());
             graph.addSeries(series);
 
             // styling
@@ -152,7 +157,7 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
                 }
             });
 
-            series.setSpacing(50);
+            series.setSpacing(20);
 
             // draw values on top
             series.setDrawValuesOnTop(true);
