@@ -21,6 +21,7 @@ import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.ValueDependentColor;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -36,26 +37,18 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
      */
     private final Patient patient;
     private Context context;
-    /**
-     * Records from that patient
-     */
-    private ArrayList<Session> sessions;
-    private Session currentSession;
 
     /**
      * Create a View
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView date;
-        public ImageView overflow;
-        public ListView testsList;
+
+
+        public TextView testName;
 
         public MyViewHolder(View view) {
             super(view);
-
-            date = (TextView) view.findViewById(R.id.recordDate);
-            testsList = (ListView) view.findViewById(R.id.session_tests_results);
-            //overflow = (ImageView) view.findViewById(R.id.overflow);
+            testName = (TextView) view.findViewById(R.id.testName);
         }
     }
 
@@ -68,7 +61,6 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
      */
     public ViewPatientEvolutionAdapter(Context context, ArrayList<Session> sessions, Patient patient) {
         this.context = context;
-        this.sessions = sessions;
         this.patient = patient;
     }
 
@@ -76,7 +68,7 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.patient_test_evolution, parent, false);
 
-
+        /*
         // add on click listener for the Session
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,23 +78,21 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
                 ((MainActivity) context).replaceFragment(ReviewEvaluationMain.class, args, Constants.tag_review_session);
             }
         });
+        */
 
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-
-
-        // display the result for the tests
-        //ShowTestsForEvaluation adapter = new ShowTestsForEvaluation(context, testsFromSession);
-        //holder.testsList.setAdapter(adapter);
-
-        // TODO patient progress
         // current Test
         String testName = Constants.allTests[position];
+        // set test name in the gui
+        holder.testName.setText(testName);
+
         // get all the instances of that Test for this Patient
         ArrayList<GeriatricTest> testInstances = new ArrayList<>();
+
 
         ArrayList<Session> sessionsFromPatient = patient.getRecordsFromPatient();
         for (Session currentSession : sessionsFromPatient) {
@@ -134,16 +124,23 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
             // create DataPoints
             DataPoint[] points = new DataPoint[xAxis.size()];
             for (int pos = 0; pos < xAxis.size(); pos++) {
-                points[pos] = new DataPoint(pos, yAxis.get(pos));
+                points[pos] = new DataPoint(xAxis.get(pos), yAxis.get(pos));
             }
             BarGraphSeries<DataPoint> series = new BarGraphSeries<>(points);
+            // set date label formatter
+            graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(context));
+            graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
+
+
             // set manual X bounds
             graph.getViewport().setXAxisBoundsManual(true);
-            graph.getViewport().setMinX(0);
+            graph.getViewport().setMinX(xAxis.get(0).getTime());
+            graph.getViewport().setMaxX(xAxis.get(xAxis.size()-1).getTime());
 
             // set manual Y bounds
             graph.getViewport().setYAxisBoundsManual(true);
             graph.getViewport().setMinY(0);
+            // TODO set max based on test max result
             graph.getViewport().setMaxY(5);
             graph.addSeries(series);
 
