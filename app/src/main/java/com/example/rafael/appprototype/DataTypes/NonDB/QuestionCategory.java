@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by rafael on 30-09-2016.
  */
-public class QuestionNonDB {
+public class QuestionCategory {
 
 
     String category;
@@ -26,37 +26,17 @@ public class QuestionNonDB {
      * Boolean that signals if it is a yes or no question.
      */
     boolean yesOrNo;
+    private ArrayList<QuestionNonDB> questions;
 
 
     /**
-     * Create a new Question
+     * Constructor for the QuestionCategory data type.
      *
-     * @param description description of the Question
-     * @param yesOrNo     indicates if it is a yes or no Question or not
+     * @param category
      */
-    public QuestionNonDB(String description, boolean yesOrNo) {
-        this.description = description;
-        this.yesOrNo = yesOrNo;
-    }
-
-    public QuestionNonDB(String description) {
-        this.description = description;
-        this.yesOrNo = false;
-        this.rightWrong = true;
-    }
-
-    public void setRightWrong(boolean rightWrong) {
-        this.rightWrong = rightWrong;
-    }
-
-    public boolean isRightWrong() {
-        return rightWrong;
-    }
-
-    public QuestionNonDB(String description, int yes, int no) {
-        this.description = description;
-        this.choices.add(new ChoiceNonDB(yes, no));
-        this.yesOrNo = true;
+    public QuestionCategory(String category) {
+        this.category = category;
+        this.questions = new ArrayList<>();
     }
 
 
@@ -101,5 +81,13 @@ public class QuestionNonDB {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public void addQuestion(QuestionNonDB question) {
+        this.questions.add(question);
+    }
+
+    public ArrayList<QuestionNonDB> getQuestions() {
+        return questions;
     }
 }

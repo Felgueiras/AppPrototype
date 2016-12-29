@@ -4,6 +4,7 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
+import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.ScoringNonDB;
 
@@ -369,111 +370,140 @@ public class StaticTestDefinition {
         // add Scoring to Test
         mentalState.setScoring(mentalStateScoring);
 
-        // Orientação
-        // 1
-        QuestionNonDB question = new QuestionNonDB("Em que ano estamos?","Orientação");
-        mentalState.addQuestion(question);
-        // 2
-        question = new QuestionNonDB("Em que mês estamos?","Orientação");
-        mentalState.addQuestion(question);
-        // 3
-        question = new QuestionNonDB("Em que dia do mês estamos?","Orientação");
-        mentalState.addQuestion(question);
-        // 4
-        question = new QuestionNonDB("Em que dia da semana estamos?","Orientação");
-        mentalState.addQuestion(question);
-        // 5
-        question = new QuestionNonDB("Em que estação do ano estamos?","Orientação");
-        mentalState.addQuestion(question);
-        // 6
-        question = new QuestionNonDB("Em que país estamos?","Orientação");
-        mentalState.addQuestion(question);
-        // 7
-        question = new QuestionNonDB("Em que distrito vive","Orientação");
-        mentalState.addQuestion(question);
-        // 8
-        question = new QuestionNonDB("Em que terra vive?","Orientação");
-        mentalState.addQuestion(question);
-        // 9
-        question = new QuestionNonDB("Em que casa estamos?","Orientação");
-        mentalState.addQuestion(question);
-        // 10
-        question = new QuestionNonDB("Em que andar estamos?","Orientação");
-        mentalState.addQuestion(question);
+        // TODO add description to categories
 
-        /*
+
+        // Orientação
+        QuestionCategory category = new QuestionCategory("Orientação");
+        // 1
+        QuestionNonDB question = new QuestionNonDB("Em que ano estamos?");
+        category.addQuestion(question);
+
+        // 2
+        question = new QuestionNonDB("Em que mês estamos?");
+        category.addQuestion(question);
+
+        // 3
+        question = new QuestionNonDB("Em que dia do mês estamos?");
+        category.addQuestion(question);
+
+        // 4
+        question = new QuestionNonDB("Em que dia da semana estamos?");
+        category.addQuestion(question);
+
+        // 5
+        question = new QuestionNonDB("Em que estação do ano estamos?");
+        category.addQuestion(question);
+
+        // 6
+        question = new QuestionNonDB("Em que país estamos?");
+        category.addQuestion(question);
+
+        // 7
+        question = new QuestionNonDB("Em que distrito vive");
+        category.addQuestion(question);
+
+        // 8
+        question = new QuestionNonDB("Em que terra vive?");
+        category.addQuestion(question);
+
+        // 9
+        question = new QuestionNonDB("Em que casa estamos?");
+        category.addQuestion(question);
+
+        // 10
+        question = new QuestionNonDB("Em que andar estamos?");
+        category.addQuestion(question);
+        mentalState.addQuestionCategory(category);
+
+
         // Retenção
+        category = new QuestionCategory("Retenção");
         // 11
-        question = new QuestionNonDB("Pêra", 0, 1);
-        mentalState.addQuestion(question);
+        question = new QuestionNonDB("Pêra");
+        category.addQuestion(question);
         // 12
-        question = new QuestionNonDB("Gato", 1, 0);
-        mentalState.addQuestion(question);
+        question = new QuestionNonDB("Gato");
+        category.addQuestion(question);
         // 13
-        question = new QuestionNonDB("Bola", 0, 1);
-        mentalState.addQuestion(question);
+        question = new QuestionNonDB("Bola");
+        category.addQuestion(question);
+        // add category to the test
+        mentalState.addQuestionCategory(category);
+
+
 
         // Atenção e cálculo
+        category = new QuestionCategory("Atenção e cálculo");
         // 14
         question = new QuestionNonDB("27", 1, 0);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
         // 15
         question = new QuestionNonDB("24", 1, 0);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
         // 16
         question = new QuestionNonDB("21", 1, 0);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
         // 17
         question = new QuestionNonDB("18", 1, 0);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
         // 18
         question = new QuestionNonDB("15", 1, 0);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
+        mentalState.addQuestionCategory(category);
+
+
 
         // Evocação
+        category = new QuestionCategory("Evocação");
+
         // 19
         question = new QuestionNonDB("Pêra", 0, 1);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
         // 20
         question = new QuestionNonDB("Gato", 1, 0);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
         // 21
         question = new QuestionNonDB("Bola", 0, 1);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
+        mentalState.addQuestionCategory(category);
+
 
         // Linguagem
+        category = new QuestionCategory("Linguagem");
         // 21
         question = new QuestionNonDB("Relógio", 0, 1);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
         // 23
         question = new QuestionNonDB("Lápis", 1, 0);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
         // 24
         question = new QuestionNonDB("Repita a frase que eu vou dizer: O RATO ROEU A ROLHA", 0, 1);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
         // 25
         question = new QuestionNonDB("Pega com a mão direita", 0, 1);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
         // 26
         question = new QuestionNonDB("Dobra ao meio", 0, 1);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
         // 27
         question = new QuestionNonDB("Coloca onde deve", 0, 1);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
         // 28
         question = new QuestionNonDB("Feche os olhos", 0, 1);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
         // 29
         question = new QuestionNonDB("“Escreva uma frase inteira aqui”", 0, 1);
-        mentalState.addQuestion(question);
+        category.addQuestion(question);
+        mentalState.addQuestionCategory(category);
 
         // Capacidade construtiva
+        category = new QuestionCategory("Capacidade construtiva");
         // 30
         question = new QuestionNonDB("Deve copiar um desenho. Dois pentágonos parcialmente sobrepostos; cada um deve ficar com 5 lados, dois dos quais\n" +
                 "intersectados. Não valorizar tremor ou rotação", 0, 1);
-        mentalState.addQuestion(question);
-        */
-
+        category.addQuestion(question);
+        mentalState.addQuestionCategory(category);
 
         return mentalState;
     }

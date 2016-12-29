@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.BaseAdapter;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -15,18 +16,27 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Choice;
 import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
+import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
+import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
+import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
+import com.example.rafael.appprototype.DrugPrescription.Start.ExpandableListAdapterStart;
+import com.example.rafael.appprototype.DrugPrescription.Start.PrescriptionStart;
+import com.example.rafael.appprototype.DrugPrescription.Start.StartCriteria;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleQuestion.MultipleChoiceHandler;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleQuestion.RightWrongQuestionHandler;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleQuestion.YesNoQuestionHandler;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -50,6 +60,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
      * Yes if test already opened, no otherwise
      */
     private final boolean testAlreadyOpened;
+    private final GeriatricTestNonDB testNonDB;
     /**
      * HasSet that will hold the numbers of the Questions that were already answered.
      */
@@ -64,14 +75,14 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
     /**
      * Display all Questions for a GeriatricTest
      *
-     * @param context   current Context
-     * @param questions ArrayList of Questions
-     * @param test      GeriatricTest that is being filled up
+     * @param context current Context
+     * @param test    GeriatricTest that is being filled up
      */
-    public ViewQuestionsListAdapter(Context context, ArrayList<QuestionNonDB> questions, GeriatricTest test) {
+    public ViewQuestionsListAdapter(Context context, GeriatricTestNonDB testNonDb, GeriatricTest test) {
         this.context = context;
-        this.questions = questions;
+        this.questions = testNonDb.getQuestions();
         this.test = test;
+        this.testNonDB = testNonDb;
         numquestions = questions.size();
         testAlreadyOpened = test.isAlreadyOpened();
         inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -79,6 +90,12 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        if (testNonDB.getTestName().equals(Constants.test_name_marchaHolden)) {
+            return testNonDB.getScoring().getValuesBoth().size();
+        }
+        if (testNonDB.getQuestionsCategories().size() != 0) {
+            return 1;
+        }
         return numquestions;
     }
 
@@ -117,23 +134,29 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         questionView = null;
-        QuestionNonDB currentQuestionNonDB = questions.get(position);
         if (!testAlreadyOpened) {
-            // yes/no question
-            if (currentQuestionNonDB.isYesOrNo()) {
-                questionView = yesNoNotOpened(currentQuestionNonDB, position);
+            if (testNonDB.getTestName().equals(Constants.test_name_marchaHolden)) {
+                questionView = marchaHoldenNotOpened(position);
+            } else {
+                QuestionNonDB currentQuestionNonDB = questions.get(position);
+                // yes/no question
+                if (currentQuestionNonDB.isYesOrNo()) {
+                    questionView = yesNoNotOpened(currentQuestionNonDB, position);
+                }
+                // multiple Choice
+                else {
+                    questionView = multipleChoiceNotOpened(currentQuestionNonDB, position);
+                }
+                // right/wrong
+                if (currentQuestionNonDB.isRightWrong()) {
+                    questionView = rightWrongNotOpened();
+                }
             }
-            // multiple Choice
-            else {
-                questionView = multipleChoiceNotOpened(currentQuestionNonDB, position);
-            }
-            // right/wrong
-            if (currentQuestionNonDB.isRightWrong()) {
-                questionView = rightWrongNotOpened(currentQuestionNonDB, position);
-            }
+
         }
         // Test already opened
         else {
+            QuestionNonDB currentQuestionNonDB = questions.get(position);
             // check if question is multiple choice or yes/no
             if (currentQuestionNonDB.isYesOrNo()) {
                 questionView = yesNoAlreadyOpened(currentQuestionNonDB, position);
@@ -141,6 +164,17 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
                 questionView = multipleChoiceAlreadyOpened(currentQuestionNonDB, position);
             }
         }
+        return questionView;
+    }
+
+    private View marchaHoldenNotOpened(int position) {
+        View questionView = inflater.inflate(R.layout.content_category_description, null);
+
+        GradingNonDB currentGrading = testNonDB.getScoring().getValuesBoth().get(position);
+        TextView category = (TextView) questionView.findViewById(R.id.categoryName);
+        category.setText(currentGrading.getGrade());
+        TextView description = (TextView) questionView.findViewById(R.id.categoryDescription);
+        description.setText(currentGrading.getDescription());
         return questionView;
     }
 
@@ -217,7 +251,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
      * @param position
      * @return
      */
-    private View multipleChoiceAlreadyOpened(QuestionNonDB currentQuestionNonDB, int position) {
+    public View multipleChoiceAlreadyOpened(QuestionNonDB currentQuestionNonDB, int position) {
         View questionView = inflater.inflate(R.layout.content_question_multiple_choice, null);
         // get Question from DB
         Question question = test.getQuestionsFromTest().get(position);
@@ -323,40 +357,43 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
     }
 
     /**
-     * rightWrongNotOpened, Test not opened before
-     *
-     * @param currentQuestionNonDB
-     * @param position
+     * @return
      */
-    private View rightWrongNotOpened(QuestionNonDB currentQuestionNonDB, int position) {
-        View questionView = inflater.inflate(R.layout.content_question_right_wrong, null);
-        // check if it's the first question from that category
-        if (position == 0) {
-            // add category test
-            ViewStub simpleViewStub = ((ViewStub) questionView.findViewById(R.id.simpleViewStub)); // get the reference of ViewStub
-            View inflated = simpleViewStub.inflate();
-            TextView tx = (TextView) inflated.findViewById(R.id.stub_text);
-            tx.setText(currentQuestionNonDB.getCategory());
-        }
-        // create question and add to DB
-        Question question = new Question();
-        String dummyID = test.getGuid() + "-" + currentQuestionNonDB.getDescription();
-        question.setGuid(dummyID);
-        question.setDescription(currentQuestionNonDB.getDescription());
-        question.setTest(test);
-        question.setYesOrNo(false);
-        question.setRightWrong(true);
-        question.save();
+    public View rightWrongNotOpened() {
+        View questionView = inflater.inflate(R.layout.activity_categories_list, null);
 
-        /**
-         * Set View
-         */
-        Holder holder = new Holder();
-        holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
-        holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
-        // detect when choice changed
-        RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
-        radioGroup.setOnCheckedChangeListener(new RightWrongQuestionHandler(question, this, position));
+        ExpandableListAdapterCategories listAdapter;
+        ExpandableListView expListView;
+        List<String> listDataHeader;
+        HashMap<String, List<QuestionNonDB>> listDataChild;
+
+        // get the listview
+        expListView = (ExpandableListView) questionView.findViewById(R.id.lvExp);
+
+
+        // prepare data
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
+
+        // Adding child data
+        for (int i = 0; i < testNonDB.getQuestionsCategories().size(); i++) {
+            QuestionCategory cat = testNonDB.getQuestionsCategories().get(i);
+            // header
+            listDataHeader.add(cat.getCategory());
+            // child
+            List<QuestionNonDB> child = new ArrayList<>();
+            for (QuestionNonDB question : cat.getQuestions()) {
+                child.add(question);
+            }
+            listDataChild.put(listDataHeader.get(i), child); // Header, Child data
+        }
+
+        listAdapter = new ExpandableListAdapterCategories(context, listDataHeader, listDataChild,
+                testNonDB, test);
+
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+
         return questionView;
     }
 

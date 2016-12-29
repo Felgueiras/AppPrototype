@@ -107,7 +107,7 @@ public class NewEvaluation extends Fragment {
         DisplayTestCard adapter = new DisplayTestCard(getActivity(), session, resuming, patientForThisSession);
 
         // create Layout
-        int numbercolumns = 1;
+        int numbercolumns = 2;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));

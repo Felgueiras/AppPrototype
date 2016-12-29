@@ -47,6 +47,11 @@ public class GeriatricTestNonDB implements Serializable {
     Session session;
 
     ArrayList<QuestionNonDB> questions = new ArrayList<>();
+    private ArrayList<QuestionCategory> questionsCategories;
+
+    public ArrayList<QuestionCategory> getQuestionsCategories() {
+        return questionsCategories;
+    }
 
     /**
      * Create a new GenerecTest
@@ -61,13 +66,23 @@ public class GeriatricTestNonDB implements Serializable {
         this.testName = testName;
         this.subCategory = subCategory;
         this.description = description;
+        this.questionsCategories = new ArrayList<>();
     }
 
-    public GeriatricTestNonDB() {
-
-    }
-
+    /**
+     * Get all questions from a GeriatricTest object.
+     *
+     * @return
+     */
     public ArrayList<QuestionNonDB> getQuestions() {
+        if (questionsCategories.size() != 0) {
+            // return all questions from the categories
+            ArrayList<QuestionNonDB> allQuestions = new ArrayList<>();
+            for (QuestionCategory cat : questionsCategories) {
+                allQuestions.addAll(cat.getQuestions());
+            }
+            return allQuestions;
+        }
         return questions;
     }
 
@@ -162,5 +177,9 @@ public class GeriatricTestNonDB implements Serializable {
 
     public void setShortName(String shortName) {
         this.shortName = shortName;
+    }
+
+    public void addQuestionCategory(QuestionCategory category) {
+        this.questionsCategories.add(category);
     }
 }

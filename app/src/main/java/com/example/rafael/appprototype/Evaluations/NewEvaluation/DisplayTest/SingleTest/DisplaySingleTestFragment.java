@@ -64,7 +64,7 @@ public class DisplaySingleTestFragment extends Fragment {
         // populate the ListView
         ListView testQuestions = (ListView) view.findViewById(R.id.testQuestions);
         // create the adapter
-        ViewQuestionsListAdapter adapter = new ViewQuestionsListAdapter(this.getActivity(), testNonDB.getQuestions(), testDB);
+        ViewQuestionsListAdapter adapter = new ViewQuestionsListAdapter(this.getActivity(), testNonDB, testDB);
         testQuestions.setAdapter(adapter);
         return view;
     }
