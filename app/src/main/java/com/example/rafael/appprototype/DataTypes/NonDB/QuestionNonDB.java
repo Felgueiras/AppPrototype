@@ -9,6 +9,11 @@ import java.util.ArrayList;
 public class QuestionNonDB {
 
 
+    String category;
+    /**
+     * Indicates if a question has as answer "right" or "wrong".
+     */
+    boolean rightWrong;
     /**
      * Textual description of the question or single tag
      */
@@ -33,9 +38,25 @@ public class QuestionNonDB {
         this.description = description;
         this.yesOrNo = yesOrNo;
     }
+
+    public QuestionNonDB(String description, String category) {
+        this.description = description;
+        this.yesOrNo = false;
+        this.rightWrong = true;
+        this.category = category;
+    }
+
+    public void setRightWrong(boolean rightWrong) {
+        this.rightWrong = rightWrong;
+    }
+
+    public boolean isRightWrong() {
+        return rightWrong;
+    }
+
     public QuestionNonDB(String description, int yes, int no) {
         this.description = description;
-        this.choices.add(new ChoiceNonDB(yes,no));
+        this.choices.add(new ChoiceNonDB(yes, no));
         this.yesOrNo = true;
     }
 
@@ -75,5 +96,13 @@ public class QuestionNonDB {
     public int getNoScore() {
         ChoiceNonDB choiceNonDB = this.choices.get(0);
         return choiceNonDB.getNo();
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

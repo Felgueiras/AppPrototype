@@ -227,16 +227,34 @@ public class NewEvaluation extends Fragment {
      * Add Tests to a Session
      */
     private void addTestsToSession() {
-        // add the tests to the DB
+        /**
+         * Mini mental state.
+         */
         GeriatricTest test = new GeriatricTest();
-        // set name and session
-        GeriatricTestNonDB testNonDB = StaticTestDefinition.escalaDepressaoYesavage();
+        test = new GeriatricTest();
+        GeriatricTestNonDB testNonDB = StaticTestDefinition.mentalStateFolstein();
         test.setTestName(testNonDB.getTestName());
         test.setShortName(testNonDB.getShortName());
         test.setSession(session);
         test.setAlreadyOpened(false);
         test.save();
 
+
+        /**
+         * Escala depressao.
+         */
+        test = new GeriatricTest();
+        // set name and session
+        testNonDB = StaticTestDefinition.escalaDepressaoYesavage();
+        test.setTestName(testNonDB.getTestName());
+        test.setShortName(testNonDB.getShortName());
+        test.setSession(session);
+        test.setAlreadyOpened(false);
+        test.save();
+
+        /**
+         * Katz.
+         */
         test = new GeriatricTest();
         // set name and session
         testNonDB = StaticTestDefinition.escalaDeKatz();
@@ -246,14 +264,29 @@ public class NewEvaluation extends Fragment {
         test.setAlreadyOpened(false);
         test.save();
 
+        /**
+         * Lawton-Brody.
+         */
         test = new GeriatricTest();
-        // set name and session
         testNonDB = StaticTestDefinition.escalaLawtonBrody();
         test.setTestName(testNonDB.getTestName());
         test.setShortName(testNonDB.getShortName());
         test.setSession(session);
         test.setAlreadyOpened(false);
-        //test.save();
+        test.save();
+
+        /**
+         * Marcha Holden.
+         */
+        test = new GeriatricTest();
+        testNonDB = StaticTestDefinition.marchaHolden();
+        test.setTestName(testNonDB.getTestName());
+        test.setShortName(testNonDB.getShortName());
+        test.setSession(session);
+        test.setAlreadyOpened(false);
+        test.save();
+
+
     }
 
     /**

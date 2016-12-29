@@ -228,6 +228,7 @@ public class StaticTestDefinition {
     public static GeriatricTestNonDB marchaHolden() {
         GeriatricTestNonDB marcha = new GeriatricTestNonDB(Constants.test_name_marchaHolden, Constants.test_type_marcha, "",
                 "sample description");
+        marcha.setShortName("Marcha");
         // create Scoring
         ScoringNonDB marchaScoring = new ScoringNonDB(0, 5, false);
         // create Gradings
@@ -340,6 +341,145 @@ public class StaticTestDefinition {
     }
 
     /**
+     * Get infos about 'Mini mental state examination (Folstein)'
+     */
+    public static GeriatricTestNonDB mentalStateFolstein() {
+        GeriatricTestNonDB mentalState = new GeriatricTestNonDB(Constants.test_name_mini_mental_state,
+                Constants.test_type_estadoCognitivo, "",
+                "Questionário que permite fazer uma avaliação sumária das funções cognitivas.\n" +
+                        "É constituído por várias questões, que avaliam a orientação, a memória imediata\n" +
+                        "e a recente, a capacidade de atenção e cálculo, a linguagem e a capacidade\n" +
+                        "construtiva.\n" +
+                        "A informação é obtida através do questionário directo ao idoso que pode ser\n" +
+                        "aplicado por médicos, psicólogos, enfermeiros ou outros profissionais de saúde.");
+        // short name
+        mentalState.setShortName("Mini-Mental State Examination");
+        // create Scoring
+        ScoringNonDB mentalStateScoring = new ScoringNonDB(0, 30, false);
+        // create Gradings
+        ArrayList<GradingNonDB> gradings = new ArrayList<>();
+        gradings.add(new GradingNonDB("Analfabetos", new int[]{0, 1, 2, 3, 4, 5,
+                6, 7, 8, 9, 10, 11, 12, 13, 14, 15}));
+        gradings.add(new GradingNonDB("1 a 11 anos de escolaridade",
+                new int[]{16, 17, 18, 19, 20, 21, 22}));
+        gradings.add(new GradingNonDB("Escolaridade superior a 11 anos",
+                new int[]{23, 24, 25, 26, 27, 28, 29, 30}));
+        // add Gradings to Scoring
+        mentalStateScoring.setValuesBoth(gradings);
+        // add Scoring to Test
+        mentalState.setScoring(mentalStateScoring);
+
+        // Orientação
+        // 1
+        QuestionNonDB question = new QuestionNonDB("Em que ano estamos?","Orientação");
+        mentalState.addQuestion(question);
+        // 2
+        question = new QuestionNonDB("Em que mês estamos?","Orientação");
+        mentalState.addQuestion(question);
+        // 3
+        question = new QuestionNonDB("Em que dia do mês estamos?","Orientação");
+        mentalState.addQuestion(question);
+        // 4
+        question = new QuestionNonDB("Em que dia da semana estamos?","Orientação");
+        mentalState.addQuestion(question);
+        // 5
+        question = new QuestionNonDB("Em que estação do ano estamos?","Orientação");
+        mentalState.addQuestion(question);
+        // 6
+        question = new QuestionNonDB("Em que país estamos?","Orientação");
+        mentalState.addQuestion(question);
+        // 7
+        question = new QuestionNonDB("Em que distrito vive","Orientação");
+        mentalState.addQuestion(question);
+        // 8
+        question = new QuestionNonDB("Em que terra vive?","Orientação");
+        mentalState.addQuestion(question);
+        // 9
+        question = new QuestionNonDB("Em que casa estamos?","Orientação");
+        mentalState.addQuestion(question);
+        // 10
+        question = new QuestionNonDB("Em que andar estamos?","Orientação");
+        mentalState.addQuestion(question);
+
+        /*
+        // Retenção
+        // 11
+        question = new QuestionNonDB("Pêra", 0, 1);
+        mentalState.addQuestion(question);
+        // 12
+        question = new QuestionNonDB("Gato", 1, 0);
+        mentalState.addQuestion(question);
+        // 13
+        question = new QuestionNonDB("Bola", 0, 1);
+        mentalState.addQuestion(question);
+
+        // Atenção e cálculo
+        // 14
+        question = new QuestionNonDB("27", 1, 0);
+        mentalState.addQuestion(question);
+        // 15
+        question = new QuestionNonDB("24", 1, 0);
+        mentalState.addQuestion(question);
+        // 16
+        question = new QuestionNonDB("21", 1, 0);
+        mentalState.addQuestion(question);
+        // 17
+        question = new QuestionNonDB("18", 1, 0);
+        mentalState.addQuestion(question);
+        // 18
+        question = new QuestionNonDB("15", 1, 0);
+        mentalState.addQuestion(question);
+
+        // Evocação
+        // 19
+        question = new QuestionNonDB("Pêra", 0, 1);
+        mentalState.addQuestion(question);
+        // 20
+        question = new QuestionNonDB("Gato", 1, 0);
+        mentalState.addQuestion(question);
+        // 21
+        question = new QuestionNonDB("Bola", 0, 1);
+        mentalState.addQuestion(question);
+
+        // Linguagem
+        // 21
+        question = new QuestionNonDB("Relógio", 0, 1);
+        mentalState.addQuestion(question);
+        // 23
+        question = new QuestionNonDB("Lápis", 1, 0);
+        mentalState.addQuestion(question);
+        // 24
+        question = new QuestionNonDB("Repita a frase que eu vou dizer: O RATO ROEU A ROLHA", 0, 1);
+        mentalState.addQuestion(question);
+        // 25
+        question = new QuestionNonDB("Pega com a mão direita", 0, 1);
+        mentalState.addQuestion(question);
+        // 26
+        question = new QuestionNonDB("Dobra ao meio", 0, 1);
+        mentalState.addQuestion(question);
+        // 27
+        question = new QuestionNonDB("Coloca onde deve", 0, 1);
+        mentalState.addQuestion(question);
+        // 28
+        question = new QuestionNonDB("Feche os olhos", 0, 1);
+        mentalState.addQuestion(question);
+        // 29
+        question = new QuestionNonDB("“Escreva uma frase inteira aqui”", 0, 1);
+        mentalState.addQuestion(question);
+
+        // Capacidade construtiva
+        // 30
+        question = new QuestionNonDB("Deve copiar um desenho. Dois pentágonos parcialmente sobrepostos; cada um deve ficar com 5 lados, dois dos quais\n" +
+                "intersectados. Não valorizar tremor ou rotação", 0, 1);
+        mentalState.addQuestion(question);
+        */
+
+
+        return mentalState;
+    }
+
+
+    /**
      * Get access to a test definition by its date
      *
      * @param testName
@@ -354,6 +494,8 @@ public class StaticTestDefinition {
             return marchaHolden();
         } else if (Objects.equals(testName, Constants.test_name_escalaLawtonBrody)) {
             return escalaLawtonBrody();
+        } else if (Objects.equals(testName, Constants.test_name_mini_mental_state)) {
+            return mentalStateFolstein();
         }
         return null;
     }

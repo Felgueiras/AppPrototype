@@ -28,6 +28,9 @@ public class Question extends Model {
     @Column(name = "yesOrNo")
     boolean yesOrNo;
 
+    @Column(name = "rightWrong")
+    boolean rightWrong;
+
     @Column(name = "test", onDelete = Column.ForeignKeyAction.CASCADE)
     GeriatricTest test;
     /**
@@ -104,6 +107,14 @@ public class Question extends Model {
 
     public void setSelectedChoice(int selectedChoice) {
         this.selectedChoice = selectedChoice;
+    }
+
+    public boolean isRightWrong() {
+        return rightWrong;
+    }
+
+    public void setRightWrong(boolean rightWrong) {
+        this.rightWrong = rightWrong;
     }
 
     /**

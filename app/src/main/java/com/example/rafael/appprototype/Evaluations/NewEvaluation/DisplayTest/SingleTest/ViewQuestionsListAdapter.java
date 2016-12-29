@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -20,6 +21,7 @@ import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleQuestion.MultipleChoiceHandler;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleQuestion.RightWrongQuestionHandler;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleQuestion.YesNoQuestionHandler;
 import com.example.rafael.appprototype.R;
 
@@ -71,8 +73,6 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         this.questions = questions;
         this.test = test;
         numquestions = questions.size();
-        // TODO display all questions
-        numquestions = 5;
         testAlreadyOpened = test.isAlreadyOpened();
         inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -126,6 +126,10 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
             // multiple Choice
             else {
                 questionView = multipleChoiceNotOpened(currentQuestionNonDB, position);
+            }
+            // right/wrong
+            if (currentQuestionNonDB.isRightWrong()) {
+                questionView = rightWrongNotOpened(currentQuestionNonDB, position);
             }
         }
         // Test already opened
@@ -315,6 +319,44 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         // detect when choice changed
         RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(new YesNoQuestionHandler(question, this, position));
+        return questionView;
+    }
+
+    /**
+     * rightWrongNotOpened, Test not opened before
+     *
+     * @param currentQuestionNonDB
+     * @param position
+     */
+    private View rightWrongNotOpened(QuestionNonDB currentQuestionNonDB, int position) {
+        View questionView = inflater.inflate(R.layout.content_question_right_wrong, null);
+        // check if it's the first question from that category
+        if (position == 0) {
+            // add category test
+            ViewStub simpleViewStub = ((ViewStub) questionView.findViewById(R.id.simpleViewStub)); // get the reference of ViewStub
+            View inflated = simpleViewStub.inflate();
+            TextView tx = (TextView) inflated.findViewById(R.id.stub_text);
+            tx.setText(currentQuestionNonDB.getCategory());
+        }
+        // create question and add to DB
+        Question question = new Question();
+        String dummyID = test.getGuid() + "-" + currentQuestionNonDB.getDescription();
+        question.setGuid(dummyID);
+        question.setDescription(currentQuestionNonDB.getDescription());
+        question.setTest(test);
+        question.setYesOrNo(false);
+        question.setRightWrong(true);
+        question.save();
+
+        /**
+         * Set View
+         */
+        Holder holder = new Holder();
+        holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
+        holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
+        // detect when choice changed
+        RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
+        radioGroup.setOnCheckedChangeListener(new RightWrongQuestionHandler(question, this, position));
         return questionView;
     }
 

@@ -17,6 +17,7 @@ public class Constants {
     public static final String test_type_estadoFuncional = "Estado Funcional";
     public static final String test_type_marcha = "Marcha";
     public static final String test_type_estadoAfetivo = "Estado Afetivo";
+    public static final String test_type_estadoCognitivo = "Estado Cognitivo";
     /**
      * Test names
      */
@@ -24,6 +25,7 @@ public class Constants {
     public static final String test_name_escalaLawtonBrody = "Escala de Lawton & Brody";
     public static final String test_name_marchaHolden = "Classificaçao Funcional da Marcha de Holden";
     public static final String test_name_escalaDepressaoYesavage = "Escala de Depressão Geriátrica de Yesavage – versão curta";
+    public static final String test_name_mini_mental_state = "Mini mental state examination (Folstein)";
     public static final String[] allTests = new String[]{test_name_escalaDepressaoYesavage,
             test_name_testeDeKatz, test_name_escalaLawtonBrody,
             test_name_marchaHolden};

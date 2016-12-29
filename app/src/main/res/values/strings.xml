@@ -76,4 +76,6 @@
     <string name="actions_account">Account</string>
     <string name="no_sessions_for_patient">This patient has no sessions</string>
     <string name="no_sessions_history">You have no sessions</string>
+    <string name="rightChoice">right</string>
+    <string name="wrongChoice">wrong</string>
 </resources>
