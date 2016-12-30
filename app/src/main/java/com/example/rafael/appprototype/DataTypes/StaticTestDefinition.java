@@ -341,6 +341,185 @@ public class StaticTestDefinition {
         return escalaDepressao;
     }
 
+
+    /**
+     * Mini nutritional assessment evaluation.
+     *
+     * @return
+     */
+    public static GeriatricTestNonDB miniNutritionalAssessment() {
+        GeriatricTestNonDB nutritionalAssessment = new GeriatricTestNonDB(Constants.test_name_mini_nutritional_assessment,
+                Constants.test_type_alimentation, "",
+                "Questionário sobre alimentação do paciente");
+        // short name
+        nutritionalAssessment.setShortName("Nutritional assessment");
+        // create Scoring
+        ScoringNonDB mentalStateScoring = new ScoringNonDB(0, 30, false);
+        // create Gradings
+        ArrayList<GradingNonDB> gradings = new ArrayList<>();
+        gradings.add(new GradingNonDB("Desnutrido", new int[]{0, 1, 2, 3, 4, 5,
+                6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}));
+        gradings.add(new GradingNonDB("Sob risco de desnutrição",
+                new int[]{17, 18, 19, 20, 21, 22, 23}));
+        gradings.add(new GradingNonDB("Estado nutricional normal",
+                new int[]{24, 25, 26, 27, 28, 29, 30}));
+        // add Gradings to Scoring
+        mentalStateScoring.setValuesBoth(gradings);
+        // add Scoring to Test
+        nutritionalAssessment.setScoring(mentalStateScoring);
+
+        // Questions + Choices
+        QuestionNonDB question = new QuestionNonDB("A - Nos últimos três meses houve diminuição da ingesta\n" +
+                "alimentar devido a perda de apetite, problemas digestivos\n" +
+                "ou dificuldade para mastigar ou deglutir?", false);
+        ArrayList<ChoiceNonDB> choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("diminuição grave da ingesta", 0));
+        choiceNonDBs.add(new ChoiceNonDB("diminuição moderada da ingesta", 1));
+        choiceNonDBs.add(new ChoiceNonDB("sem diminuição da ingesta", 2));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+        question = new QuestionNonDB("B - Perda de peso nos últimos 3 meses", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("superior a três quilos", 0));
+        choiceNonDBs.add(new ChoiceNonDB("não sabe informar", 1));
+        choiceNonDBs.add(new ChoiceNonDB("entre um e três quilos", 2));
+        choiceNonDBs.add(new ChoiceNonDB("sem perda de peso", 3));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+        question = new QuestionNonDB("C - Mobilidade", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("restrito ao leito ou à cadeira de rodas", 0));
+        choiceNonDBs.add(new ChoiceNonDB("deambula mas não é capaz de sair de casa", 1));
+        choiceNonDBs.add(new ChoiceNonDB("normal", 2));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+        question = new QuestionNonDB("D - Passou por algum stress psicológico ou doença aguda nos\n" +
+                "últimos três meses?", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("sim", 0));
+        choiceNonDBs.add(new ChoiceNonDB("não", 2));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+        question = new QuestionNonDB("E - Problemas neuropsicológicos", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("demência ou depressão graves", 0));
+        choiceNonDBs.add(new ChoiceNonDB("demência ligeira", 1));
+        choiceNonDBs.add(new ChoiceNonDB("sem problemas psicológicos", 2));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+        question = new QuestionNonDB("F - Índice de Massa Corporal (IMC = peso[kg] / estatura [m 2 ])", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("IMC < 19", 0));
+        choiceNonDBs.add(new ChoiceNonDB("19 < IMC < 21", 1));
+        choiceNonDBs.add(new ChoiceNonDB("21 < IMC < 23", 2));
+        choiceNonDBs.add(new ChoiceNonDB("IMC > 23", 3));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+        /**
+         * Avaliação Global.
+         */
+        question = new QuestionNonDB("G - O doente vive na sua própria casa\n" +
+                "(não em instituição geriátrica ou hospital)", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("sim", 1));
+        choiceNonDBs.add(new ChoiceNonDB("não", 0));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+        question = new QuestionNonDB("H - Utiliza mais de três medicamentos diferentes por dia?", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("sim", 0));
+        choiceNonDBs.add(new ChoiceNonDB("não", 1));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+        question = new QuestionNonDB("I - Lesões de pele ou escaras?", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("sim", 0));
+        choiceNonDBs.add(new ChoiceNonDB("não", 1));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+        question = new QuestionNonDB("J - Quantas refeições faz por dia?", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("uma refeição", 0));
+        choiceNonDBs.add(new ChoiceNonDB("duas refeições", 1));
+        choiceNonDBs.add(new ChoiceNonDB("três refeições", 2));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+
+        // TODO question k
+
+        question = new QuestionNonDB("L - O doente consome duas ou mais porções diárias de fruta\n" +
+                "ou produtos hortícolas?", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("não", 0));
+        choiceNonDBs.add(new ChoiceNonDB("sim", 1));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+        question = new QuestionNonDB("M - Quantos copos de líquidos (água, sumo, café, chá, leite) o\n" +
+                "doente consome por dia?", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("menos de três copos", 0));
+        choiceNonDBs.add(new ChoiceNonDB("três a cinco copos", 0.5));
+        choiceNonDBs.add(new ChoiceNonDB("mais de cinco copos", 1));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+        question = new QuestionNonDB("N - Modo de se alimentar", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("não é capaz de se alimentar sozinho", 0));
+        choiceNonDBs.add(new ChoiceNonDB("alimenta-se sozinho, porém com dificuldade", 1));
+        choiceNonDBs.add(new ChoiceNonDB("alimenta-se sozinho sem dificuldade", 2));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+        question = new QuestionNonDB("O - O doente acredita ter algum problema nutricional?", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("acredita estar desnutrido", 0));
+        choiceNonDBs.add(new ChoiceNonDB("não sabe dizer", 1));
+        choiceNonDBs.add(new ChoiceNonDB("acredita não ter um problema nutricional", 2));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+        question = new QuestionNonDB("P - Em comparação com outras pessoas da mesma idade,\n" +
+                "como considera o doente a sua própria saúde?", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("pior", 0));
+        choiceNonDBs.add(new ChoiceNonDB("não sabe", 0.5));
+        choiceNonDBs.add(new ChoiceNonDB("igual", 1));
+        choiceNonDBs.add(new ChoiceNonDB("melhor", 2));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+        question = new QuestionNonDB("Q - Perímetro braquial (PB) em cm", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("PB < 21", 0));
+        choiceNonDBs.add(new ChoiceNonDB("21 < PB < 22", 0.5));
+        choiceNonDBs.add(new ChoiceNonDB("PB > 22", 1));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+        question = new QuestionNonDB("R - Perímetro da perna (PP) em cm", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("PP < 31", 0));
+        choiceNonDBs.add(new ChoiceNonDB("PP > 31", 1));
+        question.setChoices(choiceNonDBs);
+        nutritionalAssessment.addQuestion(question);
+
+
+
+        return nutritionalAssessment;
+    }
+
     /**
      * Get infos about 'Mini mental state examination (Folstein)'
      */
@@ -370,11 +549,9 @@ public class StaticTestDefinition {
         // add Scoring to Test
         mentalState.setScoring(mentalStateScoring);
 
-        // TODO add description to categories
-
-
         // Orientação
         QuestionCategory category = new QuestionCategory("Orientação");
+        category.setDescription("");
         // 1
         QuestionNonDB question = new QuestionNonDB("Em que ano estamos?");
         category.addQuestion(question);
@@ -419,6 +596,7 @@ public class StaticTestDefinition {
 
         // Retenção
         category = new QuestionCategory("Retenção");
+        category.setDescription("“Vou dizer três palavras; queria que as repetisse, mas só depois de eu as dizer todas; procure ficar a sabê-las de cor”.");
         // 11
         question = new QuestionNonDB("Pêra");
         category.addQuestion(question);
@@ -432,9 +610,10 @@ public class StaticTestDefinition {
         mentalState.addQuestionCategory(category);
 
 
-
         // Atenção e cálculo
         category = new QuestionCategory("Atenção e cálculo");
+        category.setDescription("“Agora peço-lhe que me diga quantos são 30 menos 3 e depois ao número encontrado volta a tirar 3 e repete assim\n" +
+                "até eu lhe dizer para parar”");
         // 14
         question = new QuestionNonDB("27", 1, 0);
         category.addQuestion(question);
@@ -453,9 +632,9 @@ public class StaticTestDefinition {
         mentalState.addQuestionCategory(category);
 
 
-
         // Evocação
         category = new QuestionCategory("Evocação");
+        category.setDescription("“Veja se consegue dizer as três palavras que pedi há pouco para decorar”.");
 
         // 19
         question = new QuestionNonDB("Pêra", 0, 1);
@@ -471,6 +650,7 @@ public class StaticTestDefinition {
 
         // Linguagem
         category = new QuestionCategory("Linguagem");
+        category.setDescription("");
         // 21
         question = new QuestionNonDB("Relógio", 0, 1);
         category.addQuestion(question);
@@ -526,6 +706,8 @@ public class StaticTestDefinition {
             return escalaLawtonBrody();
         } else if (Objects.equals(testName, Constants.test_name_mini_mental_state)) {
             return mentalStateFolstein();
+        } else if (Objects.equals(testName, Constants.test_name_mini_nutritional_assessment)) {
+            return miniNutritionalAssessment();
         }
         return null;
     }
@@ -547,7 +729,7 @@ public class StaticTestDefinition {
      * @param testResult
      * @return Scoring info
      */
-    public static GradingNonDB getGradingForTest(String testName, int gender, int testResult) {
+    public static GradingNonDB getGradingForTest(String testName, int gender, double testResult) {
         ScoringNonDB scoring = getTestByName(testName).getScoring();
         GradingNonDB match = null;
         // check if it's different for men and women

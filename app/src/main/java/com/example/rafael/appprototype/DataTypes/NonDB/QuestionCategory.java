@@ -84,10 +84,21 @@ public class QuestionCategory {
     }
 
     public void addQuestion(QuestionNonDB question) {
+        question.setNumber(questions.size());
         this.questions.add(question);
     }
 
     public ArrayList<QuestionNonDB> getQuestions() {
         return questions;
+    }
+
+    public static int getQuestionIndex(int category, int questionInCategory, GeriatricTestNonDB testNonDB) {
+        int index = 0;
+        for (int i = 0; i < category; i++) {
+            index += testNonDB.getQuestionsCategories().get(i).getQuestions().size();
+        }
+        index += questionInCategory;
+        return index;
+
     }
 }

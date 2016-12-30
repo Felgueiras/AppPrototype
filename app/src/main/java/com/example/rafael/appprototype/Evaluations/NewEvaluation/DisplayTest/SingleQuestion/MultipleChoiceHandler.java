@@ -44,7 +44,6 @@ public class MultipleChoiceHandler implements RadioGroup.OnCheckedChangeListener
                 }
             }
         }
-        System.out.println(question.getSelectedChoice());
         question.setAnswered(true);
         question.save();
         /**

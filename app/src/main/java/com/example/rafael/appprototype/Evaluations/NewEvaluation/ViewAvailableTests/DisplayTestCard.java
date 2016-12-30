@@ -103,7 +103,7 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
             // already complete
             if (currentTest.isCompleted()) {
                 // go fetch the result
-                int testResult = currentTest.getTestResult();
+                double testResult = currentTest.getTestResult();
                 // save the result
                 currentTest.setResult(testResult);
                 currentTest.save();

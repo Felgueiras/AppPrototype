@@ -46,6 +46,7 @@ public class Question extends Model {
     boolean answered;
     @Column(name = "selectedChoice")
     int selectedChoice;
+    private String selectedRightWrong;
 
     /**
      * Create a new Question
@@ -184,9 +185,18 @@ public class Question extends Model {
         str += "ID - " +guid;
         str += "Description - " +description;
         str += "Already answered? " + answered;
+        str += "Right/wrong " + selectedRightWrong;
         return str;
 
 
     }
 
+    public void setSelectedRightWrong(String selectedRightWrong) {
+        this.selectedRightWrong = selectedRightWrong;
+        System.out.println("setSelectedRightWrong");
+    }
+
+    public String getSelectedRightWrong() {
+        return this.selectedRightWrong;
+    }
 }

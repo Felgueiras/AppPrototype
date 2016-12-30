@@ -61,10 +61,10 @@ public class GradingNonDB {
      * @param testResult
      * @return
      */
-    public boolean containsScore(int testResult) {
+    public boolean containsScore(double testResult) {
         List<String> values = Arrays.asList(score.split(","));
         System.out.println(testResult + "->" + values);
-        if (values.contains(Integer.toString(testResult)))
+        if (values.contains(Double.toString(testResult)))
             return true;
         return false;
     }

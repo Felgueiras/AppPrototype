@@ -45,7 +45,7 @@ public class ShowTestsForEvaluation extends BaseAdapter {
         // get values
         GeriatricTest geriatricTest = tests.get(position);
         String name = StaticTestDefinition.getShortName(geriatricTest.getTestName());
-        int result = geriatricTest.getResult();
+        double result = geriatricTest.getResult();
 
         // update views
         testName.setText(name);

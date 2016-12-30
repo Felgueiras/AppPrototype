@@ -19,7 +19,7 @@ public class ChoiceNonDB {
     /**
      * Score for that choice for that question;
      */
-    int score;
+    double score;
     /**
      * Score if yes answer.
      */
@@ -38,14 +38,14 @@ public class ChoiceNonDB {
      * @param description description
      * @param score       score for that Choice
      */
-    public ChoiceNonDB(String name, String description, int score) {
+    public ChoiceNonDB(String name, String description, double score) {
         super();
         this.name = name;
         this.description = description;
         this.score = score;
     }
 
-    public ChoiceNonDB(String description, int score) {
+    public ChoiceNonDB(String description, double score) {
         super();
         this.name = null;
         this.description = description;
@@ -79,7 +79,7 @@ public class ChoiceNonDB {
         this.description = description;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 

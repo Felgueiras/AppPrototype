@@ -114,7 +114,7 @@ public class ReviewCreateTestCard extends RecyclerView.Adapter<ReviewCreateTestC
         List<GeriatricTest> testsFromSession = session.getTestsFromSession();
         final GeriatricTest currentTest = testsFromSession.get(position);
         testName = currentTest.getTestName();
-        int testResult = currentTest.getTestResult();
+        double testResult = currentTest.getTestResult();
 
         // update the view
         holder.name.setText(currentTest.getShortName());

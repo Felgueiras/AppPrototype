@@ -51,7 +51,7 @@ public class GeriatricTest extends Model implements Serializable {
      * Numerical result of the GeriatricTest
      */
     @Column(name = "result")
-    int result;
+    double result;
     /**
      * Time it takes to be completed.
      */
@@ -77,6 +77,7 @@ public class GeriatricTest extends Model implements Serializable {
 
     @Column(name = "alreadyOpened")
     boolean alreadyOpened;
+    private int marchaOption;
 
 
     /**
@@ -138,11 +139,11 @@ public class GeriatricTest extends Model implements Serializable {
         this.testName = testName;
     }
 
-    public int getResult() {
+    public double getResult() {
         return result;
     }
 
-    public void setResult(int result) {
+    public void setResult(double result) {
         this.result = result;
     }
 
@@ -255,7 +256,7 @@ public class GeriatricTest extends Model implements Serializable {
      *
      * @return
      */
-    public int getTestResult() {
+    public double getTestResult() {
         int res = 0;
         ArrayList<Question> questionsFromTest = getQuestionsFromTest();
 
@@ -300,5 +301,13 @@ public class GeriatricTest extends Model implements Serializable {
 
     public String getNotes() {
         return notes;
+    }
+
+    public void setMarchaOption(int marchaOption) {
+        this.marchaOption = marchaOption;
+    }
+
+    public int getMarchaOption() {
+        return marchaOption;
     }
 }

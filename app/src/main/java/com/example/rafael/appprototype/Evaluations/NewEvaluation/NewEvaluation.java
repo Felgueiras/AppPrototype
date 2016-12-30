@@ -228,11 +228,22 @@ public class NewEvaluation extends Fragment {
      */
     private void addTestsToSession() {
         /**
-         * Mini mental state.
+         *Nutritional.
          */
         GeriatricTest test = new GeriatricTest();
+        GeriatricTestNonDB testNonDB = StaticTestDefinition.miniNutritionalAssessment();
+        test.setTestName(testNonDB.getTestName());
+        test.setShortName(testNonDB.getShortName());
+        test.setSession(session);
+        test.setAlreadyOpened(false);
+        test.save();
+
+
+        /**
+         * Mini mental state.
+         */
         test = new GeriatricTest();
-        GeriatricTestNonDB testNonDB = StaticTestDefinition.mentalStateFolstein();
+        testNonDB = StaticTestDefinition.mentalStateFolstein();
         test.setTestName(testNonDB.getTestName());
         test.setShortName(testNonDB.getShortName());
         test.setSession(session);

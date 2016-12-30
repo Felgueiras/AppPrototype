@@ -117,7 +117,7 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
             // x axis - date
             ArrayList<Date> xAxis = new ArrayList<>();
             // y axis - score
-            ArrayList<Integer> yAxis = new ArrayList<>();
+            ArrayList<Double> yAxis = new ArrayList<>();
             for (GeriatricTest t : testInstances) {
                 Date date = t.getSession().getDateAsString();
                 xAxis.add(date);

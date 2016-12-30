@@ -26,6 +26,7 @@ public class QuestionNonDB {
      * Boolean that signals if it is a yes or no question.
      */
     boolean yesOrNo;
+    private int number;
 
 
     /**
@@ -101,5 +102,13 @@ public class QuestionNonDB {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public int getNumber() {
+        return number;
     }
 }

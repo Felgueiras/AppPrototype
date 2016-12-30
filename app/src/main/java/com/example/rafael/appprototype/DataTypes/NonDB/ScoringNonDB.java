@@ -98,7 +98,7 @@ public class ScoringNonDB {
         this.valuesWomen = valuesWomen;
     }
 
-    public GradingNonDB getGrading(int testResult, int gender) {
+    public GradingNonDB getGrading(double testResult, int gender) {
         GradingNonDB match = null;
         ArrayList<GradingNonDB> toConsider = null;
         if (gender == Constants.MALE)

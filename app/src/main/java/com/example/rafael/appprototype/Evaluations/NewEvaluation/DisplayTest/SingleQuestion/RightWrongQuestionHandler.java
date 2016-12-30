@@ -3,6 +3,8 @@ package com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.Si
 import android.widget.RadioGroup;
 
 import com.example.rafael.appprototype.DataTypes.DB.Question;
+import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
+import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.ViewQuestionsListAdapter;
 import com.example.rafael.appprototype.R;
 
@@ -15,13 +17,22 @@ public class RightWrongQuestionHandler implements RadioGroup.OnCheckedChangeList
      */
     private final Question question;
     private final ViewQuestionsListAdapter adapter;
-    private final int position;
+    private final int category;
+    private final int questionInCategory;
+    private final GeriatricTestNonDB testNonDB;
+    private int index = 0;
 
 
-    public RightWrongQuestionHandler(Question question, ViewQuestionsListAdapter adapter, int position) {
+    public RightWrongQuestionHandler(Question question, ViewQuestionsListAdapter adapter, int category, int questionInCategory,
+                                     GeriatricTestNonDB testNonDB) {
         this.question = question;
         this.adapter = adapter;
-        this.position = position;
+        this.category = category;
+        this.questionInCategory = questionInCategory;
+        this.testNonDB = testNonDB;
+        // calculate the global index for the question
+        index = QuestionCategory.getQuestionIndex(category,questionInCategory, testNonDB);
+        System.out.println("Number is is " + index);
     }
 
 
@@ -31,15 +42,15 @@ public class RightWrongQuestionHandler implements RadioGroup.OnCheckedChangeList
          * Store choice in DB
          */
         if (checkedId == R.id.rightChoice) {
-            question.setSelectedYesNoChoice("right");
+            question.setSelectedRightWrong("right");
         } else if (checkedId == R.id.wrongChoice) {
-            question.setSelectedYesNoChoice("wrong");
+            question.setSelectedRightWrong("wrong");
         }
         question.setAnswered(true);
         question.save();
         /**
          * Signal that que Question was answered
          */
-        adapter.questionAnswered(position);
+        adapter.questionAnswered(index);
     }
 }

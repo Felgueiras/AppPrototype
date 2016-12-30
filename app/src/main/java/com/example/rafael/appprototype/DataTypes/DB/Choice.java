@@ -27,7 +27,7 @@ public class Choice extends Model {
      * Score for that choice for that question;
      */
     @Column(name = "score")
-    int score;
+    double score;
     /**
      * Score if yes answer.
      */
@@ -106,7 +106,7 @@ public class Choice extends Model {
      *
      * @return
      */
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
@@ -115,7 +115,7 @@ public class Choice extends Model {
      *
      * @param score
      */
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 

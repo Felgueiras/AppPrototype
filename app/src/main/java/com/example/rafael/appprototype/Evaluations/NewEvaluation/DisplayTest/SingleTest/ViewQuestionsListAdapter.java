@@ -1,12 +1,10 @@
 package com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest;
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.BaseAdapter;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
@@ -14,7 +12,6 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Choice;
@@ -25,11 +22,7 @@ import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
-import com.example.rafael.appprototype.DrugPrescription.Start.ExpandableListAdapterStart;
-import com.example.rafael.appprototype.DrugPrescription.Start.PrescriptionStart;
-import com.example.rafael.appprototype.DrugPrescription.Start.StartCriteria;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleQuestion.MultipleChoiceHandler;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleQuestion.RightWrongQuestionHandler;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleQuestion.YesNoQuestionHandler;
 import com.example.rafael.appprototype.R;
 
@@ -83,6 +76,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         this.questions = testNonDb.getQuestions();
         this.test = test;
         this.testNonDB = testNonDb;
+
         numquestions = questions.size();
         testAlreadyOpened = test.isAlreadyOpened();
         inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -156,25 +150,98 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         }
         // Test already opened
         else {
-            QuestionNonDB currentQuestionNonDB = questions.get(position);
-            // check if question is multiple choice or yes/no
-            if (currentQuestionNonDB.isYesOrNo()) {
-                questionView = yesNoAlreadyOpened(currentQuestionNonDB, position);
+            if (testNonDB.getTestName().equals(Constants.test_name_marchaHolden)) {
+                questionView = marchaHoldenAlreadyOpened(position);
             } else {
-                questionView = multipleChoiceAlreadyOpened(currentQuestionNonDB, position);
+                QuestionNonDB currentQuestionNonDB = questions.get(position);
+                // right/wrong
+                if (currentQuestionNonDB.isRightWrong()) {
+                    questionView = rightWrongAlreadyOpened();
+                }
+                // check if question is multiple choice or yes/no
+                if (currentQuestionNonDB.isYesOrNo()) {
+                    questionView = yesNoAlreadyOpened(currentQuestionNonDB, position);
+                }
+
+                if (!currentQuestionNonDB.isRightWrong() && !currentQuestionNonDB.isYesOrNo()) {
+                    questionView = multipleChoiceAlreadyOpened(currentQuestionNonDB, position);
+                }
             }
+
         }
         return questionView;
     }
 
-    private View marchaHoldenNotOpened(int position) {
+
+    /**
+     * Holden test that is being opened for the first time.
+     *
+     * @param position
+     * @return
+     */
+    private View marchaHoldenNotOpened(final int position) {
+        View questionView = inflater.inflate(R.layout.content_category_description, null);
+
+
+        GradingNonDB currentGrading = testNonDB.getScoring().getValuesBoth().get(position);
+        TextView category = (TextView) questionView.findViewById(R.id.categoryName);
+        final String grade = currentGrading.getGrade();
+        category.setText(grade);
+        final TextView descTextView = (TextView) questionView.findViewById(R.id.categoryDescription);
+        String description = currentGrading.getDescription();
+        descTextView.setText(description);
+
+        final float selected = 1f;
+        final float unselected = 0.5f;
+
+        // detect the selection
+        descTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Selected");
+                test.setAlreadyOpened(true);
+                test.setMarchaOption(position);
+                test.setCompleted(true);
+                test.save();
+                // highlight
+                descTextView.setAlpha(unselected);
+            }
+        });
+
+        return questionView;
+    }
+
+    /**
+     * March test already opened before.
+     *
+     * @param position
+     * @return
+     */
+    private View marchaHoldenAlreadyOpened(final int position) {
         View questionView = inflater.inflate(R.layout.content_category_description, null);
 
         GradingNonDB currentGrading = testNonDB.getScoring().getValuesBoth().get(position);
         TextView category = (TextView) questionView.findViewById(R.id.categoryName);
-        category.setText(currentGrading.getGrade());
-        TextView description = (TextView) questionView.findViewById(R.id.categoryDescription);
-        description.setText(currentGrading.getDescription());
+        final String grade = currentGrading.getGrade();
+        category.setText(grade);
+        TextView descTextView = (TextView) questionView.findViewById(R.id.categoryDescription);
+        String description = currentGrading.getDescription();
+        descTextView.setText(description);
+
+        // highlight selected option
+
+
+        // detect the selection
+        descTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                test.setAlreadyOpened(true);
+                test.setMarchaOption(position);
+                test.save();
+                // highlight
+            }
+        });
+
         return questionView;
     }
 
@@ -356,9 +423,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         return questionView;
     }
 
-    /**
-     * @return
-     */
+
     public View rightWrongNotOpened() {
         View questionView = inflater.inflate(R.layout.activity_categories_list, null);
 
@@ -389,7 +454,45 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         }
 
         listAdapter = new ExpandableListAdapterCategories(context, listDataHeader, listDataChild,
-                testNonDB, test);
+                testNonDB, test, this, false);
+
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+
+        return questionView;
+    }
+
+    public View rightWrongAlreadyOpened() {
+        View questionView = inflater.inflate(R.layout.activity_categories_list, null);
+
+        ExpandableListAdapterCategories listAdapter;
+        ExpandableListView expListView;
+        List<String> listDataHeader;
+        HashMap<String, List<QuestionNonDB>> listDataChild;
+
+        // get the listview
+        expListView = (ExpandableListView) questionView.findViewById(R.id.lvExp);
+
+
+        // prepare data
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
+
+        // Adding child data
+        for (int i = 0; i < testNonDB.getQuestionsCategories().size(); i++) {
+            QuestionCategory cat = testNonDB.getQuestionsCategories().get(i);
+            // header
+            listDataHeader.add(cat.getCategory());
+            // child
+            List<QuestionNonDB> child = new ArrayList<>();
+            for (QuestionNonDB question : cat.getQuestions()) {
+                child.add(question);
+            }
+            listDataChild.put(listDataHeader.get(i), child);
+        }
+
+        listAdapter = new ExpandableListAdapterCategories(context, listDataHeader, listDataChild,
+                testNonDB, test, this, true);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
