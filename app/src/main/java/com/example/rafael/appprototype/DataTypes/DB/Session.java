@@ -21,7 +21,7 @@ import java.util.List;
 public class Session extends Model implements Serializable {
 
     @Column(name = "date")
-    String date;
+    Date date;
     @Column(name = "guid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     String guid;
     @Column(name = "patient", onDelete = Column.ForeignKeyAction.CASCADE)
@@ -45,11 +45,11 @@ public class Session extends Model implements Serializable {
     }
 
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -91,10 +91,11 @@ public class Session extends Model implements Serializable {
      * @param date
      * @return
      */
-    public static List<Session> getSessionsFromDate(String date) {
+    public static List<Session> getSessionsFromDate(Date date) {
+        System.out.println("Getting sessions from " + date);
         return new Select()
                 .from(Session.class)
-                .where("date = ?", date)
+                .where("date = ?", date.getTime())
                 .orderBy("guid ASC")
                 .execute();
     }
@@ -134,10 +135,7 @@ public class Session extends Model implements Serializable {
         cal.set(Calendar.HOUR_OF_DAY, hour);
         cal.set(Calendar.MINUTE, minute);
 
-        /*
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        */
+
         return cal.getTime();
     }
 
@@ -173,7 +171,4 @@ public class Session extends Model implements Serializable {
         return datetime;
     }
 
-    public Date getDateAsString() {
-        return stringToDate(date);
-    }
 }

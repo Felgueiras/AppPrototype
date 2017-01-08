@@ -80,7 +80,7 @@ public class CreatePatientSessionCard extends RecyclerView.Adapter<CreatePatient
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final Session session = sessions.get(position);
-        holder.date.setText(session.getDate());
+        holder.date.setText(session.getDate().toString());
         currentSession =sessions.get(position);
         List<GeriatricTest> testsFromSession = currentSession.getTestsFromSession();
 

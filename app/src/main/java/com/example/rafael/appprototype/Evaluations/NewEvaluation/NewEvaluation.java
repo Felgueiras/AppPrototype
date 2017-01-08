@@ -261,7 +261,8 @@ public class NewEvaluation extends Fragment {
         int day = now.get(Calendar.DAY_OF_MONTH);
         int hour = now.get(Calendar.HOUR_OF_DAY);
         int minute = now.get(Calendar.MINUTE);
-        session.setDate(Session.dateToString(Session.createCustomDate(year, month, day, hour, minute)));
+        session.setDate(Session.createCustomDate(year, month, day, hour, minute));
+        System.out.println("Session date is " + session.getDate());
         session.save();
 
         // save the ID

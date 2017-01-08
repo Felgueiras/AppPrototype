@@ -17,6 +17,7 @@ import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.HistoryCar
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.R;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -38,8 +39,8 @@ public class ShowEvaluationsForDay extends BaseAdapter {
 
         // get the date
         Session session = Session.getSessionDates().get(position);
-        String currentDate = session.getDate();
-        dateTextView.setText(currentDate);
+        Date currentDate = session.getDate();
+        dateTextView.setText(currentDate.toString());
         // get NewEvaluation for that date
         List<Session> sessionsFromDate = Session.getSessionsFromDate(currentDate);
 
@@ -70,15 +71,14 @@ public class ShowEvaluationsForDay extends BaseAdapter {
         // get number of different dates where patients is not null
         int numDates = 0;
         for (int i = 0; i < Session.getSessionDates().size(); i++) {
-            String currentDate = Session.getSessionDates().get(i).getDate();
+            Date currentDate = Session.getSessionDates().get(i).getDate();
             // get NewEvaluation for that date
             List<Session> sessionsFromDate = Session.getSessionsFromDate(currentDate);
+            System.out.println("Results: " + sessionsFromDate);
             for (Session sess : sessionsFromDate) {
-                //if(sess.getPatient()!=null)
-                //{
+
                 numDates++;
                 break;
-                //}
             }
         }
 
