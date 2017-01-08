@@ -65,8 +65,11 @@ public class MainActivity extends AppCompatActivity {
             Log.d("FIRST RUN", "first run");
             DatabaseOps.insertDataToDB();
             // display login screen
+            // TODO log in
+            /*
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
+            */
         }
         // user already logged in
 

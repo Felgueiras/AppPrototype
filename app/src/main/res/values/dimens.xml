@@ -11,7 +11,7 @@
     <!--
     Display tests buttons
     -->
-    <dimen name="test_name">25dp</dimen>
+    <dimen name="test_name">22dp</dimen>
     <dimen name="test_type">22dp</dimen>
 
     <dimen name="album_title">15dp</dimen>

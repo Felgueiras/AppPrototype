@@ -98,6 +98,13 @@ public class ScoringNonDB {
         this.valuesWomen = valuesWomen;
     }
 
+    /**
+     * Get a Grading by the test result.
+     *
+     * @param testResult
+     * @param gender
+     * @return
+     */
     public GradingNonDB getGrading(double testResult, int gender) {
         GradingNonDB match = null;
         ArrayList<GradingNonDB> toConsider = null;

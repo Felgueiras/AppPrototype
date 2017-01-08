@@ -1,14 +1,17 @@
-package com.example.rafael.appprototype.Evaluations.ReviewEvaluation;
+package com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
@@ -17,7 +20,6 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewSingleTestFragment;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
 
@@ -65,6 +67,7 @@ public class ReviewCreateTestCard extends RecyclerView.Adapter<ReviewCreateTestC
      */
     public class TestCardHolder extends RecyclerView.ViewHolder {
         public TextView name, type, testCompletion, testGrading;
+        public EditText notes;
         /**
          * Test card view.
          */
@@ -78,10 +81,12 @@ public class ReviewCreateTestCard extends RecyclerView.Adapter<ReviewCreateTestC
         public TestCardHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.testName);
-            type = (TextView) view.findViewById(R.id.testType);
+            //type = (TextView) view.findViewById(R.id.testType);
             testCompletion = (TextView) view.findViewById(R.id.testCompletion);
-            testGrading = (TextView) view.findViewById(R.id.testGrading);
+            //testGrading = (TextView) view.findViewById(R.id.testGrading);
             testCard = view;
+            notes = (EditText) view.findViewById(R.id.testNotes);
+
         }
     }
 
@@ -114,17 +119,65 @@ public class ReviewCreateTestCard extends RecyclerView.Adapter<ReviewCreateTestC
         List<GeriatricTest> testsFromSession = session.getTestsFromSession();
         final GeriatricTest currentTest = testsFromSession.get(position);
         testName = currentTest.getTestName();
-        double testResult = currentTest.getTestResult();
+        double testResult = currentTest.generateTestResult();
 
-        // update the view
+        // get constants
+        String testCompletionNotSelected = context.getResources().getString(R.string.test_not_selected);
+        String testCompletionSelectedIncomplete = context.getResources().getString(R.string.test_incomplete);
+
+        // access a given Test from the DB
         holder.name.setText(currentTest.getShortName());
-        holder.type.setText(currentTest.getType());
-        holder.testCompletion.setText(testCompletionResult + "-" + testResult);
+        //holder.type.setText(currentTest.getType());
 
-        // display Scoring to the user
-        GradingNonDB match = StaticTestDefinition.getGradingForTest(testName, patient.getGender(), testResult);
-        holder.testGrading.setText(match.getGrade());
+        // fill the View
+        //holder.testCompletion.setText(testCompletionNotSelected);
+        /**
+         Alpha value when test is unselected
+         **/
+        float unselected = 0.5f;
+        // Test was already opened
+        if (currentTest.isAlreadyOpened()) {
+            float selected = 1f;
+            // already complete
+            if (currentTest.isCompleted()) {
+                // display Scoring to the user
+                GradingNonDB match = StaticTestDefinition.getGradingForTest(
+                        currentTest,
+                        patient.getGender());
+                holder.testCompletion.setText(match.getGrade());
+            }
+            // still incomplete
+            else {
+                holder.testCompletion.setText(testCompletionSelectedIncomplete);
+            }
 
+        }
+
+        if (currentTest.hasNotes()) {
+            holder.notes.setText(currentTest.getNotes());
+        }
+
+
+        /**
+         * Add a listener for when a note is added.
+         */
+        holder.notes.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                currentTest.setNotes(charSequence.toString());
+                currentTest.save();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         // for when the test is selected
         holder.testCard.setOnClickListener(new View.OnClickListener() {

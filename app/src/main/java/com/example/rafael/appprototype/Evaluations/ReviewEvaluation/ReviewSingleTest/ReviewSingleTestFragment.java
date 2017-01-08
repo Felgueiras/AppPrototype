@@ -13,6 +13,8 @@ import android.widget.ListView;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
+import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.ViewQuestionsListAdapter;
 import com.example.rafael.appprototype.R;
 
 /**
@@ -51,7 +53,10 @@ public class ReviewSingleTestFragment extends Fragment {
         // populate the ListView
         ListView testQuestions = (ListView) view.findViewById(R.id.testQuestions);
         // create the adapter
-        ReviewQuestionsListAdapter adapter = new ReviewQuestionsListAdapter(this.getActivity(), test);
+        ViewQuestionsListAdapter adapter = new ViewQuestionsListAdapter(
+                this.getActivity(),
+                StaticTestDefinition.getTestByName(test.getTestName()),
+                test);
         testQuestions.setAdapter(adapter);
         return view;
     }

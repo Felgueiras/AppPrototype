@@ -34,13 +34,13 @@ public class MultipleChoiceHandler implements RadioGroup.OnCheckedChangeListener
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
         // check which button was selected
         int count = radioGroup.getChildCount();
-        ArrayList<RadioButton> listOfRadioButtons = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             View o = radioGroup.getChildAt(i);
             if (o instanceof RadioButton) {
-                listOfRadioButtons.add((RadioButton) o);
                 if (((RadioButton) o).isChecked()) {
-                    question.setSelectedChoice(i);
+                    // save the text of the option
+                    question.setSelectedChoice(((RadioButton) o).getText().toString());
+                    question.setSelectedIndex(i);
                 }
             }
         }

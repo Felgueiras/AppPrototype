@@ -1,6 +1,7 @@
 package com.example.rafael.appprototype.DataTypes;
 
 import com.example.rafael.appprototype.Constants;
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
@@ -81,7 +82,7 @@ public class StaticTestDefinition {
         continencia.setChoices(ChoiceNonDBs);
         testeDeKatz.addQuestion(continencia);
 
-        // continencia
+        // alimentação
         QuestionNonDB food = new QuestionNonDB("Alimentação", false);
         ChoiceNonDBs = new ArrayList<>();
         ChoiceNonDBs.add(new ChoiceNonDB("Independente", "leva a comida do prato à boca sem ajuda; exclui cortar a carne", 1));
@@ -112,7 +113,7 @@ public class StaticTestDefinition {
         gradingsMen.add(new GradingNonDB("Dependência ligeira", 4));
         gradingsMen.add(new GradingNonDB("Independência total", 5));
         // add Gradings to Scoring
-        lawtonScoring.setValuesBoth(gradingsMen);
+        lawtonScoring.setValuesMen(gradingsMen);
 
         // create Gradings for women
         ArrayList<GradingNonDB> gradingsWomen = new ArrayList<>();
@@ -122,7 +123,7 @@ public class StaticTestDefinition {
         gradingsWomen.add(new GradingNonDB("Dependência ligeira", new int[]{6, 7}));
         gradingsWomen.add(new GradingNonDB("Independência total", 8));
         // add Gradings to Scoring
-        lawtonScoring.setValuesBoth(gradingsWomen);
+        lawtonScoring.setValuesWomen(gradingsWomen);
         // add Scoring to Test
         escalaLawtonBrody.setScoring(lawtonScoring);
         // create Questions
@@ -256,6 +257,7 @@ public class StaticTestDefinition {
         marchaScoring.setValuesBoth(gradings);
         // add Scoring to Test
         marcha.setScoring(marchaScoring);
+        marcha.setSingleQuestion(true);
 
         return marcha;
     }
@@ -516,7 +518,6 @@ public class StaticTestDefinition {
         nutritionalAssessment.addQuestion(question);
 
 
-
         return nutritionalAssessment;
     }
 
@@ -722,16 +723,16 @@ public class StaticTestDefinition {
     }
 
     /**
-     * Get Scoring info for a Test
+     * Get Scoring for a test.
      *
-     * @param testName   name of Test
+     * @param test
      * @param gender
-     * @param testResult
-     * @return Scoring info
+     * @return
      */
-    public static GradingNonDB getGradingForTest(String testName, int gender, double testResult) {
-        ScoringNonDB scoring = getTestByName(testName).getScoring();
-        GradingNonDB match = null;
+    public static GradingNonDB getGradingForTest(GeriatricTest test, int gender) {
+        double testResult = test.generateTestResult();
+        ScoringNonDB scoring = getTestByName(test.getTestName()).getScoring();
+        GradingNonDB match;
         // check if it's different for men and women
         if (scoring.isDifferentMenWomen()) {
             if (gender == Constants.MALE) {

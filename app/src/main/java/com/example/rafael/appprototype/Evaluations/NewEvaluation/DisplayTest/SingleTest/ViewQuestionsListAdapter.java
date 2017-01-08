@@ -78,6 +78,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         this.testNonDB = testNonDb;
 
         numquestions = questions.size();
+        numquestions = 2;
         testAlreadyOpened = test.isAlreadyOpened();
         inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -129,11 +130,14 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
 
         questionView = null;
         if (!testAlreadyOpened) {
-            if (testNonDB.getTestName().equals(Constants.test_name_marchaHolden)) {
-                questionView = marchaHoldenNotOpened(position);
-            } else {
+            // single question
+            if (testNonDB.isSingleQuestion()) {
+                questionView = singleChoiceNotOpened(position);
+            }
+            // multiple questions
+            else {
                 QuestionNonDB currentQuestionNonDB = questions.get(position);
-                // yes/no question
+                // yes/no questions
                 if (currentQuestionNonDB.isYesOrNo()) {
                     questionView = yesNoNotOpened(currentQuestionNonDB, position);
                 }
@@ -150,21 +154,25 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         }
         // Test already opened
         else {
-            if (testNonDB.getTestName().equals(Constants.test_name_marchaHolden)) {
-                questionView = marchaHoldenAlreadyOpened(position);
+            if (testNonDB.isSingleQuestion()) {
+                questionView = singleChoiceAlreadyOpened(position);
             } else {
                 QuestionNonDB currentQuestionNonDB = questions.get(position);
                 // right/wrong
                 if (currentQuestionNonDB.isRightWrong()) {
+                    System.out.println("222");
                     questionView = rightWrongAlreadyOpened();
+
                 }
                 // check if question is multiple choice or yes/no
                 if (currentQuestionNonDB.isYesOrNo()) {
                     questionView = yesNoAlreadyOpened(currentQuestionNonDB, position);
+
                 }
 
                 if (!currentQuestionNonDB.isRightWrong() && !currentQuestionNonDB.isYesOrNo()) {
                     questionView = multipleChoiceAlreadyOpened(currentQuestionNonDB, position);
+
                 }
             }
 
@@ -174,14 +182,13 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
 
 
     /**
-     * Holden test that is being opened for the first time.
+     * Single choice that is being opened for the first time.
      *
      * @param position
      * @return
      */
-    private View marchaHoldenNotOpened(final int position) {
+    private View singleChoiceNotOpened(final int position) {
         View questionView = inflater.inflate(R.layout.content_category_description, null);
-
 
         GradingNonDB currentGrading = testNonDB.getScoring().getValuesBoth().get(position);
         TextView category = (TextView) questionView.findViewById(R.id.categoryName);
@@ -198,9 +205,8 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         descTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Selected");
                 test.setAlreadyOpened(true);
-                test.setMarchaOption(position);
+                test.setAnswer(grade);
                 test.setCompleted(true);
                 test.save();
                 // highlight
@@ -217,7 +223,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
      * @param position
      * @return
      */
-    private View marchaHoldenAlreadyOpened(final int position) {
+    private View singleChoiceAlreadyOpened(final int position) {
         View questionView = inflater.inflate(R.layout.content_category_description, null);
 
         GradingNonDB currentGrading = testNonDB.getScoring().getValuesBoth().get(position);
@@ -236,7 +242,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 test.setAlreadyOpened(true);
-                test.setMarchaOption(position);
+                test.setAnswer(grade);
                 test.save();
                 // highlight
             }
@@ -319,6 +325,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
      * @return
      */
     public View multipleChoiceAlreadyOpened(QuestionNonDB currentQuestionNonDB, int position) {
+        System.out.println("Position " + position);
         View questionView = inflater.inflate(R.layout.content_question_multiple_choice, null);
         // get Question from DB
         Question question = test.getQuestionsFromTest().get(position);
@@ -344,19 +351,28 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         }
         radioGroup.setOnCheckedChangeListener(new MultipleChoiceHandler(question, this, position));
 
-        Log.d("Multiple", "Already answered - " + question.isAnswered());
         if (question.isAnswered()) {
+            System.out.println("answered");
             Holder holder = new Holder();
             holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
             holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
             // set the selected option
-            int selectedChoice = question.getSelectedChoice();
-            RadioButton selectedButton = (RadioButton) radioGroup.getChildAt(selectedChoice);
+            String selectedChoice = question.getSelectedChoice();
+            System.out.println("sel choice is " + selectedChoice);
+            ArrayList<Choice> choices = question.getChoicesForQuestion();
+            int selectedIdx = -1;
+            for (int i = 0; i < choices.size(); i++) {
+                if (choices.get(i).getName().equals(selectedChoice)) {
+                    selectedIdx = i;
+                }
+            }
+            RadioButton selectedButton = (RadioButton) radioGroup.getChildAt(selectedIdx);
             selectedButton.setChecked(true);
         }
 
         // Test already opened, but question not answered
         else {
+            System.out.println("not answered");
             Holder holder = new Holder();
             holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
             holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());

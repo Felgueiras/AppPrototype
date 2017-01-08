@@ -14,10 +14,10 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowTestsForEvaluation;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.HistoryCard.ShowTestsForSession;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewEvaluationMain;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,7 @@ public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatient
     }
 
     /**
-     * Constructor of the ShowSingleEvaluation
+     * Constructor of the ReviewSessionCards
      *
      * @param context
      * @param sessions
@@ -75,8 +75,8 @@ public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatient
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                args.putSerializable(ReviewEvaluationMain.SESSION,currentSession);
-                ((MainActivity) context).replaceFragment(ReviewEvaluationMain.class, args, Constants.tag_review_session);
+                args.putSerializable(ReviewSingleSession.SESSION,currentSession);
+                ((MainActivity) context).replaceFragment(ReviewSingleSession.class, args, Constants.tag_review_session);
             }
         });
 
@@ -91,7 +91,7 @@ public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatient
         List<GeriatricTest> testsFromSession = currentSession.getTestsFromSession();
 
         // display the result for the tests
-        ShowTestsForEvaluation adapter = new ShowTestsForEvaluation(context, testsFromSession);
+        ShowTestsForSession adapter = new ShowTestsForSession(context, testsFromSession);
         holder.testsList.setAdapter(adapter);
     }
 

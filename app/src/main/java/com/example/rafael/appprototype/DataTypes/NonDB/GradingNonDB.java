@@ -1,6 +1,7 @@
 package com.example.rafael.appprototype.DataTypes.NonDB;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -63,8 +64,12 @@ public class GradingNonDB {
      */
     public boolean containsScore(double testResult) {
         List<String> values = Arrays.asList(score.split(","));
-        System.out.println(testResult + "->" + values);
-        if (values.contains(Double.toString(testResult)))
+        ArrayList<Double> vals = new ArrayList<>();
+        for (String s : values) {
+            vals.add(Double.parseDouble(s));
+        }
+        System.out.println(testResult + "->" + vals);
+        if (vals.contains(testResult))
             return true;
         return false;
     }

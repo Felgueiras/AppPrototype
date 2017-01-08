@@ -48,7 +48,7 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
     }
 
     /**
-     * Constructor of the ShowSingleEvaluation
+     * Constructor of the ReviewSessionCards
      *
      * @param context
      * @param patients

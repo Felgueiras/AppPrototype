@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.HistoryCard.ReviewSessionCards;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.R;
 
@@ -44,7 +45,7 @@ public class ShowEvaluationsForDay extends BaseAdapter {
 
         // fill the RecyclerView
         RecyclerView recyclerView = (RecyclerView) singleDayInfo.findViewById(R.id.recycler_view_sessions_day);
-        ShowSingleEvaluation adapter = new ShowSingleEvaluation(context, sessionsFromDate);
+        ReviewSessionCards adapter = new ReviewSessionCards(context, sessionsFromDate);
 
         // create Layout
         int numbercolumns = 1;

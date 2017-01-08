@@ -10,7 +10,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewEvaluationMain;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSession;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewSingleTestFragment;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.Patients.PatientsMain;
@@ -104,8 +104,8 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
                 Session session = test.getSession();
 
                 Bundle args = new Bundle();
-                args.putSerializable(ReviewEvaluationMain.SESSION, session);
-                Fragment fragment = new ReviewEvaluationMain();
+                args.putSerializable(ReviewSingleSession.SESSION, session);
+                Fragment fragment = new ReviewSingleSession();
                 fragment.setArguments(args);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, fragment)

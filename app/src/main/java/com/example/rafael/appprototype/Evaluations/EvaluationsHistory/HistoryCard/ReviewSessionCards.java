@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Evaluations.EvaluationsHistory;
+package com.example.rafael.appprototype.Evaluations.EvaluationsHistory.HistoryCard;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewEvaluationMain;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSession;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
 
@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Display the resume of an Evaluation.
  */
-public class ShowSingleEvaluation extends RecyclerView.Adapter<ShowSingleEvaluation.MyViewHolder> {
+public class ReviewSessionCards extends RecyclerView.Adapter<ReviewSessionCards.MyViewHolder> {
 
     private Context context;
     /**
@@ -53,12 +53,12 @@ public class ShowSingleEvaluation extends RecyclerView.Adapter<ShowSingleEvaluat
     }
 
     /**
-     * Constructor of the ShowSingleEvaluation
+     * Constructor of the ReviewSessionCards
      *
      * @param context
      * @param sessionsList
      */
-    public ShowSingleEvaluation(Context context, List<Session> sessionsList) {
+    public ReviewSessionCards(Context context, List<Session> sessionsList) {
         this.context = context;
         this.sessionsList = sessionsList;
     }
@@ -89,8 +89,8 @@ public class ShowSingleEvaluation extends RecyclerView.Adapter<ShowSingleEvaluat
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                args.putSerializable(ReviewEvaluationMain.SESSION, session);
-                ((MainActivity) context).replaceFragment(ReviewEvaluationMain.class, args, Constants.tag_review_session);
+                args.putSerializable(ReviewSingleSession.SESSION, session);
+                ((MainActivity) context).replaceFragment(ReviewSingleSession.class, args, Constants.tag_review_session);
             }
         });
         /**
@@ -107,7 +107,7 @@ public class ShowSingleEvaluation extends RecyclerView.Adapter<ShowSingleEvaluat
 
 
         // display the result for the tests
-        ShowTestsForEvaluation adapter = new ShowTestsForEvaluation(context, testsFromSession);
+        ShowTestsForSession adapter = new ShowTestsForSession(context, testsFromSession);
         holder.testsList.setAdapter(adapter);
     }
 

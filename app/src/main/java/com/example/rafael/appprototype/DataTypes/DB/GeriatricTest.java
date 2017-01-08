@@ -5,6 +5,8 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
+import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
+import com.example.rafael.appprototype.DataTypes.NonDB.ScoringNonDB;
 import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
 
 import java.io.Serializable;
@@ -69,6 +71,9 @@ public class GeriatricTest extends Model implements Serializable {
     @Column(name = "shortName")
     String shortName;
 
+    @Column(name = "singleQuestion")
+    boolean singleQuestion;
+
     /**
      * Notes for a test, can explain why the result is this one.
      */
@@ -77,7 +82,9 @@ public class GeriatricTest extends Model implements Serializable {
 
     @Column(name = "alreadyOpened")
     boolean alreadyOpened;
-    private int marchaOption;
+
+    @Column(name = "answer")
+    String answer;
 
 
     /**
@@ -256,32 +263,54 @@ public class GeriatricTest extends Model implements Serializable {
      *
      * @return
      */
-    public double getTestResult() {
-        int res = 0;
+    public double generateTestResult() {
+        System.out.println("Getting test result...");
+        double res = 0;
         ArrayList<Question> questionsFromTest = getQuestionsFromTest();
 
-        for (Question question : questionsFromTest) {
-            /**
-             * Yes/no Question
-             */
-            if (question.isYesOrNo()) {
-                String selectedYesNoChoice = question.getSelectedYesNoChoice();
-                if (selectedYesNoChoice.equals("yes")) {
-                    res += question.getYesValue();
-
-                } else {
-                    res += question.getNoValue();
+        if (singleQuestion) {
+            ScoringNonDB scoring = StaticTestDefinition.getTestByName(this.getTestName()).getScoring();
+            ArrayList<GradingNonDB> valuesBoth = scoring.getValuesBoth();
+            for (GradingNonDB grade : valuesBoth) {
+                if (grade.getGrade().equals(answer)) {
+                    System.out.println("MATCH");
+                    return Double.parseDouble(grade.getScore());
                 }
             }
-            /**
-             * Multiple Choice Question
-             */
-            else {
-                // get the selected Choice
-                Choice selectedChoice = question.getChoicesForQuestion().get(question.getSelectedChoice());
-                res += selectedChoice.getScore();
+        } else {
+            for (Question question : questionsFromTest) {
+                /**
+                 * Yes/no Question
+                 */
+                if (question.isYesOrNo()) {
+                    String selectedYesNoChoice = question.getSelectedYesNoChoice();
+                    if (selectedYesNoChoice.equals("yes")) {
+                        res += question.getYesValue();
+                    } else {
+                        res += question.getNoValue();
+                    }
+                }
+                /**
+                 * Multiple Choice Question
+                 */
+                else {
+                    // get the selected Choice
+                    String selectedChoice = question.getSelectedChoice();
+                    System.out.println("Selected choice " + selectedChoice);
+                    ArrayList<Choice> choices = question.getChoicesForQuestion();
+                    System.out.println("size " + choices.size());
+                    for (Choice c : choices) {
+                        if (c.getName().equals(selectedChoice)) {
+                            System.out.println(c.toString());
+                            res += c.getScore();
+                        }
+                    }
+
+                }
             }
         }
+
+
         return res;
     }
 
@@ -296,18 +325,27 @@ public class GeriatricTest extends Model implements Serializable {
     }
 
     public boolean hasNotes() {
-        return notes!=null;
+        return notes != null;
     }
 
     public String getNotes() {
         return notes;
     }
 
-    public void setMarchaOption(int marchaOption) {
-        this.marchaOption = marchaOption;
+
+    public boolean getSingleQuestion() {
+        return singleQuestion;
     }
 
-    public int getMarchaOption() {
-        return marchaOption;
+    public void setSingleQuestion(boolean singleQuestion) {
+        this.singleQuestion = singleQuestion;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 }

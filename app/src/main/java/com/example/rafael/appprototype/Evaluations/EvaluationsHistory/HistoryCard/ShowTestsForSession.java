@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Evaluations.EvaluationsHistory;
+package com.example.rafael.appprototype.Evaluations.EvaluationsHistory.HistoryCard;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
+import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
 import com.example.rafael.appprototype.R;
 
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Display a List of the resume for each GeriatricTest inside a Sesssion.
  */
-public class ShowTestsForEvaluation extends BaseAdapter {
+public class ShowTestsForSession extends BaseAdapter {
     /**
      * Questions for a Test
      */
@@ -29,7 +30,7 @@ public class ShowTestsForEvaluation extends BaseAdapter {
      *
      * @param tests ArrayList of Questions
      */
-    public ShowTestsForEvaluation(Context context, List<GeriatricTest> tests) {
+    public ShowTestsForSession(Context context, List<GeriatricTest> tests) {
         this.tests = tests;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -43,13 +44,14 @@ public class ShowTestsForEvaluation extends BaseAdapter {
         TextView testResult = (TextView) testView.findViewById(R.id.testResult);
 
         // get values
-        GeriatricTest geriatricTest = tests.get(position);
-        String name = StaticTestDefinition.getShortName(geriatricTest.getTestName());
-        double result = geriatricTest.getResult();
-
+        GeriatricTest test = tests.get(position);
+        String name = StaticTestDefinition.getShortName(test.getTestName());
+        GradingNonDB grading = StaticTestDefinition.getGradingForTest(
+                test,
+                test.getSession().getPatient().getGender());
         // update views
         testName.setText(name);
-        testResult.setText(result + "");
+        testResult.setText(grading.getGrade());
 
         return testView;
     }

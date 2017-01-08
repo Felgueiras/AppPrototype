@@ -46,6 +46,8 @@ public class GeriatricTestNonDB implements Serializable {
 
     Session session;
 
+    boolean singleQuestion;
+
     ArrayList<QuestionNonDB> questions = new ArrayList<>();
     private ArrayList<QuestionCategory> questionsCategories;
 
@@ -181,5 +183,13 @@ public class GeriatricTestNonDB implements Serializable {
 
     public void addQuestionCategory(QuestionCategory category) {
         this.questionsCategories.add(category);
+    }
+
+    public boolean isSingleQuestion() {
+        return singleQuestion;
+    }
+
+    public void setSingleQuestion(boolean singleQuestion) {
+        this.singleQuestion = singleQuestion;
     }
 }

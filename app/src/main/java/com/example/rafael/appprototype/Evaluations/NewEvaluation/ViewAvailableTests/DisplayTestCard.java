@@ -11,18 +11,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.DataTypes.DB.Choice;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
-import com.example.rafael.appprototype.DataTypes.DB.Question;
-import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,6 +32,7 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
      * ID for this Session
      */
     private final Session session;
+    private final Patient patient;
 
     private Context context;
 
@@ -50,7 +48,7 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
         public TestCardHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.testName);
-            type = (TextView) view.findViewById(R.id.testType);
+            //type = (TextView) view.findViewById(R.id.testType);
             testCompletion = (TextView) view.findViewById(R.id.testCompletion);
             notes = (EditText) view.findViewById(R.id.testNotes);
             this.view = view;
@@ -58,7 +56,7 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
     }
 
     /**
-     * Constructor of the ShowSingleEvaluation
+     * Constructor of the ReviewSessionCards
      *
      * @param context               current Context
      * @param resuming              true if we are resuming a Session
@@ -67,6 +65,7 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
     public DisplayTestCard(Context context, Session session, boolean resuming, Patient patientForThisSession) {
         this.context = context;
         this.session = session;
+        this.patient = patientForThisSession;
     }
 
     @Override
@@ -87,10 +86,10 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
         List<GeriatricTest> testsFromSession = session.getTestsFromSession();
         final GeriatricTest currentTest = testsFromSession.get(position);
         holder.name.setText(currentTest.getShortName());
-        holder.type.setText(currentTest.getType());
+        //holder.type.setText(currentTest.getType());
 
         // fill the View
-        holder.testCompletion.setText(testCompletionNotSelected);
+        //holder.testCompletion.setText(testCompletionNotSelected);
         /**
          Alpha value when test is unselected
          **/
@@ -102,12 +101,11 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
             holder.view.setAlpha(selected);
             // already complete
             if (currentTest.isCompleted()) {
-                // go fetch the result
-                double testResult = currentTest.getTestResult();
-                // save the result
-                currentTest.setResult(testResult);
-                currentTest.save();
-                holder.testCompletion.setText(testCompletionResult + "-" + testResult);
+                // display Scoring to the user
+                GradingNonDB match = StaticTestDefinition.getGradingForTest(
+                        currentTest,
+                        patient.getGender());
+                holder.testCompletion.setText(match.getGrade());
             }
             // still incomplete
             else {

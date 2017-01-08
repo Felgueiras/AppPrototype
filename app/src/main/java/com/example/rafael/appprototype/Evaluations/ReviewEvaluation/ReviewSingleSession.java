@@ -14,13 +14,12 @@ import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewCreateTestCard;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.R;
 
-/**
- * Fragment that will display info for a Session that is being reviewed.
- */
-public class ReviewEvaluationMain extends Fragment {
+
+public class ReviewSingleSession extends Fragment {
 
     /**
      * Patient for this Session

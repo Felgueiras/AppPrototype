@@ -157,4 +157,17 @@ public class Choice extends Model {
                 .where("guid = ?", choiceID)
                 .executeSingle();
     }
+
+    @Override
+    public String toString() {
+        return "Choice{" +
+                "guid='" + guid + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", score=" + score +
+                ", yes=" + yes +
+                ", no=" + no +
+                ", question=" + question +
+                '}';
+    }
 }

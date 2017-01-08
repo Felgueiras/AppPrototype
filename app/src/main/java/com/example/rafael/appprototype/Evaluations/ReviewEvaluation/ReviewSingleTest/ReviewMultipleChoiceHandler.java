@@ -56,7 +56,7 @@ public class ReviewMultipleChoiceHandler extends BaseAdapter implements AdapterV
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         // save selected Choice to DB
-        question.setSelectedChoice(position);
+        question.setSelectedChoice(choices.get(position).getName());
         question.setAnswered(true);
         question.save();
 

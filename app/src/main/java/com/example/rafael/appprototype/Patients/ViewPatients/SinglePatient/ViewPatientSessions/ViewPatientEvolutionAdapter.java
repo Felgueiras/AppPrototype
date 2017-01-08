@@ -2,13 +2,10 @@ package com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.View
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
@@ -17,16 +14,12 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowTestsForEvaluation;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewEvaluationMain;
-import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,7 +48,7 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
     }
 
     /**
-     * Constructor of the ShowSingleEvaluation
+     * Constructor of the ReviewSessionCards
      *
      * @param context
      * @param sessions
@@ -76,8 +69,8 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                args.putSerializable(ReviewEvaluationMain.SESSION, currentSession);
-                ((MainActivity) context).replaceFragment(ReviewEvaluationMain.class, args, Constants.tag_review_session);
+                args.putSerializable(ReviewSingleSession.SESSION, currentSession);
+                ((MainActivity) context).replaceFragment(ReviewSingleSession.class, args, Constants.tag_review_session);
             }
         });
         */
