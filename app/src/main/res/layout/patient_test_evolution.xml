@@ -4,14 +4,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/testName"
+
+    <!--Stub for holding graph and test name-->
+    <ViewStub
+        android:id="@+id/graph_stub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test Name"/>
-    <com.jjoe64.graphview.GraphView
-        android:layout_width="match_parent"
-        android:layout_height="200dip"
-        android:id="@+id/graph" />
+        android:inflatedId="@+id/inflatedview"
+        android:layout="@layout/stub_graph_view"
+        />
 
 </LinearLayout>

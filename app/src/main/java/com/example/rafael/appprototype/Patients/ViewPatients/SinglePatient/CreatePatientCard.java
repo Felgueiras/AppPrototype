@@ -93,8 +93,8 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
                     return;
                 } else {
                     Bundle args = new Bundle();
-                    args.putSerializable(ViewSinglePatientInfoAndSessions.PATIENT, patient);
-                    ((MainActivity) context).replaceFragment(ViewSinglePatientInfoAndSessions.class, args, Constants.tag_view_patien_info_records);
+                    args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
+                    ((MainActivity) context).replaceFragment(ViewSinglePatientInfo.class, args, Constants.tag_view_patien_info_records);
                 }
 
             }

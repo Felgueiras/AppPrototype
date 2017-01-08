@@ -6,12 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
+import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
 import com.example.rafael.appprototype.R;
@@ -37,13 +39,15 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
      * Create a View
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
-
+        // test name
         public TextView testName;
+        // view stub for the graph
+        public ViewStub stub;
 
         public MyViewHolder(View view) {
             super(view);
             testName = (TextView) view.findViewById(R.id.testName);
+            stub = (ViewStub) view.findViewById(R.id.graph_stub);
         }
     }
 
@@ -82,17 +86,13 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         // current Test
         String testName = Constants.allTests[position];
-        // set test name in the gui
-        holder.testName.setText(testName);
+
         // get test from static definition
         GeriatricTestNonDB testInfo = StaticTestDefinition.getTestByName(testName);
 
-
-
         // get all the instances of that Test for this Patient
         ArrayList<GeriatricTest> testInstances = new ArrayList<>();
-
-
+        // get instances for that test
         ArrayList<Session> sessionsFromPatient = patient.getRecordsFromPatient();
         for (Session currentSession : sessionsFromPatient) {
             List<GeriatricTest> testsFromSession = currentSession.getTestsFromSession();
@@ -105,7 +105,16 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
         }
 
         if (testInstances.size() > 0) {
-            System.out.println("Test name: " + testName + "\n\tNum instances: " + testInstances.size());
+
+            // only inflate once
+            View inflated = holder.stub.inflate();
+            // get GraphView and TextView from stub
+            GraphView graph = (GraphView) inflated.findViewById(R.id.graph);
+
+            TextView test = (TextView) inflated.findViewById(R.id.testName);
+            // set test name in the gui
+            test.setText(testName);
+
             // create axis information
             // x axis - date
             ArrayList<Date> xAxis = new ArrayList<>();
@@ -116,10 +125,7 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
                 xAxis.add(date);
                 yAxis.add(t.getResult());
             }
-            // present graph with temporal evolution
-            System.out.println("Presenting graph");
-            // get GraphView from layout
-            GraphView graph = (GraphView) holder.itemView.findViewById(R.id.graph);
+
             // create DataPoints
             DataPoint[] points = new DataPoint[xAxis.size()];
             for (int pos = 0; pos < xAxis.size(); pos++) {
@@ -134,7 +140,7 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
             // set manual X bounds
             graph.getViewport().setXAxisBoundsManual(true);
             graph.getViewport().setMinX(xAxis.get(0).getTime());
-            graph.getViewport().setMaxX(xAxis.get(xAxis.size()-1).getTime());
+            graph.getViewport().setMaxX(xAxis.get(xAxis.size() - 1).getTime());
 
             // set manual Y bounds
             graph.getViewport().setYAxisBoundsManual(true);
@@ -155,6 +161,10 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
             // draw values on top
             series.setDrawValuesOnTop(true);
             series.setValuesOnTopColor(Color.RED);
+        } else {
+            /**
+             * When there are no evaluations for this test.
+             */
         }
 
     }
@@ -162,6 +172,7 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
 
     @Override
     public int getItemCount() {
+        // display only the tests which we have data
         return Constants.allTests.length;
     }
 }

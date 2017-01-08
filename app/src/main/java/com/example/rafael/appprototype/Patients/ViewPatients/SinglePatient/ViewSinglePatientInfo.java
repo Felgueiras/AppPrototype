@@ -35,7 +35,7 @@ import java.util.ArrayList;
 /**
  * Created by rafael on 05-10-2016.
  */
-public class ViewSinglePatientInfoAndSessions extends Fragment {
+public class ViewSinglePatientInfo extends Fragment {
 
     public static final String PATIENT = "patient";
     /**
@@ -95,25 +95,6 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
         patientAddress.setText(patient.getAddress());
         patientPhoto.setImageResource(patient.getPicture());
 
-        /**
-         RecyclerView to display the Patient's Records
-         **/
-
-        // get list of Records from this patient
-        /**
-        ArrayList<Session> sessionsFromPatient = patient.getRecordsFromPatient();
-        if (sessionsFromPatient.isEmpty()) {
-            FragmentManager fragmentManager = getFragmentManager();
-            Fragment fragment = new EmptyStateFragment();
-            Bundle args = new Bundle();
-            args.putString(EmptyStateFragment.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
-            fragment.setArguments(args);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.patientSessionsFragment, fragment)
-                    .commit();
-        }
-         **/
-
 
         /**
          * Setup FABS
@@ -161,10 +142,20 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                Fragment fragment = new ViewPatientSessionsFragment();
-                Bundle args = new Bundle();
-                args.putSerializable(ViewPatientSessionsFragment.PATIENT, patient);
-                fragment.setArguments(args);
+                // get list of Records from this patient
+                ArrayList<Session> sessionsFromPatient = patient.getRecordsFromPatient();
+                Fragment fragment;
+                if (sessionsFromPatient.isEmpty()) {
+                    fragment = new EmptyStateFragment();
+                    Bundle args = new Bundle();
+                    args.putString(EmptyStateFragment.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
+                    fragment.setArguments(args);
+                } else {
+                    fragment = new ViewPatientSessionsFragment();
+                    Bundle args = new Bundle();
+                    args.putSerializable(ViewPatientSessionsFragment.PATIENT, patient);
+                    fragment.setArguments(args);
+                }
                 return fragment;
             } else if (position == 1) {
                 Fragment fragment = new ViewPatientEvolutionFragment();

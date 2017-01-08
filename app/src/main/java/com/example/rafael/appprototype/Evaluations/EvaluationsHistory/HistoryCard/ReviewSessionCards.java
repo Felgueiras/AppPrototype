@@ -98,9 +98,9 @@ public class ReviewSessionCards extends RecyclerView.Adapter<ReviewSessionCards.
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                //args.putSerializable(ViewSinglePatientInfoAndSessions.PATIENT, patient);
+                //args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
                 String addToBackStackTag = Constants.tag_view_patien_info_records;
-                ((MainActivity) context).replaceFragment(ViewSinglePatientInfoAndSessions.class, args, addToBackStackTag);
+                ((MainActivity) context).replaceFragment(ViewSinglePatientInfo.class, args, addToBackStackTag);
             }
         });
          */
