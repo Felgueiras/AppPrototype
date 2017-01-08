@@ -64,4 +64,5 @@ public class Constants {
     public static String userName = "userName";
     public static int vpPatientsPage = 0;
     public static int vpPrescriptionPage = 0;
+    public static String first_run;
 }

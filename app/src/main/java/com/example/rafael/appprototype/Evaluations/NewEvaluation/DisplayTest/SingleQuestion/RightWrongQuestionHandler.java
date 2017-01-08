@@ -32,7 +32,6 @@ public class RightWrongQuestionHandler implements RadioGroup.OnCheckedChangeList
         this.testNonDB = testNonDB;
         // calculate the global index for the question
         index = QuestionCategory.getQuestionIndex(category,questionInCategory, testNonDB);
-        System.out.println("Number is is " + index);
     }
 
 

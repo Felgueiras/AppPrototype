@@ -269,11 +269,13 @@ public class GeriatricTest extends Model implements Serializable {
         ArrayList<Question> questionsFromTest = getQuestionsFromTest();
 
         if (singleQuestion) {
+            System.out.println("SINGLE");
             ScoringNonDB scoring = StaticTestDefinition.getTestByName(this.getTestName()).getScoring();
             ArrayList<GradingNonDB> valuesBoth = scoring.getValuesBoth();
             for (GradingNonDB grade : valuesBoth) {
                 if (grade.getGrade().equals(answer)) {
-                    System.out.println("MATCH");
+                    this.result = res;
+                    this.save();
                     return Double.parseDouble(grade.getScore());
                 }
             }
@@ -309,7 +311,8 @@ public class GeriatricTest extends Model implements Serializable {
                 }
             }
         }
-
+        this.result = res;
+        this.save();
 
         return res;
     }

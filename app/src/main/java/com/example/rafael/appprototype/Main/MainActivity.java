@@ -3,9 +3,7 @@ package com.example.rafael.appprototype.Main;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -13,6 +11,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,17 +21,13 @@ import android.widget.TextView;
 import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
-import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.ViewAvailableTests.DisplayTestCard;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewSingleTestFragment;
 import com.example.rafael.appprototype.HandleStack;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
-import com.example.rafael.appprototype.Login.LoginActivity;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.DisplaySingleTestFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
@@ -57,12 +53,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
 
-
         // insert data in DB (if first run)
-        sharedPreferences = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("com.mycompany.myAppName", 0);
         // user not logged in
-        if (sharedPreferences.getString(Constants.userName, null) == null  ) {
+        if (sharedPreferences.getBoolean(Constants.first_run, true)) {
             Log.d("FIRST RUN", "first run");
+            sharedPreferences.edit().putBoolean(Constants.first_run, false).commit();
             DatabaseOps.insertDataToDB();
             // display login screen
             // TODO log in
@@ -73,8 +69,7 @@ public class MainActivity extends AppCompatActivity {
         }
         // user already logged in
 
-        else
-        {
+        else {
             // TODO set the doctor photo after having logged in
             View headerLayout = navigationView.getHeaderView(0);
             TextView userName = (TextView) headerLayout.findViewById(R.id.userName);
@@ -85,16 +80,11 @@ public class MainActivity extends AppCompatActivity {
             //userSubtext.setText("[Some text here]");
         }
 
-
-
-        DatabaseOps.eraseAll();
-        DatabaseOps.insertDataToDB();
-
         // set handler for the Fragment stack
         HandleStack handler = new HandleStack(getFragmentManager(), this);
         getFragmentManager().addOnBackStackChangedListener(handler);
 
-        // set default fragment
+        // set sample fragment
         Fragment fragment = null;
         String defaultFragment = Constants.fragment_show_patients;
         switch (defaultFragment) {
@@ -124,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Log","Clicked");
+                Log.d("Log", "Clicked");
             }
         });
         drawer.setDrawerListener(toggle);
@@ -135,8 +125,9 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Display a single Test for the doctor
+     *
      * @param selectedTest Test that was selected from a Session
-     * @param testDB holder for the Test Card view
+     * @param testDB       holder for the Test Card view
      */
     public void displaySessionTest(GeriatricTestNonDB selectedTest, GeriatricTest testDB) {
         // Create new fragment and transaction
@@ -183,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Log.d("Back","...");
+        Log.d("Back", "...");
         FragmentManager fragmentManager = getFragmentManager();
         HandleStack.handleBackButton(fragmentManager);
     }
@@ -239,6 +230,28 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, currentFragment)
                 .commit();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.sample, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        //respond to menu item selection
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                // erase all data
+                DatabaseOps.eraseAll();
+                DatabaseOps.insertDataToDB();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
 

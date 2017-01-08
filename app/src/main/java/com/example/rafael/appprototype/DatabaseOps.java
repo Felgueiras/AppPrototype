@@ -88,18 +88,6 @@ public class DatabaseOps {
             }
             patient.setFavorite(false);
             patient.save();
-
-            /*
-            // create NewEvaluation for that patient
-            for (int sess = 0; sess < numSessionsPerPacient; sess++) {
-                Session session = new Session();
-                session.setGuid("session" + sess + "-" + i);
-                session.setDate(Session.dateToString(Session.createCustomDate(1999, 2, (sess + 1))));
-                session.setPatient(patient);
-                session.save();
-            }
-            */
-
         }
     }
 

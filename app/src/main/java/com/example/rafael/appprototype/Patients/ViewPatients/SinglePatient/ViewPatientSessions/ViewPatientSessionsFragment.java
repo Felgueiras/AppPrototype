@@ -10,9 +10,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
@@ -43,7 +41,7 @@ public class ViewPatientSessionsFragment extends Fragment {
         View view = inflater.inflate(R.layout.patient_info_sessions, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.patientSessions);
         ArrayList<Session> sessionsFromPatient = patient.getRecordsFromPatient();
-        ViewPatientSessionsAdapter adapter = new ViewPatientSessionsAdapter(getActivity(), sessionsFromPatient, patient);
+        CreatePatientSessionCard adapter = new CreatePatientSessionCard(getActivity(), sessionsFromPatient, patient);
 
         // create Layout
         int numbercolumns = 1;

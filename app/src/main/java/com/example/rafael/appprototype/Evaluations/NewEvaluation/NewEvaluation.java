@@ -32,6 +32,7 @@ import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.Evaluation
 import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -227,78 +228,18 @@ public class NewEvaluation extends Fragment {
      * Add Tests to a Session
      */
     private void addTestsToSession() {
-        /**
-         *Nutritional.
-         */
-        GeriatricTest test = new GeriatricTest();
-        GeriatricTestNonDB testNonDB = StaticTestDefinition.miniNutritionalAssessment();
-        test.setTestName(testNonDB.getTestName());
-        test.setShortName(testNonDB.getShortName());
-        test.setSession(session);
-        test.setAlreadyOpened(false);
-        test.save();
-
-
-        /**
-         * Mini mental state.
-         */
-        test = new GeriatricTest();
-        testNonDB = StaticTestDefinition.mentalStateFolstein();
-        test.setTestName(testNonDB.getTestName());
-        test.setShortName(testNonDB.getShortName());
-        test.setSession(session);
-        test.setAlreadyOpened(false);
-        test.save();
-
-
-        /**
-         * Escala depressao.
-         */
-        test = new GeriatricTest();
-        // set name and session
-        testNonDB = StaticTestDefinition.escalaDepressaoYesavage();
-        test.setTestName(testNonDB.getTestName());
-        test.setShortName(testNonDB.getShortName());
-        test.setSession(session);
-        test.setAlreadyOpened(false);
-        test.save();
-
-        /**
-         * Katz.
-         */
-        test = new GeriatricTest();
-        // set name and session
-        testNonDB = StaticTestDefinition.escalaDeKatz();
-        test.setTestName(testNonDB.getTestName());
-        test.setShortName(testNonDB.getShortName());
-        test.setSession(session);
-        test.setAlreadyOpened(false);
-        test.save();
-
-        /**
-         * Lawton-Brody.
-         */
-        test = new GeriatricTest();
-        testNonDB = StaticTestDefinition.escalaLawtonBrody();
-        test.setTestName(testNonDB.getTestName());
-        test.setShortName(testNonDB.getShortName());
-        test.setSession(session);
-        test.setAlreadyOpened(false);
-        test.save();
-
-        /**
-         * Marcha Holden.
-         */
-        test = new GeriatricTest();
-        testNonDB = StaticTestDefinition.marchaHolden();
-        test.setTestName(testNonDB.getTestName());
-        test.setShortName(testNonDB.getShortName());
-        test.setSession(session);
-        test.setAlreadyOpened(false);
-        test.setSingleQuestion(true);
-        test.save();
-
-
+        ArrayList<GeriatricTestNonDB> testsNonDB = StaticTestDefinition.getAllTests();
+        for (GeriatricTestNonDB testNonDB : testsNonDB) {
+            GeriatricTest test = new GeriatricTest();
+            test.setGuid(session.getGuid()+"-"+testNonDB.getTestName());
+            test.setTestName(testNonDB.getTestName());
+            test.setShortName(testNonDB.getShortName());
+            test.setSession(session);
+            if(testNonDB.isSingleQuestion())
+                test.setSingleQuestion(true);
+            test.setAlreadyOpened(false);
+            test.save();
+        }
     }
 
     /**
@@ -316,7 +257,7 @@ public class NewEvaluation extends Fragment {
         // set date
         Calendar now = Calendar.getInstance();
         int year = now.get(Calendar.YEAR);
-        int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
+        int month = now.get(Calendar.MONTH);
         int day = now.get(Calendar.DAY_OF_MONTH);
         int hour = now.get(Calendar.HOUR_OF_DAY);
         int minute = now.get(Calendar.MINUTE);

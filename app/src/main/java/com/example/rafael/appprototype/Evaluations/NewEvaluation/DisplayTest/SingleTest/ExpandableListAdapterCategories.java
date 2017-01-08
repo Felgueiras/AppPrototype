@@ -44,7 +44,9 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
     public ExpandableListAdapterCategories(Context context, List<String> listDataHeader,
                                            HashMap<String, List<QuestionNonDB>> listChildData,
                                            GeriatricTestNonDB testNonDB,
-                                           GeriatricTest test, ViewQuestionsListAdapter viewQuestionsListAdapter, boolean alreadyOpened) {
+                                           GeriatricTest test,
+                                           ViewQuestionsListAdapter viewQuestionsListAdapter,
+                                           boolean alreadyOpened) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
@@ -71,6 +73,7 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
             LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.content_question_right_wrong, null);
         }
+        QuestionCategory currentCategory = testNonDB.getQuestionsCategories().get(groupPosition);
 
         if (childPosition == 0) {
             // display category info
@@ -79,7 +82,6 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
                 // only inflate once
                 View inflated = simpleViewStub.inflate();
                 TextView tx = (TextView) inflated.findViewById(R.id.stub_text);
-                QuestionCategory currentCategory = testNonDB.getQuestionsCategories().get(groupPosition);
                 tx.setText(currentCategory.getDescription());
             }
         }
@@ -88,24 +90,29 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
         QuestionNonDB currentQuestionNonDB = testNonDB.getQuestionsCategories().get(groupPosition).getQuestions().get(childPosition);
         // question in DB
         Question questionInDB;
-        String dummyID = test.getGuid() + "-" + currentQuestionNonDB.getDescription();
-
-
+        String dummyID = test.getGuid() + "-" + currentCategory.getDescription() + "-" + currentQuestionNonDB.getDescription();
+        questionInDB = Question.getQuestionByID(dummyID);
+        // TODO review
         if (!alreadyOpened) {
             questionInDB = new Question();
             // create question and add to DB
+            System.out.println(dummyID);
             questionInDB.setGuid(dummyID);
             questionInDB.setDescription(currentQuestionNonDB.getDescription());
             questionInDB.setTest(test);
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(true);
             questionInDB.save();
+            System.out.println("Adding to DB - " + questionInDB.toString());
         } else {
-            System.out.println("Already opened");
-            // question already in DB, fetch it
-            int questionIndex = QuestionCategory.getQuestionIndex(groupPosition, childPosition, testNonDB);
-            questionInDB = Question.getQuestionByID(dummyID);
-            System.out.println("Question index is " + questionIndex);
+            if (questionInDB != null) {
+                System.out.println("Already opened");
+                // question already in DB, fetch it
+                int questionIndex = QuestionCategory.getQuestionIndex(groupPosition, childPosition, testNonDB);
+                questionInDB = Question.getQuestionByID(dummyID);
+                System.out.println("Question index is " + questionIndex);
+            }
+
         }
 
 

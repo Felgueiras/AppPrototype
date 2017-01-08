@@ -65,7 +65,7 @@ public class ReviewSessionCards extends RecyclerView.Adapter<ReviewSessionCards.
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        evaluationView = LayoutInflater.from(parent.getContext()).inflate(R.layout.session_card, parent, false);
+        evaluationView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_session_history, parent, false);
         return new MyViewHolder(evaluationView);
     }
 

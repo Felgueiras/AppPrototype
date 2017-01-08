@@ -46,8 +46,9 @@ public class Question extends Model {
     boolean answered;
     @Column(name = "selectedChoice")
     String selectedChoice;
-    private String selectedRightWrong;
-    private int selectedIndex;
+
+    @Column(name = "selectedRightWrong")
+    String selectedRightWrong;
 
     /**
      * Create a new Question
@@ -195,19 +196,11 @@ public class Question extends Model {
 
     public void setSelectedRightWrong(String selectedRightWrong) {
         this.selectedRightWrong = selectedRightWrong;
-        System.out.println("setSelectedRightWrong");
+        System.out.println(selectedRightWrong);
     }
 
     public String getSelectedRightWrong() {
         return this.selectedRightWrong;
-    }
-
-    public void setSelectedIndex(int selectedIndex) {
-        this.selectedIndex = selectedIndex;
-    }
-
-    public int getSelectedIndex() {
-        return selectedIndex;
     }
 }
 

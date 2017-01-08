@@ -22,7 +22,7 @@ import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingle
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatientSessionsAdapter.MyViewHolder> {
+public class CreatePatientSessionCard extends RecyclerView.Adapter<CreatePatientSessionCard.MyViewHolder> {
 
     /**
      * Patient which has these NewEvaluation.
@@ -52,14 +52,8 @@ public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatient
         }
     }
 
-    /**
-     * Constructor of the ReviewSessionCards
-     *
-     * @param context
-     * @param sessions
-     * @param patient
-     */
-    public ViewPatientSessionsAdapter(Context context, ArrayList<Session> sessions, Patient patient) {
+
+    public CreatePatientSessionCard(Context context, ArrayList<Session> sessions, Patient patient) {
         this.context = context;
         this.sessions = sessions;
         this.patient = patient;
@@ -67,7 +61,7 @@ public class ViewPatientSessionsAdapter extends RecyclerView.Adapter<ViewPatient
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.patient_session_card, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_session_patient, parent, false);
 
 
         // add on click listener for the Session

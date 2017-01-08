@@ -13,7 +13,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Choice;
 import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
@@ -85,10 +84,12 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (testNonDB.getTestName().equals(Constants.test_name_marchaHolden)) {
+        if (testNonDB.isSingleQuestion()) {
+            // single question test
             return testNonDB.getScoring().getValuesBoth().size();
         }
         if (testNonDB.getQuestionsCategories().size() != 0) {
+            // test with multiple categories
             return 1;
         }
         return numquestions;
@@ -133,9 +134,10 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
             // single question
             if (testNonDB.isSingleQuestion()) {
                 questionView = singleChoiceNotOpened(position);
-            }
-            // multiple questions
-            else {
+            } else if (testNonDB.isMultipleCategories()) {
+                questionView = new QuestionMultipleCategories(inflater, testNonDB, context, test,
+                        this).multipleCategoriesNotOpened();
+            } else {
                 QuestionNonDB currentQuestionNonDB = questions.get(position);
                 // yes/no questions
                 if (currentQuestionNonDB.isYesOrNo()) {
@@ -147,7 +149,6 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
                 }
                 // right/wrong
                 if (currentQuestionNonDB.isRightWrong()) {
-                    questionView = rightWrongNotOpened();
                 }
             }
 
@@ -156,12 +157,13 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         else {
             if (testNonDB.isSingleQuestion()) {
                 questionView = singleChoiceAlreadyOpened(position);
+            } else if (testNonDB.isMultipleCategories()) {
+                questionView = new QuestionMultipleCategories(inflater, testNonDB, context, test,
+                        this).multipleCategoriesAlreadyOpened();
             } else {
                 QuestionNonDB currentQuestionNonDB = questions.get(position);
                 // right/wrong
                 if (currentQuestionNonDB.isRightWrong()) {
-                    System.out.println("222");
-                    questionView = rightWrongAlreadyOpened();
 
                 }
                 // check if question is multiple choice or yes/no
@@ -207,6 +209,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 test.setAlreadyOpened(true);
                 test.setAnswer(grade);
+                System.out.println(position+"-"+grade);
                 test.setCompleted(true);
                 test.save();
                 // highlight
@@ -440,83 +443,6 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         // detect when choice changed
         RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(new YesNoQuestionHandler(question, this, position));
-        return questionView;
-    }
-
-
-    public View rightWrongNotOpened() {
-        View questionView = inflater.inflate(R.layout.activity_categories_list, null);
-
-        ExpandableListAdapterCategories listAdapter;
-        ExpandableListView expListView;
-        List<String> listDataHeader;
-        HashMap<String, List<QuestionNonDB>> listDataChild;
-
-        // get the listview
-        expListView = (ExpandableListView) questionView.findViewById(R.id.lvExp);
-
-
-        // prepare data
-        listDataHeader = new ArrayList<>();
-        listDataChild = new HashMap<>();
-
-        // Adding child data
-        for (int i = 0; i < testNonDB.getQuestionsCategories().size(); i++) {
-            QuestionCategory cat = testNonDB.getQuestionsCategories().get(i);
-            // header
-            listDataHeader.add(cat.getCategory());
-            // child
-            List<QuestionNonDB> child = new ArrayList<>();
-            for (QuestionNonDB question : cat.getQuestions()) {
-                child.add(question);
-            }
-            listDataChild.put(listDataHeader.get(i), child); // Header, Child data
-        }
-
-        listAdapter = new ExpandableListAdapterCategories(context, listDataHeader, listDataChild,
-                testNonDB, test, this, false);
-
-        // setting list adapter
-        expListView.setAdapter(listAdapter);
-
-        return questionView;
-    }
-
-    public View rightWrongAlreadyOpened() {
-        View questionView = inflater.inflate(R.layout.activity_categories_list, null);
-
-        ExpandableListAdapterCategories listAdapter;
-        ExpandableListView expListView;
-        List<String> listDataHeader;
-        HashMap<String, List<QuestionNonDB>> listDataChild;
-
-        // get the listview
-        expListView = (ExpandableListView) questionView.findViewById(R.id.lvExp);
-
-
-        // prepare data
-        listDataHeader = new ArrayList<>();
-        listDataChild = new HashMap<>();
-
-        // Adding child data
-        for (int i = 0; i < testNonDB.getQuestionsCategories().size(); i++) {
-            QuestionCategory cat = testNonDB.getQuestionsCategories().get(i);
-            // header
-            listDataHeader.add(cat.getCategory());
-            // child
-            List<QuestionNonDB> child = new ArrayList<>();
-            for (QuestionNonDB question : cat.getQuestions()) {
-                child.add(question);
-            }
-            listDataChild.put(listDataHeader.get(i), child);
-        }
-
-        listAdapter = new ExpandableListAdapterCategories(context, listDataHeader, listDataChild,
-                testNonDB, test, this, true);
-
-        // setting list adapter
-        expListView.setAdapter(listAdapter);
-
         return questionView;
     }
 

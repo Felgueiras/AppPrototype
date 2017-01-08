@@ -685,6 +685,7 @@ public class StaticTestDefinition {
                 "intersectados. Não valorizar tremor ou rotação", 0, 1);
         category.addQuestion(question);
         mentalState.addQuestionCategory(category);
+        mentalState.setMultipleCategories(true);
 
         return mentalState;
     }
@@ -745,5 +746,21 @@ public class StaticTestDefinition {
             match = scoring.getGrading(testResult, Constants.BOTH);
         }
         return match;
+    }
+
+    /**
+     * Get all tests definitions.
+     *
+     * @return
+     */
+    public static ArrayList<GeriatricTestNonDB> getAllTests() {
+        ArrayList<GeriatricTestNonDB> tests = new ArrayList<>();
+        tests.add(escalaDeKatz());
+        tests.add(escalaDepressaoYesavage());
+        tests.add(escalaLawtonBrody());
+        tests.add(marchaHolden());
+        tests.add(mentalStateFolstein());
+        tests.add(miniNutritionalAssessment());
+        return tests;
     }
 }

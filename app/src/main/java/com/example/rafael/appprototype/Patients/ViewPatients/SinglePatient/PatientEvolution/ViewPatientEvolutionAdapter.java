@@ -123,7 +123,7 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
             for (GeriatricTest t : testInstances) {
                 Date date = t.getSession().getDateAsString();
                 xAxis.add(date);
-                yAxis.add(t.getResult());
+                yAxis.add(t.generateTestResult());
             }
 
             // create DataPoints
