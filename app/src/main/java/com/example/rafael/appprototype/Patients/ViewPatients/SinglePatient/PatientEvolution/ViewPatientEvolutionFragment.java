@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewPatientSessions;
+package com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.PatientEvolution;
 
 import android.app.Fragment;
 import android.content.res.Resources;
@@ -11,16 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 
 public class ViewPatientEvolutionFragment extends Fragment {
@@ -54,7 +50,6 @@ public class ViewPatientEvolutionFragment extends Fragment {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
 
 
         return view;

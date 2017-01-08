@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -13,21 +15,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.Main.MainActivity;
-import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewPatientSessions.ViewPatientEvolutionFragment;
+import com.example.rafael.appprototype.Patients.FavoritePatients.FavoritePatientsFragment;
+import com.example.rafael.appprototype.Patients.PatientsMain;
+import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.PatientEvolution.ViewPatientEvolutionFragment;
 import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewPatientSessions.ViewPatientSessionsFragment;
+import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.EmptyStateFragment;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by rafael on 05-10-2016.
@@ -40,12 +43,41 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
      */
     private Patient patient;
 
+    private PatientSectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager viewPager;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // TODO duplicated info (patient name)
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.patient_info_main, container, false);
+
+        mSectionsPagerAdapter = new PatientSectionsPagerAdapter(getChildFragmentManager());
+
+
+        // Set up the ViewPager with the sections adapter.
+        viewPager = (ViewPager) view.findViewById(R.id.container);
+        viewPager.setAdapter(mSectionsPagerAdapter);
+        viewPager.setCurrentItem(Constants.vpPatientsPage);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                System.out.println(position);
+                Constants.vpPatientsPage = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         // get patient
         Bundle bundle = getArguments();
         patient = (Patient) bundle.getSerializable(PATIENT);
@@ -68,6 +100,7 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
          **/
 
         // get list of Records from this patient
+        /**
         ArrayList<Session> sessionsFromPatient = patient.getRecordsFromPatient();
         if (sessionsFromPatient.isEmpty()) {
             FragmentManager fragmentManager = getFragmentManager();
@@ -78,27 +111,8 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
             fragmentManager.beginTransaction()
                     .replace(R.id.patientSessionsFragment, fragment)
                     .commit();
-        } else {
-            /*
-            FragmentManager fragmentManager = getFragmentManager();
-            Fragment fragment = new ViewPatientSessionsFragment();
-            Bundle args = new Bundle();
-            args.putSerializable(ViewPatientSessionsFragment.PATIENT, patient);
-            fragment.setArguments(args);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.patientSessionsFragment, fragment)
-                    .commit();
-                    */
-            FragmentManager fragmentManager = getFragmentManager();
-            Fragment fragment = new ViewPatientEvolutionFragment();
-            Bundle args = new Bundle();
-            args.putSerializable(ViewPatientEvolutionFragment.PATIENT, patient);
-            fragment.setArguments(args);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.patientSessionsFragment, fragment)
-                    .commit();
-
         }
+         **/
 
 
         /**
@@ -136,6 +150,47 @@ public class ViewSinglePatientInfoAndSessions extends Fragment {
         });
 
         return view;
+    }
+
+    public class PatientSectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public PatientSectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0) {
+                Fragment fragment = new ViewPatientSessionsFragment();
+                Bundle args = new Bundle();
+                args.putSerializable(ViewPatientSessionsFragment.PATIENT, patient);
+                fragment.setArguments(args);
+                return fragment;
+            } else if (position == 1) {
+                Fragment fragment = new ViewPatientEvolutionFragment();
+                Bundle args = new Bundle();
+                args.putSerializable(ViewPatientEvolutionFragment.PATIENT, patient);
+                fragment.setArguments(args);
+                return fragment;
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "All sessions";
+                case 1:
+                    return "Evolution";
+            }
+            return null;
+        }
     }
 
     @Override

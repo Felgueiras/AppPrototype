@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewPatientSessions;
+package com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.PatientEvolution;
 
 import android.content.Context;
 import android.graphics.Color;
