@@ -255,10 +255,10 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
      * Multiple choice question that's being opened for the first time.
      *
      * @param currentQuestionNonDB
-     * @param position
+     * @param questionIndex
      * @return
      */
-    private View multipleChoiceNotOpened(QuestionNonDB currentQuestionNonDB, int position) {
+    private View multipleChoiceNotOpened(QuestionNonDB currentQuestionNonDB, int questionIndex) {
         View questionView = inflater.inflate(R.layout.content_question_multiple_choice, null);
 
         // create question and add to DB
@@ -274,7 +274,8 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         ArrayList<ChoiceNonDB> choicesNonDB = currentQuestionNonDB.getChoices();
         RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
 
-        for (ChoiceNonDB currentChoice : choicesNonDB) {
+        for (int i = 0; i < choicesNonDB.size(); i++) {
+            ChoiceNonDB currentChoice = choicesNonDB.get(i);
             Choice choice = new Choice();
             String choiceID = test.getGuid() + "-" + currentQuestionNonDB.getDescription() + "-" + currentChoice.getDescription();
             // check if already in DB
@@ -289,31 +290,44 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
             }
 
             // create RadioButton for that choice
-            RadioButton newRadioButton = new RadioButton(context);
-            if (Objects.equals(choice.getName(), "") || choice.getName() == null) {
-                newRadioButton.setText(choice.getDescription());
-            } else {
-                newRadioButton.setText(choice.getName());
+            addRadioButton(choice, radioGroup, i);
 
-            }
-
-            LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
-                    RadioGroup.LayoutParams.WRAP_CONTENT,
-                    RadioGroup.LayoutParams.WRAP_CONTENT);
-            radioGroup.addView(newRadioButton, 0, layoutParams);
         }
-        radioGroup.setOnCheckedChangeListener(new MultipleChoiceHandler(question, this, position));
+        radioGroup.setOnCheckedChangeListener(new MultipleChoiceHandler(question, this, questionIndex));
 
 
         Holder holder = new Holder();
         holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
-        holder.question.setText((position + 1) + " - " + question.getDescription());
+        holder.question.setText((questionIndex + 1) + " - " + question.getDescription());
 
         // Setup the adapter
         if (question.getGuid() == null) {
             Log.e("Error", "Must have ID!");
         }
         return questionView;
+    }
+
+    /**
+     * Add a RadioButton to a RadioGroup.
+     *
+     * @param choice
+     * @param radioGroup
+     * @param i
+     * @return
+     */
+    private RadioButton addRadioButton(Choice choice, RadioGroup radioGroup, int i) {
+        RadioButton newRadioButton = new RadioButton(context);
+        if (Objects.equals(choice.getName(), "") || choice.getName() == null) {
+            newRadioButton.setText(choice.getDescription());
+        } else {
+            newRadioButton.setText(choice.getName() + " - " + choice.getDescription());
+        }
+
+        LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
+                RadioGroup.LayoutParams.WRAP_CONTENT,
+                RadioGroup.LayoutParams.WRAP_CONTENT);
+        radioGroup.addView(newRadioButton, i, layoutParams);
+        return newRadioButton;
     }
 
 
@@ -333,21 +347,11 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
         // create Radio Group from the info in DB
         RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
 
-        for (Choice choice : question.getChoicesForQuestion()) {
+        for (int i = 0; i < question.getChoicesForQuestion().size(); i++) {
+            Choice choice = question.getChoicesForQuestion().get(i);
 
             // create RadioButton for that choice
-            RadioButton newRadioButton = new RadioButton(context);
-            if (Objects.equals(choice.getName(), "") || choice.getName() == null) {
-                newRadioButton.setText(choice.getDescription());
-            } else {
-                newRadioButton.setText(choice.getName());
-
-            }
-
-            LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
-                    RadioGroup.LayoutParams.WRAP_CONTENT,
-                    RadioGroup.LayoutParams.WRAP_CONTENT);
-            radioGroup.addView(newRadioButton, 0, layoutParams);
+            addRadioButton(choice, radioGroup, i);
         }
         radioGroup.setOnCheckedChangeListener(new MultipleChoiceHandler(question, this, position));
 

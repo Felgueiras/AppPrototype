@@ -42,52 +42,52 @@ public class StaticTestDefinition {
         // BANHO
         QuestionNonDB banho = new QuestionNonDB("Banho", false);
         ArrayList<ChoiceNonDB> ChoiceNonDBs = new ArrayList<>();
-        ChoiceNonDBs.add(new ChoiceNonDB("Independente", "necessita de ajuda apenas para lavar uma parte do corpo", 1));
         ChoiceNonDBs.add(new ChoiceNonDB("Dependente", "necessita de ajuda para lavar mai que uma parte do corpo", 0));
+        ChoiceNonDBs.add(new ChoiceNonDB("Independente", "necessita de ajuda apenas para lavar uma parte do corpo", 1));
         banho.setChoices(ChoiceNonDBs);
         testeDeKatz.addQuestion(banho);
 
         // VESTIR
         QuestionNonDB vestir = new QuestionNonDB("Vestir", false);
         ChoiceNonDBs = new ArrayList<>();
-        ChoiceNonDBs.add(new ChoiceNonDB("Independente", "escolhe a roupa adequada, veste-a e aperta-a; exclui atar os sapatos", 1));
         ChoiceNonDBs.add(new ChoiceNonDB("Dependente", "precisa de ajuda para se vestir;não é capaz de se vestir", 0));
+        ChoiceNonDBs.add(new ChoiceNonDB("Independente", "escolhe a roupa adequada, veste-a e aperta-a; exclui atar os sapatos", 1));
         vestir.setChoices(ChoiceNonDBs);
         testeDeKatz.addQuestion(vestir);
 
         // UTILIZAÇão da sanita
         QuestionNonDB useToilet = new QuestionNonDB("Utilização da sanita", false);
         ChoiceNonDBs = new ArrayList<>();
-        ChoiceNonDBs.add(new ChoiceNonDB("Independente", "não necessita de ajuda para entrar e sair do wc; usa a sanita, limpa-se e veste-se adequadamente; pode usar urinol pela noite", 1));
         ChoiceNonDBs.add(new ChoiceNonDB("Dependente", "usa urinol ou arrastadeira ou necessita de ajuda para aceder e utilizar a sanita", 0));
+        ChoiceNonDBs.add(new ChoiceNonDB("Independente", "não necessita de ajuda para entrar e sair do wc; usa a sanita, limpa-se e veste-se adequadamente; pode usar urinol pela noite", 1));
         useToilet.setChoices(ChoiceNonDBs);
         testeDeKatz.addQuestion(useToilet);
 
         // transferencia
         QuestionNonDB transferencia = new QuestionNonDB("Transferência", false);
         ChoiceNonDBs = new ArrayList<>();
-        ChoiceNonDBs.add(new ChoiceNonDB("Independente", "não necessita de ajuda para sentar-se ou levantar-se de uma ca-\n" +
-                "deira nem para entrar ou sair da cama; pode usar ajudas técnicas, p.ex. bengala", 1));
         ChoiceNonDBs.add(new ChoiceNonDB("Dependente", "necessita de alguma ajuda para se deitar ou levantar da cama/\n" +
                 "cadeira; está acamado", 0));
+        ChoiceNonDBs.add(new ChoiceNonDB("Independente", "não necessita de ajuda para sentar-se ou levantar-se de uma ca-\n" +
+                "deira nem para entrar ou sair da cama; pode usar ajudas técnicas, p.ex. bengala", 1));
         transferencia.setChoices(ChoiceNonDBs);
         testeDeKatz.addQuestion(transferencia);
 
         // continencia
         QuestionNonDB continencia = new QuestionNonDB("Continência", false);
         ChoiceNonDBs = new ArrayList<>();
-        ChoiceNonDBs.add(new ChoiceNonDB("Independente", "controlo completo da micção e defecação", 1));
         ChoiceNonDBs.add(new ChoiceNonDB("Dependente", "incontinência total ou parcial vesical e/ou fecal; utilização de ene-\n" +
                 "mas, algália, urinol ou arrastadeira", 0));
+        ChoiceNonDBs.add(new ChoiceNonDB("Independente", "controlo completo da micção e defecação", 1));
         continencia.setChoices(ChoiceNonDBs);
         testeDeKatz.addQuestion(continencia);
 
         // alimentação
         QuestionNonDB food = new QuestionNonDB("Alimentação", false);
         ChoiceNonDBs = new ArrayList<>();
-        ChoiceNonDBs.add(new ChoiceNonDB("Independente", "leva a comida do prato à boca sem ajuda; exclui cortar a carne", 1));
         ChoiceNonDBs.add(new ChoiceNonDB("Dependente", "necessita de ajuda para comer; não come em absoluto ou necessita\n" +
                 "de nutrição entérica / parentérica", 0));
+        ChoiceNonDBs.add(new ChoiceNonDB("Independente", "leva a comida do prato à boca sem ajuda; exclui cortar a carne", 1));
         food.setChoices(ChoiceNonDBs);
         testeDeKatz.addQuestion(food);
 

@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
         DatabaseOps.eraseAll();
         DatabaseOps.insertDataToDB();
 
