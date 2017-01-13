@@ -195,7 +195,7 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
                 final String filterPattern = constraint.toString().toLowerCase().trim();
 
                 for (final Patient patient : originalList) {
-                    if (patient.getName().contains(filterPattern)) {
+                    if (patient.getName().toString().toLowerCase().trim().contains(filterPattern)) {
                         filteredList.add(patient);
                     }
                 }
