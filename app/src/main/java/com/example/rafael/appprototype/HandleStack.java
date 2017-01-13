@@ -22,7 +22,7 @@ import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragmen
  */
 public class HandleStack implements FragmentManager.OnBackStackChangedListener {
 
-    private final MainActivity context;
+    private static MainActivity context = null;
     FragmentManager fragmentManager;
 
     /**
@@ -111,6 +111,12 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
                         .replace(R.id.content_frame, fragment)
                         .commit();
             }
+        }
+        else
+        {
+            // empty stack
+            System.out.println("Empty stack");
+            context.finish();
         }
     }
 
