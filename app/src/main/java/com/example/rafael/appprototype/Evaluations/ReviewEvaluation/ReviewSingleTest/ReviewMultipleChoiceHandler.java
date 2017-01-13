@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.DB.Question;
 import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.ViewQuestionsListAdapter;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.QuestionsListAdapter;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -26,11 +26,11 @@ public class ReviewMultipleChoiceHandler extends BaseAdapter implements AdapterV
     private final ArrayList<ChoiceNonDB> choices;
     private static LayoutInflater inflater = null;
     private final Question question;
-    private final ViewQuestionsListAdapter adapter;
+    private final QuestionsListAdapter adapter;
     private int questionNumber;
 
 
-    public ReviewMultipleChoiceHandler(Context context, ArrayList<ChoiceNonDB> choices, Question question, ViewQuestionsListAdapter adapter, int questionNumber) {
+    public ReviewMultipleChoiceHandler(Context context, ArrayList<ChoiceNonDB> choices, Question question, QuestionsListAdapter adapter, int questionNumber) {
         this.choices = choices;
         this.question = question;
         this.adapter = adapter;

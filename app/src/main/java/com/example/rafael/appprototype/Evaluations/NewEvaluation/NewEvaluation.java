@@ -59,6 +59,7 @@ public class NewEvaluation extends Fragment {
     boolean resuming = false;
 
     public static FloatingActionButton discardFAB;
+    private FloatingActionButton saveFAB;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,7 +116,7 @@ public class NewEvaluation extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        final FloatingActionButton saveFAB = (FloatingActionButton) myInflatedView.findViewById(R.id.session_save);
+        saveFAB = (FloatingActionButton) myInflatedView.findViewById(R.id.session_save);
         saveFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -185,7 +186,7 @@ public class NewEvaluation extends Fragment {
                     }
                 }
 
-                Log.d("Session", "Finishing!");
+                Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
                 ((MainActivity) getActivity()).replaceFragment(EvaluationsHistoryMain.class, null, Constants.tag_view_sessions_history);
             }
         });

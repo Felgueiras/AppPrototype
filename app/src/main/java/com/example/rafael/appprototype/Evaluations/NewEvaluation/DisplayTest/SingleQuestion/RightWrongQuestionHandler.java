@@ -5,7 +5,7 @@ import android.widget.RadioGroup;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.ViewQuestionsListAdapter;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.QuestionsListAdapter;
 import com.example.rafael.appprototype.R;
 
 /**
@@ -16,14 +16,14 @@ public class RightWrongQuestionHandler implements RadioGroup.OnCheckedChangeList
      * Question
      */
     private final Question question;
-    private final ViewQuestionsListAdapter adapter;
+    private final QuestionsListAdapter adapter;
     private final int category;
     private final int questionInCategory;
     private final GeriatricTestNonDB testNonDB;
     private int index = 0;
 
 
-    public RightWrongQuestionHandler(Question question, ViewQuestionsListAdapter adapter, int category, int questionInCategory,
+    public RightWrongQuestionHandler(Question question, QuestionsListAdapter adapter, int category, int questionInCategory,
                                      GeriatricTestNonDB testNonDB) {
         this.question = question;
         this.adapter = adapter;

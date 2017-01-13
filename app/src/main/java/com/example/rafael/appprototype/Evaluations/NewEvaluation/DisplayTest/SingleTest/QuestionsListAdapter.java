@@ -1,6 +1,7 @@
 package com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,7 @@ import java.util.Objects;
 /**
  * Create the layout of the Questions
  */
-public class ViewQuestionsListAdapter extends BaseAdapter {
+public class QuestionsListAdapter extends BaseAdapter {
     /**
      * Questions for a Test
      */
@@ -70,11 +71,12 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
      * @param context current Context
      * @param test    GeriatricTest that is being filled up
      */
-    public ViewQuestionsListAdapter(Context context, GeriatricTestNonDB testNonDb, GeriatricTest test) {
+    public QuestionsListAdapter(Context context, GeriatricTestNonDB testNonDb, GeriatricTest test) {
         this.context = context;
         this.questions = testNonDb.getQuestions();
         this.test = test;
         this.testNonDB = testNonDb;
+
 
         numquestions = questions.size();
         numquestions = 2;
@@ -86,6 +88,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
     public int getCount() {
         if (testNonDB.isSingleQuestion()) {
             // single question test
+            numquestions = 1;
             return testNonDB.getScoring().getValuesBoth().size();
         }
         if (testNonDB.getQuestionsCategories().size() != 0) {
@@ -113,8 +116,10 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
     public void questionAnswered(int position) {
         positionsFilled.add(position);
         if (positionsFilled.size() == numquestions) {
+            if(!test.isCompleted())
+                Snackbar.make(questionView, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
             allQuestionsAnswered = true;
-            //Snackbar.make(questionView, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
+
             // write that to DB
             test.setCompleted(true);
             test.save();
@@ -209,7 +214,7 @@ public class ViewQuestionsListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 test.setAlreadyOpened(true);
                 test.setAnswer(grade);
-                System.out.println(position+"-"+grade);
+                System.out.println(position + "-" + grade);
                 test.setCompleted(true);
                 test.save();
                 // highlight

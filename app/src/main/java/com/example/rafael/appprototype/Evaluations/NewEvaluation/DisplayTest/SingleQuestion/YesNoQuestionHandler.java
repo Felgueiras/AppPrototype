@@ -3,7 +3,7 @@ package com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.Si
 import android.widget.RadioGroup;
 
 import com.example.rafael.appprototype.DataTypes.DB.Question;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.ViewQuestionsListAdapter;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.QuestionsListAdapter;
 import com.example.rafael.appprototype.R;
 
 /**
@@ -14,11 +14,11 @@ public class YesNoQuestionHandler implements RadioGroup.OnCheckedChangeListener 
      * Question
      */
     private final Question question;
-    private final ViewQuestionsListAdapter adapter;
+    private final QuestionsListAdapter adapter;
     private final int position;
 
 
-    public YesNoQuestionHandler(Question question, ViewQuestionsListAdapter adapter, int position) {
+    public YesNoQuestionHandler(Question question, QuestionsListAdapter adapter, int position) {
         this.question = question;
         this.adapter = adapter;
         this.position = position;

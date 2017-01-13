@@ -2,7 +2,6 @@ package com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.Si
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -64,7 +63,7 @@ public class DisplaySingleTestFragment extends Fragment {
         // populate the ListView
         ListView testQuestions = (ListView) view.findViewById(R.id.testQuestions);
         // create the adapter
-        ViewQuestionsListAdapter adapter = new ViewQuestionsListAdapter(this.getActivity(), testNonDB, testDB);
+        QuestionsListAdapter adapter = new QuestionsListAdapter(this.getActivity(), testNonDB, testDB);
         testQuestions.setAdapter(adapter);
         return view;
     }

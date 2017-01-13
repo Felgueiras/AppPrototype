@@ -16,7 +16,6 @@ import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleQuestion.RightWrongQuestionHandler;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleQuestion.YesNoQuestionHandler;
 import com.example.rafael.appprototype.R;
 
 import java.util.HashMap;
@@ -29,7 +28,7 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
 
     private final GeriatricTestNonDB testNonDB;
     private final GeriatricTest test;
-    private final ViewQuestionsListAdapter adapter;
+    private final QuestionsListAdapter adapter;
     private final boolean alreadyOpened;
     private Context _context;
     /**
@@ -45,7 +44,7 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
                                            HashMap<String, List<QuestionNonDB>> listChildData,
                                            GeriatricTestNonDB testNonDB,
                                            GeriatricTest test,
-                                           ViewQuestionsListAdapter viewQuestionsListAdapter,
+                                           QuestionsListAdapter viewQuestionsListAdapter,
                                            boolean alreadyOpened) {
         this._context = context;
         this._listDataHeader = listDataHeader;

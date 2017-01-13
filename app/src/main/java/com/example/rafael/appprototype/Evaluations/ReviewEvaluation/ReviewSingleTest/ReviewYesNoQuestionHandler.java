@@ -3,7 +3,6 @@ package com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingl
 import android.widget.RadioGroup;
 
 import com.example.rafael.appprototype.DataTypes.DB.Question;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.ViewQuestionsListAdapter;
 import com.example.rafael.appprototype.R;
 
 /**

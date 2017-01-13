@@ -14,7 +14,6 @@ import com.example.rafael.appprototype.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by rafael on 08-01-2017.
@@ -26,9 +25,9 @@ public class QuestionMultipleCategories {
     private final GeriatricTestNonDB testNonDB;
     private final Context context;
     GeriatricTest test;
-    private final ViewQuestionsListAdapter adapter;
+    private final QuestionsListAdapter adapter;
 
-    public QuestionMultipleCategories(LayoutInflater inflater, GeriatricTestNonDB testNonDB, Context context, GeriatricTest test, ViewQuestionsListAdapter adapter) {
+    public QuestionMultipleCategories(LayoutInflater inflater, GeriatricTestNonDB testNonDB, Context context, GeriatricTest test, QuestionsListAdapter adapter) {
         this.inflater = inflater;
         this.testNonDB = testNonDB;
         this.context = context;

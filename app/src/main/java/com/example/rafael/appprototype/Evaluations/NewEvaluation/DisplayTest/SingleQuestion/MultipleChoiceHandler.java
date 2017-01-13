@@ -1,16 +1,12 @@
 package com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleQuestion;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.rafael.appprototype.DataTypes.DB.Question;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.ViewQuestionsListAdapter;
-
-import java.util.ArrayList;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.QuestionsListAdapter;
 
 /**
  * Create the layout of the Questions
@@ -19,11 +15,11 @@ public class MultipleChoiceHandler implements RadioGroup.OnCheckedChangeListener
 
     private static LayoutInflater inflater = null;
     private final Question question;
-    private final ViewQuestionsListAdapter adapter;
+    private final QuestionsListAdapter adapter;
     private int position;
 
 
-    public MultipleChoiceHandler(Question question, ViewQuestionsListAdapter adapter, int position) {
+    public MultipleChoiceHandler(Question question, QuestionsListAdapter adapter, int position) {
         this.question = question;
         this.adapter = adapter;
         this.position = position;
