@@ -1,19 +1,15 @@
 package com.example.rafael.appprototype.Patients.ViewPatients;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.CreatePatientCard;
 import com.example.rafael.appprototype.R;
 
