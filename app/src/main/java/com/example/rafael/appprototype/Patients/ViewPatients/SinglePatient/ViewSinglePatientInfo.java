@@ -4,10 +4,13 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,11 +48,11 @@ public class ViewSinglePatientInfo extends Fragment {
 
     private PatientSectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager viewPager;
+    private TabLayout tabLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // TODO duplicated info (patient name)
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.patient_info_main, container, false);
 
@@ -77,6 +80,9 @@ public class ViewSinglePatientInfo extends Fragment {
 
             }
         });
+
+        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
         // get patient
         Bundle bundle = getArguments();
@@ -187,31 +193,25 @@ public class ViewSinglePatientInfo extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_test_questions, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
-            case R.id.newSession:
-                Bundle args = new Bundle();
-                args.putSerializable(NewEvaluation.PATIENT, patient);
-                ((MainActivity) getActivity()).replaceFragment(NewEvaluation.class, args, Constants.tag_create_new_session_for_patient);
-                // change the title
-                getActivity().setTitle(getResources().getString(R.string.tab_sessions));
-                break;
-            case R.id.action_favorite:
-                // set Patient as favorite
-                patient.setFavorite(!patient.isFavorite());
-                patient.save();
-                if (patient.isFavorite())
-                    Snackbar.make(getView(), R.string.patient_favorite_add, Snackbar.LENGTH_SHORT).show();
-                else
-                    Snackbar.make(getView(), R.string.patient_favorite_remove, Snackbar.LENGTH_SHORT).show();
+            case R.id.action_go_back:
+                getActivity().onBackPressed();
         }
         return true;
 
     }
+
+
 }
 

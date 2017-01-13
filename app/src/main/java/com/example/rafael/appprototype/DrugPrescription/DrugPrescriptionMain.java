@@ -3,6 +3,7 @@ package com.example.rafael.appprototype.DrugPrescription;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -23,6 +24,9 @@ public class DrugPrescriptionMain extends Fragment {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager viewPager;
+    private TabLayout tabLayout;
+
+    // TODO make tab display all possible values
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +61,10 @@ public class DrugPrescriptionMain extends Fragment {
 
             }
         });
+
+        tabLayout = (TabLayout) v.findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
         return v;
     }
 

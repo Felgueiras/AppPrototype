@@ -46,6 +46,7 @@ public class DatabaseOps {
      */
     public static void insertDataToDB() {
         int numSessionsPerPacient = 0;
+        /*
         String[] patientNames = new String[]{
                 "João Almeida",
                 "Maria da Luz",
@@ -74,10 +75,26 @@ public class DatabaseOps {
                 "Vilar",
                 "Porto"
         };
+        */
+        int numPatients = 20;
+        String[] patientNames = new String[numPatients];
+        int[] patientAges = new int[numPatients];
+        String[] patientAddresses = new String[numPatients];
+        double[] patientGenders = new double[numPatients];
+
+        for(int patient=0; patient < numPatients; patient++)
+        {
+            patientNames[patient] = "Patient " + patient;
+            patientAges[patient] = 80;
+            patientAddresses[patient] = "@home";
+            patientGenders[patient] = 'm';
+
+        }
         for (int i = 0; i < patientNames.length; i++) {
             // create patients
             Patient patient = new Patient();
             patient.setName(patientNames[i]);
+
             patient.setAge(patientAges[i]);
             patient.setGuid("patient" + i);
             patient.setAddress(patientAddresses[i]);

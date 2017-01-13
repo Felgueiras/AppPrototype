@@ -4,8 +4,11 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +28,8 @@ public class PatientsMain extends Fragment {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager viewPager;
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,13 +37,23 @@ public class PatientsMain extends Fragment {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.patients_main, container, false);
+
+        // get toolbar
+        //toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        //((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+        //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // TODO make scrolling fluid, replace grid by list, allow search by name
+
+
         // set the title
         getActivity().setTitle(getResources().getString(R.string.tab_drug_prescription));
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
 
         // Set up the ViewPager with the sections adapter.
-        viewPager = (ViewPager) v.findViewById(R.id.container);
+        viewPager = (ViewPager) v.findViewById(R.id.viewpager);
         viewPager.setAdapter(mSectionsPagerAdapter);
         viewPager.setCurrentItem(Constants.vpPatientsPage);
 
@@ -58,6 +73,9 @@ public class PatientsMain extends Fragment {
 
             }
         });
+
+        tabLayout = (TabLayout) v.findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
         // FAB
         FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.patients_fab);

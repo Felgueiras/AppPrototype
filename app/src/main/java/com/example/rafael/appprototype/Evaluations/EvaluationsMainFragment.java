@@ -16,6 +16,8 @@ import com.example.rafael.appprototype.R;
 
 public class EvaluationsMainFragment extends Fragment {
 
+    // TODO search by date, calendar view
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
