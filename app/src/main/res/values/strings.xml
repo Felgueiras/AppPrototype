@@ -78,4 +78,6 @@
     <string name="no_sessions_history">You have no sessions</string>
     <string name="rightChoice">right</string>
     <string name="wrongChoice">wrong</string>
+    <string name="search_result">Search result</string>
+    <string name="menu_search">Menu search</string>
 </resources>

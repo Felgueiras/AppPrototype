@@ -60,7 +60,7 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_patient_info, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_patient_info2, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -72,16 +72,19 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
         holder.name.setText(patient.getName());
         // holder.type.setText(patient.getAge());
 
+
         // loading album cover using Glide library
-        Glide.with(context).load(patient.getPicture()).into(holder.photo);
+        //Glide.with(context).load(patient.getPicture()).into(holder.photo);
 
         // add on click listener for the photo
-        holder.photo.setOnClickListener(new View.OnClickListener() {
+
+        holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /**
                  * Pick a patient to be associated with a Session.
                  */
+
                 if (Constants.selectPatient) {
                     Log.d("Patient", "Selected patient");
                     // go back to CreateSession
@@ -99,6 +102,7 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
 
             }
         });
+
 
         /*
         holder.overflow.setOnClickListener(new View.OnClickListener() {
