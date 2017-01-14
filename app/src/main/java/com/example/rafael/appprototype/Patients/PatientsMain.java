@@ -44,8 +44,6 @@ public class PatientsMain extends Fragment {
 
         //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // TODO make scrolling fluid, replace grid by list, allow search by name
-
 
         // set the title
         getActivity().setTitle(getResources().getString(R.string.tab_drug_prescription));
@@ -84,7 +82,7 @@ public class PatientsMain extends Fragment {
             public void onClick(View view) {
                 // create a new Patient - switch to CreatePatient Fragment
                 Bundle args = new Bundle();
-                ((MainActivity) getActivity()).replaceFragment(CreatePatient.class, args, Constants.create_patient);
+                ((MainActivity) getActivity()).replaceFragment(new CreatePatient(), args, Constants.create_patient);
             }
         });
         return v;

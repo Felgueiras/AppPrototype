@@ -114,7 +114,7 @@ public class CreatePatient extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_cancel:
                 Bundle args = new Bundle();
-                ((MainActivity) getActivity()).replaceFragment(PatientsMain.class, args, Constants.tag_create_new_session_for_patient);
+                ((MainActivity) getActivity()).replaceFragment(new PatientsMain(), args, Constants.tag_create_new_session_for_patient);
                 break;
             case R.id.action_save:
                 if (patientName.getText().length() == 0) {
@@ -141,7 +141,7 @@ public class CreatePatient extends Fragment {
                 patient.save();
 
                 args = new Bundle();
-                ((MainActivity) getActivity()).replaceFragment(PatientsMain.class, args, Constants.tag_create_new_session_for_patient);
+                ((MainActivity) getActivity()).replaceFragment(new PatientsMain(), args, Constants.tag_create_new_session_for_patient);
                 Snackbar.make(getView(), R.string.create_patient_success, Snackbar.LENGTH_SHORT).show();
                 break;
         }

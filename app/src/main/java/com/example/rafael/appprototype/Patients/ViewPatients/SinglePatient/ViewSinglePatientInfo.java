@@ -49,12 +49,23 @@ public class ViewSinglePatientInfo extends Fragment {
     private PatientSectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private String actionTitle;
+    private String transText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.patient_info_main, container, false);
+
+        Bundle bundle = getArguments();
+        if(bundle!=null)
+        {
+            actionTitle = bundle.getString("ACTION");
+            transText = bundle.getString("TRANS_TEXT");
+            view.findViewById(R.id.patientName).setTransitionName(transText);
+            System.out.println("lol 2");
+        }
 
         mSectionsPagerAdapter = new PatientSectionsPagerAdapter(getChildFragmentManager());
 
@@ -85,7 +96,6 @@ public class ViewSinglePatientInfo extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
 
         // get patient
-        Bundle bundle = getArguments();
         patient = (Patient) bundle.getSerializable(PATIENT);
         getActivity().setTitle(patient.getName());
 
@@ -111,7 +121,7 @@ public class ViewSinglePatientInfo extends Fragment {
             public void onClick(View view) {
                 Bundle args = new Bundle();
                 args.putSerializable(NewEvaluation.PATIENT, patient);
-                ((MainActivity) getActivity()).replaceFragment(NewEvaluation.class, args, Constants.tag_create_new_session_for_patient);
+                ((MainActivity) getActivity()).replaceFragment(new NewEvaluation(), args, Constants.tag_create_new_session_for_patient);
                 getActivity().setTitle(getResources().getString(R.string.tab_sessions));
             }
         });

@@ -17,8 +17,6 @@ public class EvaluationsHistoryGrid extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        Bundle bundle = getArguments();
     }
 
 

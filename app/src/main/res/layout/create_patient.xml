@@ -54,9 +54,9 @@
             Birth date
         -->
         <!--
-        <CalendarView
+        <CalendarViewTutorial
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></CalendarView>
+            android:layout_height="match_parent"></CalendarViewTutorial>
             -->
         <!--
             Gender

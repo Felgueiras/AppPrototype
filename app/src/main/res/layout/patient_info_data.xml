@@ -17,7 +17,8 @@
             android:layout_height="wrap_content"
             android:text="patient name"
             android:textSize="30dp"
-            android:textColor="@color/album_title" />
+            android:textColor="@color/album_title"
+            android:transitionName="@string/fragment_text_trans"/>
 
         <TextView
             android:id="@+id/patientAge"

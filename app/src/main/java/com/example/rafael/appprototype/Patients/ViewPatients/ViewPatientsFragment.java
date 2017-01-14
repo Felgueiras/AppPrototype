@@ -54,9 +54,7 @@ public class ViewPatientsFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
                 adapter.getFilter().filter(newText);
-
                 return false;
             }
         });

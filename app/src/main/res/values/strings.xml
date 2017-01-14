@@ -80,4 +80,5 @@
     <string name="wrongChoice">wrong</string>
     <string name="search_result">Search result</string>
     <string name="menu_search">Menu search</string>
+    <string name="fragment_text_trans">fragment_text_transition</string>
 </resources>

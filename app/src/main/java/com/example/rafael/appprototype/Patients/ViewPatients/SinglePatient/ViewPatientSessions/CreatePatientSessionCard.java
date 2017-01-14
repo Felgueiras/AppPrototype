@@ -70,7 +70,7 @@ public class CreatePatientSessionCard extends RecyclerView.Adapter<CreatePatient
             public void onClick(View v) {
                 Bundle args = new Bundle();
                 args.putSerializable(ReviewSingleSession.SESSION,currentSession);
-                ((MainActivity) context).replaceFragment(ReviewSingleSession.class, args, Constants.tag_review_session);
+                ((MainActivity) context).replaceFragment(new ReviewSingleSession(), args, Constants.tag_review_session);
             }
         });
 

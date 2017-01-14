@@ -30,6 +30,7 @@
                 android:textColor="@color/album_title"
                 android:textSize="@dimen/patient_name_size"
                 android:text="Patient name"
+                android:transitionName="@string/fragment_text_trans"
                 />
 
             <View

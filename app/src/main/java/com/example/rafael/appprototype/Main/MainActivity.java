@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         // set sample fragment
         Fragment fragment = null;
-        String defaultFragment = Constants.fragment_show_patients;
+        String defaultFragment = Constants.fragment_sessions;
         switch (defaultFragment) {
             case Constants.fragment_sessions:
                 fragment = new EvaluationsMainFragment();
@@ -152,22 +152,16 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Replace one fragment by another
      *
-     * @param fragmentClass
      * @param args
      */
-    public void replaceFragment(Class fragmentClass, Bundle args, String addToBackStackTag) {
-        Fragment newFragment = null;
-        try {
-            newFragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void replaceFragment(Fragment fragment, Bundle args, String addToBackStackTag) {
+
         if (args != null) {
-            newFragment.setArguments(args);
+            fragment.setArguments(args);
         }
         // Create new transaction and add to back stack
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_frame, newFragment);
+        transaction.replace(R.id.content_frame, fragment);
         if (!addToBackStackTag.equals(""))
             transaction.addToBackStack(addToBackStackTag);
         transaction.commit();
@@ -241,7 +235,6 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.sample, menu);
 
 
-
         return true;
     }
 
@@ -275,4 +268,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void replaceFragment(Fragment fragment, Bundle args, String addToBackStackTag, TextView textView) {
+        if (args != null) {
+            fragment.setArguments(args);
+        }
+        // Create new transaction and add to back stack
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.content_frame, fragment);
+        if (!addToBackStackTag.equals(""))
+            transaction.addToBackStack(addToBackStackTag);
+        if (args.getString("TRANS_TEXT") != null) {
+            transaction.addSharedElement(textView, args.getString("TRANS_TEXT"));
+            System.out.println("lol");
+        }
+        transaction.commit();
+
+    }
 }

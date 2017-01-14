@@ -35,7 +35,6 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".Tutorial.CardViewActivity" />
         <activity
             android:name=".Login.LoginActivity"
             android:label="@string/title_activity_login" />
@@ -51,7 +50,7 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".Tutorial.CalendarView" />
+        <activity android:name=".Tutorial.CalendarViewTutorial" />
         <activity android:name=".Tutorial.DatePickerActivity" />
         <activity android:name=".Main.MainActivity">
             <intent-filter>

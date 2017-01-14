@@ -1,8 +1,10 @@
 package com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -91,7 +93,10 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
 
         // add on click listener for the photo
 
+
         holder.name.setOnClickListener(new View.OnClickListener() {
+            public String patientTransitionName;
+
             @Override
             public void onClick(View v) {
                 /**
@@ -104,13 +109,27 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
                     Bundle args = new Bundle();
                     args.putSerializable(NewEvaluation.PATIENT, patient);
                     args.putBoolean(NewEvaluation.SAVE_SESSION, true);
-                    ((MainActivity) context).replaceFragment(NewEvaluation.class, args, "");
+                    ((MainActivity) context).replaceFragment(new NewEvaluation(), args, "");
                     Constants.selectPatient = false;
                     return;
                 } else {
+                    // TODO add shared elements for transitions
+                    Fragment endFragment = new ViewSinglePatientInfo();
+                    endFragment.setSharedElementReturnTransition(TransitionInflater.from(
+                            context).inflateTransition(R.transition.change_image_trans));
+
+
+                    endFragment.setSharedElementEnterTransition(TransitionInflater.from(
+                            context).inflateTransition(R.transition.change_image_trans));
+
+
+                    patientTransitionName = holder.name.getTransitionName();
                     Bundle args = new Bundle();
+                    args.putString("ACTION", holder.name.getText().toString());
+                    args.putString("TRANS_TEXT", patientTransitionName);
                     args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
-                    ((MainActivity) context).replaceFragment(ViewSinglePatientInfo.class, args, Constants.tag_view_patien_info_records);
+                    ((MainActivity) context).replaceFragment(endFragment, args, Constants.tag_view_patien_info_records,
+                            holder.name);
                 }
 
             }

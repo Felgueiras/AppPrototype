@@ -90,7 +90,7 @@ public class ReviewSessionCards extends RecyclerView.Adapter<ReviewSessionCards.
             public void onClick(View view) {
                 Bundle args = new Bundle();
                 args.putSerializable(ReviewSingleSession.SESSION, session);
-                ((MainActivity) context).replaceFragment(ReviewSingleSession.class, args, Constants.tag_review_session);
+                ((MainActivity) context).replaceFragment(new ReviewSingleSession(), args, Constants.tag_review_session);
             }
         });
         /**

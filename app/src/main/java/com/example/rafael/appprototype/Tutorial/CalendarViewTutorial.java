@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import com.example.rafael.appprototype.R;
 
-public class CalendarView extends AppCompatActivity {
+public class CalendarViewTutorial extends AppCompatActivity {
     android.widget.CalendarView calendar;
 
     @Override
@@ -26,8 +26,8 @@ public class CalendarView extends AppCompatActivity {
         // sets whether to show the week number.
         calendar.setShowWeekNumber(false);
 
-        // sets the first day of week according to CalendarView.
-        // here we set Monday as the first day of the CalendarView
+        // sets the first day of week according to CalendarViewTutorial.
+        // here we set Monday as the first day of the CalendarViewTutorial
         calendar.setFirstDayOfWeek(2);
 
         //sets the listener to be notified upon selected date change.

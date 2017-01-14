@@ -1,7 +1,6 @@
-package com.example.rafael.appprototype.DrugPrescription.Stopp;
+package com.example.rafael.appprototype.DrugPrescription;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DrugPrescription.Beers.RecommendationInfo;
-import com.example.rafael.appprototype.DrugPrescription.PrescriptionGeneral;
 import com.example.rafael.appprototype.DrugPrescription.Start.PrescriptionStart;
+import com.example.rafael.appprototype.DrugPrescription.Stopp.PrescriptionStopp;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;

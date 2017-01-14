@@ -91,7 +91,7 @@ public class NewEvaluation extends Fragment {
                     Constants.pickingPatient = false;
                     Constants.sessionID = null;
                     Log.d("Session", "Finishing!");
-                    ((MainActivity) getActivity()).replaceFragment(EvaluationsHistoryMain.class, null, Constants.tag_view_sessions_history);
+                    ((MainActivity) getActivity()).replaceFragment(new EvaluationsHistoryMain(), null, Constants.tag_view_sessions_history);
                 }
             }
         }
@@ -155,7 +155,7 @@ public class NewEvaluation extends Fragment {
                                     Constants.pickingPatient = true;
                                     Bundle args = new Bundle();
                                     args.putBoolean(ViewPatientsFragment.selectPatient, true);
-                                    ((MainActivity) getActivity()).replaceFragment(ViewPatientsFragment.class, args,
+                                    ((MainActivity) getActivity()).replaceFragment(new ViewPatientsFragment(), args,
                                             Constants.fragment_show_patients);
                                     dialog.dismiss();
                                     Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
@@ -187,7 +187,7 @@ public class NewEvaluation extends Fragment {
                 }
 
                 Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
-                ((MainActivity) getActivity()).replaceFragment(EvaluationsHistoryMain.class, null, Constants.tag_view_sessions_history);
+                ((MainActivity) getActivity()).replaceFragment(new EvaluationsHistoryMain(), null, Constants.tag_view_sessions_history);
             }
         });
 

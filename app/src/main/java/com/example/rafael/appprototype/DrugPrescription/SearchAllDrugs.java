@@ -1,23 +1,21 @@
 package com.example.rafael.appprototype.DrugPrescription;
 
 import android.app.Fragment;
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DrugPrescription.Beers.BeersCriteria;
-import com.example.rafael.appprototype.DrugPrescription.Beers.RecommendationInfo;
-import com.example.rafael.appprototype.DrugPrescription.Start.PrescriptionStart;
-import com.example.rafael.appprototype.DrugPrescription.Stopp.PrescriptionStopp;
-import com.example.rafael.appprototype.DrugPrescription.Stopp.SelectedDrugsListAdapter;
 import com.example.rafael.appprototype.DrugPrescription.Start.StartCriteria;
 import com.example.rafael.appprototype.DrugPrescription.Stopp.StoppCriteria;
 import com.example.rafael.appprototype.R;
@@ -30,13 +28,10 @@ import java.util.ArrayList;
 public class SearchAllDrugs extends Fragment {
 
     // List view
-    private ListView drugsSearchListView, selectedDrugsListView;
+    private ListView drugsSearchListView;
 
     // Listview Adapter
-    ArrayAdapter<String> drugsListAdapter;
-
-    // Search EditText
-    EditText inputSearch;
+    ArrayAdapter<String> adapter;
 
     /**
      * Selected drugs.
@@ -63,6 +58,7 @@ public class SearchAllDrugs extends Fragment {
         beersData = BeersCriteria.getBeersData();
         stoppGeneral = StoppCriteria.getStoppData();
         startGeneral = StartCriteria.getStartData();
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -73,8 +69,6 @@ public class SearchAllDrugs extends Fragment {
 
         // list view with possible choices and selected ones
         drugsSearchListView = (ListView) v.findViewById(R.id.list_view);
-        selectedDrugsListView = (ListView) v.findViewById(R.id.selectedDrugs);
-        inputSearch = (EditText) v.findViewById(R.id.inputSearch);
 
         // stopp
         final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(stoppGeneral);
@@ -88,11 +82,9 @@ public class SearchAllDrugs extends Fragment {
         allDrugs.addAll(stoppCriteriaDrugs);
         allDrugs.addAll(startCriteriaDrugs);
         allDrugs.addAll(beersCriteriaDrugs);
-        drugsListAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item, R.id.drug_name, allDrugs);
+        adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item, R.id.drug_name, allDrugs);
 
-        drugsSearchListView.setAdapter(drugsListAdapter);
-        final SelectedDrugsListAdapter displaySelectedDrugsAdapter = new SelectedDrugsListAdapter(getActivity(), selectedDrugs);
-        selectedDrugsListView.setAdapter(displaySelectedDrugsAdapter);
+        drugsSearchListView.setAdapter(adapter);
 
         drugsSearchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -101,6 +93,8 @@ public class SearchAllDrugs extends Fragment {
                 TextView textView = (TextView) view.findViewById(R.id.drug_name);
                 selectedDrug = (String) textView.getText();
 
+                // TODO open page showing infos about that drug
+                /*
                 // check info (start, stopp or beers)
                 if (stoppCriteriaDrugs.contains(selectedDrug)) {
                     // get info about the Stopp criteria for that drug
@@ -117,45 +111,37 @@ public class SearchAllDrugs extends Fragment {
                     drugInfo.setDrugName(selectedDrug);
                     selectedDrugs.add(drugInfo);
                 }
-
-                // reset
-                inputSearch.setText("");
-                drugsListAdapter.getFilter().filter("a0s0a0aa0s0");
-
-            }
-        });
-
-
-        inputSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                drugsListAdapter.getFilter().filter("a0s0a0aa0s0");
-            }
-        });
-
-        inputSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                // When user changed the Text
-                drugsListAdapter.getFilter().filter(cs);
-                if (cs.length() == 0) {
-                    drugsListAdapter.getFilter().filter("a0s0a0aa0s0");
-                }
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-                                          int arg3) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable arg0) {
+                */
             }
         });
 
 
         return v;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.menu_search, menu);
+
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.listsearch).getActionView();
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setIconifiedByDefault(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
     }
 
 
