@@ -1,5 +1,7 @@
 package com.example.rafael.appprototype.DrugPrescription.Beers;
 
+import com.example.rafael.appprototype.DataTypes.Criteria.RecommendationInfo;
+
 import java.util.ArrayList;
 
 /**

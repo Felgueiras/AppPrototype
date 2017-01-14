@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.rafael.appprototype.DataTypes.Criteria.BeersCriteria;
+import com.example.rafael.appprototype.DataTypes.Criteria.RecommendationInfo;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;

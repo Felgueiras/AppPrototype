@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
+import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStart;
+import com.example.rafael.appprototype.DataTypes.Criteria.StartCriteria;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;

@@ -79,9 +79,9 @@ public class DrugPrescriptionMain extends Fragment {
         public Fragment getItem(int position) {
             if (position == 0) {
                 return new SearchAllDrugs();
-            } else if (position == 1) {
-                return new StoppCriteriaFragment();
             } else if (position == 2) {
+                return new StoppCriteriaFragment();
+            } else if (position == 1) {
                 return new StartCriteriaFragment();
             } else if (position == 3) {
                 return new BeersCriteriaFragment();

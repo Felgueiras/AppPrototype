@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription;
+package com.example.rafael.appprototype.DataTypes.Criteria;
 
 /**
  * Created by rafael on 01-11-2016.

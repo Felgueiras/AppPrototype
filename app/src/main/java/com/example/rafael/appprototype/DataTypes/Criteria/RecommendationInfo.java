@@ -1,11 +1,11 @@
-package com.example.rafael.appprototype.DrugPrescription.Beers;
+package com.example.rafael.appprototype.DataTypes.Criteria;
 
-import com.example.rafael.appprototype.DrugPrescription.PrescriptionGeneral;
+import java.io.Serializable;
 
 /**
  * Created by rafael on 03-11-2016.
  */
-public class RecommendationInfo extends PrescriptionGeneral {
+public class RecommendationInfo extends PrescriptionGeneral implements Serializable {
     private final String recommendation;
     private final String rationale;
     String qualityOfEvidence;

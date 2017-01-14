@@ -46,19 +46,19 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         if (id == R.id.evaluations) {
             // Insert the fragment by replacing any existing fragment
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new EvaluationsMainFragment())
+                    .replace(R.id.content_fragment, new EvaluationsMainFragment())
                     .commit();
 
         } else if (id == R.id.prescription) {
             // Insert the fragment by replacing any existing fragment
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new DrugPrescriptionMain())
+                    .replace(R.id.content_fragment, new DrugPrescriptionMain())
                     .commit();
 
         } else if (id == R.id.patients) {
             // Insert the fragment by replacing any existing fragment
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new PatientsMain())
+                    .replace(R.id.content_fragment, new PatientsMain())
                     .commit();
 
         }else if (id == R.id.logout) {

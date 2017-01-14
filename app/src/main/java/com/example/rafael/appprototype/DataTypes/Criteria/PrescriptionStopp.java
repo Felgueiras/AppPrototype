@@ -1,11 +1,12 @@
-package com.example.rafael.appprototype.DrugPrescription.Stopp;
+package com.example.rafael.appprototype.DataTypes.Criteria;
 
-import com.example.rafael.appprototype.DrugPrescription.PrescriptionGeneral;
+import com.example.rafael.appprototype.DrugPrescription.Stopp.Issue;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class PrescriptionStopp extends PrescriptionGeneral {
+public class PrescriptionStopp extends PrescriptionGeneral implements Serializable {
 
     ArrayList<Issue> situations;
 

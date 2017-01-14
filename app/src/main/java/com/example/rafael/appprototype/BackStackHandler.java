@@ -8,6 +8,8 @@ import android.util.Log;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
+import com.example.rafael.appprototype.DrugPrescription.SearchAllDrugs;
 import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSession;
@@ -20,18 +22,18 @@ import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragmen
 /**
  * Created by rafael on 09-10-2016.
  */
-public class HandleStack implements FragmentManager.OnBackStackChangedListener {
+public class BackStackHandler implements FragmentManager.OnBackStackChangedListener {
 
     private static MainActivity context = null;
     FragmentManager fragmentManager;
 
     /**
-     * Constructor for the HandleStack class
+     * Constructor for the BackStackHandler class
      *
      * @param fragmentManager
      * @param mainActivity
      */
-    public HandleStack(FragmentManager fragmentManager, MainActivity mainActivity) {
+    public BackStackHandler(FragmentManager fragmentManager, MainActivity mainActivity) {
         this.fragmentManager = fragmentManager;
         this.context = mainActivity;
     }
@@ -43,7 +45,7 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
             Fragment currentFragment = fragmentManager.findFragmentByTag(fragmentTag);
 
             //String fragmentName = fragmentManager.getBackStackEntryAt(0).getName();
-            Fragment fr = fragmentManager.findFragmentById(R.id.content_frame);
+            Fragment fr = fragmentManager.findFragmentById(R.id.content_fragment);
             int index = fragmentManager.getBackStackEntryCount() - 1;
             FragmentManager.BackStackEntry backEntry = fragmentManager.getBackStackEntryAt(index);
             String tag = backEntry.getName();
@@ -63,22 +65,31 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
                 Fragment fragment = new NewEvaluation();
                 fragment.setArguments(args);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment)
+                        .replace(R.id.content_fragment, fragment)
                         .commit();
             } else if (tag.equals(Constants.tag_view_patien_info_records)) {
                 fragmentManager.popBackStack();
                 Fragment fragment = new PatientsMain();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment)
+                        .replace(R.id.content_fragment, fragment)
                         .commit();
             } else if (tag.equals(Constants.tag_view_sessions_history)) {
                 fragmentManager.popBackStack();
 
                 Fragment fragment = new ViewPatientsFragment();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment)
+                        .replace(R.id.content_fragment, fragment)
                         .commit();
-            } else if (tag.equals(Constants.create_session)) {
+            }
+            else if (tag.equals(Constants.tag_view_drug_info)) {
+                fragmentManager.popBackStack();
+
+                Fragment fragment = new DrugPrescriptionMain();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_fragment, fragment)
+                        .commit();
+            }
+            else if (tag.equals(Constants.create_session)) {
                 fragmentManager.popBackStack();
                 Log.d("Stack", "pressed back in new session");
                 ((NewEvaluation) currentFragment).discardFAB.performClick();
@@ -94,7 +105,7 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
                 fragmentManager.popBackStack();
                 Fragment fragment = new EvaluationsMainFragment();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment)
+                        .replace(R.id.content_fragment, fragment)
                         .commit();
             } else if (tag.equals(Constants.tag_review_test)) {
                 fragmentManager.popBackStack();
@@ -108,7 +119,7 @@ public class HandleStack implements FragmentManager.OnBackStackChangedListener {
                 Fragment fragment = new ReviewSingleSession();
                 fragment.setArguments(args);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment)
+                        .replace(R.id.content_fragment, fragment)
                         .commit();
             }
         }

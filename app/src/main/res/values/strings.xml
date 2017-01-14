@@ -81,4 +81,7 @@
     <string name="search_result">Search result</string>
     <string name="menu_search">Menu search</string>
     <string name="fragment_text_trans">fragment_text_transition</string>
+    <string name="no_start_criteria">No Start criteria</string>
+    <string name="no_stopp_criteria">No Stopp criteria</string>
+    <string name="no_beers_criteria">No Beers criteria</string>
 </resources>

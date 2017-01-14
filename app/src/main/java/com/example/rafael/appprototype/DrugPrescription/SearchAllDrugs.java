@@ -15,12 +15,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.DrugPrescription.Beers.BeersCriteria;
-import com.example.rafael.appprototype.DrugPrescription.Start.StartCriteria;
-import com.example.rafael.appprototype.DrugPrescription.Stopp.StoppCriteria;
+import com.example.rafael.appprototype.Constants;
+import com.example.rafael.appprototype.DataTypes.Criteria.BeersCriteria;
+import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionGeneral;
+import com.example.rafael.appprototype.DataTypes.Criteria.StartCriteria;
+import com.example.rafael.appprototype.DataTypes.Criteria.StoppCriteria;
+import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Search a drug by its name.
@@ -28,7 +32,7 @@ import java.util.ArrayList;
 public class SearchAllDrugs extends Fragment {
 
     // List view
-    private ListView drugsSearchListView;
+    private ListView drugsList;
 
     // Listview Adapter
     ArrayAdapter<String> adapter;
@@ -68,7 +72,7 @@ public class SearchAllDrugs extends Fragment {
         View v = inflater.inflate(R.layout.search_drugs, container, false);
 
         // list view with possible choices and selected ones
-        drugsSearchListView = (ListView) v.findViewById(R.id.list_view);
+        drugsList = (ListView) v.findViewById(R.id.list_view);
 
         // stopp
         final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(stoppGeneral);
@@ -82,36 +86,25 @@ public class SearchAllDrugs extends Fragment {
         allDrugs.addAll(stoppCriteriaDrugs);
         allDrugs.addAll(startCriteriaDrugs);
         allDrugs.addAll(beersCriteriaDrugs);
+        // sort list
+        Collections.sort(allDrugs);
+
         adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item, R.id.drug_name, allDrugs);
 
-        drugsSearchListView.setAdapter(adapter);
+        drugsList.setAdapter(adapter);
 
-        drugsSearchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        drugsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedDrug;
                 TextView textView = (TextView) view.findViewById(R.id.drug_name);
                 selectedDrug = (String) textView.getText();
 
-                // TODO open page showing infos about that drug
-                /*
-                // check info (start, stopp or beers)
-                if (stoppCriteriaDrugs.contains(selectedDrug)) {
-                    // get info about the Stopp criteria for that drug
-                    PrescriptionStopp pr = StoppCriteria.getStoppCriteriaPresciptionForDrug(selectedDrug, stoppGeneral);
-                    selectedDrugs.add(pr);
-                    displaySelectedDrugsAdapter.notifyDataSetChanged();
-                } else if (startCriteriaDrugs.contains(selectedDrug)) {
-                    // get info about the Start criteria for that drug
-                    PrescriptionStart pr = StartCriteria.getStartCriteriaPresciptionForDrug(selectedDrug, startGeneral);
-                    selectedDrugs.add(pr);
-                    displaySelectedDrugsAdapter.notifyDataSetChanged();
-                } else if (beersCriteriaDrugs.contains(selectedDrug)) {
-                    RecommendationInfo drugInfo = BeersCriteria.getBeersCriteriaInfoAboutDrug(selectedDrug, beersData);
-                    drugInfo.setDrugName(selectedDrug);
-                    selectedDrugs.add(drugInfo);
-                }
-                */
+                Fragment endFragment = new ViewSingleDrugtInfo();
+                Bundle args = new Bundle();
+                args.putString(ViewSingleDrugtInfo.DRUG, selectedDrug);
+                ((MainActivity) getActivity()).replaceFragment(endFragment, args, Constants.tag_view_drug_info);
+
             }
         });
 

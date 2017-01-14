@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStart;
 import com.example.rafael.appprototype.R;
 
 import java.util.HashMap;

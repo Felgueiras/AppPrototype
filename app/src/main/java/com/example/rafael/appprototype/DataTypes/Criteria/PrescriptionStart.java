@@ -1,11 +1,11 @@
-package com.example.rafael.appprototype.DrugPrescription.Start;
+package com.example.rafael.appprototype.DataTypes.Criteria;
 
-import com.example.rafael.appprototype.DrugPrescription.PrescriptionGeneral;
+import java.io.Serializable;
 
 /**
  * Created by rafael on 01-11-2016.
  */
-public class PrescriptionStart extends PrescriptionGeneral{
+public class PrescriptionStart extends PrescriptionGeneral implements Serializable {
 
     String description;
 

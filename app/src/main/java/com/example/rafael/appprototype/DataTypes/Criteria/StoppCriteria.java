@@ -1,4 +1,6 @@
-package com.example.rafael.appprototype.DrugPrescription.Stopp;
+package com.example.rafael.appprototype.DataTypes.Criteria;
+
+import com.example.rafael.appprototype.DrugPrescription.Stopp.Issue;
 
 import java.util.ArrayList;
 

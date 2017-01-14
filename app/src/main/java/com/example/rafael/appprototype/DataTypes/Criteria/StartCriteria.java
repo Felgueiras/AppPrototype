@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription.Start;
+package com.example.rafael.appprototype.DataTypes.Criteria;
 
 import java.util.ArrayList;
 

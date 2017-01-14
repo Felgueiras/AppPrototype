@@ -3,15 +3,12 @@ package com.example.rafael.appprototype.Main;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -22,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
+import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
@@ -29,7 +27,6 @@ import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
-import com.example.rafael.appprototype.HandleStack;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.DisplaySingleTestFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
@@ -84,12 +81,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // set handler for the Fragment stack
-        HandleStack handler = new HandleStack(getFragmentManager(), this);
+        BackStackHandler handler = new BackStackHandler(getFragmentManager(), this);
         getFragmentManager().addOnBackStackChangedListener(handler);
 
         // set sample fragment
         Fragment fragment = null;
-        String defaultFragment = Constants.fragment_sessions;
+        String defaultFragment = Constants.fragment_drug_prescription;
         switch (defaultFragment) {
             case Constants.fragment_sessions:
                 fragment = new EvaluationsMainFragment();
@@ -106,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         }
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
+                .replace(R.id.content_fragment, fragment)
                 .commit();
 
 
@@ -145,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         newFragment.setArguments(bundle);
         // setup the transaction
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_frame, newFragment);
+        transaction.replace(R.id.content_fragment, newFragment);
         transaction.addToBackStack(Constants.tag_display_session_test).commit();
     }
 
@@ -161,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         }
         // Create new transaction and add to back stack
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_frame, fragment);
+        transaction.replace(R.id.content_fragment, fragment);
         if (!addToBackStackTag.equals(""))
             transaction.addToBackStack(addToBackStackTag);
         transaction.commit();
@@ -173,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         Log.d("Back", "...");
         FragmentManager fragmentManager = getFragmentManager();
-        HandleStack.handleBackButton(fragmentManager);
+        BackStackHandler.handleBackButton(fragmentManager);
     }
 
     @Override
@@ -194,13 +191,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showLockScreen() {
-        currentFragment = this.getFragmentManager().findFragmentById(R.id.content_frame);
+        currentFragment = this.getFragmentManager().findFragmentById(R.id.content_fragment);
         Log.d("Lock", "Stored current fragment");
         // create LockScreenFragment
         LockScreenFragment fragment = new LockScreenFragment();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
+                .replace(R.id.content_fragment, fragment)
                 .commit();
     }
 
@@ -225,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
         // replace the Fragment before lock screen
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, currentFragment)
+                .replace(R.id.content_fragment, currentFragment)
                 .commit();
     }
 
@@ -274,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
         }
         // Create new transaction and add to back stack
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_frame, fragment);
+        transaction.replace(R.id.content_fragment, fragment);
         if (!addToBackStackTag.equals(""))
             transaction.addToBackStack(addToBackStackTag);
         if (args.getString("TRANS_TEXT") != null) {

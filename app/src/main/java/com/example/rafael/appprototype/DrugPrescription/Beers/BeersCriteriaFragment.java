@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
+import com.example.rafael.appprototype.DataTypes.Criteria.BeersCriteria;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;

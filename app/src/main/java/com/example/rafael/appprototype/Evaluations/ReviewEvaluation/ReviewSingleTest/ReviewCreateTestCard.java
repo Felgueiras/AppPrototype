@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -191,7 +190,7 @@ public class ReviewCreateTestCard extends RecyclerView.Adapter<ReviewCreateTestC
                 newFragment.setArguments(bundle);
                 // setup the transaction
                 FragmentTransaction transaction = ((MainActivity) context).getFragmentManager().beginTransaction();
-                transaction.replace(R.id.content_frame, newFragment);
+                transaction.replace(R.id.content_fragment, newFragment);
                 transaction.addToBackStack(Constants.tag_review_test).commit();
             }
         });

@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 
+import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStopp;
+import com.example.rafael.appprototype.DataTypes.Criteria.StoppCriteria;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;

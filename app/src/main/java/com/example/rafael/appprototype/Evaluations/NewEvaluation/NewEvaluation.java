@@ -169,7 +169,7 @@ public class NewEvaluation extends Fragment {
                                     Constants.sessionID = null;
                                     FragmentManager fragmentManager = getFragmentManager();
                                     fragmentManager.beginTransaction()
-                                            .replace(R.id.content_frame, new EvaluationsMainFragment())
+                                            .replace(R.id.content_fragment, new EvaluationsMainFragment())
                                             .commit();
                                     Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
                                 }
@@ -206,7 +206,7 @@ public class NewEvaluation extends Fragment {
                                 Constants.sessionID = null;
                                 FragmentManager fragmentManager = getFragmentManager();
                                 fragmentManager.beginTransaction()
-                                        .replace(R.id.content_frame, new EvaluationsMainFragment())
+                                        .replace(R.id.content_fragment, new EvaluationsMainFragment())
                                         .commit();
                                 dialog.dismiss();
                                 // Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
