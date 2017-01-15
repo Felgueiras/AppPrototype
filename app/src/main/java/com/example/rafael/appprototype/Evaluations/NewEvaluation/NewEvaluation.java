@@ -23,6 +23,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
+import com.example.rafael.appprototype.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.Main.MainActivity;
@@ -272,7 +273,7 @@ public class NewEvaluation extends Fragment {
         int day = now.get(Calendar.DAY_OF_MONTH);
         int hour = now.get(Calendar.HOUR_OF_DAY);
         int minute = now.get(Calendar.MINUTE);
-        session.setDate(Session.createCustomDate(year, month, day, hour, minute));
+        session.setDate(DatesHandler.createCustomDate(year, month, day, hour, minute));
         System.out.println("Session date is " + session.getDate());
         session.save();
 

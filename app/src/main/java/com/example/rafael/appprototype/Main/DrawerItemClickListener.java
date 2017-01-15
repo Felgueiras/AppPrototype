@@ -1,5 +1,6 @@
 package com.example.rafael.appprototype.Main;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -43,41 +45,37 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        Fragment endFragment = null;
         if (id == R.id.evaluations) {
-            // Insert the fragment by replacing any existing fragment
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_fragment, new EvaluationsMainFragment())
-                    .commit();
+            endFragment = new EvaluationsMainFragment();
         } else if (id == R.id.prescription) {
-            // Insert the fragment by replacing any existing fragment
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_fragment, new DrugPrescriptionMain())
-                    .commit();
-
+            endFragment = new DrugPrescriptionMain();
         } else if (id == R.id.patients) {
-            // Insert the fragment by replacing any existing fragment
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_fragment, new PatientsMain())
-                    .commit();
+            endFragment = new PatientsMain();
+        } else if (id == R.id.sendFeedback) {
+            endFragment = new SendFeedback();
+        } else if (id == R.id.help) {
+            endFragment = new Help();
         }
-        // Send feedback
-        else if (id == R.id.sendFeedback) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_fragment, new SendFeedback())
-                    .commit();
-        }
-        else if (id == R.id.help) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_fragment, new Help())
-                    .commit();
-        }else if (id == R.id.logout) {
+
+        if (id == R.id.logout) {
             // Insert the fragment by replacing any existing fragment
-            Log.d("Logout","Going to logout...");
+            Log.d("Logout", "Going to logout...");
             SharedPreferences sharedPreferences = context.getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
             sharedPreferences.edit().putString(Constants.userName, null).commit();
             // go to login screen
             Intent i = new Intent(context, LoginActivity.class);
             context.startActivity(i);
+        } else {
+            // add Exit transition
+            Fragment startFragment = ((MainActivity) context).getFragmentManager().findFragmentById(R.id.content_fragment);
+            startFragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.fade));
+            // add Enter transition
+            endFragment.setEnterTransition(TransitionInflater.from(context).
+                    inflateTransition(android.R.transition.fade));
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_fragment, endFragment)
+                    .commit();
         }
 
         drawer.closeDrawer(GravityCompat.START);

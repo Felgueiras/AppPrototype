@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.HistoryCard.ReviewSessionCards;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.R;
@@ -44,7 +45,7 @@ public class ShowEvaluationsForDay extends BaseAdapter {
 
         // get the date
         Date currentDate = Session.getDifferentSessionDates().get(position);
-        dateTextView.setText(currentDate.toString());
+        dateTextView.setText(DatesHandler.dateToStringDayWithoutHour(currentDate));
         // get NewEvaluation for that date
         List<Session> sessionsFromDate = Session.getSessionsFromDate(currentDate);
 
