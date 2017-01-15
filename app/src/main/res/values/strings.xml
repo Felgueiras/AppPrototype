@@ -84,4 +84,6 @@
     <string name="no_start_criteria">No Start criteria</string>
     <string name="no_stopp_criteria">No Stopp criteria</string>
     <string name="no_beers_criteria">No Beers criteria</string>
+    <string name="send_feedback">Send feedback</string>
+    <string name="help">Help</string>
 </resources>

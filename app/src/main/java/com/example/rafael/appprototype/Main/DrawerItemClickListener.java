@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
+import com.example.rafael.appprototype.Help_Feedback.Help;
+import com.example.rafael.appprototype.Help_Feedback.SendFeedback;
 import com.example.rafael.appprototype.Login.LoginActivity;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
@@ -36,8 +38,6 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
 
     }
 
-
-
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -48,7 +48,6 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             fragmentManager.beginTransaction()
                     .replace(R.id.content_fragment, new EvaluationsMainFragment())
                     .commit();
-
         } else if (id == R.id.prescription) {
             // Insert the fragment by replacing any existing fragment
             fragmentManager.beginTransaction()
@@ -60,7 +59,17 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             fragmentManager.beginTransaction()
                     .replace(R.id.content_fragment, new PatientsMain())
                     .commit();
-
+        }
+        // Send feedback
+        else if (id == R.id.sendFeedback) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_fragment, new SendFeedback())
+                    .commit();
+        }
+        else if (id == R.id.help) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_fragment, new Help())
+                    .commit();
         }else if (id == R.id.logout) {
             // Insert the fragment by replacing any existing fragment
             Log.d("Logout","Going to logout...");
