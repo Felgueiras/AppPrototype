@@ -2,18 +2,26 @@ package com.example.rafael.appprototype.Evaluations;
 
 import android.app.DatePickerDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
+import android.widget.GridView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowEvaluationsForDay;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 import com.example.rafael.appprototype.R;
 
 import java.util.Calendar;
@@ -25,7 +33,6 @@ public class EvaluationsMainFragment extends Fragment {
     private int day;
 
     // TODO search by date, calendar view
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,16 +45,17 @@ public class EvaluationsMainFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = null;
         if (Constants.sessionID == null) {
-            /*
+
             v = inflater.inflate(R.layout.content_evaluations_history, container, false);
             getActivity().setTitle(getResources().getString(R.string.tab_sessions));
 
-            Button firstDate = (Button) v.findViewById(R.id.firstDate);
+            //Button firstDate = (Button) v.findViewById(R.id.firstDate);
 
             // fill the GridView
             GridView gridView = (GridView) v.findViewById(R.id.gridView);
             gridView.setAdapter(new ShowEvaluationsForDay(getActivity()));
 
+            /*
             firstDate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -55,9 +63,11 @@ public class EvaluationsMainFragment extends Fragment {
                 }
             });
             */
+
             /**
              * Calendar view.
              */
+        /*
             v = inflater.inflate(R.layout.content_evaluations_history_calendar, container, false);
             CalendarView calendar = (CalendarView) v.findViewById(R.id.evaluationsCalendar);
             calendar.setFirstDayOfWeek(2);
@@ -77,6 +87,7 @@ public class EvaluationsMainFragment extends Fragment {
                     // display sessions from that day
                 }
             });
+            */
 
 
             // FAB
@@ -84,9 +95,34 @@ public class EvaluationsMainFragment extends Fragment {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // create a new Session - switch to CreatePatient Fragment
-                    Bundle args = new Bundle();
-                    ((MainActivity) getActivity()).replaceFragment(new NewEvaluation(), args, Constants.create_session);
+                    AlertDialog chooseGender;
+
+                    // Strings to Show In Dialog with Radio Buttons
+                    final CharSequence[] items = {getString(R.string.male), getString(R.string.female)};
+
+                    // Creating and Building the Dialog
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle(getString(R.string.select_patient_gender));
+                    builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+                            Bundle args = new Bundle();
+
+                            switch (item) {
+                                case 0:
+                                    args.putInt(NewEvaluation.GENDER,Constants.MALE);
+                                    break;
+                                case 1:
+                                    args.putInt(NewEvaluation.GENDER,Constants.FEMALE);
+                                    break;
+
+                            }
+                            dialog.dismiss();
+                            // create a new Session - switch to CreatePatient Fragment
+                            ((MainActivity) getActivity()).replaceFragment(new NewEvaluation(), args, Constants.create_session);
+                        }
+                    });
+                    chooseGender = builder.create();
+                    chooseGender.show();
                 }
             });
         } else {

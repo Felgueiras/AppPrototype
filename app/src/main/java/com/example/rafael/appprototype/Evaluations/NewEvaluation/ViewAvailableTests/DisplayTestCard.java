@@ -32,7 +32,7 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
      * ID for this Session
      */
     private final Session session;
-    private final Patient patient;
+    private final int patientGender;
 
     private Context context;
 
@@ -60,12 +60,12 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
      *
      * @param context               current Context
      * @param resuming              true if we are resuming a Session
-     * @param patientForThisSession
+     * @param patientGender
      */
-    public DisplayTestCard(Context context, Session session, boolean resuming, Patient patientForThisSession) {
+    public DisplayTestCard(Context context, Session session, boolean resuming, int patientGender) {
         this.context = context;
         this.session = session;
-        this.patient = patientForThisSession;
+        this.patientGender = patientGender;
     }
 
     @Override
@@ -104,7 +104,7 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
                 // display Scoring to the user
                 GradingNonDB match = StaticTestDefinition.getGradingForTest(
                         currentTest,
-                        patient.getGender());
+                        patientGender);
                 holder.testCompletion.setText(match.getGrade());
             }
             // still incomplete

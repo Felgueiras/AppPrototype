@@ -17,6 +17,7 @@ import java.util.List;
 @Table(name = "Patients")
 public class Patient extends Model implements Serializable {
 
+
     @Column(name = "guid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     public String guid;
     @Column(name = "patientName")

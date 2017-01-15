@@ -98,6 +98,7 @@ public class DatabaseOps {
             patient.setAge(patientAges[i]);
             patient.setGuid("patient" + i);
             patient.setAddress(patientAddresses[i]);
+            patient.setGender(Constants.MALE);
             if (patientGenders[i] == 'm')
                 patient.setPicture(R.drawable.male);
             else {

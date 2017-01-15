@@ -47,6 +47,7 @@ public class NewEvaluation extends Fragment {
      * Patient for this Session
      */
     public static String PATIENT = "patient";
+    public static String GENDER = "gender";
 
     Patient patientForThisSession;
     /**
@@ -70,9 +71,8 @@ public class NewEvaluation extends Fragment {
         Bundle args = getArguments();
         patientForThisSession = (Patient) args.getSerializable(PATIENT);
 
-        // read patient for this session
-        if (patientForThisSession != null)
-            Log.d("Patient", "we already have patient!!");
+
+
         /**
          * Resume an Evaluation.
          */
@@ -106,7 +106,17 @@ public class NewEvaluation extends Fragment {
 
 
         RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.reviewsTestsRV);
-        DisplayTestCard adapter = new DisplayTestCard(getActivity(), session, resuming, patientForThisSession);
+        DisplayTestCard adapter;
+
+
+        // read patient for this session
+        if (patientForThisSession != null) {
+            adapter = new DisplayTestCard(getActivity(), session, resuming, patientForThisSession.getGender());
+        } else {
+            // new evaluation created for no Patient
+            adapter = new DisplayTestCard(getActivity(), session, resuming, args.getInt(GENDER));
+        }
+
 
         // create Layout
         int numbercolumns = 2;
@@ -232,11 +242,11 @@ public class NewEvaluation extends Fragment {
         ArrayList<GeriatricTestNonDB> testsNonDB = StaticTestDefinition.getAllTests();
         for (GeriatricTestNonDB testNonDB : testsNonDB) {
             GeriatricTest test = new GeriatricTest();
-            test.setGuid(session.getGuid()+"-"+testNonDB.getTestName());
+            test.setGuid(session.getGuid() + "-" + testNonDB.getTestName());
             test.setTestName(testNonDB.getTestName());
             test.setShortName(testNonDB.getShortName());
             test.setSession(session);
-            if(testNonDB.isSingleQuestion())
+            if (testNonDB.isSingleQuestion())
                 test.setSingleQuestion(true);
             test.setAlreadyOpened(false);
             test.save();
