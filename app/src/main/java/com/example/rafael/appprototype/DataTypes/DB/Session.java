@@ -97,14 +97,16 @@ public class Session extends Model implements Serializable {
         calendar.setTimeInMillis (firstDay.getTime());
 
         Calendar cal = Calendar.getInstance();
-
         cal.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
         cal.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
-        cal.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)+1);
+        cal.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
-
+        // first day
+        firstDay = cal.getTime();
+        // second day
+        cal.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)+1);
         Date secondDay = cal.getTime();
 
         System.out.println("Getting sessions from " + firstDay+"-"+secondDay);

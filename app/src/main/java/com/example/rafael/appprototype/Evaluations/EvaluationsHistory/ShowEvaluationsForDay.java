@@ -76,7 +76,6 @@ public class ShowEvaluationsForDay extends BaseAdapter {
             List<Session> sessionsFromDate = Session.getSessionsFromDate(currentDate);
             System.out.println("Results: " + sessionsFromDate);
             for (Session sess : sessionsFromDate) {
-
                 numDates++;
                 break;
             }
