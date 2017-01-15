@@ -10,8 +10,10 @@ import com.example.rafael.appprototype.DataTypes.Patient;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -45,8 +47,29 @@ public class Session extends Model implements Serializable {
     }
 
 
+    /**
+     * Get date (including hour and minutes).
+     *
+     * @return
+     */
     public Date getDate() {
         return date;
+    }
+
+    /**
+     * Get date (not including hour and minutes).
+     *
+     * @return
+     */
+    public Date getDateWithoutHour() {
+        // create a copy of the date with hour and minute set to 0
+
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(date.getTime());
+        return createCustomDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                0, 0);
+
     }
 
     public void setDate(Date date) {
@@ -94,7 +117,7 @@ public class Session extends Model implements Serializable {
     public static List<Session> getSessionsFromDate(Date firstDay) {
 
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis (firstDay.getTime());
+        calendar.setTimeInMillis(firstDay.getTime());
 
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
@@ -106,10 +129,10 @@ public class Session extends Model implements Serializable {
         // first day
         firstDay = cal.getTime();
         // second day
-        cal.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)+1);
+        cal.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
         Date secondDay = cal.getTime();
 
-        System.out.println("Getting sessions from " + firstDay+"-"+secondDay);
+        System.out.println("Getting sessions from " + firstDay + "-" + secondDay);
         return new Select()
                 .from(Session.class)
                 .where("date > ? and date < ?", firstDay.getTime(), secondDay.getTime())
@@ -120,6 +143,7 @@ public class Session extends Model implements Serializable {
 
     /**
      * Get a Session by its sessionIDString
+     *
      * @param sessionID ID of the Session to be retrieved
      * @return
      */
@@ -130,18 +154,23 @@ public class Session extends Model implements Serializable {
                 .executeSingle();
     }
 
-    /**
-     * Get all the different record dates
-     *
-     * @return
-     */
-    public static List<Session> getSessionDates() {
-        return new Select()
+
+
+    public static ArrayList<Date> getDifferentSessionDates() {
+        List<Session> dates = new Select()
                 .distinct()
                 .from(Session.class)
                 .groupBy("date")
                 .orderBy("date DESC")
                 .execute();
+        HashSet<Date> days = new HashSet<Date>();
+        for (Session session: dates) {
+            Date dateWithoutHour = session.getDateWithoutHour();
+            days.add(dateWithoutHour);
+        }
+        ArrayList<Date> differentDates = new ArrayList<>();
+        differentDates.addAll(days);
+        return differentDates;
     }
 
     public static Date createCustomDate(int year, int month, int day, int hour, int minute) {
@@ -151,7 +180,8 @@ public class Session extends Model implements Serializable {
         cal.set(Calendar.DAY_OF_MONTH, day);
         cal.set(Calendar.HOUR_OF_DAY, hour);
         cal.set(Calendar.MINUTE, minute);
-
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
 
         return cal.getTime();
     }

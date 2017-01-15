@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +18,12 @@ import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.HistoryCar
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.R;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.TreeSet;
 
 
 /**
@@ -38,8 +43,7 @@ public class ShowEvaluationsForDay extends BaseAdapter {
         TextView dateTextView = (TextView) singleDayInfo.findViewById(R.id.dateText);
 
         // get the date
-        Session session = Session.getSessionDates().get(position);
-        Date currentDate = session.getDate();
+        Date currentDate = Session.getDifferentSessionDates().get(position);
         dateTextView.setText(currentDate.toString());
         // get NewEvaluation for that date
         List<Session> sessionsFromDate = Session.getSessionsFromDate(currentDate);
@@ -68,20 +72,10 @@ public class ShowEvaluationsForDay extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // get number of different dates where patients is not null
+        // TODO get number of different days where patients is not null
         int numDates = 0;
-        for (int i = 0; i < Session.getSessionDates().size(); i++) {
-            Date currentDate = Session.getSessionDates().get(i).getDate();
-            // get NewEvaluation for that date
-            List<Session> sessionsFromDate = Session.getSessionsFromDate(currentDate);
-            System.out.println("Results: " + sessionsFromDate);
-            for (Session sess : sessionsFromDate) {
-                numDates++;
-                break;
-            }
-        }
 
-        return numDates;
+        return Session.getDifferentSessionDates().size();
     }
 
     @Override
