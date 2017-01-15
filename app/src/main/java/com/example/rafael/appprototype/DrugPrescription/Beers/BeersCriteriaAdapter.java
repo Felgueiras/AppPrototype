@@ -45,7 +45,7 @@ public class BeersCriteriaAdapter extends ArrayAdapter<String> {
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Long press");
+                //system.out.println("Long press");
                 drugs.remove(position);
                 // update gui
                 adapter.notifyDataSetChanged();

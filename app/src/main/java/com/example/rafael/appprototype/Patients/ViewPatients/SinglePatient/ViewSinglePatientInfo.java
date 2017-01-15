@@ -59,7 +59,7 @@ public class ViewSinglePatientInfo extends Fragment {
             actionTitle = bundle.getString("ACTION");
             transText = bundle.getString("TRANS_TEXT");
             view.findViewById(R.id.patientName).setTransitionName(transText);
-            System.out.println("lol 2");
+            //system.out.println("lol 2");
         }
 
         mSectionsPagerAdapter = new PatientSectionsPagerAdapter(getChildFragmentManager());
@@ -77,7 +77,7 @@ public class ViewSinglePatientInfo extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                System.out.println(position);
+                ////system.out.println(position);
                 Constants.vpPatientsPage = position;
             }
 

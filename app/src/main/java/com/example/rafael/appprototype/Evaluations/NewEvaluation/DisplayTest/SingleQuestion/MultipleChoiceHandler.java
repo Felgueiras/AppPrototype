@@ -36,7 +36,7 @@ public class MultipleChoiceHandler implements RadioGroup.OnCheckedChangeListener
                 if (((RadioButton) o).isChecked()) {
                     // save the text of the option
                     String selected = question.getChoicesForQuestion().get(i).getName();
-                    System.out.println("Selected " + selected);
+                    ////system.out.println("Selected " + selected);
                     question.setSelectedChoice(question.getChoicesForQuestion().get(i).getName());
                 }
             }

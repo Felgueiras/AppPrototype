@@ -34,7 +34,7 @@ public class DatabaseOps {
         cursor.close();
         if (tables.size() > 0) {
             for (String tableName : tables) {
-                System.out.println("Table - " + tableName);
+                ////system.out.println("Table - " + tableName);
                 db.execSQL("DELETE FROM " + tableName);
             }
         }
@@ -76,7 +76,7 @@ public class DatabaseOps {
                 "Porto"
         };
         */
-        int numPatients = 20;
+        int numPatients = 200;
         String[] patientNames = new String[numPatients];
         int[] patientAges = new int[numPatients];
         String[] patientAddresses = new String[numPatients];

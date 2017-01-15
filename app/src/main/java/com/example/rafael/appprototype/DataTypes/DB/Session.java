@@ -133,7 +133,7 @@ public class Session extends Model implements Serializable {
         cal.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
         Date secondDay = cal.getTime();
 
-        System.out.println("Getting sessions from " + firstDay + "-" + secondDay);
+        //system.out.println("Getting sessions from " + firstDay + "-" + secondDay);
         return new Select()
                 .from(Session.class)
                 .where("date > ? and date < ?", firstDay.getTime(), secondDay.getTime())

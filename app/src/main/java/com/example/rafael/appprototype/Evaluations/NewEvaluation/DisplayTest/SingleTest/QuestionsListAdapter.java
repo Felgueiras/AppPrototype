@@ -214,7 +214,7 @@ public class QuestionsListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 test.setAlreadyOpened(true);
                 test.setAnswer(grade);
-                System.out.println(position + "-" + grade);
+                ////system.out.println(position + "-" + grade);
                 test.setCompleted(true);
                 test.save();
                 // highlight
@@ -347,7 +347,7 @@ public class QuestionsListAdapter extends BaseAdapter {
      * @return
      */
     public View multipleChoiceAlreadyOpened(QuestionNonDB currentQuestionNonDB, int position) {
-        System.out.println("Position " + position);
+        //system.out.println("Position " + position);
         View questionView = inflater.inflate(R.layout.content_question_multiple_choice, null);
         // get Question from DB
         Question question = test.getQuestionsFromTest().get(position);
@@ -364,13 +364,13 @@ public class QuestionsListAdapter extends BaseAdapter {
         radioGroup.setOnCheckedChangeListener(new MultipleChoiceHandler(question, this, position));
 
         if (question.isAnswered()) {
-            System.out.println("answered");
+            //system.out.println("answered");
             Holder holder = new Holder();
             holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
             holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
             // set the selected option
             String selectedChoice = question.getSelectedChoice();
-            System.out.println("sel choice is " + selectedChoice);
+            //system.out.println("sel choice is " + selectedChoice);
             ArrayList<Choice> choices = question.getChoicesForQuestion();
             int selectedIdx = -1;
             for (int i = 0; i < choices.size(); i++) {
@@ -384,7 +384,7 @@ public class QuestionsListAdapter extends BaseAdapter {
 
         // Test already opened, but question not answered
         else {
-            System.out.println("not answered");
+            //system.out.println("not answered");
             Holder holder = new Holder();
             holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
             holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());

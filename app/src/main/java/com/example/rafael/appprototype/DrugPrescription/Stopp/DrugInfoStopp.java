@@ -31,7 +31,7 @@ public class DrugInfoStopp extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.drug_info_stopp, container, false);
-        System.out.println("Stopp criteria");
+        //system.out.println("Stopp criteria");
         Bundle bundle = getArguments();
         if (bundle != null) {
             // get drug name

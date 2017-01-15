@@ -114,12 +114,14 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
                 } else {
                     // TODO add shared elements for transitions
                     Fragment endFragment = new ViewSinglePatientInfo();
+                    /*
                     endFragment.setSharedElementReturnTransition(TransitionInflater.from(
                             context).inflateTransition(R.transition.change_image_trans));
 
 
                     endFragment.setSharedElementEnterTransition(TransitionInflater.from(
                             context).inflateTransition(R.transition.change_image_trans));
+                    */
 
 
                     patientTransitionName = holder.name.getTransitionName();

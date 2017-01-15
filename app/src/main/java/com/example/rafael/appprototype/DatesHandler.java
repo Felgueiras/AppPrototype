@@ -22,7 +22,7 @@ public class DatesHandler {
         Date date = null;
         try {
             date = format.parse(dateString);
-            System.out.println(date);
+            //system.out.println(date);
         } catch (ParseException e) {
             e.printStackTrace();
 

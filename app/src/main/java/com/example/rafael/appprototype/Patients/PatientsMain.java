@@ -61,7 +61,7 @@ public class PatientsMain extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                System.out.println(position);
+                //system.out.println(position);
                 Constants.vpPatientsPage = position;
             }
 

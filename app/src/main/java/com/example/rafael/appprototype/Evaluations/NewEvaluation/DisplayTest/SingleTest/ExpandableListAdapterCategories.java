@@ -95,21 +95,21 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
         if (!alreadyOpened) {
             questionInDB = new Question();
             // create question and add to DB
-            System.out.println(dummyID);
+            //system.out.println(dummyID);
             questionInDB.setGuid(dummyID);
             questionInDB.setDescription(currentQuestionNonDB.getDescription());
             questionInDB.setTest(test);
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(true);
             questionInDB.save();
-            System.out.println("Adding to DB - " + questionInDB.toString());
+            //system.out.println("Adding to DB - " + questionInDB.toString());
         } else {
             if (questionInDB != null) {
-                System.out.println("Already opened");
+                //system.out.println("Already opened");
                 // question already in DB, fetch it
                 int questionIndex = QuestionCategory.getQuestionIndex(groupPosition, childPosition, testNonDB);
                 questionInDB = Question.getQuestionByID(dummyID);
-                System.out.println("Question index is " + questionIndex);
+                //system.out.println("Question index is " + questionIndex);
             }
 
         }
@@ -125,7 +125,7 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
         radioGroup.setOnCheckedChangeListener(new RightWrongQuestionHandler(questionInDB, adapter, groupPosition, childPosition, testNonDB));
         // if question is already answered
         if (questionInDB.isAnswered()) {
-            System.out.println(questionInDB.toString());
+            ////system.out.println(questionInDB.toString());
             if (questionInDB.getSelectedRightWrong().equals("right")) {
                 radioGroup.check(R.id.rightChoice);
             } else {

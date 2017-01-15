@@ -28,7 +28,7 @@ public class DrugInfoBeers extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.drug_info_beers, container, false);
-        System.out.println("Beers criteria");
+        //system.out.println("Beers criteria");
         Bundle bundle = getArguments();
         if (bundle != null) {
             // get drug name

@@ -18,6 +18,8 @@ import android.widget.GridView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.EmptyStateFragment;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.EvaluationsHistoryGrid;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowEvaluationsForDay;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.Main.MainActivity;
@@ -43,17 +45,29 @@ public class EvaluationsMainFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
-        View v = null;
+        View view = null;
         if (Constants.sessionID == null) {
 
-            v = inflater.inflate(R.layout.content_evaluations_history, container, false);
+            view = inflater.inflate(R.layout.content_evaluations_history, container, false);
             getActivity().setTitle(getResources().getString(R.string.tab_sessions));
 
-            //Button firstDate = (Button) v.findViewById(R.id.firstDate);
+            if (Session.getAllSessions().isEmpty()) {
+                FragmentManager fragmentManager = getFragmentManager();
+                Fragment fragment = new EmptyStateFragment();
+                Bundle args = new Bundle();
+                args.putString(EmptyStateFragment.MESSAGE, getResources().getString(R.string.no_sessions_history));
+                fragment.setArguments(args);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.frame, fragment)
+                        .commit();
 
-            // fill the GridView
-            GridView gridView = (GridView) v.findViewById(R.id.gridView);
-            gridView.setAdapter(new ShowEvaluationsForDay(getActivity()));
+                GridView grid = (GridView) view.findViewById(R.id.gridView);
+                grid.setVisibility(View.GONE);
+
+            } else {
+                // fill the GridView
+                GridView gridView = (GridView) view.findViewById(R.id.gridView);
+                gridView.setAdapter(new ShowEvaluationsForDay(getActivity()));
 
             /*
             firstDate.setOnClickListener(new View.OnClickListener() {
@@ -64,9 +78,9 @@ public class EvaluationsMainFragment extends Fragment {
             });
             */
 
-            /**
-             * Calendar view.
-             */
+                /**
+                 * Calendar view.
+                 */
         /*
             v = inflater.inflate(R.layout.content_evaluations_history_calendar, container, false);
             CalendarView calendar = (CalendarView) v.findViewById(R.id.evaluationsCalendar);
@@ -88,10 +102,12 @@ public class EvaluationsMainFragment extends Fragment {
                 }
             });
             */
+            }
+
 
 
             // FAB
-            FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab_add_evaluation);
+            FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_add_evaluation);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -133,7 +149,7 @@ public class EvaluationsMainFragment extends Fragment {
             ((MainActivity) getActivity()).replaceFragment(new NewEvaluation(), args, Constants.create_session);
         }
 
-        return v;
+        return view;
     }
 
 
@@ -146,7 +162,7 @@ public class EvaluationsMainFragment extends Fragment {
 
     private void showDate(int year, int month, int day) {
         //dateView.setText(new StringBuilder().append(day).append("/").append(month).append("/").append(year));
-        System.out.println(year + "");
+        //system.out.println(year + "");
     }
 }
 

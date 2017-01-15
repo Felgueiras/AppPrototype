@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
@@ -71,7 +72,6 @@ public class NewEvaluation extends Fragment {
         // check the Constants
         Bundle args = getArguments();
         patientForThisSession = (Patient) args.getSerializable(PATIENT);
-
 
 
         /**
@@ -178,6 +178,8 @@ public class NewEvaluation extends Fragment {
                                     dialog.dismiss();
                                     // reset this Session
                                     Constants.sessionID = null;
+                                    // delete Session from DB
+                                    session.delete();
                                     FragmentManager fragmentManager = getFragmentManager();
                                     fragmentManager.beginTransaction()
                                             .replace(R.id.content_fragment, new EvaluationsMainFragment())
@@ -198,7 +200,7 @@ public class NewEvaluation extends Fragment {
                 }
 
                 Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
-                ((MainActivity) getActivity()).replaceFragment(new EvaluationsHistoryMain(), null, Constants.tag_view_sessions_history);
+                BackStackHandler.goToPreviousScreen();
             }
         });
 
@@ -215,11 +217,9 @@ public class NewEvaluation extends Fragment {
                                 // remove session
                                 session.delete();
                                 Constants.sessionID = null;
-                                FragmentManager fragmentManager = getFragmentManager();
-                                fragmentManager.beginTransaction()
-                                        .replace(R.id.content_fragment, new EvaluationsMainFragment())
-                                        .commit();
+                                BackStackHandler.goToPreviousScreen();
                                 dialog.dismiss();
+
                                 // Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
                             }
                         });
@@ -274,7 +274,7 @@ public class NewEvaluation extends Fragment {
         int hour = now.get(Calendar.HOUR_OF_DAY);
         int minute = now.get(Calendar.MINUTE);
         session.setDate(DatesHandler.createCustomDate(year, month, day, hour, minute));
-        System.out.println("Session date is " + session.getDate());
+        //system.out.println("Session date is " + session.getDate());
         session.save();
 
         // save the ID

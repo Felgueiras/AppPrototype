@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
         // set sample fragment
         Fragment fragment = null;
-        String defaultFragment = Constants.fragment_sessions;
+        String defaultFragment = Constants.fragment_show_patients;
         switch (defaultFragment) {
             case Constants.fragment_sessions:
                 fragment = new EvaluationsMainFragment();
@@ -259,11 +259,13 @@ public class MainActivity extends AppCompatActivity {
             endFragment.setArguments(args);
         }
         // add Exit transition
+        /*
         startFragment.setExitTransition(TransitionInflater.from(
                 this).inflateTransition(android.R.transition.fade));
         // add Enter transition
         endFragment.setEnterTransition(TransitionInflater.from(this).
                 inflateTransition(android.R.transition.fade));
+                */
         // Create new transaction and add to back stack
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.content_fragment, endFragment);
@@ -292,11 +294,14 @@ public class MainActivity extends AppCompatActivity {
             endFragment.setArguments(args);
         }
         // add Exit transition
+        // TODO transitions are messing up with GraphView
+        /*
         startFragment.setExitTransition(TransitionInflater.from(
                 this).inflateTransition(android.R.transition.fade));
         // add Enter transition
         endFragment.setEnterTransition(TransitionInflater.from(this).
                 inflateTransition(android.R.transition.fade));
+        */
         // Create new transaction and add to back stack
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.content_fragment, endFragment);
@@ -304,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
             transaction.addToBackStack(addToBackStackTag);
         if (args.getString("TRANS_TEXT") != null) {
             transaction.addSharedElement(textView, args.getString("TRANS_TEXT"));
-            System.out.println("lol");
+            //system.out.println("lol");
         }
 
         transaction.commit();

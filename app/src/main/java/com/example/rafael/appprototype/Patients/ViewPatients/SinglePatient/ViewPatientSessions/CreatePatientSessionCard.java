@@ -92,7 +92,6 @@ public class CreatePatientSessionCard extends RecyclerView.Adapter<CreatePatient
 
 
 
-
     @Override
     public int getItemCount() {
         return sessions.size();

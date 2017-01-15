@@ -52,7 +52,7 @@ public class DrugPrescriptionMain extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                System.out.println(position);
+                //system.out.println(position);
                 Constants.vpPrescriptionPage = position;
             }
 

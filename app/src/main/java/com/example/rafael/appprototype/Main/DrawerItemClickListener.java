@@ -68,11 +68,13 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             context.startActivity(i);
         } else {
             // add Exit transition
+            /*
             Fragment startFragment = ((MainActivity) context).getFragmentManager().findFragmentById(R.id.content_fragment);
             startFragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.fade));
             // add Enter transition
             endFragment.setEnterTransition(TransitionInflater.from(context).
                     inflateTransition(android.R.transition.fade));
+            */
             fragmentManager.beginTransaction()
                     .replace(R.id.content_fragment, endFragment)
                     .commit();

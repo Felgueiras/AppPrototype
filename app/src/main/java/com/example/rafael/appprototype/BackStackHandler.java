@@ -17,6 +17,7 @@ import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingle
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.DisplaySingleTestFragment;
+import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 
 /**
@@ -80,16 +81,14 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_fragment, fragment)
                         .commit();
-            }
-            else if (tag.equals(Constants.tag_view_drug_info)) {
+            } else if (tag.equals(Constants.tag_view_drug_info)) {
                 fragmentManager.popBackStack();
 
                 Fragment fragment = new DrugPrescriptionMain();
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_fragment, fragment)
                         .commit();
-            }
-            else if (tag.equals(Constants.create_session)) {
+            } else if (tag.equals(Constants.create_session)) {
                 fragmentManager.popBackStack();
                 Log.d("Stack", "pressed back in new session");
                 ((NewEvaluation) currentFragment).discardFAB.performClick();
@@ -122,19 +121,16 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                         .replace(R.id.content_fragment, fragment)
                         .commit();
             }
-        }
-        else
-        {
+        } else {
             // empty stack
-            System.out.println("Empty stack");
+            //system.out.println("Empty stack");
             context.finish();
         }
     }
 
     @Override
     public void onBackStackChanged() {
-        if (fragmentManager.getBackStackEntryCount() == 0)
-        {
+        if (fragmentManager.getBackStackEntryCount() == 0) {
             return;
         }
         // context.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -143,5 +139,47 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
         FragmentManager.BackStackEntry backEntry = fragmentManager.getBackStackEntryAt(index);
         String tag = backEntry.getName();
         Log.d("BackStack", "BackStack changed, Top fragment tag is now " + tag);
+    }
+
+    /**
+     * Bo back to previous screen after action is performed.
+     */
+    public static void goToPreviousScreen() {
+        // get fragment on top of stack
+        FragmentManager fragmentManager = context.getFragmentManager();
+
+        String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
+        Fragment currentFragment = fragmentManager.findFragmentByTag(fragmentTag);
+        //Log.d("Stack","Current fragment:" + currentFragment.getArguments().size());
+
+        //String fragmentName = fragmentManager.getBackStackEntryAt(0).getName();
+        Fragment fr = fragmentManager.findFragmentById(R.id.content_fragment);
+        // current Fragment
+        int index = fragmentManager.getBackStackEntryCount() - 1;
+        FragmentManager.BackStackEntry backEntryCurrent = fragmentManager.getBackStackEntryAt(index);
+        FragmentManager.BackStackEntry backEntryPrevious = fragmentManager.getBackStackEntryAt(index - 1);
+        String tagCurrent = backEntryCurrent.getName();
+        String tagPrevious = backEntryPrevious.getName();
+        Log.d("Stack", "Current tag:" + tagCurrent);
+        Log.d("Stack", "Previous tag:" + tagPrevious);
+        if (tagCurrent.equals(Constants.tag_create_new_session_for_patient)) {
+            if (tagPrevious.equals(Constants.tag_view_patien_info_records)) {
+                // session is created/canceled -> go back to the Patient view
+                fragmentManager.popBackStack();
+                Bundle arguments = fr.getArguments();
+                Patient patient = (Patient) arguments.getSerializable(NewEvaluation.PATIENT);
+
+                Bundle args = new Bundle();
+                args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
+                Fragment fragment = new ViewSinglePatientInfo();
+                fragment.setArguments(args);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_fragment, fragment)
+                        .commit();
+            }
+
+        }
+
+
     }
 }

@@ -264,12 +264,12 @@ public class GeriatricTest extends Model implements Serializable {
      * @return
      */
     public double generateTestResult() {
-        System.out.println("Getting test result...");
+        //system.out.println("Getting test result...");
         double res = 0;
         ArrayList<Question> questionsFromTest = getQuestionsFromTest();
 
         if (singleQuestion) {
-            System.out.println("SINGLE");
+            //system.out.println("SINGLE");
             ScoringNonDB scoring = StaticTestDefinition.getTestByName(this.getTestName()).getScoring();
             ArrayList<GradingNonDB> valuesBoth = scoring.getValuesBoth();
             for (GradingNonDB grade : valuesBoth) {
@@ -298,12 +298,12 @@ public class GeriatricTest extends Model implements Serializable {
                 else {
                     // get the selected Choice
                     String selectedChoice = question.getSelectedChoice();
-                    System.out.println("Selected choice " + selectedChoice);
+                    //system.out.println("Selected choice " + selectedChoice);
                     ArrayList<Choice> choices = question.getChoicesForQuestion();
-                    System.out.println("size " + choices.size());
+                    //system.out.println("size " + choices.size());
                     for (Choice c : choices) {
                         if (c.getName().equals(selectedChoice)) {
-                            System.out.println(c.toString());
+                            //system.out.println(c.toString());
                             res += c.getScore();
                         }
                     }
@@ -323,7 +323,7 @@ public class GeriatricTest extends Model implements Serializable {
      * @param notes
      */
     public void setNotes(String notes) {
-        System.out.println("Adding note for this test");
+        //system.out.println("Adding note for this test");
         this.notes = notes;
     }
 

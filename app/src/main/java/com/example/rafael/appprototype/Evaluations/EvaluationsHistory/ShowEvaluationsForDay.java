@@ -73,9 +73,6 @@ public class ShowEvaluationsForDay extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO get number of different days where patients is not null
-        int numDates = 0;
-
         return Session.getDifferentSessionDates().size();
     }
 

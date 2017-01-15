@@ -109,9 +109,12 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
 
         if (testInstances.size() > 0) {
 
+
+
             // only inflate once
             View inflated = null;
             holder.stub = (ViewStub) holder.itemView.findViewById(R.id.graph_stub);
+
             if (holder.stub != null) {
                 // only inflate once
                 inflated = holder.stub.inflate();
@@ -131,7 +134,7 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
                 for (GeriatricTest t : testInstances) {
                     Date date = t.getSession().getDate();
                     xAxis.add(date);
-                    System.out.println(date.toString());
+                    //system.out.println(date.toString());
                     yAxis.add(t.generateTestResult());
                 }
 

@@ -109,7 +109,7 @@ public class Question extends Model {
     }
 
     public void setSelectedChoice(String selectedChoice) {
-        System.out.println(selectedChoice);
+        //system.out.println(selectedChoice);
         this.selectedChoice = selectedChoice;
     }
 
@@ -196,7 +196,7 @@ public class Question extends Model {
 
     public void setSelectedRightWrong(String selectedRightWrong) {
         this.selectedRightWrong = selectedRightWrong;
-        System.out.println(selectedRightWrong);
+        //system.out.println(selectedRightWrong);
     }
 
     public String getSelectedRightWrong() {

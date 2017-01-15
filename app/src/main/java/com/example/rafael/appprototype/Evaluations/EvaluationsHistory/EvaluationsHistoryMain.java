@@ -20,7 +20,6 @@ public class EvaluationsHistoryMain extends Fragment {
         // Inflate the layout for this fragment
         View myInflatedView = inflater.inflate(R.layout.content_grid, container, false);
 
-
         if (Session.getAllSessions().isEmpty()) {
             FragmentManager fragmentManager = getFragmentManager();
             Fragment fragment = new EmptyStateFragment();
@@ -28,7 +27,7 @@ public class EvaluationsHistoryMain extends Fragment {
             args.putString(EmptyStateFragment.MESSAGE, getResources().getString(R.string.no_sessions_history));
             fragment.setArguments(args);
             fragmentManager.beginTransaction()
-                    .replace(R.id.evaluationsHistory, fragment)
+                    .replace(R.id.frame, fragment)
                     .commit();
 
             GridView grid = (GridView) myInflatedView.findViewById(R.id.gridView);
@@ -38,7 +37,7 @@ public class EvaluationsHistoryMain extends Fragment {
             FragmentManager fragmentManager = getFragmentManager();
             Fragment fragment = new EvaluationsHistoryGrid();
             fragmentManager.beginTransaction()
-                    .replace(R.id.evaluationsHistory, fragment)
+                    .replace(R.id.frame, fragment)
                     .commit();
         }
 

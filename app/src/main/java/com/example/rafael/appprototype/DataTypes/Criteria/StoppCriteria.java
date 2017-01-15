@@ -105,7 +105,7 @@ public class StoppCriteria {
             ArrayList<PrescriptionStopp> prescriptions = criterion.getPrescriptions();
             for (PrescriptionStopp pr : prescriptions) {
                 String drugName = pr.getDrugName();
-                System.out.println(drugName);
+                //system.out.println(drugName);
                 if (drugName.equals(drugSearchingFor)) {
                     return pr.getIssues();
                 }

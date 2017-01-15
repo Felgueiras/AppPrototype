@@ -45,7 +45,8 @@
         </activity>
         <activity android:name=".Tutorial.CalendarViewTutorial" />
         <activity android:name=".Tutorial.DatePickerActivity" />
-        <activity android:name=".Main.MainActivity">
+        <activity android:name=".Main.MainActivity"         >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
