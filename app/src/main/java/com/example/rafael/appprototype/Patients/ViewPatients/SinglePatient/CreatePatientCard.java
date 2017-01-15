@@ -18,7 +18,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Main.MainActivity;
@@ -128,7 +127,7 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
                     args.putString("ACTION", holder.name.getText().toString());
                     args.putString("TRANS_TEXT", patientTransitionName);
                     args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
-                    ((MainActivity) context).replaceFragment(endFragment, args, Constants.tag_view_patien_info_records,
+                    ((MainActivity) context).replaceFragmentSharedElements(endFragment, args, Constants.tag_view_patien_info_records,
                             holder.name);
                 }
 

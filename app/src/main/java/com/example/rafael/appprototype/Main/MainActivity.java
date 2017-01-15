@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -146,25 +147,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(Constants.tag_display_session_test).commit();
     }
 
-    /**
-     * Replace one fragment by another
-     *
-     * @param args
-     */
-    public void replaceFragment(Fragment fragment, Bundle args, String addToBackStackTag) {
-
-        if (args != null) {
-            fragment.setArguments(args);
-        }
-        // Create new transaction and add to back stack
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_fragment, fragment);
-        if (!addToBackStackTag.equals(""))
-            transaction.addToBackStack(addToBackStackTag);
-        transaction.commit();
-
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -264,20 +246,67 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Replace one fragment by another
+     *
+     * @param args
+     */
+    public void replaceFragment(Fragment endFragment, Bundle args, String addToBackStackTag) {
 
-    public void replaceFragment(Fragment fragment, Bundle args, String addToBackStackTag, TextView textView) {
+        // get current Fragment
+        Fragment startFragment = getFragmentManager().findFragmentById(R.id.content_fragment);
         if (args != null) {
-            fragment.setArguments(args);
+            endFragment.setArguments(args);
         }
+        // add Exit transition
+        startFragment.setExitTransition(TransitionInflater.from(
+                this).inflateTransition(android.R.transition.fade));
+        // add Enter transition
+        endFragment.setEnterTransition(TransitionInflater.from(this).
+                inflateTransition(android.R.transition.fade));
         // Create new transaction and add to back stack
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_fragment, fragment);
+        transaction.replace(R.id.content_fragment, endFragment);
+        if (!addToBackStackTag.equals(""))
+            transaction.addToBackStack(addToBackStackTag);
+        transaction.commit();
+
+    }
+
+
+    /**
+     * Replace a fragment with another one using shared elements.
+     *
+     * @param endFragment
+     * @param args
+     * @param addToBackStackTag
+     * @param textView
+     */
+    public void replaceFragmentSharedElements(Fragment endFragment, Bundle args, String addToBackStackTag, TextView textView) {
+        if (args != null) {
+            endFragment.setArguments(args);
+        }
+        // get current Fragment
+        Fragment startFragment = getFragmentManager().findFragmentById(R.id.content_fragment);
+        if (args != null) {
+            endFragment.setArguments(args);
+        }
+        // add Exit transition
+        startFragment.setExitTransition(TransitionInflater.from(
+                this).inflateTransition(android.R.transition.fade));
+        // add Enter transition
+        endFragment.setEnterTransition(TransitionInflater.from(this).
+                inflateTransition(android.R.transition.fade));
+        // Create new transaction and add to back stack
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.content_fragment, endFragment);
         if (!addToBackStackTag.equals(""))
             transaction.addToBackStack(addToBackStackTag);
         if (args.getString("TRANS_TEXT") != null) {
             transaction.addSharedElement(textView, args.getString("TRANS_TEXT"));
             System.out.println("lol");
         }
+
         transaction.commit();
 
     }

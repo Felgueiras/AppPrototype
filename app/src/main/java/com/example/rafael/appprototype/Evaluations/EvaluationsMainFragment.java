@@ -15,7 +15,6 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.Tutorial.CalendarViewTutorial;
 
 import java.util.Calendar;
 import java.util.List;
