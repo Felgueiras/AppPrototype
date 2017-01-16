@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.DB.Question;
 import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.QuestionsListAdapter;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.QuestionsListAdapter;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;

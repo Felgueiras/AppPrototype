@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest;
+package com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest;
 
 import android.app.Fragment;
 import android.os.Bundle;

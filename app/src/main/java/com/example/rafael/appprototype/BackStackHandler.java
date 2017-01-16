@@ -9,14 +9,13 @@ import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
-import com.example.rafael.appprototype.DrugPrescription.SearchAllDrugs;
 import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSession;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewSingleTestFragment;
 import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.Patients.PatientsMain;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.DisplaySingleTestFragment;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.DisplaySingleTestFragment;
 import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 
@@ -103,6 +102,20 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             else if (tag.equals(Constants.tag_review_session)) {
                 fragmentManager.popBackStack();
                 Fragment fragment = new EvaluationsMainFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_fragment, fragment)
+                        .commit();
+            } else if (tag.equals(Constants.tag_review_session_from_patient_profile)) {
+                // go back to the patient's profile
+                fragmentManager.popBackStack();
+                // get the arguments
+                Bundle arguments = fr.getArguments();
+                Session session = (Session) arguments.getSerializable(ReviewSingleSession.SESSION);
+                Patient patient = session.getPatient();
+                Bundle args = new Bundle();
+                args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
+                Fragment fragment = new ViewSinglePatientInfo();
+                fragment.setArguments(args);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_fragment, fragment)
                         .commit();

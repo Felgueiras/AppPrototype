@@ -6,7 +6,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.rafael.appprototype.DataTypes.DB.Question;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.QuestionsListAdapter;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.QuestionsListAdapter;
 
 /**
  * Create the layout of the Questions

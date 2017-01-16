@@ -5,7 +5,7 @@ import android.widget.RadioGroup;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.QuestionsListAdapter;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.QuestionsListAdapter;
 import com.example.rafael.appprototype.R;
 
 /**

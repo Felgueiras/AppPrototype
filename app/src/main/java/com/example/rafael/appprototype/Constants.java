@@ -45,6 +45,7 @@ public class Constants {
     // review Evaluation
     public static final String tag_view_sessions_history = "viewSessionsHistory";
     public static final String tag_review_session = "reviewSession";
+    public static final String tag_review_session_from_patient_profile = "reviewSessionPatient";
     public static final String tag_review_test = "reviewTest";
     // drug prescription
     public static final String tag_view_drug_info = "drugInfo";

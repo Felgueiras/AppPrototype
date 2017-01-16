@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +28,7 @@ import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest.DisplaySingleTestFragment;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.DisplaySingleTestFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
 

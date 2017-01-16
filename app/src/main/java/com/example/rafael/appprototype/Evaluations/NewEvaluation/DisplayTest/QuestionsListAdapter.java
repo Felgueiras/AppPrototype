@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.SingleTest;
+package com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest;
 
 import android.content.Context;
 import android.support.design.widget.Snackbar;
@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -18,7 +17,6 @@ import com.example.rafael.appprototype.DataTypes.DB.Choice;
 import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
-import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
@@ -27,9 +25,7 @@ import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.Sin
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -89,7 +85,8 @@ public class QuestionsListAdapter extends BaseAdapter {
         if (testNonDB.isSingleQuestion()) {
             // single question test
             numquestions = 1;
-            return testNonDB.getScoring().getValuesBoth().size();
+            return numquestions;
+            //return testNonDB.getScoring().getValuesBoth().size();
         }
         if (testNonDB.getQuestionsCategories().size() != 0) {
             // test with multiple categories
@@ -116,7 +113,7 @@ public class QuestionsListAdapter extends BaseAdapter {
     public void questionAnswered(int position) {
         positionsFilled.add(position);
         if (positionsFilled.size() == numquestions) {
-            if(!test.isCompleted())
+            if (!test.isCompleted())
                 Snackbar.make(questionView, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
             allQuestionsAnswered = true;
 
@@ -138,7 +135,7 @@ public class QuestionsListAdapter extends BaseAdapter {
         if (!testAlreadyOpened) {
             // single question
             if (testNonDB.isSingleQuestion()) {
-                questionView = singleChoiceNotOpened(position);
+                questionView = singleChoice();
             } else if (testNonDB.isMultipleCategories()) {
                 questionView = new QuestionMultipleCategories(inflater, testNonDB, context, test,
                         this).multipleCategoriesNotOpened();
@@ -161,7 +158,7 @@ public class QuestionsListAdapter extends BaseAdapter {
         // Test already opened
         else {
             if (testNonDB.isSingleQuestion()) {
-                questionView = singleChoiceAlreadyOpened(position);
+                questionView = singleChoice();
             } else if (testNonDB.isMultipleCategories()) {
                 questionView = new QuestionMultipleCategories(inflater, testNonDB, context, test,
                         this).multipleCategoriesAlreadyOpened();
@@ -187,72 +184,50 @@ public class QuestionsListAdapter extends BaseAdapter {
         return questionView;
     }
 
-
     /**
-     * Single choice that is being opened for the first time.
+     * Single choice test.
      *
-     * @param position
      * @return
      */
-    private View singleChoiceNotOpened(final int position) {
-        View questionView = inflater.inflate(R.layout.content_category_description, null);
+    private View singleChoice() {
+        View questionView = inflater.inflate(R.layout.content_question_single_multiple_choice, null);
 
-        GradingNonDB currentGrading = testNonDB.getScoring().getValuesBoth().get(position);
-        TextView category = (TextView) questionView.findViewById(R.id.categoryName);
-        final String grade = currentGrading.getGrade();
-        category.setText(grade);
-        final TextView descTextView = (TextView) questionView.findViewById(R.id.categoryDescription);
-        String description = currentGrading.getDescription();
-        descTextView.setText(description);
+        // create Choices and add to DB
+        final ArrayList<GradingNonDB> gradings = testNonDB.getScoring().getValuesBoth();
+        testNonDB.getScoring().getValuesBoth();
+        //ArrayList<ChoiceNonDB> choicesNonDB = currentQuestionNonDB.getChoices();
+        RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
 
-        final float selected = 1f;
-        final float unselected = 0.5f;
+        for (int i = 0; i < gradings.size(); i++) {
+            RadioButton newRadioButton = new RadioButton(context);
+            GradingNonDB currentGrading = gradings.get(i);
+            String grade = currentGrading.getGrade();
+            String description = currentGrading.getDescription();
+            newRadioButton.setText(description);
 
-        // detect the selection
-        descTextView.setOnClickListener(new View.OnClickListener() {
+            LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
+                    RadioGroup.LayoutParams.WRAP_CONTENT,
+                    RadioGroup.LayoutParams.WRAP_CONTENT);
+
+            radioGroup.addView(newRadioButton, i, layoutParams);
+            if (test.isCompleted())
+                if (test.getAnswer().equals(grade))
+                    newRadioButton.setChecked(true);
+        }
+
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
+            public void onCheckedChanged(RadioGroup radioGroup, int radioButtonIndex) {
+
+                radioButtonIndex = (radioButtonIndex - 1) % gradings.size();
+                // get grade
+                GradingNonDB grading = gradings.get(radioButtonIndex);
+                System.out.println(grading.getGrade());
                 test.setAlreadyOpened(true);
-                test.setAnswer(grade);
-                ////system.out.println(position + "-" + grade);
+                test.setAnswer(grading.getGrade());
                 test.setCompleted(true);
                 test.save();
-                // highlight
-                descTextView.setAlpha(unselected);
-            }
-        });
-
-        return questionView;
-    }
-
-    /**
-     * March test already opened before.
-     *
-     * @param position
-     * @return
-     */
-    private View singleChoiceAlreadyOpened(final int position) {
-        View questionView = inflater.inflate(R.layout.content_category_description, null);
-
-        GradingNonDB currentGrading = testNonDB.getScoring().getValuesBoth().get(position);
-        TextView category = (TextView) questionView.findViewById(R.id.categoryName);
-        final String grade = currentGrading.getGrade();
-        category.setText(grade);
-        TextView descTextView = (TextView) questionView.findViewById(R.id.categoryDescription);
-        String description = currentGrading.getDescription();
-        descTextView.setText(description);
-
-        // highlight selected option
-
-
-        // detect the selection
-        descTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                test.setAlreadyOpened(true);
-                test.setAnswer(grade);
-                test.save();
-                // highlight
             }
         });
 
