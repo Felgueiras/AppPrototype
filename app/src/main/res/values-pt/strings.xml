@@ -53,7 +53,6 @@
     <string name="action_favorite">favorito</string>
     <string name="search_hint">Dica de pesquisa</string>
     <string name="selected_drugs">Medicamentos selecionados:</string>
-    <string name="title_activity_main">a</string>
     <string name="create_patient_success">Paciente criado com sucesso</string>
     <string name="session_created">Avaliação criada com sucesso</string>
     <string name="drugSearchDisclaimer">Search by the name of a drug</string>
@@ -66,4 +65,16 @@
     <string name="add_session">Adicionar uma avaliação</string>
     <string name="no_sessions_for_patient">Paciente ainda não foi avaliado</string>
     <string name="no_sessions_history">Não avaliou ainda nenhum paciente</string>
+    <string name="fragment_text_trans"></string>
+    <string name="help">Ajuda</string>
+    <string name="new_patient_discard">Deseja cancelar?</string>
+    <string name="no_beers_criteria">Não há critérios de Beers associados</string>
+    <string name="no_favorite_patients">Não definiu pacientes favoritos</string>
+    <string name="no_start_criteria">Não há critérios Start associados</string>
+    <string name="no_stopp_criteria">Não há critérios Stopp associados</string>
+    <string name="rightChoice">certo</string>
+    <string name="search_result">Resultados da procura</string>
+    <string name="select_patient_gender">Selectione o género do paciente</string>
+    <string name="send_feedback">Enviar feedback</string>
+    <string name="wrongChoice">errado</string>
 </resources>

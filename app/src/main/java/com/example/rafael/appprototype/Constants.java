@@ -39,6 +39,7 @@ public class Constants {
      * Back stack tags.
      */
     public static final String tag_view_patien_info_records = "viewPatientInfoRecords";
+    public static final String tag_create_patient = "createPatient";
     // create new Session
     public static final String tag_create_new_session_for_patient = "createNewSessionForPatient";
     public static final String tag_display_session_test = "displaySessionTest";
@@ -58,7 +59,6 @@ public class Constants {
     public static final String fragment_sessions = "sessions";
     public static final String fragment_drug_prescription = "drugPrescription";
     public static boolean selectPatient = false;
-    public static String create_patient = "createPatient";
     /**
      * Current Session ID.
      */

@@ -170,12 +170,14 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
         // current Fragment
         int index = fragmentManager.getBackStackEntryCount() - 1;
         FragmentManager.BackStackEntry backEntryCurrent = fragmentManager.getBackStackEntryAt(index);
-        FragmentManager.BackStackEntry backEntryPrevious = fragmentManager.getBackStackEntryAt(index - 1);
         String tagCurrent = backEntryCurrent.getName();
-        String tagPrevious = backEntryPrevious.getName();
         Log.d("Stack", "Current tag:" + tagCurrent);
-        Log.d("Stack", "Previous tag:" + tagPrevious);
+
         if (tagCurrent.equals(Constants.tag_create_new_session_for_patient)) {
+            FragmentManager.BackStackEntry backEntryPrevious = fragmentManager.getBackStackEntryAt(index - 1);
+
+            String tagPrevious = backEntryPrevious.getName();
+            Log.d("Stack", "Previous tag:" + tagPrevious);
             if (tagPrevious.equals(Constants.tag_view_patien_info_records)) {
                 // session is created/canceled -> go back to the Patient view
                 fragmentManager.popBackStack();
@@ -191,6 +193,12 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                         .commit();
             }
 
+        } else if (tagCurrent.equals(Constants.tag_create_patient)) {
+            fragmentManager.popBackStack();
+            Fragment fragment = new PatientsMain();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_fragment, fragment)
+                    .commit();
         }
 
 

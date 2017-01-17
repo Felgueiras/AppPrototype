@@ -88,4 +88,5 @@
     <string name="help">Help</string>
     <string name="select_patient_gender">Select patient\'s gender</string>
     <string name="no_favorite_patients">You have no favorite patients</string>
+    <string name="new_patient_discard">Do you wish to cancel?</string>
 </resources>

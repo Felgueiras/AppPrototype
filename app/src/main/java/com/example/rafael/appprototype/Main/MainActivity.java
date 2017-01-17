@@ -149,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Log.d("Back", "...");
         FragmentManager fragmentManager = getFragmentManager();
         BackStackHandler.handleBackButton(fragmentManager);
     }

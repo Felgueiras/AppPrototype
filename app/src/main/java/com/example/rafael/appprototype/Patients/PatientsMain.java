@@ -81,7 +81,7 @@ public class PatientsMain extends Fragment {
             public void onClick(View view) {
                 // create a new Patient - switch to CreatePatient Fragment
                 Bundle args = new Bundle();
-                ((MainActivity) getActivity()).replaceFragment(new CreatePatient(), args, Constants.create_patient);
+                ((MainActivity) getActivity()).replaceFragment(new CreatePatient(), args, Constants.tag_create_patient);
             }
         });
         return v;
