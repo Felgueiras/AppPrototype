@@ -28,7 +28,7 @@ public class DrugInfoBeers extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.drug_info_beers, container, false);
-        //system.out.println("Beers criteria");
+        System.out.println("Beers criteria");
         Bundle bundle = getArguments();
         if (bundle != null) {
             // get drug name
@@ -42,10 +42,10 @@ public class DrugInfoBeers extends Fragment {
         TextView strengthOfRecommendation = (TextView) view.findViewById(R.id.strengthOfRecommendation);
 
         // set the views
-        recommendation.setText("Recommendation: " + drugInfo.getRecommendation());
-        rationale.setText("Rationale: " + drugInfo.getRationale());
-        qualityOfEvidence.setText("Quality of evidence: " + drugInfo.getQualityOfEvidence());
-        strengthOfRecommendation.setText("Strength of recommendation: " + drugInfo.getStrengthOfRecommendation());
+        recommendation.setText(drugInfo.getRecommendation());
+        rationale.setText(drugInfo.getRationale());
+        qualityOfEvidence.setText(drugInfo.getQualityOfEvidence());
+        strengthOfRecommendation.setText(drugInfo.getStrengthOfRecommendation());
 
         return view;
     }

@@ -46,8 +46,7 @@ public class ViewSingleDrugtInfo extends Fragment {
         }
 
         // access Views
-        TextView drugNameTextView = (TextView) view.findViewById(R.id.drug_name);
-        drugNameTextView.setText(drug);
+        getActivity().setTitle(drug);
 
         // get drug info
         beersData = BeersCriteria.getBeersData();
@@ -112,7 +111,8 @@ public class ViewSingleDrugtInfo extends Fragment {
             fragmentManager.beginTransaction()
                     .replace(R.id.drug_info_beers, drugInfoBeers)
                     .commit();
-        } else {
+        }
+        else {
             Fragment fragment = new EmptyStateFragment();
             Bundle args = new Bundle();
             args.putString(EmptyStateFragment.MESSAGE, getResources().getString(R.string.no_beers_criteria));

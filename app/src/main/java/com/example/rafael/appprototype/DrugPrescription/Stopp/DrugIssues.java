@@ -7,13 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
-import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
-import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Display a List of the resume for each GeriatricTest inside a Sesssion.
@@ -24,7 +20,7 @@ public class DrugIssues extends BaseAdapter {
      */
     private final ArrayList<Issue> issues;
     private static LayoutInflater inflater = null;
-    private View testView;
+    private View view;
 
     /**
      * Display all Questions for a GeriatricTest
@@ -39,16 +35,18 @@ public class DrugIssues extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         Issue issue = issues.get(position);
-        // setup views
-        testView = inflater.inflate(R.layout.drug_issue, parent, false);
-        TextView description = (TextView) testView.findViewById(R.id.issue_description);
-        TextView risk = (TextView) testView.findViewById(R.id.issue_risk);
+        // setup main view
+        view = inflater.inflate(R.layout.drug_issue, parent, false);
+
+        // get view
+        TextView description = (TextView) view.findViewById(R.id.issue_description);
+        TextView risk = (TextView) view.findViewById(R.id.issue_risk);
 
         // update views
         description.setText(issue.getDescription());
         risk.setText(issue.getRisk());
 
-        return testView;
+        return view;
     }
 
     @Override

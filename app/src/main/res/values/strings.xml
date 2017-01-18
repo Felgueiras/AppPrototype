@@ -79,8 +79,8 @@
     <string name="rightChoice">right</string>
     <string name="wrongChoice">wrong</string>
     <string name="search_result">Search result</string>
-    <string name="menu_search">Menu search</string>
-    <string name="fragment_text_trans">fragment_text_transition</string>
+    <string name="menu_search" translatable="false">Menu search</string>
+    <string name="fragment_text_trans" translatable="false">fragment_text_transition</string>
     <string name="no_start_criteria">No Start criteria</string>
     <string name="no_stopp_criteria">No Stopp criteria</string>
     <string name="no_beers_criteria">No Beers criteria</string>
@@ -102,4 +102,12 @@
     <string name="patients_sessions">Sessions</string>
     <string name="patients_favorites">Favorites</string>
     <string name="evaluations_disclaimer">To create a new Evaluation, press the plus button.</string>
+    <string name="beers_recommendation">Recommendation:</string>
+    <string name="beers_rationale">Rationale:</string>
+    <string name="beers_quality_evidence">Quality of evidence:</string>
+    <string name="beers_strength_recommendation">Strength of recommendation:</string>
+    <string name="drugs_all">All</string>
+    <string name="drugs_stopp" translatable="false">Stopp</string>
+    <string name="drugs_start" translatable="false">Start</string>
+    <string name="drugs_beers" translatable="false">Beers</string>
 </resources>

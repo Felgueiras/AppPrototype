@@ -98,13 +98,13 @@ public class DrugPrescriptionMain extends Fragment {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Pesquisa";
+                    return getResources().getString(R.string.drugs_all);
                 case 1:
-                    return "STOPP";
+                    return getResources().getString(R.string.drugs_stopp);
                 case 2:
-                    return "START";
+                    return getResources().getString(R.string.drugs_start);
                 case 3:
-                    return "BEERS";
+                    return getResources().getString(R.string.drugs_beers);
             }
             return null;
         }

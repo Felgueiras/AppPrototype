@@ -19,6 +19,7 @@ import com.example.rafael.appprototype.R;
  */
 public class DrugInfoStopp extends Fragment {
 
+
     public static String DRUG;
     private PrescriptionStopp drugInfo;
 
@@ -31,7 +32,6 @@ public class DrugInfoStopp extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.drug_info_stopp, container, false);
-        //system.out.println("Stopp criteria");
         Bundle bundle = getArguments();
         if (bundle != null) {
             // get drug name

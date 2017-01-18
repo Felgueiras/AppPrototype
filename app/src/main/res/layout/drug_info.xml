@@ -11,21 +11,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!--Infos about Drug-->
+        <!--Start criteria-->
         <TextView
-            android:id="@+id/drug_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Drug name"
-            android:textSize="20dp"/>
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#000000" />
-        <!--Start criteria-->
+            android:text="Start criteria"
+            style="@style/criteria_header1"
+            />
         <include
             android:id="@+id/drug_info_start"
-            layout="@layout/drug_info_start"
+            layout="@layout/empty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
@@ -34,22 +29,32 @@
             android:layout_height="1dp"
             android:background="#000000" />
         <!--Stopp criteria-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Stopp criteria"
+            style="@style/criteria_header1"/>
         <include
             android:id="@+id/drug_info_stopp"
-            layout="@layout/drug_info_stopp"
+            layout="@layout/empty"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            />
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="#000000" />
         <!--Beers criteria-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Beers criteria"
+            style="@style/criteria_header1"/>
         <include
             android:id="@+id/drug_info_beers"
-            layout="@layout/drug_info_beers"
+            layout="@layout/empty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
     </LinearLayout>
 
 

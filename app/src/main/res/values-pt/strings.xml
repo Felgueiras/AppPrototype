@@ -77,4 +77,21 @@
     <string name="select_patient_gender">Selectione o género do paciente</string>
     <string name="send_feedback">Enviar feedback</string>
     <string name="wrongChoice">errado</string>
+    <string name="beers_quality_evidence">Qualidade de evidências:</string>
+    <string name="beers_rationale">Rationale:</string>
+    <string name="beers_recommendation">Recomendação:</string>
+    <string name="beers_strength_recommendation">Força de recomendação:</string>
+    <string name="drugs_all">Todas</string>
+    <string name="evaluations_disclaimer">Para criar uma nova Avaliação, pressione o botão +</string>
+    <string name="help_about">Sobre a aplicação</string>
+    <string name="help_evaluations_description">Ver as últimas avaliações, pode pesquisar por data.</string>
+    <string name="help_features">Funcionalidades</string>
+    <string name="logout_choice">Deseja fazer o log out?</string>
+    <string name="patients_sessions">Avaliações</string>
+    <string name="patients_favorites">Favoritos</string>
+    <string name="patients_all">Todos</string>
+    <string name="menu_search"></string>
+    <string name="help_precription_description">Ver as últimas avaliações, pode procurar por data.</string>
+    <string name="help_features_description">Esta aplicação permite a um médico de geriatria ver os seus pacientes e avaliá-los. A avaliação with several tests that the doctor chooses from. After evalauting a patient the doctor can check the patient\'s progress.</string>
+    <string name="help_patients_description">Em Pacientes o médico pode ver os seus pacientes, as últimas avaliações e os pacientes favoritos. As sessões podem ser criadas a partir do perfil do paciente.</string>
 </resources>
