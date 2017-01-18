@@ -759,7 +759,7 @@ public class StaticTestDefinition {
         tests.add(escalaDepressaoYesavage());
         tests.add(escalaLawtonBrody());
         tests.add(marchaHolden());
-        tests.add(mentalStateFolstein());
+        //tests.add(mentalStateFolstein());
         tests.add(miniNutritionalAssessment());
         return tests;
     }

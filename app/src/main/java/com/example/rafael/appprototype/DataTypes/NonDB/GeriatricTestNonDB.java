@@ -51,6 +51,7 @@ public class GeriatricTestNonDB implements Serializable {
     ArrayList<QuestionNonDB> questions = new ArrayList<>();
     private ArrayList<QuestionCategory> questionsCategories;
     private boolean multipleCategories;
+    private int numberQuestions;
 
     public ArrayList<QuestionCategory> getQuestionsCategories() {
         return questionsCategories;
@@ -200,5 +201,18 @@ public class GeriatricTestNonDB implements Serializable {
 
     public boolean isMultipleCategories() {
         return multipleCategories;
+    }
+
+    /**
+     * Get the number of question
+     *
+     * @return
+     */
+    public int getNumberQuestions() {
+        int numQuestions = 0;
+        for (QuestionCategory category : questionsCategories) {
+            numQuestions += category.getQuestions().size();
+        }
+        return numQuestions;
     }
 }

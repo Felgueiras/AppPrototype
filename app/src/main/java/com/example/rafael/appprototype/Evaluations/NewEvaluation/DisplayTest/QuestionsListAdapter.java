@@ -90,7 +90,9 @@ public class QuestionsListAdapter extends BaseAdapter {
         }
         if (testNonDB.getQuestionsCategories().size() != 0) {
             // test with multiple categories
-            return 1;
+            numquestions = testNonDB.getNumberQuestions();
+            System.out.println("Num questions is " + numquestions);
+            return numquestions;
         }
         return numquestions;
     }

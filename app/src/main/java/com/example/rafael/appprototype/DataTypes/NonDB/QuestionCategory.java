@@ -92,6 +92,14 @@ public class QuestionCategory {
         return questions;
     }
 
+    /**
+     * Get the question index for a question inside a category.
+     *
+     * @param category
+     * @param questionInCategory
+     * @param testNonDB
+     * @return
+     */
     public static int getQuestionIndex(int category, int questionInCategory, GeriatricTestNonDB testNonDB) {
         int index = 0;
         for (int i = 0; i < category; i++) {
@@ -99,6 +107,5 @@ public class QuestionCategory {
         }
         index += questionInCategory;
         return index;
-
     }
 }
