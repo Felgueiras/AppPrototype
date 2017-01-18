@@ -21,6 +21,8 @@ public class FavoritePatientsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // TODO display favorites individually with grid
+
         // Inflate the layout for this fragment
         View myInflatedView = inflater.inflate(R.layout.content_grid_favorites, container, false);
         getActivity().setTitle(getResources().getString(R.string.tab_my_patients));
@@ -28,18 +30,19 @@ public class FavoritePatientsFragment extends Fragment {
         // get the patients - filter to display only favorites
         ArrayList<Patient> patients = Patient.getFavoritePatients();
         if (patients.isEmpty()) {
-            System.out.println("No favorite patients");
+            /*
             FragmentManager fragmentManager = getFragmentManager();
             Fragment fragment = new EmptyStateFragment();
             Bundle args = new Bundle();
             args.putString(EmptyStateFragment.MESSAGE, getResources().getString(R.string.no_favorite_patients));
             fragment.setArguments(args);
             fragmentManager.beginTransaction()
-                    .replace(R.id.frame2, fragment)
+                    .replace(R.id.empty_state, fragment)
                     .commit();
 
             GridView grid = (GridView) myInflatedView.findViewById(R.id.gridView);
             grid.setVisibility(View.GONE);
+            */
 
         } else {
             /**

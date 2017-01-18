@@ -48,14 +48,14 @@
         <activity android:name=".Tutorial.DatePickerActivity" />
         <activity android:name=".Main.PublicArea">
 
-
-
-        </activity>
-        <activity android:name=".Main.PrivateArea">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".Main.PrivateArea">
+
         </activity>
 
 

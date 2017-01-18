@@ -43,6 +43,7 @@ public class PrivateArea extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Constants.area = Constants.area_private;
         super.onCreate(savedInstanceState);
         ActiveAndroid.initialize(getApplication());
         setContentView(R.layout.navigation_drawer_private);

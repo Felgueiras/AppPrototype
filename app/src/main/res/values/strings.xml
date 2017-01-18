@@ -101,4 +101,5 @@
     <string name="patients_all">All</string>
     <string name="patients_sessions">Sessions</string>
     <string name="patients_favorites">Favorites</string>
+    <string name="evaluations_disclaimer">To create a new Evaluation, press the plus button.</string>
 </resources>

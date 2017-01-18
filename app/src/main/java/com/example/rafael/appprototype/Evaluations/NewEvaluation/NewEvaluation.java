@@ -26,6 +26,7 @@ import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
 import com.example.rafael.appprototype.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
+import com.example.rafael.appprototype.Evaluations.PublicEvaluations;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.Main.PrivateArea;
@@ -94,7 +95,7 @@ public class NewEvaluation extends Fragment {
                     Constants.pickingPatient = false;
                     Constants.sessionID = null;
                     Log.d("Session", "Finishing!");
-                    FragmentTransitions.replaceFragment(getActivity(),new EvaluationsHistoryMain(), null, Constants.tag_view_sessions_history);
+                    FragmentTransitions.replaceFragment(getActivity(), new EvaluationsHistoryMain(), null, Constants.tag_view_sessions_history);
                 }
             }
         }
@@ -168,7 +169,7 @@ public class NewEvaluation extends Fragment {
                                     Constants.pickingPatient = true;
                                     Bundle args = new Bundle();
                                     args.putBoolean(ViewPatientsFragment.selectPatient, true);
-                                    FragmentTransitions.replaceFragment(getActivity(),new ViewPatientsFragment(), args,
+                                    FragmentTransitions.replaceFragment(getActivity(), new ViewPatientsFragment(), args,
                                             Constants.fragment_show_patients);
                                     dialog.dismiss();
                                     Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
@@ -219,7 +220,14 @@ public class NewEvaluation extends Fragment {
                                 // remove session
                                 session.delete();
                                 Constants.sessionID = null;
-                                BackStackHandler.goToPreviousScreen();
+                                if (Constants.area.equals(Constants.area_private))
+                                    BackStackHandler.goToPreviousScreen();
+                                else {
+                                    FragmentManager fragmentManager = getFragmentManager();
+                                    fragmentManager.beginTransaction()
+                                            .replace(R.id.content_fragment, new PublicEvaluations())
+                                            .commit();
+                                }
                                 dialog.dismiss();
 
                                 // Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();

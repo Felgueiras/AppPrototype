@@ -69,4 +69,7 @@ public class Constants {
     public static int vpPatientsPage = 0;
     public static int vpPrescriptionPage = 0;
     public static String first_run;
+    public static String area_private = "private";
+    public static String area_public = "public";
+    public static String area;
 }

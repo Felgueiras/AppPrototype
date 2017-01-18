@@ -28,6 +28,7 @@ import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.DisplaySingleTestFragment;
+import com.example.rafael.appprototype.Evaluations.PublicEvaluations;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
@@ -47,6 +48,8 @@ public class PublicArea extends AppCompatActivity {
         ActiveAndroid.initialize(getApplication());
         setContentView(R.layout.navigation_drawer_public);
 
+
+        Constants.area = Constants.area_public;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -90,7 +93,7 @@ public class PublicArea extends AppCompatActivity {
         String defaultFragment = Constants.fragment_sessions;
         switch (defaultFragment) {
             case Constants.fragment_sessions:
-                fragment = new EvaluationsMainFragment();
+                fragment = new PublicEvaluations();
                 setTitle(getResources().getString(R.string.tab_sessions));
                 break;
             case Constants.fragment_drug_prescription:
