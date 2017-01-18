@@ -1,10 +1,10 @@
 package com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -20,7 +20,8 @@ import android.widget.Toast;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Main.FragmentTransitions;
+import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.R;
 
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.MyViewHolder> implements Filterable {
 
     private final ArrayList<Patient> filteredList;
-    private Context context;
+    private Activity context;
     /**
      * Data to be displayed.
      */
@@ -65,7 +66,7 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
      * @param context
      * @param patients
      */
-    public CreatePatientCard(Context context, ArrayList<Patient> patients) {
+    public CreatePatientCard(Activity context, ArrayList<Patient> patients) {
         this.context = context;
         this.patients = patients;
         this.filteredList = new ArrayList<>();
@@ -108,7 +109,7 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
                     Bundle args = new Bundle();
                     args.putSerializable(NewEvaluation.PATIENT, patient);
                     args.putBoolean(NewEvaluation.SAVE_SESSION, true);
-                    ((MainActivity) context).replaceFragment(new NewEvaluation(), args, "");
+                    FragmentTransitions.replaceFragment(context,new NewEvaluation(), args, "");
                     Constants.selectPatient = false;
                     return;
                 } else {
@@ -129,7 +130,7 @@ public class CreatePatientCard extends RecyclerView.Adapter<CreatePatientCard.My
                     args.putString("ACTION", holder.name.getText().toString());
                     args.putString("TRANS_TEXT", patientTransitionName);
                     args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
-                    ((MainActivity) context).replaceFragmentSharedElements(endFragment, args, Constants.tag_view_patien_info_records,
+                    ((PrivateArea) context).replaceFragmentSharedElements(endFragment, args, Constants.tag_view_patien_info_records,
                             holder.name);
                 }
 

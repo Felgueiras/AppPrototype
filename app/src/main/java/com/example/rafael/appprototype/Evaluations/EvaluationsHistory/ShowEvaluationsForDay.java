@@ -1,5 +1,6 @@
 package com.example.rafael.appprototype.Evaluations.EvaluationsHistory;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -31,10 +32,10 @@ import java.util.TreeSet;
  * Show all the Evaluations for a single day.
  */
 public class ShowEvaluationsForDay extends BaseAdapter {
-    Context context;
+    Activity context;
     LayoutInflater inflater;
 
-    public ShowEvaluationsForDay(Context context) {
+    public ShowEvaluationsForDay(Activity context) {
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

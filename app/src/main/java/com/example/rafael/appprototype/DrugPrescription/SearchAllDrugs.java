@@ -20,7 +20,8 @@ import com.example.rafael.appprototype.DataTypes.Criteria.BeersCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionGeneral;
 import com.example.rafael.appprototype.DataTypes.Criteria.StartCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.StoppCriteria;
-import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Main.FragmentTransitions;
+import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -103,7 +104,7 @@ public class SearchAllDrugs extends Fragment {
                 Fragment endFragment = new ViewSingleDrugtInfo();
                 Bundle args = new Bundle();
                 args.putString(ViewSingleDrugtInfo.DRUG, selectedDrug);
-                ((MainActivity) getActivity()).replaceFragment(endFragment, args, Constants.tag_view_drug_info);
+                FragmentTransitions.replaceFragment(getActivity(),endFragment, args, Constants.tag_view_drug_info);
 
             }
         });

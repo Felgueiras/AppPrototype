@@ -20,7 +20,8 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
-import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Main.FragmentTransitions;
+import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.PatientEvolution.ViewPatientEvolutionFragment;
 import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewPatientSessions.ViewPatientSessionsFragment;
 import com.example.rafael.appprototype.R;
@@ -116,7 +117,7 @@ public class ViewSinglePatientInfo extends Fragment {
             public void onClick(View view) {
                 Bundle args = new Bundle();
                 args.putSerializable(NewEvaluation.PATIENT, patient);
-                ((MainActivity) getActivity()).replaceFragment(new NewEvaluation(), args, Constants.tag_create_new_session_for_patient);
+                FragmentTransitions.replaceFragment(getActivity(),new NewEvaluation(), args, Constants.tag_create_new_session_for_patient);
                 getActivity().setTitle(getResources().getString(R.string.tab_sessions));
             }
         });

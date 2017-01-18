@@ -32,7 +32,7 @@ import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.Dis
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
 
-public class MainActivity extends AppCompatActivity {
+public class PrivateArea extends AppCompatActivity {
 
 
     SharedPreferences sharedPreferences;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActiveAndroid.initialize(getApplication());
-        setContentView(R.layout.activity_navigation_drawer);
+        setContentView(R.layout.navigation_drawer_private);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,9 +63,10 @@ public class MainActivity extends AppCompatActivity {
             // display login screen
             // TODO log in
             /*
-            Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            Intent i = new Intent(PrivateArea.this, LoginActivity.class);
             startActivity(i);
             */
+
         }
         // user already logged in
 
@@ -79,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
             //TextView userSubtext = (TextView) headerLayout.findViewById(R.id.userSubText);
             //userSubtext.setText("[Some text here]");
         }
+
+        System.out.println("PRIVATE AREA");
 
         // set handler for the Fragment stack
         BackStackHandler handler = new BackStackHandler(getFragmentManager(), this);
@@ -123,28 +126,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Display a single Test for the doctor
-     *
-     * @param selectedTest Test that was selected from a Session
-     * @param testDB       holder for the Test Card view
-     */
-    public void displaySessionTest(GeriatricTestNonDB selectedTest, GeriatricTest testDB) {
-        // Create new fragment and transaction
-        Fragment newFragment = new DisplaySingleTestFragment();
-        // add arguments
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(DisplaySingleTestFragment.testObject, selectedTest);
-        bundle.putSerializable(DisplaySingleTestFragment.testDBobject, testDB);
-        Patient patient = testDB.getSession().getPatient();
-        if (patient != null)
-            bundle.putSerializable(DisplaySingleTestFragment.patient, patient);
-        newFragment.setArguments(bundle);
-        // setup the transaction
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_fragment, newFragment);
-        transaction.addToBackStack(Constants.tag_display_session_test).commit();
-    }
+
 
 
     @Override
@@ -242,35 +224,6 @@ public class MainActivity extends AppCompatActivity {
             // we are not locked.
             Log.d("Lock", "not locked");
         }
-    }
-
-    /**
-     * Replace one fragment by another
-     *
-     * @param args
-     */
-    public void replaceFragment(Fragment endFragment, Bundle args, String addToBackStackTag) {
-
-        // get current Fragment
-        Fragment startFragment = getFragmentManager().findFragmentById(R.id.content_fragment);
-        if (args != null) {
-            endFragment.setArguments(args);
-        }
-        // add Exit transition
-        /*
-        startFragment.setExitTransition(TransitionInflater.from(
-                this).inflateTransition(android.R.transition.fade));
-        // add Enter transition
-        endFragment.setEnterTransition(TransitionInflater.from(this).
-                inflateTransition(android.R.transition.fade));
-                */
-        // Create new transaction and add to back stack
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_fragment, endFragment);
-        if (!addToBackStackTag.equals(""))
-            transaction.addToBackStack(addToBackStackTag);
-        transaction.commit();
-
     }
 
 

@@ -731,7 +731,27 @@ public class StaticTestDefinition {
      * @return
      */
     public static GradingNonDB getGradingForTest(GeriatricTest test, int gender) {
+
+
         double testResult = test.generateTestResult();
+        ScoringNonDB scoring = getTestByName(test.getTestName()).getScoring();
+        GradingNonDB match;
+        // check if it's different for men and women
+        if (scoring.isDifferentMenWomen()) {
+            if (gender == Constants.MALE) {
+                match = scoring.getGrading(testResult, Constants.MALE);
+            } else {
+                match = scoring.getGrading(testResult, Constants.FEMALE);
+            }
+
+        } else {
+            match = scoring.getGrading(testResult, Constants.BOTH);
+        }
+        return match;
+    }
+
+    public static GradingNonDB getGradingForTestWithoutGenerating(GeriatricTest test, int gender) {
+        double testResult = test.getResult();
         ScoringNonDB scoring = getTestByName(test.getTestName()).getScoring();
         GradingNonDB match;
         // check if it's different for men and women

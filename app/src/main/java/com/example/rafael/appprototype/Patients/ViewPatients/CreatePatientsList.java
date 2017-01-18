@@ -1,5 +1,6 @@
 package com.example.rafael.appprototype.Patients.ViewPatients;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,15 +24,15 @@ public class CreatePatientsList extends BaseAdapter {
      * All the Patients
      */
     private ArrayList<Patient> patients;
-    Context context;
+    Activity context;
 
-    public CreatePatientsList(Context context, ArrayList<Patient> patients) {
+    public CreatePatientsList(Activity context, ArrayList<Patient> patients) {
         this.context = context;
         this.patients = patients;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        context = parent.getContext();
+        //context = parent.getContext();
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 

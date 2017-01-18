@@ -77,7 +77,7 @@ public class ViewPatientEvolutionAdapter extends RecyclerView.Adapter<ViewPatien
             public void onClick(View v) {
                 Bundle args = new Bundle();
                 args.putSerializable(ReviewSingleSession.SESSION, currentSession);
-                ((MainActivity) context).replaceFragment(ReviewSingleSession.class, args, Constants.tag_review_session);
+                ((PrivateArea) context).replaceFragment(ReviewSingleSession.class, args, Constants.tag_review_session);
             }
         });
         */

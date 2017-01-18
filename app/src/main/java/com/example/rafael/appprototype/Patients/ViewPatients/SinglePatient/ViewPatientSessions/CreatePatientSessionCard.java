@@ -1,6 +1,6 @@
 package com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewPatientSessions;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,9 +15,9 @@ import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.HistoryCard.ShowTestsForSession;
-import com.example.rafael.appprototype.Main.MainActivity;
-import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSession;
+import com.example.rafael.appprototype.Main.FragmentTransitions;
+import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class CreatePatientSessionCard extends RecyclerView.Adapter<CreatePatient
      * Patient which has these NewEvaluation.
      */
     private final Patient patient;
-    private Context context;
+    private Activity context;
     /**
      * Records from that patient
      */
@@ -53,7 +53,7 @@ public class CreatePatientSessionCard extends RecyclerView.Adapter<CreatePatient
     }
 
 
-    public CreatePatientSessionCard(Context context, ArrayList<Session> sessions, Patient patient) {
+    public CreatePatientSessionCard(Activity context, ArrayList<Session> sessions, Patient patient) {
         this.context = context;
         this.sessions = sessions;
         this.patient = patient;
@@ -70,7 +70,7 @@ public class CreatePatientSessionCard extends RecyclerView.Adapter<CreatePatient
             public void onClick(View v) {
                 Bundle args = new Bundle();
                 args.putSerializable(ReviewSingleSession.SESSION,currentSession);
-                ((MainActivity) context).replaceFragment(new ReviewSingleSession(), args, Constants.tag_review_session_from_patient_profile);
+                FragmentTransitions.replaceFragment(context,new ReviewSingleSession(), args, Constants.tag_review_session_from_patient_profile);
             }
         });
 

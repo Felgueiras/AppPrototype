@@ -89,4 +89,16 @@
     <string name="select_patient_gender">Select patient\'s gender</string>
     <string name="no_favorite_patients">You have no favorite patients</string>
     <string name="new_patient_discard">Do you wish to cancel?</string>
+    <string name="help_about">About the app</string>
+    <string name="help_features">Features</string>
+    <string name="help_features_description">This app allows a geriatric doctor to view his or her patients and evalaute them. The evaluation is done\
+        with several tests that the doctor chooses from. After evalauting a patient the doctor can check the patient\'s progress.</string>
+    <string name="help_patients_description">In the My Patients area a doctor can view all the patients, the latest evaluations and the favorite patients.
+    Evaluation sessions can be created from within the patient\'s profile.</string>
+    <string name="help_evaluations_description">View the latest evaluations, can be searched by date.</string>
+    <string name="help_precription_description">View the latest evaluations, can be searched by date.</string>
+    <string name="logout_choice">Do you wish to log out?</string>
+    <string name="patients_all">All</string>
+    <string name="patients_sessions">Sessions</string>
+    <string name="patients_favorites">Favorites</string>
 </resources>

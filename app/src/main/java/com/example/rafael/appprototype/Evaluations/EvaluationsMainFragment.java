@@ -6,28 +6,22 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.GridView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.EmptyStateFragment;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.EvaluationsHistoryGrid;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowEvaluationsForDay;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
-import com.example.rafael.appprototype.Main.MainActivity;
-import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
+import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
 
 import java.util.Calendar;
-import java.util.List;
 
 public class EvaluationsMainFragment extends Fragment {
     private int year;
@@ -134,7 +128,7 @@ public class EvaluationsMainFragment extends Fragment {
                             }
                             dialog.dismiss();
                             // create a new Session - switch to CreatePatient Fragment
-                            ((MainActivity) getActivity()).replaceFragment(new NewEvaluation(), args, Constants.create_session);
+                            FragmentTransitions.replaceFragment(getActivity(),new NewEvaluation(), args, Constants.tag_create_session);
                         }
                     });
                     chooseGender = builder.create();
@@ -146,7 +140,7 @@ public class EvaluationsMainFragment extends Fragment {
              * Resume the ongoing session.
              */
             Bundle args = new Bundle();
-            ((MainActivity) getActivity()).replaceFragment(new NewEvaluation(), args, Constants.create_session);
+            FragmentTransitions.replaceFragment(getActivity(),new NewEvaluation(), args, Constants.tag_create_session);
         }
 
         return view;

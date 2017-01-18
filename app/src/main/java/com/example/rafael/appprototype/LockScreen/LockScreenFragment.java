@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
 
 public class LockScreenFragment extends Fragment {
@@ -37,7 +37,7 @@ public class LockScreenFragment extends Fragment {
                 String password = s.toString();
                 Log.d("Lock",password.equals(correctPassword)+"");
                 if (password.equals(correctPassword)) {
-                    ((MainActivity) getActivity()).resumeAfterLock();
+                    ((PrivateArea) getActivity()).resumeAfterLock();
                 }
             }
 

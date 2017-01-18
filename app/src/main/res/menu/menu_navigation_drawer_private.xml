@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/patients"
+            android:icon="@drawable/ic_account_circle_black_24dp"
+            android:title="@string/tab_my_patients" />
+        <!--
+        <item
+            android:id="@+id/evaluations"
+            android:icon="@drawable/ic_assignment_black_24dp"
+            android:title="@string/tab_sessions" />
+            -->
+        <item
+            android:id="@+id/prescription"
+            android:icon="@drawable/ic_pill"
+            android:title="@string/tab_drug_prescription" />
+
+    </group>
+
+    <!--Help & Feedback-->
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/sendFeedback"
+            android:icon="@drawable/ic_feedback_black_24dp"
+            android:title="@string/send_feedback" />
+        <item
+            android:id="@+id/help"
+            android:icon="@drawable/ic_help_black_24dp"
+            android:title="@string/help" />
+    </group>
+
+
+
+    <item android:title="@string/actions_account">
+        <menu>
+            <item
+                android:id="@+id/logout"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
+                android:title="Logout" />
+        </menu>
+    </item>
+
+
+</menu>

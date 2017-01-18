@@ -1,5 +1,6 @@
 package com.example.rafael.appprototype;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -9,11 +10,9 @@ import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
-import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSession;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewSingleTestFragment;
-import com.example.rafael.appprototype.Main.MainActivity;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.DisplaySingleTestFragment;
 import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewSinglePatientInfo;
@@ -24,7 +23,7 @@ import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragmen
  */
 public class BackStackHandler implements FragmentManager.OnBackStackChangedListener {
 
-    private static MainActivity context = null;
+    private static Activity context = null;
     FragmentManager fragmentManager;
 
     /**
@@ -33,7 +32,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
      * @param fragmentManager
      * @param mainActivity
      */
-    public BackStackHandler(FragmentManager fragmentManager, MainActivity mainActivity) {
+    public BackStackHandler(FragmentManager fragmentManager, Activity mainActivity) {
         this.fragmentManager = fragmentManager;
         this.context = mainActivity;
     }
@@ -87,7 +86,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_fragment, fragment)
                         .commit();
-            } else if (tag.equals(Constants.create_session)) {
+            } else if (tag.equals(Constants.tag_create_session)) {
                 fragmentManager.popBackStack();
                 Log.d("Stack", "pressed back in new session");
                 ((NewEvaluation) currentFragment).discardFAB.performClick();
@@ -101,7 +100,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
              */
             else if (tag.equals(Constants.tag_review_session)) {
                 fragmentManager.popBackStack();
-                Fragment fragment = new EvaluationsMainFragment();
+                Fragment fragment = new PatientsMain();
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_fragment, fragment)
                         .commit();
@@ -173,7 +172,13 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
         String tagCurrent = backEntryCurrent.getName();
         Log.d("Stack", "Current tag:" + tagCurrent);
 
-        if (tagCurrent.equals(Constants.tag_create_new_session_for_patient)) {
+        if (tagCurrent.equals(Constants.tag_create_session)) {
+            fragmentManager.popBackStack();
+            Fragment fragment = new PatientsMain();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_fragment, fragment)
+                    .commit();
+        } else if (tagCurrent.equals(Constants.tag_create_new_session_for_patient)) {
             FragmentManager.BackStackEntry backEntryPrevious = fragmentManager.getBackStackEntryAt(index - 1);
 
             String tagPrevious = backEntryPrevious.getName();

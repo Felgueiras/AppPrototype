@@ -46,7 +46,7 @@ public class ShowTestsForSession extends BaseAdapter {
         // get values
         GeriatricTest test = tests.get(position);
         String name = StaticTestDefinition.getShortName(test.getTestName());
-        GradingNonDB grading = StaticTestDefinition.getGradingForTest(
+        GradingNonDB grading = StaticTestDefinition.getGradingForTestWithoutGenerating(
                 test,
                 test.getSession().getPatient().getGender());
         // update views

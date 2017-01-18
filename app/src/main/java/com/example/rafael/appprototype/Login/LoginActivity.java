@@ -33,7 +33,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -341,7 +341,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 SharedPreferences sharedPreferences = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
                 sharedPreferences.edit().putString(Constants.userName, "Nome do médico").commit();
 
-                Intent i = new Intent(LoginActivity.this,MainActivity.class);
+                Intent i = new Intent(LoginActivity.this,PrivateArea.class);
                 startActivity(i);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

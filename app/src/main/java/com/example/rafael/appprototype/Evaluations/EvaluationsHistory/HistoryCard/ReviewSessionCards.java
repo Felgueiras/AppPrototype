@@ -1,5 +1,6 @@
 package com.example.rafael.appprototype.Evaluations.EvaluationsHistory.HistoryCard;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +16,8 @@ import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSession;
-import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Main.FragmentTransitions;
+import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
 
 import java.util.List;
@@ -25,7 +27,7 @@ import java.util.List;
  */
 public class ReviewSessionCards extends RecyclerView.Adapter<ReviewSessionCards.MyViewHolder> {
 
-    private Context context;
+    private Activity context;
     /**
      * Data to be displayed.
      */
@@ -58,7 +60,7 @@ public class ReviewSessionCards extends RecyclerView.Adapter<ReviewSessionCards.
      * @param context
      * @param sessionsList
      */
-    public ReviewSessionCards(Context context, List<Session> sessionsList) {
+    public ReviewSessionCards(Activity context, List<Session> sessionsList) {
         this.context = context;
         this.sessionsList = sessionsList;
     }
@@ -90,7 +92,7 @@ public class ReviewSessionCards extends RecyclerView.Adapter<ReviewSessionCards.
             public void onClick(View view) {
                 Bundle args = new Bundle();
                 args.putSerializable(ReviewSingleSession.SESSION, session);
-                ((MainActivity) context).replaceFragment(new ReviewSingleSession(), args, Constants.tag_review_session);
+                FragmentTransitions.replaceFragment(context,new ReviewSingleSession(), args, Constants.tag_review_session);
             }
         });
         /**
@@ -100,7 +102,7 @@ public class ReviewSessionCards extends RecyclerView.Adapter<ReviewSessionCards.
                 Bundle args = new Bundle();
                 //args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
                 String addToBackStackTag = Constants.tag_view_patien_info_records;
-                ((MainActivity) context).replaceFragment(ViewSinglePatientInfo.class, args, addToBackStackTag);
+                FragmentTransitions.replaceFragment(getActivity(),ViewSinglePatientInfo.class, args, addToBackStackTag);
             }
         });
          */

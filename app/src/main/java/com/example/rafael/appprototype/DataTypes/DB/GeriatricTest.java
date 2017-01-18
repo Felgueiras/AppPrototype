@@ -264,6 +264,7 @@ public class GeriatricTest extends Model implements Serializable {
      * @return
      */
     public double generateTestResult() {
+        System.out.println("Generating test result!!!");
         //system.out.println("Getting test result...");
         double res = 0;
         ArrayList<Question> questionsFromTest = getQuestionsFromTest();
@@ -274,7 +275,7 @@ public class GeriatricTest extends Model implements Serializable {
             ArrayList<GradingNonDB> valuesBoth = scoring.getValuesBoth();
             for (GradingNonDB grade : valuesBoth) {
                 if (grade.getGrade().equals(answer)) {
-                    this.result = res;
+                    this.result = Double.parseDouble(grade.getScore());
                     this.save();
                     return Double.parseDouble(grade.getScore());
                 }

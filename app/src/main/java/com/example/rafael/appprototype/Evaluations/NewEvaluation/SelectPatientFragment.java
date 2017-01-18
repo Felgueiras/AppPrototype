@@ -9,7 +9,8 @@ import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Main.FragmentTransitions;
+import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewPatientSessions.CreatePatientSessionCard;
 import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
@@ -44,7 +45,7 @@ public class SelectPatientFragment extends Fragment {
                 // open the list of patients
                 Bundle args = new Bundle();
                 args.putBoolean(ViewPatientsFragment.selectPatient, true);
-                ((MainActivity) getActivity()).replaceFragment(new ViewPatientsFragment(), args, Constants.fragment_show_patients);
+                FragmentTransitions.replaceFragment(getActivity(),new ViewPatientsFragment(), args, Constants.fragment_show_patients);
             }
         });
 

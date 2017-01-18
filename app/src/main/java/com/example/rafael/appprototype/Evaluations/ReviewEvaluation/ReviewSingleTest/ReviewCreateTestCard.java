@@ -19,7 +19,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
-import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
 
 import java.util.List;
@@ -189,7 +189,7 @@ public class ReviewCreateTestCard extends RecyclerView.Adapter<ReviewCreateTestC
                 bundle.putSerializable(ReviewSingleTestFragment.testDBobject, currentTest);
                 newFragment.setArguments(bundle);
                 // setup the transaction
-                FragmentTransaction transaction = ((MainActivity) context).getFragmentManager().beginTransaction();
+                FragmentTransaction transaction = ((PrivateArea) context).getFragmentManager().beginTransaction();
                 transaction.replace(R.id.content_fragment, newFragment);
                 transaction.addToBackStack(Constants.tag_review_test).commit();
             }

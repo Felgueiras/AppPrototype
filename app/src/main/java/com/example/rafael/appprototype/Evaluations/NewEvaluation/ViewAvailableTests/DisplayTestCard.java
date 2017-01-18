@@ -1,6 +1,10 @@
 package com.example.rafael.appprototype.Evaluations.NewEvaluation.ViewAvailableTests;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,12 +15,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
-import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.DisplaySingleTestFragment;
+import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
 
 import java.io.Serializable;
@@ -34,7 +40,7 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
     private final Session session;
     private final int patientGender;
 
-    private Context context;
+    private Activity context;
 
 
     /**
@@ -58,11 +64,11 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
     /**
      * Constructor of the ReviewSessionCards
      *
-     * @param context               current Context
-     * @param resuming              true if we are resuming a Session
+     * @param context       current Context
+     * @param resuming      true if we are resuming a Session
      * @param patientGender
      */
-    public DisplayTestCard(Context context, Session session, boolean resuming, int patientGender) {
+    public DisplayTestCard(Activity context, Session session, boolean resuming, int patientGender) {
         this.context = context;
         this.session = session;
         this.patientGender = patientGender;
@@ -126,8 +132,24 @@ public class DisplayTestCard extends RecyclerView.Adapter<DisplayTestCard.TestCa
             public void onClick(View v) {
                 Log.d("Test", "Going to open");
                 String selectedTestName = currentTest.getTestName();
-                ((MainActivity) context).displaySessionTest(StaticTestDefinition.getTestByName(selectedTestName),
-                        currentTest);
+
+
+                // Create new fragment and transaction
+                Fragment newFragment = new DisplaySingleTestFragment();
+                // add arguments
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(DisplaySingleTestFragment.testObject, StaticTestDefinition.getTestByName(selectedTestName));
+                bundle.putSerializable(DisplaySingleTestFragment.testDBobject, currentTest);
+                Patient patient = currentTest.getSession().getPatient();
+                if (patient != null)
+                    bundle.putSerializable(DisplaySingleTestFragment.patient, patient);
+                newFragment.setArguments(bundle);
+                // setup the transaction
+                FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
+                transaction.replace(R.id.content_fragment, newFragment);
+                transaction.addToBackStack(Constants.tag_display_session_test).commit();
+
+
             }
         });
 

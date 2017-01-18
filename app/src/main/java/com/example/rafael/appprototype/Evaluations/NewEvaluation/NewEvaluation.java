@@ -26,9 +26,11 @@ import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
 import com.example.rafael.appprototype.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
+import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
-import com.example.rafael.appprototype.Main.MainActivity;
+import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.Evaluations.NewEvaluation.ViewAvailableTests.DisplayTestCard;
+import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
@@ -92,7 +94,7 @@ public class NewEvaluation extends Fragment {
                     Constants.pickingPatient = false;
                     Constants.sessionID = null;
                     Log.d("Session", "Finishing!");
-                    ((MainActivity) getActivity()).replaceFragment(new EvaluationsHistoryMain(), null, Constants.tag_view_sessions_history);
+                    FragmentTransitions.replaceFragment(getActivity(),new EvaluationsHistoryMain(), null, Constants.tag_view_sessions_history);
                 }
             }
         }
@@ -166,7 +168,7 @@ public class NewEvaluation extends Fragment {
                                     Constants.pickingPatient = true;
                                     Bundle args = new Bundle();
                                     args.putBoolean(ViewPatientsFragment.selectPatient, true);
-                                    ((MainActivity) getActivity()).replaceFragment(new ViewPatientsFragment(), args,
+                                    FragmentTransitions.replaceFragment(getActivity(),new ViewPatientsFragment(), args,
                                             Constants.fragment_show_patients);
                                     dialog.dismiss();
                                     Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
@@ -182,7 +184,7 @@ public class NewEvaluation extends Fragment {
                                     session.delete();
                                     FragmentManager fragmentManager = getFragmentManager();
                                     fragmentManager.beginTransaction()
-                                            .replace(R.id.content_fragment, new EvaluationsMainFragment())
+                                            .replace(R.id.content_fragment, new PatientsMain())
                                             .commit();
                                     Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
                                 }
