@@ -42,7 +42,7 @@ public class RecommendationInfo extends PrescriptionGeneral implements Serializa
     }
 
     /**
-     * Return the textual description of all the data for a recommendation.
+     * Return the textual field of all the data for a recommendation.
      *
      * @return
      */

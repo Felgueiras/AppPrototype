@@ -6,15 +6,16 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/card_margin"
         android:elevation="3dp"
         card_view:cardCornerRadius="@dimen/card_album_radius">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
 
             <TextView
                 android:id="@+id/testName"
@@ -23,43 +24,53 @@
                 android:paddingLeft="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"
                 android:paddingTop="@dimen/album_title_padding"
+                android:text="Scale name"
                 android:textColor="@color/album_title"
-                android:text="Test name"
                 android:textSize="@dimen/test_name" />
 
-            <!--
+
             <TextView
-                android:id="@+id/testType"
+                android:id="@+id/result_qualitative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/testName"
                 android:paddingBottom="@dimen/songs_count_padding_bottom"
                 android:paddingLeft="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"
+                android:paddingTop="5dp"
+                android:text="Result"
                 android:textSize="@dimen/test_type"
-                android:text="Test type"/>
-                -->
+                android:layout_below="@id/testName"/>
 
             <TextView
-                android:id="@+id/testCompletion"
+                android:id="@+id/result_quantitative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/testName"
                 android:paddingBottom="@dimen/songs_count_padding_bottom"
                 android:paddingLeft="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"
-                android:textSize="@dimen/test_type"/>
-
+                android:paddingTop="5dp"
+                android:textSize="@dimen/test_type"
+                android:layout_below="@id/result_qualitative"/>
 
 
             <EditText
-                android:layout_below="@+id/testCompletion"
+                android:id="@+id/testNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:layout_below="@id/result_quantitative"/>
+
+
+            <ImageButton
+                android:id="@+id/scale_info"
+                android:padding="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:ems="10"
-                android:layout_alignParentBottom="true"
-                android:id="@+id/testNotes" />
+                android:background="@drawable/empty_drawable"
+                android:layout_weight="5"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_info_outline_black_24dp" />
 
 
         </RelativeLayout>

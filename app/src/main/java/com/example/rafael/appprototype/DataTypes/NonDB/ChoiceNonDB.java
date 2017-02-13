@@ -35,7 +35,7 @@ public class ChoiceNonDB {
      * Create a new Choice for a Question
      *
      * @param name        date of the choice
-     * @param description description
+     * @param description field
      * @param score       score for that Choice
      */
     public ChoiceNonDB(String name, String description, double score) {

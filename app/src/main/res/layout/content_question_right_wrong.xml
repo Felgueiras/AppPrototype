@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--Stub for holding category info-->
+    <!--Stub for holding area info-->
     <ViewStub
         android:id="@+id/simpleViewStub"
         android:layout_width="match_parent"

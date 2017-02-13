@@ -24,7 +24,7 @@ public class ScoringNonDB {
      */
     boolean differentMenWomen;
     /**
-     * Correspondence between score and category.
+     * Correspondence between score and area.
      */
     ArrayList<GradingNonDB> valuesBoth;
     /**
@@ -35,6 +35,8 @@ public class ScoringNonDB {
      * Grading particular to women
      */
     ArrayList<GradingNonDB> valuesWomen;
+    private int minMen;
+    private int maxMen;
 
     /**
      * Define a new Scoring for a Test
@@ -122,5 +124,26 @@ public class ScoringNonDB {
             }
         }
         return match;
+    }
+
+    public void setScoringMen(int min, int max) {
+        this.minMen = min;
+        this.maxMen = max;
+    }
+
+    public int getMinMen() {
+        return minMen;
+    }
+
+    public void setMinMen(int minMen) {
+        this.minMen = minMen;
+    }
+
+    public int getMaxMen() {
+        return maxMen;
+    }
+
+    public void setMaxMen(int maxMen) {
+        this.maxMen = maxMen;
     }
 }

@@ -20,10 +20,10 @@
     <string name="title_activity_tabs">Separadores</string>
     <string name="action_add_favourite">Adicionar aos favoritos</string>
     <string name="patients_history">Histórico de pacientes</string>
-    <string name="sessions">Avaliações</string>
+    <string name="sessions">AGG</string>
     <string name="my_patients">Os meus pacientes</string>
     <string name="tab_my_patients">Pacientes</string>
-    <string name="tab_sessions">Avaliações</string>
+    <string name="tab_sessions">AGG</string>
     <string name="tab_patients_history">Histórico de pacientes</string>
     <string name="no">Não</string>
     <string name="yes">Sim</string>
@@ -94,4 +94,44 @@
     <string name="help_precription_description">Ver as últimas avaliações, pode procurar por data.</string>
     <string name="help_features_description">Esta aplicação permite a um médico de geriatria ver os seus pacientes e avaliá-los. A avaliação with several tests that the doctor chooses from. After evalauting a patient the doctor can check the patient\'s progress.</string>
     <string name="help_patients_description">Em Pacientes o médico pode ver os seus pacientes, as últimas avaliações e os pacientes favoritos. As sessões podem ser criadas a partir do perfil do paciente.</string>
+
+    <!--CGA areas disclaimers-->
+    <string name="cga_cognitive">Fatores relacionados com o estado cognitivo do paciente, nomeadamente
+    orientação, memória, cálculo, pensamento abstracto, linguagem, etc.</string>
+    <string name="cga_afective">Estado emocional do paciente, humor, tristeza e depressão</string>
+    <string name="cga_social">A avaliação social é complexa pela quantidade/diversidade de fatores que envolve
+    (idoso, família, comunidade e redes sociais). Tem por base o suporte social, condições habitacionais,
+    localização dos recursos necessários, disponibilidade de transportes e recursos financeiros.</string>
+    <string name="cga_nutritional">Detetar a presença ou risco de malnutrição sem recurso a parâmetros
+    analíticos</string>
+    <string name="cga_functional">Tem como objetivo determinar o grau de independência do paciente.
+    Aborda as atividades da vida diária, dividindo-as em básicas (ABVD - independência para o auto-cuidado) e
+    instrumentais (AIVD - independência para viver sozinho).
+    </string>
+    <string name="session_reset">Reset</string>
+    <string name="session_reset_question">Deseja fazer reset à sessão?</string>
+    <string name="evaluations">Avaliações</string>
+    <string name="evolution">Evolução</string>
+    <string name="help_cga">Avaliação Geriátrica Global</string>
+    <string name="help_cga_description">o Avaliação multidimensional e interdisciplinar do idoso:\
+ Capacidade funcional e física;\
+ Estado cognitivo e afetivo;\
+ Estado nutricional;\
+ Situação social;\
+o Objetivo: estabelecer e coordenar planos de cuidados,
+serviços e intervenções, que respondam aos seus problemas,
+às suas necessidades e incapacidades.
+    • Diagnósticopreciso e completo
+• Adequar e orientar medidas assistenciais
+• Planearestratégias de compensação de défices, reabilitação e prevenção
+• Preverum prognóstico mais fiável
+• Diminuir o risco iatrogénico
+• Facilitar prevenção e acompanhamento
+• Melhorar a qualidade de vida e a autonomia
+• Atrasar odeclínio funcional e a institucionalização
+    1.Av. Clínica:Exame clínico; ECD;
+2.Av. Física:Capacidade física; Marchae equilíbrio; Nutrição;
+3.Av. Mental:Cognitiva; Afetiva;
+4.Av. Funcional: Autonomia; Independência;
+5.Av. Social: Família; Recursoseconómicos; Rede social.</string>
 </resources>

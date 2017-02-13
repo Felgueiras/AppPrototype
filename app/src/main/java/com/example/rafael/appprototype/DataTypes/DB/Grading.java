@@ -25,7 +25,7 @@ public class Grading {
     /**
      * Create a new Grading category (single score)
      *
-     * @param grade textual description
+     * @param grade textual field
      * @param score numerical value for the score
      */
     public Grading(String grade, int score) {

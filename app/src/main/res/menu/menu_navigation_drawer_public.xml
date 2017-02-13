@@ -3,7 +3,7 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/evaluations"
+            android:id="@+id/evaluations_public"
             android:icon="@drawable/ic_assignment_black_24dp"
             android:title="@string/tab_sessions" />
         <item

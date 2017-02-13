@@ -10,7 +10,7 @@
         <TextView
             android:padding="3dip"
             android:text="@string/beers_recommendation"
-            style="@style/criteria_header2"
+            style="@style/header2"
             android:layout_column="0"/>
 
         <TextView
@@ -25,7 +25,7 @@
         <TextView
             android:padding="3dip"
             android:text="@string/beers_rationale"
-            style="@style/criteria_header2"
+            style="@style/header2"
             android:layout_column="0"/>
 
         <TextView
@@ -41,7 +41,7 @@
         <TextView
             android:padding="3dip"
             android:text="@string/beers_quality_evidence"
-            style="@style/criteria_header2" />
+            style="@style/header2" />
 
         <TextView
             android:id="@+id/qualityOfEvidence"
@@ -55,7 +55,7 @@
         <TextView
             android:padding="3dip"
             android:text="@string/beers_strength_recommendation"
-            style="@style/criteria_header2"/>
+            style="@style/header2"/>
 
         <TextView
             android:gravity="right"

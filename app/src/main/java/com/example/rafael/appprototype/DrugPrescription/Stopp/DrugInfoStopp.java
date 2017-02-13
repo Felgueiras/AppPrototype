@@ -34,7 +34,7 @@ public class DrugInfoStopp extends Fragment {
         View view = inflater.inflate(R.layout.drug_info_stopp, container, false);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            // get drug name
+            // get drug area
             drugInfo = (PrescriptionStopp) bundle.getSerializable(DRUG);
         }
 

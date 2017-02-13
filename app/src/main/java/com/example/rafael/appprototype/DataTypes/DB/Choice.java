@@ -21,7 +21,7 @@ public class Choice extends Model {
     /**
      * Description of the choice.
      */
-    @Column(name = "description")
+    @Column(name = "field")
     String description;
     /**
      * Score for that choice for that question;
@@ -49,7 +49,7 @@ public class Choice extends Model {
      * Create a new Choice for a Question
      *
      * @param name        date of the choice
-     * @param description description
+     * @param description field
      * @param score       score for that Choice
      */
     public Choice(String name, String description, int score) {
@@ -62,7 +62,7 @@ public class Choice extends Model {
     /**
      * Create a new Choice for a Question
      *
-     * @param description description of that Choice
+     * @param description field of that Choice
      * @param score       score for that Choice
      */
     public Choice(String description, int score) {
@@ -162,8 +162,8 @@ public class Choice extends Model {
     public String toString() {
         return "Choice{" +
                 "guid='" + guid + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                ", area='" + name + '\'' +
+                ", field='" + description + '\'' +
                 ", score=" + score +
                 ", yes=" + yes +
                 ", no=" + no +

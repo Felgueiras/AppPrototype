@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.CreatePatientCard;
+import com.example.rafael.appprototype.Patients.SinglePatient.CreatePatientCard;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;

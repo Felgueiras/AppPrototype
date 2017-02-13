@@ -31,7 +31,7 @@ public class DrugInfoBeers extends Fragment {
         System.out.println("Beers criteria");
         Bundle bundle = getArguments();
         if (bundle != null) {
-            // get drug name
+            // get drug area
             drugInfo = (RecommendationInfo) bundle.getSerializable(DRUG);
         }
 

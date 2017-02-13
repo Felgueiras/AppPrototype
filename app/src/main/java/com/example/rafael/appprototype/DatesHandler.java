@@ -43,7 +43,7 @@ public class DatesHandler {
         return datetime;
     }
 
-    public static String dateToStringDayWithoutHour(Date date) {
+    public static String dateToStringWithoutHour(Date date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String datetime;
         datetime = format.format(date);

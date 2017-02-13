@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Start criteria"
-            style="@style/criteria_header1"
+            style="@style/header1"
             />
         <include
             android:id="@+id/drug_info_start"
@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Stopp criteria"
-            style="@style/criteria_header1"/>
+            style="@style/header1"/>
         <include
             android:id="@+id/drug_info_stopp"
             layout="@layout/empty"
@@ -49,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Beers criteria"
-            style="@style/criteria_header1"/>
+            style="@style/header1"/>
         <include
             android:id="@+id/drug_info_beers"
             layout="@layout/empty"

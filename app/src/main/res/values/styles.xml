@@ -26,12 +26,18 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <!--CGA info-->
+    <style name="cga_text">
+        <item name="android:textSize">20dp</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
     <!--Drug prescription-->
-    <style name="criteria_header1">
+    <style name="header1">
         <item name="android:textSize">20dp</item>
         <item name="android:textStyle">bold</item>
     </style>
-    <style name="criteria_header2">
+    <style name="header2">
         <item name="android:textSize">15dp</item>
         <item name="android:textStyle">bold</item>
     </style>

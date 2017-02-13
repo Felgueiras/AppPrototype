@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluationPrivate;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
 
@@ -26,6 +26,8 @@ public class PublicEvaluations extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_evaluations_public, container, false);
+        getActivity().setTitle(getResources().getString(R.string.tab_sessions));
+
 
 
         // FAB
@@ -47,16 +49,16 @@ public class PublicEvaluations extends Fragment {
 
                         switch (item) {
                             case 0:
-                                args.putInt(NewEvaluation.GENDER, Constants.MALE);
+                                args.putInt(NewEvaluationPrivate.GENDER, Constants.MALE);
                                 break;
                             case 1:
-                                args.putInt(NewEvaluation.GENDER, Constants.FEMALE);
+                                args.putInt(NewEvaluationPrivate.GENDER, Constants.FEMALE);
                                 break;
 
                         }
                         dialog.dismiss();
                         // create a new Session - switch to CreatePatient Fragment
-                        FragmentTransitions.replaceFragment(getActivity(), new NewEvaluation(), args, Constants.tag_create_session);
+                        FragmentTransitions.replaceFragment(getActivity(), new NewEvaluationPrivate(), args, Constants.tag_create_session);
                     }
                 });
                 chooseGender = builder.create();

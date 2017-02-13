@@ -339,10 +339,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Log.d("Login","Logged in");
                 // save userName on shared pref
                 SharedPreferences sharedPreferences = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
-                sharedPreferences.edit().putString(Constants.userName, "Nome do médico").commit();
+                sharedPreferences.edit().putString(Constants.userName, "Nome do médico").apply();
+                sharedPreferences.edit().putBoolean(Constants.logged_in, true).apply();
 
-                Intent i = new Intent(LoginActivity.this,PrivateArea.class);
-                startActivity(i);
+                boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
+                System.out.println("Logged? " + alreadyLogged);
+
+                Intent intent = new Intent(LoginActivity.this,PrivateArea.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

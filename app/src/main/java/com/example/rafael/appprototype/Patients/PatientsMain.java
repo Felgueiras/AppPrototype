@@ -15,8 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.EvaluationsHistoryMain;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
+import com.example.rafael.appprototype.CGA.CGAPrivate;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Patients.FavoritePatients.FavoritePatientsFragment;
 import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
@@ -102,16 +102,16 @@ public class PatientsMain extends Fragment {
 
                                 switch (item) {
                                     case 0:
-                                        args.putInt(NewEvaluation.GENDER, Constants.MALE);
+                                        args.putInt(CGAPrivate.GENDER, Constants.MALE);
                                         break;
                                     case 1:
-                                        args.putInt(NewEvaluation.GENDER, Constants.FEMALE);
+                                        args.putInt(CGAPrivate.GENDER, Constants.FEMALE);
                                         break;
 
                                 }
                                 dialog.dismiss();
                                 // create a new Session - switch to CreatePatient Fragment
-                                FragmentTransitions.replaceFragment(getActivity(), new NewEvaluation(), args, Constants.tag_create_session);
+                                FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), args, Constants.tag_create_session);
                             }
                         });
                         chooseGender = builder.create();

@@ -1,0 +1,19 @@
+- include FAQ about CGA
+- criar visualização de resultado de sessão (agrupar por esfera da AGG)
+- add note icon & review note creation
+- when logging in, current session isn't discarded
+- fab de reset quando se vê áreas devia ser igual aos outros FAB
+- quando se carrega em sessão de paciente aparece sempre a mesma
+- review patient creation
+- show date of birth and not age
+- guardar informações sobre avaliação clínica
+- resolver problemas de check list
+------
+MEDICAL
+- create clinical evaluation sphere with contents from the presentation
+- Falls/Gait Disturbance tests (CGA 2)
+- Simple Tests of Hearing Loss (CGA 2)
+- Visual impairment (CGA 2)
+- Urinary incontinence (CGA 2)
+- Valoración de la esfera clínica (VGI 1)
+

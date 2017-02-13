@@ -18,9 +18,9 @@ public class Question extends Model {
     @Column(name = "guid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     String guid;
     /**
-     * Textual description of the question or single tag
+     * Textual field of the question or single tag
      */
-    @Column(name = "description")
+    @Column(name = "field")
     String description;
     /**
      * Boolean that signals if it is a yes or no question.
@@ -53,7 +53,7 @@ public class Question extends Model {
     /**
      * Create a new Question
      *
-     * @param description description of the Question
+     * @param description field of the Question
      * @param yesOrNo     indicates if it is a yes or no Question or not
      */
     public Question(String description, boolean yesOrNo) {

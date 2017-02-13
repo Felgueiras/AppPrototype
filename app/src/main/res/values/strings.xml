@@ -110,4 +110,10 @@
     <string name="drugs_stopp" translatable="false">Stopp</string>
     <string name="drugs_start" translatable="false">Start</string>
     <string name="drugs_beers" translatable="false">Beers</string>
+    <string name="session_reset">Reset</string>
+    <string name="session_reset_question">Do you wish to reset this session?</string>
+    <string name="evaluations">Evaluations</string>
+    <string name="evolution">Evolution</string>
+    <string name="action_info">Info</string>
+
 </resources>

@@ -18,13 +18,13 @@ public class GeriatricTestNonDB implements Serializable {
     /**
      * Type of test
      */
-    String category;
+    String area;
     /**
      * Subcategory if applied
      */
     String subCategory;
     /**
-     * Textual description of the procedure.
+     * Textual field of the procedure.
      */
     String description;
     /**
@@ -40,13 +40,14 @@ public class GeriatricTestNonDB implements Serializable {
      */
     int time;
     /**
-     * Short name for display purposes.
+     * Short area for display purposes.
      */
     String shortName;
 
     Session session;
 
     boolean singleQuestion;
+    boolean multipleChoice;
 
     ArrayList<QuestionNonDB> questions = new ArrayList<>();
     private ArrayList<QuestionCategory> questionsCategories;
@@ -61,12 +62,12 @@ public class GeriatricTestNonDB implements Serializable {
      * Create a new GenerecTest
      *
      * @param testName    date of the test
-     * @param category    category of the test
+     * @param area    area of the test
      * @param subCategory subcategory of the test
-     * @param description description of the test
+     * @param description field of the test
      */
-    public GeriatricTestNonDB(String testName, String category, String subCategory, String description) {
-        this.category = category;
+    public GeriatricTestNonDB(String testName, String area, String subCategory, String description) {
+        this.area = area;
         this.testName = testName;
         this.subCategory = subCategory;
         this.description = description;
@@ -111,20 +112,20 @@ public class GeriatricTestNonDB implements Serializable {
     }
 
     public String getType() {
-        return category;
+        return area;
     }
 
     public void setType(String type) {
-        this.category = type;
+        this.area = type;
     }
 
 
-    public String getCategory() {
-        return category;
+    public String getArea() {
+        return area;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public String getSubCategory() {
@@ -162,7 +163,7 @@ public class GeriatricTestNonDB implements Serializable {
     @Override
     public String toString() {
         String ret = "";
-        ret += category + " - " + testName + " - " + result;
+        ret += area + " - " + testName + " - " + result;
         return ret;
     }
 
@@ -214,5 +215,13 @@ public class GeriatricTestNonDB implements Serializable {
             numQuestions += category.getQuestions().size();
         }
         return numQuestions;
+    }
+
+    public boolean isMultipleChoice() {
+        return multipleChoice;
+    }
+
+    public void setMultipleChoice(boolean multipleChoice) {
+        this.multipleChoice = multipleChoice;
     }
 }

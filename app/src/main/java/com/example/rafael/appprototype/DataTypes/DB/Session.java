@@ -110,7 +110,7 @@ public class Session extends Model implements Serializable {
     }
 
     /**
-     * Get NewEvaluation from a certain Date
+     * Get NewEvaluationPrivate from a certain Date
      *
      * @param firstDay
      * @return

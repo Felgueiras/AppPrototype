@@ -3,6 +3,7 @@ package com.example.rafael.appprototype;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -10,13 +11,19 @@ import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSession;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewSingleTestFragment;
+import com.example.rafael.appprototype.CGA.CGAPrivate;
+import com.example.rafael.appprototype.CGA.CGAPublic;
+import com.example.rafael.appprototype.Evaluations.SingleArea.Area;
+import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluationPrivate;
+import com.example.rafael.appprototype.Patients.PatientEvolution.EvolutionFragment;
+import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleSession;
+import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleTest.ReviewSingleTestFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.DisplaySingleTestFragment;
-import com.example.rafael.appprototype.Patients.ViewPatients.SinglePatient.ViewSinglePatientInfo;
+import com.example.rafael.appprototype.Evaluations.DisplayTest.DisplaySingleTestFragment;
+import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by rafael on 09-10-2016.
@@ -38,6 +45,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
     }
 
     public static void handleBackButton(FragmentManager fragmentManager) {
+        System.out.println("Back button pressed");
         if (fragmentManager.getBackStackEntryCount() > 0) {
             // get fragment on top of stack
             String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
@@ -49,19 +57,73 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             FragmentManager.BackStackEntry backEntry = fragmentManager.getBackStackEntryAt(index);
             String tag = backEntry.getName();
             Log.d("Stack", tag);
-            if (tag.equals(Constants.tag_display_session_test)) {
+            if (tag.equals(Constants.tag_display_session_scale)) {
                 fragmentManager.popBackStack();
 
                 // get the arguments
                 Bundle arguments = fr.getArguments();
                 GeriatricTest test = (GeriatricTest) arguments.getSerializable(DisplaySingleTestFragment.testDBobject);
+                test.setAlreadyOpened(true);
+                test.save();
                 Session session = test.getSession();
                 Patient patient = (Patient) arguments.getSerializable(DisplaySingleTestFragment.patient);
 
                 Bundle args = new Bundle();
-                args.putSerializable(NewEvaluation.sessionObject, session);
-                args.putSerializable(NewEvaluation.PATIENT, patient);
-                Fragment fragment = new NewEvaluation();
+                args.putSerializable(NewEvaluationPrivate.sessionObject, session);
+                args.putSerializable(NewEvaluationPrivate.PATIENT, patient);
+                args.putSerializable(Area.CGA_AREA, arguments.getSerializable(DisplaySingleTestFragment.CGA_AREA));
+                SharedPreferences sharedPreferences = context.getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
+                boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
+
+                Fragment fragment = new Area();
+
+                fragment.setArguments(args);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_fragment, fragment)
+                        .commit();
+            } else if (tag.equals(Constants.tag_display_single_area)) {
+                fragmentManager.popBackStack();
+
+                // get the arguments
+                Bundle arguments = fr.getArguments();
+
+                //GeriatricTest test = (GeriatricTest) arguments.getSerializable(DisplaySingleTestFragment.testDBobject);
+
+                Bundle args = new Bundle();
+
+                SharedPreferences sharedPreferences = context.getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
+                boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
+                Fragment fragment;
+                if (alreadyLogged) {
+                    fragment = new CGAPrivate();
+                    //Session session = test.getSession();
+                    Patient patient = (Patient) arguments.getSerializable(Area.PATIENT);
+                    //args.putSerializable(CGAPrivate.sessionObject, session);
+                    args.putSerializable(CGAPrivate.PATIENT, patient);
+                } else {
+                    fragment = new CGAPublic();
+                }
+
+                fragment.setArguments(args);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_fragment, fragment)
+                        .commit();
+            }
+            /**
+             * Patient evolution -> patient profile
+             */
+            else if (tag.equals(Constants.tag_patient_evolution)) {
+                fragmentManager.popBackStack();
+
+                // get the arguments
+                Bundle arguments = fr.getArguments();
+
+                Bundle args = new Bundle();
+                Fragment fragment = new ViewSinglePatientInfo();
+
+                Patient patient = (Patient) arguments.getSerializable(EvolutionFragment.PATIENT);
+                args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
+
                 fragment.setArguments(args);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_fragment, fragment)
@@ -89,10 +151,10 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             } else if (tag.equals(Constants.tag_create_session)) {
                 fragmentManager.popBackStack();
                 Log.d("Stack", "pressed back in new session");
-                ((NewEvaluation) currentFragment).discardFAB.performClick();
+                ((NewEvaluationPrivate) currentFragment).discardFAB.performClick();
             } else if (tag.equals(Constants.tag_create_new_session_for_patient)) {
                 Log.d("Stack", "pressed back in new session with patient");
-                ((NewEvaluation) currentFragment).discardFAB.performClick();
+                ((CGAPrivate) currentFragment).discardFAB.performClick();
 
             }
             /**
@@ -135,7 +197,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             }
         } else {
             // empty stack
-            //system.out.println("Empty stack");
+            System.out.println("Empty stack");
             context.finish();
         }
     }
@@ -187,7 +249,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 // session is created/canceled -> go back to the Patient view
                 fragmentManager.popBackStack();
                 Bundle arguments = fr.getArguments();
-                Patient patient = (Patient) arguments.getSerializable(NewEvaluation.PATIENT);
+                Patient patient = (Patient) arguments.getSerializable(NewEvaluationPrivate.PATIENT);
 
                 Bundle args = new Bundle();
                 args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);

@@ -7,9 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
-import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
+import com.example.rafael.appprototype.DataTypes.Scales;
 import com.example.rafael.appprototype.R;
 
 import java.util.List;
@@ -45,10 +46,10 @@ public class ShowTestsForSession extends BaseAdapter {
 
         // get values
         GeriatricTest test = tests.get(position);
-        String name = StaticTestDefinition.getShortName(test.getTestName());
-        GradingNonDB grading = StaticTestDefinition.getGradingForTestWithoutGenerating(
+        String name = Scales.getShortName(test.getTestName());
+        GradingNonDB grading = Scales.getGradingForTestWithoutGenerating(
                 test,
-                test.getSession().getPatient().getGender());
+                Constants.SESSION_GENDER);
         // update views
         testName.setText(name);
         testResult.setText(grading.getGrade());

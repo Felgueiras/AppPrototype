@@ -41,7 +41,7 @@ public class ViewSingleDrugtInfo extends Fragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            // get drug name
+            // get drug area
             drug = bundle.getString(DRUG);
         }
 

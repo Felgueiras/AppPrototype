@@ -7,7 +7,7 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.ScoringNonDB;
-import com.example.rafael.appprototype.DataTypes.StaticTestDefinition;
+import com.example.rafael.appprototype.DataTypes.Scales;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,9 +40,9 @@ public class GeriatricTest extends Model implements Serializable {
     @Column(name = "subCategory")
     String subCategory;
     /**
-     * Textual description of the procedure.
+     * Textual field of the procedure.
      */
-    @Column(name = "description")
+    @Column(name = "field")
     String description;
     /**
      * Scoring definition, min and man score and categories of scores.
@@ -123,7 +123,7 @@ public class GeriatricTest extends Model implements Serializable {
      * @param testName    date of the test
      * @param category    category of the test
      * @param subCategory subcategory of the test
-     * @param description description of the test
+     * @param description field of the test
      */
     public GeriatricTest(String testName, String category, String subCategory, String description) {
         super();
@@ -214,7 +214,7 @@ public class GeriatricTest extends Model implements Serializable {
 
 
     public String getShortName() {
-        return StaticTestDefinition.getShortName(this.getTestName());
+        return Scales.getShortName(this.getTestName());
     }
 
     public void setShortName(String shortName) {
@@ -271,7 +271,7 @@ public class GeriatricTest extends Model implements Serializable {
 
         if (singleQuestion) {
             //system.out.println("SINGLE");
-            ScoringNonDB scoring = StaticTestDefinition.getTestByName(this.getTestName()).getScoring();
+            ScoringNonDB scoring = Scales.getTestByName(this.getTestName()).getScoring();
             ArrayList<GradingNonDB> valuesBoth = scoring.getValuesBoth();
             for (GradingNonDB grade : valuesBoth) {
                 if (grade.getGrade().equals(answer)) {

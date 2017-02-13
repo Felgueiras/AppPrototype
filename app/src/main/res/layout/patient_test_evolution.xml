@@ -5,7 +5,8 @@
     android:orientation="vertical">
 
 
-    <!--Stub for holding graph and test name-->
+    <!--Stub for holding graph and test area-->
+    <!--
     <ViewStub
         android:id="@+id/graph_stub"
         android:layout_width="match_parent"
@@ -13,5 +14,18 @@
         android:inflatedId="@+id/inflatedview"
         android:layout="@layout/stub_graph_view"
         />
+        -->
+
+    <TextView
+        android:id="@+id/testName"
+        style="@style/header2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Name" />
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph"
+        android:layout_width="match_parent"
+        android:layout_height="200dip" />
 
 </LinearLayout>

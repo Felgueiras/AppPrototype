@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Search a drug by its name.
+ * Search a drug by its area.
  */
 public class SearchAllDrugs extends Fragment {
 

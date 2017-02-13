@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +19,8 @@ import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.HistoryCar
 import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.R;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.TreeSet;
 
 
 /**
@@ -46,8 +41,8 @@ public class ShowEvaluationsForDay extends BaseAdapter {
 
         // get the date
         Date currentDate = Session.getDifferentSessionDates().get(position);
-        dateTextView.setText(DatesHandler.dateToStringDayWithoutHour(currentDate));
-        // get NewEvaluation for that date
+        dateTextView.setText(DatesHandler.dateToStringWithoutHour(currentDate));
+        // get NewEvaluationPrivate for that date
         List<Session> sessionsFromDate = Session.getSessionsFromDate(currentDate);
 
         // fill the RecyclerView

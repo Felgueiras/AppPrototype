@@ -3,6 +3,7 @@ package com.example.rafael.appprototype.Main;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -26,11 +27,9 @@ import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
-import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.DisplayTest.DisplaySingleTestFragment;
-import com.example.rafael.appprototype.Evaluations.PublicEvaluations;
+import com.example.rafael.appprototype.CGA.CGAPublic;
+import com.example.rafael.appprototype.Evaluations.DisplayTest.DisplaySingleTestFragment;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
-import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
 
 public class PublicArea extends AppCompatActivity {
@@ -42,12 +41,22 @@ public class PublicArea extends AppCompatActivity {
      */
     private Fragment currentFragment;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActiveAndroid.initialize(getApplication());
         setContentView(R.layout.navigation_drawer_public);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
+        boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
+        if (alreadyLogged) {
+            Intent intent = new Intent(PublicArea.this, PrivateArea.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         Constants.area = Constants.area_public;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -90,10 +99,10 @@ public class PublicArea extends AppCompatActivity {
 
         // set sample fragment
         Fragment fragment = null;
-        String defaultFragment = Constants.fragment_drug_prescription;
+        String defaultFragment = Constants.fragment_sessions;
         switch (defaultFragment) {
             case Constants.fragment_sessions:
-                fragment = new PublicEvaluations();
+                fragment = new CGAPublic();
                 setTitle(getResources().getString(R.string.tab_sessions));
                 break;
             case Constants.fragment_drug_prescription:
@@ -143,7 +152,7 @@ public class PublicArea extends AppCompatActivity {
         // setup the transaction
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.content_fragment, newFragment);
-        transaction.addToBackStack(Constants.tag_display_session_test).commit();
+        transaction.addToBackStack(Constants.tag_display_session_scale).commit();
     }
 
 

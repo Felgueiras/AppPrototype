@@ -12,22 +12,22 @@ public class GradingNonDB {
 
 
     /**
-     * Name of the category (full dependency, mild dependency, etc)
+     * Name of the area (full dependency, mild dependency, etc)
      */
     String grade;
     /**
-     * Score corresponding to that category. Can be a single value or a list of valuesBoth.
+     * Score corresponding to that area. Can be a single value or a list of valuesBoth.
      */
     String score;
     /**
-     * More detailed description of the grading
+     * More detailed field of the grading
      */
     String description;
 
     /**
-     * Create a new Grading category (single score)
+     * Create a new Grading area (single score)
      *
-     * @param grade textual description
+     * @param grade textual field
      * @param score numerical value for the score
      */
     public GradingNonDB(String grade, int score) {
@@ -42,7 +42,7 @@ public class GradingNonDB {
     }
 
     /**
-     * Create a new Grading category (multiple valuesBoth)
+     * Create a new Grading area (multiple valuesBoth)
      *
      * @param grade
      * @param values
@@ -57,7 +57,23 @@ public class GradingNonDB {
     }
 
     /**
-     * Check if the result we have for the Test corresponds to this Grading category.
+     * Create a GRading with a (min, max) range.
+     *
+     * @param grade
+     * @param min
+     * @param max
+     */
+    public GradingNonDB(String grade, int min, int max) {
+        super();
+        this.grade = grade;
+        this.score = min + "";
+        for (int i = min + 1; i <= max; i++) {
+            this.score += "," + i;
+        }
+    }
+
+    /**
+     * Check if the result we have for the Test corresponds to this Grading area.
      *
      * @param testResult
      * @return
@@ -68,7 +84,6 @@ public class GradingNonDB {
         for (String s : values) {
             vals.add(Double.parseDouble(s));
         }
-        //system.out.println(testResult + "->" + vals);
         if (vals.contains(testResult))
             return true;
         return false;

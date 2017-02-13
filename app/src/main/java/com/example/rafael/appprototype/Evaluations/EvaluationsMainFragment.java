@@ -16,8 +16,8 @@ import android.widget.GridView;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.EmptyStateFragment;
+import com.example.rafael.appprototype.CGA.CGAPrivate;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowEvaluationsForDay;
-import com.example.rafael.appprototype.Evaluations.NewEvaluation.NewEvaluation;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
 
@@ -119,16 +119,16 @@ public class EvaluationsMainFragment extends Fragment {
 
                             switch (item) {
                                 case 0:
-                                    args.putInt(NewEvaluation.GENDER,Constants.MALE);
+                                    args.putInt(CGAPrivate.GENDER,Constants.MALE);
                                     break;
                                 case 1:
-                                    args.putInt(NewEvaluation.GENDER,Constants.FEMALE);
+                                    args.putInt(CGAPrivate.GENDER,Constants.FEMALE);
                                     break;
 
                             }
                             dialog.dismiss();
                             // create a new Session - switch to CreatePatient Fragment
-                            FragmentTransitions.replaceFragment(getActivity(),new NewEvaluation(), args, Constants.tag_create_session);
+                            FragmentTransitions.replaceFragment(getActivity(),new CGAPrivate(), args, Constants.tag_create_session);
                         }
                     });
                     chooseGender = builder.create();
@@ -140,7 +140,7 @@ public class EvaluationsMainFragment extends Fragment {
              * Resume the ongoing session.
              */
             Bundle args = new Bundle();
-            FragmentTransitions.replaceFragment(getActivity(),new NewEvaluation(), args, Constants.tag_create_session);
+            FragmentTransitions.replaceFragment(getActivity(),new CGAPrivate(), args, Constants.tag_create_session);
         }
 
         return view;

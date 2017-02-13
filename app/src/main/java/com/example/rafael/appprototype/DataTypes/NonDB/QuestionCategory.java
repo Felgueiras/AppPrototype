@@ -15,7 +15,7 @@ public class QuestionCategory {
      */
     boolean rightWrong;
     /**
-     * Textual description of the question or single tag
+     * Textual field of the question or single tag
      */
     String description;
     /**
@@ -93,7 +93,7 @@ public class QuestionCategory {
     }
 
     /**
-     * Get the question index for a question inside a category.
+     * Get the question index for a question inside a area.
      *
      * @param category
      * @param questionInCategory

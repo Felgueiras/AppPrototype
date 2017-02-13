@@ -1,8 +1,8 @@
 package com.example.rafael.appprototype.Main;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,14 +10,12 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
-import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
-import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
+import com.example.rafael.appprototype.CGA.CGAPublic;
 import com.example.rafael.appprototype.Help_Feedback.Help;
 import com.example.rafael.appprototype.Help_Feedback.SendFeedback;
 import com.example.rafael.appprototype.Login.LoginActivity;
@@ -34,9 +32,9 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
 
     private final FragmentManager fragmentManager;
     private final DrawerLayout drawer;
-    private final Context context;
+    private final Activity context;
 
-    public DrawerItemClickListener(Context context, FragmentManager fragmentManager, DrawerLayout drawer) {
+    public DrawerItemClickListener(Activity context, FragmentManager fragmentManager, DrawerLayout drawer) {
         this.fragmentManager = fragmentManager;
         this.drawer = drawer;
         this.context = context;
@@ -54,15 +52,18 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             //SharedPreferences sharedPreferences = context.getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
             //sharedPreferences.edit().putString(Constants.userName, null).commit();
             // go to login screen
-            Intent i = new Intent(context, LoginActivity.class);
-            context.startActivity(i);
+            Intent intent = new Intent(context, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
+            context.finish();
             return true;
         }
 
         Fragment endFragment = null;
-        if (id == R.id.evaluations) {
-            endFragment = new EvaluationsMainFragment();
-        } else if (id == R.id.prescription) {
+
+        if (id == R.id.evaluations_public) {
+            endFragment = new CGAPublic();
+        }else if (id == R.id.prescription) {
             endFragment = new DrugPrescriptionMain();
         } else if (id == R.id.patients) {
             endFragment = new PatientsMain();
@@ -83,10 +84,12 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
                         public void onClick(DialogInterface dialog, int which) {
                             // erase backstack?
                             SharedPreferences sharedPreferences = context.getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
-                            sharedPreferences.edit().putString(Constants.userName, null).commit();
-                            // go to public area screen
-                            Intent i = new Intent(context, PublicArea.class);
-                            context.startActivity(i);
+                            sharedPreferences.edit().putBoolean(Constants.logged_in, false).apply();
+
+                            Intent intent = new Intent(context,PublicArea.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            context.startActivity(intent);
+                            context.finish();
                         }
                     });
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, context.getResources().getString(R.string.no),
