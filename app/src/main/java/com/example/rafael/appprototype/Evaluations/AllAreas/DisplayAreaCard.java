@@ -49,7 +49,7 @@ public class DisplayAreaCard extends RecyclerView.Adapter<DisplayAreaCard.CGACar
             name = (TextView) view.findViewById(R.id.cga_area);
             //type = (TextView) view.findViewById(R.id.testType);
             cgaCompletion = (TextView) view.findViewById(R.id.cga_completion);
-            //notes = (EditText) view.findViewById(R.id.testNotes);
+            //addNotesButton = (EditText) view.findViewById(R.id.testNotes);
             this.view = view;
         }
     }
@@ -86,7 +86,7 @@ public class DisplayAreaCard extends RecyclerView.Adapter<DisplayAreaCard.CGACar
 
         /*
         if (currentTest.hasNotes()) {
-            holder.notes.setText(currentTest.getNotes());
+            holder.addNotesButton.setText(currentTest.getNotes());
         }
         */
 
@@ -122,7 +122,7 @@ public class DisplayAreaCard extends RecyclerView.Adapter<DisplayAreaCard.CGACar
          * Add a listener for when a note is added.
          */
         /*
-        holder.notes.addTextChangedListener(new TextWatcher() {
+        holder.addNotesButton.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 

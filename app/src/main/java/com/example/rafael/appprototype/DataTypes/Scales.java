@@ -24,13 +24,16 @@ public class Scales {
     private static GeriatricTestNonDB recursosSociales() {
         GeriatricTestNonDB recursosSociales = new GeriatricTestNonDB(Constants.test_name_recursos_sociales,
                 Constants.cga_social, "",
-                "Proporciona información\n" +
-                        "acerca de cinco áreas: estructura familiar y\n" +
-                        "recursos sociales, recursos económicos, salud mental,\n" +
-                        "salud física y capacidades para la realización de\n" +
-                        "AVD. Evalúa las respuestas en\n" +
-                        "una escala de 6 puntos, que van desde excelentes recursos\n" +
-                        "sociales (1 punto) hasta el deterioro social total\n" +
+                "• Proporciona información " +
+                        "acerca de cinco áreas:\n" +
+                        "\t• estructura familiar y recursos sociales\n" +
+                        "\t• recursos económicos\n" +
+                        "\t• salud mental\n" +
+                        "\t• salud física\n" +
+                        "\t• capacidades para la realización de AVD. \n" +
+                        "• Evalúa las respuestas en " +
+                        "una escala de 6 puntos, que van desde excelentes recursos " +
+                        "sociales (1 punto) hasta el deterioro social total " +
                         "(6 puntos).");
         recursosSociales.setShortName("Recursos sociales");
         // create Scoring
@@ -157,10 +160,12 @@ public class Scales {
     public static GeriatricTestNonDB zaritBurdenInterview() {
         GeriatricTestNonDB zaritBurdenInterview = new GeriatricTestNonDB(Constants.test_name_burden_interview,
                 Constants.cga_social, "",
-                "The Burden Interview has been specially designed to reflect the stresses experienced by\n" +
+                "• Specially designed to reflect the stresses experienced by" +
                         "caregivers of dementia patients. It can be completed by caregivers themselves or as part of an\n" +
-                        "interview. Caregivers are asked to respond to a series of 22 questions about the impact of the\n" +
-                        "patient’s disabilities on their life. For each item, caregivers are to indicate how often they felt that\n" +
+                        "interview. \n" +
+                        "• Caregivers are asked to respond to a series of 22 questions about the impact of the" +
+                        "patient’s disabilities on their life; \n" +
+                        "• For each item, caregivers are to indicate how often they felt that" +
                         "way (never, rarely, sometimes, quite frequently, or nearly always).");
         zaritBurdenInterview.setShortName("Burden Interview");
         zaritBurdenInterview.setMultipleChoice(true);
@@ -297,20 +302,17 @@ public class Scales {
     public static GeriatricTestNonDB barthelIndex() {
         GeriatricTestNonDB barthelIndex = new GeriatricTestNonDB(Constants.test_name_barthel_index,
                 Constants.cga_functional, "",
-                "Publicado en 1965 por Mahoney y Barthel (Arch Phys\n" +
-                        "Med Rehabil 1965; 14: 61-65), es el instrumento recomendado\n" +
-                        "por la Sociedad Británica de Geriatría para\n" +
-                        "evaluar las ABVD en el anciano. Es la escala más internacionalmente\n" +
-                        "conocida para la valoración funcional de\n" +
-                        "pacientes con enfermedad cerebrovascular aguda. Su\n" +
-                        "aplicación es fundamental en: unidades de rehabilitación\n" +
-                        "y en unidades de media estancia (UME) (6, 9).\n" +
-                        "Evalúa 10 actividades, dando más importancia que\n" +
-                        "el índice de Katz a las puntuaciones de los ítems relacionados\n" +
-                        "con el control de esfínteres y la movilidad." +
-                        "Presenta gran valor predictivo sobre: mortalidad,\n" +
-                        "ingreso hospitalario, duración de estancia en unidades\n" +
-                        "de rehabilitación y ubicación al alta de pacientes con\n" +
+                "• Es la escala más internacionalmente" +
+                        "conocida para la valoración funcional de" +
+                        "pacientes con enfermedad cerebrovascular aguda.\n" +
+                        "• Su aplicación es fundamental en unidades de rehabilitación " +
+                        "y en unidades de media estancia (UME).\n" +
+                        "• Evalúa 10 actividades, dando más importancia que " +
+                        "el índice de Katz a las puntuaciones de los ítems relacionados " +
+                        "con el control de esfínteres y la movilidad;\n" +
+                        "• Presenta gran valor predictivo sobre mortalidad," +
+                        " ingreso hospitalario, duración de estancia en unidades " +
+                        "de rehabilitación y ubicación al alta de pacientes con " +
                         "accidente cerebrovascular.");
         barthelIndex.setShortName("Barthel Index");
         barthelIndex.setMultipleChoice(true);
@@ -504,10 +506,10 @@ public class Scales {
     public static GeriatricTestNonDB escalaLawtonBrody() {
         GeriatricTestNonDB escalaLawtonBrody = new GeriatricTestNonDB(Constants.test_name_escalaLawtonBrody,
                 Constants.cga_functional, "Atividades Instrumentais de Vida Diária",
-                "Avaliar a autonomia para realizar as atividades necessárias para viver\n" +
-                        "de forma independente na comunidade;\n" +
-                        "\uF0A1 Cada AIVD tem vários níveis de dependência (3 a 5);\n" +
-                        "\uF0A1 Informação através da observação ou questionário directo ao idoso,\n" +
+                "• Avalia a autonomia para realizar as atividades necessárias para viver\n" +
+                        "de forma independente na comunidade\n" +
+                        "• Cada AIVD tem vários níveis de dependência (3 a 5);\n" +
+                        "• Procedimento: observação ou questionário directo ao idoso,\n" +
                         "familiares ou cuidadores;");
         escalaLawtonBrody.setShortName("Escala Lawton Brody");
         escalaLawtonBrody.setMultipleChoice(true);
@@ -641,13 +643,13 @@ public class Scales {
     public static GeriatricTestNonDB marchaHolden() {
         GeriatricTestNonDB marcha = new GeriatricTestNonDB(Constants.test_name_marchaHolden,
                 Constants.cga_functional, "",
-                "\uF0A1 Avaliar a autonomia na marcha de acordo com o tipo de ajuda física\n" +
-                        "ou supervisão necessárias, em função do tipo de superfície (plana,\n" +
+                "• Avalia a autonomia na marcha de acordo com o tipo de ajuda física" +
+                        "ou supervisão necessárias, em função do tipo de superfície (plana," +
                         "inclinada, escadas).\n" +
-                        "\uF0A1 Informação através da observação ou questionário direto ao idoso,\n" +
-                        "familiares ou cuidadores;\n" +
-                        "\uF0A1 São estabelecidas 6 categorias, tentando-se classificar o idoso na\n" +
-                        "categoria que mais se aproxima da sua capacidade para a marcha;");
+                        "• São estabelecidas 6 categorias, tentando-se classificar o idoso na " +
+                        "categoria que mais se aproxima da sua capacidade para a marcha\n" +
+                        "• Procedimento: observação ou questionário direto ao idoso,\n" +
+                        "familiares ou cuidadores;");
         marcha.setShortName("Marcha");
         // create Scoring
         ScoringNonDB marchaScoring = new ScoringNonDB(0, 5, false);
@@ -770,16 +772,16 @@ public class Scales {
     public static GeriatricTestNonDB miniNutritionalAssessment() {
         GeriatricTestNonDB nutritionalAssessment = new GeriatricTestNonDB(Constants.test_name_mini_nutritional_assessment,
                 Constants.cga_nutritional, "",
-                "\uF0A1 Detetar presença/risco malnutrição sem recurso a parâmetros analíticos;\n" +
-                        "\uF0A1 Informação através do questionário direto ao idoso ou a familiares/\n" +
+                "• Deteta presença/risco malnutrição sem recurso a parâmetros analíticos;\n" +
+                        "• Procedimento: questionário direto ao idoso ou a familiares/\n" +
                         "cuidadores (excluindo as questões sobre a auto-percepção);\n" +
-                        "\uF0A1 Primeira parte (Triagem) é constituída por 6 questões;\n" +
-                        "\uF0A1 Caso não seja possível determinar o IMC (p.ex. doentes acamados) pode-se\n" +
-                        "em alternativa usar o perímetro da perna – se PP < 31 cm corresponde a 0\n" +
+                        "• Primeira parte (Triagem) é constituída por 6 questões;\n" +
+                        "• Caso não seja possível determinar o IMC (p.ex. doentes acamados) pode-se " +
+                        "em alternativa usar o perímetro da perna – se PP < 31 cm corresponde a 0 " +
                         "pontos; se PP ≥ 31 cm corresponde a 3 pontos;\n" +
-                        "\uF0A1 Se triagem com malnutrição/risco realiza-se segunda parte do questionário;\n" +
-                        "\uF0A1 Segunda parte (Avaliação Global) é constituída por 12 questões;\n" +
-                        "\uF0A1 Soma da pontuação permite identificar 3 categorias: estado nutricional\n" +
+                        "• Se triagem com malnutrição/risco realiza-se segunda parte do questionário;\n" +
+                        "• Segunda parte (Avaliação Global) é constituída por 12 questões;\n" +
+                        "• Soma da pontuação permite identificar 3 categorias: estado nutricional " +
                         "normal, sob risco de malnutrição, malnutrição;");
         // short area
         nutritionalAssessment.setShortName("Nutritional assessment");

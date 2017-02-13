@@ -7,6 +7,7 @@ import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.DataTypes.Patient;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,12 +55,12 @@ public class DatabaseOps {
                 "Leonor Conceição",
                 "Vítor Semedo"
         };
-        int[] patientAges = new int[]{
-                65,
-                79,
-                80,
-                72,
-                67
+        Date[] patientBirthDates = new Date[]{
+                DatesHandler.stringToDate("1920-12-01"),
+                DatesHandler.stringToDate("1920-12-01"),
+                DatesHandler.stringToDate("1920-12-01"),
+                DatesHandler.stringToDate("1920-12-01"),
+                DatesHandler.stringToDate("1920-12-01")
         };
         char[] patientGenders = new char[]{
                 'm',
@@ -84,20 +85,18 @@ public class DatabaseOps {
         double[] patientGenders = new double[numPatients];
         */
 
-        for(int patient=0; patient < patientNames.length; patient++)
-        {
+        for (int patient = 0; patient < patientNames.length; patient++) {
             patientNames[patient] = "Patient " + patient;
-            patientAges[patient] = 80;
-            patientAddresses[patient] = "@home";
+            patientBirthDates[patient] = DatesHandler.stringToDate("1920-12-01");
+            patientAddresses[patient] = "Aveiro";
             patientGenders[patient] = 'm';
-
         }
         for (int i = 0; i < patientNames.length; i++) {
             // create patients
             Patient patient = new Patient();
             patient.setName(patientNames[i]);
 
-            patient.setAge(patientAges[i]);
+            patient.setBirthDate(patientBirthDates[i]);
             patient.setGuid("patient" + i);
             patient.setAddress(patientAddresses[i]);
             patient.setGender(Constants.MALE);

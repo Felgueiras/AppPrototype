@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.DatesHandler;
 import com.example.rafael.appprototype.R;
 
 /**
@@ -43,7 +44,7 @@ public class ViewSinglePatientOnlyInfo extends Fragment {
 
         // set Patient age
         TextView patientAge = (TextView) view.findViewById(R.id.patientAge);
-        patientAge.setText(patient.getAge() + "");
+        patientAge.setText(DatesHandler.dateToStringWithoutHour(patient.getBirthDate()) + "");
 
         // set Patient address
         TextView patientAddress = (TextView) view.findViewById(R.id.patientAddress);

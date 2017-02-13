@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.DatesHandler;
 import com.example.rafael.appprototype.EmptyStateFragment;
 import com.example.rafael.appprototype.CGA.CGAPrivate;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
@@ -98,14 +99,14 @@ public class ViewSinglePatientInfo extends Fragment {
 
         // access Views
         //TextView patientName = (TextView) view.findViewById(R.id.patientName);
-        TextView patientAge = (TextView) view.findViewById(R.id.patientAge);
+        TextView patientBirthDate = (TextView) view.findViewById(R.id.patientAge);
         TextView patientAddress = (TextView) view.findViewById(R.id.patientAddress);
         ImageView patientPhoto = (ImageView) view.findViewById(R.id.patientPhoto);
         Button patientEvolution = (Button) view.findViewById(R.id.patientEvolution);
 
         // set Patient infos
         //patientName.setText(patient.getName());
-        patientAge.setText(patient.getAge() + "");
+        patientBirthDate.setText(DatesHandler.dateToStringWithoutHour(patient.getBirthDate()) + "");
         patientAddress.setText(patient.getAddress());
         patientPhoto.setImageResource(patient.getPicture());
 

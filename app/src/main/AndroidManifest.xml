@@ -27,7 +27,9 @@
             android:value="1" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="com.example.rafael.appprototype.DataTypes.Patient,             com.example.rafael.appprototype.DataTypes.DB.Session,             com.example.rafael.appprototype.DataTypes.DB.GeriatricTest,             com.example.rafael.appprototype.DataTypes.DB.Scoring,             com.example.rafael.appprototype.DataTypes.DB.Grading,             com.example.rafael.appprototype.DataTypes.DB.Question,             com.example.rafael.appprototype.DataTypes.DB.Choice" />
+            android:value="com.example.rafael.appprototype.DataTypes.Patient,
+                         com.example.rafael.appprototype.DataTypes.DB.FreeTextField,
+                         com.example.rafael.appprototype.DataTypes.DB.Session,             com.example.rafael.appprototype.DataTypes.DB.GeriatricTest,             com.example.rafael.appprototype.DataTypes.DB.Scoring,             com.example.rafael.appprototype.DataTypes.DB.Grading,             com.example.rafael.appprototype.DataTypes.DB.Question,             com.example.rafael.appprototype.DataTypes.DB.Choice" />
 
         <activity
             android:name=".Login.LoginActivity"

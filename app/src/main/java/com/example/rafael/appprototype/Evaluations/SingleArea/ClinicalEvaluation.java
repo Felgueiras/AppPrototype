@@ -11,12 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
+import com.example.rafael.appprototype.DataTypes.DB.FreeTextField;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.R;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 
 public class ClinicalEvaluation extends RecyclerView.Adapter<ClinicalEvaluation.TestCardHolder> {
@@ -32,7 +31,6 @@ public class ClinicalEvaluation extends RecyclerView.Adapter<ClinicalEvaluation.
     private final String area;
 
     private Activity context;
-    private ArrayList<GeriatricTestNonDB> testsForArea;
 
 
     /**
@@ -60,7 +58,27 @@ public class ClinicalEvaluation extends RecyclerView.Adapter<ClinicalEvaluation.
 
     @Override
     public void onBindViewHolder(final TestCardHolder holder, int position) {
-        holder.field.setText((position + 1) + " - " + Constants.clinical_evaluation_fields[position]);
+        String fieldName = Constants.clinical_evaluation_fields[position];
+        holder.field.setText((position + 1) + " - " + fieldName);
+
+        // create a new record in the DB
+        String fieldID = session.getGuid() + "-" + fieldName;
+        FreeTextField field = FreeTextField.getFieldByID(fieldID);
+        final FreeTextField clinicalField;
+        if (field != null) {
+            clinicalField = field;
+            holder.notes.setText(clinicalField.getNotes());
+
+        } else {
+            /**
+             * Create new.
+             */
+            clinicalField = new FreeTextField(fieldName);
+            clinicalField.setGuid(fieldID);
+            clinicalField.setSession(session);
+            clinicalField.save();
+        }
+
 
         /**
          * Add a listener for when a note is added.
@@ -73,8 +91,9 @@ public class ClinicalEvaluation extends RecyclerView.Adapter<ClinicalEvaluation.
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                //currentTest.setNotes(charSequence.toString());
-                //currentTest.save();
+                clinicalField.setNotes(charSequence.toString());
+                clinicalField.save();
+                System.out.println(charSequence);
             }
 
             @Override

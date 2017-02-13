@@ -21,7 +21,7 @@
     <string name="action_add_favourite">Adicionar aos favoritos</string>
     <string name="patients_history">Histórico de pacientes</string>
     <string name="sessions">AGG</string>
-    <string name="my_patients">Os meus pacientes</string>
+    <string name="my_patients">Pacientes</string>
     <string name="tab_my_patients">Pacientes</string>
     <string name="tab_sessions">AGG</string>
     <string name="tab_patients_history">Histórico de pacientes</string>
@@ -90,9 +90,13 @@
     <string name="patients_sessions">Avaliações</string>
     <string name="patients_favorites">Favoritos</string>
     <string name="patients_all">Todos</string>
-    <string name="menu_search"></string>
+    <string name="menu_search">Procurar</string>
     <string name="help_precription_description">Ver as últimas avaliações, pode procurar por data.</string>
-    <string name="help_features_description">Esta aplicação permite a um médico de geriatria ver os seus pacientes e avaliá-los. A avaliação with several tests that the doctor chooses from. After evalauting a patient the doctor can check the patient\'s progress.</string>
+    <string name="help_features_description">
+        Esta aplicação permite realizar a AGG e acompanhar a evolução de um paciente, caso o utilizador
+        esteja autenticado no sistema. Tem como objetivo auxiliar os profissionais de saúde a aplicar este método e
+        fornecer-lhes auxílio enquanto realizam o ACG.
+        </string>
     <string name="help_patients_description">Em Pacientes o médico pode ver os seus pacientes, as últimas avaliações e os pacientes favoritos. As sessões podem ser criadas a partir do perfil do paciente.</string>
 
     <!--CGA areas disclaimers-->
@@ -113,25 +117,36 @@
     <string name="evaluations">Avaliações</string>
     <string name="evolution">Evolução</string>
     <string name="help_cga">Avaliação Geriátrica Global</string>
-    <string name="help_cga_description">o Avaliação multidimensional e interdisciplinar do idoso:\
- Capacidade funcional e física;\
- Estado cognitivo e afetivo;\
- Estado nutricional;\
- Situação social;\
-o Objetivo: estabelecer e coordenar planos de cuidados,
+    <string name="help_cga_description">
+        A Avaliação Geriátrica Global (AGG) é uma avaliação multidimensional e interdisciplinar do idoso:\n
+• Capacidade funcional e física;\n
+• Estado cognitivo e afetivo;\n
+• Estado nutricional;\n
+• Situação social;\n
+        A AGG é feita através do uso de escalas, as quais permitem uma avaliação objetiva e sistemática
+        e medir a evolução do paciente.\n\n
+
+Os seu objetivos são:\n
+        • estabelecer e coordenar planos de cuidados,
 serviços e intervenções, que respondam aos seus problemas,
-às suas necessidades e incapacidades.
-    • Diagnósticopreciso e completo
-• Adequar e orientar medidas assistenciais
-• Planearestratégias de compensação de défices, reabilitação e prevenção
-• Preverum prognóstico mais fiável
-• Diminuir o risco iatrogénico
-• Facilitar prevenção e acompanhamento
-• Melhorar a qualidade de vida e a autonomia
-• Atrasar odeclínio funcional e a institucionalização
-    1.Av. Clínica:Exame clínico; ECD;
-2.Av. Física:Capacidade física; Marchae equilíbrio; Nutrição;
-3.Av. Mental:Cognitiva; Afetiva;
-4.Av. Funcional: Autonomia; Independência;
+às suas necessidades e incapacidades;\n
+    • diagnóstico preciso e completo;\n
+• Adequar e orientar medidas assistenciais;\n
+• Planear estratégias de compensação de défices, reabilitação e prevenção;\n
+• Prever um prognóstico mais fiável;\n
+• Diminuir o risco iatrogénico;\n
+• Facilitar prevenção e acompanhamento;\n
+• Melhorar a qualidade de vida e a autonomia;\n
+• Atrasar odeclínio funcional e a institucionalização;\n
+
+        \n\n A AGG é composta por:\n
+    1.Av. Clínica: Exame clínico; ECD;\n
+2.Av. Física:Capacidade física; Marcha e equilíbrio; Nutrição;\n
+3.Av. Mental:Cognitiva; Afetiva;\n
+4.Av. Funcional: Autonomia; Independência;\n
 5.Av. Social: Família; Recursoseconómicos; Rede social.</string>
+    <string name="new_patient">Novo paciente</string>
+    <string name="address">Morada</string>
+    <string name="create_patient_error_address">Precisa de fornecer uma morada</string>
+    <string name="create_patient_error_birthDate">Precisa de fornecer a data de nascimento</string>
 </resources>

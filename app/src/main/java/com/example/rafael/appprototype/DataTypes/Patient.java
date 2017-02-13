@@ -9,6 +9,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,11 +24,9 @@ public class Patient extends Model implements Serializable {
     @Column(name = "patientName")
     private String name;
     @Column(name = "birthDate")
-    private String birthDate;
+    private Date birthDate;
     @Column(name = "gender")
     private int gender;
-    @Column(name = "type")
-    private int age;
     @Column(name = "picture")
     private int picture;
     @Column(name = "address")
@@ -48,10 +47,6 @@ public class Patient extends Model implements Serializable {
     }
 
 
-    public int getAge() {
-        return age;
-    }
-
     public static String[] getPatientsNames(ArrayList<Patient> patients) {
         String[] patientsNames = new String[patients.size()];
         for (int i = 0; i < patientsNames.length; i++) {
@@ -60,6 +55,7 @@ public class Patient extends Model implements Serializable {
         return patientsNames;
     }
 
+    /*
     public static int[] getPatientsAges(ArrayList<Patient> patients) {
         int[] patientsAges = new int[patients.size()];
         for (int i = 0; i < patientsAges.length; i++) {
@@ -67,6 +63,7 @@ public class Patient extends Model implements Serializable {
         }
         return patientsAges;
     }
+    */
 
 
     public static int[] getPatientsPhotos(ArrayList<Patient> patients) {
@@ -77,10 +74,6 @@ public class Patient extends Model implements Serializable {
         return patientsPhotos;
     }
 
-
-    public void setAge(int age) {
-        this.age = age;
-    }
 
     public String getName() {
         return name;
@@ -98,11 +91,11 @@ public class Patient extends Model implements Serializable {
         this.name = name;
     }
 
-    public String getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -152,10 +145,11 @@ public class Patient extends Model implements Serializable {
 
     /**
      * Get a list of the favorite Patients
+     *
      * @return
      */
     public static ArrayList<Patient> getFavoritePatients() {
-        List<Patient> list = new Select().from(Patient.class).where("favorite = ?",true).orderBy("patientName ASC").execute();
+        List<Patient> list = new Select().from(Patient.class).where("favorite = ?", true).orderBy("patientName ASC").execute();
         ArrayList<Patient> patients = new ArrayList<>();
         patients.addAll(list);
         return patients;
@@ -175,6 +169,6 @@ public class Patient extends Model implements Serializable {
 
     @Override
     public String toString() {
-        return name + " - " + age;
+        return name + " - " + birthDate;
     }
 }

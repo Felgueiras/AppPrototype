@@ -4,99 +4,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Patients.NewPatient.CreatePatient">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/header1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nome" />
 
         <EditText
             android:id="@+id/patientName"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:hint="Nome" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_below="@id/name"
+            android:hint="          " />
 
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+        <Button
+            android:id="@+id/setDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/patientName"
+            android:hint="@string/date_of_birth" />
 
-                <Button
-                    android:id="@+id/setDate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/date_of_birth" />
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/setDate"
+            android:text="" />
 
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="" />
-
-                <ImageView
-                    android:id="@+id/patientPhoto"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/person" />
-            </LinearLayout>
+        <ImageView
+            android:id="@+id/patientPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/person" />
 
 
-        </LinearLayout>
-
-        <!--
-            Birth date
-        -->
-        <!--
-        <CalendarViewTutorial
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></CalendarViewTutorial>
-            -->
-        <!--
-            Gender
-        -->
-
-
+        <!-- Gender-->
+        <TextView
+            android:id="@+id/gender"
+            style="@style/header1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Género"
+            android:layout_below="@id/date"/>
         <RadioGroup
             android:id="@+id/myRadioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/gender"
+            android:layout_alignBottom="@id/gender"
             android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/maleButton"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="@string/male"
                 android:textAlignment="center" />
 
             <RadioButton
                 android:id="@+id/femaleButton"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="@string/female"
                 android:textAlignment="center" />
         </RadioGroup>
 
+        <!-- address -->
+        <TextView
+            android:id="@+id/address"
+            style="@style/header1"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/myRadioGroup"
+            android:text="@string/address" />
 
-    </LinearLayout>
+        <EditText
+            android:id="@+id/addressText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/address"
+            android:hint="          " />
+
+
+    </RelativeLayout>
 
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu

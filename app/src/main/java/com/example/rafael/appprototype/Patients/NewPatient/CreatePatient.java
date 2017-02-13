@@ -21,11 +21,13 @@ import android.widget.TextView;
 
 import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.DatesHandler;
 import com.example.rafael.appprototype.R;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 public class CreatePatient extends Fragment {
@@ -41,6 +43,8 @@ public class CreatePatient extends Fragment {
     private FloatingActionButton cancelFAB;
     private FloatingActionButton saveFAB;
     private static TextView dateView;
+    private EditText patientAddress;
+    private static Date selectedDate = null;
 
 
     @Override
@@ -55,6 +59,8 @@ public class CreatePatient extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.create_patient, container, false);
+        getActivity().setTitle(getResources().getString(R.string.new_patient));
+
 
         patientPhoto = (ImageView) view.findViewById(R.id.patientPhoto);
         patientPhoto.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +70,8 @@ public class CreatePatient extends Fragment {
         });
 
         patientName = (EditText) view.findViewById(R.id.patientName);
+        patientAddress = (EditText) view.findViewById(R.id.addressText);
+
 
         radioGroup = (RadioGroup) view.findViewById(R.id.myRadioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -126,18 +134,25 @@ public class CreatePatient extends Fragment {
                     Snackbar.make(getView(), R.string.create_patient_error_name, Snackbar.LENGTH_SHORT).show();
                     return;
                 }
+                if (patientAddress.getText().length() == 0) {
+                    Snackbar.make(getView(), R.string.create_patient_error_address, Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+                if (selectedDate == null) {
+                    Snackbar.make(getView(), R.string.create_patient_error_birthDate, Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
                 if (patientGender == null) {
                     Snackbar.make(getView(), R.string.create_patient_error_gender, Snackbar.LENGTH_SHORT).show();
                     return;
                 }
 
-                // TODO set address + photo
+                // TODO set photo
                 Patient patient = new Patient();
                 patient.setName(patientName.getText().toString());
-                // TODO get age from the birth date
-                patient.setAge(90);
+                patient.setBirthDate(selectedDate);
                 patient.setGuid("patient" + new Random().nextInt());
-                patient.setAddress("address");
+                patient.setAddress(patientAddress.getText().toString());
                 if (patientGender.equals("male"))
                     patient.setPicture(R.drawable.male);
                 else {
@@ -157,6 +172,7 @@ public class CreatePatient extends Fragment {
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
+
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
 // Use the current date as the default date in the picker
@@ -174,6 +190,7 @@ public class CreatePatient extends Fragment {
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
             Calendar c = Calendar.getInstance();
             c.set(year, month, day);
+            selectedDate = c.getTime();
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDate = sdf.format(c.getTime());

@@ -77,7 +77,7 @@ public class GeriatricTest extends Model implements Serializable {
     /**
      * Notes for a test, can explain why the result is this one.
      */
-    @Column(name = "notes")
+    @Column(name = "addNotesButton")
     String notes;
 
     @Column(name = "alreadyOpened")
@@ -319,7 +319,7 @@ public class GeriatricTest extends Model implements Serializable {
     }
 
     /**
-     * Set the notes for this test,
+     * Set the addNotesButton for this test,
      *
      * @param notes
      */
