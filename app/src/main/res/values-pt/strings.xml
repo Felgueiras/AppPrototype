@@ -75,7 +75,7 @@
     <string name="rightChoice">certo</string>
     <string name="search_result">Resultados da procura</string>
     <string name="select_patient_gender">Selectione o género do paciente</string>
-    <string name="send_feedback">Enviar feedback</string>
+    <string name="send_feedback">Enviar comentários</string>
     <string name="wrongChoice">errado</string>
     <string name="beers_quality_evidence">Qualidade de evidências:</string>
     <string name="beers_rationale">Rationale:</string>
@@ -162,4 +162,9 @@ serviços e intervenções, que respondam aos seus problemas,
     <string name="intro_patients">Avalie os seus pacientes e acompanhe o seu progresso.</string>
     <string name="intro_prescription">Consulte critérios que o ajudarão a prescrever o medicamento mais
         apropriado para os seus pacientes.</string>
+    <string name="feedbacktitle">Feedback</string>
+    <string name="feedback_name_error">Precisa de indicar um nome</string>
+    <string name="feedback_email_error">Precisa de indicar o seu endereço de email</string>
+    <string name="feedback_message_error">Precisa de escrever um comentário de feedback</string>
+    <string name="feedback_sent">Feedback enviado com sucesso.</string>
 </resources>
