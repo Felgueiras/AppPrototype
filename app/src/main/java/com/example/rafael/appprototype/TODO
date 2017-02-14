@@ -1,8 +1,6 @@
 - criar visualização de resultado de sessão (agrupar por esfera da AGG)
-- when logging in, current session isn't discarded
 - fab de reset quando se vê áreas devia ser igual aos outros FAB
 - quando se carrega em sessão de paciente aparece sempre a mesma
 - resolver problemas de check list
-- remover contacts permission
 - create initial screen/tutorial
 - como é definido que o médico está registado no sistema

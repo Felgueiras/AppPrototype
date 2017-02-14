@@ -21,15 +21,16 @@ import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.BackStackHandler;
+import com.example.rafael.appprototype.CGA.CGAPublic;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DatabaseOps;
-import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
-import com.example.rafael.appprototype.CGA.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.DisplaySingleTestFragment;
+import com.example.rafael.appprototype.Introduction.MyIntro;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
+import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.R;
 
 public class PublicArea extends AppCompatActivity {
@@ -48,7 +49,8 @@ public class PublicArea extends AppCompatActivity {
         ActiveAndroid.initialize(getApplication());
         setContentView(R.layout.navigation_drawer_public);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
+
+        final SharedPreferences sharedPreferences = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
         boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
         if (alreadyLogged) {
             Intent intent = new Intent(PublicArea.this, PrivateArea.class);
@@ -58,6 +60,36 @@ public class PublicArea extends AppCompatActivity {
             return;
         }
 
+        //  Declare a new thread to do a preference check
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                //  Create a new boolean and preference and set it to true
+                boolean isFirstStart = sharedPreferences.getBoolean("firstStart", true);
+
+                //  If the activity has never started before...
+                if (isFirstStart) {
+
+                    //  Launch app intro
+                    Intent i = new Intent(PublicArea.this, MyIntro.class);
+                    startActivity(i);
+
+                    //  Make a new preferences editor
+                    SharedPreferences.Editor e = sharedPreferences.edit();
+
+                    //  Edit preference to make it false because we don't want this to run again
+                    e.putBoolean("firstStart", false);
+
+                    //  Apply changes
+                    e.apply();
+                }
+            }
+        });
+
+        // Start the thread
+        t.start();
+
         Constants.area = Constants.area_public;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,7 +98,6 @@ public class PublicArea extends AppCompatActivity {
         System.out.println("Public area");
 
         // insert data in DB (if first run)
-        sharedPreferences = getSharedPreferences("com.mycompany.myAppName", 0);
         // user not logged in
         if (sharedPreferences.getBoolean(Constants.first_run, true)) {
             Log.d("FIRST RUN", "first run");
@@ -78,7 +109,6 @@ public class PublicArea extends AppCompatActivity {
             Intent i = new Intent(PrivateArea.this, LoginActivity.class);
             startActivity(i);
             */
-
         }
         // user already logged in
 

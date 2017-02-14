@@ -157,4 +157,9 @@ serviços e intervenções, que respondam aos seus problemas,
         Aqui pode consultar todos os compostos químicos associados a medicamentos prescritos a pacientes
         geriátricos. Os compostos estão também agrupados pelos critérios Start, Stopp e de Beers.
     </string>
+    <string name="intro_welcome_message">Bem-vindo ao protótipo</string>
+    <string name="intro_brief_description">Esta aplicação permite-lhe aplicar a Avaliação Geriátrica Global.</string>
+    <string name="intro_patients">Avalie os seus pacientes e acompanhe o seu progresso.</string>
+    <string name="intro_prescription">Consulte critérios que o ajudarão a prescrever o medicamento mais
+        apropriado para os seus pacientes.</string>
 </resources>

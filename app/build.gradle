@@ -39,6 +39,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-appindexing:9.8.0'
     compile 'com.github.fafaldo:fab-toolbar:1.2.0'
     compile 'com.getbase:floatingactionbutton:1.10.1'
-    testCompile 'junit:junit:4.12'
+    compile 'com.github.paolorotolo:appintro:4.1.0'
     compile 'com.jjoe64:graphview:4.2.1'
+    testCompile 'junit:junit:4.12'
 }

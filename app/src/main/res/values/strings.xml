@@ -115,5 +115,9 @@
     <string name="evaluations">Evaluations</string>
     <string name="evolution">Evolution</string>
     <string name="action_info">Info</string>
+    <string name="app_intro">App intro</string>
+    <string name="app_intro_skip">Skip</string>
+    <string name="intro_welcome_message">Welcome to Prototype</string>
+    <string name="intro_brief_description">Amazing android app with cool features.</string>
 
 </resources>

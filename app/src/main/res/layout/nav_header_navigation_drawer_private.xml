@@ -16,8 +16,12 @@
         android:id="@+id/userPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxWidth="70dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/empty_drawable"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+        app:srcCompat="@drawable/icon_small" />
 
     <TextView
         android:id="@+id/userName"

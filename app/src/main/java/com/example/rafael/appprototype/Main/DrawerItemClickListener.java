@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.rafael.appprototype.Constants;
+import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.CGA.CGAPublic;
 import com.example.rafael.appprototype.Help_Feedback.Help;
@@ -49,8 +50,12 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         if (id == R.id.login) {
             // Insert the fragment by replacing any existing fragment
             Log.d("Login", "Going to login");
-            //SharedPreferences sharedPreferences = context.getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
-            //sharedPreferences.edit().putString(Constants.userName, null).commit();
+            // check if there is any on-going session
+            if (Constants.sessionID != null) {
+                // delete from DB
+                Session.getSessionByID(Constants.sessionID).delete();
+                Constants.sessionID = null;
+            }
             // go to login screen
             Intent intent = new Intent(context, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -63,7 +68,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
 
         if (id == R.id.evaluations_public) {
             endFragment = new CGAPublic();
-        }else if (id == R.id.prescription) {
+        } else if (id == R.id.prescription) {
             endFragment = new DrugPrescriptionMain();
         } else if (id == R.id.patients) {
             endFragment = new PatientsMain();
@@ -86,7 +91,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
                             SharedPreferences sharedPreferences = context.getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
                             sharedPreferences.edit().putBoolean(Constants.logged_in, false).apply();
 
-                            Intent intent = new Intent(context,PublicArea.class);
+                            Intent intent = new Intent(context, PublicArea.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             context.startActivity(intent);
                             context.finish();

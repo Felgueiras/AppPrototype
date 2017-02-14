@@ -75,7 +75,6 @@ public class CGAPublic extends Fragment {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             Constants.SESSION_GENDER = Constants.FEMALE;
-
                             dialog.dismiss();
                         }
                     });

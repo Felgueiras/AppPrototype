@@ -27,9 +27,13 @@
             android:value="1" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="com.example.rafael.appprototype.DataTypes.Patient,
-                         com.example.rafael.appprototype.DataTypes.DB.FreeTextField,
-                         com.example.rafael.appprototype.DataTypes.DB.Session,             com.example.rafael.appprototype.DataTypes.DB.GeriatricTest,             com.example.rafael.appprototype.DataTypes.DB.Scoring,             com.example.rafael.appprototype.DataTypes.DB.Grading,             com.example.rafael.appprototype.DataTypes.DB.Question,             com.example.rafael.appprototype.DataTypes.DB.Choice" />
+            android:value="com.example.rafael.appprototype.DataTypes.Patient,                          com.example.rafael.appprototype.DataTypes.DB.FreeTextField,                          com.example.rafael.appprototype.DataTypes.DB.Session,             com.example.rafael.appprototype.DataTypes.DB.GeriatricTest,             com.example.rafael.appprototype.DataTypes.DB.Scoring,             com.example.rafael.appprototype.DataTypes.DB.Grading,             com.example.rafael.appprototype.DataTypes.DB.Question,             com.example.rafael.appprototype.DataTypes.DB.Choice" />
+
+
+        <!--Intro-->
+        <activity
+            android:name="com.example.rafael.appprototype.Introduction.MyIntro"
+            android:theme="@style/FullscreenTheme" />
 
         <activity
             android:name=".Login.LoginActivity"
@@ -49,21 +53,14 @@
         <activity android:name=".Tutorial.CalendarViewTutorial" />
         <activity android:name=".Tutorial.DatePickerActivity" />
         <activity android:name=".Main.PublicArea">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".Main.PrivateArea">
-
-        </activity>
-
-
-        <activity android:name=".TestFAB">
-
-        </activity>
+        <activity android:name=".Main.PrivateArea"></activity>
+        <activity android:name=".TestFAB"></activity>
     </application>
 
 </manifest>
