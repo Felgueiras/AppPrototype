@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#F50057</color>
-    <color name="colorPrimaryDark">#F50057</color>
-    <color name="colorAccent">#ff4081</color>
+    <color name="colorPrimary">#3f51b5</color>
+    <color name="colorPrimaryDark">#303f9f</color>
+    <color name="colorAccent">#03a9f4</color>
     <color name="viewBg">#f1f5f8</color>
     <color name="album_title">#4c4c4c</color>
     <!--Color codes for different criteria-->
@@ -19,4 +19,7 @@
     <color name="pink_pressed">#ec407a</color>
     <color name="blue_semi_transparent">#805677fc</color>
     <color name="blue_semi_transparent_pressed">#80738ffe</color>
+    <color name="colorTextPrimary">#ffffff</color>
+    <color name="colorTextSecondary">#757575</color>
+    <color name="colorBackground">#bdbdbd</color>
 </resources>

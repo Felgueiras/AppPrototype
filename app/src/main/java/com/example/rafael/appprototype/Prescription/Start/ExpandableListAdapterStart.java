@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription.Stopp;
+package com.example.rafael.appprototype.Prescription.Start;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStopp;
+import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStart;
 import com.example.rafael.appprototype.R;
 
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by rafael on 03-11-2016.
  */
-public class ExpandableListAdapterStop extends BaseExpandableListAdapter {
+public class ExpandableListAdapterStart extends BaseExpandableListAdapter {
 
     private Context _context;
     /**
@@ -27,17 +27,17 @@ public class ExpandableListAdapterStop extends BaseExpandableListAdapter {
     /**
      * Children.
      */
-    private HashMap<String, List<PrescriptionStopp>> _listDataChild;
+    private HashMap<String, List<PrescriptionStart>> _listDataChild;
 
-    public ExpandableListAdapterStop(Context context, List<String> listDataHeader,
-                                     HashMap<String, List<PrescriptionStopp>> listChildData) {
+    public ExpandableListAdapterStart(Context context, List<String> listDataHeader,
+                                      HashMap<String, List<PrescriptionStart>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
     }
 
     @Override
-    public PrescriptionStopp getChild(int groupPosition, int childPosititon) {
+    public PrescriptionStart getChild(int groupPosition, int childPosititon) {
         return this._listDataChild.get(this._listDataHeader.get(groupPosition)).get(childPosititon);
     }
 

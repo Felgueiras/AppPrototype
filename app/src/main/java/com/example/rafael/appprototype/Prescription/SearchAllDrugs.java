@@ -1,13 +1,17 @@
-package com.example.rafael.appprototype.DrugPrescription;
+package com.example.rafael.appprototype.Prescription;
 
 import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,7 +25,6 @@ import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionGeneral;
 import com.example.rafael.appprototype.DataTypes.Criteria.StartCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.StoppCriteria;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
-import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -104,7 +107,7 @@ public class SearchAllDrugs extends Fragment {
                 Fragment endFragment = new ViewSingleDrugtInfo();
                 Bundle args = new Bundle();
                 args.putString(ViewSingleDrugtInfo.DRUG, selectedDrug);
-                FragmentTransitions.replaceFragment(getActivity(),endFragment, args, Constants.tag_view_drug_info);
+                FragmentTransitions.replaceFragment(getActivity(), endFragment, args, Constants.tag_view_drug_info);
 
             }
         });
@@ -116,7 +119,7 @@ public class SearchAllDrugs extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        inflater.inflate(R.menu.menu_search, menu);
+        inflater.inflate(R.menu.menu_search_info, menu);
 
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.listsearch).getActionView();
@@ -135,6 +138,18 @@ public class SearchAllDrugs extends Fragment {
                 return false;
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_info:
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                alertDialog.setTitle("Prescrição");
+                alertDialog.setMessage(getActivity().getResources().getString(R.string.info_prescription));
+                alertDialog.show();
+        }
+        return true;
 
     }
 

@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription.Stopp;
+package com.example.rafael.appprototype.Prescription.Stopp;
 
 import android.content.Context;
 import android.view.LayoutInflater;

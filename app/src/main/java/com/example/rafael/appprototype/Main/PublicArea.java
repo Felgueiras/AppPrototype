@@ -26,7 +26,7 @@ import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DatabaseOps;
-import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
+import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.CGA.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.DisplaySingleTestFragment;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
@@ -97,7 +97,7 @@ public class PublicArea extends AppCompatActivity {
 
         // set sample fragment
         Fragment fragment = null;
-        String defaultFragment = Constants.fragment_sessions;
+        String defaultFragment = Constants.fragment_drug_prescription;
         switch (defaultFragment) {
             case Constants.fragment_sessions:
                 fragment = new CGAPublic();

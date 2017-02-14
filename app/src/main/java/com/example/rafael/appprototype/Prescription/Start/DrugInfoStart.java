@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription.Start;
+package com.example.rafael.appprototype.Prescription.Start;
 
 import android.app.Fragment;
 import android.os.Bundle;

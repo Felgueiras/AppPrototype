@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription.Beers;
+package com.example.rafael.appprototype.Prescription.Beers;
 
 import com.example.rafael.appprototype.DataTypes.Criteria.RecommendationInfo;
 

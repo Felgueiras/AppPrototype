@@ -1,6 +1,6 @@
 package com.example.rafael.appprototype.DataTypes.Criteria;
 
-import com.example.rafael.appprototype.DrugPrescription.Beers.TherapeuticCategoryEntry;
+import com.example.rafael.appprototype.Prescription.Beers.TherapeuticCategoryEntry;
 
 import java.util.ArrayList;
 

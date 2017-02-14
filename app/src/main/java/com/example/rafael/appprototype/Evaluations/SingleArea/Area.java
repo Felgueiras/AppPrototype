@@ -49,7 +49,6 @@ public class Area extends Fragment {
     private static FloatingActionButton saveFAB;
     private String area;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -149,7 +148,6 @@ public class Area extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -160,19 +158,19 @@ public class Area extends Fragment {
                 String area_text = null;
                 switch (area) {
                     case Constants.cga_afetivo:
-                        area_text = getContext().getResources().getString(R.string.cga_afective);
+                        area_text = getActivity().getResources().getString(R.string.cga_afective);
                         break;
                     case Constants.cga_clinical:
                         area_text = Constants.clinical_evaluation_tips +"\n"+Constants.clinical_evaluation_what_to_do;
                         break;
                     case Constants.cga_cognitivo:
-                        area_text = getContext().getResources().getString(R.string.cga_cognitive);
+                        area_text = getActivity().getResources().getString(R.string.cga_cognitive);
                         break;
                     case Constants.cga_functional:
-                        area_text = getContext().getResources().getString(R.string.cga_functional);
+                        area_text = getActivity().getResources().getString(R.string.cga_functional);
                         break;
                     case Constants.cga_nutritional:
-                        area_text = getContext().getResources().getString(R.string.cga_nutritional);
+                        area_text = getActivity().getResources().getString(R.string.cga_nutritional);
                         break;
                     case Constants.cga_social:
                         area_text = getContext().getResources().getString(R.string.cga_social);

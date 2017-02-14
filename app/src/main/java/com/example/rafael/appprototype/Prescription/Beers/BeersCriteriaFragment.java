@@ -1,32 +1,57 @@
-package com.example.rafael.appprototype.DrugPrescription.Start;
+package com.example.rafael.appprototype.Prescription.Beers;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
-import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStart;
-import com.example.rafael.appprototype.DataTypes.Criteria.StartCriteria;
+import com.example.rafael.appprototype.DataTypes.Criteria.BeersCriteria;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class StartCriteriaFragment extends Fragment {
+public class BeersCriteriaFragment extends Fragment {
 
-    ExpandableListAdapterStart listAdapter;
+
+    ArrayList<BeersCriteria> beersGeneral = new ArrayList<>();
+
+
+    ExpandableListAdapterBeers listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
-    HashMap<String, List<PrescriptionStart>> listDataChild;
-    private ArrayList<StartCriteria> startGeneral;
+    HashMap<String, List<TherapeuticCategoryEntry>> listDataChild;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_info, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_info:
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                alertDialog.setTitle("Prescrição");
+                alertDialog.setMessage(getActivity().getResources().getString(R.string.info_prescription));
+                alertDialog.show();
+        }
+        return true;
+
     }
 
     @Override
@@ -38,10 +63,10 @@ public class StartCriteriaFragment extends Fragment {
         expListView = (ExpandableListView) v.findViewById(R.id.lvExp);
 
         // preparing list data
-        startGeneral = StartCriteria.getStartData();
+        beersGeneral = BeersCriteria.getBeersData();
         prepareListData();
 
-        listAdapter = new ExpandableListAdapterStart(getActivity(), listDataHeader, listDataChild);
+        listAdapter = new ExpandableListAdapterBeers(getActivity(), listDataHeader, listDataChild);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -97,16 +122,17 @@ public class StartCriteriaFragment extends Fragment {
         listDataChild = new HashMap<>();
 
         // Adding child data
-        for (int i = 0; i < startGeneral.size(); i++) {
-            StartCriteria s = startGeneral.get(i);
+        for (int i = 0; i < beersGeneral.size(); i++) {
+            BeersCriteria s = beersGeneral.get(i);
             // header
-            listDataHeader.add(s.getCategory());
+            listDataHeader.add(s.getOrganSystem());
             // child
-            List<PrescriptionStart> child = new ArrayList<>();
-            for (PrescriptionStart pr : s.getPrescriptions()) {
-                child.add(pr);
+            List<TherapeuticCategoryEntry> child = new ArrayList<>();
+            for (TherapeuticCategoryEntry entry : s.getEntries()) {
+                child.add(entry);
             }
             listDataChild.put(listDataHeader.get(i), child); // Header, Child data
         }
     }
+
 }

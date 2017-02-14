@@ -1,17 +1,13 @@
-package com.example.rafael.appprototype.DrugPrescription.Stopp;
+package com.example.rafael.appprototype.Prescription.Stopp;
 
 import android.app.Fragment;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStopp;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.HistoryCard.ShowTestsForSession;
 import com.example.rafael.appprototype.R;
 
 /**

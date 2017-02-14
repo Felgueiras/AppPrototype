@@ -91,7 +91,11 @@
     <string name="patients_favorites">Favoritos</string>
     <string name="patients_all">Todos</string>
     <string name="menu_search">Procurar</string>
-    <string name="help_precription_description">Ver as últimas avaliações, pode procurar por data.</string>
+    <string name="help_precription_description">
+        Há certos compostos químicos presentes em medicamentos que devem ou não ser prescritos aos pacientes geriátricos.
+        De modo a auxiliar os profissionais de saúde a escolher o medicamento mais indicado para um paciente,
+        encontram-se compilados os critérios Start, Stopp e de Beers.
+    </string>
     <string name="help_features_description">
         Esta aplicação permite realizar a AGG e acompanhar a evolução de um paciente, caso o utilizador
         esteja autenticado no sistema. Tem como objetivo auxiliar os profissionais de saúde a aplicar este método e
@@ -149,4 +153,8 @@ serviços e intervenções, que respondam aos seus problemas,
     <string name="address">Morada</string>
     <string name="create_patient_error_address">Precisa de fornecer uma morada</string>
     <string name="create_patient_error_birthDate">Precisa de fornecer a data de nascimento</string>
+    <string name="info_prescription">
+        Aqui pode consultar todos os compostos químicos associados a medicamentos prescritos a pacientes
+        geriátricos. Os compostos estão também agrupados pelos critérios Start, Stopp e de Beers.
+    </string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription.Beers;
+package com.example.rafael.appprototype.Prescription.Beers;
 
 import android.content.Context;
 import android.view.LayoutInflater;

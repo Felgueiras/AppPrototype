@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription.Beers;
+package com.example.rafael.appprototype.Prescription.Beers;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.Criteria.RecommendationInfo;
-import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStopp;
 import com.example.rafael.appprototype.R;
 
 /**

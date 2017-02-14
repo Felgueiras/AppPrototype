@@ -14,7 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
+import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.CGA.CGAPublic;
 import com.example.rafael.appprototype.Help_Feedback.Help;
 import com.example.rafael.appprototype.Help_Feedback.SendFeedback;

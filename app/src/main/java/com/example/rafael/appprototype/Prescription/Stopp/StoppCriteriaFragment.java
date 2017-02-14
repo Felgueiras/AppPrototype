@@ -1,34 +1,69 @@
-package com.example.rafael.appprototype.DrugPrescription.Beers;
+package com.example.rafael.appprototype.Prescription.Stopp;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
 
-import com.example.rafael.appprototype.DataTypes.Criteria.BeersCriteria;
+import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStopp;
+import com.example.rafael.appprototype.DataTypes.Criteria.StoppCriteria;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class BeersCriteriaFragment extends Fragment {
+public class StoppCriteriaFragment extends Fragment {
 
+    // List view
+    private ListView drugsSearchList, selectedDrugsList;
 
-    ArrayList<BeersCriteria> beersGeneral = new ArrayList<>();
+    // Listview Adapter
+    ArrayAdapter<String> drugsListAdapter;
 
+    // Search EditText
+    EditText inputSearch;
 
-    ExpandableListAdapterBeers listAdapter;
+    ArrayList<PrescriptionStopp> selectedPrescriptions = new ArrayList<>();
+    private ArrayList<StoppCriteria> stoppGeneral;
+
+    ExpandableListAdapterStop listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
-    HashMap<String, List<TherapeuticCategoryEntry>> listDataChild;
+    HashMap<String, List<PrescriptionStopp>> listDataChild;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_info, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_info:
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                alertDialog.setTitle("Prescrição");
+                alertDialog.setMessage(getActivity().getResources().getString(R.string.info_prescription));
+                alertDialog.show();
+        }
+        return true;
+
     }
 
     @Override
@@ -40,10 +75,10 @@ public class BeersCriteriaFragment extends Fragment {
         expListView = (ExpandableListView) v.findViewById(R.id.lvExp);
 
         // preparing list data
-        beersGeneral = BeersCriteria.getBeersData();
+        stoppGeneral = StoppCriteria.getStoppData();
         prepareListData();
 
-        listAdapter = new ExpandableListAdapterBeers(getActivity(), listDataHeader, listDataChild);
+        listAdapter = new ExpandableListAdapterStop(getActivity(), listDataHeader, listDataChild);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -99,17 +134,18 @@ public class BeersCriteriaFragment extends Fragment {
         listDataChild = new HashMap<>();
 
         // Adding child data
-        for (int i = 0; i < beersGeneral.size(); i++) {
-            BeersCriteria s = beersGeneral.get(i);
+        for (int i = 0; i < stoppGeneral.size(); i++) {
+            StoppCriteria s = stoppGeneral.get(i);
             // header
-            listDataHeader.add(s.getOrganSystem());
+            listDataHeader.add(s.getCategory());
             // child
-            List<TherapeuticCategoryEntry> child = new ArrayList<>();
-            for (TherapeuticCategoryEntry entry : s.getEntries()) {
-                child.add(entry);
+            List<PrescriptionStopp> child = new ArrayList<>();
+            for (PrescriptionStopp pr : s.getPrescriptions()) {
+                child.add(pr);
             }
             listDataChild.put(listDataHeader.get(i), child); // Header, Child data
         }
     }
+
 
 }

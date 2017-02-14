@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription;
+package com.example.rafael.appprototype.Prescription;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.Criteria.BeersCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.RecommendationInfo;
@@ -14,9 +13,9 @@ import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStart;
 import com.example.rafael.appprototype.DataTypes.Criteria.StartCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStopp;
 import com.example.rafael.appprototype.DataTypes.Criteria.StoppCriteria;
-import com.example.rafael.appprototype.DrugPrescription.Beers.DrugInfoBeers;
-import com.example.rafael.appprototype.DrugPrescription.Start.DrugInfoStart;
-import com.example.rafael.appprototype.DrugPrescription.Stopp.DrugInfoStopp;
+import com.example.rafael.appprototype.Prescription.Beers.DrugInfoBeers;
+import com.example.rafael.appprototype.Prescription.Start.DrugInfoStart;
+import com.example.rafael.appprototype.Prescription.Stopp.DrugInfoStopp;
 import com.example.rafael.appprototype.EmptyStateFragment;
 import com.example.rafael.appprototype.R;
 

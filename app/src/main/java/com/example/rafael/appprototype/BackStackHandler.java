@@ -10,7 +10,7 @@ import android.util.Log;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
+import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.CGA.CGAPrivate;
 import com.example.rafael.appprototype.CGA.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.SingleArea.Area;

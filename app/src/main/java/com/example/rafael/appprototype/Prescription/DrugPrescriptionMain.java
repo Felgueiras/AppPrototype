@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription;
+package com.example.rafael.appprototype.Prescription;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -11,9 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DrugPrescription.Beers.BeersCriteriaFragment;
-import com.example.rafael.appprototype.DrugPrescription.Start.StartCriteriaFragment;
-import com.example.rafael.appprototype.DrugPrescription.Stopp.StoppCriteriaFragment;
+import com.example.rafael.appprototype.Prescription.Beers.BeersCriteriaFragment;
+import com.example.rafael.appprototype.Prescription.Start.StartCriteriaFragment;
+import com.example.rafael.appprototype.Prescription.Stopp.StoppCriteriaFragment;
 import com.example.rafael.appprototype.R;
 
 /**
@@ -27,7 +27,6 @@ public class DrugPrescriptionMain extends Fragment {
     private TabLayout tabLayout;
 
     // TODO make tab display all possible values
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

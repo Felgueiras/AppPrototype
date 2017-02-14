@@ -4,14 +4,5 @@
 - quando se carrega em sessão de paciente aparece sempre a mesma
 - resolver problemas de check list
 - remover contacts permission
-- review drug prescription
-
-------
-MEDICAL
-- create clinical evaluation sphere with contents from the presentation
-- Falls/Gait Disturbance tests (CGA 2)
-- Simple Tests of Hearing Loss (CGA 2)
-- Visual impairment (CGA 2)
-- Urinary incontinence (CGA 2)
-- Valoración de la esfera clínica (VGI 1)
-
+- create initial screen/tutorial
+- como é definido que o médico está registado no sistema

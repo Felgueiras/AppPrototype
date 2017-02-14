@@ -1,46 +1,55 @@
-package com.example.rafael.appprototype.DrugPrescription.Stopp;
+package com.example.rafael.appprototype.Prescription.Start;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 
-import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStopp;
-import com.example.rafael.appprototype.DataTypes.Criteria.StoppCriteria;
+import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStart;
+import com.example.rafael.appprototype.DataTypes.Criteria.StartCriteria;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class StoppCriteriaFragment extends Fragment {
+public class StartCriteriaFragment extends Fragment {
 
-    // List view
-    private ListView drugsSearchList, selectedDrugsList;
-
-    // Listview Adapter
-    ArrayAdapter<String> drugsListAdapter;
-
-    // Search EditText
-    EditText inputSearch;
-
-    ArrayList<PrescriptionStopp> selectedPrescriptions = new ArrayList<>();
-    private ArrayList<StoppCriteria> stoppGeneral;
-
-    ExpandableListAdapterStop listAdapter;
+    ExpandableListAdapterStart listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
-    HashMap<String, List<PrescriptionStopp>> listDataChild;
+    HashMap<String, List<PrescriptionStart>> listDataChild;
+    private ArrayList<StartCriteria> startGeneral;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_info, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_info:
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                alertDialog.setTitle("Prescrição");
+                alertDialog.setMessage(getActivity().getResources().getString(R.string.info_prescription));
+                alertDialog.show();
+        }
+        return true;
+
     }
 
     @Override
@@ -52,10 +61,10 @@ public class StoppCriteriaFragment extends Fragment {
         expListView = (ExpandableListView) v.findViewById(R.id.lvExp);
 
         // preparing list data
-        stoppGeneral = StoppCriteria.getStoppData();
+        startGeneral = StartCriteria.getStartData();
         prepareListData();
 
-        listAdapter = new ExpandableListAdapterStop(getActivity(), listDataHeader, listDataChild);
+        listAdapter = new ExpandableListAdapterStart(getActivity(), listDataHeader, listDataChild);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -111,18 +120,16 @@ public class StoppCriteriaFragment extends Fragment {
         listDataChild = new HashMap<>();
 
         // Adding child data
-        for (int i = 0; i < stoppGeneral.size(); i++) {
-            StoppCriteria s = stoppGeneral.get(i);
+        for (int i = 0; i < startGeneral.size(); i++) {
+            StartCriteria s = startGeneral.get(i);
             // header
             listDataHeader.add(s.getCategory());
             // child
-            List<PrescriptionStopp> child = new ArrayList<>();
-            for (PrescriptionStopp pr : s.getPrescriptions()) {
+            List<PrescriptionStart> child = new ArrayList<>();
+            for (PrescriptionStart pr : s.getPrescriptions()) {
                 child.add(pr);
             }
             listDataChild.put(listDataHeader.get(i), child); // Header, Child data
         }
     }
-
-
 }

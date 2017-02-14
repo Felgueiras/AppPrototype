@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.DrugPrescription.Stopp;
+package com.example.rafael.appprototype.Prescription.Stopp;
 
 /**
  * Created by rafael on 01-11-2016.

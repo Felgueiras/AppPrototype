@@ -22,7 +22,7 @@ import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DatabaseOps;
-import com.example.rafael.appprototype.DrugPrescription.DrugPrescriptionMain;
+import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
