@@ -105,8 +105,43 @@
 
     <!--CGA areas disclaimers-->
     <string name="cga_cognitive">Fatores relacionados com o estado cognitivo do paciente, nomeadamente
-    orientação, memória, cálculo, pensamento abstracto, linguagem, etc.</string>
-    <string name="cga_afective">Estado emocional do paciente, humor, tristeza e depressão</string>
+    orientação, memória, cálculo, pensamento abstracto, linguagem, etc.\n
+    A la hora de explorar la esfera cognitiva, debemos
+interrogar acerca de:\n
+— Nivel de escolarización, profesión.\n
+— Presencia de factores de riesgo cardiovascular
+(hipertensión, diabetes, fibrilación auricular).\n
+— Historia familiar de demencia.\n
+— Antecedentes psiquiátricos.\n
+— Consumo de fármacos y tóxicos.\n
+— Motivo de consulta, forma de inicio y evolución
+de los síntomas.\n
+— Orientación.\n
+— Quejas de deterioro de memoria.\n
+— Problemas en reconocimiento de familiares y
+amigos.\n
+        — Lenguaje.\n
+— Capacidad de abstracción/juicio.\n
+— Trastornos de conducta (en buena medida determinan
+la calidad de vida del paciente y la de sus
+familiares y/o cuidadores): delirios, agitación psicomotriz,
+alucinaciones, ritmo vigilia-sueño, hipersexualidad,
+vagabundeo, auto/heteroagresividad
+física y/o verbal.
+    </string>
+    <string name="cga_afective">Estado emocional do paciente, humor, tristeza e depressão.
+    A la hora de explorar la esfera afectiva, debemos interrogar acerca de:\n
+— Estado anímico.\n
+— Labilidad emocional.\n
+— Anergia/hipoergia.\n
+— Anhedonia/hipohedonia.\n
+— Trastorno del apetito.\n
+— Trastorno del sueño.\n
+— Signos de ansiedad.\n
+— Ideación de muerte.\n
+— Ideación o tentativas autolíticas.\n
+— Quejas somáticas.\n
+    </string>
     <string name="cga_social">A avaliação social é complexa pela quantidade/diversidade de fatores que envolve
     (idoso, família, comunidade e redes sociais). Tem por base o suporte social, condições habitacionais,
     localização dos recursos necessários, disponibilidade de transportes e recursos financeiros.</string>

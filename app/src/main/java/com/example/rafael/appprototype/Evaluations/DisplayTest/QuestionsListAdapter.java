@@ -18,6 +18,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Choice;
 import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
+import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
@@ -163,6 +164,7 @@ public class QuestionsListAdapter extends BaseAdapter {
                         this).multipleCategoriesNotOpened();
             } else {
                 QuestionNonDB currentQuestionNonDB = questions.get(position);
+                System.out.println(currentQuestionNonDB.isRightWrong() + "aaaa");
                 // yes/no questions
                 if (currentQuestionNonDB.isYesOrNo()) {
                     questionView = yesNoNotOpened(currentQuestionNonDB, position);
@@ -170,7 +172,7 @@ public class QuestionsListAdapter extends BaseAdapter {
 
                 // right/wrong
                 if (currentQuestionNonDB.isRightWrong()) {
-                    questionView = multipleChoice(currentQuestionNonDB, position);
+                    questionView = rightWrong(currentQuestionNonDB, position);
                 }
             }
 
@@ -186,7 +188,7 @@ public class QuestionsListAdapter extends BaseAdapter {
                 QuestionNonDB currentQuestionNonDB = questions.get(position);
                 // right/wrong
                 if (currentQuestionNonDB.isRightWrong()) {
-                    multipleChoice(currentQuestionNonDB, position);
+                    questionView = rightWrong(currentQuestionNonDB, position);
                 }
                 // check if question is multiple choice or yes/no
                 if (currentQuestionNonDB.isYesOrNo()) {
@@ -196,6 +198,56 @@ public class QuestionsListAdapter extends BaseAdapter {
 
         }
         System.out.println(questionView);
+        return questionView;
+    }
+
+    /**
+     * Right or wrong question.
+     *
+     * @param currentQuestionNonDB
+     * @param questionIndex
+     * @return
+     */
+    private View rightWrong(QuestionNonDB currentQuestionNonDB, int questionIndex) {
+        // question in DB
+        Question questionInDB;
+        String dummyID = test.getGuid() + "-" + currentQuestionNonDB.getDescription();
+        questionInDB = Question.getQuestionByID(dummyID);
+        if (questionInDB == null) {
+            // create question and add to DB
+            questionInDB = new Question();
+            questionInDB.setGuid(dummyID);
+            questionInDB.setDescription(currentQuestionNonDB.getDescription());
+            questionInDB.setTest(test);
+            questionInDB.setYesOrNo(false);
+            questionInDB.setRightWrong(true);
+            questionInDB.save();
+        }
+
+
+        /**
+         * Set View
+         */
+        LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View questionView = infalInflater.inflate(R.layout.content_question_right_wrong, null);
+        TextView questionName = (TextView) questionView.findViewById(R.id.nameQuestion);
+        questionName.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
+
+        RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
+
+        // if question is already answered
+        if (questionInDB.isAnswered()) {
+            ////system.out.println(questionInDB.toString());
+            if (questionInDB.getSelectedRightWrong().equals("right")) {
+                radioGroup.check(R.id.rightChoice);
+            } else {
+                radioGroup.check(R.id.wrongChoice);
+            }
+        }
+
+        // detect when choice changed
+        radioGroup.setOnCheckedChangeListener(new RightWrongQuestionHandler(questionInDB, this, testNonDB, questionIndex));
+
         return questionView;
     }
 

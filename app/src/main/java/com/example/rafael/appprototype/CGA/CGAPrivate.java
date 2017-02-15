@@ -180,7 +180,7 @@ public class CGAPrivate extends Fragment {
                     alertDialog.show();
                     return;
                 }
-                Constants.sessionID = null;
+                // Constants.sessionID = null;
                 List<GeriatricTest> finalTests = session.getTestsFromSession();
                 for (GeriatricTest test : finalTests) {
                     if (!test.isCompleted()) {

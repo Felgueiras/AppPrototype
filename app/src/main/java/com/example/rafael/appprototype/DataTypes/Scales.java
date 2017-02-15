@@ -1120,6 +1120,67 @@ public class Scales {
     }
 
 
+    public static GeriatricTestNonDB shortPortableMentalStatus() {
+        GeriatricTestNonDB shortPortableMentalStatus = new GeriatricTestNonDB(Constants.test_name_short_portable_mental_status,
+                Constants.cga_cognitivo, "",
+                "• Permite fazer uma avaliação sumária das funções cognitivas.\n" +
+                        "Se trata de un test sencillo, breve y de aplicación\n" +
+                        "rápida que explora orientación témporo-espacial,\n" +
+                        "memoria reciente y remota, información sobre hechos\n" +
+                        "recientes, capacidad de concentración y de cálculo\n" +
+                        "(J Am Geriatr. Soc. 1975; 23: 433-441). Presenta una\n" +
+                        "sensibilidad del 68%, especificidad del 96%, valor predictivo\n" +
+                        "positivo del 92%, valor predictivo negativo del\n" +
+                        "82%. Se puntúan los errores. En función de la puntuación\n" +
+                        "obtenemos (6, 9):\n" +
+                        "— De 0 a 2 errores: no deterioro.\n" +
+                        "— De 3 a 4 errores: deterioro leve de la capacidad\n" +
+                        "intelectual.\n" +
+                        "— De 5 a 7 errores: moderado deterioro.\n" +
+                        "— De 8 a 10 errores: grave deterioro." +
+                        "Se acepta un error más en ancianos que no han\n" +
+                        "recibido educación primaria y un error menos en aquellos\n" +
+                        "que han realizado estudios superiores. Su principal\n" +
+                        "problema es que no detecta pequeños cambios en\n" +
+                        "la evolución.");
+        // short area
+        shortPortableMentalStatus.setShortName("SPMSQ");
+        // create Scoringleve
+        ScoringNonDB mentalStateScoring = new ScoringNonDB(0, 10, false);
+        // create Gradings
+        ArrayList<GradingNonDB> gradings = new ArrayList<>();
+        gradings.add(new GradingNonDB("Normal", 8, 10));
+        gradings.add(new GradingNonDB("Deterioro mental leve ", 6, 7));
+        gradings.add(new GradingNonDB("Deterioro mental moderado ", 3, 5));
+        gradings.add(new GradingNonDB("Deterioro mental severo", 0, 2));
+        // add Gradings to Scoring
+        mentalStateScoring.setValuesBoth(gradings);
+        // add Scoring to Test
+        shortPortableMentalStatus.setScoring(mentalStateScoring);
+
+        String[] questions = new String[]{
+                "Qual a data de hoje? (dia, mês e ano)",
+                "Qual o dia da semana?",
+                "Qual é o nome deste lugar?",
+                "Qual é o seu número de telefone? (caso não tenha " +
+                        "telefone, perguntar qual é a sua morada)",
+                "Que idade tem?",
+                "Qual a sua data de nascimento?",
+                "Como se chama o Presidente da República?",
+                "Quem era o Presidente antes do atual?",
+                "Qual o nome e apelidos da sua mãe?",
+                "Em que ano nasceu?"
+        };
+        QuestionNonDB question;
+        for (String questionText : questions) {
+            question = new QuestionNonDB(questionText);
+            shortPortableMentalStatus.addQuestion(question);
+        }
+
+        return shortPortableMentalStatus;
+    }
+
+
     /**
      * Get access to a test definition by its date
      *
@@ -1147,6 +1208,8 @@ public class Scales {
             return zaritBurdenInterview();
         } else if (Objects.equals(testName, Constants.test_name_barthel_index)) {
             return barthelIndex();
+        } else if (Objects.equals(testName, Constants.test_name_short_portable_mental_status)) {
+            return shortPortableMentalStatus();
         }
         return null;
     }
@@ -1223,6 +1286,7 @@ public class Scales {
         tests.add(valoracionSocioFamiliarGijon());
         tests.add(zaritBurdenInterview());
         tests.add(barthelIndex());
+        tests.add(shortPortableMentalStatus());
         return tests;
     }
 

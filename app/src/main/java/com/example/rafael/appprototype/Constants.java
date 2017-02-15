@@ -25,6 +25,7 @@ public class Constants {
     public static final String test_name_valoracionSocioFamiliar = "Valoración SocioFamiliar";
     public static final String test_name_burden_interview = "Zarit Burden Interview";
     public static final String test_name_barthel_index = "Barthel Index";
+    public static final String test_name_short_portable_mental_status = "Short Portable Mental Status Questionnaire";
 
 
     public static final String[] allTests = new String[]{

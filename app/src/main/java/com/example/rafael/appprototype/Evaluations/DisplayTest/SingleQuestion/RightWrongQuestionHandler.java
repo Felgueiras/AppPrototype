@@ -31,7 +31,17 @@ public class RightWrongQuestionHandler implements RadioGroup.OnCheckedChangeList
         this.questionInCategory = questionInCategory;
         this.testNonDB = testNonDB;
         // calculate the global index for the question
-        index = QuestionCategory.getQuestionIndex(category,questionInCategory, testNonDB);
+        index = QuestionCategory.getQuestionIndex(category, questionInCategory, testNonDB);
+    }
+
+    public RightWrongQuestionHandler(Question question, QuestionsListAdapter adapter, GeriatricTestNonDB testNonDB,
+                                     int index) {
+        this.question = question;
+        this.adapter = adapter;
+        this.testNonDB = testNonDB;
+        this.index = index;
+        category = 0;
+        questionInCategory = 0;
     }
 
 

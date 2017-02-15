@@ -21,7 +21,6 @@ import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class CreatePatientSessionCard extends RecyclerView.Adapter<CreatePatientSessionCard.MyViewHolder> {
@@ -35,18 +34,19 @@ public class CreatePatientSessionCard extends RecyclerView.Adapter<CreatePatient
      * Records from that patient
      */
     private ArrayList<Session> sessions;
-    private Session currentSession;
 
     /**
      * Create a View
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        private final View view;
         public TextView date;
         public ImageView overflow;
         public ListView testsList;
 
         public MyViewHolder(View view) {
             super(view);
+            this.view = view;
 
             date = (TextView) view.findViewById(R.id.recordDate);
             testsList = (ListView) view.findViewById(R.id.session_tests_results);
@@ -65,33 +65,31 @@ public class CreatePatientSessionCard extends RecyclerView.Adapter<CreatePatient
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_session_patient, parent, false);
 
-
-        // add on click listener for the Session
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle args = new Bundle();
-                args.putSerializable(ReviewSingleSession.SESSION,currentSession);
-                FragmentTransitions.replaceFragment(context,new ReviewSingleSession(), args, Constants.tag_review_session_from_patient_profile);
-            }
-        });
-
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Session session = sessions.get(position);
         holder.date.setText(DatesHandler.dateToStringWithoutHour(session.getDate()));
-        currentSession =sessions.get(position);
-        List<GeriatricTest> testsFromSession = currentSession.getTestsFromSession();
+        List<GeriatricTest> testsFromSession = sessions.get(position).getTestsFromSession();
 
         // display the result for the tests
         ShowTestsForSession adapter = new ShowTestsForSession(context, testsFromSession);
         holder.testsList.setAdapter(adapter);
+
+        // add on click listener for the Session
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle args = new Bundle();
+                System.out.println("Session selected " + position);
+                args.putSerializable(ReviewSingleSession.SESSION, sessions.get(position));
+                FragmentTransitions.replaceFragment(context, new ReviewSingleSession(), args, Constants.tag_review_session_from_patient_profile);
+            }
+        });
+
     }
-
-
 
 
     @Override

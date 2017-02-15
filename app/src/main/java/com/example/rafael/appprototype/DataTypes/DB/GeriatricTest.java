@@ -294,6 +294,13 @@ public class GeriatricTest extends Model implements Serializable {
                     }
                 }
                 /**
+                 * Right/ wrong question
+                 */
+                else if (question.isRightWrong()) {
+                    if (question.getSelectedRightWrong().equals("right"))
+                        res += 1;
+                }
+                /**
                  * Multiple Choice Question
                  */
                 else {

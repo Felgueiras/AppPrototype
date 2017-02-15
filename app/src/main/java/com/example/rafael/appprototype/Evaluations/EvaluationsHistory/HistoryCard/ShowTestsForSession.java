@@ -16,7 +16,7 @@ import com.example.rafael.appprototype.R;
 import java.util.List;
 
 /**
- * Display a List of the resume for each GeriatricTest inside a Sesssion.
+ * Display a List of the resume for each GeriatricTest inside a Session.
  */
 public class ShowTestsForSession extends BaseAdapter {
     /**

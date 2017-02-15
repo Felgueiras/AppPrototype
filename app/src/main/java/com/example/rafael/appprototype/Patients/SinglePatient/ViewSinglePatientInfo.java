@@ -55,6 +55,7 @@ public class ViewSinglePatientInfo extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.patient_info_main, container, false);
+        System.out.println("VIEW SINGLE PATIENT INFO");
 
         Bundle bundle = getArguments();
         if(bundle!=null)

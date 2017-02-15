@@ -69,8 +69,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 Patient patient = (Patient) arguments.getSerializable(DisplaySingleTestFragment.patient);
 
                 Bundle args = new Bundle();
-                args.putSerializable(NewEvaluationPrivate.sessionObject, session);
-                args.putSerializable(NewEvaluationPrivate.PATIENT, patient);
+                args.putSerializable(Area.sessionObject, session);
+                args.putSerializable(Area.PATIENT, patient);
                 args.putSerializable(Area.CGA_AREA, arguments.getSerializable(DisplaySingleTestFragment.CGA_AREA));
                 SharedPreferences sharedPreferences = context.getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
                 boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
@@ -168,15 +168,19 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                         .commit();
             } else if (tag.equals(Constants.tag_review_session_from_patient_profile)) {
                 // go back to the patient's profile
+                System.out.println("herex");
+
                 fragmentManager.popBackStack();
                 // get the arguments
                 Bundle arguments = fr.getArguments();
+                System.out.println("here");
                 Session session = (Session) arguments.getSerializable(ReviewSingleSession.SESSION);
                 Patient patient = session.getPatient();
                 Bundle args = new Bundle();
                 args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
                 Fragment fragment = new ViewSinglePatientInfo();
                 fragment.setArguments(args);
+                System.out.println("here2");
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_fragment, fragment)
                         .commit();
@@ -246,14 +250,16 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             String tagPrevious = backEntryPrevious.getName();
             Log.d("Stack", "Previous tag:" + tagPrevious);
             if (tagPrevious.equals(Constants.tag_view_patien_info_records)) {
-                // session is created/canceled -> go back to the Patient view
+                // session is created/canceled -> go back to the Patient session view
                 fragmentManager.popBackStack();
                 Bundle arguments = fr.getArguments();
-                Patient patient = (Patient) arguments.getSerializable(NewEvaluationPrivate.PATIENT);
+                // Patient patient = (Patient) arguments.getSerializable(CGAPrivate.PATIENT);
+                Session session = Session.getSessionByID(Constants.sessionID);
+                Constants.sessionID = null;
 
                 Bundle args = new Bundle();
-                args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
-                Fragment fragment = new ViewSinglePatientInfo();
+                args.putSerializable(ReviewSingleSession.SESSION, session);
+                Fragment fragment = new ReviewSingleSession();
                 fragment.setArguments(args);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_fragment, fragment)
