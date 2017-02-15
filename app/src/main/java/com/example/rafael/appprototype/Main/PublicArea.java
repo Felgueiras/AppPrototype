@@ -103,22 +103,6 @@ public class PublicArea extends AppCompatActivity {
             Log.d("FIRST RUN", "first run");
             sharedPreferences.edit().putBoolean(Constants.first_run, false).commit();
             DatabaseOps.insertDataToDB();
-            // display login screen
-            // TODO log in
-            /*
-            Intent i = new Intent(PrivateArea.this, LoginActivity.class);
-            startActivity(i);
-            */
-        }
-        // user already logged in
-
-        else {
-            // TODO set the doctor photo after having logged in
-            View headerLayout = navigationView.getHeaderView(0);
-            ImageView userImage = (ImageView) headerLayout.findViewById(R.id.userPhoto);
-            //userImage.setImageResource(R.drawable.male);
-            //TextView userSubtext = (TextView) headerLayout.findViewById(R.id.userSubText);
-            //userSubtext.setText("[Some text here]");
         }
 
         // set handler for the Fragment stack
@@ -127,7 +111,7 @@ public class PublicArea extends AppCompatActivity {
 
         // set sample fragment
         Fragment fragment = null;
-        String defaultFragment = Constants.fragment_drug_prescription;
+        String defaultFragment = Constants.fragment_sessions;
         switch (defaultFragment) {
             case Constants.fragment_sessions:
                 fragment = new CGAPublic();

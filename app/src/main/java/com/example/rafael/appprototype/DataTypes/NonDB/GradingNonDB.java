@@ -11,6 +11,8 @@ import java.util.List;
 public class GradingNonDB {
 
 
+    private int min = -1;
+    private int max = -1;
     /**
      * Name of the area (full dependency, mild dependency, etc)
      */
@@ -33,28 +35,16 @@ public class GradingNonDB {
     public GradingNonDB(String grade, int score) {
         this.grade = grade;
         this.score = score + "";
+        this.min = score;
     }
 
     public GradingNonDB(String grade, int score, String description) {
         this.grade = grade;
         this.score = score + "";
+        this.min = score;
         this.description = description;
     }
 
-    /**
-     * Create a new Grading area (multiple valuesBoth)
-     *
-     * @param grade
-     * @param values
-     */
-    public GradingNonDB(String grade, int[] values) {
-        super();
-        this.grade = grade;
-        this.score = values[0] + "";
-        for (int i = 1; i < values.length; i++) {
-            this.score += "," + values[i];
-        }
-    }
 
     /**
      * Create a GRading with a (min, max) range.
@@ -67,6 +57,8 @@ public class GradingNonDB {
         super();
         this.grade = grade;
         this.score = min + "";
+        this.min = min;
+        this.max = max;
         for (int i = min + 1; i <= max; i++) {
             this.score += "," + i;
         }
@@ -112,5 +104,21 @@ public class GradingNonDB {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public void setMin(int min) {
+        this.min = min;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
     }
 }

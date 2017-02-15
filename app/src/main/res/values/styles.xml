@@ -45,7 +45,7 @@
         <item name="android:textSize">15dp</item>
     </style>
 
-    <style name="Theme1" parent="Theme.AppCompat.Light.NoActionBar" >
+    <style name="Theme1" parent="android:Theme.Material.Light.NoActionBar" >
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorPrimary">@color/colorPrimary</item>

@@ -78,10 +78,11 @@ public class Scales {
     public static GeriatricTestNonDB escalaDeKatz() {
         GeriatricTestNonDB testeDeKatz = new GeriatricTestNonDB(Constants.test_name_testeDeKatz,
                 Constants.cga_functional, "Atividades de Vida Diária Básicas",
-                "Avaliar a autonomia para realizar as atividades imprescindíveis à vida;\n" +
-                        "\uF0A1 As ABVD são avaliadas na sequência habitual de deterioração/recuperação;\n" +
-                        "\uF0A1 Informação através da observação ou questionário direto ao idoso,\n" +
-                        "familiares ou cuidadores;");
+                "• Avalia a autonomia para realizar as atividades imprescindíveis à vida;\n" +
+                        "• As ABVD são avaliadas na sequência habitual de deterioração/recuperação;\n" +
+                        "• Procedimento: observação ou questionário direto ao idoso," +
+                        " familiares ou cuidadores;\n" +
+                        "• Tempo de aplicação: 5 minutos.");
         testeDeKatz.setShortName("Escala Katz");
         testeDeKatz.setMultipleChoice(true);
         // create Scoring
@@ -89,8 +90,8 @@ public class Scales {
         // create Gradings
         ArrayList<GradingNonDB> gradings = new ArrayList<>();
         gradings.add(new GradingNonDB("Dependência total", 0));
-        gradings.add(new GradingNonDB("Dependência grave", new int[]{1, 2}));
-        gradings.add(new GradingNonDB("Dependência moderada", new int[]{3, 4}));
+        gradings.add(new GradingNonDB("Dependência grave", 1, 2));
+        gradings.add(new GradingNonDB("Dependência moderada", 3, 4));
         gradings.add(new GradingNonDB("Dependência ligeira", 5));
         gradings.add(new GradingNonDB("Independência total", 6));
         // add Gradings to Scoring
@@ -452,9 +453,9 @@ public class Scales {
         ScoringNonDB valoracionScoring = new ScoringNonDB(3, 15, false);
         // create Gradings
         ArrayList<GradingNonDB> gradings = new ArrayList<>();
-        gradings.add(new GradingNonDB("Situación social buena", new int[]{3, 4, 5, 6, 7}));
-        gradings.add(new GradingNonDB("Situación intermedia", new int[]{8, 9}));
-        gradings.add(new GradingNonDB("Deterioro social severo", new int[]{10, 11, 12, 13, 14, 15}));
+        gradings.add(new GradingNonDB("Situación social buena", 3, 7));
+        gradings.add(new GradingNonDB("Situación intermedia", 8, 9));
+        gradings.add(new GradingNonDB("Deterioro social severo", 10, 15));
         // add Gradings to Scoring
         valoracionScoring.setValuesBoth(gradings);
         // add Scoring to Test
@@ -510,7 +511,8 @@ public class Scales {
                         "de forma independente na comunidade\n" +
                         "• Cada AIVD tem vários níveis de dependência (3 a 5);\n" +
                         "• Procedimento: observação ou questionário directo ao idoso,\n" +
-                        "familiares ou cuidadores;");
+                        "familiares ou cuidadores;\n" +
+                        "•  Tempo de aplicação: 5 minutos.");
         escalaLawtonBrody.setShortName("Escala Lawton Brody");
         escalaLawtonBrody.setMultipleChoice(true);
         // create Scoring
@@ -649,7 +651,8 @@ public class Scales {
                         "• São estabelecidas 6 categorias, tentando-se classificar o idoso na " +
                         "categoria que mais se aproxima da sua capacidade para a marcha\n" +
                         "• Procedimento: observação ou questionário direto ao idoso,\n" +
-                        "familiares ou cuidadores;");
+                        "familiares ou cuidadores;\n" +
+                        "• Tempo de aplicação: 3-5 minutos.");
         marcha.setShortName("Marcha");
         // create Scoring
         ScoringNonDB marchaScoring = new ScoringNonDB(0, 5, false);
@@ -689,24 +692,24 @@ public class Scales {
     public static GeriatricTestNonDB escalaDepressaoYesavage() {
         GeriatricTestNonDB escalaDepressao = new GeriatricTestNonDB(Constants.test_name_escalaDepressaoYesavage,
                 Constants.cga_afetivo, "",
-                "Escala utilizada para o rastreio da depressão, avaliando aspectos cognitivos e\n" +
+                "• Utilizada para o rastreio da depressão, avaliando aspectos cognitivos e " +
                         "comportamentais tipicamente afectados na depressão do idoso.\n" +
-                        "A informação é obtida através de questionário directo ao idoso. Pode ser aplica-\n" +
-                        "da por médicos, psicólogos, enfermeiros ou outros profissionais de saúde.\n" +
-                        "A escala de Yesavage tem uma versão completa, com 30 questões e uma versão\n" +
-                        "curta com 15 questões. A versão curta está validada pelo autor e os seus resul-\n" +
-                        "tados são sobreponíveis aos da versão completa, pelo que é a mais utilizada.\n" +
-                        "É constituída por 15 questões com resposta dicotómica (Sim ou Não).As respos-\n" +
-                        "tas sugestivas de existência de depressão correspondem a 1 ponto.");
+                        "• A informação é obtida através de questionário directo ao idoso.\n" +
+                        "• A escala de Yesavage tem uma versão completa, com 30 questões e uma versão" +
+                        "curta com 15 questões. A versão curta está validada pelo autor e os seus resultados" +
+                        " são sobreponíveis aos da versão completa, pelo que é a mais utilizada.\n" +
+                        "• 15 questões com resposta dicotómica (Sim ou Não).\n" +
+                        "• As respostas sugestivas de existência de depressão correspondem a 1 ponto.\n" +
+                        "• Tempo de aplicação: 6 minutos.");
         // short area
         escalaDepressao.setShortName("Escala Depressão Yesavage (curta)");
         // create Scoring
         ScoringNonDB depressionScoring = new ScoringNonDB(0, 15, false);
         // create Gradings
         ArrayList<GradingNonDB> gradings = new ArrayList<>();
-        gradings.add(new GradingNonDB("Sem depressão", new int[]{0, 1, 2, 3, 4, 5}));
-        gradings.add(new GradingNonDB("Depressão ligeira", new int[]{6, 7, 8, 9, 10}));
-        gradings.add(new GradingNonDB("Depressão grave", new int[]{11, 12, 13, 14, 15}));
+        gradings.add(new GradingNonDB("Sem depressão", 0, 5));
+        gradings.add(new GradingNonDB("Depressão ligeira", 6, 10));
+        gradings.add(new GradingNonDB("Depressão grave", 11, 15));
         // add Gradings to Scoring
         depressionScoring.setValuesBoth(gradings);
         // add Scoring to Test
@@ -789,12 +792,11 @@ public class Scales {
         ScoringNonDB mentalStateScoring = new ScoringNonDB(0, 30, false);
         // create Gradings
         ArrayList<GradingNonDB> gradings = new ArrayList<>();
-        gradings.add(new GradingNonDB("Desnutrido", new int[]{0, 1, 2, 3, 4, 5,
-                6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}));
+        gradings.add(new GradingNonDB("Desnutrido", 0, 16));
         gradings.add(new GradingNonDB("Sob risco de desnutrição",
-                new int[]{17, 18, 19, 20, 21, 22, 23}));
+                17, 23));
         gradings.add(new GradingNonDB("Estado nutricional normal",
-                new int[]{24, 25, 26, 27, 28, 29, 30}));
+                24, 30));
         // add Gradings to Scoring
         mentalStateScoring.setValuesBoth(gradings);
         // add Scoring to Test
@@ -957,24 +959,21 @@ public class Scales {
     public static GeriatricTestNonDB mentalStateFolstein() {
         GeriatricTestNonDB mentalState = new GeriatricTestNonDB(Constants.test_name_mini_mental_state,
                 Constants.cga_cognitivo, "",
-                "Questionário que permite fazer uma avaliação sumária das funções cognitivas.\n" +
-                        "É constituído por várias questões, que avaliam a orientação, a memória imediata\n" +
-                        "e a recente, a capacidade de atenção e cálculo, a linguagem e a capacidade\n" +
-                        "construtiva.\n" +
-                        "A informação é obtida através do questionário directo ao idoso que pode ser\n" +
-                        "aplicado por médicos, psicólogos, enfermeiros ou outros profissionais de saúde.");
+                "• Permite fazer uma avaliação sumária das funções cognitivas.\n" +
+                        "• Avalia a orientação, memória imediata " +
+                        "e recente, capacidade de atenção e cálculo, linguagem e capacidade construtiva.\n" +
+                        "• Procedimento: questionário directo ao idoso.\n" +
+                        "• A interpretação da pontuação final depende do nível educacional do idoso.\n" +
+                        "• Tempo de aplicação: 5-10 minutos.");
         // short area
         mentalState.setShortName("Mini-Mental State Examination");
         // create Scoring
         ScoringNonDB mentalStateScoring = new ScoringNonDB(0, 30, false);
         // create Gradings
         ArrayList<GradingNonDB> gradings = new ArrayList<>();
-        gradings.add(new GradingNonDB("Analfabetos", new int[]{0, 1, 2, 3, 4, 5,
-                6, 7, 8, 9, 10, 11, 12, 13, 14, 15}));
-        gradings.add(new GradingNonDB("1 a 11 anos de escolaridade",
-                new int[]{16, 17, 18, 19, 20, 21, 22}));
-        gradings.add(new GradingNonDB("Escolaridade superior a 11 anos",
-                new int[]{23, 24, 25, 26, 27, 28, 29, 30}));
+        gradings.add(new GradingNonDB("Analfabetos", 0, 15));
+        gradings.add(new GradingNonDB("1 a 11 anos de escolaridade", 16, 22));
+        gradings.add(new GradingNonDB("Escolaridade superior a 11 anos", 23, 30));
         // add Gradings to Scoring
         mentalStateScoring.setValuesBoth(gradings);
         // add Scoring to Test

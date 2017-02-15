@@ -1,6 +1,29 @@
-- criar visualização de resultado de sessão (agrupar por esfera da AGG)
 - fab de reset quando se vê áreas devia ser igual aos outros FAB
 - quando se carrega em sessão de paciente aparece sempre a mesma
-- resolver problemas de check list
-- create initial screen/tutorial
 - como é definido que o médico está registado no sistema
+- criar avisos automáticos (p.e., o paciente piorou o seu resultado numa escala)
+- caso o paciente tenha aumentado a sua dependência:
+-> 1. Pesquisar a causa de maior dependência (patologia de novo? agravamento da patologia de base?);
+   2. Avaliação da esfera social: quem o cuidador? qual a disponibilidade do cuidador? que recursos sociais necessita? precisa de avaliação por assistente social?
+   3. Intervenção nos estilos de vida / farmacológica se necessário. Nomeadamente, neste caso, tratamento da dor ou fisioterapia.
+   4. Encurtamento do período de reavaliação.
+
+
+- estado afetivo (VGI 1)
+— Escala de depresión geriátrica de Yesavage
+(Geriatric Depressión Scale, GDS).
+— Inventario de depresión de Hamilton.
+— Inventario de depresión de Beck.
+— Escala de Zung.
+— Escala de Cornell de depresión en la demencia.
+— Escala de depresión y ansiedad de Goldberg.
+
+- estado cognitivo (VGI 1):
+— Cuestionario de Pfeiffer (Short Portable Mental
+Status Questionnaire, SPMSQ).
+— Mini-Mental State Examination de Folstein (MMSE).
+— Mini-Examen Cognoscitivo de Lobo (MEC).
+— Test del reloj.
+— Set-tests.
+— Test de los siete minutos.
+
