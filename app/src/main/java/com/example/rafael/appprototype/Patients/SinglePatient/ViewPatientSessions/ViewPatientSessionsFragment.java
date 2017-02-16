@@ -40,25 +40,18 @@ public class ViewPatientSessionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.patient_info_sessions, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.patientSessions);
-        ArrayList<Session> sessionsFromPatient = patient.getRecordsFromPatient();
+        ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
         CreatePatientSessionCard adapter = new CreatePatientSessionCard(getActivity(), sessionsFromPatient, patient);
 
         // create Layout
         int numbercolumns = 1;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
         return view;
     }
 
-    /**
-     * Converting dp to pixel
-     */
-    private int dpToPx(int dp) {
-        Resources r = getActivity().getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
-    }
+
 }

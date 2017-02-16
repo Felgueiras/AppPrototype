@@ -76,7 +76,7 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
 
         if (childPosition == 0) {
             // display category info
-            ViewStub simpleViewStub = ((ViewStub) convertView.findViewById(R.id.simpleViewStub)); // get the reference of ViewStub
+            ViewStub simpleViewStub = ((ViewStub) convertView.findViewById(R.id.stub_info)); // get the reference of ViewStub
             if (simpleViewStub != null) {
                 // only inflate once
                 View inflated = simpleViewStub.inflate();

@@ -27,30 +27,13 @@
             android:text="Text question?"
             />
 
-        <RadioGroup
+        <EditText
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:id="@+id/radioGroup"
-            android:orientation="horizontal">
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/rightChoice"
-                android:text="@string/rightChoice"
-                />
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/wrongChoice"
-                android:text="@string/wrongChoice"
-
-                />
-
-        </RadioGroup>
+            android:id="@+id/question_answer_number"
+            android:hint="number">
+        </EditText>
 
     </LinearLayout>
 

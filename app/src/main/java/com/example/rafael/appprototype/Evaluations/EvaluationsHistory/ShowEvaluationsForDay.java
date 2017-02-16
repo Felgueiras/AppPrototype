@@ -53,19 +53,11 @@ public class ShowEvaluationsForDay extends BaseAdapter {
         int numbercolumns = 1;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         return singleDayInfo;
     }
 
-    /**
-     * Converting dp to pixel
-     */
-    private int dpToPx(int dp) {
-        Resources r = context.getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
-    }
 
     @Override
     public int getCount() {

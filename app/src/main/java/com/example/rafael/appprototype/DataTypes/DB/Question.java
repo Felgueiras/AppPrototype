@@ -38,17 +38,27 @@ public class Question extends Model {
      */
     @Column(name = "selectedYesNoChoice")
     String selectedYesNoChoice;
+
     @Column(name = "yesValue")
     int yesValue;
+
     @Column(name = "noValue")
     int noValue;
+
     @Column(name = "answered")
     boolean answered;
+
     @Column(name = "selectedChoice")
     String selectedChoice;
 
     @Column(name = "selectedRightWrong")
     String selectedRightWrong;
+
+    @Column(name = "numerical")
+    boolean numerical;
+
+    @Column(name = "answerNumber")
+    int answerNumber;
 
     /**
      * Create a new Question
@@ -189,9 +199,10 @@ public class Question extends Model {
         str += "Description - " +description;
         str += "Already answered? " + answered;
         str += "Right/wrong " + selectedRightWrong;
+        str += "Yes/no " + yesOrNo;
+        str += "Numerical " + numerical;
+        str += "Number " + answerNumber;
         return str;
-
-
     }
 
     public void setSelectedRightWrong(String selectedRightWrong) {
@@ -201,6 +212,22 @@ public class Question extends Model {
 
     public String getSelectedRightWrong() {
         return this.selectedRightWrong;
+    }
+
+    public void setNumerical(boolean numerical) {
+        this.numerical = numerical;
+    }
+
+    public boolean isNumerical() {
+        return numerical;
+    }
+
+    public int getAnswerNumber() {
+        return answerNumber;
+    }
+
+    public void setAnswerNumber(int answerNumber) {
+        this.answerNumber = answerNumber;
     }
 }
 

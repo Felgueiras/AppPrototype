@@ -126,6 +126,26 @@ public class ScoringNonDB {
         return match;
     }
 
+    public int getGradingIndex(double testResult, int gender) {
+        int match = 0;
+        ArrayList<GradingNonDB> toConsider = null;
+        if (gender == Constants.MALE)
+            toConsider = valuesMen;
+        else if (gender == Constants.FEMALE)
+            toConsider = valuesWomen;
+        else
+            toConsider = valuesBoth;
+        for (GradingNonDB grading : toConsider) {
+            // check the grading for the result we have
+            if (grading.containsScore(testResult)) {
+                match = toConsider.indexOf(grading);
+                break;
+            }
+        }
+
+        return match;
+    }
+
     public void setScoringMen(int min, int max) {
         this.minMen = min;
         this.maxMen = max;

@@ -4,19 +4,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/scale_description"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/lorem_ipsum"
-        android:layout_margin="10dp"        />
+        android:layout_height="match_parent">
 
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/scale_outcomes"
-        android:layout_margin="10dp"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </TableLayout>
+            <TextView
+                android:id="@+id/scale_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/lorem_ipsum" />
+
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/scale_outcomes"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="10dp">
+
+            </TableLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
+
 
 </LinearLayout>

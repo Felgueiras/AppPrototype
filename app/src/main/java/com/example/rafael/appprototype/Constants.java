@@ -26,6 +26,9 @@ public class Constants {
     public static final String test_name_burden_interview = "Zarit Burden Interview";
     public static final String test_name_barthel_index = "Barthel Index";
     public static final String test_name_short_portable_mental_status = "Short Portable Mental Status Questionnaire";
+    public static final String test_name_clock_drawing = "Clock drawing test";
+    public static final String test_name_set_set = "Set Test de Isaacs";
+    public static final String test_name_hamilton = "Hamilton Depression Rating Scale";
 
 
     public static final String[] allTests = new String[]{
@@ -83,12 +86,12 @@ public class Constants {
      * CGA areas.
      */
     public static final String cga_clinical = "Avaliação clínica";
-    public static final String cga_afetivo = "Estado afetivo";
+    public static final String cga_afective = "Estado afetivo";
     public static final String cga_cognitivo = "Estado cognitivo";
     public static final String cga_nutritional = "Estado nutricional";
     public static final String cga_functional = "Estado funcional";
     public static final String cga_social = "Situação social";
-    public static String[] cga_areas = new String[]{cga_afetivo,
+    public static String[] cga_areas = new String[]{cga_afective,
             cga_clinical, cga_cognitivo, cga_functional,
             cga_nutritional, cga_social};
 
@@ -135,4 +138,5 @@ public class Constants {
                     "Menos sensibilidade vibratória distal/propriocetiva",
                     "Aumento do limiar à dor e temperatura"};
 
+    public static boolean discard_session = false;
 }

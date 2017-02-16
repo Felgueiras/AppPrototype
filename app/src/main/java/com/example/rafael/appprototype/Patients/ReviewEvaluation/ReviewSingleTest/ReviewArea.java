@@ -9,6 +9,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
@@ -32,6 +33,7 @@ public class ReviewArea extends RecyclerView.Adapter<ReviewArea.TestCardHolder> 
      * Patient for this Session
      */
     private final Patient patient;
+    private final boolean comparePrevious;
     /**
      * Context.
      */
@@ -47,11 +49,13 @@ public class ReviewArea extends RecyclerView.Adapter<ReviewArea.TestCardHolder> 
      *
      * @param context
      * @param session
+     * @param comparePreviousSession
      */
-    public ReviewArea(Context context, Session session) {
+    public ReviewArea(Context context, Session session, boolean comparePreviousSession) {
         this.context = context;
         this.session = session;
         this.patient = session.getPatient();
+        this.comparePrevious = comparePreviousSession;
     }
 
 
@@ -90,7 +94,6 @@ public class ReviewArea extends RecyclerView.Adapter<ReviewArea.TestCardHolder> 
     public TestCardHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // get the Test CardView
         final View testCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_review_area, parent, false);
-
         return new TestCardHolder(testCard);
     }
 
@@ -103,23 +106,25 @@ public class ReviewArea extends RecyclerView.Adapter<ReviewArea.TestCardHolder> 
     @Override
     public void onBindViewHolder(final TestCardHolder holder, int position) {
         String area = Constants.cga_areas[position];
-        holder.area.setText(area);
 
         // check if the session had any scale from this area
         if (Scales.getTestsForArea(session.getTestsFromSession(), area).size() == 0) {
-            // TODO remove this content
+            ViewManager parentView = (ViewManager) holder.area.getParent();
+            parentView.removeView(holder.area);
+            parentView.removeView(holder.scales);
+        } else {
+            /**
+             * Show info about evaluations for every area.
+             */
+            holder.area.setText(area);
+            ReviewScale adapter = new ReviewScale(context, session, Constants.cga_areas[position], comparePrevious);
+            int numbercolumns = 1;
+            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, numbercolumns);
+            holder.scales.setLayoutManager(mLayoutManager);
+            holder.scales.setItemAnimator(new DefaultItemAnimator());
+            holder.scales.setAdapter(adapter);
         }
 
-        /**
-         * Show info about evaluations for every area.
-         */
-        ReviewScale adapter = new ReviewScale(context, session, Constants.cga_areas[position]);
-        int numbercolumns = 1;
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, numbercolumns);
-        holder.scales.setLayoutManager(mLayoutManager);
-        holder.scales.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
-        holder.scales.setItemAnimator(new DefaultItemAnimator());
-        holder.scales.setAdapter(adapter);
     }
 
     /**

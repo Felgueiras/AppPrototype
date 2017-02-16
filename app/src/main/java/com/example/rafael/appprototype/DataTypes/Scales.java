@@ -72,6 +72,266 @@ public class Scales {
         return recursosSociales;
     }
 
+
+    public static GeriatricTestNonDB hamiltonDepressionScale() {
+        GeriatricTestNonDB hamiltonScale = new GeriatricTestNonDB(Constants.test_name_hamilton,
+                Constants.cga_afective, "",
+                "• The HAM-D is designed to rate the severity of depression in patients.");
+        hamiltonScale.setShortName("HAM-D");
+        hamiltonScale.setMultipleChoice(true);
+        // create Scoring
+        ScoringNonDB hamiltonScoring = new ScoringNonDB(0, 50, false);
+        // create Gradings
+        ArrayList<GradingNonDB> gradings = new ArrayList<>();
+        gradings.add(new GradingNonDB("Normal", 0, 7));
+        gradings.add(new GradingNonDB("Mild depression", 8, 13));
+        gradings.add(new GradingNonDB("Moderate depression", 14, 18));
+        gradings.add(new GradingNonDB("Severe depression", 19, 22));
+        gradings.add(new GradingNonDB("Very severe depression total", 23, 50));
+        // add Gradings to Scoring
+        hamiltonScoring.setValuesBoth(gradings);
+        // add Scoring to Test
+        hamiltonScale.setScoring(hamiltonScoring);
+        // create Questions
+
+        // 1
+        QuestionNonDB question = new QuestionNonDB("Depressed mood (Gloomy attitude, pessimism about the future,\n" +
+                "feeling of sadness, tendency to weep)", false);
+        ArrayList<ChoiceNonDB> choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("Absent", 0));
+        choices.add(new ChoiceNonDB("Sadness, etc", 1));
+        choices.add(new ChoiceNonDB("Occasional weeping", 2));
+        choices.add(new ChoiceNonDB("Frequent weeping", 3));
+        choices.add(new ChoiceNonDB("Extreme symptoms", 4));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 2
+        question = new QuestionNonDB("Feelings of guilt", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("Absent", 0));
+        choices.add(new ChoiceNonDB(" Self-reproach, feels he/she has let people\n" +
+                "down", 1));
+        choices.add(new ChoiceNonDB("Ideas of guilt", 2));
+        choices.add(new ChoiceNonDB("Present illness is a punishment; delusions\n" +
+                "of guilt", 3));
+        choices.add(new ChoiceNonDB("Hallucinations of guilt", 4));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 3
+        question = new QuestionNonDB("Suicide", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("Absent", 0));
+        choices.add(new ChoiceNonDB("Feels life is not worth living", 1));
+        choices.add(new ChoiceNonDB("Wishes he/she were dead ", 2));
+        choices.add(new ChoiceNonDB("Suicidal ideas or gestures", 3));
+        choices.add(new ChoiceNonDB("Attempts at suicide", 4));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 4
+        question = new QuestionNonDB("Insomnia - initial (Difficulty in falling asleep)", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("Absent", 0));
+        choices.add(new ChoiceNonDB("Occasional", 1));
+        choices.add(new ChoiceNonDB("Frequent", 2));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 5
+        question = new QuestionNonDB("Insomnia - middle (Complains of being restless and disturbed\n" +
+                "during the night. Waking during the night)", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("Absent", 0));
+        choices.add(new ChoiceNonDB("Occasional", 1));
+        choices.add(new ChoiceNonDB("Frequent", 2));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 6
+        question = new QuestionNonDB("Insomnia - delayed (Waking in early hours of the morning and\n" +
+                "unable to fall asleep again)", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("Absent", 0));
+        choices.add(new ChoiceNonDB("Occasional", 1));
+        choices.add(new ChoiceNonDB("Frequent", 2));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 7
+        question = new QuestionNonDB("Work and interests", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("No difficulty", 0));
+        choices.add(new ChoiceNonDB("Feelings of incapacity, listlessness, indecision\n" +
+                "and vacillation", 1));
+        choices.add(new ChoiceNonDB(" Loss of interest in hobbies, decreased social\n" +
+                "activities", 2));
+        choices.add(new ChoiceNonDB("Productivity decreased", 3));
+        choices.add(new ChoiceNonDB(" Unable to work. Stopped working because\n" +
+                "of present illness only. (Absence from work\n" +
+                "after treatment or recovery may rate a lower\n" +
+                "score)", 4));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 8
+        question = new QuestionNonDB("RETARDATION\n" +
+                "(Slowness of thought, speech, and activity;\n" +
+                "apathy; stupor.)", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("Absent", 0));
+        choices.add(new ChoiceNonDB("Slight retardation at interview", 1));
+        choices.add(new ChoiceNonDB("Obvious retardation at interview", 2));
+        choices.add(new ChoiceNonDB("Interview difficult", 3));
+        choices.add(new ChoiceNonDB("Complete stupor", 4));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 9
+        question = new QuestionNonDB("Agitation", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("Absent", 0));
+        choices.add(new ChoiceNonDB("Occasional", 1));
+        choices.add(new ChoiceNonDB("Frequent", 2));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 10
+        question = new QuestionNonDB("Anxiety - psychic", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("No difficulty", 0));
+        choices.add(new ChoiceNonDB("Tension and irritability", 1));
+        choices.add(new ChoiceNonDB("Worrying about minor matters", 2));
+        choices.add(new ChoiceNonDB("Apprehensive attitude", 3));
+        choices.add(new ChoiceNonDB("Fears", 4));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 11
+        question = new QuestionNonDB("Anxiety - somatic (Gastrointestinal, indigestion\n" +
+                "Cardiovascular, palpitation, Headaches\n" +
+                "Respiratory, Genito-urinary, etc.)", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("Absent", 0));
+        choices.add(new ChoiceNonDB("Mild", 1));
+        choices.add(new ChoiceNonDB("Moderate", 2));
+        choices.add(new ChoiceNonDB("Severe", 3));
+        choices.add(new ChoiceNonDB("Incapacitating", 4));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 12
+        question = new QuestionNonDB("SOMATIC SYMPTOMS -\n" +
+                "GASTROINTESTINAL (Loss of appetite , heavy feeling in abdomen;\n" +
+                "constipation)", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("Absent", 0));
+        choices.add(new ChoiceNonDB("Mild", 1));
+        choices.add(new ChoiceNonDB("Severe", 2));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 13
+        question = new QuestionNonDB("SOMATIC SYMPTOMS -\n" +
+                "General ((Heaviness in limbs, back or head; diffuse\n" +
+                "backache; loss of energy and fatiguability))", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("Absent", 0));
+        choices.add(new ChoiceNonDB("Mild", 1));
+        choices.add(new ChoiceNonDB("Severe", 2));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 14
+        question = new QuestionNonDB("Genital symptoms (Loss of libido, menstrual disturbances)", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("Absent", 0));
+        choices.add(new ChoiceNonDB("Mild", 1));
+        choices.add(new ChoiceNonDB("Severe", 2));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 15
+        question = new QuestionNonDB("HYPOCHONDRIASIS\n", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("Not present", 0));
+        choices.add(new ChoiceNonDB("Self-absorption (bodily)", 1));
+        choices.add(new ChoiceNonDB("Preoccupation with health", 2));
+        choices.add(new ChoiceNonDB("Querulous attitude", 3));
+        choices.add(new ChoiceNonDB("Hypochondriacal delusions", 4));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 16
+        question = new QuestionNonDB("Weight loss", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("No weight loss", 0));
+        choices.add(new ChoiceNonDB("Slight", 1));
+        choices.add(new ChoiceNonDB("Obvious or severe", 2));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 17
+        question = new QuestionNonDB("Insight (Insight must be interpreted in terms of patient’s\n" +
+                "understanding and background.)", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("No loss", 0));
+        choices.add(new ChoiceNonDB("Partial or doubtfull loss", 1));
+        choices.add(new ChoiceNonDB("Loss of insight", 2));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 18
+        question = new QuestionNonDB("Diurnal variation (Symptoms worse in morning or evening.\n" +
+                "Note which it is. ) ", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("No variation", 0));
+        choices.add(new ChoiceNonDB("Mild variation; AM ( ) PM ( )", 1));
+        choices.add(new ChoiceNonDB("Severe variation; AM ( ) PM ( )", 2));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 19
+        question = new QuestionNonDB("DEPERSONALIZATION AND\n" +
+                "DEREALIZATION\n" +
+                "(feelings of unreality, nihilistic ideas)", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("Absent", 0));
+        choices.add(new ChoiceNonDB("Mild", 1));
+        choices.add(new ChoiceNonDB("Moderate", 2));
+        choices.add(new ChoiceNonDB("Severe", 3));
+        choices.add(new ChoiceNonDB("Incapacitating", 4));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 20
+        question = new QuestionNonDB("PARANOID SYMPTOMS\n" +
+                "(Not with a depressive quality)", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("None", 0));
+        choices.add(new ChoiceNonDB("Suspicious", 1));
+        choices.add(new ChoiceNonDB("Ideas of reference", 2));
+        choices.add(new ChoiceNonDB("Delusions of reference and persecution", 3));
+        choices.add(new ChoiceNonDB("Hallucinations, persecutory", 4));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+        // 21
+        question = new QuestionNonDB("OBSESSIONAL SYMPTOMS\n" +
+                "(Obsessive thoughts and compulsions against\n" +
+                "which the patient struggles)", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("Absent", 0));
+        choices.add(new ChoiceNonDB("Mild", 1));
+        choices.add(new ChoiceNonDB("Severe", 2));
+        question.setChoices(choices);
+        hamiltonScale.addQuestion(question);
+
+
+        return hamiltonScale;
+    }
+
     /**
      * Get infos about 'Escala de Katz'
      */
@@ -89,11 +349,11 @@ public class Scales {
         ScoringNonDB katzScoring = new ScoringNonDB(0, 6, false);
         // create Gradings
         ArrayList<GradingNonDB> gradings = new ArrayList<>();
-        gradings.add(new GradingNonDB("Dependência total", 0));
-        gradings.add(new GradingNonDB("Dependência grave", 1, 2));
-        gradings.add(new GradingNonDB("Dependência moderada", 3, 4));
-        gradings.add(new GradingNonDB("Dependência ligeira", 5));
         gradings.add(new GradingNonDB("Independência total", 6));
+        gradings.add(new GradingNonDB("Dependência ligeira", 5));
+        gradings.add(new GradingNonDB("Dependência moderada", 3, 4));
+        gradings.add(new GradingNonDB("Dependência grave", 1, 2));
+        gradings.add(new GradingNonDB("Dependência total", 0));
         // add Gradings to Scoring
         katzScoring.setValuesBoth(gradings);
         // add Scoring to Test
@@ -321,10 +581,10 @@ public class Scales {
         ScoringNonDB scoring = new ScoringNonDB(0, 100, false);
         // create Gradings
         ArrayList<GradingNonDB> gradings = new ArrayList<>();
-        gradings.add(new GradingNonDB("Dependencia total", 0, 19));
-        gradings.add(new GradingNonDB("Dependencia grave", 20, 35));
-        gradings.add(new GradingNonDB("Dependencia moderada", 40, 55));
         gradings.add(new GradingNonDB("Dependencia leve", 60, 100));
+        gradings.add(new GradingNonDB("Dependencia moderada", 40, 55));
+        gradings.add(new GradingNonDB("Dependencia grave", 20, 35));
+        gradings.add(new GradingNonDB("Dependencia total", 0, 19));
         // add Gradings to Scoring
         scoring.setValuesBoth(gradings);
         // add Scoring to Test
@@ -520,21 +780,21 @@ public class Scales {
         lawtonScoring.setScoringMen(0, 5);
         // create Gradings for men
         ArrayList<GradingNonDB> gradingsMen = new ArrayList<>();
-        gradingsMen.add(new GradingNonDB("Dependência total", 0));
-        gradingsMen.add(new GradingNonDB("Dependência grave", 1));
-        gradingsMen.add(new GradingNonDB("Dependência moderada", 2, 3));
-        gradingsMen.add(new GradingNonDB("Dependência ligeira", 4));
         gradingsMen.add(new GradingNonDB("Independência total", 5));
+        gradingsMen.add(new GradingNonDB("Dependência ligeira", 4));
+        gradingsMen.add(new GradingNonDB("Dependência moderada", 2, 3));
+        gradingsMen.add(new GradingNonDB("Dependência grave", 1));
+        gradingsMen.add(new GradingNonDB("Dependência total", 0));
         // add Gradings to Scoring
         lawtonScoring.setValuesMen(gradingsMen);
 
         // create Gradings for women
         ArrayList<GradingNonDB> gradingsWomen = new ArrayList<>();
-        gradingsWomen.add(new GradingNonDB("Dependência total", 0, 1));
-        gradingsWomen.add(new GradingNonDB("Dependência grave", 2, 3));
-        gradingsWomen.add(new GradingNonDB("Dependência moderada", 4, 5));
-        gradingsWomen.add(new GradingNonDB("Dependência ligeira", 6, 7));
         gradingsWomen.add(new GradingNonDB("Independência total", 8));
+        gradingsWomen.add(new GradingNonDB("Dependência ligeira", 6, 7));
+        gradingsWomen.add(new GradingNonDB("Dependência moderada", 4, 5));
+        gradingsWomen.add(new GradingNonDB("Dependência grave", 2, 3));
+        gradingsWomen.add(new GradingNonDB("Dependência total", 0, 1));
         // add Gradings to Scoring
         lawtonScoring.setValuesWomen(gradingsWomen);
         // add Scoring to Test
@@ -639,6 +899,66 @@ public class Scales {
     }
 
 
+    public static GeriatricTestNonDB clockDrawing() {
+        GeriatricTestNonDB clockDrawing = new GeriatricTestNonDB(Constants.test_name_clock_drawing,
+                Constants.cga_cognitivo, "",
+                "• Procedimento: \n" +
+                        "Step 1: Give patient a sheet of paper with a large (relative to the size of handwritten\n" +
+                        "numbers) predrawn circle on it. Indicate the top of the page.\n" +
+                        "Step 2: Instruct patient to draw numbers in the circle to make the circle look like the face\n" +
+                        "of a clock and then draw the hands of the clock to read \"10 after 11.\" \n" +
+                        "•  Es un test de cribaje para examinar el deterioro cognitivo," +
+                        "aunque también se utiliza para seguir la evolución" +
+                        "de los cuadros confusionales.\n" +
+                        "• Se trata de un test sencillo que valora el funcionamiento " +
+                        "cognitivo global, principalmente la apraxia " +
+                        "constructiva, la ejecución motora, la atención, la comprensión" +
+                        "y el conocimiento numérico, mediante la orden " +
+                        "de dibujar un reloj (un círculo, las 12 horas del reloj) y" +
+                        "marcar una hora concreta (las 11:10).\n" +
+                        "•  Higher scores reflect a greater number of errors and more impairment. A score of ≥3 represents\n" +
+                        "a cognitive deficit, while a score of 1 or 2 is considered normal. ");
+        clockDrawing.setShortName("Clock Drawing");
+        // create Scoring
+        ScoringNonDB clockDrawingScoring = new ScoringNonDB(1, 6, false);
+        // create Gradings
+        ArrayList<GradingNonDB> gradings = new ArrayList<>();
+        gradings.add(new GradingNonDB("Perfect", 1, "No errors in the task"));
+        gradings.add(new GradingNonDB("Minor visuospatial errors ", 2, "a) Mildly impaired spacing of times\n" +
+                "b) Draws times outside circle\n" +
+                "c) Turns page while writing so that some\n" +
+                "numbers appear upside down\n" +
+                "d) Draws in lines (spokes) to orient spacing "));
+        gradings.add(new GradingNonDB("Inaccurate representation of 10 after 11\n" +
+                "when visuospatial organization is perfect\n" +
+                "or shows only minor deviations ", 3, "a) Minute hand points to 10\n" +
+                "b) Writes \"10 after 11\"\n" +
+                "c) Unable to make any denotation of time "));
+        gradings.add(new GradingNonDB("Moderate visuospatial disorganization of\n" +
+                "times such that accurate denotation of 10\n" +
+                "after 11 is impossible ", 4, "a) Moderately poor spacing\n" +
+                "b) Omits numbers\n" +
+                "c) Perseveration: repeats circle or continues\n" +
+                "on past 12 to 13, 14, 15, etc.\n" +
+                "d) Right-left reversal: numbers drawn\n" +
+                "counterclockwise\n" +
+                "e) Dysgraphia: unable to write numbers\n" +
+                "accurately"));
+        gradings.add(new GradingNonDB("Severe level of disorganization as\n" +
+                "described in scoring of 4 ", 5, "See examples for scoring of 4 "));
+        gradings.add(new GradingNonDB("No reasonable representation of a clock ", 6, "a) No attempt at all\n" +
+                "b) No semblance of a clock at all\n" +
+                "c) Writes a word or name "));
+        // add Gradings to Scoring
+        clockDrawingScoring.setValuesBoth(gradings);
+        // add Scoring to Test
+        clockDrawing.setScoring(clockDrawingScoring);
+        clockDrawing.setSingleQuestion(true);
+
+        return clockDrawing;
+    }
+
+
     /**
      * Get infos about 'Marcha'
      */
@@ -658,24 +978,24 @@ public class Scales {
         ScoringNonDB marchaScoring = new ScoringNonDB(0, 5, false);
         // create Gradings
         ArrayList<GradingNonDB> gradings = new ArrayList<>();
-        gradings.add(new GradingNonDB("Marcha ineficaz", 0, "O idoso não é capaz de caminhar, caminha apenas em\n" +
-                "barras paralelas ou requer ajuda física ou supervisã"));
-        gradings.add(new GradingNonDB("Marcha dependente - Nível I", 1, "O idoso necessita de grande ajuda de uma pessoa para\n" +
-                "andar e evitar quedas. Esta ajuda é constante, sendo\n" +
-                "necessária para suportar o peso do corpo ou para manter\n" +
-                "o equilíbrio ou a coordenação"));
-        gradings.add(new GradingNonDB("Marcha dependente - Nível II", 2, "O idoso requer ajuda mínima de uma pessoa para não\n" +
-                "cair na test_type_marcha em superfície plana. A ajuda consiste em\n" +
-                "toques suaves, contínuos ou intermitentes, para ajudar a\n" +
-                "manter o equilíbrio e a coordenação"));
-        gradings.add(new GradingNonDB("Marcha dependente com supervisão", 3, "O idoso é capaz de andar de forma independente em\n" +
-                "superfícies planas sem ajuda, mas para a sua segurança\n" +
-                "requer supervisão de uma pessoa."));
+        gradings.add(new GradingNonDB("Marcha independente", 5, "O idoso é capaz de andar independentemente em superfícies planas, inclinadas ou escadas"));
         gradings.add(new GradingNonDB("Marcha independente (superfície plana)", 4, "O idoso é capaz de andar de forma independente em\n" +
                 "superfícies planas, mas requer supervisão ou ajuda física\n" +
                 "para superar escadas, superfícies inclinadas ou terrenos\n" +
                 "não planos"));
-        gradings.add(new GradingNonDB("Marcha independente", 5, "O idoso é capaz de andar independentemente em superfícies planas, inclinadas ou escadas"));
+        gradings.add(new GradingNonDB("Marcha dependente com supervisão", 3, "O idoso é capaz de andar de forma independente em\n" +
+                "superfícies planas sem ajuda, mas para a sua segurança\n" +
+                "requer supervisão de uma pessoa."));
+        gradings.add(new GradingNonDB("Marcha dependente - Nível II", 2, "O idoso requer ajuda mínima de uma pessoa para não\n" +
+                "cair na test_type_marcha em superfície plana. A ajuda consiste em\n" +
+                "toques suaves, contínuos ou intermitentes, para ajudar a\n" +
+                "manter o equilíbrio e a coordenação"));
+        gradings.add(new GradingNonDB("Marcha dependente - Nível I", 1, "O idoso necessita de grande ajuda de uma pessoa para\n" +
+                "andar e evitar quedas. Esta ajuda é constante, sendo\n" +
+                "necessária para suportar o peso do corpo ou para manter\n" +
+                "o equilíbrio ou a coordenação"));
+        gradings.add(new GradingNonDB("Marcha ineficaz", 0, "O idoso não é capaz de caminhar, caminha apenas em\n" +
+                "barras paralelas ou requer ajuda física ou supervisã"));
         // add Gradings to Scoring
         marchaScoring.setValuesBoth(gradings);
         // add Scoring to Test
@@ -691,7 +1011,7 @@ public class Scales {
      */
     public static GeriatricTestNonDB escalaDepressaoYesavage() {
         GeriatricTestNonDB escalaDepressao = new GeriatricTestNonDB(Constants.test_name_escalaDepressaoYesavage,
-                Constants.cga_afetivo, "",
+                Constants.cga_afective, "",
                 "• Utilizada para o rastreio da depressão, avaliando aspectos cognitivos e " +
                         "comportamentais tipicamente afectados na depressão do idoso.\n" +
                         "• A informação é obtida através de questionário directo ao idoso.\n" +
@@ -792,11 +1112,11 @@ public class Scales {
         ScoringNonDB mentalStateScoring = new ScoringNonDB(0, 30, false);
         // create Gradings
         ArrayList<GradingNonDB> gradings = new ArrayList<>();
-        gradings.add(new GradingNonDB("Desnutrido", 0, 16));
-        gradings.add(new GradingNonDB("Sob risco de desnutrição",
-                17, 23));
         gradings.add(new GradingNonDB("Estado nutricional normal",
                 24, 30));
+        gradings.add(new GradingNonDB("Sob risco de desnutrição",
+                17, 23));
+        gradings.add(new GradingNonDB("Desnutrido", 0, 16));
         // add Gradings to Scoring
         mentalStateScoring.setValuesBoth(gradings);
         // add Scoring to Test
@@ -971,9 +1291,9 @@ public class Scales {
         ScoringNonDB mentalStateScoring = new ScoringNonDB(0, 30, false);
         // create Gradings
         ArrayList<GradingNonDB> gradings = new ArrayList<>();
-        gradings.add(new GradingNonDB("Analfabetos", 0, 15));
-        gradings.add(new GradingNonDB("1 a 11 anos de escolaridade", 16, 22));
         gradings.add(new GradingNonDB("Escolaridade superior a 11 anos", 23, 30));
+        gradings.add(new GradingNonDB("1 a 11 anos de escolaridade", 16, 22));
+        gradings.add(new GradingNonDB("Analfabetos", 0, 15));
         // add Gradings to Scoring
         mentalStateScoring.setValuesBoth(gradings);
         // add Scoring to Test
@@ -1120,6 +1440,62 @@ public class Scales {
     }
 
 
+    public static GeriatricTestNonDB setTest() {
+        GeriatricTestNonDB setTest = new GeriatricTestNonDB(Constants.test_name_set_set,
+                Constants.cga_cognitivo, "",
+                "• El Set-test fue introducido por Isaacs y Akhtar en\n" +
+                        "1972  y propuesto\n" +
+                        "como ayuda en el diagnóstico de la demencia en el\n" +
+                        "anciano por Isaacs y Kennie en 1973. \n" +
+                        "•  Explora la fluencia verbal, la denominación por categorías y la memoria\n" +
+                        "semántica. Es una prueba breve y generalmente\n" +
+                        "bien aceptada por los pacientes, con gran utilidad en\n" +
+                        "pacientes analfabetos o con déficit sensoriales.\n" +
+                        "• Se le pide al paciente que diga tantos nombres como\n" +
+                        "pueda recordar de cada una de cuatro categorías (set):\n" +
+                        "colores, animales, frutas y ciudades. Se obtiene 1 punto\n" +
+                        "por cada ítem correcto, con un máximo de 10 ítems\n" +
+                        "puntuables en cada set. " +
+                        "•  El tiempo máximo de que dispone " +
+                        "el paciente por categoría es de un minuto.\n" +
+                        "•  Las" +
+                        "repeticiones o los nombres que no correspondan a la\n" +
+                        "categoría pedida no puntúan, aunque es interesante\n" +
+                        "anotar todas las respuestas para el seguimiento evolutivo.\n" +
+                        "• La puntuación oscila entre 0 y 40 puntos, considerando " +
+                        "el resultado normal para adultos de 29 o más\n" +
+                        "aciertos, y de 27 o más si se trata de ancianos.");
+        // short area
+        setTest.setShortName("Set Test");
+        // create Scoringleve
+        ScoringNonDB setTestScoring = new ScoringNonDB(0, 40, false);
+        // create Gradings
+        ArrayList<GradingNonDB> gradings = new ArrayList<>();
+        gradings.add(new GradingNonDB("Normal (ancianos)", 27, 40));
+        gradings.add(new GradingNonDB("Anormal", 0, 26));
+        // add Gradings to Scoring
+        setTestScoring.setValuesBoth(gradings);
+        // add Scoring to Test
+        setTest.setScoring(setTestScoring);
+
+        // TODO allow to write down the names and not just the numbers
+        String[] questions = new String[]{
+                "Cores",
+                "Animais",
+                "Frutas",
+                "Cidades"
+        };
+        QuestionNonDB question;
+        for (String questionText : questions) {
+            question = new QuestionNonDB(questionText);
+            question.setRightWrong(false);
+            question.setNumerical(true);
+            setTest.addQuestion(question);
+        }
+
+        return setTest;
+    }
+
     public static GeriatricTestNonDB shortPortableMentalStatus() {
         GeriatricTestNonDB shortPortableMentalStatus = new GeriatricTestNonDB(Constants.test_name_short_portable_mental_status,
                 Constants.cga_cognitivo, "",
@@ -1210,6 +1586,12 @@ public class Scales {
             return barthelIndex();
         } else if (Objects.equals(testName, Constants.test_name_short_portable_mental_status)) {
             return shortPortableMentalStatus();
+        } else if (Objects.equals(testName, Constants.test_name_clock_drawing)) {
+            return clockDrawing();
+        } else if (Objects.equals(testName, Constants.test_name_set_set)) {
+            return setTest();
+        } else if (Objects.equals(testName, Constants.test_name_hamilton)) {
+            return hamiltonDepressionScale();
         }
         return null;
     }
@@ -1230,12 +1612,11 @@ public class Scales {
      * @param gender
      * @return
      */
-    public static GradingNonDB getGradingForTest(GeriatricTest test, int gender) {
-
+    public static GradingNonDB getGradingForScale(GeriatricTest test, int gender) {
 
         double testResult = test.generateTestResult();
         System.out.println("Test result is " + testResult);
-        ScoringNonDB scoring = getTestByName(test.getTestName()).getScoring();
+        ScoringNonDB scoring = getTestByName(test.getScaleName()).getScoring();
         System.out.println("Scoring is " + scoring.getMinScore());
         GradingNonDB match;
         // check if it's different for men and women
@@ -1251,9 +1632,31 @@ public class Scales {
         return match;
     }
 
+    public static int getGradingIndex(GeriatricTest test, int gender) {
+
+
+        double testResult = test.generateTestResult();
+        System.out.println("Test result is " + testResult);
+        ScoringNonDB scoring = getTestByName(test.getScaleName()).getScoring();
+        System.out.println("Scoring is " + scoring.getMinScore());
+        int match;
+        // check if it's different for men and women
+        if (scoring.isDifferentMenWomen()) {
+            if (gender == Constants.MALE) {
+                match = scoring.getGradingIndex(testResult, Constants.MALE);
+            } else {
+                match = scoring.getGradingIndex(testResult, Constants.FEMALE);
+            }
+        } else {
+            match = scoring.getGradingIndex(testResult, Constants.BOTH);
+        }
+
+        return match;
+    }
+
     public static GradingNonDB getGradingForTestWithoutGenerating(GeriatricTest test, int gender) {
         double testResult = test.getResult();
-        ScoringNonDB scoring = getTestByName(test.getTestName()).getScoring();
+        ScoringNonDB scoring = getTestByName(test.getScaleName()).getScoring();
         GradingNonDB match;
         // check if it's different for men and women
         if (scoring.isDifferentMenWomen()) {
@@ -1287,6 +1690,9 @@ public class Scales {
         tests.add(zaritBurdenInterview());
         tests.add(barthelIndex());
         tests.add(shortPortableMentalStatus());
+        tests.add(clockDrawing());
+        tests.add(setTest());
+        tests.add(hamiltonDepressionScale());
         return tests;
     }
 
@@ -1309,7 +1715,7 @@ public class Scales {
     public static ArrayList<GeriatricTest> getTestsForArea(List<GeriatricTest> scales, String area) {
         ArrayList<GeriatricTest> testsForArea = new ArrayList<>();
         for (GeriatricTest test : scales) {
-            if (Scales.getTestByName(test.getTestName()).getArea().equals(area)) {
+            if (Scales.getTestByName(test.getScaleName()).getArea().equals(area)) {
                 testsForArea.add(test);
             }
         }

@@ -21,6 +21,7 @@ import com.example.rafael.appprototype.R;
 
 public class ReviewSingleSession extends Fragment {
 
+    public static String COMPARE_PREVIOUS;
     /**
      * Patient for this Session
      */
@@ -33,6 +34,7 @@ public class ReviewSingleSession extends Fragment {
      * String that identifies the Session to be passed as argument.
      */
     public static String SESSION = "session";
+    private boolean comparePreviousSession;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,29 +45,20 @@ public class ReviewSingleSession extends Fragment {
         // get Session and Patient
         session = (Session) args.getSerializable(SESSION);
         getActivity().setTitle(session.getDate()+"");
-
         patient = session.getPatient();
-        // create a new Fragment to hold info about the Patient
-        Fragment fragment = new ViewSinglePatientOnlyInfo();
-        Bundle newArgs = new Bundle();
-        newArgs.putSerializable(ViewSinglePatientOnlyInfo.PATIENT, patient);
-        fragment.setArguments(newArgs);
-        FragmentManager fragmentManager = getFragmentManager();
-        /*
-        fragmentManager.beginTransaction()
-                .replace(R.id.patientInfo, fragment)
-                .commit();
-                */
+
+        // check if we have to compare to the previous session
+        //comparePreviousSession = args.getBoolean(COMPARE_PREVIOUS);
+        comparePreviousSession = true;
 
         /**
          * Show info about evaluations for every area.
          */
         RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.area_scales_recycler_view);
-        ReviewArea adapter = new ReviewArea(getActivity(), session);
+        ReviewArea adapter = new ReviewArea(getActivity(), session, comparePreviousSession);
         int numbercolumns = 1;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 

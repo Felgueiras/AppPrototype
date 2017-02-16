@@ -250,16 +250,30 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             String tagPrevious = backEntryPrevious.getName();
             Log.d("Stack", "Previous tag:" + tagPrevious);
             if (tagPrevious.equals(Constants.tag_view_patien_info_records)) {
-                // session is created/canceled -> go back to the Patient session view
-                fragmentManager.popBackStack();
-                Bundle arguments = fr.getArguments();
-                // Patient patient = (Patient) arguments.getSerializable(CGAPrivate.PATIENT);
-                Session session = Session.getSessionByID(Constants.sessionID);
-                Constants.sessionID = null;
 
+
+                fragmentManager.popBackStack();
+                Fragment fragment = null;
                 Bundle args = new Bundle();
-                args.putSerializable(ReviewSingleSession.SESSION, session);
-                Fragment fragment = new ReviewSingleSession();
+                Bundle arguments = fr.getArguments();
+                if (Constants.discard_session) {
+                    // session is discarded -> go back to the Patient's profile
+                    Constants.discard_session = false;
+                    // session is created -> go back to the Patient session view
+                    Patient patient = (Patient) arguments.getSerializable(CGAPrivate.PATIENT);
+                    Constants.sessionID = null;
+
+                    args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
+                    fragment = new ViewSinglePatientInfo();
+                } else {
+                    // session is created -> go back to the Patient session view
+                    Session session = Session.getSessionByID(Constants.sessionID);
+                    Constants.sessionID = null;
+
+                    args.putBoolean(ReviewSingleSession.COMPARE_PREVIOUS,true);
+                    args.putSerializable(ReviewSingleSession.SESSION, session);
+                    fragment = new ReviewSingleSession();
+                }
                 fragment.setArguments(args);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_fragment, fragment)

@@ -26,7 +26,6 @@ import com.example.rafael.appprototype.CGA.CGAPrivate;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Patients.PatientEvolution.EvolutionFragment;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.ViewPatientSessionsFragment;
-import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 import com.example.rafael.appprototype.R;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -171,7 +170,7 @@ public class ViewSinglePatientInfo extends Fragment {
         public Fragment getItem(int position) {
             if (position == 0) {
                 // get list of Records from this patient
-                ArrayList<Session> sessionsFromPatient = patient.getRecordsFromPatient();
+                ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
                 Fragment fragment;
                 if (sessionsFromPatient.isEmpty()) {
                     fragment = new EmptyStateFragment();

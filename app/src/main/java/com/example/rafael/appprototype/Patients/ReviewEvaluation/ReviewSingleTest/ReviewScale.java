@@ -4,13 +4,16 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
@@ -23,6 +26,9 @@ import com.example.rafael.appprototype.DataTypes.Scales;
 import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -40,6 +46,7 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
      */
     private final Patient patient;
     private final String area;
+    private final boolean comparePrevious;
     /**
      * Context.
      */
@@ -56,12 +63,14 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
      * @param context
      * @param session
      * @param area
+     * @param comparePrevious
      */
-    public ReviewScale(Context context, Session session, String area) {
+    public ReviewScale(Context context, Session session, String area, boolean comparePrevious) {
         this.context = context;
         this.session = session;
         this.patient = session.getPatient();
         this.area = area;
+        this.comparePrevious = comparePrevious;
     }
 
 
@@ -89,7 +98,6 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
             //type = (TextView) view.findViewById(R.id.testType);
             result_qualitative = (TextView) view.findViewById(R.id.result_qualitative);
             result_quantitative = (TextView) view.findViewById(R.id.result_quantitative);
-            //testGrading = (TextView) view.findViewById(R.id.testGrading);
             testCard = view;
             notes = (EditText) view.findViewById(R.id.testNotes);
 
@@ -107,7 +115,7 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
     @Override
     public TestCardHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // get the Test CardView
-        final View testCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.scale_card, parent, false);
+        final View testCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.scale_card_review, parent, false);
         return new TestCardHolder(testCard);
     }
 
@@ -123,23 +131,27 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
         String testCompletionResult = context.getResources().getString(R.string.test_result);
         // get current test
         List<GeriatricTest> testsFromSession = session.getTestsFromSession();
-        final GeriatricTest currentTest = testsFromSession.get(position);
-        testName = currentTest.getTestName();
+        final GeriatricTest currentScale = testsFromSession.get(position);
+        testName = currentScale.getScaleName();
 
 
         // access a given Test from the DB
-        holder.name.setText(currentTest.getShortName());
-
+        holder.name.setText(currentScale.getShortName());
 
         // display Scoring to the user
-        GradingNonDB match = Scales.getGradingForTest(
-                currentTest,
+        GradingNonDB match = Scales.getGradingForScale(
+                currentScale,
                 patient.getGender());
         holder.result_qualitative.setText(match.getGrade());
+
+        if (comparePrevious) {
+            comparePreviousSessions(currentScale, holder);
+        }
+
         // quantitative result
         String quantitative = "";
-        quantitative += currentTest.getResult();
-        GeriatricTestNonDB testNonDB = Scales.getTestByName(currentTest.getTestName());
+        quantitative += currentScale.getResult();
+        GeriatricTestNonDB testNonDB = Scales.getTestByName(currentScale.getScaleName());
         if (!testNonDB.getScoring().isDifferentMenWomen()) {
             quantitative += " (" + testNonDB.getScoring().getMinScore();
             quantitative += "-" + testNonDB.getScoring().getMaxScore() + ")";
@@ -151,8 +163,8 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
         }
         holder.result_quantitative.setText(quantitative);
 
-        if (currentTest.hasNotes()) {
-            holder.notes.setText(currentTest.getNotes());
+        if (currentScale.hasNotes()) {
+            holder.notes.setText(currentScale.getNotes());
         }
 
 
@@ -167,8 +179,8 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                currentTest.setNotes(charSequence.toString());
-                currentTest.save();
+                currentScale.setNotes(charSequence.toString());
+                currentScale.save();
             }
 
             @Override
@@ -185,7 +197,7 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
                 Fragment newFragment = new ReviewSingleTestFragment();
                 // add arguments
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(ReviewSingleTestFragment.testDBobject, currentTest);
+                bundle.putSerializable(ReviewSingleTestFragment.testDBobject, currentScale);
                 newFragment.setArguments(bundle);
                 // setup the transaction
                 FragmentTransaction transaction = ((PrivateArea) context).getFragmentManager().beginTransaction();
@@ -194,6 +206,94 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
             }
         });
 
+    }
+
+    /**
+     * Compare the current result with the results from previous sessions.
+     *
+     * @param currentScale
+     * @param holder
+     */
+    private void comparePreviousSessions(GeriatricTest currentScale, TestCardHolder holder) {
+        double currentScaleResult = currentScale.getResult();
+        System.out.println("Current result " + currentScaleResult);
+        // access this test from previous session that had this test
+        String scaleName = currentScale.getScaleName();
+        Session currentSession = currentScale.getSession();
+
+        // get all the instances of that Scale for this Patient
+        ArrayList<GeriatricTest> scaleInstances = new ArrayList<>();
+        ArrayList<Session> patientSessions = patient.getSessionsFromPatient();
+        //patientSessions.remove(currentSession);
+
+        // sort by date ascending
+        Collections.sort(patientSessions, new Comparator<Session>() {
+            public int compare(Session o1, Session o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        });
+
+        // get index current session
+        int sessionIndex = patientSessions.indexOf(currentSession);
+        // discard sessions with higher indexes, consider only the ones with smaller
+
+
+        // get instances for that test
+        for (int i = sessionIndex - 1; i >= 0; i--) {
+            Session previousSession = patientSessions.get(i);
+            List<GeriatricTest> scalesfromSession = previousSession.getTestsFromSession();
+            for (GeriatricTest previousScale : scalesfromSession) {
+                if (previousScale.getScaleName().equals(scaleName)) {
+                    scaleInstances.add(previousScale);
+                    System.out.println("FOUND match");
+                    // compare grade from previous session to current session
+                    double previousScaleResult = previousScale.getResult();
+                    System.out.println(previousScaleResult + "-" + currentScaleResult);
+                    GradingNonDB previousGrading = Scales.getGradingForScale(
+                            previousScale,
+                            patient.getGender());
+                    GradingNonDB currentGrading = Scales.getGradingForScale(
+                            currentScale,
+                            patient.getGender());
+                    System.out.println(previousGrading.getGrade() + "-" + currentGrading.getGrade());
+                    // check if has gotten worse or not
+                    int index1 = Scales.getGradingIndex(previousScale,
+                            patient.getGender());
+                    int index2 = Scales.getGradingIndex(currentScale,
+                            patient.getGender());
+                    System.out.println(index1 + "-" + index2);
+                    if (index2 > index1) {
+                        // patient got worse
+                        ViewStub stubInfo = ((ViewStub) holder.itemView.findViewById(R.id.stub_info)); // get the reference of ViewStub
+                        if (stubInfo != null) {
+                            // only inflate once
+                            View inflated = stubInfo.inflate();
+                            TextView patientProgress = (TextView) inflated.findViewById(R.id.patient_progress);
+                            ImageButton moreInfo = (ImageButton) inflated.findViewById(R.id.more_info);
+                            patientProgress.setText(R.string.evolution_negative);
+                            // display more info
+                            moreInfo.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                                    alertDialog.setTitle("Informação");
+                                    alertDialog.setMessage(context.getResources().getString(R.string.info_procedure_patient_worse));
+                                    alertDialog.show();
+                                }
+                            });
+                        }
+
+                    } else if (index1 > index2) {
+                        // patient got better
+                        //holder.patientProgress.setText(R.string.evolution_positive);
+                    } else {
+                        //holder.patientProgress.setText(R.string.evolution_neutral);
+                    }
+
+                    return;
+                }
+            }
+        }
     }
 
 

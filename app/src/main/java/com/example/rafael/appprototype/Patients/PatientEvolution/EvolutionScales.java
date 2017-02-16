@@ -1,6 +1,6 @@
 package com.example.rafael.appprototype.Patients.PatientEvolution;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.rafael.appprototype.R.id.testName;
+import static android.view.WindowManager.*;
 
 public class EvolutionScales extends RecyclerView.Adapter<EvolutionScales.MyViewHolder> {
 
@@ -35,7 +35,7 @@ public class EvolutionScales extends RecyclerView.Adapter<EvolutionScales.MyView
     private final Patient patient;
     private final String area;
     private final ArrayList<Session> patientSessions;
-    private Context context;
+    private Activity context;
 
     /**
      * Create a View
@@ -65,7 +65,7 @@ public class EvolutionScales extends RecyclerView.Adapter<EvolutionScales.MyView
      * @param sessions
      * @param area
      */
-    public EvolutionScales(Context context, ArrayList<Session> sessions, String area, Patient patient) {
+    public  EvolutionScales(Activity context, ArrayList<Session> sessions, String area, Patient patient) {
         this.context = context;
         this.patient = patient;
         this.area = area;
@@ -76,6 +76,9 @@ public class EvolutionScales extends RecyclerView.Adapter<EvolutionScales.MyView
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.patient_test_evolution, parent, false);
 
+        context.getWindow().setFlags(
+                LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                LayoutParams.FLAG_HARDWARE_ACCELERATED);
         return new MyViewHolder(itemView);
     }
 
@@ -83,6 +86,7 @@ public class EvolutionScales extends RecyclerView.Adapter<EvolutionScales.MyView
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         // get the scales from all sessions for this area
         ArrayList<GeriatricTestNonDB> testsForArea = Scales.getTestsForArea(area);
+
 
         // current test
         GeriatricTestNonDB testInfo = testsForArea.get(position);
@@ -94,7 +98,7 @@ public class EvolutionScales extends RecyclerView.Adapter<EvolutionScales.MyView
         for (Session currentSession : patientSessions) {
             List<GeriatricTest> testsFromSession = currentSession.getTestsFromSession();
             for (GeriatricTest currentTest : testsFromSession) {
-                if (currentTest.getTestName().equals(testName)) {
+                if (currentTest.getScaleName().equals(testName)) {
                     testInstances.add(currentTest);
                 }
             }
@@ -124,6 +128,9 @@ public class EvolutionScales extends RecyclerView.Adapter<EvolutionScales.MyView
             BarGraphSeries<DataPoint> series = new BarGraphSeries<>(points);
             // set date label formatter
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+
+            boolean hardwareAccelerated = holder.graph.isHardwareAccelerated();
+            System.out.println("hawrdare? " + hardwareAccelerated);
 
             holder.graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(context, format));
             holder.graph.getGridLabelRenderer().setNumHorizontalLabels(xAxis.size()); // only 4 because of the space

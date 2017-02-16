@@ -10,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -107,13 +108,13 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
 
         } else {
             // add Exit transition
-            /*
-            Fragment startFragment = ((PrivateArea) context).getFragmentManager().findFragmentById(R.id.content_fragment);
+
+            Fragment startFragment = context.getFragmentManager().findFragmentById(R.id.content_fragment);
             startFragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.fade));
             // add Enter transition
             endFragment.setEnterTransition(TransitionInflater.from(context).
                     inflateTransition(android.R.transition.fade));
-            */
+
             fragmentManager.beginTransaction()
                     .replace(R.id.content_fragment, endFragment)
                     .commit();

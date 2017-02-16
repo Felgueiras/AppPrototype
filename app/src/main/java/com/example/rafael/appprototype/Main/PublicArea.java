@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -278,13 +279,13 @@ public class PublicArea extends AppCompatActivity {
             endFragment.setArguments(args);
         }
         // add Exit transition
-        /*
+
         startFragment.setExitTransition(TransitionInflater.from(
                 this).inflateTransition(android.R.transition.fade));
         // add Enter transition
         endFragment.setEnterTransition(TransitionInflater.from(this).
                 inflateTransition(android.R.transition.fade));
-                */
+
         // Create new transaction and add to back stack
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.content_fragment, endFragment);

@@ -2,11 +2,13 @@ package com.example.rafael.appprototype.Evaluations.DisplayTest;
 
 import android.content.Context;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -18,7 +20,6 @@ import com.example.rafael.appprototype.DataTypes.DB.Choice;
 import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
-import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
@@ -127,8 +128,12 @@ public class QuestionsListAdapter extends BaseAdapter {
         }
 
         if (positionsFilled.size() == nq) {
-            if (!test.isCompleted())
-                Snackbar.make(questionView, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
+            if (!test.isCompleted()) {
+                // System.out.println();
+                // TODO fix this
+                //Snackbar.make(questionView, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
+
+            }
             allQuestionsAnswered = true;
 
             // write that to DB
@@ -164,12 +169,14 @@ public class QuestionsListAdapter extends BaseAdapter {
                         this).multipleCategoriesNotOpened();
             } else {
                 QuestionNonDB currentQuestionNonDB = questions.get(position);
-                System.out.println(currentQuestionNonDB.isRightWrong() + "aaaa");
                 // yes/no questions
                 if (currentQuestionNonDB.isYesOrNo()) {
                     questionView = yesNoNotOpened(currentQuestionNonDB, position);
                 }
-
+                if (currentQuestionNonDB.isNumerical()) {
+                    questionView = numericalQuestion(currentQuestionNonDB, position);
+                    return questionView;
+                }
                 // right/wrong
                 if (currentQuestionNonDB.isRightWrong()) {
                     questionView = rightWrong(currentQuestionNonDB, position);
@@ -190,6 +197,9 @@ public class QuestionsListAdapter extends BaseAdapter {
                 if (currentQuestionNonDB.isRightWrong()) {
                     questionView = rightWrong(currentQuestionNonDB, position);
                 }
+                if (currentQuestionNonDB.isNumerical()) {
+                    questionView = numericalQuestion(currentQuestionNonDB, position);
+                }
                 // check if question is multiple choice or yes/no
                 if (currentQuestionNonDB.isYesOrNo()) {
                     questionView = yesNoAlreadyOpened(currentQuestionNonDB, position);
@@ -197,7 +207,66 @@ public class QuestionsListAdapter extends BaseAdapter {
             }
 
         }
-        System.out.println(questionView);
+        return questionView;
+    }
+
+    private View numericalQuestion(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
+        // question in DB
+        Question questionInDB;
+        String dummyID = test.getGuid() + "-" + currentQuestionNonDB.getDescription();
+        questionInDB = Question.getQuestionByID(dummyID);
+        if (questionInDB == null) {
+            // create question and add to DB
+            questionInDB = new Question();
+            questionInDB.setGuid(dummyID);
+            questionInDB.setDescription(currentQuestionNonDB.getDescription());
+            questionInDB.setTest(test);
+            questionInDB.setYesOrNo(false);
+            questionInDB.setRightWrong(false);
+            questionInDB.setNumerical(true);
+            questionInDB.save();
+        }
+
+        /**
+         * Set View
+         */
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View questionView = inflater.inflate(R.layout.content_question_numerical, null);
+        TextView questionName = (TextView) questionView.findViewById(R.id.nameQuestion);
+        questionName.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
+
+        EditText answer = (EditText) questionView.findViewById(R.id.question_answer_number);
+
+        // if question is already answered
+        if (questionInDB.isAnswered()) {
+            answer.setText(questionInDB.getAnswerNumber()+"");
+        }
+
+        // detect when answer changes changed
+        final Question finalQuestionInDB = questionInDB;
+        answer.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                finalQuestionInDB.setAnswerNumber(1);
+                finalQuestionInDB.setAnswered(true);
+                finalQuestionInDB.save();
+
+                questionAnswered(questionIndex);
+                // TODO add alerts if written test is not permitted
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
         return questionView;
     }
 

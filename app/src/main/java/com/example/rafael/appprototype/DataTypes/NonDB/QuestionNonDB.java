@@ -31,6 +31,7 @@ public class QuestionNonDB {
      */
     boolean yesOrNo;
     private int number;
+    private boolean numerical;
 
 
     /**
@@ -122,5 +123,13 @@ public class QuestionNonDB {
 
     public void setOnlyForWomen(boolean onlyForWomen) {
         this.onlyForWomen = onlyForWomen;
+    }
+
+    public void setNumerical(boolean numerical) {
+        this.numerical = numerical;
+    }
+
+    public boolean isNumerical() {
+        return numerical;
     }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 
 import com.example.rafael.appprototype.R;
 
@@ -28,11 +29,12 @@ public class FragmentTransitions {
         // add Exit transition
         /*
         startFragment.setExitTransition(TransitionInflater.from(
-                this).inflateTransition(android.R.transition.fade));
+                context).inflateTransition(android.R.transition.fade));
         // add Enter transition
-        endFragment.setEnterTransition(TransitionInflater.from(this).
+        endFragment.setEnterTransition(TransitionInflater.from(context).
                 inflateTransition(android.R.transition.fade));
                 */
+
         // Create new transaction and add to back stack
         FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
         transaction.replace(R.id.content_fragment, endFragment);

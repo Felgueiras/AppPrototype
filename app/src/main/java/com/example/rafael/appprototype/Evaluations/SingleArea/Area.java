@@ -3,15 +3,11 @@ package com.example.rafael.appprototype.Evaluations.SingleArea;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +18,6 @@ import android.view.ViewGroup;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.R;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
@@ -78,7 +73,6 @@ public class Area extends Fragment {
         int numbercolumns = 1;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         if (area != Constants.cga_clinical) {
             recyclerView.setAdapter(finalAdapter);
@@ -128,13 +122,6 @@ public class Area extends Fragment {
     }
 
 
-    /**
-     * Converting dp to pixel
-     */
-    private int dpToPx(int dp) {
-        Resources r = getActivity().getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -157,7 +144,7 @@ public class Area extends Fragment {
                 // add info about this area
                 String area_text = null;
                 switch (area) {
-                    case Constants.cga_afetivo:
+                    case Constants.cga_afective:
                         area_text = getActivity().getResources().getString(R.string.cga_afective);
                         break;
                     case Constants.cga_clinical:

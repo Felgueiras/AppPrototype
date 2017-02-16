@@ -5,6 +5,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.ScoringNonDB;
 import com.example.rafael.appprototype.DataTypes.Scales;
@@ -138,7 +139,7 @@ public class GeriatricTest extends Model implements Serializable {
     }
 
 
-    public String getTestName() {
+    public String getScaleName() {
         return testName;
     }
 
@@ -214,7 +215,7 @@ public class GeriatricTest extends Model implements Serializable {
 
 
     public String getShortName() {
-        return Scales.getShortName(this.getTestName());
+        return Scales.getShortName(this.getScaleName());
     }
 
     public void setShortName(String shortName) {
@@ -264,14 +265,12 @@ public class GeriatricTest extends Model implements Serializable {
      * @return
      */
     public double generateTestResult() {
-        System.out.println("Generating test result!!!");
-        //system.out.println("Getting test result...");
         double res = 0;
         ArrayList<Question> questionsFromTest = getQuestionsFromTest();
 
         if (singleQuestion) {
             //system.out.println("SINGLE");
-            ScoringNonDB scoring = Scales.getTestByName(this.getTestName()).getScoring();
+            ScoringNonDB scoring = Scales.getTestByName(this.getScaleName()).getScoring();
             ArrayList<GradingNonDB> valuesBoth = scoring.getValuesBoth();
             for (GradingNonDB grade : valuesBoth) {
                 if (grade.getGrade().equals(answer)) {
@@ -282,6 +281,10 @@ public class GeriatricTest extends Model implements Serializable {
             }
         } else {
             for (Question question : questionsFromTest) {
+                // in the Hamilton scale, only the first 17 questions make up the result
+                if (testName.equals(Constants.test_name_hamilton) &&
+                        questionsFromTest.indexOf(question) > 16)
+                    break;
                 /**
                  * Yes/no Question
                  */
@@ -299,6 +302,13 @@ public class GeriatricTest extends Model implements Serializable {
                 else if (question.isRightWrong()) {
                     if (question.getSelectedRightWrong().equals("right"))
                         res += 1;
+                }
+                /**
+                 * Numerical question.
+                 */
+                else if (question.isNumerical()) {
+                    System.out.println("Numerical");
+                    res += question.getAnswerNumber();
                 }
                 /**
                  * Multiple Choice Question

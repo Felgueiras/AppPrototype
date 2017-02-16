@@ -1,5 +1,6 @@
 package com.example.rafael.appprototype.Patients.PatientEvolution;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -34,10 +35,10 @@ public class EvolutionAreas extends RecyclerView.Adapter<EvolutionAreas.TestCard
     /**
      * Context.
      */
-    private Context context;
+    private Activity context;
 
 
-    public EvolutionAreas(Context context, ArrayList<Session> patientSessions, Patient patient) {
+    public EvolutionAreas(Activity context, ArrayList<Session> patientSessions, Patient patient) {
         this.context = context;
         this.patient = patient;
         this.patientSessions = patientSessions;
@@ -97,7 +98,6 @@ public class EvolutionAreas extends RecyclerView.Adapter<EvolutionAreas.TestCard
         int numbercolumns = 1;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, numbercolumns);
         holder.scales.setLayoutManager(mLayoutManager);
-        holder.scales.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         holder.scales.setItemAnimator(new DefaultItemAnimator());
         holder.scales.setAdapter(adapter);
     }

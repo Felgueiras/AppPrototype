@@ -40,14 +40,13 @@ public class EvolutionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.patient_info_sessions, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.patientSessions);
-        ArrayList<Session> sessionsFromPatient = patient.getRecordsFromPatient();
+        ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
         EvolutionAreas adapter = new EvolutionAreas(getActivity(), sessionsFromPatient, patient);
 
         // create Layout
         int numbercolumns = 1;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 

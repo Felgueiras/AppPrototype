@@ -128,7 +128,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.TestCardHolder> {
             public void onClick(View view) {
                 /*
                 AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-                alertDialog.setTitle(finalCurrentTest.getTestName());
+                alertDialog.setTitle(finalCurrentTest.getScaleName());
                 alertDialog.setMessage(finalCurrentTest.getDescription());
                 alertDialog.show();
                 */
@@ -143,7 +143,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.TestCardHolder> {
 
                 // create table with classification for this scale
                 TableLayout table = (TableLayout) dialogView.findViewById(R.id.scale_outcomes);
-                GeriatricTestNonDB test = Scales.getTestByName(finalCurrentTest.getTestName());
+                GeriatricTestNonDB test = Scales.getTestByName(finalCurrentTest.getScaleName());
                 if (!test.getScoring().isDifferentMenWomen()) {
                     addTableHeader(table, false);
 
@@ -211,7 +211,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.TestCardHolder> {
 
 
                 AlertDialog alertDialog = dialogBuilder.create();
-                alertDialog.setTitle(finalCurrentTest.getTestName());
+                alertDialog.setTitle(finalCurrentTest.getScaleName());
                 alertDialog.show();
             }
         });
@@ -235,7 +235,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.TestCardHolder> {
             if (currentTest.isCompleted()) {
                 // display Scoring to the user
                 System.out.println("Gender is " + patientGender);
-                GradingNonDB match = Scales.getGradingForTest(
+                GradingNonDB match = Scales.getGradingForScale(
                         currentTest,
                         patientGender);
                 // qualitative result
@@ -243,7 +243,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.TestCardHolder> {
                 // quantitative result
                 String quantitative = "";
                 quantitative += currentTest.getResult();
-                GeriatricTestNonDB testNonDB = Scales.getTestByName(currentTest.getTestName());
+                GeriatricTestNonDB testNonDB = Scales.getTestByName(currentTest.getScaleName());
                 if (!testNonDB.getScoring().isDifferentMenWomen()) {
                     quantitative += " (" + testNonDB.getScoring().getMinScore();
                     quantitative += "-" + testNonDB.getScoring().getMaxScore() + ")";
@@ -330,7 +330,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.TestCardHolder> {
             public void onClick(View v) {
 
                 Log.d("Test", "Going to open");
-                String selectedTestName = finalCurrentTest.getTestName();
+                String selectedTestName = finalCurrentTest.getScaleName();
 
                 // Create new fragment and transaction
                 Fragment newFragment = new DisplaySingleTestFragment();

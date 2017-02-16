@@ -119,5 +119,6 @@
     <string name="app_intro_skip">Skip</string>
     <string name="intro_welcome_message">Welcome to Prototype</string>
     <string name="intro_brief_description">Amazing android app with cool features.</string>
+    <string name="info_procedure_patient_worse" />
 
 </resources>

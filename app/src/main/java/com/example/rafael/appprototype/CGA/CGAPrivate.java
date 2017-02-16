@@ -113,7 +113,6 @@ public class CGAPrivate extends Fragment {
         int numbercolumns = 1;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
@@ -208,7 +207,10 @@ public class CGAPrivate extends Fragment {
                                 session.delete();
                                 Constants.sessionID = null;
                                 if (Constants.area.equals(Constants.area_private))
+                                {
+                                    Constants.discard_session = true;
                                     BackStackHandler.goToPreviousScreen();
+                                }
                                 else {
                                     FragmentManager fragmentManager = getFragmentManager();
                                     fragmentManager.beginTransaction()

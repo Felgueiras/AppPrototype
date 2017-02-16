@@ -160,7 +160,7 @@ public class Patient extends Model implements Serializable {
      *
      * @return
      */
-    public ArrayList<Session> getRecordsFromPatient() {
+    public ArrayList<Session> getSessionsFromPatient() {
         List<Session> recordsList = getMany(Session.class, "patient");
         ArrayList<Session> sessions = new ArrayList<>();
         sessions.addAll(recordsList);
