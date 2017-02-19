@@ -3,6 +3,7 @@ package com.example.rafael.appprototype.DataTypes.DB;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.google.gson.annotations.Expose;
 
 /**
  * Created by rafael on 30-09-2016.
@@ -10,36 +11,43 @@ import com.activeandroid.annotation.Table;
 @Table(name = "Scorings")
 public class Scoring extends Model {
 
+    @Expose
     @Column(name = "guid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     String guid;
     /**
      * Min score for a given test
      */
+    @Expose
     @Column(name = "minScore")
     int minScore;
     /**
      * Max score
      */
+    @Expose
     @Column(name = "maxScore")
     int maxScore;
     /**
      * Boolean that indicates if the result can vary from men to women
      */
+    @Expose
     @Column(name = "differentMenWomen")
     boolean differentMenWomen;
     /**
      * Correspondence between score and category.
      */
+    @Expose
     @Column(name = "values", onDelete = Column.ForeignKeyAction.CASCADE)
     Grading[] values;
     /**
      * Grading particular to men
      */
+    @Expose
     @Column(name = "valuesMen", onDelete = Column.ForeignKeyAction.CASCADE)
     Grading[] valuesMen;
     /**
      * Grading particular to women
      */
+    @Expose
     @Column(name = "testName", onDelete = Column.ForeignKeyAction.CASCADE)
     Grading[] valuesWomen;
 

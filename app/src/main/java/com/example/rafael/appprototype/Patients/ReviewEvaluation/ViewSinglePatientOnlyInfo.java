@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DatesHandler;
 import com.example.rafael.appprototype.R;
 

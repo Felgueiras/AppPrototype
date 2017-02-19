@@ -12,14 +12,13 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/frame"/>
+            android:id="@+id/evaluation_history_fragment"/>
         <GridView
             android:id="@+id/gridView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="1"/>
     </LinearLayout>
-
 
 
 

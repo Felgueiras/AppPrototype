@@ -2,6 +2,7 @@ package com.example.rafael.appprototype.Evaluations.EvaluationsHistory;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.HistoryCard.ReviewSessionCards;
@@ -51,6 +53,9 @@ public class ShowEvaluationsForDay extends BaseAdapter {
 
         // create Layout
         int numbercolumns = 1;
+        if (Constants.screenSize > Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+            numbercolumns = 2;
+        }
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -14,34 +14,51 @@ import com.example.rafael.appprototype.R;
 
 public class EvaluationsHistoryMain extends Fragment {
 
+    private FragmentManager fragmentManager;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View myInflatedView = inflater.inflate(R.layout.content_grid, container, false);
+        View view = inflater.inflate(R.layout.evaluations_history, container, false);
 
         if (Session.getAllSessions().isEmpty()) {
-            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager = getFragmentManager();
             Fragment fragment = new EmptyStateFragment();
             Bundle args = new Bundle();
             args.putString(EmptyStateFragment.MESSAGE, getResources().getString(R.string.no_sessions_history));
             fragment.setArguments(args);
+
+            Fragment currentFragment = fragmentManager.findFragmentById(R.id.evaluation_history_frame_layout);
             fragmentManager.beginTransaction()
-                    .replace(R.id.frame, fragment)
+                    //.remove(currentFragment)
+                    .replace(R.id.evaluation_history_frame_layout, fragment)
                     .commit();
 
-            GridView grid = (GridView) myInflatedView.findViewById(R.id.gridView);
-            grid.setVisibility(View.GONE);
 
         } else {
-            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager = getFragmentManager();
             Fragment fragment = new EvaluationsHistoryGrid();
             fragmentManager.beginTransaction()
-                    .replace(R.id.frame, fragment)
+                    .replace(R.id.evaluation_history_frame_layout, fragment)
                     .commit();
         }
 
-        return myInflatedView;
+//        // FAB
+//        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.new_evaluation_fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                // create a new Session - switch to CreatePatient Fragment
+//                Bundle args = null;
+//                FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), args, Constants.tag_create_session);
+//
+//
+//            }
+//        });
+
+        return view;
     }
 }
 

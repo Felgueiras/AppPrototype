@@ -39,7 +39,7 @@ public class DisplayRecordFragment extends Fragment {
         // populate the ListView
         ListView lv = (ListView) view.findViewById(R.id.recordInfo);
         // create the adapter
-        ViewTestsListAdapter adapter = new ViewTestsListAdapter(this, session.getTestsFromSession());
+        ScalesListAdapter adapter = new ScalesListAdapter(this, session.getScalesFromSession());
         lv.setAdapter(adapter);
         return view;
     }

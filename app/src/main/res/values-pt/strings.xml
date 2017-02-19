@@ -23,7 +23,7 @@
     <string name="sessions">AGG</string>
     <string name="my_patients">Pacientes</string>
     <string name="tab_my_patients">Pacientes</string>
-    <string name="tab_sessions">AGG</string>
+    <string name="cga">AGG</string>
     <string name="tab_patients_history">Histórico de pacientes</string>
     <string name="no">Não</string>
     <string name="yes">Sim</string>
@@ -152,9 +152,10 @@ física y/o verbal.
     instrumentais (AIVD - independência para viver sozinho).
     </string>
     <string name="session_reset">Reset</string>
-    <string name="session_reset_question">Deseja fazer reset à sessão?</string>
+    <string name="session_reset_question">Deseja fechar esta sessão?</string>
     <string name="evaluations">Avaliações</string>
-    <string name="evolution">Evolução</string>
+    <string name="consult_progress">Consultar progresso</string>
+    <string name="progress">Progresso</string>
     <string name="help_cga">Avaliação Geriátrica Global</string>
     <string name="help_cga_description">
         A Avaliação Geriátrica Global (AGG) é uma avaliação multidimensional e interdisciplinar do idoso:\n
@@ -216,4 +217,6 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
         3. Intervenção nos estilos de vida / farmacológica se necessário.\n
         4. Encurtamento do período de reavaliação.
     </string>
+    <string name="scale_notes">Notas</string>
+    <string name="notes">Notas</string>
 </resources>

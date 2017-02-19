@@ -29,7 +29,7 @@
     <string name="sessions">Evaluations</string>
     <string name="my_patients">My patients</string>
     <string name="tab_patients_history">Patients history</string>
-    <string name="tab_sessions">Evaluations</string>
+    <string name="cga">Evaluations</string>
     <string name="tab_my_patients">My patients</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -113,12 +113,15 @@
     <string name="session_reset">Reset</string>
     <string name="session_reset_question">Do you wish to reset this session?</string>
     <string name="evaluations">Evaluations</string>
-    <string name="evolution">Evolution</string>
+    <string name="consult_progress">Evolution</string>
     <string name="action_info">Info</string>
     <string name="app_intro">App intro</string>
     <string name="app_intro_skip">Skip</string>
     <string name="intro_welcome_message">Welcome to Prototype</string>
     <string name="intro_brief_description">Amazing android app with cool features.</string>
     <string name="info_procedure_patient_worse" />
+    <string name="sharedPreferencesTag">com.mycompany.myAppName</string>
+    <string name="saved_session_public">SESSION_PUBLIC</string>
+    <string name="saved_session_private">SESSION_PRIVATE</string>
 
 </resources>

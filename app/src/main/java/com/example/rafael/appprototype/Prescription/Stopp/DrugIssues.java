@@ -12,7 +12,7 @@ import com.example.rafael.appprototype.R;
 import java.util.ArrayList;
 
 /**
- * Display a List of the resume for each GeriatricTest inside a Sesssion.
+ * Display a List of the resume for each GeriatricScale inside a Sesssion.
  */
 public class DrugIssues extends BaseAdapter {
     /**
@@ -23,7 +23,7 @@ public class DrugIssues extends BaseAdapter {
     private View view;
 
     /**
-     * Display all Questions for a GeriatricTest
+     * Display all Questions for a GeriatricScale
      *
      * @param issues ArrayList of Questions
      */

@@ -4,15 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--Stub for holding area info-->
-    <ViewStub
-        android:id="@+id/stub_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inflatedId="@+id/inflatedview"
-        android:layout="@layout/custom_stub"
-        />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,7 +22,8 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:id="@+id/question_answer_number"
+            android:id="@+id/question_answer"
+            android:inputType="number"
             android:hint="number">
         </EditText>
 

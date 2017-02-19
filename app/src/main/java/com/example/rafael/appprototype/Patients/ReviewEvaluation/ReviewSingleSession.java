@@ -1,7 +1,6 @@
 package com.example.rafael.appprototype.Patients.ReviewEvaluation;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,9 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleTest.ReviewArea;
-import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.R;
 
 
@@ -44,7 +42,7 @@ public class ReviewSingleSession extends Fragment {
         Bundle args = getArguments();
         // get Session and Patient
         session = (Session) args.getSerializable(SESSION);
-        getActivity().setTitle(session.getDate()+"");
+        getActivity().setTitle(session.getDateWithoutHour()+"");
         patient = session.getPatient();
 
         // check if we have to compare to the previous session

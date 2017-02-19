@@ -5,6 +5,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
+import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,50 +16,71 @@ import java.util.List;
 @Table(name = "Questions")
 public class Question extends Model {
 
+    @Expose
     @Column(name = "guid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     String guid;
     /**
      * Textual field of the question or single tag
      */
+    @Expose
     @Column(name = "field")
     String description;
     /**
      * Boolean that signals if it is a yes or no question.
      */
+    @Expose
     @Column(name = "yesOrNo")
     boolean yesOrNo;
 
+    @Expose
     @Column(name = "rightWrong")
     boolean rightWrong;
 
+    @Expose
     @Column(name = "test", onDelete = Column.ForeignKeyAction.CASCADE)
-    GeriatricTest test;
+    GeriatricScale test;
     /**
      * If yes or no question, holds the Choice
      */
+    @Expose
     @Column(name = "selectedYesNoChoice")
     String selectedYesNoChoice;
 
+    @Expose
     @Column(name = "yesValue")
     int yesValue;
 
+    @Expose
     @Column(name = "noValue")
     int noValue;
 
+    @Expose
     @Column(name = "answered")
     boolean answered;
 
+    @Expose
     @Column(name = "selectedChoice")
     String selectedChoice;
 
+    @Expose
     @Column(name = "selectedRightWrong")
     String selectedRightWrong;
 
+    @Expose
     @Column(name = "numerical")
     boolean numerical;
 
+    @Expose
     @Column(name = "answerNumber")
     int answerNumber;
+
+    @Expose
+    @Column(name = "multipleTextInput")
+    private boolean multipleTextInput;
+
+    @Expose
+    @Column(name = "textAnswer")
+    private String textAnswer;
 
     /**
      * Create a new Question
@@ -79,6 +101,7 @@ public class Question extends Model {
 
     /**
      * Get all possible Choices for this Question
+     *
      * @return Choices
      */
     public ArrayList<Choice> getChoicesForQuestion() {
@@ -106,11 +129,11 @@ public class Question extends Model {
         this.yesOrNo = yesOrNo;
     }
 
-    public GeriatricTest getTest() {
+    public GeriatricScale getTest() {
         return test;
     }
 
-    public void setTest(GeriatricTest test) {
+    public void setTest(GeriatricScale test) {
         this.test = test;
     }
 
@@ -133,6 +156,7 @@ public class Question extends Model {
 
     /**
      * Get guid for the Question
+     *
      * @return
      */
     public String getGuid() {
@@ -141,6 +165,7 @@ public class Question extends Model {
 
     /**
      * Set guid for the Question
+     *
      * @param guid
      */
     public void setGuid(String guid) {
@@ -182,6 +207,7 @@ public class Question extends Model {
 
     /**
      * Get a Question by its ID
+     *
      * @param questionID ID of the Question
      * @return Question with that ID value
      */
@@ -193,10 +219,10 @@ public class Question extends Model {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String str = "";
-        str += "ID - " +guid;
-        str += "Description - " +description;
+        str += "ID - " + guid;
+        str += "Description - " + description;
         str += "Already answered? " + answered;
         str += "Right/wrong " + selectedRightWrong;
         str += "Yes/no " + yesOrNo;
@@ -228,6 +254,22 @@ public class Question extends Model {
 
     public void setAnswerNumber(int answerNumber) {
         this.answerNumber = answerNumber;
+    }
+
+    public void setMultipleTextInput(boolean multipleTextInput) {
+        this.multipleTextInput = multipleTextInput;
+    }
+
+    public boolean isMultipleTextInput() {
+        return multipleTextInput;
+    }
+
+    public void setTextAnswer(String textAnswer) {
+        this.textAnswer = textAnswer;
+    }
+
+    public String getTextAnswer() {
+        return textAnswer;
     }
 }
 

@@ -1,11 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        app:showAsAction="always|collapseActionView"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <item xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/listsearch"
-        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:actionViewClass="android.widget.SearchView"
+        android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/menu_search"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:actionViewClass="android.widget.SearchView"/>
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always|collapseActionView" />
 </menu>

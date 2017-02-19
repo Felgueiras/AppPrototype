@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.Scales;
 import com.example.rafael.appprototype.R;
@@ -16,22 +16,22 @@ import com.example.rafael.appprototype.R;
 import java.util.List;
 
 /**
- * Display a List of the resume for each GeriatricTest inside a Session.
+ * Display a List of the resume for each GeriatricScale inside a Session.
  */
 public class ShowTestsForSession extends BaseAdapter {
     /**
      * Questions for a Test
      */
-    private final List<GeriatricTest> tests;
+    private final List<GeriatricScale> tests;
     private static LayoutInflater inflater = null;
     private View testView;
 
     /**
-     * Display all Questions for a GeriatricTest
+     * Display all Questions for a GeriatricScale
      *
      * @param tests ArrayList of Questions
      */
-    public ShowTestsForSession(Context context, List<GeriatricTest> tests) {
+    public ShowTestsForSession(Context context, List<GeriatricScale> tests) {
         this.tests = tests;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -45,7 +45,7 @@ public class ShowTestsForSession extends BaseAdapter {
         TextView testResult = (TextView) testView.findViewById(R.id.testResult);
 
         // get values
-        GeriatricTest test = tests.get(position);
+        GeriatricScale test = tests.get(position);
         String name = Scales.getShortName(test.getScaleName());
         GradingNonDB grading = Scales.getGradingForTestWithoutGenerating(
                 test,

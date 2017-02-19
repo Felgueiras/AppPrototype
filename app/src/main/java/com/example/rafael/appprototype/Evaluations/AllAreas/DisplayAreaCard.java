@@ -3,6 +3,7 @@ package com.example.rafael.appprototype.Evaluations.AllAreas;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,14 +13,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.Evaluations.SingleArea.Area;
+import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivate;
+import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublic;
 import com.example.rafael.appprototype.R;
 
 import java.io.Serializable;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -78,7 +82,7 @@ public class DisplayAreaCard extends RecyclerView.Adapter<DisplayAreaCard.CGACar
     public void onBindViewHolder(final CGACardHolder holder, int position) {
 
         // access a given Test from the DB
-        List<GeriatricTest> testsFromSession = session.getTestsFromSession();
+        List<GeriatricScale> testsFromSession = session.getScalesFromSession();
 
 
         holder.name.setText(Constants.cga_areas[position]);
@@ -99,22 +103,45 @@ public class DisplayAreaCard extends RecyclerView.Adapter<DisplayAreaCard.CGACar
 
                 String selectedArea = (String) holder.name.getText();
                 // Create new fragment and transaction
-                Fragment newFragment = new Area();
-                // add arguments
-                Bundle bundle = new Bundle();
+                SharedPreferences sharedPreferences = context.getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
+                boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
+                if (alreadyLogged) {
+                    Fragment newFragment = new CGAAreaPrivate();
+                    // add arguments
+                    Bundle bundle = new Bundle();
+                    Patient patient = session.getPatient();
+                    if (patient != null)
+                        bundle.putSerializable(CGAAreaPrivate.PATIENT, patient);
 
-                Patient patient = session.getPatient();
-                System.out.println("Patient here is " + patient);
-                if (patient != null)
-                    bundle.putSerializable(Area.PATIENT, patient);
+                    bundle.putSerializable(CGAAreaPrivate.sessionObject, session);
+                    bundle.putString(CGAAreaPrivate.CGA_AREA, selectedArea);
+                    newFragment.setArguments(bundle);
+                    // setup the transaction
+                    FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
+                    Fragment frag = context.getFragmentManager().findFragmentById(R.id.current_fragment);
+                    transaction.remove(frag);
+                    transaction.replace(R.id.current_fragment, newFragment);
+                    transaction.addToBackStack(Constants.tag_display_single_area_private).commit();
+                } else {
+                    Fragment newFragment = new CGAAreaPublic();
+                    // add arguments
+                    Bundle bundle = new Bundle();
 
-                bundle.putSerializable(Area.sessionObject, session);
-                bundle.putString(Area.CGA_AREA, selectedArea);
-                newFragment.setArguments(bundle);
-                // setup the transaction
-                FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
-                transaction.replace(R.id.content_fragment, newFragment);
-                transaction.addToBackStack(Constants.tag_display_single_area).commit();
+                    Patient patient = session.getPatient();
+                    if (patient != null)
+                        bundle.putSerializable(CGAAreaPublic.PATIENT, patient);
+
+                    bundle.putSerializable(CGAAreaPublic.sessionObject, session);
+                    bundle.putString(CGAAreaPublic.CGA_AREA, selectedArea);
+                    newFragment.setArguments(bundle);
+                    // setup the transaction
+                    FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
+                    Fragment frag = context.getFragmentManager().findFragmentById(R.id.current_fragment);
+                    transaction.remove(frag);
+                    transaction.replace(R.id.current_fragment, newFragment);
+                    transaction.addToBackStack(Constants.tag_display_single_area_public).commit();
+                }
+
             }
         });
 

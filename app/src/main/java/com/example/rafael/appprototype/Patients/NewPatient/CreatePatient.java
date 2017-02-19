@@ -20,8 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.BackStackHandler;
-import com.example.rafael.appprototype.DataTypes.Patient;
-import com.example.rafael.appprototype.DatesHandler;
+import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.R;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 

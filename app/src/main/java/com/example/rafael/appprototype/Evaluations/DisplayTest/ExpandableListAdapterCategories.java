@@ -10,9 +10,9 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
-import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
+import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.SingleQuestion.RightWrongQuestionHandler;
@@ -26,10 +26,9 @@ import java.util.List;
  */
 public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
 
-    private final GeriatricTestNonDB testNonDB;
-    private final GeriatricTest test;
+    private final GeriatricScaleNonDB testNonDB;
+    private final GeriatricScale test;
     private final QuestionsListAdapter adapter;
-    private final boolean alreadyOpened;
     private Context _context;
     /**
      * Headers.
@@ -42,17 +41,15 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
 
     public ExpandableListAdapterCategories(Context context, List<String> listDataHeader,
                                            HashMap<String, List<QuestionNonDB>> listChildData,
-                                           GeriatricTestNonDB testNonDB,
-                                           GeriatricTest test,
-                                           QuestionsListAdapter viewQuestionsListAdapter,
-                                           boolean alreadyOpened) {
+                                           GeriatricScaleNonDB testNonDB,
+                                           GeriatricScale test,
+                                           QuestionsListAdapter viewQuestionsListAdapter) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
         this.testNonDB = testNonDB;
         this.test = test;
         this.adapter = viewQuestionsListAdapter;
-        this.alreadyOpened = alreadyOpened;
     }
 
     @Override
@@ -66,17 +63,21 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int categoryIndex,
+                             final int childPosition,
+                             boolean isLastChild,
+                             View convertView,
+                             ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.content_question_right_wrong, null);
         }
-        QuestionCategory currentCategory = testNonDB.getQuestionsCategories().get(groupPosition);
+
+        QuestionCategory currentCategory = testNonDB.getQuestionsCategories().get(categoryIndex);
 
         if (childPosition == 0) {
             // display category info
-            ViewStub simpleViewStub = ((ViewStub) convertView.findViewById(R.id.stub_info)); // get the reference of ViewStub
+            ViewStub simpleViewStub = ((ViewStub) convertView.findViewById(R.id.stub_graph_view)); // get the reference of ViewStub
             if (simpleViewStub != null) {
                 // only inflate once
                 View inflated = simpleViewStub.inflate();
@@ -86,32 +87,22 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
         }
 
         // question not in DB
-        QuestionNonDB currentQuestionNonDB = testNonDB.getQuestionsCategories().get(groupPosition).getQuestions().get(childPosition);
+        QuestionNonDB currentQuestionNonDB = testNonDB.getQuestionsCategories().get(categoryIndex).getQuestions().get(childPosition);
         // question in DB
         Question questionInDB;
-        String dummyID = test.getGuid() + "-" + currentCategory.getDescription() + "-" + currentQuestionNonDB.getDescription();
+        int questionIndex = QuestionCategory.getQuestionIndex(categoryIndex, childPosition, testNonDB);
+        String dummyID = test.getGuid() + "-" + questionIndex;
+        System.out.println(dummyID +"-"+currentCategory);
         questionInDB = Question.getQuestionByID(dummyID);
-        // TODO review
-        if (!alreadyOpened) {
+        if (questionInDB == null) {
             questionInDB = new Question();
             // create question and add to DB
-            //system.out.println(dummyID);
             questionInDB.setGuid(dummyID);
             questionInDB.setDescription(currentQuestionNonDB.getDescription());
             questionInDB.setTest(test);
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(true);
             questionInDB.save();
-            //system.out.println("Adding to DB - " + questionInDB.toString());
-        } else {
-            if (questionInDB != null) {
-                //system.out.println("Already opened");
-                // question already in DB, fetch it
-                int questionIndex = QuestionCategory.getQuestionIndex(groupPosition, childPosition, testNonDB);
-                questionInDB = Question.getQuestionByID(dummyID);
-                //system.out.println("Question index is " + questionIndex);
-            }
-
         }
 
 
@@ -122,7 +113,7 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
         questionName.setText((childPosition + 1) + " - " + currentQuestionNonDB.getDescription());
         // detect when choice changed
         RadioGroup radioGroup = (RadioGroup) convertView.findViewById(R.id.radioGroup);
-        radioGroup.setOnCheckedChangeListener(new RightWrongQuestionHandler(questionInDB, adapter, groupPosition, childPosition, testNonDB));
+        radioGroup.setOnCheckedChangeListener(new RightWrongQuestionHandler(questionInDB, adapter, categoryIndex, childPosition, testNonDB));
         // if question is already answered
         if (questionInDB.isAnswered()) {
             ////system.out.println(questionInDB.toString());
@@ -138,8 +129,7 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .size();
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition)).size();
     }
 
     @Override
@@ -158,17 +148,14 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded,
-                             View convertView, ViewGroup parent) {
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
         }
 
-        TextView lblListHeader = (TextView) convertView
-                .findViewById(R.id.lblListHeader);
+        TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
 

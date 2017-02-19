@@ -19,7 +19,7 @@
 
     </group>
 
-    <!--Help & Feedback-->
+    <!--HelpTopics & Feedback-->
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/sendFeedback"

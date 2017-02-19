@@ -3,11 +3,13 @@ package com.example.rafael.appprototype.Main;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,9 +23,10 @@ import android.widget.TextView;
 import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DatabaseOps;
+import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.DatabaseGSONOps;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
-import com.example.rafael.appprototype.Evaluations.EvaluationsMainFragment;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
@@ -39,6 +42,7 @@ public class PrivateArea extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("Inside PrivateArea");
         Constants.area = Constants.area_private;
         super.onCreate(savedInstanceState);
         ActiveAndroid.initialize(getApplication());
@@ -49,6 +53,45 @@ public class PrivateArea extends AppCompatActivity {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
+        Log.d("Lock", "onCreate");
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        final String sessionID = sharedPreferences.getString(getResources().getString(R.string.saved_session_private), null);
+        if (sessionID != null) {
+            Log.d("Lock", "We have sessionID!");
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
+            alertDialog.setMessage("Deseja retomar a Sessão que tinha em curso?");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            FragmentManager fragmentManager = getFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.current_fragment, new CGAPrivate())
+                                    .commit();
+                        }
+                    });
+            final SharedPreferences finalSharedPreferences1 = sharedPreferences;
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // erase the sessionID
+                            if (Session.getSessionByID(sessionID) != null)
+                                Session.getSessionByID(sessionID).delete();
+                            finalSharedPreferences1.edit().putString(getString(R.string.saved_session_private), null).apply();
+                        }
+                    });
+            alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    // erase the sessionID
+                    if (Session.getSessionByID(sessionID) != null)
+                        Session.getSessionByID(sessionID).delete();
+                    finalSharedPreferences1.edit().putString(getString(R.string.saved_session_private), null).apply();
+                }
+            });
+            alertDialog.show();
+        }
+
 
         // insert data in DB (if first run)
         sharedPreferences = getSharedPreferences("com.mycompany.myAppName", 0);
@@ -56,11 +99,11 @@ public class PrivateArea extends AppCompatActivity {
         if (sharedPreferences.getBoolean(Constants.first_run, true)) {
             Log.d("FIRST RUN", "first run");
             sharedPreferences.edit().putBoolean(Constants.first_run, false).commit();
-            DatabaseOps.insertDataToDB();
+            DatabaseGSONOps.insertDataToDB();
             // display login screen
             // TODO log in
             /*
-            Intent i = new Intent(PrivateArea.this, LoginActivity.class);
+            Intent i = new Intent(CGAAreaPrivate.this, LoginActivity.class);
             startActivity(i);
             */
 
@@ -88,10 +131,6 @@ public class PrivateArea extends AppCompatActivity {
         Fragment fragment = null;
         String defaultFragment = Constants.fragment_show_patients;
         switch (defaultFragment) {
-            case Constants.fragment_sessions:
-                fragment = new EvaluationsMainFragment();
-                setTitle(getResources().getString(R.string.tab_sessions));
-                break;
             case Constants.fragment_show_patients:
                 fragment = new PatientsMain();
                 setTitle(getResources().getString(R.string.tab_my_patients));
@@ -103,7 +142,7 @@ public class PrivateArea extends AppCompatActivity {
         }
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_fragment, fragment)
+                .replace(R.id.current_fragment, fragment)
                 .commit();
 
 
@@ -123,9 +162,6 @@ public class PrivateArea extends AppCompatActivity {
     }
 
 
-
-
-
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getFragmentManager();
@@ -135,6 +171,11 @@ public class PrivateArea extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("Resuming", "Resuming - PrivateArea");
+        // check if we have an ongoing session
+        Log.d("Resuming", "Resuming - PrivateArea");
+
+
         if (getLockStatus()) {
             // show lockscreen
             Log.d("Lock", "showing lock screen (onResume)");
@@ -150,13 +191,13 @@ public class PrivateArea extends AppCompatActivity {
     }
 
     private void showLockScreen() {
-        currentFragment = this.getFragmentManager().findFragmentById(R.id.content_fragment);
+        currentFragment = this.getFragmentManager().findFragmentById(R.id.current_fragment);
         Log.d("Lock", "Stored current fragment");
         // create LockScreenFragment
         LockScreenFragment fragment = new LockScreenFragment();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_fragment, fragment)
+                .replace(R.id.current_fragment, fragment)
                 .commit();
     }
 
@@ -176,20 +217,20 @@ public class PrivateArea extends AppCompatActivity {
         setLockStatus(true);
     }
 
+
     public void resumeAfterLock() {
         Log.d("Lock", "Resuming after lock!");
         // replace the Fragment before lock screen
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_fragment, currentFragment)
+                .replace(R.id.current_fragment, currentFragment)
                 .commit();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.sample, menu);
-
+        inflater.inflate(R.menu.erase_data, menu);
 
         return true;
     }
@@ -198,10 +239,18 @@ public class PrivateArea extends AppCompatActivity {
 
         //respond to menu item selection
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.erase_data:
                 // erase all data
-                DatabaseOps.eraseAll();
-                DatabaseOps.insertDataToDB();
+                DatabaseGSONOps.eraseAll();
+                DatabaseGSONOps.insertDataToDB();
+                return true;
+            case R.id.save_gson:
+                // save data as GSON
+                DatabaseGSONOps.saveDataGson(this);
+                return true;
+            case R.id.read_gson:
+                // save data as GSON
+                DatabaseGSONOps.readDataGson(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -237,7 +286,7 @@ public class PrivateArea extends AppCompatActivity {
             endFragment.setArguments(args);
         }
         // get current Fragment
-        Fragment startFragment = getFragmentManager().findFragmentById(R.id.content_fragment);
+        Fragment startFragment = getFragmentManager().findFragmentById(R.id.current_fragment);
         if (args != null) {
             endFragment.setArguments(args);
         }
@@ -252,7 +301,9 @@ public class PrivateArea extends AppCompatActivity {
         */
         // Create new transaction and add to back stack
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_fragment, endFragment);
+        currentFragment = getFragmentManager().findFragmentById(R.id.current_fragment);
+        transaction.remove(currentFragment);
+        transaction.replace(R.id.current_fragment, endFragment);
         if (!addToBackStackTag.equals(""))
             transaction.addToBackStack(addToBackStackTag);
         if (args.getString("TRANS_TEXT") != null) {
@@ -262,5 +313,11 @@ public class PrivateArea extends AppCompatActivity {
 
         transaction.commit();
 
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d("Lock", "Private onStop -> going to lock");
+        super.onStop();
     }
 }

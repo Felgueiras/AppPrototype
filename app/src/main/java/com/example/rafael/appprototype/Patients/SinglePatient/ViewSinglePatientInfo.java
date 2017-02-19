@@ -19,13 +19,14 @@ import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DatesHandler;
 import com.example.rafael.appprototype.EmptyStateFragment;
-import com.example.rafael.appprototype.CGA.CGAPrivate;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
-import com.example.rafael.appprototype.Patients.PatientEvolution.EvolutionFragment;
-import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.ViewPatientSessionsFragment;
+import com.example.rafael.appprototype.Patients.PatientProgress.ProgressMainFragment;
+import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientNotesFragment;
+import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
 import com.example.rafael.appprototype.R;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -57,8 +58,7 @@ public class ViewSinglePatientInfo extends Fragment {
         System.out.println("VIEW SINGLE PATIENT INFO");
 
         Bundle bundle = getArguments();
-        if(bundle!=null)
-        {
+        if (bundle != null) {
             actionTitle = bundle.getString("ACTION");
             transText = bundle.getString("TRANS_TEXT");
             //view.findViewById(R.id.patientName).setTransitionName(transText);
@@ -120,8 +120,8 @@ public class ViewSinglePatientInfo extends Fragment {
             public void onClick(View view) {
                 Bundle args = new Bundle();
                 args.putSerializable(CGAPrivate.PATIENT, patient);
-                FragmentTransitions.replaceFragment(getActivity(),new CGAPrivate(), args, Constants.tag_create_new_session_for_patient);
-                getActivity().setTitle(getResources().getString(R.string.tab_sessions));
+                FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), args, Constants.tag_create_new_session_for_patient);
+                getActivity().setTitle(getResources().getString(R.string.cga));
             }
         });
         final FloatingActionButton fabFavorite = (FloatingActionButton) view.findViewById(R.id.patient_favorite);
@@ -150,10 +150,10 @@ public class ViewSinglePatientInfo extends Fragment {
             @Override
             public void onClick(View view) {
                 System.out.println("EVOLUTION");
-                Fragment fragment = new EvolutionFragment();
+                Fragment fragment = new ProgressMainFragment();
                 Bundle args = new Bundle();
-                args.putSerializable(EvolutionFragment.PATIENT, patient);
-                FragmentTransitions.replaceFragment(getActivity(),new EvolutionFragment(), args, Constants.tag_patient_evolution);
+                args.putSerializable(ProgressMainFragment.PATIENT, patient);
+                FragmentTransitions.replaceFragment(getActivity(), new ProgressMainFragment(), args, Constants.tag_patient_progress);
             }
         });
 
@@ -178,16 +178,16 @@ public class ViewSinglePatientInfo extends Fragment {
                     args.putString(EmptyStateFragment.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
                     fragment.setArguments(args);
                 } else {
-                    fragment = new ViewPatientSessionsFragment();
+                    fragment = new PatientSessionsFragment();
                     Bundle args = new Bundle();
-                    args.putSerializable(ViewPatientSessionsFragment.PATIENT, patient);
+                    args.putSerializable(PatientSessionsFragment.PATIENT, patient);
                     fragment.setArguments(args);
                 }
                 return fragment;
             } else if (position == 1) {
-                Fragment fragment = new EvolutionFragment();
+                Fragment fragment = new PatientNotesFragment();
                 Bundle args = new Bundle();
-                args.putSerializable(EvolutionFragment.PATIENT, patient);
+                args.putSerializable(PatientNotesFragment.PATIENT, patient);
                 fragment.setArguments(args);
                 return fragment;
             }
@@ -196,7 +196,7 @@ public class ViewSinglePatientInfo extends Fragment {
 
         @Override
         public int getCount() {
-            return 1;
+            return 2;
         }
 
         @Override
@@ -205,7 +205,7 @@ public class ViewSinglePatientInfo extends Fragment {
                 case 0:
                     return getResources().getString(R.string.evaluations);
                 case 1:
-                    return getResources().getString(R.string.evolution);
+                    return getResources().getString(R.string.notes);
             }
             return null;
         }
@@ -219,7 +219,7 @@ public class ViewSinglePatientInfo extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_test_questions, menu);
+        inflater.inflate(R.menu.menu_patient_profile, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

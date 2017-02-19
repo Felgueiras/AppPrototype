@@ -5,43 +5,51 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
+import com.google.gson.annotations.Expose;
 
 /**
  * Created by rafael on 30-09-2016.
  */
 @Table(name = "Choices")
 public class Choice extends Model {
+    @Expose
     @Column(name = "guid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     String guid;
     /**
      * Name of the choice.
      */
+    @Expose
     @Column(name = "patientName")
     String name;
     /**
      * Description of the choice.
      */
+    @Expose
     @Column(name = "field")
     String description;
     /**
      * Score for that choice for that question;
      */
+    @Expose
     @Column(name = "score")
     double score;
     /**
      * Score if yes answer.
      */
+    @Expose
     @Column(name = "yes")
     int yes;
     /**
      * Score if no question.
      */
+    @Expose
     @Column(name = "no")
     int no;
 
     /**
      * Question for this Choice
      */
+    @Expose
     @Column(name = "question", onDelete = Column.ForeignKeyAction.CASCADE)
     Question question;
 

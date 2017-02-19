@@ -1,6 +1,6 @@
 package com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleTest;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.res.Resources;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,9 +14,8 @@ import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.Scales;
-import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
 import com.example.rafael.appprototype.R;
 
 
@@ -37,7 +36,7 @@ public class ReviewArea extends RecyclerView.Adapter<ReviewArea.TestCardHolder> 
     /**
      * Context.
      */
-    private Context context;
+    private Activity context;
     /**
      * Name of Test being displayed.
      */
@@ -51,7 +50,7 @@ public class ReviewArea extends RecyclerView.Adapter<ReviewArea.TestCardHolder> 
      * @param session
      * @param comparePreviousSession
      */
-    public ReviewArea(Context context, Session session, boolean comparePreviousSession) {
+    public ReviewArea(Activity context, Session session, boolean comparePreviousSession) {
         this.context = context;
         this.session = session;
         this.patient = session.getPatient();
@@ -79,6 +78,7 @@ public class ReviewArea extends RecyclerView.Adapter<ReviewArea.TestCardHolder> 
             super(view);
             area = (TextView) view.findViewById(R.id.area);
             scales = (RecyclerView) view.findViewById(R.id.area_scales);
+            testCard = view;
         }
     }
 
@@ -108,10 +108,12 @@ public class ReviewArea extends RecyclerView.Adapter<ReviewArea.TestCardHolder> 
         String area = Constants.cga_areas[position];
 
         // check if the session had any scale from this area
-        if (Scales.getTestsForArea(session.getTestsFromSession(), area).size() == 0) {
+        if (Scales.getTestsForArea(session.getScalesFromSession(), area).size() == 0) {
             ViewManager parentView = (ViewManager) holder.area.getParent();
-            parentView.removeView(holder.area);
-            parentView.removeView(holder.scales);
+            if (parentView != null) {
+                parentView.removeView(holder.area);
+                parentView.removeView(holder.scales);
+            }
         } else {
             /**
              * Show info about evaluations for every area.

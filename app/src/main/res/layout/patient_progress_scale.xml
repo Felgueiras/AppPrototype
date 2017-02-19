@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <!--Stub for holding graph and test area-->
+    <!--
+    <ViewStub
+        android:id="@+id/graph_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inflatedId="@+id/inflatedview"
+        android:layout="@layout/stub_graph_view"
+        />
+        -->
+
+    <TextView
+        android:id="@+id/testName"
+        style="@style/header2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Name" />
+
+    <!--Stub for holding area info-->
+    <ViewStub
+        android:id="@+id/stub_graph_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inflatedId="@+id/inflatedview"
+        android:layout="@layout/stub_graph_view"
+        />
+
+    <TextView
+        android:id="@+id/scale_not_evaluated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Escala não foi aplicada"
+        android:layout_margin="10dp"/>
+
+</LinearLayout>

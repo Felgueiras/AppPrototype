@@ -32,6 +32,7 @@ public class QuestionNonDB {
     boolean yesOrNo;
     private int number;
     private boolean numerical;
+    private boolean multipleTextInput;
 
 
     /**
@@ -131,5 +132,13 @@ public class QuestionNonDB {
 
     public boolean isNumerical() {
         return numerical;
+    }
+
+    public void setMultipleTextInput(boolean multipleTextInput) {
+        this.multipleTextInput = multipleTextInput;
+    }
+
+    public boolean isMultipleTextInput() {
+        return multipleTextInput;
     }
 }

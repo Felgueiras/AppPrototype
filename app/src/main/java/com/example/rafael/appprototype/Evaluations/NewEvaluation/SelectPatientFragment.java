@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.CreatePatientSessionCard;
+import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionCard;
 import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 
 /**
@@ -27,7 +27,7 @@ public class SelectPatientFragment extends Fragment {
     /**
      * Adapter to the RecyclerView
      */
-    private CreatePatientSessionCard adapter;
+    private PatientSessionCard adapter;
 
 
     @Override

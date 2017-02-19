@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.Scales;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.QuestionsListAdapter;
 import com.example.rafael.appprototype.R;
@@ -26,9 +26,9 @@ public class ReviewSingleTestFragment extends Fragment {
     public static String testDBobject = "testDBObject";
     Session session;
     /**
-     * GeriatricTest which will be written to the DB.
+     * GeriatricScale which will be written to the DB.
      */
-    private GeriatricTest test;
+    private GeriatricScale test;
 
 
     // Store instance variables based on arguments passed
@@ -38,7 +38,7 @@ public class ReviewSingleTestFragment extends Fragment {
         setHasOptionsMenu(true);
 
         Bundle bundle = getArguments();
-        test = (GeriatricTest) bundle.getSerializable(testDBobject);
+        test = (GeriatricScale) bundle.getSerializable(testDBobject);
         session = test.getSession();
 
         // set the title
@@ -55,7 +55,7 @@ public class ReviewSingleTestFragment extends Fragment {
         QuestionsListAdapter adapter = new QuestionsListAdapter(
                 this.getActivity(),
                 Scales.getTestByName(test.getScaleName()),
-                test);
+                test, null);
         testQuestions.setAdapter(adapter);
         return view;
     }

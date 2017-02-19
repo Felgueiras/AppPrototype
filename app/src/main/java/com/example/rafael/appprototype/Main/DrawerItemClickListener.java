@@ -16,9 +16,9 @@ import android.view.MenuItem;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
-import com.example.rafael.appprototype.CGA.CGAPublic;
-import com.example.rafael.appprototype.Help_Feedback.Help;
+import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
 import com.example.rafael.appprototype.Help_Feedback.SendFeedback;
 import com.example.rafael.appprototype.Login.LoginActivity;
 import com.example.rafael.appprototype.Patients.PatientsMain;
@@ -52,10 +52,10 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             // Insert the fragment by replacing any existing fragment
             Log.d("Login", "Going to login");
             // check if there is any on-going session
-            if (Constants.sessionID != null) {
+            if (Constants.SESSION_ID != null) {
                 // delete from DB
-                Session.getSessionByID(Constants.sessionID).delete();
-                Constants.sessionID = null;
+                Session.getSessionByID(Constants.SESSION_ID).delete();
+                Constants.SESSION_ID = null;
             }
             // go to login screen
             Intent intent = new Intent(context, LoginActivity.class);
@@ -68,7 +68,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         Fragment endFragment = null;
 
         if (id == R.id.evaluations_public) {
-            endFragment = new CGAPublic();
+            endFragment = new CGAPublicInfo();
         } else if (id == R.id.prescription) {
             endFragment = new DrugPrescriptionMain();
         } else if (id == R.id.patients) {
@@ -76,7 +76,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         } else if (id == R.id.sendFeedback) {
             endFragment = new SendFeedback();
         } else if (id == R.id.help) {
-            endFragment = new Help();
+            endFragment = new HelpTopics();
         }
 
         if (id == R.id.logout) {
@@ -109,14 +109,14 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         } else {
             // add Exit transition
 
-            Fragment startFragment = context.getFragmentManager().findFragmentById(R.id.content_fragment);
+            Fragment startFragment = context.getFragmentManager().findFragmentById(R.id.current_fragment);
             startFragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.fade));
             // add Enter transition
             endFragment.setEnterTransition(TransitionInflater.from(context).
                     inflateTransition(android.R.transition.fade));
 
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_fragment, endFragment)
+                    .replace(R.id.current_fragment, endFragment)
                     .commit();
         }
 

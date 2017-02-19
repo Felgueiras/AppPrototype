@@ -33,6 +33,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
+import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
 
@@ -70,6 +71,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
+
+        // check how many sessions are there in the DB
+        System.out.println("Sessions: " + Session.getAllSessions().size());
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -312,7 +316,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // go to the main activity
                 Log.d("Login","Logged in");
                 // save userName on shared pref
-                SharedPreferences sharedPreferences = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
                 sharedPreferences.edit().putString(Constants.userName, "Médico Geriatra").apply();
                 sharedPreferences.edit().putBoolean(Constants.logged_in, true).apply();
 

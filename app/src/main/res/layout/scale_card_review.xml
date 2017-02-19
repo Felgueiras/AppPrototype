@@ -11,62 +11,98 @@
         android:elevation="3dp"
         card_view:cardCornerRadius="@dimen/card_album_radius">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/testName"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/album_title_padding"
-                android:paddingRight="@dimen/album_title_padding"
-                android:paddingTop="@dimen/album_title_padding"
-                android:text="Scale name"
-                android:textColor="@color/album_title"
-                android:textSize="@dimen/test_name" />
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/testName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/album_title_padding"
+                    android:paddingRight="@dimen/album_title_padding"
+                    android:paddingTop="@dimen/album_title_padding"
+                    android:text="Scale name"
+                    android:textColor="@color/album_title"
+                    android:textSize="@dimen/test_name" />
 
 
-            <TextView
-                android:id="@+id/result_qualitative"
-                android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/result_qualitative"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/songs_count_padding_bottom"
+                    android:paddingLeft="@dimen/album_title_padding"
+                    android:paddingRight="@dimen/album_title_padding"
+                    android:paddingTop="5dp"
+                    android:text="Result"
+                    android:textSize="@dimen/test_type" />
+
+                <TextView
+                    android:id="@+id/result_quantitative"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/result_qualitative"
+                    android:paddingBottom="@dimen/songs_count_padding_bottom"
+                    android:paddingLeft="@dimen/album_title_padding"
+                    android:paddingRight="@dimen/album_title_padding"
+                    android:paddingTop="5dp"
+                    android:textSize="@dimen/test_type" />
+
+                <!--Stub for holding area info-->
+                <ViewStub
+                    android:id="@+id/stub_graph_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inflatedId="@+id/inflatedview"
+                    android:layout="@layout/stub_scale_info"
+                    />
+
+
+                <ImageButton
+                    android:id="@+id/addNotes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/result_quantitative"
+                    android:background="@drawable/empty_drawable"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_note_add_black_24dp" />
+
+                <TextView
+                    android:id="@+id/testNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/addNotes"
+                    android:padding="10dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/songs_count_padding_bottom"
-                android:paddingLeft="@dimen/album_title_padding"
-                android:paddingRight="@dimen/album_title_padding"
-                android:paddingTop="5dp"
-                android:text="Result"
-                android:textSize="@dimen/test_type" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/result_quantitative"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/songs_count_padding_bottom"
-                android:paddingLeft="@dimen/album_title_padding"
-                android:paddingRight="@dimen/album_title_padding"
-                android:paddingTop="5dp"
-                android:textSize="@dimen/test_type" />
-
-            <!--Stub for holding area info-->
-            <ViewStub
-                android:id="@+id/stub_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inflatedId="@+id/inflatedview"
-                android:layout="@layout/stub_scale_info" />
+                <ImageButton
+                    android:id="@+id/scale_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_weight="5"
+                    android:background="@drawable/empty_drawable"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_info_outline_black_24dp" />
+            </LinearLayout>
 
 
-            <EditText
-                android:id="@+id/testNotes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName" />
         </LinearLayout>
-
 
     </android.support.v7.widget.CardView>
 

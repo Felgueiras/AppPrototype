@@ -21,7 +21,8 @@ public class Constants {
     public static final String test_name_recursos_sociales = "Recursos sociales";
     public static final String test_name_escalaDepressaoYesavage = "Escala de Depressão Geriátrica de Yesavage – versão curta";
     public static final String test_name_mini_mental_state = "Mini mental state examination (Folstein)";
-    public static final String test_name_mini_nutritional_assessment = "Mini nutritional assessment";
+    public static final String test_name_mini_nutritional_assessment_triagem = "Mini nutritional assessment - triagem";
+    public static final String test_name_mini_nutritional_assessment_global = "Mini nutritional assessment - avaliação global";
     public static final String test_name_valoracionSocioFamiliar = "Valoración SocioFamiliar";
     public static final String test_name_burden_interview = "Zarit Burden Interview";
     public static final String test_name_barthel_index = "Barthel Index";
@@ -32,7 +33,7 @@ public class Constants {
 
 
     public static final String[] allTests = new String[]{
-            test_name_mini_nutritional_assessment,
+            test_name_mini_nutritional_assessment_triagem,
             test_name_escalaDepressaoYesavage,
             test_name_testeDeKatz, test_name_escalaLawtonBrody,
             test_name_marchaHolden,
@@ -45,7 +46,11 @@ public class Constants {
      */
     public static final String tag_view_patien_info_records = "viewPatientInfoRecords";
     public static final String tag_create_patient = "createPatient";
-    public static final String tag_patient_evolution = "tag_patient_evolution";
+    public static final String tag_patient_progress = "tag_patient_progress";
+    public static final String tag_progress_detail = "tag_progress_detail";
+    public static final String tag_help_topic = "tag_help_topic";
+    public static final String tag_cga_public = "tag_cga_public";
+
 
     // create new Session
     public static final String tag_create_new_session_for_patient = "createNewSessionForPatient";
@@ -69,7 +74,7 @@ public class Constants {
     /**
      * Current Session ID.
      */
-    public static String sessionID = null;
+    public static String SESSION_ID = null;
     public static boolean pickingPatient = false;
     public static String tag_create_session = "createSession";
     public static String userName = "userName";
@@ -80,7 +85,8 @@ public class Constants {
     public static String area_public = "public";
     public static String area;
     public static String logged_in = "logged_in";
-    public static String tag_display_single_area = "display_single_area";
+    public static String tag_display_single_area_public = "display_single_area_public";
+    public static String tag_display_single_area_private = "display_single_area_private";
 
     /**
      * CGA areas.
@@ -91,8 +97,10 @@ public class Constants {
     public static final String cga_nutritional = "Estado nutricional";
     public static final String cga_functional = "Estado funcional";
     public static final String cga_social = "Situação social";
-    public static String[] cga_areas = new String[]{cga_afective,
-            cga_clinical, cga_cognitivo, cga_functional,
+    public static String[] cga_areas = new String[]{
+            cga_afective,
+//            cga_clinical,
+            cga_cognitivo, cga_functional,
             cga_nutritional, cga_social};
 
     /**
@@ -139,4 +147,32 @@ public class Constants {
                     "Aumento do limiar à dor e temperatura"};
 
     public static boolean discard_session = false;
+    /**
+     * Store the screen size of this device.
+     */
+    public static int screenSize;
+
+
+    /**
+     * Help screen.
+     */
+    public static final String help_topic_cga = "Avaliação Geriátrica Global";
+    public static final String help_topic_functionalities = "Funcionalidades";
+    public static final String help_topic_patients = "Pacientes";
+    public static final String help_topic_prescriptions = "Prescrições";
+
+    public static String[] help_topics = new String[]{
+            help_topic_cga,
+            help_topic_functionalities,
+            help_topic_patients,
+            help_topic_prescriptions
+    };
+
+
+    /**
+     * GSON files with JSONArrays.
+     */
+    public static final String filePatients = "patients.txt";
+    public static final String fileSessions = "sessions.txt";
+    public static final String fileScales = "scales.txt";
 }

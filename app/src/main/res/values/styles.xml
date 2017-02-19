@@ -37,12 +37,23 @@
         <item name="android:textSize">20dp</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="help_topic">
+        <item name="android:textSize">18dp</item>
+    </style>
     <style name="header2">
         <item name="android:textSize">15dp</item>
         <item name="android:textStyle">bold</item>
     </style>
     <style name="text1">
         <item name="android:textSize">15dp</item>
+    </style>
+    <style name="tablet_text1">
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <!--ProgressBar style-->
+    <style name="LinearProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/progressBarFull</item>
     </style>
 
     <style name="Theme1" parent="android:Theme.Material.Light.NoActionBar" >

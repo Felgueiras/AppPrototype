@@ -2,24 +2,18 @@ package com.example.rafael.appprototype.Patients;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.CGA.CGAPrivate;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
-import com.example.rafael.appprototype.Main.FragmentTransitions;
-import com.example.rafael.appprototype.Patients.FavoritePatients.FavoritePatientsFragment;
-import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
+import com.example.rafael.appprototype.Patients.FavoritePatients.FavoritePatientsMain;
 import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 import com.example.rafael.appprototype.R;
 
@@ -76,51 +70,6 @@ public class PatientsMain extends Fragment {
         tabLayout = (TabLayout) v.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        // FAB
-        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.patients_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (viewPager.getCurrentItem()) {
-                    case 0:
-                        // create a new Patient - switch to CreatePatient Fragment
-                        Bundle args = new Bundle();
-                        FragmentTransitions.replaceFragment(getActivity(), new CreatePatient(), args, Constants.tag_create_patient);
-                        break;
-                    case 1:
-                        AlertDialog chooseGender;
-
-                        // Strings to Show In Dialog with Radio Buttons
-                        final CharSequence[] items = {getString(R.string.male), getString(R.string.female)};
-
-                        // Creating and Building the Dialog
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle(getString(R.string.select_patient_gender));
-                        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int item) {
-                                Bundle args = new Bundle();
-
-                                switch (item) {
-                                    case 0:
-                                        args.putInt(CGAPrivate.GENDER, Constants.MALE);
-                                        break;
-                                    case 1:
-                                        args.putInt(CGAPrivate.GENDER, Constants.FEMALE);
-                                        break;
-
-                                }
-                                dialog.dismiss();
-                                // create a new Session - switch to CreatePatient Fragment
-                                FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), args, Constants.tag_create_session);
-                            }
-                        });
-                        chooseGender = builder.create();
-                        chooseGender.show();
-                        break;
-                }
-
-            }
-        });
         return v;
     }
 
@@ -139,7 +88,7 @@ public class PatientsMain extends Fragment {
             } else if (position == 1) {
                 return new EvaluationsHistoryMain();
             } else if (position == 2) {
-                return new FavoritePatientsFragment();
+                return new FavoritePatientsMain();
             }
             return null;
         }

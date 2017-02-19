@@ -1,8 +1,8 @@
 package com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleTest;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -11,18 +11,21 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.view.ViewStub;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
+import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
-import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.Scales;
+import com.example.rafael.appprototype.Evaluations.SingleArea.ScaleCard;
+import com.example.rafael.appprototype.Evaluations.SingleArea.ScaleHandlerInfo;
+import com.example.rafael.appprototype.Evaluations.SingleArea.ScaleHandlerNotes;
 import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
 
@@ -35,7 +38,7 @@ import java.util.List;
 /**
  * Create the Card for each of the Tests of a Session
  */
-public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder> {
+public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
     /**
      * Session for the Tests.
@@ -50,11 +53,13 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
     /**
      * Context.
      */
-    private Context context;
+    private Activity context;
     /**
      * Name of Test being displayed.
      */
     private String testName;
+    private ArrayList<GeriatricScale> scalesForArea;
+    private ViewManager parentView;
 
 
     /**
@@ -65,43 +70,13 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
      * @param area
      * @param comparePrevious
      */
-    public ReviewScale(Context context, Session session, String area, boolean comparePrevious) {
+    public ReviewScale(Activity context, Session session, String area, boolean comparePrevious) {
         this.context = context;
         this.session = session;
         this.patient = session.getPatient();
         this.area = area;
         this.comparePrevious = comparePrevious;
-    }
-
-
-    /**
-     * CGACardHolder class.
-     */
-    public class TestCardHolder extends RecyclerView.ViewHolder {
-        private final TextView result_qualitative;
-        public TextView name, type, testGrading;
-        public EditText notes;
-        /**
-         * Test card view.
-         */
-        public View testCard;
-        public TextView result_quantitative;
-
-        /**
-         * Create a CGACardHolder from a View
-         *
-         * @param view
-         */
-        public TestCardHolder(View view) {
-            super(view);
-            name = (TextView) view.findViewById(R.id.testName);
-            //type = (TextView) view.findViewById(R.id.testType);
-            result_qualitative = (TextView) view.findViewById(R.id.result_qualitative);
-            result_quantitative = (TextView) view.findViewById(R.id.result_quantitative);
-            testCard = view;
-            notes = (EditText) view.findViewById(R.id.testNotes);
-
-        }
+        System.out.println("Reviewing scales for " + area);
     }
 
 
@@ -113,10 +88,10 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
      * @return
      */
     @Override
-    public TestCardHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ScaleCard.ScaleCardHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // get the Test CardView
         final View testCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.scale_card_review, parent, false);
-        return new TestCardHolder(testCard);
+        return new ScaleCard.ScaleCardHolder(testCard);
     }
 
     /**
@@ -126,14 +101,11 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
      * @param position position to "put" the data
      */
     @Override
-    public void onBindViewHolder(final TestCardHolder holder, int position) {
+    public void onBindViewHolder(final ScaleCard.ScaleCardHolder holder, int position) {
 
-        String testCompletionResult = context.getResources().getString(R.string.test_result);
         // get current test
-        List<GeriatricTest> testsFromSession = session.getTestsFromSession();
-        final GeriatricTest currentScale = testsFromSession.get(position);
+        final GeriatricScale currentScale = scalesForArea.get(position);
         testName = currentScale.getScaleName();
-
 
         // access a given Test from the DB
         holder.name.setText(currentScale.getShortName());
@@ -148,10 +120,22 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
             comparePreviousSessions(currentScale, holder);
         }
 
+        parentView = (ViewManager) holder.result_qualitative.getParent();
+
+        if (currentScale.hasNotes()) {
+            parentView.removeView(holder.addNotesButton);
+            holder.notes.setText(currentScale.getNotes());
+        } else {
+            // parentView.removeView(holder.notes);
+        }
+
+        holder.addNotesButton.setOnClickListener(new ScaleHandlerNotes(context, currentScale, holder, parentView));
+        holder.notes.setOnClickListener(new ScaleHandlerNotes(context, currentScale, holder, parentView));
+
         // quantitative result
         String quantitative = "";
         quantitative += currentScale.getResult();
-        GeriatricTestNonDB testNonDB = Scales.getTestByName(currentScale.getScaleName());
+        GeriatricScaleNonDB testNonDB = Scales.getTestByName(currentScale.getScaleName());
         if (!testNonDB.getScoring().isDifferentMenWomen()) {
             quantitative += " (" + testNonDB.getScoring().getMinScore();
             quantitative += "-" + testNonDB.getScoring().getMaxScore() + ")";
@@ -190,7 +174,7 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
         });
 
         // for when the test is selected
-        holder.testCard.setOnClickListener(new View.OnClickListener() {
+        holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Create new fragment and transaction
@@ -201,11 +185,12 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
                 newFragment.setArguments(bundle);
                 // setup the transaction
                 FragmentTransaction transaction = ((PrivateArea) context).getFragmentManager().beginTransaction();
-                transaction.replace(R.id.content_fragment, newFragment);
+                transaction.replace(R.id.current_fragment, newFragment);
                 transaction.addToBackStack(Constants.tag_review_test).commit();
             }
         });
 
+        holder.description.setOnClickListener(new ScaleHandlerInfo(context, currentScale));
     }
 
     /**
@@ -214,15 +199,14 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
      * @param currentScale
      * @param holder
      */
-    private void comparePreviousSessions(GeriatricTest currentScale, TestCardHolder holder) {
+    private void comparePreviousSessions(GeriatricScale currentScale, ScaleCard.ScaleCardHolder holder) {
         double currentScaleResult = currentScale.getResult();
-        System.out.println("Current result " + currentScaleResult);
         // access this test from previous session that had this test
         String scaleName = currentScale.getScaleName();
         Session currentSession = currentScale.getSession();
 
         // get all the instances of that Scale for this Patient
-        ArrayList<GeriatricTest> scaleInstances = new ArrayList<>();
+        ArrayList<GeriatricScale> scaleInstances = new ArrayList<>();
         ArrayList<Session> patientSessions = patient.getSessionsFromPatient();
         //patientSessions.remove(currentSession);
 
@@ -241,8 +225,8 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
         // get instances for that test
         for (int i = sessionIndex - 1; i >= 0; i--) {
             Session previousSession = patientSessions.get(i);
-            List<GeriatricTest> scalesfromSession = previousSession.getTestsFromSession();
-            for (GeriatricTest previousScale : scalesfromSession) {
+            List<GeriatricScale> scalesfromSession = previousSession.getScalesFromSession();
+            for (GeriatricScale previousScale : scalesfromSession) {
                 if (previousScale.getScaleName().equals(scaleName)) {
                     scaleInstances.add(previousScale);
                     System.out.println("FOUND match");
@@ -264,7 +248,8 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
                     System.out.println(index1 + "-" + index2);
                     if (index2 > index1) {
                         // patient got worse
-                        ViewStub stubInfo = ((ViewStub) holder.itemView.findViewById(R.id.stub_info)); // get the reference of ViewStub
+                        System.out.println("WORSE");
+                        ViewStub stubInfo = ((ViewStub) holder.itemView.findViewById(R.id.stub_graph_view)); // get the reference of ViewStub
                         if (stubInfo != null) {
                             // only inflate once
                             View inflated = stubInfo.inflate();
@@ -300,9 +285,10 @@ public class ReviewScale extends RecyclerView.Adapter<ReviewScale.TestCardHolder
     @Override
     public int getItemCount() {
 
-        List<GeriatricTest> allScales = session.getTestsFromSession();
+        List<GeriatricScale> allScales = session.getScalesFromSession();
         // get scales for this area
-        return Scales.getTestsForArea(allScales, area).size();
+        scalesForArea = Scales.getTestsForArea(allScales, area);
+        return scalesForArea.size();
     }
 
 }

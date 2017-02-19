@@ -5,8 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
 
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
-import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
+import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.R;
@@ -22,12 +22,12 @@ public class QuestionMultipleCategories {
 
 
     private final LayoutInflater inflater;
-    private final GeriatricTestNonDB testNonDB;
+    private final GeriatricScaleNonDB testNonDB;
     private final Context context;
-    GeriatricTest test;
+    GeriatricScale test;
     private final QuestionsListAdapter adapter;
 
-    public QuestionMultipleCategories(LayoutInflater inflater, GeriatricTestNonDB testNonDB, Context context, GeriatricTest test, QuestionsListAdapter adapter) {
+    public QuestionMultipleCategories(LayoutInflater inflater, GeriatricScaleNonDB testNonDB, Context context, GeriatricScale test, QuestionsListAdapter adapter) {
         this.inflater = inflater;
         this.testNonDB = testNonDB;
         this.context = context;
@@ -40,7 +40,7 @@ public class QuestionMultipleCategories {
      *
      * @return
      */
-    public View multipleCategoriesNotOpened() {
+    public View getView() {
         View questionView = inflater.inflate(R.layout.questions_multiple_categories, null);
 
         // categories list
@@ -70,48 +70,11 @@ public class QuestionMultipleCategories {
         }
         // set the adapter for displaying
         listAdapter = new ExpandableListAdapterCategories(context, listDataHeader, listDataChild,
-                testNonDB, test, adapter, false);
+                testNonDB, test, adapter);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
-
-        return questionView;
-    }
-
-    public View multipleCategoriesAlreadyOpened() {
-        View questionView = inflater.inflate(R.layout.questions_multiple_categories, null);
-
-        ExpandableListAdapterCategories listAdapter;
-        ExpandableListView expListView;
-        List<String> listDataHeader;
-        HashMap<String, List<QuestionNonDB>> listDataChild;
-
-        // get the listview
-        expListView = (ExpandableListView) questionView.findViewById(R.id.lvExp);
-
-
-        // prepare data
-        listDataHeader = new ArrayList<>();
-        listDataChild = new HashMap<>();
-
-        // Adding child data
-        for (int i = 0; i < testNonDB.getQuestionsCategories().size(); i++) {
-            QuestionCategory cat = testNonDB.getQuestionsCategories().get(i);
-            // header
-            listDataHeader.add(cat.getCategory());
-            // child
-            List<QuestionNonDB> child = new ArrayList<>();
-            for (QuestionNonDB question : cat.getQuestions()) {
-                child.add(question);
-            }
-            listDataChild.put(listDataHeader.get(i), child);
-        }
-
-        listAdapter = new ExpandableListAdapterCategories(context, listDataHeader, listDataChild,
-                testNonDB, test, adapter, true);
-
-        // setting list adapter
-        expListView.setAdapter(listAdapter);
+        listAdapter.notifyDataSetChanged();
 
         return questionView;
     }

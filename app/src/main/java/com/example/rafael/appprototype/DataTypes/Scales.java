@@ -1,9 +1,9 @@
 package com.example.rafael.appprototype.DataTypes;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
-import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
+import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
@@ -21,8 +21,8 @@ public class Scales {
     /**
      * Get infos about 'escala de resursos sociales de la OARS'
      */
-    private static GeriatricTestNonDB recursosSociales() {
-        GeriatricTestNonDB recursosSociales = new GeriatricTestNonDB(Constants.test_name_recursos_sociales,
+    private static GeriatricScaleNonDB recursosSociales() {
+        GeriatricScaleNonDB recursosSociales = new GeriatricScaleNonDB(Constants.test_name_recursos_sociales,
                 Constants.cga_social, "",
                 "• Proporciona información " +
                         "acerca de cinco áreas:\n" +
@@ -73,8 +73,8 @@ public class Scales {
     }
 
 
-    public static GeriatricTestNonDB hamiltonDepressionScale() {
-        GeriatricTestNonDB hamiltonScale = new GeriatricTestNonDB(Constants.test_name_hamilton,
+    public static GeriatricScaleNonDB hamiltonDepressionScale() {
+        GeriatricScaleNonDB hamiltonScale = new GeriatricScaleNonDB(Constants.test_name_hamilton,
                 Constants.cga_afective, "",
                 "• The HAM-D is designed to rate the severity of depression in patients.");
         hamiltonScale.setShortName("HAM-D");
@@ -335,8 +335,8 @@ public class Scales {
     /**
      * Get infos about 'Escala de Katz'
      */
-    public static GeriatricTestNonDB escalaDeKatz() {
-        GeriatricTestNonDB testeDeKatz = new GeriatricTestNonDB(Constants.test_name_testeDeKatz,
+    public static GeriatricScaleNonDB escalaDeKatz() {
+        GeriatricScaleNonDB testeDeKatz = new GeriatricScaleNonDB(Constants.test_name_testeDeKatz,
                 Constants.cga_functional, "Atividades de Vida Diária Básicas",
                 "• Avalia a autonomia para realizar as atividades imprescindíveis à vida;\n" +
                         "• As ABVD são avaliadas na sequência habitual de deterioração/recuperação;\n" +
@@ -418,8 +418,8 @@ public class Scales {
     /**
      * Get infos about 'Zarit Burden Interview'
      */
-    public static GeriatricTestNonDB zaritBurdenInterview() {
-        GeriatricTestNonDB zaritBurdenInterview = new GeriatricTestNonDB(Constants.test_name_burden_interview,
+    public static GeriatricScaleNonDB zaritBurdenInterview() {
+        GeriatricScaleNonDB zaritBurdenInterview = new GeriatricScaleNonDB(Constants.test_name_burden_interview,
                 Constants.cga_social, "",
                 "• Specially designed to reflect the stresses experienced by" +
                         "caregivers of dementia patients. It can be completed by caregivers themselves or as part of an\n" +
@@ -560,8 +560,8 @@ public class Scales {
     /**
      * Get infos about 'Barthel index'
      */
-    public static GeriatricTestNonDB barthelIndex() {
-        GeriatricTestNonDB barthelIndex = new GeriatricTestNonDB(Constants.test_name_barthel_index,
+    public static GeriatricScaleNonDB barthelIndex() {
+        GeriatricScaleNonDB barthelIndex = new GeriatricScaleNonDB(Constants.test_name_barthel_index,
                 Constants.cga_functional, "",
                 "• Es la escala más internacionalmente" +
                         "conocida para la valoración funcional de" +
@@ -642,7 +642,7 @@ public class Scales {
         question = new QuestionNonDB("Toilet use", false);
         choices = new ArrayList<>();
         choices.add(new ChoiceNonDB("1", "dependent", 0));
-        choices.add(new ChoiceNonDB("2", "needs some help, but can do something alone", 5));
+        choices.add(new ChoiceNonDB("2", "needs some help, but can do buildGraph alone", 5));
         choices.add(new ChoiceNonDB("3", "independent (on and off, dressing, wiping)", 10));
         question.setChoices(choices);
         barthelIndex.addQuestion(question);
@@ -680,8 +680,8 @@ public class Scales {
     /**
      * Get infos about 'Escala de Katz'
      */
-    public static GeriatricTestNonDB valoracionSocioFamiliarGijon() {
-        GeriatricTestNonDB valoracionSocioFamiliar = new GeriatricTestNonDB(Constants.test_name_valoracionSocioFamiliar,
+    public static GeriatricScaleNonDB valoracionSocioFamiliarGijon() {
+        GeriatricScaleNonDB valoracionSocioFamiliar = new GeriatricScaleNonDB(Constants.test_name_valoracionSocioFamiliar,
                 Constants.cga_social, "",
                 "Creada a finales de los años noventa, se emplea\n" +
                         "para valorar la situación social y familiar de las personas\n" +
@@ -764,8 +764,8 @@ public class Scales {
     /**
      * Get infos about 'Escala de Lawton & Brody'
      */
-    public static GeriatricTestNonDB escalaLawtonBrody() {
-        GeriatricTestNonDB escalaLawtonBrody = new GeriatricTestNonDB(Constants.test_name_escalaLawtonBrody,
+    public static GeriatricScaleNonDB escalaLawtonBrody() {
+        GeriatricScaleNonDB escalaLawtonBrody = new GeriatricScaleNonDB(Constants.test_name_escalaLawtonBrody,
                 Constants.cga_functional, "Atividades Instrumentais de Vida Diária",
                 "• Avalia a autonomia para realizar as atividades necessárias para viver\n" +
                         "de forma independente na comunidade\n" +
@@ -899,8 +899,8 @@ public class Scales {
     }
 
 
-    public static GeriatricTestNonDB clockDrawing() {
-        GeriatricTestNonDB clockDrawing = new GeriatricTestNonDB(Constants.test_name_clock_drawing,
+    public static GeriatricScaleNonDB clockDrawing() {
+        GeriatricScaleNonDB clockDrawing = new GeriatricScaleNonDB(Constants.test_name_clock_drawing,
                 Constants.cga_cognitivo, "",
                 "• Procedimento: \n" +
                         "Step 1: Give patient a sheet of paper with a large (relative to the size of handwritten\n" +
@@ -962,8 +962,8 @@ public class Scales {
     /**
      * Get infos about 'Marcha'
      */
-    public static GeriatricTestNonDB marchaHolden() {
-        GeriatricTestNonDB marcha = new GeriatricTestNonDB(Constants.test_name_marchaHolden,
+    public static GeriatricScaleNonDB marchaHolden() {
+        GeriatricScaleNonDB marcha = new GeriatricScaleNonDB(Constants.test_name_marchaHolden,
                 Constants.cga_functional, "",
                 "• Avalia a autonomia na marcha de acordo com o tipo de ajuda física" +
                         "ou supervisão necessárias, em função do tipo de superfície (plana," +
@@ -974,6 +974,7 @@ public class Scales {
                         "familiares ou cuidadores;\n" +
                         "• Tempo de aplicação: 3-5 minutos.");
         marcha.setShortName("Marcha");
+        marcha.setSingleQuestion(true);
         // create Scoring
         ScoringNonDB marchaScoring = new ScoringNonDB(0, 5, false);
         // create Gradings
@@ -1009,8 +1010,8 @@ public class Scales {
     /**
      * Get infos about 'Escala de Depressão Geriátrica de Yesavage – versão curta'
      */
-    public static GeriatricTestNonDB escalaDepressaoYesavage() {
-        GeriatricTestNonDB escalaDepressao = new GeriatricTestNonDB(Constants.test_name_escalaDepressaoYesavage,
+    public static GeriatricScaleNonDB escalaDepressaoYesavage() {
+        GeriatricScaleNonDB escalaDepressao = new GeriatricScaleNonDB(Constants.test_name_escalaDepressaoYesavage,
                 Constants.cga_afective, "",
                 "• Utilizada para o rastreio da depressão, avaliando aspectos cognitivos e " +
                         "comportamentais tipicamente afectados na depressão do idoso.\n" +
@@ -1067,8 +1068,7 @@ public class Scales {
                 "idade?", 1, 0);
         escalaDepressao.addQuestion(question);
         // 11
-        question = new QuestionNonDB("Sente que tem mais problemas de memória do que os outros da sua\n" +
-                "idade?", 0, 1);
+        question = new QuestionNonDB("Actualmente, acha que é maravilhoso estar vivo?", 0, 1);
         escalaDepressao.addQuestion(question);
         // 12
         question = new QuestionNonDB("Sente-se inútil?", 1, 0);
@@ -1092,8 +1092,8 @@ public class Scales {
      *
      * @return
      */
-    public static GeriatricTestNonDB miniNutritionalAssessment() {
-        GeriatricTestNonDB nutritionalAssessment = new GeriatricTestNonDB(Constants.test_name_mini_nutritional_assessment,
+    public static GeriatricScaleNonDB miniNutritionalAssessmentTriagem() {
+        GeriatricScaleNonDB nutritionalAssessment = new GeriatricScaleNonDB(Constants.test_name_mini_nutritional_assessment_triagem,
                 Constants.cga_nutritional, "",
                 "• Deteta presença/risco malnutrição sem recurso a parâmetros analíticos;\n" +
                         "• Procedimento: questionário direto ao idoso ou a familiares/\n" +
@@ -1107,22 +1107,37 @@ public class Scales {
                         "• Soma da pontuação permite identificar 3 categorias: estado nutricional " +
                         "normal, sob risco de malnutrição, malnutrição;");
         // short area
-        nutritionalAssessment.setShortName("Nutritional assessment");
-        // create Scoring
-        ScoringNonDB mentalStateScoring = new ScoringNonDB(0, 30, false);
+        nutritionalAssessment.setShortName("Nutritional assessment - triagem");
+        nutritionalAssessment.setMultipleChoice(true);
+//        // create Scoring
+//        ScoringNonDB scoring = new ScoringNonDB(0, 30, false);
+//        // create Gradings
+//        ArrayList<GradingNonDB> gradings = new ArrayList<>();
+//        gradings.add(new GradingNonDB("Estado nutricional normal", 24, 30));
+//        gradings.add(new GradingNonDB("Sob risco de desnutrição", 17, 23));
+//        gradings.add(new GradingNonDB("Desnutrido", 0, 16));// create Scoring
+        ScoringNonDB scoring = new ScoringNonDB(0, 14, false);
         // create Gradings
         ArrayList<GradingNonDB> gradings = new ArrayList<>();
-        gradings.add(new GradingNonDB("Estado nutricional normal",
-                24, 30));
-        gradings.add(new GradingNonDB("Sob risco de desnutrição",
-                17, 23));
-        gradings.add(new GradingNonDB("Desnutrido", 0, 16));
+        gradings.add(new GradingNonDB("Estado nutricional normal", 12, 14));
+        gradings.add(new GradingNonDB("Sob risco de desnutrição", 8, 11));
+        gradings.add(new GradingNonDB("Desnutrido", 0, 7));
         // add Gradings to Scoring
-        mentalStateScoring.setValuesBoth(gradings);
+        scoring.setValuesBoth(gradings);
         // add Scoring to Test
-        nutritionalAssessment.setScoring(mentalStateScoring);
+        nutritionalAssessment.setScoring(scoring);
 
-        // Questions + Choices
+        /*
+        Responda à secção “triagem”, preenchendo as caixas com os
+        números adequados. Some os números da secção “triagem”.
+        Se a pontuação obtida for igual ou menor que 11, continue o preenchimento
+        do questionário para obter a pontuação indicadora de desnutrição.
+         */
+
+        /**
+         * Triagem.
+         */
+        // 1
         QuestionNonDB question = new QuestionNonDB("A - Nos últimos três meses houve diminuição da ingesta\n" +
                 "alimentar devido a perda de apetite, problemas digestivos\n" +
                 "ou dificuldade para mastigar ou deglutir?", false);
@@ -1133,6 +1148,7 @@ public class Scales {
         question.setChoices(choiceNonDBs);
         nutritionalAssessment.addQuestion(question);
 
+        // 2
         question = new QuestionNonDB("B - Perda de peso nos últimos 3 meses", false);
         choiceNonDBs = new ArrayList<>();
         choiceNonDBs.add(new ChoiceNonDB("superior a três quilos", 0));
@@ -1142,6 +1158,7 @@ public class Scales {
         question.setChoices(choiceNonDBs);
         nutritionalAssessment.addQuestion(question);
 
+        // 3
         question = new QuestionNonDB("C - Mobilidade", false);
         choiceNonDBs = new ArrayList<>();
         choiceNonDBs.add(new ChoiceNonDB("restrito ao leito ou à cadeira de rodas", 0));
@@ -1150,6 +1167,7 @@ public class Scales {
         question.setChoices(choiceNonDBs);
         nutritionalAssessment.addQuestion(question);
 
+        // 4
         question = new QuestionNonDB("D - Passou por algum stress psicológico ou doença aguda nos\n" +
                 "últimos três meses?", false);
         choiceNonDBs = new ArrayList<>();
@@ -1158,6 +1176,7 @@ public class Scales {
         question.setChoices(choiceNonDBs);
         nutritionalAssessment.addQuestion(question);
 
+        // 5
         question = new QuestionNonDB("E - Problemas neuropsicológicos", false);
         choiceNonDBs = new ArrayList<>();
         choiceNonDBs.add(new ChoiceNonDB("demência ou depressão graves", 0));
@@ -1166,6 +1185,7 @@ public class Scales {
         question.setChoices(choiceNonDBs);
         nutritionalAssessment.addQuestion(question);
 
+        // 6
         question = new QuestionNonDB("F - Índice de Massa Corporal (IMC = peso[kg] / estatura [m 2 ])", false);
         choiceNonDBs = new ArrayList<>();
         choiceNonDBs.add(new ChoiceNonDB("IMC < 19", 0));
@@ -1175,98 +1195,249 @@ public class Scales {
         question.setChoices(choiceNonDBs);
         nutritionalAssessment.addQuestion(question);
 
+
+//        /**
+//         * Avaliação Global.
+//         */
+//        question = new QuestionNonDB("G - O doente vive na sua própria casa\n" +
+//                "(não em instituição geriátrica ou hospital)", false);
+//        choiceNonDBs = new ArrayList<>();
+//        choiceNonDBs.add(new ChoiceNonDB("sim", 1));
+//        choiceNonDBs.add(new ChoiceNonDB("não", 0));
+//        question.setChoices(choiceNonDBs);
+//        nutritionalAssessment.addQuestion(question);
+//
+//        question = new QuestionNonDB("H - Utiliza mais de três medicamentos diferentes por dia?", false);
+//        choiceNonDBs = new ArrayList<>();
+//        choiceNonDBs.add(new ChoiceNonDB("sim", 0));
+//        choiceNonDBs.add(new ChoiceNonDB("não", 1));
+//        question.setChoices(choiceNonDBs);
+//        nutritionalAssessment.addQuestion(question);
+//
+//        question = new QuestionNonDB("I - Lesões de pele ou escaras?", false);
+//        choiceNonDBs = new ArrayList<>();
+//        choiceNonDBs.add(new ChoiceNonDB("sim", 0));
+//        choiceNonDBs.add(new ChoiceNonDB("não", 1));
+//        question.setChoices(choiceNonDBs);
+//        nutritionalAssessment.addQuestion(question);
+//
+//        question = new QuestionNonDB("J - Quantas refeições faz por dia?", false);
+//        choiceNonDBs = new ArrayList<>();
+//        choiceNonDBs.add(new ChoiceNonDB("uma refeição", 0));
+//        choiceNonDBs.add(new ChoiceNonDB("duas refeições", 1));
+//        choiceNonDBs.add(new ChoiceNonDB("três refeições", 2));
+//        question.setChoices(choiceNonDBs);
+//        nutritionalAssessment.addQuestion(question);
+//
+//
+//        // TODO question k
+//
+//        question = new QuestionNonDB("L - O doente consome duas ou mais porções diárias de fruta\n" +
+//                "ou produtos hortícolas?", false);
+//        choiceNonDBs = new ArrayList<>();
+//        choiceNonDBs.add(new ChoiceNonDB("não", 0));
+//        choiceNonDBs.add(new ChoiceNonDB("sim", 1));
+//        question.setChoices(choiceNonDBs);
+//        nutritionalAssessment.addQuestion(question);
+//
+//        question = new QuestionNonDB("M - Quantos copos de líquidos (água, sumo, café, chá, leite) o\n" +
+//                "doente consome por dia?", false);
+//        choiceNonDBs = new ArrayList<>();
+//        choiceNonDBs.add(new ChoiceNonDB("menos de três copos", 0));
+//        choiceNonDBs.add(new ChoiceNonDB("três a cinco copos", 0.5));
+//        choiceNonDBs.add(new ChoiceNonDB("mais de cinco copos", 1));
+//        question.setChoices(choiceNonDBs);
+//        nutritionalAssessment.addQuestion(question);
+//
+//        question = new QuestionNonDB("N - Modo de se alimentar", false);
+//        choiceNonDBs = new ArrayList<>();
+//        choiceNonDBs.add(new ChoiceNonDB("não é capaz de se alimentar sozinho", 0));
+//        choiceNonDBs.add(new ChoiceNonDB("alimenta-se sozinho, porém com dificuldade", 1));
+//        choiceNonDBs.add(new ChoiceNonDB("alimenta-se sozinho sem dificuldade", 2));
+//        question.setChoices(choiceNonDBs);
+//        nutritionalAssessment.addQuestion(question);
+//
+//        question = new QuestionNonDB("O - O doente acredita ter algum problema nutricional?", false);
+//        choiceNonDBs = new ArrayList<>();
+//        choiceNonDBs.add(new ChoiceNonDB("acredita estar desnutrido", 0));
+//        choiceNonDBs.add(new ChoiceNonDB("não sabe dizer", 1));
+//        choiceNonDBs.add(new ChoiceNonDB("acredita não ter um problema nutricional", 2));
+//        question.setChoices(choiceNonDBs);
+//        nutritionalAssessment.addQuestion(question);
+//
+//        question = new QuestionNonDB("P - Em comparação com outras pessoas da mesma idade,\n" +
+//                "como considera o doente a sua própria saúde?", false);
+//        choiceNonDBs = new ArrayList<>();
+//        choiceNonDBs.add(new ChoiceNonDB("pior", 0));
+//        choiceNonDBs.add(new ChoiceNonDB("não sabe", 0.5));
+//        choiceNonDBs.add(new ChoiceNonDB("igual", 1));
+//        choiceNonDBs.add(new ChoiceNonDB("melhor", 2));
+//        question.setChoices(choiceNonDBs);
+//        nutritionalAssessment.addQuestion(question);
+//
+//        question = new QuestionNonDB("Q - Perímetro braquial (PB) em cm", false);
+//        choiceNonDBs = new ArrayList<>();
+//        choiceNonDBs.add(new ChoiceNonDB("PB < 21", 0));
+//        choiceNonDBs.add(new ChoiceNonDB("21 < PB < 22", 0.5));
+//        choiceNonDBs.add(new ChoiceNonDB("PB > 22", 1));
+//        question.setChoices(choiceNonDBs);
+//        nutritionalAssessment.addQuestion(question);
+//
+//        question = new QuestionNonDB("R - Perímetro da perna (PP) em cm", false);
+//        choiceNonDBs = new ArrayList<>();
+//        choiceNonDBs.add(new ChoiceNonDB("PP < 31", 0));
+//        choiceNonDBs.add(new ChoiceNonDB("PP > 31", 1));
+//        question.setChoices(choiceNonDBs);
+//        nutritionalAssessment.addQuestion(question);
+
+
+        return nutritionalAssessment;
+    }
+
+
+    public static GeriatricScaleNonDB miniNutritionalAssessmentGlobal() {
+        GeriatricScaleNonDB nutritionalAssessment = new GeriatricScaleNonDB(Constants.test_name_mini_nutritional_assessment_global,
+                Constants.cga_nutritional, "",
+                "• Deteta presença/risco malnutrição sem recurso a parâmetros analíticos;\n" +
+                        "• Procedimento: questionário direto ao idoso ou a familiares/\n" +
+                        "cuidadores (excluindo as questões sobre a auto-percepção);\n" +
+                        "• Primeira parte (Triagem) é constituída por 6 questões;\n" +
+                        "• Caso não seja possível determinar o IMC (p.ex. doentes acamados) pode-se " +
+                        "em alternativa usar o perímetro da perna – se PP < 31 cm corresponde a 0 " +
+                        "pontos; se PP ≥ 31 cm corresponde a 3 pontos;\n" +
+                        "• Se triagem com malnutrição/risco realiza-se segunda parte do questionário;\n" +
+                        "• Segunda parte (Avaliação Global) é constituída por 12 questões;\n" +
+                        "• Soma da pontuação permite identificar 3 categorias: estado nutricional " +
+                        "normal, sob risco de malnutrição, malnutrição;");
+        // short area
+        nutritionalAssessment.setShortName("Nutritional assessment - avaliação global");
+        nutritionalAssessment.setMultipleChoice(true);
+        // create Scoring
+        ScoringNonDB scoring = new ScoringNonDB(0, 30, false);
+        // create Gradings
+        ArrayList<GradingNonDB> gradings = new ArrayList<>();
+        gradings.add(new GradingNonDB("Estado nutricional normal", 24, 30));
+        gradings.add(new GradingNonDB("Sob risco de desnutrição", 17, 23));
+        gradings.add(new GradingNonDB("Desnutrido", 0, 16));// create Scoring
+
+        // add Gradings to Scoring
+        scoring.setValuesBoth(gradings);
+        // add Scoring to Test
+        nutritionalAssessment.setScoring(scoring);
+
+
         /**
          * Avaliação Global.
          */
-        question = new QuestionNonDB("G - O doente vive na sua própria casa\n" +
+        // 7
+        QuestionNonDB question = new QuestionNonDB("G - O doente vive na sua própria casa\n" +
                 "(não em instituição geriátrica ou hospital)", false);
-        choiceNonDBs = new ArrayList<>();
-        choiceNonDBs.add(new ChoiceNonDB("sim", 1));
-        choiceNonDBs.add(new ChoiceNonDB("não", 0));
-        question.setChoices(choiceNonDBs);
+        ArrayList<ChoiceNonDB> choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("sim", 1));
+        choices.add(new ChoiceNonDB("não", 0));
+        question.setChoices(choices);
         nutritionalAssessment.addQuestion(question);
 
+        // 8
         question = new QuestionNonDB("H - Utiliza mais de três medicamentos diferentes por dia?", false);
-        choiceNonDBs = new ArrayList<>();
-        choiceNonDBs.add(new ChoiceNonDB("sim", 0));
-        choiceNonDBs.add(new ChoiceNonDB("não", 1));
-        question.setChoices(choiceNonDBs);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("sim", 0));
+        choices.add(new ChoiceNonDB("não", 1));
+        question.setChoices(choices);
         nutritionalAssessment.addQuestion(question);
 
+        // 9
         question = new QuestionNonDB("I - Lesões de pele ou escaras?", false);
-        choiceNonDBs = new ArrayList<>();
-        choiceNonDBs.add(new ChoiceNonDB("sim", 0));
-        choiceNonDBs.add(new ChoiceNonDB("não", 1));
-        question.setChoices(choiceNonDBs);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("sim", 0));
+        choices.add(new ChoiceNonDB("não", 1));
+        question.setChoices(choices);
         nutritionalAssessment.addQuestion(question);
 
+        // 10
         question = new QuestionNonDB("J - Quantas refeições faz por dia?", false);
-        choiceNonDBs = new ArrayList<>();
-        choiceNonDBs.add(new ChoiceNonDB("uma refeição", 0));
-        choiceNonDBs.add(new ChoiceNonDB("duas refeições", 1));
-        choiceNonDBs.add(new ChoiceNonDB("três refeições", 2));
-        question.setChoices(choiceNonDBs);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("uma refeição", 0));
+        choices.add(new ChoiceNonDB("duas refeições", 1));
+        choices.add(new ChoiceNonDB("três refeições", 2));
+        question.setChoices(choices);
         nutritionalAssessment.addQuestion(question);
 
+        // 11
+        question = new QuestionNonDB("K O doente consome:\n" +
+                "• pelo menos uma porção diária de leite ou derivados (leite, queijo, iogurte)?\n" +
+                "• duas ou mais porções semanais de leguminosas ou ovos?\n" +
+                "• carne, peixe ou aves todos os dias?", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("nenhuma ou uma resposta «sim»", 0));
+        choices.add(new ChoiceNonDB("duas respostas «sim»", 0.5));
+        choices.add(new ChoiceNonDB("três respostas «sim»", 1.0));
+        question.setChoices(choices);
+        nutritionalAssessment.addQuestion(question);
 
-        // TODO question k
-
+        // 12
         question = new QuestionNonDB("L - O doente consome duas ou mais porções diárias de fruta\n" +
                 "ou produtos hortícolas?", false);
-        choiceNonDBs = new ArrayList<>();
-        choiceNonDBs.add(new ChoiceNonDB("não", 0));
-        choiceNonDBs.add(new ChoiceNonDB("sim", 1));
-        question.setChoices(choiceNonDBs);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("não", 0));
+        choices.add(new ChoiceNonDB("sim", 1));
+        question.setChoices(choices);
         nutritionalAssessment.addQuestion(question);
 
+        // 13
         question = new QuestionNonDB("M - Quantos copos de líquidos (água, sumo, café, chá, leite) o\n" +
                 "doente consome por dia?", false);
-        choiceNonDBs = new ArrayList<>();
-        choiceNonDBs.add(new ChoiceNonDB("menos de três copos", 0));
-        choiceNonDBs.add(new ChoiceNonDB("três a cinco copos", 0.5));
-        choiceNonDBs.add(new ChoiceNonDB("mais de cinco copos", 1));
-        question.setChoices(choiceNonDBs);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("menos de três copos", 0));
+        choices.add(new ChoiceNonDB("três a cinco copos", 0.5));
+        choices.add(new ChoiceNonDB("mais de cinco copos", 1));
+        question.setChoices(choices);
         nutritionalAssessment.addQuestion(question);
 
+        // 14
         question = new QuestionNonDB("N - Modo de se alimentar", false);
-        choiceNonDBs = new ArrayList<>();
-        choiceNonDBs.add(new ChoiceNonDB("não é capaz de se alimentar sozinho", 0));
-        choiceNonDBs.add(new ChoiceNonDB("alimenta-se sozinho, porém com dificuldade", 1));
-        choiceNonDBs.add(new ChoiceNonDB("alimenta-se sozinho sem dificuldade", 2));
-        question.setChoices(choiceNonDBs);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("não é capaz de se alimentar sozinho", 0));
+        choices.add(new ChoiceNonDB("alimenta-se sozinho, porém com dificuldade", 1));
+        choices.add(new ChoiceNonDB("alimenta-se sozinho sem dificuldade", 2));
+        question.setChoices(choices);
         nutritionalAssessment.addQuestion(question);
 
+        // 15
         question = new QuestionNonDB("O - O doente acredita ter algum problema nutricional?", false);
-        choiceNonDBs = new ArrayList<>();
-        choiceNonDBs.add(new ChoiceNonDB("acredita estar desnutrido", 0));
-        choiceNonDBs.add(new ChoiceNonDB("não sabe dizer", 1));
-        choiceNonDBs.add(new ChoiceNonDB("acredita não ter um problema nutricional", 2));
-        question.setChoices(choiceNonDBs);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("acredita estar desnutrido", 0));
+        choices.add(new ChoiceNonDB("não sabe dizer", 1));
+        choices.add(new ChoiceNonDB("acredita não ter um problema nutricional", 2));
+        question.setChoices(choices);
         nutritionalAssessment.addQuestion(question);
 
+        // 16
         question = new QuestionNonDB("P - Em comparação com outras pessoas da mesma idade,\n" +
                 "como considera o doente a sua própria saúde?", false);
-        choiceNonDBs = new ArrayList<>();
-        choiceNonDBs.add(new ChoiceNonDB("pior", 0));
-        choiceNonDBs.add(new ChoiceNonDB("não sabe", 0.5));
-        choiceNonDBs.add(new ChoiceNonDB("igual", 1));
-        choiceNonDBs.add(new ChoiceNonDB("melhor", 2));
-        question.setChoices(choiceNonDBs);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("pior", 0));
+        choices.add(new ChoiceNonDB("não sabe", 0.5));
+        choices.add(new ChoiceNonDB("igual", 1));
+        choices.add(new ChoiceNonDB("melhor", 2));
+        question.setChoices(choices);
         nutritionalAssessment.addQuestion(question);
 
+        // 17
         question = new QuestionNonDB("Q - Perímetro braquial (PB) em cm", false);
-        choiceNonDBs = new ArrayList<>();
-        choiceNonDBs.add(new ChoiceNonDB("PB < 21", 0));
-        choiceNonDBs.add(new ChoiceNonDB("21 < PB < 22", 0.5));
-        choiceNonDBs.add(new ChoiceNonDB("PB > 22", 1));
-        question.setChoices(choiceNonDBs);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("PB < 21", 0));
+        choices.add(new ChoiceNonDB("21 < PB < 22", 0.5));
+        choices.add(new ChoiceNonDB("PB > 22", 1));
+        question.setChoices(choices);
         nutritionalAssessment.addQuestion(question);
 
+        // 18
         question = new QuestionNonDB("R - Perímetro da perna (PP) em cm", false);
-        choiceNonDBs = new ArrayList<>();
-        choiceNonDBs.add(new ChoiceNonDB("PP < 31", 0));
-        choiceNonDBs.add(new ChoiceNonDB("PP > 31", 1));
-        question.setChoices(choiceNonDBs);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("PP < 31", 0));
+        choices.add(new ChoiceNonDB("PP > 31", 1));
+        question.setChoices(choices);
         nutritionalAssessment.addQuestion(question);
 
 
@@ -1276,8 +1447,8 @@ public class Scales {
     /**
      * Get infos about 'Mini mental state examination (Folstein)'
      */
-    public static GeriatricTestNonDB mentalStateFolstein() {
-        GeriatricTestNonDB mentalState = new GeriatricTestNonDB(Constants.test_name_mini_mental_state,
+    public static GeriatricScaleNonDB mentalStateFolstein() {
+        GeriatricScaleNonDB mentalState = new GeriatricScaleNonDB(Constants.test_name_mini_mental_state,
                 Constants.cga_cognitivo, "",
                 "• Permite fazer uma avaliação sumária das funções cognitivas.\n" +
                         "• Avalia a orientação, memória imediata " +
@@ -1287,6 +1458,8 @@ public class Scales {
                         "• Tempo de aplicação: 5-10 minutos.");
         // short area
         mentalState.setShortName("Mini-Mental State Examination");
+        mentalState.setMultipleCategories(true);
+
         // create Scoring
         ScoringNonDB mentalStateScoring = new ScoringNonDB(0, 30, false);
         // create Gradings
@@ -1360,88 +1533,87 @@ public class Scales {
         mentalState.addQuestionCategory(category);
 
 
-        // Atenção e cálculo
-        category = new QuestionCategory("Atenção e cálculo");
-        category.setDescription("“Agora peço-lhe que me diga quantos são 30 menos 3 e depois ao número encontrado volta a tirar 3 e repete assim\n" +
-                "até eu lhe dizer para parar”");
-        // 14
-        question = new QuestionNonDB("27", 1, 0);
-        category.addQuestion(question);
-        // 15
-        question = new QuestionNonDB("24", 1, 0);
-        category.addQuestion(question);
-        // 16
-        question = new QuestionNonDB("21", 1, 0);
-        category.addQuestion(question);
-        // 17
-        question = new QuestionNonDB("18", 1, 0);
-        category.addQuestion(question);
-        // 18
-        question = new QuestionNonDB("15", 1, 0);
-        category.addQuestion(question);
-        mentalState.addQuestionCategory(category);
-
-
-        // Evocação
-        category = new QuestionCategory("Evocação");
-        category.setDescription("“Veja se consegue dizer as três palavras que pedi há pouco para decorar”.");
-
-        // 19
-        question = new QuestionNonDB("Pêra", 0, 1);
-        category.addQuestion(question);
-        // 20
-        question = new QuestionNonDB("Gato", 1, 0);
-        category.addQuestion(question);
-        // 21
-        question = new QuestionNonDB("Bola", 0, 1);
-        category.addQuestion(question);
-        mentalState.addQuestionCategory(category);
-
-
-        // Linguagem
-        category = new QuestionCategory("Linguagem");
-        category.setDescription("");
-        // 21
-        question = new QuestionNonDB("Relógio", 0, 1);
-        category.addQuestion(question);
-        // 23
-        question = new QuestionNonDB("Lápis", 1, 0);
-        category.addQuestion(question);
-        // 24
-        question = new QuestionNonDB("Repita a frase que eu vou dizer: O RATO ROEU A ROLHA", 0, 1);
-        category.addQuestion(question);
-        // 25
-        question = new QuestionNonDB("Pega com a mão direita", 0, 1);
-        category.addQuestion(question);
-        // 26
-        question = new QuestionNonDB("Dobra ao meio", 0, 1);
-        category.addQuestion(question);
-        // 27
-        question = new QuestionNonDB("Coloca onde deve", 0, 1);
-        category.addQuestion(question);
-        // 28
-        question = new QuestionNonDB("Feche os olhos", 0, 1);
-        category.addQuestion(question);
-        // 29
-        question = new QuestionNonDB("“Escreva uma frase inteira aqui”", 0, 1);
-        category.addQuestion(question);
-        mentalState.addQuestionCategory(category);
-
-        // Capacidade construtiva
-        category = new QuestionCategory("Capacidade construtiva");
-        // 30
-        question = new QuestionNonDB("Deve copiar um desenho. Dois pentágonos parcialmente sobrepostos; cada um deve ficar com 5 lados, dois dos quais\n" +
-                "intersectados. Não valorizar tremor ou rotação", 0, 1);
-        category.addQuestion(question);
-        mentalState.addQuestionCategory(category);
-        mentalState.setMultipleCategories(true);
+//        // Atenção e cálculo
+//        category = new QuestionCategory("Atenção e cálculo");
+//        category.setDescription("“Agora peço-lhe que me diga quantos são 30 menos 3 e depois ao número encontrado volta a tirar 3 e repete assim\n" +
+//                "até eu lhe dizer para parar”");
+//        // 14
+//        question = new QuestionNonDB("27", 1, 0);
+//        category.addQuestion(question);
+//        // 15
+//        question = new QuestionNonDB("24", 1, 0);
+//        category.addQuestion(question);
+//        // 16
+//        question = new QuestionNonDB("21", 1, 0);
+//        category.addQuestion(question);
+//        // 17
+//        question = new QuestionNonDB("18", 1, 0);
+//        category.addQuestion(question);
+//        // 18
+//        question = new QuestionNonDB("15", 1, 0);
+//        category.addQuestion(question);
+//        mentalState.addQuestionCategory(category);
+//
+//
+//        // Evocação
+//        category = new QuestionCategory("Evocação");
+//        category.setDescription("“Veja se consegue dizer as três palavras que pedi há pouco para decorar”.");
+//
+//        // 19
+//        question = new QuestionNonDB("Pêra", 0, 1);
+//        category.addQuestion(question);
+//        // 20
+//        question = new QuestionNonDB("Gato", 1, 0);
+//        category.addQuestion(question);
+//        // 21
+//        question = new QuestionNonDB("Bola", 0, 1);
+//        category.addQuestion(question);
+//        mentalState.addQuestionCategory(category);
+//
+//
+//        // Linguagem
+//        category = new QuestionCategory("Linguagem");
+//        category.setDescription("");
+//        // 21
+//        question = new QuestionNonDB("Relógio", 0, 1);
+//        category.addQuestion(question);
+//        // 23
+//        question = new QuestionNonDB("Lápis", 1, 0);
+//        category.addQuestion(question);
+//        // 24
+//        question = new QuestionNonDB("Repita a frase que eu vou dizer: O RATO ROEU A ROLHA", 0, 1);
+//        category.addQuestion(question);
+//        // 25
+//        question = new QuestionNonDB("Pega com a mão direita", 0, 1);
+//        category.addQuestion(question);
+//        // 26
+//        question = new QuestionNonDB("Dobra ao meio", 0, 1);
+//        category.addQuestion(question);
+//        // 27
+//        question = new QuestionNonDB("Coloca onde deve", 0, 1);
+//        category.addQuestion(question);
+//        // 28
+//        question = new QuestionNonDB("Feche os olhos", 0, 1);
+//        category.addQuestion(question);
+//        // 29
+//        question = new QuestionNonDB("“Escreva uma frase inteira aqui”", 0, 1);
+//        category.addQuestion(question);
+//        mentalState.addQuestionCategory(category);
+//
+//        // Capacidade construtiva
+//        category = new QuestionCategory("Capacidade construtiva");
+//        // 30
+//        question = new QuestionNonDB("Deve copiar um desenho. Dois pentágonos parcialmente sobrepostos; cada um deve ficar com 5 lados, dois dos quais\n" +
+//                "intersectados. Não valorizar tremor ou rotação", 0, 1);
+//        category.addQuestion(question);
+//        mentalState.addQuestionCategory(category);
 
         return mentalState;
     }
 
 
-    public static GeriatricTestNonDB setTest() {
-        GeriatricTestNonDB setTest = new GeriatricTestNonDB(Constants.test_name_set_set,
+    public static GeriatricScaleNonDB setTest() {
+        GeriatricScaleNonDB setTest = new GeriatricScaleNonDB(Constants.test_name_set_set,
                 Constants.cga_cognitivo, "",
                 "• El Set-test fue introducido por Isaacs y Akhtar en\n" +
                         "1972  y propuesto\n" +
@@ -1478,7 +1650,9 @@ public class Scales {
         // add Scoring to Test
         setTest.setScoring(setTestScoring);
 
-        // TODO allow to write down the names and not just the numbers
+        /**
+         * Questions - text input as answer.
+         */
         String[] questions = new String[]{
                 "Cores",
                 "Animais",
@@ -1489,32 +1663,37 @@ public class Scales {
         for (String questionText : questions) {
             question = new QuestionNonDB(questionText);
             question.setRightWrong(false);
-            question.setNumerical(true);
+            question.setNumerical(false);
+            question.setMultipleTextInput(true);
             setTest.addQuestion(question);
         }
+        /**
+         * Errors / repetitions
+         */
+        question = new QuestionNonDB("Erros/repetições");
+        question.setRightWrong(false);
+        question.setNumerical(true);
+        setTest.addQuestion(question);
+        /**
+         * Pontuação total
+         */
+        question = new QuestionNonDB("Pontuação total");
+        question.setRightWrong(false);
+        question.setNumerical(true);
+        setTest.addQuestion(question);
 
         return setTest;
     }
 
-    public static GeriatricTestNonDB shortPortableMentalStatus() {
-        GeriatricTestNonDB shortPortableMentalStatus = new GeriatricTestNonDB(Constants.test_name_short_portable_mental_status,
+    public static GeriatricScaleNonDB shortPortableMentalStatus() {
+        GeriatricScaleNonDB shortPortableMentalStatus = new GeriatricScaleNonDB(Constants.test_name_short_portable_mental_status,
                 Constants.cga_cognitivo, "",
                 "• Permite fazer uma avaliação sumária das funções cognitivas.\n" +
-                        "Se trata de un test sencillo, breve y de aplicación\n" +
-                        "rápida que explora orientación témporo-espacial,\n" +
-                        "memoria reciente y remota, información sobre hechos\n" +
-                        "recientes, capacidad de concentración y de cálculo\n" +
-                        "(J Am Geriatr. Soc. 1975; 23: 433-441). Presenta una\n" +
-                        "sensibilidad del 68%, especificidad del 96%, valor predictivo\n" +
-                        "positivo del 92%, valor predictivo negativo del\n" +
-                        "82%. Se puntúan los errores. En función de la puntuación\n" +
-                        "obtenemos (6, 9):\n" +
-                        "— De 0 a 2 errores: no deterioro.\n" +
-                        "— De 3 a 4 errores: deterioro leve de la capacidad\n" +
-                        "intelectual.\n" +
-                        "— De 5 a 7 errores: moderado deterioro.\n" +
-                        "— De 8 a 10 errores: grave deterioro." +
-                        "Se acepta un error más en ancianos que no han\n" +
+                        "•  Se trata de un test sencillo, breve y de aplicación" +
+                        "rápida que explora orientación témporo-espacial," +
+                        "memoria reciente y remota, información sobre hechos" +
+                        "recientes, capacidad de concentración y de cálculo" +
+                        "• Se acepta un error más en ancianos que no han\n" +
                         "recibido educación primaria y un error menos en aquellos\n" +
                         "que han realizado estudios superiores. Su principal\n" +
                         "problema es que no detecta pequeños cambios en\n" +
@@ -1563,7 +1742,7 @@ public class Scales {
      * @param testName
      * @return
      */
-    public static GeriatricTestNonDB getTestByName(String testName) {
+    public static GeriatricScaleNonDB getTestByName(String testName) {
         if (Objects.equals(testName, Constants.test_name_testeDeKatz)) {
             return escalaDeKatz();
         } else if (Objects.equals(testName, Constants.test_name_escalaDepressaoYesavage)) {
@@ -1574,8 +1753,10 @@ public class Scales {
             return escalaLawtonBrody();
         } else if (Objects.equals(testName, Constants.test_name_mini_mental_state)) {
             return mentalStateFolstein();
-        } else if (Objects.equals(testName, Constants.test_name_mini_nutritional_assessment)) {
-            return miniNutritionalAssessment();
+        } else if (Objects.equals(testName, Constants.test_name_mini_nutritional_assessment_triagem)) {
+            return miniNutritionalAssessmentTriagem();
+        } else if (Objects.equals(testName, Constants.test_name_mini_nutritional_assessment_global)) {
+            return miniNutritionalAssessmentGlobal();
         } else if (Objects.equals(testName, Constants.test_name_recursos_sociales)) {
             return recursosSociales();
         } else if (Objects.equals(testName, Constants.test_name_valoracionSocioFamiliar)) {
@@ -1612,12 +1793,10 @@ public class Scales {
      * @param gender
      * @return
      */
-    public static GradingNonDB getGradingForScale(GeriatricTest test, int gender) {
+    public static GradingNonDB getGradingForScale(GeriatricScale test, int gender) {
 
         double testResult = test.generateTestResult();
-        System.out.println("Test result is " + testResult);
         ScoringNonDB scoring = getTestByName(test.getScaleName()).getScoring();
-        System.out.println("Scoring is " + scoring.getMinScore());
         GradingNonDB match;
         // check if it's different for men and women
         if (scoring.isDifferentMenWomen()) {
@@ -1632,13 +1811,11 @@ public class Scales {
         return match;
     }
 
-    public static int getGradingIndex(GeriatricTest test, int gender) {
+    public static int getGradingIndex(GeriatricScale test, int gender) {
 
 
         double testResult = test.generateTestResult();
-        System.out.println("Test result is " + testResult);
         ScoringNonDB scoring = getTestByName(test.getScaleName()).getScoring();
-        System.out.println("Scoring is " + scoring.getMinScore());
         int match;
         // check if it's different for men and women
         if (scoring.isDifferentMenWomen()) {
@@ -1654,7 +1831,7 @@ public class Scales {
         return match;
     }
 
-    public static GradingNonDB getGradingForTestWithoutGenerating(GeriatricTest test, int gender) {
+    public static GradingNonDB getGradingForTestWithoutGenerating(GeriatricScale test, int gender) {
         double testResult = test.getResult();
         ScoringNonDB scoring = getTestByName(test.getScaleName()).getScoring();
         GradingNonDB match;
@@ -1677,14 +1854,15 @@ public class Scales {
      *
      * @return
      */
-    public static ArrayList<GeriatricTestNonDB> getAllTests() {
-        ArrayList<GeriatricTestNonDB> tests = new ArrayList<>();
+    public static ArrayList<GeriatricScaleNonDB> getAllTests() {
+        ArrayList<GeriatricScaleNonDB> tests = new ArrayList<>();
         tests.add(escalaDeKatz());
         tests.add(escalaDepressaoYesavage());
         tests.add(escalaLawtonBrody());
         tests.add(marchaHolden());
-        tests.add(mentalStateFolstein());
-        tests.add(miniNutritionalAssessment());
+        //tests.add(mentalStateFolstein());
+        tests.add(miniNutritionalAssessmentTriagem());
+        tests.add(miniNutritionalAssessmentGlobal());
         tests.add(recursosSociales());
         tests.add(valoracionSocioFamiliarGijon());
         tests.add(zaritBurdenInterview());
@@ -1702,9 +1880,9 @@ public class Scales {
      * @param area
      * @return
      */
-    public static ArrayList<GeriatricTestNonDB> getTestsForArea(String area) {
-        ArrayList<GeriatricTestNonDB> testsForArea = new ArrayList<>();
-        for (GeriatricTestNonDB test : getAllTests()) {
+    public static ArrayList<GeriatricScaleNonDB> getTestsForArea(String area) {
+        ArrayList<GeriatricScaleNonDB> testsForArea = new ArrayList<>();
+        for (GeriatricScaleNonDB test : getAllTests()) {
             if (test.getArea().equals(area)) {
                 testsForArea.add(test);
             }
@@ -1712,9 +1890,9 @@ public class Scales {
         return testsForArea;
     }
 
-    public static ArrayList<GeriatricTest> getTestsForArea(List<GeriatricTest> scales, String area) {
-        ArrayList<GeriatricTest> testsForArea = new ArrayList<>();
-        for (GeriatricTest test : scales) {
+    public static ArrayList<GeriatricScale> getTestsForArea(List<GeriatricScale> scales, String area) {
+        ArrayList<GeriatricScale> testsForArea = new ArrayList<>();
+        for (GeriatricScale test : scales) {
             if (Scales.getTestByName(test.getScaleName()).getArea().equals(area)) {
                 testsForArea.add(test);
             }

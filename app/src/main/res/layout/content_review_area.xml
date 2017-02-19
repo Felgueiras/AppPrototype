@@ -3,12 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_margin="10dp"
     >
 
     <TextView
         android:id="@+id/area"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        style="@style/header1"/>
 
     <!--Tests for that session-->
     <android.support.v7.widget.RecyclerView

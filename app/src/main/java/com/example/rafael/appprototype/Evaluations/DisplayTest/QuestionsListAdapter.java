@@ -11,17 +11,18 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Choice;
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.NonDB.ChoiceNonDB;
-import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricTestNonDB;
+import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.SingleQuestion.MultipleChoiceHandler;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.SingleQuestion.RightWrongQuestionHandler;
@@ -48,12 +49,13 @@ public class QuestionsListAdapter extends BaseAdapter {
     /**
      * Test
      */
-    private final GeriatricTest test;
+    private final GeriatricScale test;
     /**
      * Yes if test already opened, no otherwise
      */
     private final boolean testAlreadyOpened;
-    private final GeriatricTestNonDB testNonDB;
+    private final GeriatricScaleNonDB testNonDB;
+    private final ProgressBar progressBar;
     /**
      * HasSet that will hold the numbers of the Questions that were already answered.
      */
@@ -66,19 +68,35 @@ public class QuestionsListAdapter extends BaseAdapter {
 
 
     /**
-     * Display all Questions for a GeriatricTest
+     * Display all Questions for a GeriatricScale
      *
-     * @param context current Context
-     * @param test    GeriatricTest that is being filled up
+     * @param context  current Context
+     * @param test     GeriatricScale that is being filled up
+     * @param progress
      */
-    public QuestionsListAdapter(Context context, GeriatricTestNonDB testNonDb, GeriatricTest test) {
+    public QuestionsListAdapter(Context context, GeriatricScaleNonDB testNonDb, GeriatricScale test, ProgressBar progress) {
         this.context = context;
         this.questions = testNonDb.getQuestions();
         this.test = test;
         this.testNonDB = testNonDb;
+        this.progressBar = progress;
 
 
         numquestions = questions.size();
+        if (progressBar != null) {
+            progressBar.setMax(numquestions);
+            int numAnswered = 0;
+            // check how many questions were answered
+            ArrayList<Question> questions = test.getQuestionsFromTest();
+            for (Question question : questions) {
+                if (question.isAnswered()) {
+                    numAnswered++;
+                    positionsFilled.add(questions.indexOf(question));
+                }
+            }
+            progressBar.setProgress(numAnswered);
+        }
+
         testAlreadyOpened = test.isAlreadyOpened();
         inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -88,12 +106,17 @@ public class QuestionsListAdapter extends BaseAdapter {
         if (testNonDB.isSingleQuestion()) {
             // single question test
             numquestions = 1;
+            if (progressBar != null) {
+                progressBar.setMax(numquestions);
+            }
             return numquestions;
-            //return testNonDB.getScoring().getValuesBoth().size();
         }
-        if (testNonDB.getQuestionsCategories().size() != 0) {
+        if (testNonDB.isMultipleCategories()) {
             // test with multiple categories
-            numquestions = testNonDB.getNumberQuestions();
+            numquestions = 1;
+            if (progressBar != null) {
+                progressBar.setMax(numquestions);
+            }
             return numquestions;
         }
         return numquestions;
@@ -116,6 +139,10 @@ public class QuestionsListAdapter extends BaseAdapter {
      */
     public void questionAnswered(int position) {
         positionsFilled.add(position);
+        if (progressBar != null) {
+            if (positionsFilled.size() > progressBar.getProgress())
+                progressBar.setProgress(positionsFilled.size());
+        }
         int nq = numquestions;
         if (testNonDB.getScoring().isDifferentMenWomen()) {
             if (Constants.SESSION_GENDER == Constants.MALE) {
@@ -129,10 +156,8 @@ public class QuestionsListAdapter extends BaseAdapter {
 
         if (positionsFilled.size() == nq) {
             if (!test.isCompleted()) {
-                // System.out.println();
                 // TODO fix this
-                //Snackbar.make(questionView, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
-
+                Snackbar.make(questionView, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
             }
             allQuestionsAnswered = true;
 
@@ -148,68 +173,153 @@ public class QuestionsListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int questionIndex, View convertView, ViewGroup parent) {
 
+        // multiple choice
         if (testNonDB.isMultipleChoice()) {
-            QuestionNonDB currentQuestionNonDB = questions.get(position);
-            questionView = multipleChoice(currentQuestionNonDB, position);
+            QuestionNonDB currentQuestionNonDB = questions.get(questionIndex);
+            questionView = multipleChoice(currentQuestionNonDB, questionIndex);
             if (currentQuestionNonDB.isOnlyForWomen() && Constants.SESSION_GENDER == Constants.MALE) {
                 return inflater.inflate(R.layout.empty, null);
             }
             return questionView;
         }
 
-        questionView = null;
-        if (!testAlreadyOpened) {
-            // single question
-            if (testNonDB.isSingleQuestion()) {
-                questionView = singleChoice();
-            } else if (testNonDB.isMultipleCategories()) {
-                questionView = new QuestionMultipleCategories(inflater, testNonDB, context, test,
-                        this).multipleCategoriesNotOpened();
-            } else {
-                QuestionNonDB currentQuestionNonDB = questions.get(position);
-                // yes/no questions
-                if (currentQuestionNonDB.isYesOrNo()) {
-                    questionView = yesNoNotOpened(currentQuestionNonDB, position);
-                }
-                if (currentQuestionNonDB.isNumerical()) {
-                    questionView = numericalQuestion(currentQuestionNonDB, position);
-                    return questionView;
-                }
-                // right/wrong
-                if (currentQuestionNonDB.isRightWrong()) {
-                    questionView = rightWrong(currentQuestionNonDB, position);
-                }
-            }
-
+        // multiple categories
+        if (testNonDB.isMultipleCategories()) {
+            questionView = new QuestionMultipleCategories(inflater,
+                    testNonDB,
+                    context,
+                    test,
+                    this).getView();
+            return questionView;
         }
+
+        /**
+         * Single question.
+         */
+        if (testNonDB.isSingleQuestion()) {
+            questionView = singleChoice();
+            return questionView;
+        }
+
+        QuestionNonDB currentQuestionNonDB = questions.get(questionIndex);
+        /**
+         * Numerical.
+         */
+        if (currentQuestionNonDB.isNumerical()) {
+            questionView = numericalQuestion(currentQuestionNonDB, questionIndex);
+            return questionView;
+        }
+        /**
+         * Text input.
+         */
+        if (currentQuestionNonDB.isMultipleTextInput()) {
+            questionView = multipleTextInput(currentQuestionNonDB, questionIndex);
+            return questionView;
+        }
+
+        if (!testAlreadyOpened) {
+            // yes/no questions
+            if (currentQuestionNonDB.isYesOrNo()) {
+                questionView = yesNoNotOpened(currentQuestionNonDB, questionIndex);
+            }
+            // right/wrong
+            if (currentQuestionNonDB.isRightWrong()) {
+                questionView = rightWrong(currentQuestionNonDB, questionIndex);
+            }
+        }
+
         // Test already opened
         else {
-            if (testNonDB.isSingleQuestion()) {
-                questionView = singleChoice();
-            } else if (testNonDB.isMultipleCategories()) {
-                questionView = new QuestionMultipleCategories(inflater, testNonDB, context, test,
-                        this).multipleCategoriesAlreadyOpened();
-            } else {
-                QuestionNonDB currentQuestionNonDB = questions.get(position);
-                // right/wrong
-                if (currentQuestionNonDB.isRightWrong()) {
-                    questionView = rightWrong(currentQuestionNonDB, position);
-                }
-                if (currentQuestionNonDB.isNumerical()) {
-                    questionView = numericalQuestion(currentQuestionNonDB, position);
-                }
-                // check if question is multiple choice or yes/no
-                if (currentQuestionNonDB.isYesOrNo()) {
-                    questionView = yesNoAlreadyOpened(currentQuestionNonDB, position);
-                }
+            // right/wrong
+            if (currentQuestionNonDB.isRightWrong()) {
+                questionView = rightWrong(currentQuestionNonDB, questionIndex);
+            }
+            // check if question is multiple choice or yes/no
+            if (currentQuestionNonDB.isYesOrNo()) {
+                questionView = yesNoAlreadyOpened(currentQuestionNonDB, questionIndex);
             }
 
         }
+
         return questionView;
     }
 
+    /**
+     * Multiple text input.
+     *
+     * @param currentQuestionNonDB
+     * @param questionIndex
+     * @return
+     */
+    private View multipleTextInput(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
+        // question in DB
+        Question questionInDB;
+        String dummyID = test.getGuid() + "-" + currentQuestionNonDB.getDescription();
+        questionInDB = Question.getQuestionByID(dummyID);
+        if (questionInDB == null) {
+            // create question and add to DB
+            questionInDB = new Question();
+            questionInDB.setGuid(dummyID);
+            questionInDB.setDescription(currentQuestionNonDB.getDescription());
+            questionInDB.setTest(test);
+            questionInDB.setYesOrNo(false);
+            questionInDB.setRightWrong(false);
+            questionInDB.setNumerical(false);
+            questionInDB.setMultipleTextInput(false);
+            questionInDB.save();
+        }
+
+        /**
+         * Set View
+         */
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View questionView = inflater.inflate(R.layout.content_question_multiple_text_input, null);
+        TextView questionName = (TextView) questionView.findViewById(R.id.nameQuestion);
+        questionName.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
+
+        EditText answer = (EditText) questionView.findViewById(R.id.question_answer);
+
+        // if question is already answered
+        if (questionInDB.isAnswered()) {
+            answer.setText(questionInDB.getTextAnswer());
+        }
+
+        // detect when answer changes changed
+        final Question finalQuestionInDB = questionInDB;
+        answer.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                finalQuestionInDB.setTextAnswer(charSequence.toString());
+                finalQuestionInDB.setAnswered(true);
+                finalQuestionInDB.save();
+
+                questionAnswered(questionIndex);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
+        return questionView;
+    }
+
+    /**
+     * Numerical question.
+     *
+     * @param currentQuestionNonDB
+     * @param questionIndex
+     * @return
+     */
     private View numericalQuestion(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
         // question in DB
         Question questionInDB;
@@ -235,11 +345,11 @@ public class QuestionsListAdapter extends BaseAdapter {
         TextView questionName = (TextView) questionView.findViewById(R.id.nameQuestion);
         questionName.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
 
-        EditText answer = (EditText) questionView.findViewById(R.id.question_answer_number);
+        EditText answer = (EditText) questionView.findViewById(R.id.question_answer);
 
         // if question is already answered
         if (questionInDB.isAnswered()) {
-            answer.setText(questionInDB.getAnswerNumber()+"");
+            answer.setText(questionInDB.getAnswerNumber() + "");
         }
 
         // detect when answer changes changed
@@ -252,7 +362,7 @@ public class QuestionsListAdapter extends BaseAdapter {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                finalQuestionInDB.setAnswerNumber(1);
+                finalQuestionInDB.setAnswerNumber(Integer.parseInt(charSequence.toString()));
                 finalQuestionInDB.setAnswered(true);
                 finalQuestionInDB.save();
 
@@ -351,12 +461,11 @@ public class QuestionsListAdapter extends BaseAdapter {
                     newRadioButton.setChecked(true);
         }
 
-
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int radioButtonIndex) {
-
                 radioButtonIndex = (radioButtonIndex - 1) % gradings.size();
+                questionAnswered(0);
                 // get grade
                 GradingNonDB grading = gradings.get(radioButtonIndex);
                 test.setAlreadyOpened(true);

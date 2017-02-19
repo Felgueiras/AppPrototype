@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <!--
+            <ImageView
+                android:id="@+id/patientPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/album_cover_height"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:scaleType="fitXY" />
+                -->
+
+            <TextView
+                android:id="@+id/patientName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/patientPhoto"
+                android:padding="10dp"
+                android:textColor="@color/album_title"
+                android:textSize="@dimen/patient_name_size"
+                android:text="Patient name"
+                android:transitionName="@string/fragment_text_trans"
+                />
+
+            <View
+                android:id="@+id/separator"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/patientName"
+                android:background="#000000" />
+
+            <!--
+            <TextView
+                android:id="@+id/patientAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/patientName"
+                android:paddingBottom="@dimen/songs_count_padding_bottom"
+                android:paddingLeft="@dimen/album_title_padding"
+                android:paddingRight="@dimen/album_title_padding"
+                android:textSize="@dimen/songs_count"
+                android:text="Patient age"/>
+                -->
+
+            <!--
+            <ImageView
+                android:id="@+id/overflow"
+                android:layout_width="@dimen/ic_album_overflow_width"
+                android:layout_height="@dimen/ic_album_overflow_height"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/ic_album_overflow_margin_top"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_dots" />
+                -->
+
+        </RelativeLayout>
+
+
+</LinearLayout>

@@ -39,7 +39,7 @@
             android:id="@+id/patientEvolution"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="@string/evolution"
+            android:text="@string/consult_progress"
             android:layout_weight="1" />
 
 

@@ -4,13 +4,11 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
-import com.example.rafael.appprototype.DataTypes.Patient;
 import com.example.rafael.appprototype.DatesHandler;
+import com.google.gson.annotations.Expose;
 
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,17 +21,44 @@ import java.util.List;
 @Table(name = "Sessions")
 public class Session extends Model implements Serializable {
 
+    @Expose
     @Column(name = "date")
     Date date;
+
+    @Expose
     @Column(name = "guid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     String guid;
+
+    @Expose
     @Column(name = "patient", onDelete = Column.ForeignKeyAction.CASCADE)
     Patient patient;
 
 
-    public List<GeriatricTest> getTestsFromSession() {
-        return getMany(GeriatricTest.class, "session");
+    /**
+     * Get all the scales from this Session.
+     *
+     * @return
+     */
+    public List<GeriatricScale> getScalesFromSession() {
+        return getMany(GeriatricScale.class, "session");
     }
+
+    /**
+     * Get a scale by its name.
+     *
+     * @return
+     */
+    public GeriatricScale getScaleByName(Session session, String scaleName) {
+        List<GeriatricScale> scalesFromSession = session.getScalesFromSession();
+        for (int i = 0; i < scalesFromSession.size(); i++) {
+            if (scalesFromSession.get(i).getScaleName().equals(scaleName)) {
+                return scalesFromSession.get(i);
+            }
+        }
+        return null;
+
+    }
+
 
     public Session() {
         super();
@@ -105,8 +130,11 @@ public class Session extends Model implements Serializable {
     }
 
     //retrieve all items
-    public static List<Session> getAllSessions() {
-        return new Select().from(Session.class).orderBy("guid DESC").execute();
+    public static ArrayList<Session> getAllSessions() {
+        List<Session> list = new Select().from(Session.class).orderBy("guid DESC").execute();
+        ArrayList<Session> sessions = new ArrayList<>();
+        sessions.addAll(list);
+        return sessions;
     }
 
     /**
@@ -156,7 +184,6 @@ public class Session extends Model implements Serializable {
     }
 
 
-
     public static ArrayList<Date> getDifferentSessionDates() {
         List<Session> dates = new Select()
                 .distinct()
@@ -165,7 +192,7 @@ public class Session extends Model implements Serializable {
                 .orderBy("date DESC")
                 .execute();
         HashSet<Date> days = new HashSet<Date>();
-        for (Session session: dates) {
+        for (Session session : dates) {
             Date dateWithoutHour = session.getDateWithoutHour();
             days.add(dateWithoutHour);
         }
@@ -173,7 +200,6 @@ public class Session extends Model implements Serializable {
         differentDates.addAll(days);
         return differentDates;
     }
-
 
 
 }

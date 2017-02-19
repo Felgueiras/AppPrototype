@@ -11,9 +11,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.DataTypes.Patient;
+import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleSession;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
@@ -73,7 +73,7 @@ public class ReviewSessionCards extends RecyclerView.Adapter<ReviewSessionCards.
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         // get the current Session and tests from that Session
         final Session session = sessionsList.get(position);
-        List<GeriatricTest> testsFromSession = session.getTestsFromSession();
+        List<GeriatricScale> testsFromSession = session.getScalesFromSession();
         Patient patient = session.getPatient();
         if(patient!=null){
             holder.patientName.setText(patient.getName());

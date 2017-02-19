@@ -7,7 +7,6 @@
     android:orientation="vertical">
 
 
-
     <!--Infos about Patient-->
     <include
         android:id="@+id/patientInfoInclude"

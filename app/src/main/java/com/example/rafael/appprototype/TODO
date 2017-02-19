@@ -1,8 +1,5 @@
-- como é definido que o médico está registado no sistema
-- criar notas sobre um paciente
-- fab de reset quando se vê áreas devia ser igual aos outros FAB
 - card views as a whole entity
-- novo menu de ajuda como no design guidelines
+- rever numerical question input validation
 - add physical evaluations?
 
 - estado afetivo (VGI 1) - que mais escalas usar? Escalas que abordem ansiedade?

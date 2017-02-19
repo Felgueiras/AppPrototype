@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricTest;
+import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
 import com.example.rafael.appprototype.R;
 
@@ -32,19 +32,19 @@ public class ReviewQuestionsListAdapter extends BaseAdapter {
     /**
      * Test
      */
-    private final GeriatricTest test;
+    private final GeriatricScale test;
 
     int numquestions;
     private View questionView;
 
 
     /**
-     * Display all Questions for a GeriatricTest
+     * Display all Questions for a GeriatricScale
      *
      * @param context current Context
-     * @param test    GeriatricTest that is being filled up
+     * @param test    GeriatricScale that is being filled up
      */
-    public ReviewQuestionsListAdapter(Context context, GeriatricTest test) {
+    public ReviewQuestionsListAdapter(Context context, GeriatricScale test) {
         this.context = context;
         this.questions = test.getQuestionsFromTest();
         this.test = test;

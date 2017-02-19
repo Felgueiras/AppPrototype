@@ -23,7 +23,7 @@
         android:id="@+id/CheckBoxResponse"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Quero uma respota ao meu feedback" />
+        android:text="Quero uma resposta ao meu feedback" />
 
     <Button
         android:id="@+id/ButtonSendFeedback"

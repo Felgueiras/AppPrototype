@@ -2,6 +2,7 @@ package com.example.rafael.appprototype.DataTypes.DB;
 
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.google.gson.annotations.Expose;
 
 /**
  * Created by rafael on 30-09-2016.
@@ -9,16 +10,19 @@ import com.activeandroid.annotation.Table;
 @Table(name = "Gradings")
 public class Grading {
 
+    @Expose
     @Column(name = "guid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     String guid;
     /**
      * Name of the category (full dependency, mild dependency, etc)
      */
+    @Expose
     @Column(name = "grade")
     String grade;
     /**
      * Score corresponding to that category. Can be a single value or a list of values.
      */
+    @Expose
     @Column(name = "score")
     String score;
 

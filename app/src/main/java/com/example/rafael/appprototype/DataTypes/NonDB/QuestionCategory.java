@@ -100,7 +100,7 @@ public class QuestionCategory {
      * @param testNonDB
      * @return
      */
-    public static int getQuestionIndex(int category, int questionInCategory, GeriatricTestNonDB testNonDB) {
+    public static int getQuestionIndex(int category, int questionInCategory, GeriatricScaleNonDB testNonDB) {
         int index = 0;
         for (int i = 0; i < category; i++) {
             index += testNonDB.getQuestionsCategories().get(i).getQuestions().size();
