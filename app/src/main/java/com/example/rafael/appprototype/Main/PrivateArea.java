@@ -244,14 +244,14 @@ public class PrivateArea extends AppCompatActivity {
                 DatabaseGSONOps.eraseAll();
                 DatabaseGSONOps.insertDataToDB();
                 return true;
-            case R.id.save_gson:
-                // save data as GSON
-                DatabaseGSONOps.saveDataGson(this);
-                return true;
-            case R.id.read_gson:
-                // save data as GSON
-                DatabaseGSONOps.readDataGson(this);
-                return true;
+//            case R.id.save_gson:
+//                // save data as GSON
+//                DatabaseGSONOps.saveDataGson(this);
+//                return true;
+//            case R.id.read_gson:
+//                // save data as GSON
+//                DatabaseGSONOps.readDataGson(this);
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

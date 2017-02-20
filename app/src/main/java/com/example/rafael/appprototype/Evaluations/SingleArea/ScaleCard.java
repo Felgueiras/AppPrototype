@@ -78,7 +78,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
     }
 
     /**
-     * Constructor of the ReviewSessionCards
+     * Constructor of the SessionCardEvaluationHistory
      *
      * @param context       current Context
      * @param reviewing     true if we are reviewing a Session

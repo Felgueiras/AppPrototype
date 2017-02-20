@@ -52,7 +52,7 @@ public class ProgressScales extends RecyclerView.Adapter<ProgressScales.MyViewHo
     }
 
     /**
-     * Constructor of the ReviewSessionCards
+     * Constructor of the SessionCardEvaluationHistory
      *
      * @param context
      * @param sessions

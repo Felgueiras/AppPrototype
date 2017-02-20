@@ -46,7 +46,7 @@ public class ReviewQuestionsListAdapter extends BaseAdapter {
      */
     public ReviewQuestionsListAdapter(Context context, GeriatricScale test) {
         this.context = context;
-        this.questions = test.getQuestionsFromTest();
+        this.questions = test.getQuestionsFromScale();
         this.test = test;
         numquestions = questions.size();
         // TODO display all questions
@@ -102,7 +102,7 @@ public class ReviewQuestionsListAdapter extends BaseAdapter {
      */
     private View multipleChoiceAlreadyOpened(Question currentQuestion, int position) {
         View questionView = inflater.inflate(R.layout.content_question_multiple_choice, null);
-        Question questionInDB = test.getQuestionsFromTest().get(position);
+        Question questionInDB = test.getQuestionsFromScale().get(position);
 
         if (questionInDB.isAnswered()) {
             Holder holder = new Holder();
@@ -138,7 +138,7 @@ public class ReviewQuestionsListAdapter extends BaseAdapter {
 
     private View yesNoQuestion(Question currentQuestion, int position) {
         View questionView = inflater.inflate(R.layout.content_question_yes_no, null);
-        Question question = test.getQuestionsFromTest().get(position);
+        Question question = test.getQuestionsFromScale().get(position);
 
         Holder holder = new Holder();
         holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);

@@ -54,7 +54,7 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
     }
 
     /**
-     * Constructor of the ReviewSessionCards
+     * Constructor of the SessionCardEvaluationHistory
      *
      * @param context
      * @param patients

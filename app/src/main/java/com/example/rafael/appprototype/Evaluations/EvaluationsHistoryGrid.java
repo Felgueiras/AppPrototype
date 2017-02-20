@@ -44,7 +44,7 @@ public class EvaluationsHistoryGrid extends Fragment {
         View view = inflater.inflate(R.layout.sessions_history_grid, container, false);
         // fill the GridView
         GridView gridView = (GridView) view.findViewById(R.id.gridView);
-        gridView.setAdapter(new ShowEvaluationsForDay(getActivity()));
+        gridView.setAdapter(new ShowEvaluationsForDay(getActivity(), this));
 
         return view;
     }
@@ -67,6 +67,19 @@ public class EvaluationsHistoryGrid extends Fragment {
         return true;
 
     }
+
+//    /**
+//     * Erase a session from the patient.
+//     *
+//     * @param index Session index
+//     */
+//    public void removeSession(int index) {
+//        sessionsFromPatient.remove(index);
+//        recyclerView.removeViewAt(index);
+//        adapter.notifyItemRemoved(index);
+//        adapter.notifyItemRangeChanged(index, sessionsFromPatient.size());
+//        adapter.notifyDataSetChanged();
+//    }
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 

@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Evaluations.EvaluationsHistory.HistoryCard;
+package com.example.rafael.appprototype.Evaluations.EvaluationsHistory;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -18,11 +18,11 @@ import java.util.List;
 /**
  * Display a List of the resume for each GeriatricScale inside a Session.
  */
-public class ShowTestsForSession extends BaseAdapter {
+public class SessionScalesAdapter extends BaseAdapter {
     /**
      * Questions for a Test
      */
-    private final List<GeriatricScale> tests;
+    private final List<GeriatricScale> sessionScales;
     private static LayoutInflater inflater = null;
     private View testView;
 
@@ -31,8 +31,8 @@ public class ShowTestsForSession extends BaseAdapter {
      *
      * @param tests ArrayList of Questions
      */
-    public ShowTestsForSession(Context context, List<GeriatricScale> tests) {
-        this.tests = tests;
+    public SessionScalesAdapter(Context context, List<GeriatricScale> tests) {
+        this.sessionScales = tests;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -45,7 +45,7 @@ public class ShowTestsForSession extends BaseAdapter {
         TextView testResult = (TextView) testView.findViewById(R.id.testResult);
 
         // get values
-        GeriatricScale test = tests.get(position);
+        GeriatricScale test = sessionScales.get(position);
         String name = Scales.getShortName(test.getScaleName());
         GradingNonDB grading = Scales.getGradingForTestWithoutGenerating(
                 test,
@@ -59,7 +59,7 @@ public class ShowTestsForSession extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return tests.size();
+        return sessionScales.size();
     }
 
     @Override

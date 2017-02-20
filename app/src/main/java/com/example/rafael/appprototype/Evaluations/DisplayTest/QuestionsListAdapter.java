@@ -49,9 +49,9 @@ public class QuestionsListAdapter extends BaseAdapter {
     /**
      * Test
      */
-    private final GeriatricScale test;
+    private final GeriatricScale scale;
     /**
-     * Yes if test already opened, no otherwise
+     * Yes if scale already opened, no otherwise
      */
     private final boolean testAlreadyOpened;
     private final GeriatricScaleNonDB testNonDB;
@@ -77,7 +77,7 @@ public class QuestionsListAdapter extends BaseAdapter {
     public QuestionsListAdapter(Context context, GeriatricScaleNonDB testNonDb, GeriatricScale test, ProgressBar progress) {
         this.context = context;
         this.questions = testNonDb.getQuestions();
-        this.test = test;
+        this.scale = test;
         this.testNonDB = testNonDb;
         this.progressBar = progress;
 
@@ -87,7 +87,7 @@ public class QuestionsListAdapter extends BaseAdapter {
             progressBar.setMax(numquestions);
             int numAnswered = 0;
             // check how many questions were answered
-            ArrayList<Question> questions = test.getQuestionsFromTest();
+            ArrayList<Question> questions = test.getQuestionsFromScale();
             for (Question question : questions) {
                 if (question.isAnswered()) {
                     numAnswered++;
@@ -104,7 +104,7 @@ public class QuestionsListAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (testNonDB.isSingleQuestion()) {
-            // single question test
+            // single question scale
             numquestions = 1;
             if (progressBar != null) {
                 progressBar.setMax(numquestions);
@@ -112,7 +112,7 @@ public class QuestionsListAdapter extends BaseAdapter {
             return numquestions;
         }
         if (testNonDB.isMultipleCategories()) {
-            // test with multiple categories
+            // scale with multiple categories
             numquestions = 1;
             if (progressBar != null) {
                 progressBar.setMax(numquestions);
@@ -155,15 +155,15 @@ public class QuestionsListAdapter extends BaseAdapter {
         }
 
         if (positionsFilled.size() == nq) {
-            if (!test.isCompleted()) {
+            if (!scale.isCompleted()) {
                 // TODO fix this
                 Snackbar.make(questionView, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
             }
             allQuestionsAnswered = true;
 
             // write that to DB
-            test.setCompleted(true);
-            test.save();
+            scale.setCompleted(true);
+            scale.save();
         }
     }
 
@@ -190,7 +190,7 @@ public class QuestionsListAdapter extends BaseAdapter {
             questionView = new QuestionMultipleCategories(inflater,
                     testNonDB,
                     context,
-                    test,
+                    scale,
                     this).getView();
             return questionView;
         }
@@ -256,14 +256,14 @@ public class QuestionsListAdapter extends BaseAdapter {
     private View multipleTextInput(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
         // question in DB
         Question questionInDB;
-        String dummyID = test.getGuid() + "-" + currentQuestionNonDB.getDescription();
+        String dummyID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
         questionInDB = Question.getQuestionByID(dummyID);
         if (questionInDB == null) {
             // create question and add to DB
             questionInDB = new Question();
             questionInDB.setGuid(dummyID);
             questionInDB.setDescription(currentQuestionNonDB.getDescription());
-            questionInDB.setTest(test);
+            questionInDB.setTest(scale);
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(false);
             questionInDB.setNumerical(false);
@@ -323,14 +323,14 @@ public class QuestionsListAdapter extends BaseAdapter {
     private View numericalQuestion(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
         // question in DB
         Question questionInDB;
-        String dummyID = test.getGuid() + "-" + currentQuestionNonDB.getDescription();
+        String dummyID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
         questionInDB = Question.getQuestionByID(dummyID);
         if (questionInDB == null) {
             // create question and add to DB
             questionInDB = new Question();
             questionInDB.setGuid(dummyID);
             questionInDB.setDescription(currentQuestionNonDB.getDescription());
-            questionInDB.setTest(test);
+            questionInDB.setTest(scale);
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(false);
             questionInDB.setNumerical(true);
@@ -367,7 +367,7 @@ public class QuestionsListAdapter extends BaseAdapter {
                 finalQuestionInDB.save();
 
                 questionAnswered(questionIndex);
-                // TODO add alerts if written test is not permitted
+                // TODO add alerts if written scale is not permitted
             }
 
             @Override
@@ -390,14 +390,14 @@ public class QuestionsListAdapter extends BaseAdapter {
     private View rightWrong(QuestionNonDB currentQuestionNonDB, int questionIndex) {
         // question in DB
         Question questionInDB;
-        String dummyID = test.getGuid() + "-" + currentQuestionNonDB.getDescription();
+        String dummyID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
         questionInDB = Question.getQuestionByID(dummyID);
         if (questionInDB == null) {
             // create question and add to DB
             questionInDB = new Question();
             questionInDB.setGuid(dummyID);
             questionInDB.setDescription(currentQuestionNonDB.getDescription());
-            questionInDB.setTest(test);
+            questionInDB.setTest(scale);
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(true);
             questionInDB.save();
@@ -431,7 +431,7 @@ public class QuestionsListAdapter extends BaseAdapter {
     }
 
     /**
-     * Single choice test.
+     * Single choice scale.
      *
      * @return
      */
@@ -456,8 +456,8 @@ public class QuestionsListAdapter extends BaseAdapter {
                     RadioGroup.LayoutParams.WRAP_CONTENT);
 
             radioGroup.addView(newRadioButton, i, layoutParams);
-            if (test.isCompleted())
-                if (test.getAnswer().equals(grade))
+            if (scale.isCompleted())
+                if (scale.getAnswer().equals(grade))
                     newRadioButton.setChecked(true);
         }
 
@@ -468,10 +468,10 @@ public class QuestionsListAdapter extends BaseAdapter {
                 questionAnswered(0);
                 // get grade
                 GradingNonDB grading = gradings.get(radioButtonIndex);
-                test.setAlreadyOpened(true);
-                test.setAnswer(grading.getGrade());
-                test.setCompleted(true);
-                test.save();
+                scale.setAlreadyOpened(true);
+                scale.setAnswer(grading.getGrade());
+                scale.setCompleted(true);
+                scale.save();
             }
         });
 
@@ -519,14 +519,14 @@ public class QuestionsListAdapter extends BaseAdapter {
 
         RadioGroup radioGroup;
         // check if is already in DB
-        String questionID = test.getGuid() + "-" + currentQuestionNonDB.getDescription();
+        String questionID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
         Question question = Question.getQuestionByID(questionID);
         if (question == null) {
             // create question and add to DB
             question = new Question();
             question.setDescription(currentQuestionNonDB.getDescription());
             question.setGuid(questionID);
-            question.setTest(test);
+            question.setTest(scale);
             question.setYesOrNo(false);
             question.save();
 
@@ -537,7 +537,7 @@ public class QuestionsListAdapter extends BaseAdapter {
             for (int i = 0; i < choicesNonDB.size(); i++) {
                 ChoiceNonDB currentChoice = choicesNonDB.get(i);
                 Choice choice = new Choice();
-                String choiceID = test.getGuid() + "-" + currentQuestionNonDB.getDescription() + "-" + currentChoice.getDescription();
+                String choiceID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription() + "-" + currentChoice.getDescription();
                 // check if already in DB
                 if (Choice.getChoiceByID(choiceID) == null) {
                     choice.setGuid(choiceID);
@@ -555,7 +555,7 @@ public class QuestionsListAdapter extends BaseAdapter {
 
         } else {
             // get Question from DB
-            question = test.getQuestionsFromTest().get(position);
+            question = scale.getQuestionsFromScale().get(position);
             // create Radio Group from the info in DB
             radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
 
@@ -601,7 +601,7 @@ public class QuestionsListAdapter extends BaseAdapter {
 
     private View yesNoAlreadyOpened(QuestionNonDB currentQuestionNonDB, int position) {
         View questionView = inflater.inflate(R.layout.content_question_yes_no, null);
-        Question questionInDB = test.getQuestionsFromTest().get(position);
+        Question questionInDB = scale.getQuestionsFromScale().get(position);
 
         if (questionInDB.isAnswered()) {
             Holder holder = new Holder();
@@ -637,10 +637,10 @@ public class QuestionsListAdapter extends BaseAdapter {
         View questionView = inflater.inflate(R.layout.content_question_yes_no, null);
         // create question and add to DB
         Question question = new Question();
-        String dummyID = test.getGuid() + "-" + currentQuestionNonDB.getDescription();
+        String dummyID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
         question.setGuid(dummyID);
         question.setDescription(currentQuestionNonDB.getDescription());
-        question.setTest(test);
+        question.setTest(scale);
         question.setYesOrNo(true);
         question.setYesValue(currentQuestionNonDB.getYesScore());
         question.setNoValue(currentQuestionNonDB.getNoScore());

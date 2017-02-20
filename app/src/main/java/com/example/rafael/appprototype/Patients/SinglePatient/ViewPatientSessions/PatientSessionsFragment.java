@@ -20,6 +20,9 @@ public class PatientSessionsFragment extends Fragment {
 
     public static final String PATIENT = "PATIENT";
     private Patient patient;
+    private ArrayList<Session> sessionsFromPatient;
+    private RecyclerView recyclerView;
+    private SessionCardPatientProfile adapter;
 
     // Store instance variables based on arguments passed
     @Override
@@ -36,9 +39,9 @@ public class PatientSessionsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.patient_info_sessions, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.patientSessions);
-        ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
-        PatientSessionCard adapter = new PatientSessionCard(getActivity(), sessionsFromPatient, patient);
+        recyclerView = (RecyclerView) view.findViewById(R.id.patientSessions);
+        sessionsFromPatient = patient.getSessionsFromPatient();
+        adapter = new SessionCardPatientProfile(getActivity(), sessionsFromPatient, patient, this);
 
         // create Layout
         int numbercolumns = 1;
@@ -51,4 +54,16 @@ public class PatientSessionsFragment extends Fragment {
     }
 
 
+    /**
+     * Erase a session from the patient.
+     *
+     * @param index Session index
+     */
+    public void removeSession(int index) {
+        sessionsFromPatient.remove(index);
+        recyclerView.removeViewAt(index);
+        adapter.notifyItemRemoved(index);
+        adapter.notifyItemRangeChanged(index, sessionsFromPatient.size());
+        adapter.notifyDataSetChanged();
+    }
 }

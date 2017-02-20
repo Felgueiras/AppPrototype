@@ -16,15 +16,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!--
-            <ImageView
-                android:id="@+id/patientPhoto"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/album_cover_height"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:scaleType="fitXY" />
-                -->
+            <!--<ImageView-->
+                <!--android:id="@+id/overflow"-->
+                <!--android:layout_width="@dimen/ic_album_overflow_width"-->
+                <!--android:layout_height="@dimen/ic_album_overflow_height"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_marginTop="@dimen/ic_album_overflow_margin_top"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--android:src="@drawable/ic_dots" />-->
 
             <TextView
                 android:id="@+id/patientName"

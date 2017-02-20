@@ -59,7 +59,7 @@ public class DisplayAreaCard extends RecyclerView.Adapter<DisplayAreaCard.CGACar
     }
 
     /**
-     * Constructor of the ReviewSessionCards
+     * Constructor of the SessionCardEvaluationHistory
      *
      * @param context       current Context
      * @param resuming      true if we are resuming a Session

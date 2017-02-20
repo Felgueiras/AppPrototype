@@ -7,6 +7,9 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.google.gson.annotations.Expose;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by rafael on 30-09-2016.
  */
@@ -81,6 +84,13 @@ public class Choice extends Model {
 
     public Choice() {
         super();
+    }
+
+    public static ArrayList<Choice> getAllChoices() {
+        List<Choice> list = new Select().from(Choice.class).orderBy("guid DESC").execute();
+        ArrayList<Choice> choices = new ArrayList<>();
+        choices.addAll(list);
+        return choices;
     }
 
     /**

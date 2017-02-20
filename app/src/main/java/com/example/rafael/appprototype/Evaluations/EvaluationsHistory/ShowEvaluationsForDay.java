@@ -3,11 +3,9 @@ package com.example.rafael.appprototype.Evaluations.EvaluationsHistory;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +15,7 @@ import android.widget.TextView;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DatesHandler;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.HistoryCard.ReviewSessionCards;
-import com.example.rafael.appprototype.Main.GridSpacingItemDecoration;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryGrid;
 import com.example.rafael.appprototype.R;
 
 import java.util.Date;
@@ -29,12 +26,17 @@ import java.util.List;
  * Show all the Evaluations for a single day.
  */
 public class ShowEvaluationsForDay extends BaseAdapter {
+    private final EvaluationsHistoryGrid fragment;
     Activity context;
     LayoutInflater inflater;
+    private List<Session> sessionsFromDate;
+    private RecyclerView recyclerView;
+    private SessionCardEvaluationHistory adapter;
 
-    public ShowEvaluationsForDay(Activity context) {
+    public ShowEvaluationsForDay(Activity context, EvaluationsHistoryGrid evaluationsHistoryGrid) {
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.fragment = evaluationsHistoryGrid;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -45,11 +47,11 @@ public class ShowEvaluationsForDay extends BaseAdapter {
         Date currentDate = Session.getDifferentSessionDates().get(position);
         dateTextView.setText(DatesHandler.dateToStringWithoutHour(currentDate));
         // get NewEvaluationPrivate for that date
-        List<Session> sessionsFromDate = Session.getSessionsFromDate(currentDate);
+        sessionsFromDate = Session.getSessionsFromDate(currentDate);
 
         // fill the RecyclerView
-        RecyclerView recyclerView = (RecyclerView) singleDayInfo.findViewById(R.id.recycler_view_sessions_day);
-        ReviewSessionCards adapter = new ReviewSessionCards(context, sessionsFromDate);
+        recyclerView = (RecyclerView) singleDayInfo.findViewById(R.id.recycler_view_sessions_day);
+        adapter = new SessionCardEvaluationHistory(context, sessionsFromDate, fragment);
 
         // create Layout
         int numbercolumns = 1;
@@ -61,6 +63,19 @@ public class ShowEvaluationsForDay extends BaseAdapter {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         return singleDayInfo;
+    }
+
+    /**
+     * Erase a session from the patient.
+     *
+     * @param index Session index
+     */
+    public void removeSession(int index) {
+        sessionsFromDate.remove(index);
+        recyclerView.removeViewAt(index);
+        adapter.notifyItemRemoved(index);
+        adapter.notifyItemRangeChanged(index, sessionsFromDate.size());
+        adapter.notifyDataSetChanged();
     }
 
 

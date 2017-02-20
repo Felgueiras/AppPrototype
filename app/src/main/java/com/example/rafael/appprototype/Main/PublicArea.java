@@ -90,7 +90,6 @@ public class PublicArea extends AppCompatActivity {
             alertDialog.show();
         }
 
-        System.out.println("1234");
 
 
         // get screen size

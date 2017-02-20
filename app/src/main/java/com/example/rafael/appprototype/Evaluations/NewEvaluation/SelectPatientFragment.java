@@ -11,7 +11,7 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionCard;
+import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.SessionCardPatientProfile;
 import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 
 /**
@@ -27,7 +27,7 @@ public class SelectPatientFragment extends Fragment {
     /**
      * Adapter to the RecyclerView
      */
-    private PatientSessionCard adapter;
+    private SessionCardPatientProfile adapter;
 
 
     @Override

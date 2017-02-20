@@ -1,7 +1,6 @@
 package com.example.rafael.appprototype.DataTypes.DB;
 
 
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 
 import com.activeandroid.Model;
@@ -54,12 +53,6 @@ public class GeriatricScale extends Model implements Serializable {
     @Expose
     @Column(name = "field")
     String description;
-    /**
-     * Scoring definition, min and man score and categories of scores.
-     */
-    @Expose
-    @Column(name = "scoring", onDelete = Column.ForeignKeyAction.CASCADE)
-    Scoring scoring;
     /**
      * Numerical result of the GeriatricScale
      */
@@ -120,7 +113,7 @@ public class GeriatricScale extends Model implements Serializable {
      *
      * @return ArrayList of Question for the Test
      */
-    public ArrayList<Question> getQuestionsFromTest() {
+    public ArrayList<Question> getQuestionsFromScale() {
         ArrayList<Question> questions = new ArrayList<>();
         List<Question> questionsList = getMany(Question.class, "test");
         questions.addAll(questionsList);
@@ -215,14 +208,6 @@ public class GeriatricScale extends Model implements Serializable {
         this.description = description;
     }
 
-    public Scoring getScoring() {
-        return scoring;
-    }
-
-    public void setScoring(Scoring scoring) {
-        this.scoring = scoring;
-    }
-
     public int getTime() {
         return time;
     }
@@ -293,7 +278,7 @@ public class GeriatricScale extends Model implements Serializable {
      */
     public double generateTestResult() {
         double res = 0;
-        ArrayList<Question> questionsFromTest = getQuestionsFromTest();
+        ArrayList<Question> questionsFromTest = getQuestionsFromScale();
 
         if (singleQuestion) {
             //system.out.println("SINGLE");

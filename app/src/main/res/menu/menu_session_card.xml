@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Tutorial.Tabs">
+    <item
+        android:id="@+id/session_erase"
+        android:title="Apagar"
+        app:showAsAction="ifRoom"/>
+</menu>

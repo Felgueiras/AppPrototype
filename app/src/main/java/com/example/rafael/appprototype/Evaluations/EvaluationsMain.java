@@ -61,7 +61,7 @@ public class EvaluationsMain extends Fragment {
             } else {
                 // fill the GridView
                 GridView gridView = (GridView) view.findViewById(R.id.gridView);
-                gridView.setAdapter(new ShowEvaluationsForDay(getActivity()));
+                gridView.setAdapter(new ShowEvaluationsForDay(getActivity(), this));
 
             /*
             firstDate.setOnClickListener(new View.OnClickListener() {

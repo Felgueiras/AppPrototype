@@ -98,6 +98,13 @@ public class Question extends Model {
         super();
     }
 
+    public static ArrayList<Question> getAllQuestions() {
+        List<Question> list = new Select().from(Question.class).orderBy("guid DESC").execute();
+        ArrayList<Question> questions = new ArrayList<>();
+        questions.addAll(list);
+        return questions;
+    }
+
 
     /**
      * Get all possible Choices for this Question
@@ -129,7 +136,7 @@ public class Question extends Model {
         this.yesOrNo = yesOrNo;
     }
 
-    public GeriatricScale getTest() {
+    public GeriatricScale getScale() {
         return test;
     }
 

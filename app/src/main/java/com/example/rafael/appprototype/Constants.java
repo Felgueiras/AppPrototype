@@ -175,4 +175,6 @@ public class Constants {
     public static final String filePatients = "patients.txt";
     public static final String fileSessions = "sessions.txt";
     public static final String fileScales = "scales.txt";
+    public static final String fileQuestions = "questions.txt";
+    public static final String fileChoices = "choices.txt";
 }

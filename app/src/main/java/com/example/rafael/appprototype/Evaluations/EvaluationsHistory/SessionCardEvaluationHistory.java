@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Evaluations.EvaluationsHistory.HistoryCard;
+package com.example.rafael.appprototype.Evaluations.EvaluationsHistory;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,17 +14,20 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryGrid;
 import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleSession;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.SessionCardHelper;
 
 import java.util.List;
 
 /**
  * Display the resume of an Evaluation.
  */
-public class ReviewSessionCards extends RecyclerView.Adapter<ReviewSessionCards.MyViewHolder> {
+public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCardEvaluationHistory.MyViewHolder> {
 
+    private final EvaluationsHistoryGrid fragment;
     private Activity context;
     /**
      * Data to be displayed.
@@ -47,20 +50,21 @@ public class ReviewSessionCards extends RecyclerView.Adapter<ReviewSessionCards.
             super(view);
             patientName = (TextView) view.findViewById(R.id.patientName);
             photo = (ImageView) view.findViewById(R.id.patientPhoto);
-            //overflow = (ImageView) view.findViewById(R.id.overflow);
+//            overflow = (ImageView) view.findViewById(R.id.overflow);
             testsList = (ListView) view.findViewById(R.id.session_tests_results);
         }
     }
 
     /**
-     * Constructor of the ReviewSessionCards
-     *
-     * @param context
+     * Constructor of the SessionCardEvaluationHistory
+     *  @param context
      * @param sessionsList
+     * @param fragment
      */
-    public ReviewSessionCards(Activity context, List<Session> sessionsList) {
+    public SessionCardEvaluationHistory(Activity context, List<Session> sessionsList, EvaluationsHistoryGrid fragment) {
         this.context = context;
         this.sessionsList = sessionsList;
+        this.fragment = fragment;
     }
 
     @Override
@@ -73,9 +77,9 @@ public class ReviewSessionCards extends RecyclerView.Adapter<ReviewSessionCards.
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         // get the current Session and tests from that Session
         final Session session = sessionsList.get(position);
-        List<GeriatricScale> testsFromSession = session.getScalesFromSession();
+        List<GeriatricScale> scalesFromSession = session.getScalesFromSession();
         Patient patient = session.getPatient();
-        if(patient!=null){
+        if (patient != null) {
             holder.patientName.setText(patient.getName());
             //holder.age.setText(patient.getAge());
             // loading album cover using Glide library
@@ -90,25 +94,16 @@ public class ReviewSessionCards extends RecyclerView.Adapter<ReviewSessionCards.
             public void onClick(View view) {
                 Bundle args = new Bundle();
                 args.putSerializable(ReviewSingleSession.SESSION, session);
-                FragmentTransitions.replaceFragment(context,new ReviewSingleSession(), args, Constants.tag_review_session);
+                FragmentTransitions.replaceFragment(context, new ReviewSingleSession(), args, Constants.tag_review_session);
             }
         });
-        /**
-        holder.photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle args = new Bundle();
-                //args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
-                String addToBackStackTag = Constants.tag_view_patien_info_records;
-                FragmentTransitions.replaceFragment(getActivity(),ViewSinglePatientInfo.class, args, addToBackStackTag);
-            }
-        });
-         */
 
 
         // display the result for the tests
-        ShowTestsForSession adapter = new ShowTestsForSession(context, testsFromSession);
+        SessionScalesAdapter adapter = new SessionScalesAdapter(context, scalesFromSession);
         holder.testsList.setAdapter(adapter);
+
+//        holder.overflow.setOnClickListener(new SessionCardHelper(holder.overflow, position, context, session, fragment));
     }
 
 
