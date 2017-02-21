@@ -267,7 +267,7 @@ public class QuestionsListAdapter extends BaseAdapter {
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(false);
             questionInDB.setNumerical(false);
-            questionInDB.setMultipleTextInput(false);
+            questionInDB.setMultipleTextInput(true);
             questionInDB.save();
         }
 

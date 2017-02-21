@@ -38,6 +38,9 @@ public class HelpSingleTopic extends Fragment {
             case Constants.help_topic_functionalities:
                 text = getResources().getString(R.string.help_features_description);
                 break;
+            case Constants.help_topic_personal_area:
+                text = getResources().getString(R.string.help_personal_area);
+                break;
             case Constants.help_topic_patients:
                 text = getResources().getString(R.string.help_patients_description);
                 break;

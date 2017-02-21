@@ -1,5 +1,6 @@
 package com.example.rafael.appprototype.Main;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -16,9 +17,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.TransitionInflater;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -37,6 +35,7 @@ import com.example.rafael.appprototype.Introduction.MyIntro;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.SharedPreferencesHelper;
 
 public class PublicArea extends AppCompatActivity {
 
@@ -49,14 +48,15 @@ public class PublicArea extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ActiveAndroid.initialize(getApplication());
         setContentView(R.layout.navigation_drawer_public);
+        final Activity context = this;
 
         Log.d("Lock", "onCreate");
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         final String sessionID = sharedPreferences.getString(getResources().getString(R.string.saved_session_public), null);
         if (sessionID != null) {
-            Log.d("Lock", "We have sessionID!");
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
             alertDialog.setMessage("Deseja retomar a Sessão que tinha em curso?");
@@ -75,21 +75,18 @@ public class PublicArea extends AppCompatActivity {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // erase the sessionID
-                            Session.getSessionByID(sessionID).delete();
-                            finalSharedPreferences1.edit().putString(getString(R.string.saved_session_public), null).apply();
+                            SharedPreferencesHelper.resetPublicSession(context, sessionID);
                         }
                     });
             alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialogInterface) {
                     // erase the sessionID
-                    Session.getSessionByID(sessionID).delete();
-                    finalSharedPreferences1.edit().putString(getString(R.string.saved_session_public), null).apply();
+                    SharedPreferencesHelper.resetPublicSession(context, sessionID);
                 }
             });
             alertDialog.show();
         }
-
 
 
         // get screen size
@@ -267,29 +264,29 @@ public class PublicArea extends AppCompatActivity {
                 .commit();
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.erase_data, menu);
+//
+//
+//        return true;
+//    }
 
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.erase_data, menu);
-
-
-        return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        //respond to menu item selection
-        switch (item.getItemId()) {
-            case R.id.erase_data:
-                // erase all data
-                DatabaseGSONOps.eraseAll();
-                DatabaseGSONOps.insertDataToDB();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-    }
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        //respond to menu item selection
+//        switch (item.getItemId()) {
+//            case R.id.erase_data:
+//                // erase all data
+//                DatabaseGSONOps.eraseAll();
+//                DatabaseGSONOps.insertDataToDB();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//
+//    }
 
 
     @Override
@@ -379,9 +376,6 @@ public class PublicArea extends AppCompatActivity {
     @Override
     protected void onPause() {
         Log.d("Lock", "Public onPause -> going to lock");
-        if (Constants.SESSION_ID != null) {
-            Log.d("Lock", "Public onPause -> SessionID" + Constants.SESSION_ID);
-        }
         super.onStop();
     }
 

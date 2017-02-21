@@ -62,7 +62,12 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             String tag = backEntry.getName();
 
             Log.d("Stack", tag);
-            if (!tag.equals(Constants.tag_create_session) && !tag.equals(Constants.tag_create_new_session_for_patient)) {
+            /**
+             * Only pop backstack if changing fragments/screens
+             */
+            if (!tag.equals(Constants.tag_create_session) &&
+                    !tag.equals(Constants.tag_create_new_session_for_patient)&&
+                    !tag.equals(Constants.tag_cga_public)) {
                 fragmentManager.popBackStack();
             }
 
@@ -139,8 +144,6 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
              * Patient progress detail -> Progress global.
              */
             else if (tag.equals(Constants.tag_progress_detail)) {
-
-
                 args = new Bundle();
                 fragment = new ProgressMainFragment();
                 // get the arguments
@@ -162,7 +165,12 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 Log.d("Stack", "pressed back in new session with patient");
                 ((CGAPrivate) currentFragment).discardFAB.performClick();
                 return;
-            } else if (tag.equals(Constants.tag_help_topic)) {
+            }
+            else if (tag.equals(Constants.tag_cga_public)) {
+                Log.d("Stack", "pressed back in new session (public)");
+                ((CGAPublic) currentFragment).resetFAB.performClick();
+                return;
+            }else if (tag.equals(Constants.tag_help_topic)) {
                 args = new Bundle();
                 fragment = new HelpTopics();
             }

@@ -100,7 +100,7 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
             }
         });
 
-        holder.overflow.setOnClickListener(new SessionCardHelper(holder, position, context, session, fragment));
+        holder.overflow.setOnClickListener(new SessionCardHelper(holder.overflow, position, context, session, fragment));
     }
 
 

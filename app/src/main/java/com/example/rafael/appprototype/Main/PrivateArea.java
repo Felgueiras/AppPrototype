@@ -1,5 +1,6 @@
 package com.example.rafael.appprototype.Main;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -13,9 +14,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,10 +24,11 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DatabaseGSONOps;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
-import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
+import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.SharedPreferencesHelper;
 
 public class PrivateArea extends AppCompatActivity {
 
@@ -47,6 +46,8 @@ public class PrivateArea extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActiveAndroid.initialize(getApplication());
         setContentView(R.layout.navigation_drawer_private);
+
+        final Activity context = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -75,18 +76,15 @@ public class PrivateArea extends AppCompatActivity {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // erase the sessionID
-                            if (Session.getSessionByID(sessionID) != null)
-                                Session.getSessionByID(sessionID).delete();
-                            finalSharedPreferences1.edit().putString(getString(R.string.saved_session_private), null).apply();
+                            SharedPreferencesHelper.resetPrivateSession(context, sessionID);
+
                         }
                     });
             alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialogInterface) {
                     // erase the sessionID
-                    if (Session.getSessionByID(sessionID) != null)
-                        Session.getSessionByID(sessionID).delete();
-                    finalSharedPreferences1.edit().putString(getString(R.string.saved_session_private), null).apply();
+                    SharedPreferencesHelper.resetPrivateSession(context, sessionID);
                 }
             });
             alertDialog.show();
@@ -227,36 +225,36 @@ public class PrivateArea extends AppCompatActivity {
                 .commit();
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.erase_data, menu);
-
-        return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        //respond to menu item selection
-        switch (item.getItemId()) {
-            case R.id.erase_data:
-                // erase all data
-                DatabaseGSONOps.eraseAll();
-                DatabaseGSONOps.insertDataToDB();
-                return true;
-//            case R.id.save_gson:
-//                // save data as GSON
-//                DatabaseGSONOps.saveDataGson(this);
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.erase_data, menu);
+//
+//        return true;
+//    }
+//
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        //respond to menu item selection
+//        switch (item.getItemId()) {
+//            case R.id.erase_data:
+//                // erase all data
+//                DatabaseGSONOps.eraseAll();
+//                DatabaseGSONOps.insertDataToDB();
 //                return true;
-//            case R.id.read_gson:
-//                // save data as GSON
-//                DatabaseGSONOps.readDataGson(this);
-//                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-    }
+////            case R.id.save_gson:
+////                // save data as GSON
+////                DatabaseGSONOps.saveDataGson(this);
+////                return true;
+////            case R.id.read_gson:
+////                // save data as GSON
+////                DatabaseGSONOps.readDataGson(this);
+////                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//
+//    }
 
 
     @Override

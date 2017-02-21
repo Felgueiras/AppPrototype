@@ -10,6 +10,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -43,6 +45,18 @@ public class CGAPublic extends Fragment {
     public static FloatingActionButton resetFAB;
     private static FloatingActionButton saveFAB;
     private SharedPreferences sharedPreferences;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -103,6 +117,7 @@ public class CGAPublic extends Fragment {
                         }
                     });
 
+            builder.setCancelable(false);
             AlertDialog dialog = builder.create();
             // display dialog
             dialog.show();
@@ -110,7 +125,7 @@ public class CGAPublic extends Fragment {
 
 
         RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.area_scales_recycler_view);
-        DisplayAreaCard adapter = new DisplayAreaCard(getActivity(), session, resuming, Constants.SESSION_GENDER);
+        AreaCardPrivate adapter = new AreaCardPrivate(getActivity(), session, resuming, Constants.SESSION_GENDER);
 
         // create Layout
         int numbercolumns = 1;

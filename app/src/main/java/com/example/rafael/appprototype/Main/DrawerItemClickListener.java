@@ -16,6 +16,8 @@ import android.view.MenuItem;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
@@ -23,6 +25,7 @@ import com.example.rafael.appprototype.Help_Feedback.SendFeedback;
 import com.example.rafael.appprototype.Login.LoginActivity;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.SharedPreferencesHelper;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -52,10 +55,9 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             // Insert the fragment by replacing any existing fragment
             Log.d("Login", "Going to login");
             // check if there is any on-going session
-            if (Constants.SESSION_ID != null) {
-                // delete from DB
-                Session.getSessionByID(Constants.SESSION_ID).delete();
-                Constants.SESSION_ID = null;
+            String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(context);
+            if (sessionID != null) {
+                SharedPreferencesHelper.resetPublicSession(context, sessionID);
             }
             // go to login screen
             Intent intent = new Intent(context, LoginActivity.class);
@@ -67,12 +69,23 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
 
         Fragment endFragment = null;
 
-        if (id == R.id.evaluations_public) {
-            endFragment = new CGAPublicInfo();
+        if (id == R.id.cga_public) {
+            /**
+             * Check if there's an ongoing session.
+             */
+            String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(context);
+            if (sessionID != null)
+                endFragment = new CGAPublic();
+            else
+                endFragment = new CGAPublicInfo();
         } else if (id == R.id.prescription) {
             endFragment = new DrugPrescriptionMain();
         } else if (id == R.id.patients) {
-            endFragment = new PatientsMain();
+            String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);
+            if (sessionID != null)
+                endFragment = new CGAPrivate();
+            else
+                endFragment = new PatientsMain();
         } else if (id == R.id.sendFeedback) {
             endFragment = new SendFeedback();
         } else if (id == R.id.help) {

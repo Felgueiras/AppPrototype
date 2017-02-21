@@ -5,11 +5,13 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
@@ -29,13 +31,12 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Create the Card for each of the Tests available
  */
-public class DisplayAreaCard extends RecyclerView.Adapter<DisplayAreaCard.CGACardHolder> {
+public class AreaCardPrivate extends RecyclerView.Adapter<AreaCardPrivate.CGACardHolder> {
 
     /**
      * ID for this Session
      */
     private final Session session;
-    private final int patientGender;
 
     private Activity context;
 
@@ -44,6 +45,7 @@ public class DisplayAreaCard extends RecyclerView.Adapter<DisplayAreaCard.CGACar
      * Create a View
      */
     public class CGACardHolder extends RecyclerView.ViewHolder implements Serializable {
+        private final ImageButton infoButton;
         public TextView name, type, cgaCompletion;
         public View view;
         public EditText notes;
@@ -52,6 +54,7 @@ public class DisplayAreaCard extends RecyclerView.Adapter<DisplayAreaCard.CGACar
             super(view);
             name = (TextView) view.findViewById(R.id.cga_area);
             //type = (TextView) view.findViewById(R.id.testType);
+            infoButton = (ImageButton) view.findViewById(R.id.area_info);
             cgaCompletion = (TextView) view.findViewById(R.id.cga_completion);
             //addNotesButton = (EditText) view.findViewById(R.id.testNotes);
             this.view = view;
@@ -65,10 +68,9 @@ public class DisplayAreaCard extends RecyclerView.Adapter<DisplayAreaCard.CGACar
      * @param resuming      true if we are resuming a Session
      * @param patientGender
      */
-    public DisplayAreaCard(Activity context, Session session, boolean resuming, int patientGender) {
+    public AreaCardPrivate(Activity context, Session session, boolean resuming, int patientGender) {
         this.context = context;
         this.session = session;
-        this.patientGender = patientGender;
     }
 
     @Override
@@ -81,18 +83,41 @@ public class DisplayAreaCard extends RecyclerView.Adapter<DisplayAreaCard.CGACar
     @Override
     public void onBindViewHolder(final CGACardHolder holder, int position) {
 
-        // access a given Test from the DB
-        List<GeriatricScale> testsFromSession = session.getScalesFromSession();
+        final String area = Constants.cga_areas[position];
 
+        holder.name.setText(area);
 
-        holder.name.setText(Constants.cga_areas[position]);
-
-
-        /*
-        if (currentTest.hasNotes()) {
-            holder.addNotesButton.setText(currentTest.getNotes());
-        }
-        */
+        holder.infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                alertDialog.setTitle(area);
+                // add info about this area
+                String area_text = null;
+                switch (area) {
+                    case Constants.cga_afective:
+                        area_text = context.getResources().getString(R.string.cga_afective);
+                        break;
+                    case Constants.cga_clinical:
+                        area_text = Constants.clinical_evaluation_tips + "\n" + Constants.clinical_evaluation_what_to_do;
+                        break;
+                    case Constants.cga_cognitivo:
+                        area_text = context.getResources().getString(R.string.cga_cognitive);
+                        break;
+                    case Constants.cga_functional:
+                        area_text = context.getResources().getString(R.string.cga_functional);
+                        break;
+                    case Constants.cga_nutritional:
+                        area_text = context.getResources().getString(R.string.cga_nutritional);
+                        break;
+                    case Constants.cga_social:
+                        area_text = context.getResources().getString(R.string.cga_social);
+                        break;
+                }
+                alertDialog.setMessage(area_text);
+                alertDialog.show();
+            }
+        });
 
         /**
          * For when the CGA area is selected.

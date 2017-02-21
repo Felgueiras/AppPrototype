@@ -143,10 +143,10 @@ public class CGAPrivate extends Fragment {
 
 
         RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.area_scales_recycler_view);
-        DisplayAreaCard adapter;
+        AreaCardPrivate adapter;
 
         // new evaluation created for no Patient
-        adapter = new DisplayAreaCard(getActivity(), session, resuming, Constants.SESSION_GENDER);
+        adapter = new AreaCardPrivate(getActivity(), session, resuming, Constants.SESSION_GENDER);
 
         // create Layout
         int numbercolumns = 1;

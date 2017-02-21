@@ -74,7 +74,7 @@
     <string name="no_stopp_criteria">Não há critérios Stopp associados</string>
     <string name="rightChoice">certo</string>
     <string name="search_result">Resultados da procura</string>
-    <string name="select_patient_gender">Selectione o género do paciente</string>
+    <string name="select_patient_gender">Selecione o género do paciente</string>
     <string name="send_feedback">Enviar comentários</string>
     <string name="wrongChoice">errado</string>
     <string name="beers_quality_evidence">Qualidade de evidências:</string>
@@ -95,13 +95,19 @@
         Há certos compostos químicos presentes em medicamentos que devem ou não ser prescritos aos pacientes geriátricos.
         De modo a auxiliar os profissionais de saúde a escolher o medicamento mais indicado para um paciente,
         encontram-se compilados os critérios Start, Stopp e de Beers.
+
+        Os critérios Start encontram-se organizados por sistema (urogenital, gastrointestinal, etc) e indicam em que situações
+        clínicas certos compostos químicos devem ser prescritos. Os critérios Stopp e de Beers estão organizados da mesma forma
+        e indicam quais os compostos a evitar dependendo do historial clínico.
     </string>
     <string name="help_features_description">
         Esta aplicação permite realizar a AGG e acompanhar a evolução de um paciente, caso o utilizador
         esteja autenticado no sistema. Tem como objetivo auxiliar os profissionais de saúde a aplicar este método e
         fornecer-lhes auxílio enquanto realizam o ACG.
         </string>
-    <string name="help_patients_description">Em Pacientes o médico pode ver os seus pacientes, as últimas avaliações e os pacientes favoritos. As sessões podem ser criadas a partir do perfil do paciente.</string>
+    <string name="help_patients_description">
+        Em Pacientes, na sua área pessoal, pode ver os seus pacientes, as últimas avaliações e os pacientes favoritos.
+        As sessões podem ser criadas a partir do perfil do paciente.</string>
 
     <!--CGA areas disclaimers-->
     <string name="cga_cognitive">Fatores relacionados com o estado cognitivo do paciente, nomeadamente
@@ -184,7 +190,11 @@ serviços e intervenções, que respondam aos seus problemas,
 2.Av. Física:Capacidade física; Marcha e equilíbrio; Nutrição;\n
 3.Av. Mental:Cognitiva; Afetiva;\n
 4.Av. Funcional: Autonomia; Independência;\n
-5.Av. Social: Família; Recursoseconómicos; Rede social.</string>
+5.Av. Social: Família; Recursoseconómicos; Rede social.
+
+        \n\n
+    Na primeira sessão de avaliação do paciente a AGG é completa, ou seja, todas as esferas devem ser avaliadas.
+    </string>
     <string name="new_patient">Novo paciente</string>
     <string name="address">Morada</string>
     <string name="create_patient_error_address">Precisa de fornecer uma morada</string>
@@ -219,4 +229,9 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     </string>
     <string name="scale_notes">Notas</string>
     <string name="notes">Notas</string>
+    <string name="help_personal_area">
+        Caso queira criar uma sessão e associá-la a um seu paciente pode fazê-lo na sua área pessoa.
+        Para tal, faça login com as suas credenciais. Na sua área pessoal pode igualmente criar novos pacientes
+        e acompanhar o seu progresso.
+    </string>
 </resources>

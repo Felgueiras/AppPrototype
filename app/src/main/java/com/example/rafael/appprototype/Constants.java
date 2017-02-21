@@ -158,12 +158,14 @@ public class Constants {
      */
     public static final String help_topic_cga = "Avaliação Geriátrica Global";
     public static final String help_topic_functionalities = "Funcionalidades";
+    public static final String help_topic_personal_area = "Área pessoal";
     public static final String help_topic_patients = "Pacientes";
     public static final String help_topic_prescriptions = "Prescrições";
 
     public static String[] help_topics = new String[]{
             help_topic_cga,
             help_topic_functionalities,
+            help_topic_personal_area,
             help_topic_patients,
             help_topic_prescriptions
     };
