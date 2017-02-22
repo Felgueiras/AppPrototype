@@ -235,4 +235,8 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
         e acompanhar o seu progresso.
     </string>
     <string name="first_session_evaluate_all_areas">Primeira sessão do paciente, precisa de avaliar todas as áreas</string>
+    <string name="erase_patient">Eliminar paciente</string>
+    <string name="patient_erase">Eliminar paciente</string>
+    <string name="patient_erase_question">Deseja eliminar este paciente?</string>
+    <string name="patient_erase_snackbar">Paciente eliminado.</string>
 </resources>

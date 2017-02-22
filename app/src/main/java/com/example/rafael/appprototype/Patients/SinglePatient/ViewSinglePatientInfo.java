@@ -2,11 +2,13 @@ package com.example.rafael.appprototype.Patients.SinglePatient;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
@@ -25,6 +28,7 @@ import com.example.rafael.appprototype.EmptyStateFragment;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Patients.PatientProgress.ProgressMainFragment;
+import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientNotesFragment;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
 import com.example.rafael.appprototype.R;
@@ -102,7 +106,8 @@ public class ViewSinglePatientInfo extends Fragment {
         TextView patientBirthDate = (TextView) view.findViewById(R.id.patientAge);
         TextView patientAddress = (TextView) view.findViewById(R.id.patientAddress);
         ImageView patientPhoto = (ImageView) view.findViewById(R.id.patientPhoto);
-        Button patientEvolution = (Button) view.findViewById(R.id.patientEvolution);
+        Button patientProgress = (Button) view.findViewById(R.id.patientEvolution);
+        Button erasePatient = (Button) view.findViewById(R.id.erasePatient);
 
         // set Patient infos
         //patientName.setText(patient.getName());
@@ -146,7 +151,7 @@ public class ViewSinglePatientInfo extends Fragment {
         });
 
         // view patient evolution
-        patientEvolution.setOnClickListener(new View.OnClickListener() {
+        patientProgress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("EVOLUTION");
@@ -154,6 +159,43 @@ public class ViewSinglePatientInfo extends Fragment {
                 Bundle args = new Bundle();
                 args.putSerializable(ProgressMainFragment.PATIENT, patient);
                 FragmentTransitions.replaceFragment(getActivity(), new ProgressMainFragment(), args, Constants.tag_patient_progress);
+            }
+        });
+
+        /**
+         * Erase current patient.
+         */
+        erasePatient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                alertDialog.setTitle(getResources().getString(R.string.patient_erase));
+                alertDialog.setMessage(getResources().getString(R.string.patient_erase_question));
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // remove sessions from patient
+                                ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
+                                for (Session session : sessionsFromPatient) {
+                                    session.delete();
+                                }
+                                patient.delete();
+                                dialog.dismiss();
+
+                                FragmentManager fragmentManager = getFragmentManager();
+                                fragmentManager.beginTransaction()
+                                        .replace(R.id.current_fragment, new PatientsMain())
+                                        .commit();
+                                Snackbar.make(getView(), getResources().getString(R.string.patient_erase_snackbar), Snackbar.LENGTH_SHORT).show();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
             }
         });
 
