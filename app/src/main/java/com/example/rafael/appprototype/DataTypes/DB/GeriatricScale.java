@@ -39,8 +39,8 @@ public class GeriatricScale extends Model implements Serializable {
      * Type of test
      */
     @Expose
-    @Column(name = "category")
-    String category;
+    @Column(name = "area")
+    String area;
     /**
      * Subcategory if applied
      */
@@ -142,13 +142,13 @@ public class GeriatricScale extends Model implements Serializable {
      * Create a new GeriatricScale
      *
      * @param testName    date of the test
-     * @param category    category of the test
+     * @param category    area of the test
      * @param subCategory subcategory of the test
      * @param description field of the test
      */
     public GeriatricScale(String testName, String category, String subCategory, String description) {
         super();
-        this.category = category;
+        this.area = category;
         this.testName = testName;
         this.subCategory = subCategory;
         this.description = description;
@@ -176,20 +176,20 @@ public class GeriatricScale extends Model implements Serializable {
     }
 
     public String getType() {
-        return category;
+        return area;
     }
 
     public void setType(String type) {
-        this.category = type;
+        this.area = type;
     }
 
 
-    public String getCategory() {
-        return category;
+    public String getArea() {
+        return area;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setArea(String category) {
+        this.area = category;
     }
 
     public String getSubCategory() {
@@ -237,7 +237,7 @@ public class GeriatricScale extends Model implements Serializable {
     @Override
     public String toString() {
         String ret = "";
-        ret += category + " - " + testName + " - " + result;
+        ret += area + " - " + testName + " - " + result;
         return ret;
     }
 
@@ -346,7 +346,7 @@ public class GeriatricScale extends Model implements Serializable {
             // check if triagem is already answered
             Log.d("Nutritional", "Global pressed");
 
-            GeriatricScale triagem = new Session().getScaleByName(session, Constants.test_name_mini_nutritional_assessment_triagem);
+            GeriatricScale triagem = new Session().getScaleByName(Constants.test_name_mini_nutritional_assessment_triagem);
             res += triagem.generateTestResult();
         }
         if (testName.equals(Constants.test_name_set_set)) {

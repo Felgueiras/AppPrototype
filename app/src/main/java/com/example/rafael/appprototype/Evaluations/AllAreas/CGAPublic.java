@@ -125,7 +125,7 @@ public class CGAPublic extends Fragment {
 
 
         RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.area_scales_recycler_view);
-        AreaCardPrivate adapter = new AreaCardPrivate(getActivity(), session, resuming, Constants.SESSION_GENDER);
+        AreaCard adapter = new AreaCard(getActivity(), session, resuming, Constants.SESSION_GENDER);
 
         // create Layout
         int numbercolumns = 1;
@@ -195,7 +195,7 @@ public class CGAPublic extends Fragment {
 
                 // check if there is an added patient or not
                 // no patient selected
-                if (patientForThisSession == null) {
+                if (patient == null) {
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                     //alertDialog.setTitle("Criar paciente");
                     alertDialog.setMessage("Deseja adicionar paciente a esta sessão?");
@@ -261,6 +261,7 @@ public class CGAPublic extends Fragment {
             test.setGuid(session.getGuid() + "-" + testNonDB.getTestName());
             test.setTestName(testNonDB.getTestName());
             test.setShortName(testNonDB.getShortName());
+            test.setArea(testNonDB.getArea());
             test.setSession(session);
             test.setDescription(testNonDB.getDescription());
             if (testNonDB.isSingleQuestion())

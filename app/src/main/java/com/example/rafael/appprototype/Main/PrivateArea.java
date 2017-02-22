@@ -77,7 +77,6 @@ public class PrivateArea extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             // erase the sessionID
                             SharedPreferencesHelper.resetPrivateSession(context, sessionID);
-
                         }
                     });
             alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {

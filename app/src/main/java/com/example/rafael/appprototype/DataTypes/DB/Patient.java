@@ -49,6 +49,7 @@ public class Patient extends Model implements Serializable {
     @Expose
     @Column(name = "notes")
     private String notes;
+    private boolean firstSession;
 
     public Patient(String patientsName, int gender, int image) {
         super();
@@ -194,5 +195,11 @@ public class Patient extends Model implements Serializable {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public boolean isFirstSession() {
+        // get all sessions
+        List<Session> sessions = getMany(Session.class, "patient");
+        return sessions.size() == 1;
     }
 }

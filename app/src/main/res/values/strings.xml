@@ -42,7 +42,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="not_all_tests_complete">Not all the tests are complete</string>
+    <string name="complete_one_scale_atleast">Not all the tests are complete</string>
     <string name="you_must_add_patient">You must add a patient for tthis session</string>
     <string name="you_must_select_test">You must select at least one test</string>
     <string name="selectPatient">Select patient</string>

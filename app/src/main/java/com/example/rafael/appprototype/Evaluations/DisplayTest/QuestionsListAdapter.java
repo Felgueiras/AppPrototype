@@ -61,7 +61,6 @@ public class QuestionsListAdapter extends BaseAdapter {
      */
     private HashSet<Integer> positionsFilled = new HashSet<>();
 
-    boolean allQuestionsAnswered = false;
 
     int numquestions;
     private View questionView;
@@ -156,10 +155,8 @@ public class QuestionsListAdapter extends BaseAdapter {
 
         if (positionsFilled.size() == nq) {
             if (!scale.isCompleted()) {
-                // TODO fix this
                 Snackbar.make(questionView, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
             }
-            allQuestionsAnswered = true;
 
             // write that to DB
             scale.setCompleted(true);

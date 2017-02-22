@@ -1,16 +1,12 @@
+- eliminar paciente
+- implementar back navigation atraves do menu
+- arranjar height em list view dentro de card view
+- erro em nutritional global
+
 - card views as a whole entity
-- rever numerical question input validation
-- add physical evaluations?
-
-- estado afetivo (VGI 1) - que mais escalas usar? Escalas que abordem ansiedade?
-— Inventario de depresión de Beck.
-— Escala de Zung.
-— Escala de Cornell de depresión en la demencia.
-
-- estado cognitivo (VGI 1):
-— Mini-Examen Cognoscitivo de Lobo (MEC).
-— Test de los siete minutos.
-
-----------------------------------------------------------------
-
-- avisar se for a primeira sessão que todas as esferas devem ser avaliadas!
+- rever numerical question input validation (max value)
+- o que fazer na 1ª avaliação?
+- arranjar bug em goToPreviousScreen() quando app foi fechada
+- icone de favorite e FAB à frente de lista de sessões de paciente
+- criar sessões sem paciente dentro da área pessoal
+- "avaliação" e "sessão" referem o mesmo mas com nomes diferentes

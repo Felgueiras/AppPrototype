@@ -35,7 +35,6 @@ public class EvaluationsHistoryMain extends Fragment {
                     .replace(R.id.evaluation_history_frame_layout, fragment)
                     .commit();
 
-
         } else {
             fragmentManager = getFragmentManager();
             Fragment fragment = new EvaluationsHistoryGrid();

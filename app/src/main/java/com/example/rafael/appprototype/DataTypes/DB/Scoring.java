@@ -33,7 +33,7 @@ public class Scoring extends Model {
     @Column(name = "differentMenWomen")
     boolean differentMenWomen;
     /**
-     * Correspondence between score and category.
+     * Correspondence between score and area.
      */
     @Expose
     @Column(name = "values", onDelete = Column.ForeignKeyAction.CASCADE)

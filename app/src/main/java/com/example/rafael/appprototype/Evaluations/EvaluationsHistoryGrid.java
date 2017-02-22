@@ -4,10 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,10 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowEvaluationsForDay;
-import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
+import com.example.rafael.appprototype.DatesHandler;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowEvaluationsAllDays;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowEvaluationsSingleDay;
 import com.example.rafael.appprototype.R;
 
 import java.text.SimpleDateFormat;
@@ -29,12 +29,14 @@ import java.util.List;
 
 public class EvaluationsHistoryGrid extends Fragment {
 
+    private ListAdapter adapter;
+    private GridView gridView;
+
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setHasOptionsMenu(true);
-        setHasOptionsMenu(false);
+        setHasOptionsMenu(true);
     }
 
 
@@ -43,25 +45,26 @@ public class EvaluationsHistoryGrid extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sessions_history_grid, container, false);
         // fill the GridView
-        GridView gridView = (GridView) view.findViewById(R.id.gridView);
-        gridView.setAdapter(new ShowEvaluationsForDay(getActivity(), this));
+        gridView =  (GridView) view.findViewById(R.id.gridView);
+        adapter = new ShowEvaluationsAllDays(getActivity(), this);
+        gridView.setAdapter(adapter);
 
         return view;
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//
-//        inflater.inflate(R.menu.menu_evaluations, menu);
-//        super.onCreateOptionsMenu(menu, inflater);
-//
-//    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_evaluations, menu);
+        Log.d("Menu", "Evaluations");
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.calendar:
-                DialogFragment picker = new DatePickerFragment();
+                DialogFragment picker = new DatePickerFragment(gridView, this);
                 picker.show(getFragmentManager(), "datePicker");
         }
         return true;
@@ -83,6 +86,14 @@ public class EvaluationsHistoryGrid extends Fragment {
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
+
+        private final GridView gridView;
+        private final EvaluationsHistoryGrid fragment;
+
+        public DatePickerFragment(GridView gridView, EvaluationsHistoryGrid evaluationsHistoryGrid) {
+            this.gridView = gridView;
+            this.fragment = evaluationsHistoryGrid;
+        }
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -107,7 +118,18 @@ public class EvaluationsHistoryGrid extends Fragment {
 
             // get Sessions from that date
             List<Session> sessionsFromDate = Session.getSessionsFromDate(c.getTime());
-            System.out.println("Sessions from date: " + sessionsFromDate.size());
+            Log.d("Date", sessionsFromDate.size() + "");
+            /**
+             * Filter by date.
+             */
+            ListAdapter adapter = new ShowEvaluationsSingleDay(getActivity(), fragment, c.getTime());
+            gridView.setAdapter(adapter);
+
+//                sessionsFromPatient.remove(index);
+//                recyclerView.removeViewAt(index);
+//                adapter.notifyItemRemoved(index);
+//                adapter.notifyItemRangeChanged(index, sessionsFromPatient.size());
+//                adapter.notifyDataSetChanged();
         }
     }
 }

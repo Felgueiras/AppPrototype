@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublic;
 import com.example.rafael.appprototype.R;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -31,7 +32,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Create the Card for each of the Tests available
  */
-public class AreaCardPrivate extends RecyclerView.Adapter<AreaCardPrivate.CGACardHolder> {
+public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
 
     /**
      * ID for this Session
@@ -68,14 +69,14 @@ public class AreaCardPrivate extends RecyclerView.Adapter<AreaCardPrivate.CGACar
      * @param resuming      true if we are resuming a Session
      * @param patientGender
      */
-    public AreaCardPrivate(Activity context, Session session, boolean resuming, int patientGender) {
+    public AreaCard(Activity context, Session session, boolean resuming, int patientGender) {
         this.context = context;
         this.session = session;
     }
 
     @Override
     public CGACardHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View testCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.cga_card, parent, false);
+        View testCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.cga_area_card, parent, false);
         return new CGACardHolder(testCard);
     }
 
@@ -86,6 +87,27 @@ public class AreaCardPrivate extends RecyclerView.Adapter<AreaCardPrivate.CGACar
         final String area = Constants.cga_areas[position];
 
         holder.name.setText(area);
+
+        /**
+         * Check if all scales were completed.
+         */
+        ArrayList<GeriatricScale> scalesFromArea = session.getScalesFromArea(area);
+        Log.d("Area", "Size " + scalesFromArea.size());
+        boolean allCompleted = true;
+        for (GeriatricScale scale : scalesFromArea) {
+            if (!scale.isCompleted()) {
+                allCompleted = false;
+                break;
+            }
+        }
+        if (!allCompleted) {
+            Log.d("Area", "Not all scales completed " + area);
+        } else {
+            Log.d("Area", "All scales completed " + area);
+            holder.cgaCompletion.setText("Todas as escalas foram preenchidas");
+
+        }
+
 
         holder.infoButton.setOnClickListener(new View.OnClickListener() {
             @Override

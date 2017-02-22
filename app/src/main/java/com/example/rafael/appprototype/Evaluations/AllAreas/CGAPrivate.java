@@ -52,7 +52,7 @@ public class CGAPrivate extends Fragment {
     private Session session;
 
 
-    Patient patientForThisSession;
+    Patient patient;
 
     boolean resuming = false;
 
@@ -68,7 +68,7 @@ public class CGAPrivate extends Fragment {
         // check the Constants
         Bundle args = getArguments();
         if (args != null)
-            patientForThisSession = (Patient) args.getSerializable(PATIENT);
+            patient = (Patient) args.getSerializable(PATIENT);
 
         sharedPreferences = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         String sessionID = sharedPreferences.getString(getString(R.string.saved_session_private), null);
@@ -76,12 +76,11 @@ public class CGAPrivate extends Fragment {
         if (sessionID != null) {
             // get session by ID
             session = Session.getSessionByID(sessionID);
-            if (args != null)
-                patientForThisSession = (Patient) args.getSerializable(PATIENT);
+            patient = session.getPatient();
             // create a new Fragment to hold info about the Patient
-            if (patientForThisSession != null) {
+            if (patient != null) {
                 // set the patient for this session
-                session.setPatient(patientForThisSession);
+                session.setPatient(patient);
                 session.save();
                 if (Constants.pickingPatient) {
                     Constants.pickingPatient = false;
@@ -97,8 +96,8 @@ public class CGAPrivate extends Fragment {
             // create a new session
             createNewSession();
             addTestsToSession();
-            if (patientForThisSession != null)
-                Constants.SESSION_GENDER = patientForThisSession.getGender();
+            if (patient != null)
+                Constants.SESSION_GENDER = patient.getGender();
             else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(R.string.select_patient_gender);
@@ -143,10 +142,10 @@ public class CGAPrivate extends Fragment {
 
 
         RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.area_scales_recycler_view);
-        AreaCardPrivate adapter;
+        AreaCard adapter;
 
         // new evaluation created for no Patient
-        adapter = new AreaCardPrivate(getActivity(), session, resuming, Constants.SESSION_GENDER);
+        adapter = new AreaCard(getActivity(), session, resuming, Constants.SESSION_GENDER);
 
         // create Layout
         int numbercolumns = 1;
@@ -175,13 +174,13 @@ public class CGAPrivate extends Fragment {
                         numTestsCompleted++;
                 }
                 if (numTestsCompleted == 0) {
-                    Snackbar.make(layout, getResources().getString(R.string.not_all_tests_complete), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(layout, getResources().getString(R.string.complete_one_scale_atleast), Snackbar.LENGTH_SHORT).show();
                     return;
                 }
 
                 // check if there is an added patient or not
                 // no patient selected
-                if (patientForThisSession == null) {
+                if (patient == null) {
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                     //alertDialog.setTitle("Criar paciente");
                     alertDialog.setMessage("Deseja adicionar paciente a esta sessão?");
@@ -219,6 +218,33 @@ public class CGAPrivate extends Fragment {
                     alertDialog.show();
                     return;
                 }
+
+                /**
+                 * If first session, all areas must be evaluated.
+                 */
+                if (patient.isFirstSession()) {
+                    // check all areas are evaluated -> at least one test completed
+                    boolean allAreasEvaluated = true;
+                    for (String currentArea : Constants.cga_areas) {
+                        ArrayList<GeriatricScale> scalesFromArea = session.getScalesFromArea(currentArea);
+                        boolean oneScaleEvaluated = false;
+                        for (GeriatricScale currentScale : scalesFromArea) {
+                            if (currentScale.isCompleted()) {
+                                oneScaleEvaluated = true;
+                                break;
+                            }
+                        }
+                        if (!oneScaleEvaluated) {
+                            allAreasEvaluated = false;
+                            break;
+                        }
+                    }
+//                    if (!allAreasEvaluated) {
+//                        Snackbar.make(layout, getResources().getString(R.string.first_session_evaluate_all_areas), Snackbar.LENGTH_SHORT).show();
+//                        return;
+//                    }
+                }
+
                 List<GeriatricScale> finalTests = session.getScalesFromSession();
                 for (GeriatricScale test : finalTests) {
                     if (!test.isCompleted()) {
@@ -273,7 +299,7 @@ public class CGAPrivate extends Fragment {
             GeriatricScale test = new GeriatricScale();
             test.setGuid(session.getGuid() + "-" + testNonDB.getTestName());
             test.setTestName(testNonDB.getTestName());
-            test.setCategory(testNonDB.getArea());
+            test.setArea(testNonDB.getArea());
             test.setShortName(testNonDB.getShortName());
             test.setSession(session);
             test.setDescription(testNonDB.getDescription());
@@ -294,7 +320,7 @@ public class CGAPrivate extends Fragment {
         // save to dabatase
         session = new Session();
         session.setGuid(sessionID);
-        session.setPatient(patientForThisSession);
+        session.setPatient(patient);
 
 
         // set date

@@ -35,7 +35,7 @@
     <string name="action_play_next">Reproduzir o próximo</string>
     <string name="navigation_drawer_close">Fechar navigation drawer</string>
     <string name="navigation_drawer_open">Abrir navigation drawer</string>
-    <string name="not_all_tests_complete">Nem todos os tests estão completos</string>
+    <string name="complete_one_scale_atleast">Precisa de preencher pelo menos uma escala</string>
     <string name="you_must_add_patient">Tem de selecionar um paciente para esta sessão</string>
     <string name="you_must_select_test">Tem de selecionar pelo menos um teste</string>
     <string name="selectPatient">Selecione um paciente</string>
@@ -234,4 +234,5 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
         Para tal, faça login com as suas credenciais. Na sua área pessoal pode igualmente criar novos pacientes
         e acompanhar o seu progresso.
     </string>
+    <string name="first_session_evaluate_all_areas">Primeira sessão do paciente, precisa de avaliar todas as áreas</string>
 </resources>

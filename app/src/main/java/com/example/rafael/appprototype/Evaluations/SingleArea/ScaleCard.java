@@ -25,7 +25,6 @@ import com.example.rafael.appprototype.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -109,16 +108,11 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
         String testCompletionSelectedIncomplete = context.getResources().getString(R.string.test_incomplete);
         String testCompletionResult = context.getResources().getString(R.string.test_result);
 
+        String scaleName = testsForArea.get(position).getTestName();
+
         // access a given Test from the DB
-        List<GeriatricScale> testsFromSession = session.getScalesFromSession();
-        // get by area
-        GeriatricScale currentScale = null;
-        for (GeriatricScale test : testsFromSession) {
-            if (test.getShortName().equals(testsForArea.get(position).getShortName())) {
-                currentScale = test;
-                break;
-            }
-        }
+        GeriatricScale currentScale = session.getScaleByName(scaleName);
+
         holder.name.setText(testsForArea.get(position).getShortName());
 
         final GeriatricScale finalCurrentTest = currentScale;
@@ -191,7 +185,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                     // check if triagem is already answered
                     Log.d("Nutritional", "Global pressed");
 
-                    GeriatricScale triagem = new Session().getScaleByName(session, Constants.test_name_mini_nutritional_assessment_triagem);
+                    GeriatricScale triagem = new Session().getScaleByName(Constants.test_name_mini_nutritional_assessment_triagem);
                     if (!triagem.isCompleted()) {
                         Snackbar.make(holder.view, "Precisa primeiro de completar a triagem", Snackbar.LENGTH_SHORT).show();
                         return;

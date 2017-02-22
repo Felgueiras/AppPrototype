@@ -14,20 +14,20 @@ public class Grading {
     @Column(name = "guid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     String guid;
     /**
-     * Name of the category (full dependency, mild dependency, etc)
+     * Name of the area (full dependency, mild dependency, etc)
      */
     @Expose
     @Column(name = "grade")
     String grade;
     /**
-     * Score corresponding to that category. Can be a single value or a list of values.
+     * Score corresponding to that area. Can be a single value or a list of values.
      */
     @Expose
     @Column(name = "score")
     String score;
 
     /**
-     * Create a new Grading category (single score)
+     * Create a new Grading area (single score)
      *
      * @param grade textual field
      * @param score numerical value for the score
@@ -44,7 +44,7 @@ public class Grading {
     }
 
     /**
-     * Create a new Grading category (multiple values)
+     * Create a new Grading area (multiple values)
      *
      * @param grade
      * @param values

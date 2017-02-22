@@ -118,7 +118,6 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
                         }
                     });
             alertDialog.show();
-
         } else {
             // add Exit transition
 

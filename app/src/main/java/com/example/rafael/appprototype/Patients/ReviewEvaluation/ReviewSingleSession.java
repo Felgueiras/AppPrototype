@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.DatesHandler;
 import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleTest.ReviewArea;
 import com.example.rafael.appprototype.R;
 
@@ -42,7 +43,7 @@ public class ReviewSingleSession extends Fragment {
         Bundle args = getArguments();
         // get Session and Patient
         session = (Session) args.getSerializable(SESSION);
-        getActivity().setTitle(session.getDateWithoutHour()+"");
+        getActivity().setTitle(session.getPatient().getName()+" - " + DatesHandler.dateToStringWithoutHour(session.getDate()));
         patient = session.getPatient();
 
         // check if we have to compare to the previous session

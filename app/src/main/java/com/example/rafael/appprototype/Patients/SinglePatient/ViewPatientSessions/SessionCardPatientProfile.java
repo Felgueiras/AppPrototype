@@ -94,7 +94,6 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                System.out.println("Session selected " + position);
                 args.putSerializable(ReviewSingleSession.SESSION, sessions.get(position));
                 FragmentTransitions.replaceFragment(context, new ReviewSingleSession(), args, Constants.tag_review_session_from_patient_profile);
             }

@@ -43,20 +43,29 @@ public class Session extends Model implements Serializable {
         return getMany(GeriatricScale.class, "session");
     }
 
-    /**
-     * Get a scale by its name.
-     *
-     * @return
-     */
-    public GeriatricScale getScaleByName(Session session, String scaleName) {
-        List<GeriatricScale> scalesFromSession = session.getScalesFromSession();
+
+
+    public GeriatricScale getScaleByName(String scaleName) {
+        List<GeriatricScale> scalesFromSession = getMany(GeriatricScale.class, "session");
         for (int i = 0; i < scalesFromSession.size(); i++) {
             if (scalesFromSession.get(i).getScaleName().equals(scaleName)) {
                 return scalesFromSession.get(i);
             }
         }
         return null;
+    }
 
+    public ArrayList<GeriatricScale> getScalesFromArea(String area) {
+
+        List<GeriatricScale> scalesFromSession = getMany(GeriatricScale.class, "session");
+        ArrayList<GeriatricScale> scalesForThisArea = new ArrayList<>();
+        for (int i = 0; i < scalesFromSession.size(); i++) {
+            GeriatricScale currentScale = scalesFromSession.get(i);
+            if (currentScale.getArea().equals(area)) {
+                scalesForThisArea.add(currentScale);
+            }
+        }
+        return scalesForThisArea;
     }
 
 
