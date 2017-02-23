@@ -131,7 +131,8 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                         currentScale,
                         patientGender);
                 // qualitative result
-                holder.result_qualitative.setText(match.getGrade());
+                if(match != null)
+                    holder.result_qualitative.setText(match.getGrade());
                 // quantitative result
                 String quantitative = "";
                 quantitative += currentScale.getResult();
@@ -185,7 +186,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                     // check if triagem is already answered
                     Log.d("Nutritional", "Global pressed");
 
-                    GeriatricScale triagem = new Session().getScaleByName(Constants.test_name_mini_nutritional_assessment_triagem);
+                    GeriatricScale triagem = session.getScaleByName(Constants.test_name_mini_nutritional_assessment_triagem);
                     if (!triagem.isCompleted()) {
                         Snackbar.make(holder.view, "Precisa primeiro de completar a triagem", Snackbar.LENGTH_SHORT).show();
                         return;

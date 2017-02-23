@@ -12,7 +12,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.SessionCardPatientProfile;
-import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
+import com.example.rafael.appprototype.Patients.ViewPatients.PatientsListFragment;
 
 /**
  * Created by rafael on 06-10-2016.
@@ -43,8 +43,8 @@ public class SelectPatientFragment extends Fragment {
             public void onClick(View v) {
                 // open the list of patients
                 Bundle args = new Bundle();
-                args.putBoolean(ViewPatientsFragment.selectPatient, true);
-                FragmentTransitions.replaceFragment(getActivity(),new ViewPatientsFragment(), args, Constants.fragment_show_patients);
+                args.putBoolean(PatientsListFragment.selectPatient, true);
+                FragmentTransitions.replaceFragment(getActivity(),new PatientsListFragment(), args, Constants.fragment_show_patients);
             }
         });
 

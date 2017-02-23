@@ -211,8 +211,8 @@ public class CGAPublic extends Fragment {
         /*
                                     Constants.pickingPatient = true;
                                     Bundle args = new Bundle();
-                                    args.putBoolean(ViewPatientsFragment.selectPatient, true);
-                                    FragmentTransitions.replaceFragment(getActivity(), new ViewPatientsFragment(), args,
+                                    args.putBoolean(PatientsListFragment.selectPatient, true);
+                                    FragmentTransitions.replaceFragment(getActivity(), new PatientsListFragment(), args,
                                             Constants.fragment_show_patients);
                                     dialog.dismiss();
                                     Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
@@ -258,7 +258,7 @@ public class CGAPublic extends Fragment {
      * Add Tests to a Session
      */
     private void addTestsToSession() {
-        ArrayList<GeriatricScaleNonDB> testsNonDB = Scales.getAllTests();
+        ArrayList<GeriatricScaleNonDB> testsNonDB = Scales.getAllScales();
         for (GeriatricScaleNonDB testNonDB : testsNonDB) {
             GeriatricScale test = new GeriatricScale();
             test.setGuid(session.getGuid() + "-" + testNonDB.getTestName());

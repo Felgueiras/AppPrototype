@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -7,50 +7,52 @@
     android:orientation="vertical">
 
 
-    <!--Infos about Patient-->
-    <include
-        android:id="@+id/patientInfoInclude"
-        layout="@layout/patient_info_data" />
-
-    <View
-        android:id="@+id/separator"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/patientInfoInclude"
-        android:background="#000000" />
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabs"
-        android:layout_below="@id/separator"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabGravity="fill"
-        app:tabMode="fixed" />
+        android:layout_height="match_parent">
+        <!--Infos about Patient-->
+        <include
+            android:id="@+id/patientInfoInclude"
+            layout="@layout/patient_info_data" />
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/patientInfoInclude"
+            android:background="#000000" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_below="@id/separator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabMode="fixed" />
 
 
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tabs"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tabs"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </android.support.v4.view.ViewPager>
+        </android.support.v4.view.ViewPager>
+    </RelativeLayout>
+
 
     <com.getbase.floatingactionbutton.AddFloatingActionButton
         android:id="@+id/patient_createSession"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|right"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
-        fab:fab_colorNormal="@color/white"
-        fab:fab_colorPressed="@color/white_pressed"
-        fab:fab_plusIconColor="@color/half_black"
         fab:fab_title="@string/add_session" />
 
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

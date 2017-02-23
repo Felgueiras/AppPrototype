@@ -33,6 +33,7 @@ public class QuestionNonDB {
     private int number;
     private boolean numerical;
     private boolean multipleTextInput;
+    private int numericalMax;
 
 
     /**
@@ -140,5 +141,13 @@ public class QuestionNonDB {
 
     public boolean isMultipleTextInput() {
         return multipleTextInput;
+    }
+
+    public void setNumericalMax(int numericalMax) {
+        this.numericalMax = numericalMax;
+    }
+
+    public int getNumericalMax() {
+        return numericalMax;
     }
 }

@@ -1673,6 +1673,7 @@ public class Scales {
         question = new QuestionNonDB("Erros/repetições");
         question.setRightWrong(false);
         question.setNumerical(true);
+        question.setNumericalMax(40);
         setTest.addQuestion(question);
         /**
          * Pontuação total
@@ -1854,7 +1855,7 @@ public class Scales {
      *
      * @return
      */
-    public static ArrayList<GeriatricScaleNonDB> getAllTests() {
+    public static ArrayList<GeriatricScaleNonDB> getAllScales() {
         ArrayList<GeriatricScaleNonDB> tests = new ArrayList<>();
         tests.add(escalaDeKatz());
         tests.add(escalaDepressaoYesavage());
@@ -1882,7 +1883,7 @@ public class Scales {
      */
     public static ArrayList<GeriatricScaleNonDB> getTestsForArea(String area) {
         ArrayList<GeriatricScaleNonDB> testsForArea = new ArrayList<>();
-        for (GeriatricScaleNonDB test : getAllTests()) {
+        for (GeriatricScaleNonDB test : getAllScales()) {
             if (test.getArea().equals(area)) {
                 testsForArea.add(test);
             }

@@ -8,12 +8,13 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -29,7 +30,7 @@ import com.example.rafael.appprototype.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Patients.PatientsMain;
-import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
+import com.example.rafael.appprototype.Patients.ViewPatients.PatientsListFragment;
 import com.example.rafael.appprototype.R;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
@@ -60,6 +61,18 @@ public class CGAPrivate extends Fragment {
     public static FloatingActionButton discardFAB;
     private static FloatingActionButton saveFAB;
     private SharedPreferences sharedPreferences;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -196,8 +209,8 @@ public class CGAPrivate extends Fragment {
                                      */
                                     Constants.pickingPatient = true;
                                     Bundle args = new Bundle();
-                                    args.putBoolean(ViewPatientsFragment.selectPatient, true);
-                                    FragmentTransitions.replaceFragment(getActivity(), new ViewPatientsFragment(), args,
+                                    args.putBoolean(PatientsListFragment.selectPatient, true);
+                                    FragmentTransitions.replaceFragment(getActivity(), new PatientsListFragment(), args,
                                             Constants.fragment_show_patients);
                                     dialog.dismiss();
                                     Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
@@ -298,7 +311,7 @@ public class CGAPrivate extends Fragment {
      * Add Tests to a Session
      */
     private void addTestsToSession() {
-        ArrayList<GeriatricScaleNonDB> testsNonDB = Scales.getAllTests();
+        ArrayList<GeriatricScaleNonDB> testsNonDB = Scales.getAllScales();
         for (GeriatricScaleNonDB testNonDB : testsNonDB) {
             GeriatricScale test = new GeriatricScale();
             test.setGuid(session.getGuid() + "-" + testNonDB.getTestName());

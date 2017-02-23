@@ -13,17 +13,17 @@ import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivate;
 import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
 import com.example.rafael.appprototype.Patients.PatientProgress.ProgressDetail;
+import com.example.rafael.appprototype.Patients.ViewPatients.PatientsListFragment;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublic;
 import com.example.rafael.appprototype.Patients.PatientProgress.ProgressMainFragment;
 import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleSession;
-import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleTest.ReviewSingleTestFragment;
+import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleTest.ReviewSingleScaleFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragment;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
-import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -155,7 +155,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             } else if (tag.equals(Constants.tag_view_patien_info_records)) {
                 fragment = new PatientsMain();
             } else if (tag.equals(Constants.tag_view_sessions_history)) {
-                fragment = new ViewPatientsFragment();
+                fragment = new PatientsListFragment();
             } else if (tag.equals(Constants.tag_view_drug_info)) {
                 fragment = new DrugPrescriptionMain();
             } else if (tag.equals(Constants.tag_create_session)) {
@@ -192,7 +192,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             } else if (tag.equals(Constants.tag_review_test)) {
                 // get the arguments
                 Bundle arguments = fr.getArguments();
-                GeriatricScale test = (GeriatricScale) arguments.getSerializable(ReviewSingleTestFragment.testDBobject);
+                GeriatricScale test = (GeriatricScale) arguments.getSerializable(ReviewSingleScaleFragment.testDBobject);
                 Session session = test.getSession();
 
                 args = new Bundle();

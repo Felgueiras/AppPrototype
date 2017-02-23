@@ -19,7 +19,7 @@ import com.example.rafael.appprototype.R;
 /**
  * Display a list of Questions for a single Test.
  */
-public class ReviewSingleTestFragment extends Fragment {
+public class ReviewSingleScaleFragment extends Fragment {
 
 
     public static String patient = "patient";
@@ -29,6 +29,8 @@ public class ReviewSingleTestFragment extends Fragment {
      * GeriatricScale which will be written to the DB.
      */
     private GeriatricScale test;
+
+
 
 
     // Store instance variables based on arguments passed
@@ -62,8 +64,8 @@ public class ReviewSingleTestFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_test_questions, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
     }
 
     @Override

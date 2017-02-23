@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.Patients.FavoritePatients.FavoritePatientsMain;
-import com.example.rafael.appprototype.Patients.ViewPatients.ViewPatientsFragment;
+import com.example.rafael.appprototype.Patients.ViewPatients.PatientsListFragment;
 import com.example.rafael.appprototype.R;
 
 
@@ -84,7 +84,7 @@ public class PatientsMain extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new ViewPatientsFragment();
+                return new PatientsListFragment();
             } else if (position == 1) {
                 return new EvaluationsHistoryMain();
             } else if (position == 2) {

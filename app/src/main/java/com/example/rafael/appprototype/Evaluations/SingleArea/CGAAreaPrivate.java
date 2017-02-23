@@ -45,6 +45,18 @@ public class CGAAreaPrivate extends Fragment {
     private FloatingActionButton saveFAB;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_single_area_private, container, false);
@@ -126,8 +138,8 @@ public class CGAAreaPrivate extends Fragment {
 //                                     */
 //                                    Constants.pickingPatient = true;
 //                                    Bundle args = new Bundle();
-//                                    args.putBoolean(ViewPatientsFragment.selectPatient, true);
-//                                    FragmentTransitions.replaceFragment(getActivity(), new ViewPatientsFragment(), args,
+//                                    args.putBoolean(PatientsListFragment.selectPatient, true);
+//                                    FragmentTransitions.replaceFragment(getActivity(), new PatientsListFragment(), args,
 //                                            Constants.fragment_show_patients);
 //                                    dialog.dismiss();
 //                                    Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();

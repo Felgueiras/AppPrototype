@@ -24,13 +24,14 @@ import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
 import com.example.rafael.appprototype.Patients.SinglePatient.PatientCard;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.ToolbarHelper;
+import com.getbase.floatingactionbutton.AddFloatingActionButton;
 
 import java.util.ArrayList;
 
 /**
  * Display the list of Patients to view them or select one of them.
  */
-public class ViewPatientsFragment extends Fragment {
+public class PatientsListFragment extends Fragment {
 
     public static String selectPatient = "selectPatient";
     private PatientCard adapter;
@@ -103,7 +104,7 @@ public class ViewPatientsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         // FAB
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.patients_fab);
+        AddFloatingActionButton fab = (AddFloatingActionButton) view.findViewById(R.id.patients_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

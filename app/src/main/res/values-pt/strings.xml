@@ -239,4 +239,5 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="patient_erase">Eliminar paciente</string>
     <string name="patient_erase_question">Deseja eliminar este paciente?</string>
     <string name="patient_erase_snackbar">Paciente eliminado.</string>
+    <string name="numerical_question_overflow">O valor que introduziu não é permitido.</string>
 </resources>

@@ -313,20 +313,20 @@ public class QuestionsListAdapter extends BaseAdapter {
     /**
      * Numerical question.
      *
-     * @param currentQuestionNonDB
+     * @param questionNonDB
      * @param questionIndex
      * @return
      */
-    private View numericalQuestion(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
+    private View numericalQuestion(final QuestionNonDB questionNonDB, final int questionIndex) {
         // question in DB
         Question questionInDB;
-        String dummyID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
+        String dummyID = scale.getGuid() + "-" + questionNonDB.getDescription();
         questionInDB = Question.getQuestionByID(dummyID);
         if (questionInDB == null) {
             // create question and add to DB
             questionInDB = new Question();
             questionInDB.setGuid(dummyID);
-            questionInDB.setDescription(currentQuestionNonDB.getDescription());
+            questionInDB.setDescription(questionNonDB.getDescription());
             questionInDB.setTest(scale);
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(false);
@@ -338,9 +338,9 @@ public class QuestionsListAdapter extends BaseAdapter {
          * Set View
          */
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View questionView = inflater.inflate(R.layout.content_question_numerical, null);
+        final View questionView = inflater.inflate(R.layout.content_question_numerical, null);
         TextView questionName = (TextView) questionView.findViewById(R.id.nameQuestion);
-        questionName.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
+        questionName.setText((questionIndex + 1) + " - " + questionNonDB.getDescription());
 
         EditText answer = (EditText) questionView.findViewById(R.id.question_answer);
 
@@ -359,12 +359,20 @@ public class QuestionsListAdapter extends BaseAdapter {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                finalQuestionInDB.setAnswerNumber(Integer.parseInt(charSequence.toString()));
-                finalQuestionInDB.setAnswered(true);
-                finalQuestionInDB.save();
+                int answerNumber = 0;
+                if (charSequence.length() != 0) {
+                    answerNumber = Integer.parseInt(charSequence.toString());
+                    finalQuestionInDB.setAnswerNumber(answerNumber);
+                    finalQuestionInDB.setAnswered(true);
+                    finalQuestionInDB.save();
+                }
+
 
                 questionAnswered(questionIndex);
-                // TODO add alerts if written scale is not permitted
+                if (answerNumber > questionNonDB.getNumericalMax()) {
+                    Snackbar.make(questionView, R.string.numerical_question_overflow, Snackbar.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
@@ -376,6 +384,7 @@ public class QuestionsListAdapter extends BaseAdapter {
 
         return questionView;
     }
+
 
     /**
      * Right or wrong question.
