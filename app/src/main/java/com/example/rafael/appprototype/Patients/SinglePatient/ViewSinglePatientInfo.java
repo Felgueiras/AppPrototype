@@ -8,9 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,7 +33,6 @@ import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSession
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
 import com.example.rafael.appprototype.R;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -55,6 +52,13 @@ public class ViewSinglePatientInfo extends Fragment {
     private TabLayout tabLayout;
     private String actionTitle;
     private String transText;
+    private Menu menu;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -129,26 +133,6 @@ public class ViewSinglePatientInfo extends Fragment {
                 args.putSerializable(CGAPrivate.PATIENT, patient);
                 FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), args, Constants.tag_create_new_session_for_patient);
                 getActivity().setTitle(getResources().getString(R.string.cga));
-            }
-        });
-        final FloatingActionButton fabFavorite = (FloatingActionButton) view.findViewById(R.id.patient_favorite);
-        if (patient.isFavorite())
-            fabFavorite.setIconDrawable(getResources().getDrawable(R.drawable.ic_favorite_remove));
-        else
-            fabFavorite.setIconDrawable(getResources().getDrawable(R.drawable.ic_favorite_add));
-        fabFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // set Patient as favorite
-                patient.setFavorite(!patient.isFavorite());
-                patient.save();
-                if (patient.isFavorite()) {
-                    Snackbar.make(getView(), R.string.patient_favorite_add, Snackbar.LENGTH_SHORT).show();
-                    fabFavorite.setIconDrawable(getResources().getDrawable(R.drawable.ic_favorite_remove));
-                } else {
-                    Snackbar.make(getView(), R.string.patient_favorite_remove, Snackbar.LENGTH_SHORT).show();
-                    fabFavorite.setIconDrawable(getResources().getDrawable(R.drawable.ic_favorite_add));
-                }
             }
         });
 
@@ -257,16 +241,41 @@ public class ViewSinglePatientInfo extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_patient_profile, menu);
+        this.menu = menu;
+        checkFavorite();
+    }
+
+    private void checkFavorite() {
+        MenuItem favoriteItem = menu.findItem(R.id.favorite);
+        if (patient.isFavorite())
+            favoriteItem.setIcon(R.drawable.ic_favorite_border_white_24dp);
+        else
+            favoriteItem.setIcon(R.drawable.ic_favorite_white_24dp);
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        inflater.inflate(R.menu.menu_patient_profile, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.favorite:
+                patient.setFavorite(!patient.isFavorite());
+                patient.save();
+
+                if (patient.isFavorite()) {
+                    Snackbar.make(getView(), R.string.patient_favorite_add, Snackbar.LENGTH_SHORT).show();
+                    item.setIcon(R.drawable.ic_favorite_border_white_24dp);
+
+                } else {
+                    Snackbar.make(getView(), R.string.patient_favorite_remove, Snackbar.LENGTH_SHORT).show();
+                    item.setIcon(R.drawable.ic_favorite_white_24dp);
+                }
+
+        }
+        return true;
+
     }
 
 

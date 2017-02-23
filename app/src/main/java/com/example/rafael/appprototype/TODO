@@ -1,13 +1,13 @@
 - arranjar height em list view dentro de card view
 - erro em nutritional global
 - ver sessão de paciente de uma data?
+- criar sessões sem paciente dentro da área pessoal
 
 - card views as a whole entity
 - rever numerical question input validation (max value)
 - arranjar bug em goToPreviousScreen() quando app foi fechada
-- icone de favorite e FAB à frente de lista de sessões de paciente
-- criar sessões sem paciente dentro da área pessoal
 - "avaliação" e "sessão" referem o mesmo mas com nomes diferentes
 - não há suporte a undo/redo ao descartar sessão/eliminar paciente
 - o que fazer na 1ª avaliação?
 - black icons in blue background
+- fab icon is not always the same

@@ -57,7 +57,6 @@ public class EvaluationsHistoryGrid extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_evaluations, menu);
-        Log.d("Menu", "Evaluations");
     }
 
     @Override

@@ -4,8 +4,8 @@
     tools:context=".Tutorial.Tabs">
     <!-- "Mark Favorite", should appear as action button if possible -->
     <item
-        android:id="@+id/action_go_back"
-        android:icon="@drawable/ic_keyboard_backspace_black_24dp"
+        android:id="@+id/favorite"
+        android:icon="@drawable/ic_favorite_white_24dp"
         android:title="@string/action_favorite"
         app:showAsAction="ifRoom"/>
 </menu>
