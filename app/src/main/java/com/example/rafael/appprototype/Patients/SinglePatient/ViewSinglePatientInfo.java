@@ -8,7 +8,9 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -182,6 +184,7 @@ public class ViewSinglePatientInfo extends Fragment {
                                 patient.delete();
                                 dialog.dismiss();
 
+                                BackStackHandler.clearBackStack();
                                 FragmentManager fragmentManager = getFragmentManager();
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.current_fragment, new PatientsMain())
@@ -261,18 +264,9 @@ public class ViewSinglePatientInfo extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_patient_profile, menu);
+//        inflater.inflate(R.menu.menu_patient_profile, menu);
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_go_back:
-                getActivity().onBackPressed();
-        }
-        return true;
-
+        menu.clear();
     }
 
 

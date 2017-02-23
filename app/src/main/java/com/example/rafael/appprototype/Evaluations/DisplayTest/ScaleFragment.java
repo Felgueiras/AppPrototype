@@ -45,7 +45,7 @@ public class ScaleFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(false);
 
 
         // get the list of tests
@@ -73,24 +73,10 @@ public class ScaleFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_test_questions, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_go_back:
-                /**
-                 * Go back to display the list of tests
-                 */
-                testDB.setAlreadyOpened(true);
-                testDB.save();
-                getActivity().onBackPressed();
-        }
-        return true;
-
-    }
 
 
 }

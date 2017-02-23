@@ -1,6 +1,5 @@
 package com.example.rafael.appprototype.Main;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -17,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.TransitionInflater;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,7 +26,6 @@ import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
-import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DatabaseGSONOps;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
@@ -43,57 +43,68 @@ public class PublicArea extends AppCompatActivity {
      * Hold the current fragment before going to lock screen
      */
     private Fragment currentFragment;
+    /**
+     * Current context.
+     */
+    private PublicArea context;
+    /**
+     * SharedPreferences.
+     */
+    private SharedPreferences sharedPreferences;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        ActiveAndroid.initialize(getApplication());
-        setContentView(R.layout.navigation_drawer_public);
-        final Activity context = this;
-
         Log.d("Lock", "onCreate");
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
-        final String sessionID = sharedPreferences.getString(getResources().getString(R.string.saved_session_public), null);
-        if (sessionID != null) {
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
-            alertDialog.setMessage("Deseja retomar a Sessão que tinha em curso?");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Constants.SESSION_ID = sessionID;
-                            FragmentManager fragmentManager = getFragmentManager();
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.current_fragment, new CGAPublic())
-                                    .commit();
-                        }
-                    });
-            final SharedPreferences finalSharedPreferences1 = sharedPreferences;
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // erase the sessionID
-                            SharedPreferencesHelper.resetPublicSession(context, sessionID);
-                        }
-                    });
-            alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialogInterface) {
-                    // erase the sessionID
-                    SharedPreferencesHelper.resetPublicSession(context, sessionID);
-                }
-            });
-            alertDialog.show();
-        }
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.navigation_drawer_public);
 
+        /**
+         * Views/layout.
+         */
+        // setup toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // display home
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        Constants.toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        Constants.toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new DrawerItemClickListener(this, getFragmentManager(), drawer));
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Toolbar", view.toString());
+                if (!Constants.upButton) {
+                    drawer.openDrawer(Gravity.LEFT);
+                } else {
+                    Log.d("Toolbar","Up button showing");
+                    onBackPressed();
+                }
+            }
+        });
+
+        // initialize ActiveAndroid (DB)
+        ActiveAndroid.initialize(getApplication());
+        // save context
+        context = this;
+
+        // access SharedPreferences
+        sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+
+        // is there an ongoing public session?
+        isTherePublicSession();
 
         // get screen size
         Constants.screenSize = getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK;
 
-        sharedPreferences = getSharedPreferences(getResources().getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
         if (alreadyLogged) {
             Intent intent = new Intent(PublicArea.this, PrivateArea.class);
@@ -135,10 +146,7 @@ public class PublicArea extends AppCompatActivity {
         t.start();
 
         Constants.area = Constants.area_public;
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         // insert data in DB (if first run)
         // user not logged in
@@ -154,7 +162,7 @@ public class PublicArea extends AppCompatActivity {
 
         // set sample fragment
         Fragment fragment = null;
-        String defaultFragment = Constants.fragment_sessions;
+        String defaultFragment = Constants.fragment_drug_prescription;
         switch (defaultFragment) {
             case Constants.fragment_sessions:
                 fragment = new CGAPublicInfo();
@@ -169,21 +177,6 @@ public class PublicArea extends AppCompatActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.current_fragment, fragment)
                 .commit();
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        toggle.syncState();
-        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("Log", "Clicked");
-            }
-        });
-        drawer.setDrawerListener(toggle);
-        navigationView.setNavigationItemSelectedListener(new DrawerItemClickListener(this, getFragmentManager(), drawer));
-
     }
 
 
@@ -380,4 +373,39 @@ public class PublicArea extends AppCompatActivity {
     }
 
 
+    public void isTherePublicSession() {
+        final String sessionID = sharedPreferences.getString(getResources().getString(R.string.saved_session_public), null);
+        if (sessionID != null) {
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
+            alertDialog.setMessage("Deseja retomar a Sessão que tinha em curso?");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Constants.SESSION_ID = sessionID;
+                            FragmentManager fragmentManager = getFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.current_fragment, new CGAPublic())
+                                    .commit();
+                        }
+                    });
+            final SharedPreferences finalSharedPreferences1 = sharedPreferences;
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // erase the sessionID
+                            SharedPreferencesHelper.resetPublicSession(context, sessionID);
+                        }
+                    });
+            alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    // erase the sessionID
+                    SharedPreferencesHelper.resetPublicSession(context, sessionID);
+                }
+            });
+            alertDialog.show();
+        }
+
+    }
 }

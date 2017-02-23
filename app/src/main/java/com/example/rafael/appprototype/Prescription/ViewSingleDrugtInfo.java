@@ -3,7 +3,9 @@ package com.example.rafael.appprototype.Prescription;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -121,6 +123,13 @@ public class ViewSingleDrugtInfo extends Fragment {
                     .commit();
         }
         return view;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        Log.d("Home","Home");
+
+        return super.onOptionsItemSelected(menuItem);
     }
 
 }

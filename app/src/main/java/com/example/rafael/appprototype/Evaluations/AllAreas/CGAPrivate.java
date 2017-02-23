@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -65,6 +66,9 @@ public class CGAPrivate extends Fragment {
         // Inflate the layout for this fragment
         View myInflatedView = inflater.inflate(R.layout.content_new_session_tab, container, false);
         getActivity().setTitle(getResources().getString(R.string.cga));
+
+
+
         // check the Constants
         Bundle args = getArguments();
         if (args != null)

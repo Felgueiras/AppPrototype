@@ -15,6 +15,7 @@ import com.example.rafael.appprototype.Prescription.Beers.BeersCriteriaFragment;
 import com.example.rafael.appprototype.Prescription.Start.StartCriteriaFragment;
 import com.example.rafael.appprototype.Prescription.Stopp.StoppCriteriaFragment;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.ToolbarHelper;
 
 /**
  * Main fragment for the DrugPrescriptions; creates a ViewPager for the multiple sections (Pesquisa, Start, Stopp and Beers).
@@ -26,13 +27,14 @@ public class DrugPrescriptionMain extends Fragment {
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
-    // TODO make tab display all possible values
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // set the title
         getActivity().setTitle(getResources().getString(R.string.tab_drug_prescription));
+
+        //ToolbarHelper.hideBackButton(getActivity());
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.prescription_main, container, false);

@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.ToolbarHelper;
 
 /**
  * Created by felgueiras on 18/01/2017.
@@ -19,6 +20,8 @@ public class FragmentTransitions {
      * @param args
      */
     public static void replaceFragment(Activity context, Fragment endFragment, Bundle args, String addToBackStackTag) {
+
+        ToolbarHelper.showBackButton(context);
 
         // get current Fragment
         Fragment startFragment = context.getFragmentManager().findFragmentById(R.id.current_fragment);

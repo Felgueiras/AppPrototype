@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +22,6 @@ import android.widget.TextView;
 import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DatabaseGSONOps;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
@@ -29,6 +29,7 @@ import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.SharedPreferencesHelper;
+import com.example.rafael.appprototype.ToolbarHelper;
 
 public class PrivateArea extends AppCompatActivity {
 
@@ -49,10 +50,37 @@ public class PrivateArea extends AppCompatActivity {
 
         final Activity context = this;
 
+        /**
+         * Views/layout.
+         */
+        // setup toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // display home
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        Constants.toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        Constants.toggle.syncState();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new DrawerItemClickListener(this, getFragmentManager(), drawer));
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Toolbar", view.toString());
+                if (!Constants.upButton) {
+                    drawer.openDrawer(Gravity.LEFT);
+                } else {
+                    Log.d("Toolbar","Up button showing");
+                    onBackPressed();
+                }
+            }
+        });
+
 
         Log.d("Lock", "onCreate");
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
@@ -142,19 +170,6 @@ public class PrivateArea extends AppCompatActivity {
                 .replace(R.id.current_fragment, fragment)
                 .commit();
 
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        toggle.syncState();
-        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("Log", "Clicked");
-            }
-        });
-        drawer.setDrawerListener(toggle);
-        navigationView.setNavigationItemSelectedListener(new DrawerItemClickListener(this, getFragmentManager(), drawer));
 
     }
 
@@ -279,6 +294,11 @@ public class PrivateArea extends AppCompatActivity {
      * @param textView
      */
     public void replaceFragmentSharedElements(Fragment endFragment, Bundle args, String addToBackStackTag, TextView textView) {
+
+
+        ToolbarHelper.showBackButton(this);
+
+
         if (args != null) {
             endFragment.setArguments(args);
         }

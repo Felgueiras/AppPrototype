@@ -14,6 +14,7 @@ import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
@@ -26,6 +27,7 @@ import com.example.rafael.appprototype.Login.LoginActivity;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.SharedPreferencesHelper;
+import com.example.rafael.appprototype.ToolbarHelper;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -50,6 +52,8 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
+        // ToolbarHelper.hideBackButton(context);
 
         if (id == R.id.login) {
             // Insert the fragment by replacing any existing fragment
@@ -127,14 +131,21 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             endFragment.setEnterTransition(TransitionInflater.from(context).
                     inflateTransition(android.R.transition.fade));
 
+            // empty back stack
+            BackStackHandler.clearBackStack();
             fragmentManager.beginTransaction()
                     .replace(R.id.current_fragment, endFragment)
                     .commit();
+
+
+            Log.d("BackStack", "Size: " + fragmentManager.getBackStackEntryCount());
         }
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
 
 }

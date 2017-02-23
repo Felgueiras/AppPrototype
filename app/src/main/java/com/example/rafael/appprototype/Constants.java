@@ -1,5 +1,7 @@
 package com.example.rafael.appprototype;
 
+import android.support.v7.app.ActionBarDrawerToggle;
+
 /**
  * Created by rafael on 24-09-2016.
  */
@@ -179,4 +181,6 @@ public class Constants {
     public static final String fileScales = "scales.txt";
     public static final String fileQuestions = "questions.txt";
     public static final String fileChoices = "choices.txt";
+    public static ActionBarDrawerToggle toggle;
+    public static boolean upButton;
 }

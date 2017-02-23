@@ -56,6 +56,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
             Fragment currentFragment = fragmentManager.findFragmentByTag(fragmentTag);
 
+
             Fragment fr = fragmentManager.findFragmentById(R.id.current_fragment);
             int index = fragmentManager.getBackStackEntryCount() - 1;
             FragmentManager.BackStackEntry backEntry = fragmentManager.getBackStackEntryAt(index);
@@ -66,7 +67,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
              * Only pop backstack if changing fragments/screens
              */
             if (!tag.equals(Constants.tag_create_session) &&
-                    !tag.equals(Constants.tag_create_new_session_for_patient)&&
+                    !tag.equals(Constants.tag_create_new_session_for_patient) &&
                     !tag.equals(Constants.tag_cga_public)) {
                 fragmentManager.popBackStack();
             }
@@ -165,12 +166,11 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 Log.d("Stack", "pressed back in new session with patient");
                 ((CGAPrivate) currentFragment).discardFAB.performClick();
                 return;
-            }
-            else if (tag.equals(Constants.tag_cga_public)) {
+            } else if (tag.equals(Constants.tag_cga_public)) {
                 Log.d("Stack", "pressed back in new session (public)");
                 ((CGAPublic) currentFragment).resetFAB.performClick();
                 return;
-            }else if (tag.equals(Constants.tag_help_topic)) {
+            } else if (tag.equals(Constants.tag_help_topic)) {
                 args = new Bundle();
                 fragment = new HelpTopics();
             }
@@ -216,14 +216,15 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
     @Override
     public void onBackStackChanged() {
         if (fragmentManager.getBackStackEntryCount() == 0) {
-            return;
+            ToolbarHelper.hideBackButton(context);
+        } else {
+            ToolbarHelper.showBackButton(context);
+            String fragmentName = fragmentManager.getBackStackEntryAt(0).getName();
+            int index = fragmentManager.getBackStackEntryCount() - 1;
+            FragmentManager.BackStackEntry backEntry = fragmentManager.getBackStackEntryAt(index);
+            String tag = backEntry.getName();
+            Log.d("BackStack", "BackStack changed, Top fragment tag is now " + tag);
         }
-        // context.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String fragmentName = fragmentManager.getBackStackEntryAt(0).getName();
-        int index = fragmentManager.getBackStackEntryCount() - 1;
-        FragmentManager.BackStackEntry backEntry = fragmentManager.getBackStackEntryAt(index);
-        String tag = backEntry.getName();
-        Log.d("BackStack", "BackStack changed, Top fragment tag is now " + tag);
     }
 
     public static void discardSession(Patient patient) {
@@ -309,5 +310,12 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 .remove(currentFragment)
                 .replace(R.id.current_fragment, fragment)
                 .commit();
+    }
+
+    public static void clearBackStack() {
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            FragmentManager.BackStackEntry first = fragmentManager.getBackStackEntryAt(0);
+            fragmentManager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
     }
 }

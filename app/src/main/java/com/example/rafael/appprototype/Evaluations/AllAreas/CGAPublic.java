@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
@@ -148,6 +149,8 @@ public class CGAPublic extends Fragment {
                                 // remove session
                                 session.delete();
                                 sharedPreferences.edit().putString(getString(R.string.saved_session_public), null).apply();
+
+                                BackStackHandler.clearBackStack();
 
                                 FragmentManager fragmentManager = getFragmentManager();
                                 fragmentManager.beginTransaction()
