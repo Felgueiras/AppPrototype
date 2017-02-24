@@ -104,7 +104,6 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
                     args.putBoolean(CGAPrivate.SAVE_SESSION, true);
                     FragmentTransitions.replaceFragment(context,new CGAPrivate(), args, "");
                     Constants.selectPatient = false;
-                    return;
                 } else {
                     // TODO add shared elements for transitions
                     Fragment endFragment = new ViewSinglePatientInfo();
@@ -118,7 +117,7 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
                     */
 
 
-                    patientTransitionName = holder.name.getTransitionName();
+//                    patientTransitionName = holder.name.getTransitionName();
                     Bundle args = new Bundle();
                     args.putString("ACTION", holder.name.getText().toString());
                     args.putString("TRANS_TEXT", patientTransitionName);

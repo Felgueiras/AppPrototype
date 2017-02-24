@@ -119,7 +119,7 @@ public class ViewSinglePatientInfo extends Fragment {
         //patientName.setText(patient.getName());
         patientBirthDate.setText(DatesHandler.dateToStringWithoutHour(patient.getBirthDate()) + "");
         patientAddress.setText(patient.getAddress());
-        patientPhoto.setImageResource(patient.getPicture());
+        //patientPhoto.setImageResource(patient.getPicture());
 
 
         /**

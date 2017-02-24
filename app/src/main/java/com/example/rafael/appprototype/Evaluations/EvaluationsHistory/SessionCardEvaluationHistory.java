@@ -18,7 +18,6 @@ import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryGrid;
 import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleSession;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.SessionCardHelper;
 
 import java.util.List;
 

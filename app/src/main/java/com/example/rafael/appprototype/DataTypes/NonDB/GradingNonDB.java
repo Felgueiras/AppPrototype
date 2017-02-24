@@ -76,9 +76,7 @@ public class GradingNonDB {
         for (String s : values) {
             vals.add(Double.parseDouble(s));
         }
-        if (vals.contains(testResult))
-            return true;
-        return false;
+        return vals.contains(testResult);
     }
 
 

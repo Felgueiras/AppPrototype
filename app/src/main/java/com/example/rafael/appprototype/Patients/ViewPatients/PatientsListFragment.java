@@ -4,8 +4,6 @@ import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +21,6 @@ import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
 import com.example.rafael.appprototype.Patients.SinglePatient.PatientCard;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.ToolbarHelper;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 
 import java.util.ArrayList;

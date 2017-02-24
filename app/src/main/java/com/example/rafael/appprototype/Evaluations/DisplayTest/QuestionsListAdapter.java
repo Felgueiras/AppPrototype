@@ -31,7 +31,6 @@ import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Objects;
 
 /**
  * Create the layout of the Questions
@@ -494,7 +493,7 @@ public class QuestionsListAdapter extends BaseAdapter {
      */
     private RadioButton addRadioButton(Choice choice, RadioGroup radioGroup, int i) {
         RadioButton newRadioButton = new RadioButton(context);
-        if (Objects.equals(choice.getName(), "") || choice.getName() == null) {
+        if (choice.getName().equals("") || choice.getName() == null) {
             newRadioButton.setText(choice.getDescription());
         } else {
             if (!choice.getName().equals(choice.getDescription()))

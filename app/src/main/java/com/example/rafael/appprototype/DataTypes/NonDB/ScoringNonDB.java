@@ -1,7 +1,5 @@
 package com.example.rafael.appprototype.DataTypes.NonDB;
 
-import android.util.Log;
-
 import com.example.rafael.appprototype.Constants;
 
 import java.util.ArrayList;

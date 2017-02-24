@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.view.ViewStub;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class ProgressScales extends RecyclerView.Adapter<ProgressScales.MyViewHo
      * Create a View
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        private final TextView scaleNotEvaluated;
         // test area
         public TextView testName;
         // view stub for the graph
@@ -46,7 +48,7 @@ public class ProgressScales extends RecyclerView.Adapter<ProgressScales.MyViewHo
         public MyViewHolder(View view) {
             super(view);
             testName = (TextView) view.findViewById(R.id.testName);
-
+            scaleNotEvaluated = (TextView) view.findViewById(R.id.scale_not_evaluated);
             itemView = view;
         }
     }
@@ -124,6 +126,9 @@ public class ProgressScales extends RecyclerView.Adapter<ProgressScales.MyViewHo
                     }
                 });
             }
+            // delete other text
+            ViewManager parentView = (ViewManager) holder.testName.getParent();
+            parentView.removeView(holder.scaleNotEvaluated);
         }
     }
 

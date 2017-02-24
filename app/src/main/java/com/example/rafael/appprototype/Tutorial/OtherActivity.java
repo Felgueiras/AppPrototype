@@ -1,14 +1,9 @@
 package com.example.rafael.appprototype.Tutorial;
 
-import android.app.SearchManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import com.example.rafael.appprototype.R;
 

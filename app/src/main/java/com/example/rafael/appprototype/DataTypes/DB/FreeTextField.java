@@ -5,13 +5,9 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
-import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
-import com.example.rafael.appprototype.DataTypes.NonDB.ScoringNonDB;
-import com.example.rafael.appprototype.DataTypes.Scales;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

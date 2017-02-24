@@ -14,10 +14,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -285,7 +283,7 @@ public class PublicArea extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        if (getLockStatus() == true) {
+        if (getLockStatus()) {
             // show lockscreen
             Log.d("Lock", "showing lock screen (onStart)");
             // set lock status to false
@@ -309,11 +307,11 @@ public class PublicArea extends AppCompatActivity {
         }
         // add Exit transition
 
-        startFragment.setExitTransition(TransitionInflater.from(
-                this).inflateTransition(android.R.transition.fade));
-        // add Enter transition
-        endFragment.setEnterTransition(TransitionInflater.from(this).
-                inflateTransition(android.R.transition.fade));
+//        startFragment.setExitTransition(TransitionInflater.from(
+//                this).inflateTransition(android.R.transition.fade));
+//        // add Enter transition
+//        endFragment.setEnterTransition(TransitionInflater.from(this).
+//                inflateTransition(android.R.transition.fade));
 
         // Create new transaction and add to back stack
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -356,10 +354,10 @@ public class PublicArea extends AppCompatActivity {
         transaction.replace(R.id.current_fragment, endFragment);
         if (!addToBackStackTag.equals(""))
             transaction.addToBackStack(addToBackStackTag);
-        if (args.getString("TRANS_TEXT") != null) {
-            transaction.addSharedElement(textView, args.getString("TRANS_TEXT"));
-            //system.out.println("lol");
-        }
+//        if (args.getString("TRANS_TEXT") != null) {
+//            transaction.addSharedElement(textView, args.getString("TRANS_TEXT"));
+//            //system.out.println("lol");
+//        }
 
         transaction.commit();
 

@@ -17,7 +17,6 @@ import android.widget.GridView;
 import android.widget.ListAdapter;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowEvaluationsAllDays;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowEvaluationsSingleDay;
 import com.example.rafael.appprototype.R;

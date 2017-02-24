@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
-import com.example.rafael.appprototype.EmptyStateFragment;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;

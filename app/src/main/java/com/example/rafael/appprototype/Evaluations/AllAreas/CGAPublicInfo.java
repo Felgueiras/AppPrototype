@@ -8,13 +8,10 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
-import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleSession;
 import com.example.rafael.appprototype.R;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 
 
 /**

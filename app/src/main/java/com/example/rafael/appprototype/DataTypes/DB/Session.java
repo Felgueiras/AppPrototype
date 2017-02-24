@@ -200,7 +200,7 @@ public class Session extends Model implements Serializable {
                 .groupBy("date")
                 .orderBy("date DESC")
                 .execute();
-        HashSet<Date> days = new HashSet<Date>();
+        HashSet<Date> days = new HashSet<>();
         for (Session session : dates) {
             Date dateWithoutHour = session.getDateWithoutHour();
             days.add(dateWithoutHour);

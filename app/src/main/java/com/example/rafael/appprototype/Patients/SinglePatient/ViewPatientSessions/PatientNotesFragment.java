@@ -2,22 +2,15 @@ package com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessio
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
-import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.R;
-
-import java.util.ArrayList;
 
 
 public class PatientNotesFragment extends Fragment {

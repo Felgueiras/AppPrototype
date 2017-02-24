@@ -11,7 +11,6 @@ import com.example.rafael.appprototype.DataTypes.NonDB.ScoringNonDB;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * This class holds  definition of all the tests that exist
@@ -1744,36 +1743,37 @@ public class Scales {
      * @return
      */
     public static GeriatricScaleNonDB getTestByName(String testName) {
-        if (Objects.equals(testName, Constants.test_name_testeDeKatz)) {
-            return escalaDeKatz();
-        } else if (Objects.equals(testName, Constants.test_name_escalaDepressaoYesavage)) {
-            return escalaDepressaoYesavage();
-        } else if (Objects.equals(testName, Constants.test_name_marchaHolden)) {
-            return marchaHolden();
-        } else if (Objects.equals(testName, Constants.test_name_escalaLawtonBrody)) {
-            return escalaLawtonBrody();
-        } else if (Objects.equals(testName, Constants.test_name_mini_mental_state)) {
-            return mentalStateFolstein();
-        } else if (Objects.equals(testName, Constants.test_name_mini_nutritional_assessment_triagem)) {
-            return miniNutritionalAssessmentTriagem();
-        } else if (Objects.equals(testName, Constants.test_name_mini_nutritional_assessment_global)) {
-            return miniNutritionalAssessmentGlobal();
-        } else if (Objects.equals(testName, Constants.test_name_recursos_sociales)) {
-            return recursosSociales();
-        } else if (Objects.equals(testName, Constants.test_name_valoracionSocioFamiliar)) {
-            return valoracionSocioFamiliarGijon();
-        } else if (Objects.equals(testName, Constants.test_name_burden_interview)) {
-            return zaritBurdenInterview();
-        } else if (Objects.equals(testName, Constants.test_name_barthel_index)) {
-            return barthelIndex();
-        } else if (Objects.equals(testName, Constants.test_name_short_portable_mental_status)) {
-            return shortPortableMentalStatus();
-        } else if (Objects.equals(testName, Constants.test_name_clock_drawing)) {
-            return clockDrawing();
-        } else if (Objects.equals(testName, Constants.test_name_set_set)) {
-            return setTest();
-        } else if (Objects.equals(testName, Constants.test_name_hamilton)) {
-            return hamiltonDepressionScale();
+        switch (testName) {
+            case Constants.test_name_testeDeKatz:
+                return escalaDeKatz();
+            case Constants.test_name_escalaDepressaoYesavage:
+                return escalaDepressaoYesavage();
+            case Constants.test_name_marchaHolden:
+                return marchaHolden();
+            case Constants.test_name_escalaLawtonBrody:
+                return escalaLawtonBrody();
+            case Constants.test_name_mini_mental_state:
+                return mentalStateFolstein();
+            case Constants.test_name_mini_nutritional_assessment_triagem:
+                return miniNutritionalAssessmentTriagem();
+            case Constants.test_name_mini_nutritional_assessment_global:
+                return miniNutritionalAssessmentGlobal();
+            case Constants.test_name_recursos_sociales:
+                return recursosSociales();
+            case Constants.test_name_valoracionSocioFamiliar:
+                return valoracionSocioFamiliarGijon();
+            case Constants.test_name_burden_interview:
+                return zaritBurdenInterview();
+            case Constants.test_name_barthel_index:
+                return barthelIndex();
+            case Constants.test_name_short_portable_mental_status:
+                return shortPortableMentalStatus();
+            case Constants.test_name_clock_drawing:
+                return clockDrawing();
+            case Constants.test_name_set_set:
+                return setTest();
+            case Constants.test_name_hamilton:
+                return hamiltonDepressionScale();
         }
         return null;
     }

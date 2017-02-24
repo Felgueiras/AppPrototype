@@ -15,7 +15,6 @@ import com.example.rafael.appprototype.Prescription.Beers.BeersCriteriaFragment;
 import com.example.rafael.appprototype.Prescription.Start.StartCriteriaFragment;
 import com.example.rafael.appprototype.Prescription.Stopp.StoppCriteriaFragment;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.ToolbarHelper;
 
 /**
  * Main fragment for the DrugPrescriptions; creates a ViewPager for the multiple sections (Pesquisa, Start, Stopp and Beers).

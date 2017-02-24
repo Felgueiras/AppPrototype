@@ -10,13 +10,11 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
-import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
@@ -27,7 +25,6 @@ import com.example.rafael.appprototype.Login.LoginActivity;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.SharedPreferencesHelper;
-import com.example.rafael.appprototype.ToolbarHelper;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -125,11 +122,11 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         } else {
             // add Exit transition
 
-            Fragment startFragment = context.getFragmentManager().findFragmentById(R.id.current_fragment);
-            startFragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.fade));
-            // add Enter transition
-            endFragment.setEnterTransition(TransitionInflater.from(context).
-                    inflateTransition(android.R.transition.fade));
+//            Fragment startFragment = context.getFragmentManager().findFragmentById(R.id.current_fragment);
+//            startFragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.fade));
+//            // add Enter transition
+//            endFragment.setEnterTransition(TransitionInflater.from(context).
+//                    inflateTransition(android.R.transition.fade));
 
             // empty back stack
             BackStackHandler.clearBackStack();

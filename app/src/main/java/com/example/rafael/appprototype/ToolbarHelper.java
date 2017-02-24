@@ -2,7 +2,6 @@ package com.example.rafael.appprototype;
 
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 /**
  * Created by felgueiras on 22/02/2017.

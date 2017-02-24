@@ -12,9 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryGrid;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
-import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.SessionCardPatientProfile;
 
 /**
  * Created by felgueiras on 20/02/2017.
@@ -75,7 +73,7 @@ public class SessionCardHelper implements View.OnClickListener {
                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Snackbar.make(view, "Eliminando a sessão.", Snackbar.LENGTH_SHORT).show();
+                                    Snackbar.make(view, "Sessão eliminada.", Snackbar.LENGTH_SHORT).show();
                                     session.delete();
                                     // refresh the adapter
                                     if(fragment instanceof PatientSessionsFragment)
