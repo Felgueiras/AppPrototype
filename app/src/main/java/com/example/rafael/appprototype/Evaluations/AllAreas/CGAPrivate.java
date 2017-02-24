@@ -102,7 +102,7 @@ public class CGAPrivate extends Fragment {
                 if (Constants.pickingPatient) {
                     Constants.pickingPatient = false;
                     sharedPreferences.edit().putString(getString(R.string.saved_session_private), null).apply();
-                    FragmentTransitions.replaceFragment(getActivity(), new EvaluationsHistoryMain(), null, Constants.tag_view_sessions_history);
+//                    FragmentTransitions.replaceFragment(getActivity(), new EvaluationsHistoryMain(), null, Constants.tag_view_sessions_history);
                 }
             }
         }
@@ -204,16 +204,16 @@ public class CGAPrivate extends Fragment {
                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    /**
-                                     * Open the fragment to pick an already existing Patient.
-                                     */
-                                    Constants.pickingPatient = true;
-                                    Bundle args = new Bundle();
-                                    args.putBoolean(PatientsListFragment.selectPatient, true);
-                                    FragmentTransitions.replaceFragment(getActivity(), new PatientsListFragment(), args,
-                                            Constants.fragment_show_patients);
-                                    dialog.dismiss();
-                                    Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
+//                                    /**
+//                                     * Open the fragment to pick an already existing Patient.
+//                                     */
+//                                    Constants.pickingPatient = true;
+//                                    Bundle args = new Bundle();
+//                                    args.putBoolean(PatientsListFragment.selectPatient, true);
+//                                    FragmentTransitions.replaceFragment(getActivity(), new PatientsListFragment(), args,
+//                                            Constants.fragment_show_patients);
+//                                    dialog.dismiss();
+//                                    Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
                                 }
                             });
                     alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",

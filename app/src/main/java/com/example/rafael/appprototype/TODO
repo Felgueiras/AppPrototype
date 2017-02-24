@@ -1,10 +1,8 @@
+- criar sessões sem paciente dentro da área pessoal
 - mental state folstein
-- rever favorite patients
-- menus sobrepostos
 
 - arranjar height em list view dentro de card view
 - ver sessão de paciente de uma data?
-- criar sessões sem paciente dentro da área pessoal
 
 - card views as a whole entity
 - arranjar bug em goToPreviousScreen() quando app foi fechada

@@ -41,11 +41,10 @@ public class PatientsMain extends Fragment {
 
         // set the title
         getActivity().setTitle(getResources().getString(R.string.tab_drug_prescription));
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
-
+        viewPager = (ViewPager) v.findViewById(R.id.viewpager);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager(), viewPager);
 
         // Set up the ViewPager with the sections adapter.
-        viewPager = (ViewPager) v.findViewById(R.id.viewpager);
         viewPager.setAdapter(mSectionsPagerAdapter);
         viewPager.setCurrentItem(Constants.vpPatientsPage);
 
@@ -76,22 +75,28 @@ public class PatientsMain extends Fragment {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        private final ViewPager viewPager;
+
+        public SectionsPagerAdapter(FragmentManager fm, ViewPager viewPager) {
             super(fm);
-            Log.d("Drugs", "SectionsPagerAdapter");
+            this.viewPager = viewPager;
         }
 
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new PatientsListFragment();
+                return new PatientsListFragment(viewPager);
             } else if (position == 1) {
-                return new EvaluationsHistoryMain();
+                return new EvaluationsHistoryMain(viewPager);
             } else if (position == 2) {
                 return new FavoritePatientsMain();
             }
             return null;
         }
+
+
+
+
 
         @Override
         public int getCount() {

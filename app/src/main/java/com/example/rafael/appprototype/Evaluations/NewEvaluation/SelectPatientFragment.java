@@ -44,7 +44,7 @@ public class SelectPatientFragment extends Fragment {
                 // open the list of patients
                 Bundle args = new Bundle();
                 args.putBoolean(PatientsListFragment.selectPatient, true);
-                FragmentTransitions.replaceFragment(getActivity(),new PatientsListFragment(), args, Constants.fragment_show_patients);
+//                FragmentTransitions.replaceFragment(getActivity(),new PatientsListFragment(), args, Constants.fragment_show_patients);
             }
         });
 

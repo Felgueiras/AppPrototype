@@ -3,6 +3,7 @@ package com.example.rafael.appprototype.Evaluations;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,12 @@ import com.example.rafael.appprototype.R;
 
 public class EvaluationsHistoryMain extends Fragment {
 
+    private final ViewPager viewPager;
     private FragmentManager fragmentManager;
+
+    public EvaluationsHistoryMain(ViewPager viewPager) {
+        this.viewPager = viewPager;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +42,7 @@ public class EvaluationsHistoryMain extends Fragment {
 
         } else {
             fragmentManager = getFragmentManager();
-            Fragment fragment = new EvaluationsHistoryGrid();
+            Fragment fragment = new EvaluationsHistoryGrid(viewPager);
             fragmentManager.beginTransaction()
                     .replace(R.id.evaluation_history_frame_layout, fragment)
                     .commit();

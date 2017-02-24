@@ -154,8 +154,6 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
             } else if (tag.equals(Constants.tag_view_patien_info_records)) {
                 fragment = new PatientsMain();
-            } else if (tag.equals(Constants.tag_view_sessions_history)) {
-                fragment = new PatientsListFragment();
             } else if (tag.equals(Constants.tag_view_drug_info)) {
                 fragment = new DrugPrescriptionMain();
             } else if (tag.equals(Constants.tag_create_session)) {

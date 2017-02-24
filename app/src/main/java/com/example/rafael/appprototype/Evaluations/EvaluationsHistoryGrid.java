@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,8 +29,13 @@ import java.util.List;
 
 public class EvaluationsHistoryGrid extends Fragment {
 
+    private final ViewPager viewPager;
     private ListAdapter adapter;
     private GridView gridView;
+
+    public EvaluationsHistoryGrid(ViewPager viewPager) {
+        this.viewPager = viewPager;
+    }
 
     // Store instance variables based on arguments passed
     @Override
@@ -54,8 +60,11 @@ public class EvaluationsHistoryGrid extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.menu_evaluations, menu);
+        if(viewPager.getCurrentItem() == 1)
+        {
+            inflater.inflate(R.menu.menu_evaluations, menu);
+            Log.d("Menu","Evaluations");
+        }
     }
 
     @Override
