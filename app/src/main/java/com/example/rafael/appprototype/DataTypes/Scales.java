@@ -336,7 +336,7 @@ public class Scales {
      */
     public static GeriatricScaleNonDB escalaDeKatz() {
         GeriatricScaleNonDB testeDeKatz = new GeriatricScaleNonDB(Constants.test_name_testeDeKatz,
-                Constants.cga_functional, "Atividades de Vida Diária Básicas",
+                Constants.cga_functional, "Atividades básicas da vida diária",
                 "• Avalia a autonomia para realizar as atividades imprescindíveis à vida;\n" +
                         "• As ABVD são avaliadas na sequência habitual de deterioração/recuperação;\n" +
                         "• Procedimento: observação ou questionário direto ao idoso," +
@@ -561,7 +561,7 @@ public class Scales {
      */
     public static GeriatricScaleNonDB barthelIndex() {
         GeriatricScaleNonDB barthelIndex = new GeriatricScaleNonDB(Constants.test_name_barthel_index,
-                Constants.cga_functional, "",
+                Constants.cga_functional, "Atividades básicas da vida diária",
                 "• Es la escala más internacionalmente" +
                         "conocida para la valoración funcional de" +
                         "pacientes con enfermedad cerebrovascular aguda.\n" +
@@ -963,7 +963,7 @@ public class Scales {
      */
     public static GeriatricScaleNonDB marchaHolden() {
         GeriatricScaleNonDB marcha = new GeriatricScaleNonDB(Constants.test_name_marchaHolden,
-                Constants.cga_functional, "",
+                Constants.cga_functional, "Marcha",
                 "• Avalia a autonomia na marcha de acordo com o tipo de ajuda física" +
                         "ou supervisão necessárias, em função do tipo de superfície (plana," +
                         "inclinada, escadas).\n" +
@@ -1194,103 +1194,208 @@ public class Scales {
         question.setChoices(choiceNonDBs);
         nutritionalAssessment.addQuestion(question);
 
-
-//        /**
-//         * Avaliação Global.
-//         */
-//        question = new QuestionNonDB("G - O doente vive na sua própria casa\n" +
-//                "(não em instituição geriátrica ou hospital)", false);
-//        choiceNonDBs = new ArrayList<>();
-//        choiceNonDBs.add(new ChoiceNonDB("sim", 1));
-//        choiceNonDBs.add(new ChoiceNonDB("não", 0));
-//        question.setChoices(choiceNonDBs);
-//        nutritionalAssessment.addQuestion(question);
-//
-//        question = new QuestionNonDB("H - Utiliza mais de três medicamentos diferentes por dia?", false);
-//        choiceNonDBs = new ArrayList<>();
-//        choiceNonDBs.add(new ChoiceNonDB("sim", 0));
-//        choiceNonDBs.add(new ChoiceNonDB("não", 1));
-//        question.setChoices(choiceNonDBs);
-//        nutritionalAssessment.addQuestion(question);
-//
-//        question = new QuestionNonDB("I - Lesões de pele ou escaras?", false);
-//        choiceNonDBs = new ArrayList<>();
-//        choiceNonDBs.add(new ChoiceNonDB("sim", 0));
-//        choiceNonDBs.add(new ChoiceNonDB("não", 1));
-//        question.setChoices(choiceNonDBs);
-//        nutritionalAssessment.addQuestion(question);
-//
-//        question = new QuestionNonDB("J - Quantas refeições faz por dia?", false);
-//        choiceNonDBs = new ArrayList<>();
-//        choiceNonDBs.add(new ChoiceNonDB("uma refeição", 0));
-//        choiceNonDBs.add(new ChoiceNonDB("duas refeições", 1));
-//        choiceNonDBs.add(new ChoiceNonDB("três refeições", 2));
-//        question.setChoices(choiceNonDBs);
-//        nutritionalAssessment.addQuestion(question);
-//
-//
-//        // TODO question k
-//
-//        question = new QuestionNonDB("L - O doente consome duas ou mais porções diárias de fruta\n" +
-//                "ou produtos hortícolas?", false);
-//        choiceNonDBs = new ArrayList<>();
-//        choiceNonDBs.add(new ChoiceNonDB("não", 0));
-//        choiceNonDBs.add(new ChoiceNonDB("sim", 1));
-//        question.setChoices(choiceNonDBs);
-//        nutritionalAssessment.addQuestion(question);
-//
-//        question = new QuestionNonDB("M - Quantos copos de líquidos (água, sumo, café, chá, leite) o\n" +
-//                "doente consome por dia?", false);
-//        choiceNonDBs = new ArrayList<>();
-//        choiceNonDBs.add(new ChoiceNonDB("menos de três copos", 0));
-//        choiceNonDBs.add(new ChoiceNonDB("três a cinco copos", 0.5));
-//        choiceNonDBs.add(new ChoiceNonDB("mais de cinco copos", 1));
-//        question.setChoices(choiceNonDBs);
-//        nutritionalAssessment.addQuestion(question);
-//
-//        question = new QuestionNonDB("N - Modo de se alimentar", false);
-//        choiceNonDBs = new ArrayList<>();
-//        choiceNonDBs.add(new ChoiceNonDB("não é capaz de se alimentar sozinho", 0));
-//        choiceNonDBs.add(new ChoiceNonDB("alimenta-se sozinho, porém com dificuldade", 1));
-//        choiceNonDBs.add(new ChoiceNonDB("alimenta-se sozinho sem dificuldade", 2));
-//        question.setChoices(choiceNonDBs);
-//        nutritionalAssessment.addQuestion(question);
-//
-//        question = new QuestionNonDB("O - O doente acredita ter algum problema nutricional?", false);
-//        choiceNonDBs = new ArrayList<>();
-//        choiceNonDBs.add(new ChoiceNonDB("acredita estar desnutrido", 0));
-//        choiceNonDBs.add(new ChoiceNonDB("não sabe dizer", 1));
-//        choiceNonDBs.add(new ChoiceNonDB("acredita não ter um problema nutricional", 2));
-//        question.setChoices(choiceNonDBs);
-//        nutritionalAssessment.addQuestion(question);
-//
-//        question = new QuestionNonDB("P - Em comparação com outras pessoas da mesma idade,\n" +
-//                "como considera o doente a sua própria saúde?", false);
-//        choiceNonDBs = new ArrayList<>();
-//        choiceNonDBs.add(new ChoiceNonDB("pior", 0));
-//        choiceNonDBs.add(new ChoiceNonDB("não sabe", 0.5));
-//        choiceNonDBs.add(new ChoiceNonDB("igual", 1));
-//        choiceNonDBs.add(new ChoiceNonDB("melhor", 2));
-//        question.setChoices(choiceNonDBs);
-//        nutritionalAssessment.addQuestion(question);
-//
-//        question = new QuestionNonDB("Q - Perímetro braquial (PB) em cm", false);
-//        choiceNonDBs = new ArrayList<>();
-//        choiceNonDBs.add(new ChoiceNonDB("PB < 21", 0));
-//        choiceNonDBs.add(new ChoiceNonDB("21 < PB < 22", 0.5));
-//        choiceNonDBs.add(new ChoiceNonDB("PB > 22", 1));
-//        question.setChoices(choiceNonDBs);
-//        nutritionalAssessment.addQuestion(question);
-//
-//        question = new QuestionNonDB("R - Perímetro da perna (PP) em cm", false);
-//        choiceNonDBs = new ArrayList<>();
-//        choiceNonDBs.add(new ChoiceNonDB("PP < 31", 0));
-//        choiceNonDBs.add(new ChoiceNonDB("PP > 31", 1));
-//        question.setChoices(choiceNonDBs);
-//        nutritionalAssessment.addQuestion(question);
-
-
         return nutritionalAssessment;
+    }
+
+
+    public static GeriatricScaleNonDB tinettiScale() {
+        GeriatricScaleNonDB tinettiScale = new GeriatricScaleNonDB(Constants.test_name_tinetti,
+                Constants.cga_functional, "Avaliação do risco de queda",
+                "• Avalia o equilíbrio estático e dinâmico do idoso\n" +
+                        "• A primeira parte é composta por 9 questões, nas quais o paciente deve estar sentado" +
+                        "numa cadeira sem braços\n" +
+                        "• Na segunda parte o sujeito faz um percurso de 3m, na sua passada normal" +
+                        " e volta com passos mais rápidos até à cadeira, deverá utilizar os seus " +
+                        " auxiliares de marcha habituais");
+        // short area
+        tinettiScale.setShortName("Tinetti");
+        tinettiScale.setMultipleChoice(true);
+        // create Scoring
+        ScoringNonDB scoring = new ScoringNonDB(0, 28, false);
+        // create Gradings
+        ArrayList<GradingNonDB> gradings = new ArrayList<>();
+        gradings.add(new GradingNonDB("TODO", 0, 28));
+        // add Gradings to Scoring
+        scoring.setValuesBoth(gradings);
+        // add Scoring to Test
+        tinettiScale.setScoring(scoring);
+
+
+        /**
+         * Equilíbrio estático.
+         */
+        // 1
+        QuestionNonDB question = new QuestionNonDB("Equilíbrio sentado", false);
+        ArrayList<ChoiceNonDB> choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Inclina-se ou desliza na cadeira", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Inclina-se ligeiramente ou aumenta a distância" +
+                " das nádegas ao encosto da cadeira", 1));
+        choiceNonDBs.add(new ChoiceNonDB("Estável, seguro", 2));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 2
+        question = new QuestionNonDB("Levantar-se", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Incapaz sem ajuda ou perde equilíbrio", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Capaz, mas utiliza os braços para ajudar ou" +
+                " faz excessiva flexão do tronco ou não consegue à primeira tentativa", 1));
+        choiceNonDBs.add(new ChoiceNonDB("Capaz na primeira tentativa sem usar os braços", 2));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 3
+        question = new QuestionNonDB("Equilíbrio imediato (primeiros 5 segundos)", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Instável (cambaleante, move os pés, macadas" +
+                "oscilações do tronco, tenta agarrar algo para suportar-se)", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Estável, mas utiliza auxiliar de marcha para suportar-se", 1));
+        choiceNonDBs.add(new ChoiceNonDB("Estável sem qualquer tipo de ajudas", 2));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 4
+        question = new QuestionNonDB("Equilíbrio em pé com os pés paralelos", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Instável", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Estável mas alargando a base de sustentação (calcanhares afastados" +
+                "10 cm) ou recorrendo a auxiliar de marcha para apoio", 1));
+        choiceNonDBs.add(new ChoiceNonDB("Pés próximos e sem ajudas", 2));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 5
+        question = new QuestionNonDB("Pequenos desequilíbrios na mesma posição (sujeito de pé com os pés próximos, o observador" +
+                "empurra-o levemente com a palma da mão, 3 vezes ao n+ivel do esterno)", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Começa a cair", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Vacilante, agarra-se, mas estabiliza", 1));
+        choiceNonDBs.add(new ChoiceNonDB("Estável", 2));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 6
+        question = new QuestionNonDB("Fechar os olhos na mesma posição", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Instável", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Estável", 1));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 7
+        question = new QuestionNonDB("Volta de 360º (2 vezes)", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Instável (agarra-se, vacila)", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Estável, mas dá passos descontínuos", 1));
+        choiceNonDBs.add(new ChoiceNonDB("Estável e passos contínuos", 2));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 8
+        question = new QuestionNonDB("Apoio unipodal (aguenta pelo menos 5 segundos de forma estável)", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Não consegue ou tenta segurar-se a qualquer objeto", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Aguenta 5 segundos de forma estável", 1));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 9
+        question = new QuestionNonDB("Sentar-se", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Pouco seguro ou cai na cadeira ou calcula mal a distância", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Usa os braços ou movimento não harmonioso", 1));
+        choiceNonDBs.add(new ChoiceNonDB("Seguro, movimento harmonioso", 2));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        /**
+         * Equilíbrio dinâmico - marcha.
+         */
+        // 10
+        question = new QuestionNonDB("Início da marcha (imediatamente após o sinal de partida)", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Hesitação ou múltiplas tentativas para iniciar", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Sem hesitação", 1));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 11
+        question = new QuestionNonDB("Largura do passo (pé direito)", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Não ultrapassa à frente do pé em apoio", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Ultrapassa o pé esquerdo em apoio", 1));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 12
+        question = new QuestionNonDB("Altura do passo (pé direito)", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("O pé direito não perde completamente o contacto com o solo", 0));
+        choiceNonDBs.add(new ChoiceNonDB("O pé direito eleva-se completamente do solo", 1));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 13
+        question = new QuestionNonDB("Largura do passo (pé esquerdo)", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Não ultrapassa à frente do pé em apoio", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Ultrapassa o pé direito em apoio", 1));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 14
+        question = new QuestionNonDB("Altura do passo (pé esquerdo)", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("O pé esquerdoesquerdo não perde totalmente o contacto com o solo", 0));
+        choiceNonDBs.add(new ChoiceNonDB("O pé direito eleva-se totalmente do solo", 1));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 15
+        question = new QuestionNonDB("Simetria do passo", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Comprimento do passo aparentemente assimétrico", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Comprimento do passo aparentemente simétrico", 1));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 16
+        question = new QuestionNonDB("Continuidade do passo", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Pára ou dá passos descontínuos", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Passos contínuos", 1));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 17
+        question = new QuestionNonDB("Percurso de 3m (previmente marcado)", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Desvia-se da linha amrcada", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Desvia-se ligeiramente ou utiliza auxiliar de marcha", 1));
+        choiceNonDBs.add(new ChoiceNonDB("Sem desvios e sem ajudas", 2));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 18
+        question = new QuestionNonDB("Estabilidade do tronco", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Nítida oscilação ou utiliza auxiliar de marcha", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Sem oscilação mas com flexão dos joelhos ou coluna ou " +
+                "afasta os braços do tronco enquanto caminha", 1));
+        choiceNonDBs.add(new ChoiceNonDB("Sem oscilação, sem flexão, não utliza os braços, nem" +
+                "auxiliares de marcha", 2));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        // 19
+        question = new QuestionNonDB("Base de sustentação durante a marcha ", false);
+        choiceNonDBs = new ArrayList<>();
+        choiceNonDBs.add(new ChoiceNonDB("Calcanhares muito afastados", 0));
+        choiceNonDBs.add(new ChoiceNonDB("Calcanhares próximos, quase se tocam", 1));
+        question.setChoices(choiceNonDBs);
+        tinettiScale.addQuestion(question);
+
+        return tinettiScale;
     }
 
 
@@ -1774,6 +1879,8 @@ public class Scales {
                 return setTest();
             case Constants.test_name_hamilton:
                 return hamiltonDepressionScale();
+            case Constants.test_name_tinetti:
+                return tinettiScale();
         }
         return null;
     }
@@ -1868,10 +1975,11 @@ public class Scales {
         tests.add(valoracionSocioFamiliarGijon());
         tests.add(zaritBurdenInterview());
         tests.add(barthelIndex());
-        tests.add(shortPortableMentalStatus());
+        //tests.add(shortPortableMentalStatus());
         tests.add(clockDrawing());
-        tests.add(setTest());
-        tests.add(hamiltonDepressionScale());
+//        tests.add(setTest());
+        // tests.add(hamiltonDepressionScale());
+        tests.add(tinettiScale());
         return tests;
     }
 

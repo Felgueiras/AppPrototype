@@ -8,17 +8,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.EmptyStateFragment;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
+import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
+import com.getbase.floatingactionbutton.AddFloatingActionButton;
 
 public class EvaluationsHistoryMain extends Fragment {
 
     private final ViewPager viewPager;
+    private final int page;
     private FragmentManager fragmentManager;
 
-    public EvaluationsHistoryMain(ViewPager viewPager) {
+    public EvaluationsHistoryMain(ViewPager viewPager, int position) {
         this.viewPager = viewPager;
+        this.page = position;
     }
 
     @Override
@@ -42,25 +48,23 @@ public class EvaluationsHistoryMain extends Fragment {
 
         } else {
             fragmentManager = getFragmentManager();
-            Fragment fragment = new EvaluationsHistoryGrid(viewPager);
+            Fragment fragment = new EvaluationsHistoryGrid(viewPager, page);
             fragmentManager.beginTransaction()
                     .replace(R.id.evaluation_history_frame_layout, fragment)
                     .commit();
         }
 
-//        // FAB
-//        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.new_evaluation_fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                // create a new Session - switch to CreatePatient Fragment
-//                Bundle args = null;
-//                FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), args, Constants.tag_create_session);
-//
-//
-//            }
-//        });
+        // create a new session without a patient
+        AddFloatingActionButton fab = (AddFloatingActionButton) view.findViewById(R.id.new_evaluation_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // create a new Session - switch to CreatePatient Fragment
+                Bundle args = null;
+                FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), args, Constants.tag_create_session_no_patient);
+            }
+        });
 
         return view;
     }

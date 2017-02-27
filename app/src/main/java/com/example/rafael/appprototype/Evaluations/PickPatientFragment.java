@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ViewPatients;
+package com.example.rafael.appprototype.Evaluations;
 
 import android.app.Fragment;
 import android.app.SearchManager;
@@ -18,9 +18,9 @@ import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
-import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Patients.SinglePatient.PatientCard;
 import com.example.rafael.appprototype.R;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
@@ -30,19 +30,9 @@ import java.util.ArrayList;
 /**
  * Display the list of Patients to view them or select one of them.
  */
-public class PatientsListFragment extends Fragment {
+public class PickPatientFragment extends Fragment {
 
-    public static String selectPatient = "selectPatient";
-    private final ViewPager viewPager;
-    private final int page;
     private PatientCard adapter;
-
-    public PatientsListFragment(ViewPager viewPager, int position) {
-        this.viewPager = viewPager;
-        this.page = position;
-
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,30 +44,26 @@ public class PatientsListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         super.onCreateOptionsMenu(menu, inflater);
-        if (viewPager.getCurrentItem() == page) {
-            inflater.inflate(R.menu.menu_search, menu);
-            Log.d("Menu", "Patients 2");
+        inflater.inflate(R.menu.menu_search, menu);
 
 
-            SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-            SearchView searchView = (SearchView) menu.findItem(R.id.listsearch).getActionView();
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.listsearch).getActionView();
 
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-            searchView.setIconifiedByDefault(true);
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    return false;
-                }
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setIconifiedByDefault(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    adapter.getFilter().filter(newText);
-                    return false;
-                }
-            });
-        }
-
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
     }
 
@@ -87,19 +73,13 @@ public class PatientsListFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_patients_list, container, false);
-        getActivity().setTitle(getResources().getString(R.string.tab_my_patients));
+        getActivity().setTitle(getResources().getString(R.string.pick_patient));
+
+        // signal a patient is to be chosen
+        Constants.selectPatient = true;
 
         // get the patients
         ArrayList<Patient> patients = Patient.getAllPatients();
-
-        // read arguments
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            if (arguments.getBoolean(selectPatient, false)) {
-                Log.d("Patient", "Going to select patient");
-                Constants.selectPatient = true;
-            }
-        }
 
         // fill the RecyclerView
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -120,7 +100,6 @@ public class PatientsListFragment extends Fragment {
                 // create a new Patient - switch to CreatePatient Fragment
                 Bundle args = new Bundle();
                 FragmentTransitions.replaceFragment(getActivity(), new CreatePatient(), args, Constants.tag_create_patient);
-
 
             }
         });

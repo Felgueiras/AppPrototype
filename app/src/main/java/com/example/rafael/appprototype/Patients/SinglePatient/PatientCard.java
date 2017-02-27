@@ -2,7 +2,9 @@ package com.example.rafael.appprototype.Patients.SinglePatient;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,14 +15,20 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Main.PrivateArea;
+import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.SharedPreferencesHelper;
 
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> implements Filterable {
 
@@ -100,10 +108,21 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
                     Log.d("Patient", "Selected patient");
                     // go back to CreateSession
                     Bundle args = new Bundle();
-                    args.putSerializable(CGAPrivate.PATIENT, patient);
-                    args.putBoolean(CGAPrivate.SAVE_SESSION, true);
-                    FragmentTransitions.replaceFragment(context,new CGAPrivate(), args, "");
+                    // add Patient to Session
+                    SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+                    String sessionID = sharedPreferences.getString(context.getString(R.string.saved_session_private), null);
+
+                        // get session by ID
+                    Session session = Session.getSessionByID(sessionID);
+                    session.setPatient(patient);
+                    session.eraseScalesNotCompleted();
+                    session.save();
+
+                    // reset current private session
+                    SharedPreferencesHelper.resetPrivateSession(context,"");
+                    FragmentTransitions.replaceFragment(context, new PatientsMain(), args, "");
                     Constants.selectPatient = false;
+                    Snackbar.make(v, context.getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
                 } else {
                     // TODO add shared elements for transitions
                     Fragment endFragment = new ViewSinglePatientInfo();

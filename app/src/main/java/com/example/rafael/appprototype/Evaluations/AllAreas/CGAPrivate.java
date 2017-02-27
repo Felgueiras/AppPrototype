@@ -28,6 +28,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.Scales;
 import com.example.rafael.appprototype.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
+import com.example.rafael.appprototype.Evaluations.PickPatientFragment;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Patients.ViewPatients.PatientsListFragment;
@@ -47,7 +48,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class CGAPrivate extends Fragment {
 
     public static final String PATIENT = "patient";
-    public static final String SAVE_SESSION = "save";
     public static String GENDER = "gender";
 
 
@@ -79,7 +79,6 @@ public class CGAPrivate extends Fragment {
         // Inflate the layout for this fragment
         View myInflatedView = inflater.inflate(R.layout.content_new_session_tab, container, false);
         getActivity().setTitle(getResources().getString(R.string.cga));
-
 
 
         // check the Constants
@@ -204,16 +203,15 @@ public class CGAPrivate extends Fragment {
                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-//                                    /**
-//                                     * Open the fragment to pick an already existing Patient.
-//                                     */
-//                                    Constants.pickingPatient = true;
-//                                    Bundle args = new Bundle();
-//                                    args.putBoolean(PatientsListFragment.selectPatient, true);
-//                                    FragmentTransitions.replaceFragment(getActivity(), new PatientsListFragment(), args,
-//                                            Constants.fragment_show_patients);
-//                                    dialog.dismiss();
-//                                    Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
+                                    /**
+                                     * Open the fragment to pick an already existing Patient.
+                                     */
+                                    Constants.pickingPatient = true;
+                                    Bundle args = new Bundle();
+                                    args.putBoolean(PatientsListFragment.selectPatient, true);
+                                    FragmentTransitions.replaceFragment(getActivity(), new PickPatientFragment(), args,
+                                            Constants.fragment_show_patients);
+                                    dialog.dismiss();
                                 }
                             });
                     alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
@@ -262,13 +260,10 @@ public class CGAPrivate extends Fragment {
 //                    }
                 }
 
-                List<GeriatricScale> finalTests = session.getScalesFromSession();
-                for (GeriatricScale test : finalTests) {
-                    if (!test.isCompleted()) {
-                        test.setSession(null);
-                        test.delete();
-                    }
-                }
+                /**
+                 * Erase scales that weren't completed.
+                 */
+                session.eraseScalesNotCompleted();
 
                 Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
                 BackStackHandler.goToPreviousScreen();
@@ -290,8 +285,7 @@ public class CGAPrivate extends Fragment {
                                 sharedPreferences.edit().putString(getString(R.string.saved_session_private), null).apply();
                                 BackStackHandler.discardSession(session.getPatient());
                                 dialog.dismiss();
-
-                                // Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
+                                Snackbar.make(getView(), getResources().getString(R.string.session_discarded), Snackbar.LENGTH_SHORT).show();
                             }
                         });
                 alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),

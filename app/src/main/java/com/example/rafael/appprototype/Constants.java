@@ -32,6 +32,8 @@ public class Constants {
     public static final String test_name_clock_drawing = "Clock drawing test";
     public static final String test_name_set_set = "Set Test de Isaacs";
     public static final String test_name_hamilton = "Hamilton Depression Rating Scale";
+    public static final String test_name_tinetti = "Escala de Tinetti";
+
 
 
     public static final String[] allTests = new String[]{
@@ -55,7 +57,8 @@ public class Constants {
 
 
     // create new Session
-    public static final String tag_create_new_session_for_patient = "createNewSessionForPatient";
+    public static final String tag_create_session_with_patient = "tag_create_session_with_patient";
+    public static final String tag_create_session_no_patient = "tag_create_session_no_patient";
     public static final String tag_display_session_scale = "tag_display_session_scale";
     // review Evaluation
     public static final String tag_view_sessions_history = "viewSessionsHistory";
@@ -78,7 +81,6 @@ public class Constants {
      */
     public static String SESSION_ID = null;
     public static boolean pickingPatient = false;
-    public static String tag_create_session = "createSession";
     public static String userName = "userName";
     public static int vpPatientsPage = 0;
     public static int vpPrescriptionPage = 0;

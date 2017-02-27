@@ -85,9 +85,9 @@ public class PatientsMain extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new PatientsListFragment(viewPager);
+                return new PatientsListFragment(viewPager, position);
             } else if (position == 1) {
-                return new EvaluationsHistoryMain(viewPager);
+                return new EvaluationsHistoryMain(viewPager, position);
             } else if (position == 2) {
                 return new FavoritePatientsMain();
             }

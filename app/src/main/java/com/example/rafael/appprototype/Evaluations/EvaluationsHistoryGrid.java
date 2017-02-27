@@ -30,11 +30,13 @@ import java.util.List;
 public class EvaluationsHistoryGrid extends Fragment {
 
     private final ViewPager viewPager;
+    private final int page;
     private ListAdapter adapter;
     private GridView gridView;
 
-    public EvaluationsHistoryGrid(ViewPager viewPager) {
+    public EvaluationsHistoryGrid(ViewPager viewPager, int page) {
         this.viewPager = viewPager;
+        this.page = page;
     }
 
     // Store instance variables based on arguments passed
@@ -50,7 +52,7 @@ public class EvaluationsHistoryGrid extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sessions_history_grid, container, false);
         // fill the GridView
-        gridView =  (GridView) view.findViewById(R.id.gridView);
+        gridView = (GridView) view.findViewById(R.id.gridView);
         adapter = new ShowEvaluationsAllDays(getActivity(), this);
         gridView.setAdapter(adapter);
 
@@ -60,10 +62,9 @@ public class EvaluationsHistoryGrid extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        if(viewPager.getCurrentItem() == 1)
-        {
+        if (viewPager.getCurrentItem() == page) {
             inflater.inflate(R.menu.menu_evaluations, menu);
-            Log.d("Menu","Evaluations");
+            Log.d("Menu", "Evaluations");
         }
     }
 

@@ -44,7 +44,6 @@
     <string name="search_drugs">Escreva nome de medicamento...</string>
     <string name="tab_drug_prescription">Prescrição</string>
     <string name="stoppCriteriaDisclaimer">Pesquise pelo nome de um composto ativo ou medicamento e veja os critérios Stopp associados</string>
-    <string name="startCriteriaDisclaimer">Primeiro selecione o sistema em causa e tenha acesso aos critérios Start relativos aos medicamentos</string>
     <string name="beersCriteriaDisclaimer">Pesquise pelo nome de um composto ativo ou medicamento e veja os critérios Beers associados</string>
     <string name="patient_favorite_add">Paciente adicionado aos favoritos</string>
     <string name="patient_favorite_remove">Paciente removido dos favoritos</string>
@@ -54,15 +53,15 @@
     <string name="search_hint">Dica de pesquisa</string>
     <string name="selected_drugs">Medicamentos selecionados:</string>
     <string name="create_patient_success">Paciente criado com sucesso</string>
-    <string name="session_created">Avaliação criada com sucesso</string>
+    <string name="session_created">Sessão criada com sucesso</string>
     <string name="drugSearchDisclaimer">Search by the name of a drug</string>
-    <string name="session_discard">Descartar</string>
+    <string name="session_discard">Cancelar</string>
     <string name="session_save">Guardar</string>
-    <string name="session_discard_question">Deseja descartar a avaliação atual?</string>
-    <string name="evaluation_results">Resultados da avaliação</string>
+    <string name="session_discard_question">Deseja cancelar a sessão atual?</string>
+    <string name="evaluation_results">Resultados da sessão</string>
     <string name="all_questions_answered">Todas as questões respondidas</string>
     <string name="actions_account">Conta</string>
-    <string name="add_session">Adicionar uma avaliação</string>
+    <string name="add_session">Adicionar uma sessão</string>
     <string name="no_sessions_for_patient">Paciente ainda não foi avaliado</string>
     <string name="no_sessions_history">Não avaliou ainda nenhum paciente</string>
     <string name="fragment_text_trans"></string>
@@ -82,7 +81,7 @@
     <string name="beers_recommendation">Recomendação:</string>
     <string name="beers_strength_recommendation">Força de recomendação:</string>
     <string name="drugs_all">Todas</string>
-    <string name="evaluations_disclaimer">Para criar uma nova Avaliação, pressione o botão +</string>
+    <string name="evaluations_disclaimer">Para criar uma nova Sessão, pressione o botão +</string>
     <string name="help_about">Sobre a aplicação</string>
     <string name="help_evaluations_description">Ver as últimas avaliações, pode pesquisar por data.</string>
     <string name="help_features">Funcionalidades</string>
@@ -98,7 +97,8 @@
 
         Os critérios Start encontram-se organizados por sistema (urogenital, gastrointestinal, etc) e indicam em que situações
         clínicas certos compostos químicos devem ser prescritos. Os critérios Stopp e de Beers estão organizados da mesma forma
-        e indicam quais os compostos a evitar dependendo do historial clínico.
+        e indicam quais os compostos a evitar dependendo do historial clínico. QE refere-se a "quality of evidence" e SR é
+        "strength of recommendation".
     </string>
     <string name="help_features_description">
         Esta aplicação permite realizar a AGG e acompanhar a evolução de um paciente, caso o utilizador
@@ -157,8 +157,8 @@ física y/o verbal.
     Aborda as atividades da vida diária, dividindo-as em básicas (ABVD - independência para o auto-cuidado) e
     instrumentais (AIVD - independência para viver sozinho).
     </string>
-    <string name="session_reset">Reset</string>
-    <string name="session_reset_question">Deseja fechar esta sessão?</string>
+    <string name="session_reset">Terminar</string>
+    <string name="session_reset_question">Deseja terminar esta sessão?</string>
     <string name="evaluations">Avaliações</string>
     <string name="consult_progress">Consultar progresso</string>
     <string name="progress">Progresso</string>
@@ -202,6 +202,8 @@ serviços e intervenções, que respondam aos seus problemas,
     <string name="info_prescription">
         Aqui pode consultar todos os compostos químicos associados a medicamentos prescritos a pacientes
         geriátricos. Os compostos estão também agrupados pelos critérios Start, Stopp e de Beers.
+        \n\n
+        Para consultar os critérios Start selecione primeiro o sistema em causa.
     </string>
     <string name="intro_welcome_message">Bem-vindo ao protótipo</string>
     <string name="intro_brief_description">Esta aplicação permite-lhe aplicar a Avaliação Geriátrica Global.</string>
@@ -240,4 +242,6 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="patient_erase_question">Deseja eliminar este paciente?</string>
     <string name="patient_erase_snackbar">Paciente eliminado.</string>
     <string name="numerical_question_overflow">O valor que introduziu não é permitido.</string>
+    <string name="session_discarded">Sessão descartada.</string>
+    <string name="pick_patient">Selecione o paciente</string>
 </resources>

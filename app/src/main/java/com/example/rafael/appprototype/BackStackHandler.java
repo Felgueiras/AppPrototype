@@ -13,7 +13,6 @@ import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivate;
 import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
 import com.example.rafael.appprototype.Patients.PatientProgress.ProgressDetail;
-import com.example.rafael.appprototype.Patients.ViewPatients.PatientsListFragment;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
@@ -66,8 +65,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             /**
              * Only pop backstack if changing fragments/screens
              */
-            if (!tag.equals(Constants.tag_create_session) &&
-                    !tag.equals(Constants.tag_create_new_session_for_patient) &&
+            if (!tag.equals(Constants.tag_create_session_no_patient) &&
+                    !tag.equals(Constants.tag_create_session_with_patient) &&
                     !tag.equals(Constants.tag_cga_public)) {
                 fragmentManager.popBackStack();
             }
@@ -156,11 +155,11 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 fragment = new PatientsMain();
             } else if (tag.equals(Constants.tag_view_drug_info)) {
                 fragment = new DrugPrescriptionMain();
-            } else if (tag.equals(Constants.tag_create_session)) {
+            } else if (tag.equals(Constants.tag_create_session_no_patient)) {
                 Log.d("Stack", "pressed back in new session");
                 ((CGAPrivate) currentFragment).discardFAB.performClick();
                 return;
-            } else if (tag.equals(Constants.tag_create_new_session_for_patient)) {
+            } else if (tag.equals(Constants.tag_create_session_with_patient)) {
                 Log.d("Stack", "pressed back in new session with patient");
                 ((CGAPrivate) currentFragment).discardFAB.performClick();
                 return;
@@ -225,8 +224,13 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
         }
     }
 
+    /**
+     * Discard a session
+     *
+     * @param patient Session's patient or null if there is no Patient
+     */
     public static void discardSession(Patient patient) {
-        System.out.println(patient);
+        Log.d("Session", "Discarding session for patient " + patient);
         fragmentManager.popBackStack();
         Bundle args = new Bundle();
         Fragment fr = fragmentManager.findFragmentById(R.id.current_fragment);
@@ -236,9 +240,21 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
         // session is created -> go back to the Patient session view
         sharedPreferences.edit().putString(context.getString(R.string.saved_session_private), null).apply();
 
-        args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
-        Fragment fragment = new ViewSinglePatientInfo();
-        fragment.setArguments(args);
+        Fragment fragment = null;
+        if (patient != null) {
+            /**
+             * Session with patient.
+             */
+            fragment = new ViewSinglePatientInfo();
+            args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
+            fragment.setArguments(args);
+
+        } else {
+            /**
+             * Session with no patient.
+             */
+            fragment = new PatientsMain();
+        }
 
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
         fragmentManager.beginTransaction()
@@ -268,11 +284,11 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
         String tagCurrent = backEntryCurrent.getName();
         Log.d("Stack", "Current tag:" + tagCurrent);
 
-        if (tagCurrent.equals(Constants.tag_create_session)) {
+        if (tagCurrent.equals(Constants.tag_create_session_no_patient)) {
             fragmentManager.popBackStack();
             fragment = new PatientsMain();
 
-        } else if (tagCurrent.equals(Constants.tag_create_new_session_for_patient) ||
+        } else if (tagCurrent.equals(Constants.tag_create_session_with_patient) ||
                 tagCurrent.equals(Constants.tag_display_single_area_private)) {
             FragmentManager.BackStackEntry backEntryPrevious = fragmentManager.getBackStackEntryAt(index - 1);
 

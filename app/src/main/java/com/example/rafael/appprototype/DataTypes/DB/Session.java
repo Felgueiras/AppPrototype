@@ -44,7 +44,6 @@ public class Session extends Model implements Serializable {
     }
 
 
-
     public GeriatricScale getScaleByName(String scaleName) {
         List<GeriatricScale> scalesFromSession = getMany(GeriatricScale.class, "session");
         for (int i = 0; i < scalesFromSession.size(); i++) {
@@ -211,4 +210,14 @@ public class Session extends Model implements Serializable {
     }
 
 
+    public void eraseScalesNotCompleted() {
+        List<GeriatricScale> finalTests = getScalesFromSession();
+        for (GeriatricScale test : finalTests) {
+            if (!test.isCompleted()) {
+                test.setSession(null);
+                test.delete();
+            }
+        }
+
+    }
 }
