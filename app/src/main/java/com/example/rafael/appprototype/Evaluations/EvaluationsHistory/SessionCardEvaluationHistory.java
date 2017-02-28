@@ -2,6 +2,8 @@ package com.example.rafael.appprototype.Evaluations.EvaluationsHistory;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,20 +45,21 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView patientName;
         public ImageView photo, overflow;
-        public ListView testsList;
+        public RecyclerView testsList;
 
         public MyViewHolder(View view) {
             super(view);
             patientName = (TextView) view.findViewById(R.id.patientName);
-            photo = (ImageView) view.findViewById(R.id.patientPhoto);
+//            photo = (ImageView) view.findViewById(R.id.patientPhoto);
 //            overflow = (ImageView) view.findViewById(R.id.overflow);
-            testsList = (ListView) view.findViewById(R.id.session_tests_results);
+            testsList = (RecyclerView) view.findViewById(R.id.recyclerview);
         }
     }
 
     /**
      * Constructor of the SessionCardEvaluationHistory
-     *  @param context
+     *
+     * @param context
      * @param sessionsList
      * @param fragment
      */
@@ -80,7 +83,6 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
         Patient patient = session.getPatient();
         if (patient != null) {
             holder.patientName.setText(patient.getName());
-            //holder.age.setText(patient.getAge());
             // loading album cover using Glide library
             //Glide.with(context).load(patient.getPicture()).into(holder.photo);
         }
@@ -97,12 +99,20 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
             }
         });
 
+        /**
+         * Setup list.
+         */
+        holder.testsList.setHasFixedSize(true);
 
-        // display the result for the tests
-        SessionScalesAdapter adapter = new SessionScalesAdapter(context, scalesFromSession);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        holder.testsList.setLayoutManager(layoutManager);
+
+        SessionScalesAdapterRecycler adapter = new SessionScalesAdapterRecycler(context, scalesFromSession);
         holder.testsList.setAdapter(adapter);
 
-//        holder.overflow.setOnClickListener(new SessionCardHelper(holder.overflow, position, context, session, fragment));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
+                layoutManager.getOrientation());
+        holder.testsList.addItemDecoration(dividerItemDecoration);
     }
 
 

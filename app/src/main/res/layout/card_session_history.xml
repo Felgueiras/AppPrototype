@@ -1,52 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/card_margin"
+    android:elevation="3dp"
+    card_view:cardCornerRadius="@dimen/card_album_radius">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/card_margin"
-        android:elevation="3dp"
-        card_view:cardCornerRadius="@dimen/card_album_radius">
-
-        <RelativeLayout
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/patientName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/patientPhoto"
+            android:paddingLeft="@dimen/album_title_padding"
+            android:paddingRight="@dimen/album_title_padding"
+            android:paddingTop="@dimen/album_title_padding"
+            android:text="Nome do paciente"
+            android:textColor="@color/album_title"
+            android:textSize="@dimen/patient_name_size" />
 
-            <!--<ImageView-->
-                <!--android:id="@+id/overflow"-->
-                <!--android:layout_width="@dimen/ic_album_overflow_width"-->
-                <!--android:layout_height="@dimen/ic_album_overflow_height"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:layout_marginTop="@dimen/ic_album_overflow_margin_top"-->
-                <!--android:scaleType="centerCrop"-->
-                <!--android:src="@drawable/ic_dots" />-->
-
-            <TextView
-                android:id="@+id/patientName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/patientPhoto"
-                android:paddingLeft="@dimen/album_title_padding"
-                android:paddingRight="@dimen/album_title_padding"
-                android:paddingTop="@dimen/album_title_padding"
-                android:textColor="@color/album_title"
-                android:textSize="@dimen/patient_name_size"
-                android:text="Nome do paciente"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 
 
-            <ListView
-                android:layout_below="@+id/patientName"
-                android:id="@+id/session_tests_results"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="vertical">-->
 
-        </RelativeLayout>
+        <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/overflow"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="@dimen/ic_album_overflow_width"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="@dimen/ic_album_overflow_height"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_alignParentRight="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_marginTop="@dimen/ic_album_overflow_margin_top"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:scaleType="centerCrop"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:src="@drawable/ic_dots" />&ndash;&gt;-->
 
-    </android.support.v7.widget.CardView>
 
-</LinearLayout>
+
+
+        <!--<ListView-->
+            <!--android:id="@+id/session_tests_results"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/patientName" />-->
+
+    <!--</LinearLayout>-->
+
+
+</android.support.v7.widget.CardView>

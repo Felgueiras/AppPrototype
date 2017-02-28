@@ -1,31 +1,15 @@
-- mental state folstein
-- Not every items appear in list
-- Too much information about test
 - Clicking on an already selected item in the navigation drawer should
  not reload the current fragment. What if I hadn’t already saved
   the info I had put in it? It would be lost and I would have to insert it again
-- There should be documentation about a sample workflow for using the app
 - Text sometimes small
-- view session results with no patient
 
-Médico:
-- o que fazer na 1ª avaliação?
-- dividir em 4 esferas e não 5
-- incluir subcategoria
+- mental state folstein
+- view session results with no patient
 
 1. ESTADO FUNCIONAL
        - Atividades avançadas da vida diária: não há escala mas poderá aparecer só a pergunta se o
         indivíduo é capaz de realizar tarefas que permitem a sua colaboração em atividades sócio-recreativas e trabalho,
          utilização de tecnologia (Ipad),
           viagens e exercício físico intenso;
-
-
-2. ESTADO MENTAL
-       - Estado cognitivo:
-            * Mini-Mental State Examination de Folstein (não esquecer a correlação com o nível de habilitações literárias);
-            * Retirava a SPMSQ - penso que não acrescenta nada de novo;
-            * Clock Drawing - o clínico é que faria a pontuação de acordo com o desenho do doente;
-       - Estado afetivo: Escala depressão Yesavage curta
-- burden interview (não é usada?)
 
 

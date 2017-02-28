@@ -47,7 +47,7 @@ public class GraphViewHelper {
         }
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>(points);
         // set date label formatter
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm");
 
         boolean hardwareAccelerated = graph.isHardwareAccelerated();
         System.out.println("hawrdare? " + hardwareAccelerated);

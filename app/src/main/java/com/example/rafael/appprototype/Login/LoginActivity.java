@@ -312,7 +312,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Log.d("Login","Logged in");
                 // save userName on shared pref
                 SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
-                sharedPreferences.edit().putString(Constants.userName, "Médico Geriatra").apply();
+                sharedPreferences.edit().putString(Constants.userName, "[username]").apply();
                 sharedPreferences.edit().putBoolean(Constants.logged_in, true).apply();
 
                 boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);

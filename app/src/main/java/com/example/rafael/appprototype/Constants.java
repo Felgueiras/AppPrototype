@@ -25,7 +25,7 @@ public class Constants {
     public static final String test_name_mini_mental_state = "Mini mental state examination (Folstein)";
     public static final String test_name_mini_nutritional_assessment_triagem = "Mini nutritional assessment - triagem";
     public static final String test_name_mini_nutritional_assessment_global = "Mini nutritional assessment - avaliação global";
-    public static final String test_name_valoracionSocioFamiliar = "Valoración SocioFamiliar";
+    public static final String test_name_valoracionSocioFamiliar = "Valoración Socio-Familiar de Gijón";
     public static final String test_name_burden_interview = "Zarit Burden Interview";
     public static final String test_name_barthel_index = "Barthel Index";
     public static final String test_name_short_portable_mental_status = "Short Portable Mental Status Questionnaire";
@@ -97,14 +97,15 @@ public class Constants {
      */
     public static final String cga_clinical = "Avaliação clínica";
     public static final String cga_afective = "Estado afetivo";
-    public static final String cga_cognitivo = "Estado cognitivo";
+    public static final String cga_cognitive = "Estado cognitivo";
     public static final String cga_nutritional = "Estado nutricional";
     public static final String cga_functional = "Estado funcional";
+    public static final String cga_mental = "Estado mental";
     public static final String cga_social = "Situação social";
     public static String[] cga_areas = new String[]{
-            cga_afective,
+            cga_mental,
 //            cga_clinical,
-            cga_cognitivo, cga_functional,
+            cga_functional,
             cga_nutritional, cga_social};
 
     /**

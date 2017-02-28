@@ -97,44 +97,45 @@ public class CGAAreaPublic extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_area, menu);
+//        inflater.inflate(R.menu.menu_area, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_info:
-                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                alertDialog.setTitle(area);
-                // add info about this area
-                String area_text = null;
-                switch (area) {
-                    case Constants.cga_afective:
-                        area_text = getActivity().getResources().getString(R.string.cga_afective);
-                        break;
-                    case Constants.cga_clinical:
-                        area_text = Constants.clinical_evaluation_tips + "\n" + Constants.clinical_evaluation_what_to_do;
-                        break;
-                    case Constants.cga_cognitivo:
-                        area_text = getActivity().getResources().getString(R.string.cga_cognitive);
-                        break;
-                    case Constants.cga_functional:
-                        area_text = getActivity().getResources().getString(R.string.cga_functional);
-                        break;
-                    case Constants.cga_nutritional:
-                        area_text = getActivity().getResources().getString(R.string.cga_nutritional);
-                        break;
-                    case Constants.cga_social:
-                        area_text = getActivity().getResources().getString(R.string.cga_social);
-                        break;
-                }
-                alertDialog.setMessage(area_text);
-                alertDialog.show();
-        }
-        return true;
-
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.action_info:
+//                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+//                alertDialog.setTitle(area);
+//                // add info about this area
+//                String area_text = null;
+//                switch (area) {
+//                    case Constants.cga_afective:
+//                        area_text = getActivity().getResources().getString(R.string.cga_afective);
+//                        break;
+//                    case Constants.cga_clinical:
+//                        area_text = Constants.clinical_evaluation_tips + "\n" + Constants.clinical_evaluation_what_to_do;
+//                        break;
+//                    case Constants.cga_cognitive:
+//                        area_text = getActivity().getResources().getString(R.string.cga_cognitive);
+//                        break;
+//                    case Constants.cga_functional:
+//                        area_text = getActivity().getResources().getString(R.string.cga_functional);
+//                        break;
+//                    case Constants.cga_nutritional:
+//                        area_text = getActivity().getResources().getString(R.string.cga_nutritional);
+//                        break;
+//                    case Constants.cga_social:
+//                        area_text = getActivity().getResources().getString(R.string.cga_social);
+//                        break;
+//                }
+//                alertDialog.setMessage(area_text);
+//                alertDialog.show();
+//        }
+//        return true;
+//
+//    }
 
 }
 

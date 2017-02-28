@@ -117,14 +117,11 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
                 // add info about this area
                 String area_text = null;
                 switch (area) {
-                    case Constants.cga_afective:
-                        area_text = context.getResources().getString(R.string.cga_afective);
+                    case Constants.cga_mental:
+                        area_text = context.getResources().getString(R.string.cga_mental);
                         break;
                     case Constants.cga_clinical:
                         area_text = Constants.clinical_evaluation_tips + "\n" + Constants.clinical_evaluation_what_to_do;
-                        break;
-                    case Constants.cga_cognitivo:
-                        area_text = context.getResources().getString(R.string.cga_cognitive);
                         break;
                     case Constants.cga_functional:
                         area_text = context.getResources().getString(R.string.cga_functional);

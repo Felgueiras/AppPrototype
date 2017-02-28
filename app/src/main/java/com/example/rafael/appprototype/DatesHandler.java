@@ -18,7 +18,7 @@ public class DatesHandler {
      * @return Date object for that String
      */
     public static Date stringToDate(String dateString) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         Date date = null;
         try {
             date = format.parse(dateString);
@@ -37,14 +37,14 @@ public class DatesHandler {
      * @return String representation of that Date
      */
     public static String dateToString(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm");
         String datetime;
         datetime = format.format(date);
         return datetime;
     }
 
     public static String dateToStringWithoutHour(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         String datetime;
         datetime = format.format(date);
         return datetime;

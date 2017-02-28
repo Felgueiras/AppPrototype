@@ -103,7 +103,10 @@
     <string name="help_features_description">
         Esta aplicação permite realizar a AGG e acompanhar a evolução de um paciente, caso o utilizador
         esteja autenticado no sistema. Tem como objetivo auxiliar os profissionais de saúde a aplicar este método e
-        fornecer-lhes auxílio enquanto realizam o ACG.
+        fornecer-lhes auxílio enquanto realizam o ACG.\n\n
+        Para avaliar um paciente na área pública clique em "Criar Sessão", selecione o género do paciente (o resultado
+        de certas escalas depende do género) e depois selecione a escala que pretende avaliar. Estas encontram-se agrupadas por
+        áreas . Quando quiser terminar a sessão volte ao ecrã onde estão todas as áreas, prima o botão "+" e selecione terminar.
         </string>
     <string name="help_patients_description">
         Em Pacientes, na sua área pessoal, pode ver os seus pacientes, as últimas avaliações e os pacientes favoritos.
@@ -153,6 +156,8 @@ física y/o verbal.
     localização dos recursos necessários, disponibilidade de transportes e recursos financeiros.</string>
     <string name="cga_nutritional">Detetar a presença ou risco de malnutrição sem recurso a parâmetros
     analíticos</string>
+    <string name="cga_mental">Composta por avaliação Cognitiva e Afetiva. A Cognitiva relaciona-se com o estado cognitivo do paciente, nomeadamente
+    orientação, memória, cálculo, pensamento abstracto, linguagem, etc. A Afetiva é afecta ao estado emocional do paciente, humor, tristeza e depressão.</string>
     <string name="cga_functional">Tem como objetivo determinar o grau de independência do paciente.
     Aborda as atividades da vida diária, dividindo-as em básicas (ABVD - independência para o auto-cuidado) e
     instrumentais (AIVD - independência para viver sozinho).

@@ -121,7 +121,7 @@ public class EvaluationsHistoryGrid extends Fragment {
             Calendar c = Calendar.getInstance();
             c.set(year, month, day);
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             String formattedDate = sdf.format(c.getTime());
 
             // get Sessions from that date

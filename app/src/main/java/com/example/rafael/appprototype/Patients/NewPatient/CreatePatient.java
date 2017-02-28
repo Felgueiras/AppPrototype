@@ -191,7 +191,7 @@ public class CreatePatient extends Fragment {
             c.set(year, month, day);
             selectedDate = c.getTime();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             String formattedDate = sdf.format(c.getTime());
             dateView.setText(formattedDate);
         }

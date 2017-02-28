@@ -74,7 +74,7 @@ public class Scales {
 
     public static GeriatricScaleNonDB hamiltonDepressionScale() {
         GeriatricScaleNonDB hamiltonScale = new GeriatricScaleNonDB(Constants.test_name_hamilton,
-                Constants.cga_afective, "",
+                Constants.cga_mental, Constants.cga_afective,
                 "• The HAM-D is designed to rate the severity of depression in patients.");
         hamiltonScale.setShortName("HAM-D");
         hamiltonScale.setMultipleChoice(true);
@@ -682,39 +682,25 @@ public class Scales {
     public static GeriatricScaleNonDB valoracionSocioFamiliarGijon() {
         GeriatricScaleNonDB valoracionSocioFamiliar = new GeriatricScaleNonDB(Constants.test_name_valoracionSocioFamiliar,
                 Constants.cga_social, "",
-                "Creada a finales de los años noventa, se emplea\n" +
-                        "para valorar la situación social y familiar de las personas\n" +
-                        "mayores que viven en domicilio. Su objetivo\n" +
-                        "es detectar situaciones de riesgo y problemas sociales\n" +
-                        "para la puesta en marcha de intervenciones\n" +
-                        "sociales. Evalúa cinco áreas de riesgo social: situación familiar, vivienda, relaciones y contactos sociales,\n" +
-                        "apoyos de la red social y situación económica. La\n" +
-                        "puntuación oscila entre 0 y 20, indicando mayor puntuación\n" +
-                        "peor situación social." +
-                        "¿Qué preguntas deberíamos hacer como geriatras\n" +
-                        "a un paciente para conocer su situación social?:\n" +
-                        "— ¿Soltero, casado o viudo?\n" +
-                        "— ¿Tiene hijos?; en caso afirmativo, ¿cuántos?,\n" +
-                        "¿viven en la misma ciudad?\n" +
-                        "— ¿Con quién vive?\n" +
-                        "— ¿Tiene contactos con familiares, amigos o vecinos?\n" +
-                        "¿Con qué frecuencia?\n" +
-                        "— ¿Cómo es el domicilio donde vive?\n" +
-                        "— ¿Tiene ascensor el edificio donde vive?\n" +
-                        "— ¿Precisa algún tipo de ayuda para su autocuidado?\n" +
-                        "— ¿Quién es la principal persona que le ayuda o le\n" +
-                        "cuida?, ¿tiene esa persona algún problema de\n" +
-                        "salud?\n" +
-                        "— ¿Recibe algún tipo de ayuda formal?");
-        valoracionSocioFamiliar.setShortName("Valoracion SocioFamiliar");
+                "• Se emplea para valorar la situación social y familiar de las personas " +
+                        "mayores que viven en domicilio. Su objetivo " +
+                        "es detectar situaciones de riesgo y problemas sociales " +
+                        "para la puesta en marcha de intervenciones sociales.\n" +
+                        "• Evalúa cinco áreas de riesgo social:" +
+                        " situación familiar," +
+                        " vivienda," +
+                        " relaciones y contactos sociales," +
+                        "apoyos de la red social" +
+                        " y situación económica");
+        valoracionSocioFamiliar.setShortName("Valoracion Socio-Familiar");
         valoracionSocioFamiliar.setMultipleChoice(true);
         // create Scoring
-        ScoringNonDB valoracionScoring = new ScoringNonDB(3, 15, false);
+        ScoringNonDB valoracionScoring = new ScoringNonDB(5, 25, false);
         // create Gradings
         ArrayList<GradingNonDB> gradings = new ArrayList<>();
-        gradings.add(new GradingNonDB("Situación social buena", 3, 7));
-        gradings.add(new GradingNonDB("Situación intermedia", 8, 9));
-        gradings.add(new GradingNonDB("Deterioro social severo", 10, 15));
+        gradings.add(new GradingNonDB("Buena/aceptable situación social", 5, 9));
+        gradings.add(new GradingNonDB("Existe riesgo social", 10, 14));
+        gradings.add(new GradingNonDB("Problema social", 15, 25));
         // add Gradings to Scoring
         valoracionScoring.setValuesBoth(gradings);
         // add Scoring to Test
@@ -722,7 +708,7 @@ public class Scales {
         // create Questions
 
         // Situación familiar
-        QuestionNonDB situaciónFamiliar = new QuestionNonDB("Situación familiar", false);
+        QuestionNonDB question = new QuestionNonDB("Situación familiar", false);
         ArrayList<ChoiceNonDB> choices = new ArrayList<>();
         choices.add(new ChoiceNonDB("1", "Vive con pareja y/o familia sin conflicto", 1));
         choices.add(new ChoiceNonDB("2", "Vive con pareja de similar edad", 2));
@@ -731,8 +717,30 @@ public class Scales {
         choices.add(new ChoiceNonDB("4", "Vive solo, hijos y/o familiares próximos que no cubren todas las " +
                 "necesidades", 4));
         choices.add(new ChoiceNonDB("5", "Vive solo, familia lejana, desatendido, sin familia", 5));
-        situaciónFamiliar.setChoices(choices);
-        valoracionSocioFamiliar.addQuestion(situaciónFamiliar);
+        question.setChoices(choices);
+        valoracionSocioFamiliar.addQuestion(question);
+
+        // Situación economica
+        question = new QuestionNonDB("Situación economica", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("1", "Más de 1,5 veces el salario mínimo", 1));
+        choices.add(new ChoiceNonDB("2", "Desde 1.5 veces el salario mínimo hasta el salario mínimo exclusive", 2));
+        choices.add(new ChoiceNonDB("3", "Desde el salario mínimo a pensión mínima contributiva", 3));
+        choices.add(new ChoiceNonDB("4", "Pensión no contributiva", 4));
+        choices.add(new ChoiceNonDB("5", "Sin ingresos o inferiores al apartado anterior", 5));
+        question.setChoices(choices);
+        valoracionSocioFamiliar.addQuestion(question);
+
+        // Situación economica
+        question = new QuestionNonDB("Vivienda", false);
+        choices = new ArrayList<>();
+        choices.add(new ChoiceNonDB("1", "Adecuada a necesidades", 1));
+        choices.add(new ChoiceNonDB("2", "Barreras arquitectónicas en la vivienda o portal de la casa", 2));
+        choices.add(new ChoiceNonDB("3", "Humedades, mala higiene, equipamiento inadecuado", 3));
+        choices.add(new ChoiceNonDB("4", "Ausencia ascensor, teléfono", 4));
+        choices.add(new ChoiceNonDB("5", "Vivienda inadecuada (vivienda declarada en ruina, ausencia de equipamientos minimos)", 5));
+        question.setChoices(choices);
+        valoracionSocioFamiliar.addQuestion(question);
 
         // Relaciones y contactos sociales
         QuestionNonDB relacionesContactos = new QuestionNonDB("Relaciones y contactos sociales", false);
@@ -900,21 +908,16 @@ public class Scales {
 
     public static GeriatricScaleNonDB clockDrawing() {
         GeriatricScaleNonDB clockDrawing = new GeriatricScaleNonDB(Constants.test_name_clock_drawing,
-                Constants.cga_cognitivo, "",
-                "• Procedimento: \n" +
+                Constants.cga_mental, Constants.cga_cognitive,
+                "• Se trata de un test sencillo que valora el funcionamiento " +
+                        "cognitivo global, principalmente la apraxia " +
+                        "constructiva, la ejecución motora, la atención, la comprensión" +
+                        "y el conocimiento numérico\n" +
+                        "• Procedimento: \n" +
                         "Step 1: Give patient a sheet of paper with a large (relative to the size of handwritten\n" +
                         "numbers) predrawn circle on it. Indicate the top of the page.\n" +
                         "Step 2: Instruct patient to draw numbers in the circle to make the circle look like the face\n" +
                         "of a clock and then draw the hands of the clock to read \"10 after 11.\" \n" +
-                        "•  Es un test de cribaje para examinar el deterioro cognitivo," +
-                        "aunque también se utiliza para seguir la evolución" +
-                        "de los cuadros confusionales.\n" +
-                        "• Se trata de un test sencillo que valora el funcionamiento " +
-                        "cognitivo global, principalmente la apraxia " +
-                        "constructiva, la ejecución motora, la atención, la comprensión" +
-                        "y el conocimiento numérico, mediante la orden " +
-                        "de dibujar un reloj (un círculo, las 12 horas del reloj) y" +
-                        "marcar una hora concreta (las 11:10).\n" +
                         "•  Higher scores reflect a greater number of errors and more impairment. A score of ≥3 represents\n" +
                         "a cognitive deficit, while a score of 1 or 2 is considered normal. ");
         clockDrawing.setShortName("Clock Drawing");
@@ -1011,13 +1014,14 @@ public class Scales {
      */
     public static GeriatricScaleNonDB escalaDepressaoYesavage() {
         GeriatricScaleNonDB escalaDepressao = new GeriatricScaleNonDB(Constants.test_name_escalaDepressaoYesavage,
-                Constants.cga_afective, "",
+                Constants.cga_mental, Constants.cga_afective,
+
                 "• Utilizada para o rastreio da depressão, avaliando aspectos cognitivos e " +
                         "comportamentais tipicamente afectados na depressão do idoso.\n" +
                         "• A informação é obtida através de questionário directo ao idoso.\n" +
-                        "• A escala de Yesavage tem uma versão completa, com 30 questões e uma versão" +
-                        "curta com 15 questões. A versão curta está validada pelo autor e os seus resultados" +
-                        " são sobreponíveis aos da versão completa, pelo que é a mais utilizada.\n" +
+//                        "• A escala de Yesavage tem uma versão completa, com 30 questões e uma versão" +
+//                        "curta com 15 questões. A versão curta está validada pelo autor e os seus resultados" +
+//                        " são sobreponíveis aos da versão completa, pelo que é a mais utilizada.\n" +
                         "• 15 questões com resposta dicotómica (Sim ou Não).\n" +
                         "• As respostas sugestivas de existência de depressão correspondem a 1 ponto.\n" +
                         "• Tempo de aplicação: 6 minutos.");
@@ -1553,7 +1557,7 @@ public class Scales {
      */
     public static GeriatricScaleNonDB mentalStateFolstein() {
         GeriatricScaleNonDB mentalState = new GeriatricScaleNonDB(Constants.test_name_mini_mental_state,
-                Constants.cga_cognitivo, "",
+                Constants.cga_mental, Constants.cga_cognitive,
                 "• Permite fazer uma avaliação sumária das funções cognitivas.\n" +
                         "• Avalia a orientação, memória imediata " +
                         "e recente, capacidade de atenção e cálculo, linguagem e capacidade construtiva.\n" +
@@ -1718,7 +1722,7 @@ public class Scales {
 
     public static GeriatricScaleNonDB setTest() {
         GeriatricScaleNonDB setTest = new GeriatricScaleNonDB(Constants.test_name_set_set,
-                Constants.cga_cognitivo, "",
+                Constants.cga_mental, Constants.cga_cognitive,
                 "• El Set-test fue introducido por Isaacs y Akhtar en\n" +
                         "1972  y propuesto\n" +
                         "como ayuda en el diagnóstico de la demencia en el\n" +
@@ -1792,7 +1796,7 @@ public class Scales {
 
     public static GeriatricScaleNonDB shortPortableMentalStatus() {
         GeriatricScaleNonDB shortPortableMentalStatus = new GeriatricScaleNonDB(Constants.test_name_short_portable_mental_status,
-                Constants.cga_cognitivo, "",
+                Constants.cga_mental, Constants.cga_cognitive,
                 "• Permite fazer uma avaliação sumária das funções cognitivas.\n" +
                         "•  Se trata de un test sencillo, breve y de aplicación" +
                         "rápida que explora orientación témporo-espacial," +
@@ -1973,7 +1977,7 @@ public class Scales {
         tests.add(miniNutritionalAssessmentGlobal());
         tests.add(recursosSociales());
         tests.add(valoracionSocioFamiliarGijon());
-        tests.add(zaritBurdenInterview());
+//        tests.add(zaritBurdenInterview());
         tests.add(barthelIndex());
         //tests.add(shortPortableMentalStatus());
         tests.add(clockDrawing());
