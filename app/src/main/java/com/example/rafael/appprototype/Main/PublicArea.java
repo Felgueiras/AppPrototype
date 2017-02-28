@@ -25,7 +25,7 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.example.rafael.appprototype.DatabaseGSONOps;
+import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragment;
@@ -151,7 +151,7 @@ public class PublicArea extends AppCompatActivity {
         if (sharedPreferences.getBoolean(Constants.first_run, true)) {
             Log.d("FIRST RUN", "first run");
             sharedPreferences.edit().putBoolean(Constants.first_run, false).commit();
-            DatabaseGSONOps.insertDataToDB();
+            //DatabaseOps.insertDataToDB();
         }
 
         // set handler for the Fragment stack
@@ -270,8 +270,8 @@ public class PublicArea extends AppCompatActivity {
 //        switch (item.getItemId()) {
 //            case R.id.erase_data:
 //                // erase all data
-//                DatabaseGSONOps.eraseAll();
-//                DatabaseGSONOps.insertDataToDB();
+//                DatabaseOps.eraseAll();
+//                DatabaseOps.insertDataToDB();
 //                return true;
 //            default:
 //                return super.onOptionsItemSelected(item);

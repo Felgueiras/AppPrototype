@@ -9,17 +9,17 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:name="com.activeandroid.app.Application"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:supportsRtl="false"
-        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="AA_DB_NAME"
@@ -40,7 +40,9 @@
 
         <activity
             android:name=".Login.LoginActivity"
-            android:label="@string/title_activity_login" />
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Tutorial.OtherActivity"
             android:launchMode="singleTop" />
@@ -55,15 +57,18 @@
         </activity>
         <activity android:name=".Tutorial.CalendarViewTutorial" />
         <activity android:name=".Tutorial.DatePickerActivity" />
-        <activity android:name=".Main.PublicArea">
+        <activity android:name=".Main.PublicArea"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main.PrivateArea"
-            android:hardwareAccelerated="true"></activity>
+        <activity
+            android:name=".Main.PrivateArea"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".TestFAB"></activity>
     </application>
 

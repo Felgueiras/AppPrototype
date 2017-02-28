@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DatabaseGSONOps;
+import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
@@ -124,7 +124,7 @@ public class PrivateArea extends AppCompatActivity {
         if (sharedPreferences.getBoolean(Constants.first_run, true)) {
             Log.d("FIRST RUN", "first run");
             sharedPreferences.edit().putBoolean(Constants.first_run, false).commit();
-            DatabaseGSONOps.insertDataToDB();
+            //DatabaseOps.insertDataToDB();
             // display login screen
             // TODO log in
             /*
@@ -253,16 +253,16 @@ public class PrivateArea extends AppCompatActivity {
 //        switch (item.getItemId()) {
 //            case R.id.erase_data:
 //                // erase all data
-//                DatabaseGSONOps.eraseAll();
-//                DatabaseGSONOps.insertDataToDB();
+//                DatabaseOps.eraseAll();
+//                DatabaseOps.insertDataToDB();
 //                return true;
 ////            case R.id.save_gson:
 ////                // save data as GSON
-////                DatabaseGSONOps.saveDataGson(this);
+////                DatabaseOps.saveDataGson(this);
 ////                return true;
 ////            case R.id.read_gson:
 ////                // save data as GSON
-////                DatabaseGSONOps.readDataGson(this);
+////                DatabaseOps.readDataGson(this);
 ////                return true;
 //            default:
 //                return super.onOptionsItemSelected(item);

@@ -32,7 +32,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Created by rafael on 08-10-2016.
  */
-public class DatabaseGSONOps {
+public class DatabaseOps {
 
 
     /**
