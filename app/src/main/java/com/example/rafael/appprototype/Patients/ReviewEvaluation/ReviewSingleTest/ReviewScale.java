@@ -249,7 +249,7 @@ public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder>
                     if (index2 > index1) {
                         // patient got worse
                         System.out.println("WORSE");
-                        ViewStub stubInfo = ((ViewStub) holder.itemView.findViewById(R.id.stub_graph_view)); // get the reference of ViewStub
+                        ViewStub stubInfo = ((ViewStub) holder.itemView.findViewById(R.id.area_info_stub)); // get the reference of ViewStub
                         if (stubInfo != null) {
                             // only inflate once
                             View inflated = stubInfo.inflate();

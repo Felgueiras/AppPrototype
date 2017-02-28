@@ -6,7 +6,7 @@
 
     <!--Stub for holding area info-->
     <ViewStub
-        android:id="@+id/stub_graph_view"
+        android:id="@+id/area_info_stub"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:inflatedId="@+id/inflatedview"

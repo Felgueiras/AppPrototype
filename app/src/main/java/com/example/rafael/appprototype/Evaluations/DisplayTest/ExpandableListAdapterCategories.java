@@ -2,9 +2,11 @@ package com.example.rafael.appprototype.Evaluations.DisplayTest;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.view.ViewStub;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.RadioGroup;
@@ -64,27 +66,33 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int categoryIndex,
-                             final int childPosition,
+                             int childPosition,
                              boolean isLastChild,
-                             View convertView,
+                             View questionView,
                              ViewGroup parent) {
-        if (convertView == null) {
+        if (questionView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.content_question_right_wrong, null);
+            questionView = infalInflater.inflate(R.layout.content_question_right_wrong, null);
         }
 
         QuestionCategory currentCategory = testNonDB.getQuestionsCategories().get(categoryIndex);
 
-        if (childPosition == 0) {
-            // display category info
-            ViewStub simpleViewStub = ((ViewStub) convertView.findViewById(R.id.stub_graph_view)); // get the reference of ViewStub
-            if (simpleViewStub != null) {
-                // only inflate once
-                View inflated = simpleViewStub.inflate();
-                TextView tx = (TextView) inflated.findViewById(R.id.stub_text);
-                tx.setText(currentCategory.getDescription());
-            }
-        }
+        ViewStub categoryInfo = ((ViewStub) questionView.findViewById(R.id.category_info_stub)); // get the reference of ViewStub
+//        if (childPosition == 0) {
+//            // display category info
+//            if (categoryInfo != null) {
+//                // only inflate once
+//                View inflated = categoryInfo.inflate();
+//                TextView tx = (TextView) inflated.findViewById(R.id.stub_text);
+//                tx.setText(currentCategory.getDescription());
+//            }
+//        } else {
+//            if(categoryInfo!=null)
+//            {
+//                ViewManager parentView = (ViewManager) categoryInfo.getParent();
+//                parentView.removeView(categoryInfo);
+//            }
+//        }
 
         // question not in DB
         QuestionNonDB currentQuestionNonDB = testNonDB.getQuestionsCategories().get(categoryIndex).getQuestions().get(childPosition);
@@ -92,7 +100,6 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
         Question questionInDB;
         int questionIndex = QuestionCategory.getQuestionIndex(categoryIndex, childPosition, testNonDB);
         String dummyID = test.getGuid() + "-" + questionIndex;
-        System.out.println(dummyID +"-"+currentCategory);
         questionInDB = Question.getQuestionByID(dummyID);
         if (questionInDB == null) {
             questionInDB = new Question();
@@ -109,10 +116,11 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
         /**
          * Set View
          */
-        TextView questionName = (TextView) convertView.findViewById(R.id.nameQuestion);
+        TextView questionName = (TextView) questionView.findViewById(R.id.nameQuestion);
         questionName.setText((childPosition + 1) + " - " + currentQuestionNonDB.getDescription());
         // detect when choice changed
-        RadioGroup radioGroup = (RadioGroup) convertView.findViewById(R.id.radioGroup);
+        RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
+        radioGroup.clearCheck();
         radioGroup.setOnCheckedChangeListener(new RightWrongQuestionHandler(questionInDB, adapter, categoryIndex, childPosition, testNonDB));
         // if question is already answered
         if (questionInDB.isAnswered()) {
@@ -120,11 +128,12 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
             if (questionInDB.getSelectedRightWrong().equals("right")) {
                 radioGroup.check(R.id.rightChoice);
             } else {
-                radioGroup.check(R.id.noChoice);
+                radioGroup.check(R.id.wrongChoice);
             }
         }
 
-        return convertView;
+
+        return questionView;
     }
 
     @Override

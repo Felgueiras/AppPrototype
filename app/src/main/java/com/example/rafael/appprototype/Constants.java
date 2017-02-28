@@ -33,6 +33,8 @@ public class Constants {
     public static final String test_name_set_set = "Set Test de Isaacs";
     public static final String test_name_hamilton = "Hamilton Depression Rating Scale";
     public static final String test_name_tinetti = "Escala de Tinetti";
+    public static final String test_name_advancedDailyLifeActivities="Atividades avançadas da vida diária";
+
 
 
 

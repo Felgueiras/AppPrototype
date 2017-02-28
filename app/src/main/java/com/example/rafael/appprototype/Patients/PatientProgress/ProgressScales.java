@@ -97,7 +97,7 @@ public class ProgressScales extends RecyclerView.Adapter<ProgressScales.MyViewHo
          */
         if (scaleInstances.size() > 0) {
             // inflate the ViewStub
-            ViewStub graphViewStub = ((ViewStub) holder.itemView.findViewById(R.id.stub_graph_view)); // get the reference of ViewStub
+            ViewStub graphViewStub = ((ViewStub) holder.itemView.findViewById(R.id.area_info_stub)); // get the reference of ViewStub
             if (graphViewStub != null) {
                 // only inflate once
                 View inflated = graphViewStub.inflate();

@@ -111,11 +111,11 @@ public class QuestionsListAdapter extends BaseAdapter {
         }
         if (testNonDB.isMultipleCategories()) {
             // scale with multiple categories
-            numquestions = 1;
+            numquestions = testNonDB.getNumberQuestions();
             if (progressBar != null) {
                 progressBar.setMax(numquestions);
             }
-            return numquestions;
+            return 1;
         }
         return numquestions;
     }

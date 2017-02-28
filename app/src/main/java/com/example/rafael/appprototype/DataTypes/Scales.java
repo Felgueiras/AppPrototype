@@ -332,6 +332,100 @@ public class Scales {
     }
 
     /**
+     * Get infos about 'Escala de Depressão Geriátrica de Yesavage – versão curta'
+     */
+    public static GeriatricScaleNonDB escalaDepressaoYesavage() {
+        GeriatricScaleNonDB escalaDepressao = new GeriatricScaleNonDB(Constants.test_name_escalaDepressaoYesavage,
+                Constants.cga_mental, Constants.cga_afective,
+
+                "• Utilizada para o rastreio da depressão, avaliando aspectos cognitivos e " +
+                        "comportamentais tipicamente afectados na depressão do idoso.\n" +
+                        "• A informação é obtida através de questionário directo ao idoso.\n" +
+//                        "• A escala de Yesavage tem uma versão completa, com 30 questões e uma versão" +
+//                        "curta com 15 questões. A versão curta está validada pelo autor e os seus resultados" +
+//                        " são sobreponíveis aos da versão completa, pelo que é a mais utilizada.\n" +
+                        "• 15 questões com resposta dicotómica (Sim ou Não).\n" +
+                        "• As respostas sugestivas de existência de depressão correspondem a 1 ponto.\n" +
+                        "• Tempo de aplicação: 6 minutos.");
+        // short area
+        escalaDepressao.setShortName("Escala Depressão Yesavage (curta)");
+        // create Scoring
+        ScoringNonDB depressionScoring = new ScoringNonDB(0, 15, false);
+        // create Gradings
+        ArrayList<GradingNonDB> gradings = new ArrayList<>();
+        gradings.add(new GradingNonDB("Sem depressão", 0, 5));
+        gradings.add(new GradingNonDB("Depressão ligeira", 6, 10));
+        gradings.add(new GradingNonDB("Depressão grave", 11, 15));
+        // add Gradings to Scoring
+        depressionScoring.setValuesBoth(gradings);
+        // add Scoring to Test
+        escalaDepressao.setScoring(depressionScoring);
+
+        // 1
+        QuestionNonDB question = new QuestionNonDB("Está satisfeito com a sua vida?", 0, 1);
+        question.setYesOrNo(true);
+        escalaDepressao.addQuestion(question);
+        // 2
+        question = new QuestionNonDB("Abandonou muitos dos seus interesses e actividades?", 1, 0);
+        question.setYesOrNo(true);
+        escalaDepressao.addQuestion(question);
+        // 3
+        question = new QuestionNonDB("Sente que a sua vida está vazia?", 1, 0);
+        question.setYesOrNo(true);
+        escalaDepressao.addQuestion(question);
+        // 4
+        question = new QuestionNonDB("Sente-se frequentemente aborrecido?", 1, 0);
+        question.setYesOrNo(true);
+        escalaDepressao.addQuestion(question);
+        // 5
+        question = new QuestionNonDB("Na maior parte do tempo está de bom humor?", 0, 1);
+        question.setYesOrNo(true);
+        escalaDepressao.addQuestion(question);
+        // 6
+        question = new QuestionNonDB("Tem medo de que algo de mal lhe aconteça?", 1, 0);
+        question.setYesOrNo(true);
+        escalaDepressao.addQuestion(question);
+        // 7
+        question = new QuestionNonDB("Sente-se feliz na maior parte do tempo?", 0, 1);
+        escalaDepressao.addQuestion(question);
+        // 8
+        question = new QuestionNonDB("Sente-se frequentemente abandonado / desamparado?", 1, 0);
+        question.setYesOrNo(true);
+        escalaDepressao.addQuestion(question);
+        // 9
+        question = new QuestionNonDB("Prefere ficar em casa, a sair e fazer coisas novas?", 1, 0);
+        question.setYesOrNo(true);
+        escalaDepressao.addQuestion(question);
+        // 10
+        question = new QuestionNonDB("Sente que tem mais problemas de memória do que os outros da sua\n" +
+                "idade?", 1, 0);
+        question.setYesOrNo(true);
+        escalaDepressao.addQuestion(question);
+        // 11
+        question = new QuestionNonDB("Actualmente, acha que é maravilhoso estar vivo?", 0, 1);
+        question.setYesOrNo(true);
+        escalaDepressao.addQuestion(question);
+        // 12
+        question = new QuestionNonDB("Sente-se inútil?", 1, 0);
+        question.setYesOrNo(true);
+        escalaDepressao.addQuestion(question);
+        // 13
+        question = new QuestionNonDB("Sente-se cheio de energia?", 0, 1);
+        question.setYesOrNo(true);
+        escalaDepressao.addQuestion(question);
+        // 14
+        question = new QuestionNonDB("Sente-se sem esperança?", 1, 0);
+        question.setYesOrNo(true);
+        escalaDepressao.addQuestion(question);
+        // 15
+        question = new QuestionNonDB("Acha que as outras pessoas estão melhores que o Sr./Sra.?", 1, 0);
+        question.setYesOrNo(true);
+        escalaDepressao.addQuestion(question);
+
+        return escalaDepressao;
+    }
+
+    /**
      * Get infos about 'Escala de Katz'
      */
     public static GeriatricScaleNonDB escalaDeKatz() {
@@ -1009,81 +1103,37 @@ public class Scales {
     }
 
 
-    /**
-     * Get infos about 'Escala de Depressão Geriátrica de Yesavage – versão curta'
-     */
-    public static GeriatricScaleNonDB escalaDepressaoYesavage() {
-        GeriatricScaleNonDB escalaDepressao = new GeriatricScaleNonDB(Constants.test_name_escalaDepressaoYesavage,
-                Constants.cga_mental, Constants.cga_afective,
-
-                "• Utilizada para o rastreio da depressão, avaliando aspectos cognitivos e " +
-                        "comportamentais tipicamente afectados na depressão do idoso.\n" +
-                        "• A informação é obtida através de questionário directo ao idoso.\n" +
-//                        "• A escala de Yesavage tem uma versão completa, com 30 questões e uma versão" +
-//                        "curta com 15 questões. A versão curta está validada pelo autor e os seus resultados" +
-//                        " são sobreponíveis aos da versão completa, pelo que é a mais utilizada.\n" +
-                        "• 15 questões com resposta dicotómica (Sim ou Não).\n" +
-                        "• As respostas sugestivas de existência de depressão correspondem a 1 ponto.\n" +
-                        "• Tempo de aplicação: 6 minutos.");
+    public static GeriatricScaleNonDB advancedDailyLifeActivities() {
+        GeriatricScaleNonDB escalaDepressao = new GeriatricScaleNonDB(Constants.test_name_advancedDailyLifeActivities,
+                Constants.cga_functional, Constants.test_name_advancedDailyLifeActivities,
+                "");
         // short area
-        escalaDepressao.setShortName("Escala Depressão Yesavage (curta)");
+        escalaDepressao.setShortName("Atividades avançadas");
         // create Scoring
-        ScoringNonDB depressionScoring = new ScoringNonDB(0, 15, false);
+        ScoringNonDB depressionScoring = new ScoringNonDB(0, 4, false);
         // create Gradings
         ArrayList<GradingNonDB> gradings = new ArrayList<>();
-        gradings.add(new GradingNonDB("Sem depressão", 0, 5));
-        gradings.add(new GradingNonDB("Depressão ligeira", 6, 10));
-        gradings.add(new GradingNonDB("Depressão grave", 11, 15));
+        gradings.add(new GradingNonDB("TODO", 0, 4));
         // add Gradings to Scoring
         depressionScoring.setValuesBoth(gradings);
         // add Scoring to Test
         escalaDepressao.setScoring(depressionScoring);
 
         // 1
-        QuestionNonDB question = new QuestionNonDB("Está satisfeito com a sua vida?", 0, 1);
+        QuestionNonDB question = new QuestionNonDB("Colabora? em atividades sócio-recreativas e trabalho?", 0, 1);
+        question.setYesOrNo(true);
         escalaDepressao.addQuestion(question);
         // 2
-        question = new QuestionNonDB("Abandonou muitos dos seus interesses e actividades?", 1, 0);
+        question = new QuestionNonDB("Utiliza tecnologia? (Ipad)", 1, 0);
+        question.setYesOrNo(true);
         escalaDepressao.addQuestion(question);
         // 3
-        question = new QuestionNonDB("Sente que a sua vida está vazia?", 1, 0);
+        question = new QuestionNonDB("Viaja?", 1, 0);
+        question.setYesOrNo(true);
         escalaDepressao.addQuestion(question);
         // 4
-        question = new QuestionNonDB("Sente-se frequentemente aborrecido?", 1, 0);
-        escalaDepressao.addQuestion(question);
-        // 5
-        question = new QuestionNonDB("Na maior parte do tempo está de bom humor?", 0, 1);
-        escalaDepressao.addQuestion(question);
-        // 6
-        question = new QuestionNonDB("Tem medo de que algo de mal lhe aconteça?", 1, 0);
-        escalaDepressao.addQuestion(question);
-        // 7
-        question = new QuestionNonDB("Sente-se feliz na maior parte do tempo?", 0, 1);
-        escalaDepressao.addQuestion(question);
-        // 8
-        question = new QuestionNonDB("Sente-se frequentemente abandonado / desamparado?", 1, 0);
-        escalaDepressao.addQuestion(question);
-        // 9
-        question = new QuestionNonDB("Prefere ficar em casa, a sair e fazer coisas novas?", 1, 0);
-        escalaDepressao.addQuestion(question);
-        // 10
-        question = new QuestionNonDB("Sente que tem mais problemas de memória do que os outros da sua\n" +
-                "idade?", 1, 0);
-        escalaDepressao.addQuestion(question);
-        // 11
-        question = new QuestionNonDB("Actualmente, acha que é maravilhoso estar vivo?", 0, 1);
-        escalaDepressao.addQuestion(question);
-        // 12
-        question = new QuestionNonDB("Sente-se inútil?", 1, 0);
-        escalaDepressao.addQuestion(question);
-        // 13
-        question = new QuestionNonDB("Sente-se cheio de energia?", 0, 1);
-        escalaDepressao.addQuestion(question);
-        // 14
-        question = new QuestionNonDB("Sente-se sem esperança?", 1, 0);
-        escalaDepressao.addQuestion(question);
-        // 15
-        question = new QuestionNonDB("Acha que as outras pessoas estão melhores que o Sr./Sra.?", 1, 0);
+        question = new QuestionNonDB("Pratica exercício físico intenso?", 1, 0);
+        question.setYesOrNo(true);
         escalaDepressao.addQuestion(question);
 
         return escalaDepressao;
@@ -1585,42 +1635,52 @@ public class Scales {
         category.setDescription("");
         // 1
         QuestionNonDB question = new QuestionNonDB("Em que ano estamos?");
+        question.setRightWrong(true);
         category.addQuestion(question);
 
         // 2
         question = new QuestionNonDB("Em que mês estamos?");
+        question.setRightWrong(true);
         category.addQuestion(question);
 
         // 3
         question = new QuestionNonDB("Em que dia do mês estamos?");
+        question.setRightWrong(true);
         category.addQuestion(question);
 
         // 4
         question = new QuestionNonDB("Em que dia da semana estamos?");
+        question.setRightWrong(true);
         category.addQuestion(question);
 
         // 5
         question = new QuestionNonDB("Em que estação do ano estamos?");
+        question.setRightWrong(true);
         category.addQuestion(question);
 
         // 6
         question = new QuestionNonDB("Em que país estamos?");
+        question.setRightWrong(true);
         category.addQuestion(question);
 
         // 7
         question = new QuestionNonDB("Em que distrito vive");
+        question.setRightWrong(true);
         category.addQuestion(question);
 
         // 8
         question = new QuestionNonDB("Em que terra vive?");
+        question.setRightWrong(true);
         category.addQuestion(question);
 
         // 9
         question = new QuestionNonDB("Em que casa estamos?");
+        question.setRightWrong(true);
         category.addQuestion(question);
 
         // 10
         question = new QuestionNonDB("Em que andar estamos?");
+        question.setRightWrong(true);
         category.addQuestion(question);
         mentalState.addQuestionCategory(category);
 
@@ -1630,91 +1690,98 @@ public class Scales {
         category.setDescription("“Vou dizer três palavras; queria que as repetisse, mas só depois de eu as dizer todas; procure ficar a sabê-las de cor”.");
         // 11
         question = new QuestionNonDB("Pêra");
+        question.setRightWrong(true);
         category.addQuestion(question);
         // 12
         question = new QuestionNonDB("Gato");
+        question.setRightWrong(true);
         category.addQuestion(question);
         // 13
         question = new QuestionNonDB("Bola");
+        question.setRightWrong(true);
         category.addQuestion(question);
         // add category to the test
         mentalState.addQuestionCategory(category);
 
+        // Atenção e cálculo
+        category = new QuestionCategory("Atenção e cálculo");
+        category.setDescription("“Agora peço-lhe que me diga quantos são 30 menos 3 e depois ao número encontrado volta a tirar 3 e repete assim\n" +
+                "até eu lhe dizer para parar”");
+        // 14
+        question = new QuestionNonDB("27", 1, 0);
+        question.setRightWrong(true);
+        category.addQuestion(question);
+        // 15
+        question = new QuestionNonDB("24", 1, 0);
+        question.setRightWrong(true);
+        category.addQuestion(question);
+        // 16
+        question = new QuestionNonDB("21", 1, 0);
+        question.setRightWrong(true);
+        category.addQuestion(question);
+        // 17
+        question = new QuestionNonDB("18", 1, 0);
+        question.setRightWrong(true);
+        category.addQuestion(question);
+        // 18
+        question = new QuestionNonDB("15", 1, 0);
+        question.setRightWrong(true);
+        category.addQuestion(question);
+        mentalState.addQuestionCategory(category);
 
-//        // Atenção e cálculo
-//        category = new QuestionCategory("Atenção e cálculo");
-//        category.setDescription("“Agora peço-lhe que me diga quantos são 30 menos 3 e depois ao número encontrado volta a tirar 3 e repete assim\n" +
-//                "até eu lhe dizer para parar”");
-//        // 14
-//        question = new QuestionNonDB("27", 1, 0);
-//        category.addQuestion(question);
-//        // 15
-//        question = new QuestionNonDB("24", 1, 0);
-//        category.addQuestion(question);
-//        // 16
-//        question = new QuestionNonDB("21", 1, 0);
-//        category.addQuestion(question);
-//        // 17
-//        question = new QuestionNonDB("18", 1, 0);
-//        category.addQuestion(question);
-//        // 18
-//        question = new QuestionNonDB("15", 1, 0);
-//        category.addQuestion(question);
-//        mentalState.addQuestionCategory(category);
-//
-//
-//        // Evocação
-//        category = new QuestionCategory("Evocação");
-//        category.setDescription("“Veja se consegue dizer as três palavras que pedi há pouco para decorar”.");
-//
-//        // 19
-//        question = new QuestionNonDB("Pêra", 0, 1);
-//        category.addQuestion(question);
-//        // 20
-//        question = new QuestionNonDB("Gato", 1, 0);
-//        category.addQuestion(question);
-//        // 21
-//        question = new QuestionNonDB("Bola", 0, 1);
-//        category.addQuestion(question);
-//        mentalState.addQuestionCategory(category);
-//
-//
-//        // Linguagem
-//        category = new QuestionCategory("Linguagem");
-//        category.setDescription("");
-//        // 21
-//        question = new QuestionNonDB("Relógio", 0, 1);
-//        category.addQuestion(question);
-//        // 23
-//        question = new QuestionNonDB("Lápis", 1, 0);
-//        category.addQuestion(question);
-//        // 24
-//        question = new QuestionNonDB("Repita a frase que eu vou dizer: O RATO ROEU A ROLHA", 0, 1);
-//        category.addQuestion(question);
-//        // 25
-//        question = new QuestionNonDB("Pega com a mão direita", 0, 1);
-//        category.addQuestion(question);
-//        // 26
-//        question = new QuestionNonDB("Dobra ao meio", 0, 1);
-//        category.addQuestion(question);
-//        // 27
-//        question = new QuestionNonDB("Coloca onde deve", 0, 1);
-//        category.addQuestion(question);
-//        // 28
-//        question = new QuestionNonDB("Feche os olhos", 0, 1);
-//        category.addQuestion(question);
-//        // 29
-//        question = new QuestionNonDB("“Escreva uma frase inteira aqui”", 0, 1);
-//        category.addQuestion(question);
-//        mentalState.addQuestionCategory(category);
-//
-//        // Capacidade construtiva
-//        category = new QuestionCategory("Capacidade construtiva");
-//        // 30
-//        question = new QuestionNonDB("Deve copiar um desenho. Dois pentágonos parcialmente sobrepostos; cada um deve ficar com 5 lados, dois dos quais\n" +
-//                "intersectados. Não valorizar tremor ou rotação", 0, 1);
-//        category.addQuestion(question);
-//        mentalState.addQuestionCategory(category);
+
+        // Evocação
+        category = new QuestionCategory("Evocação");
+        category.setDescription("“Veja se consegue dizer as três palavras que pedi há pouco para decorar”.");
+
+        // 19
+        question = new QuestionNonDB("Pêra", 0, 1);
+        category.addQuestion(question);
+        // 20
+        question = new QuestionNonDB("Gato", 1, 0);
+        category.addQuestion(question);
+        // 21
+        question = new QuestionNonDB("Bola", 0, 1);
+        category.addQuestion(question);
+        mentalState.addQuestionCategory(category);
+
+
+        // Linguagem
+        category = new QuestionCategory("Linguagem");
+        category.setDescription("");
+        // 21
+        question = new QuestionNonDB("Relógio", 0, 1);
+        category.addQuestion(question);
+        // 23
+        question = new QuestionNonDB("Lápis", 1, 0);
+        category.addQuestion(question);
+        // 24
+        question = new QuestionNonDB("Repita a frase que eu vou dizer: O RATO ROEU A ROLHA", 0, 1);
+        category.addQuestion(question);
+        // 25
+        question = new QuestionNonDB("Pega com a mão direita", 0, 1);
+        category.addQuestion(question);
+        // 26
+        question = new QuestionNonDB("Dobra ao meio", 0, 1);
+        category.addQuestion(question);
+        // 27
+        question = new QuestionNonDB("Coloca onde deve", 0, 1);
+        category.addQuestion(question);
+        // 28
+        question = new QuestionNonDB("Feche os olhos", 0, 1);
+        category.addQuestion(question);
+        // 29
+        question = new QuestionNonDB("“Escreva uma frase inteira aqui”", 0, 1);
+        category.addQuestion(question);
+        mentalState.addQuestionCategory(category);
+
+        // Capacidade construtiva
+        category = new QuestionCategory("Capacidade construtiva");
+        // 30
+        question = new QuestionNonDB("Deve copiar um desenho. Dois pentágonos parcialmente sobrepostos; cada um deve ficar com 5 lados, dois dos quais\n" +
+                "intersectados. Não valorizar tremor ou rotação", 0, 1);
+        category.addQuestion(question);
+        mentalState.addQuestionCategory(category);
 
         return mentalState;
     }
@@ -1885,6 +1952,8 @@ public class Scales {
                 return hamiltonDepressionScale();
             case Constants.test_name_tinetti:
                 return tinettiScale();
+            case Constants.test_name_advancedDailyLifeActivities:
+                return advancedDailyLifeActivities();
         }
         return null;
     }
@@ -1972,7 +2041,7 @@ public class Scales {
         tests.add(escalaDepressaoYesavage());
         tests.add(escalaLawtonBrody());
         tests.add(marchaHolden());
-        //tests.add(mentalStateFolstein());
+        tests.add(mentalStateFolstein());
         tests.add(miniNutritionalAssessmentTriagem());
         tests.add(miniNutritionalAssessmentGlobal());
         tests.add(recursosSociales());
@@ -1984,6 +2053,7 @@ public class Scales {
 //        tests.add(setTest());
         // tests.add(hamiltonDepressionScale());
         tests.add(tinettiScale());
+        tests.add(advancedDailyLifeActivities());
         return tests;
     }
 

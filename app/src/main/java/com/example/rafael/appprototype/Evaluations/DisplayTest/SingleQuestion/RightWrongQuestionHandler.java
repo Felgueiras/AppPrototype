@@ -55,6 +55,9 @@ public class RightWrongQuestionHandler implements RadioGroup.OnCheckedChangeList
         } else if (checkedId == R.id.wrongChoice) {
             question.setSelectedRightWrong("wrong");
         }
+        else{
+            return;
+        }
         question.setAnswered(true);
         question.save();
         /**

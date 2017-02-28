@@ -64,7 +64,6 @@ public class QuestionNonDB {
     public QuestionNonDB(String description, int yes, int no) {
         this.description = description;
         this.choices.add(new ChoiceNonDB(yes, no));
-        this.yesOrNo = true;
     }
 
 
