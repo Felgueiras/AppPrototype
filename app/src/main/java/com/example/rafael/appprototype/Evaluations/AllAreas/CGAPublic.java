@@ -22,6 +22,8 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.Scales;
 import com.example.rafael.appprototype.DatesHandler;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
 import com.example.rafael.appprototype.R;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
@@ -70,7 +72,7 @@ public class CGAPublic extends Fragment {
         /**
          * Resume an Evaluation.
          */
-        String sessionID = sharedPreferences.getString(getResources().getString(R.string.saved_session_public), null);
+        final String sessionID = sharedPreferences.getString(getResources().getString(R.string.saved_session_public), null);
         if (sessionID != null) {
             // get session by ID
             session = Session.getSessionByID(sessionID);
@@ -147,15 +149,39 @@ public class CGAPublic extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // remove session
-                                session.delete();
-                                sharedPreferences.edit().putString(getString(R.string.saved_session_public), null).apply();
+                                session.eraseScalesNotCompleted();
 
-                                BackStackHandler.clearBackStack();
+                                if (session.getScalesFromSession().size() == 0) {
+                                    session.delete();
+                                    sharedPreferences.edit().putString(getString(R.string.saved_session_public), null).apply();
 
-                                FragmentManager fragmentManager = getFragmentManager();
-                                fragmentManager.beginTransaction()
-                                        .replace(R.id.current_fragment, new CGAPublicInfo())
-                                        .commit();
+                                    FragmentManager fragmentManager = getFragmentManager();
+                                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                                    Fragment fragment = new CGAPublicInfo();
+                                    fragmentManager.beginTransaction()
+                                            .remove(currentFragment)
+                                            .replace(R.id.current_fragment, fragment)
+                                            .commit();
+                                } else {
+                                    Session sessionCopy = session;
+                                    //session.delete();
+                                    sharedPreferences.edit().putString(getString(R.string.saved_session_public), null).apply();
+
+                                    BackStackHandler.clearBackStack();
+
+                                    Bundle args = new Bundle();
+                                    args.putSerializable(ReviewSingleSessionWithPatient.SESSION, sessionCopy);
+                                    ReviewSingleSessionNoPatient fragment = new ReviewSingleSessionNoPatient();
+
+                                    fragment.setArguments(args);
+                                    FragmentManager fragmentManager = getFragmentManager();
+                                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                                    fragmentManager.beginTransaction()
+                                            .remove(currentFragment)
+                                            .replace(R.id.current_fragment, fragment)
+                                            .commit();
+                                }
+
                                 dialog.dismiss();
 
                                 // Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();

@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ReviewEvaluation;
+package com.example.rafael.appprototype.Evaluations.ReviewEvaluation;
 
 import android.app.Fragment;
 import android.os.Bundle;

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
@@ -17,9 +16,8 @@ import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DatesHandler;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.SessionScalesAdapter;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.SessionScalesAdapterRecycler;
-import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleSession;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.SessionCardHelper;
@@ -99,8 +97,8 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                args.putSerializable(ReviewSingleSession.SESSION, sessions.get(position));
-                FragmentTransitions.replaceFragment(context, new ReviewSingleSession(), args, Constants.tag_review_session_from_patient_profile);
+                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, sessions.get(position));
+                FragmentTransitions.replaceFragment(context, new ReviewSingleSessionWithPatient(), args, Constants.tag_review_session_from_patient_profile);
             }
         });
 

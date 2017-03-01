@@ -10,6 +10,7 @@ import android.util.Log;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivate;
 import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
 import com.example.rafael.appprototype.Patients.PatientProgress.ProgressDetail;
@@ -18,8 +19,8 @@ import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublic;
 import com.example.rafael.appprototype.Patients.PatientProgress.ProgressMainFragment;
-import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleSession;
-import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleTest.ReviewSingleScaleFragment;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewSingleScaleFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragment;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
@@ -180,7 +181,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
                 // get the arguments
                 Bundle arguments = fr.getArguments();
-                Session session = (Session) arguments.getSerializable(ReviewSingleSession.SESSION);
+                Session session = (Session) arguments.getSerializable(ReviewSingleSessionWithPatient.SESSION);
                 Patient patient = session.getPatient();
                 args = new Bundle();
                 args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
@@ -193,8 +194,11 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 Session session = test.getSession();
 
                 args = new Bundle();
-                args.putSerializable(ReviewSingleSession.SESSION, session);
-                fragment = new ReviewSingleSession();
+                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+                fragment = new ReviewSingleSessionWithPatient();
+                if (session.getPatient() == null) {
+                    fragment = new ReviewSingleSessionNoPatient();
+                }
             }
 
             fragment.setArguments(args);
@@ -307,9 +311,9 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 Session session = Session.getSessionByID(sessionID);
                 sharedPreferences.edit().putString(context.getString(R.string.saved_session_private), null).apply();
 
-                args.putBoolean(ReviewSingleSession.COMPARE_PREVIOUS, true);
-                args.putSerializable(ReviewSingleSession.SESSION, session);
-                fragment = new ReviewSingleSession();
+                args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
+                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+                fragment = new ReviewSingleSessionWithPatient();
 
                 fragment.setArguments(args);
             }

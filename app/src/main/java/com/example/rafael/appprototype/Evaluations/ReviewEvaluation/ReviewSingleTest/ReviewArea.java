@@ -1,11 +1,9 @@
-package com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleTest;
+package com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest;
 
 import android.app.Activity;
-import android.content.res.Resources;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,14 +125,6 @@ public class ReviewArea extends RecyclerView.Adapter<ReviewArea.TestCardHolder> 
             holder.scales.setAdapter(adapter);
         }
 
-    }
-
-    /**
-     * Converting dp to pixel
-     */
-    private int dpToPx(int dp) {
-        Resources r = context.getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
 

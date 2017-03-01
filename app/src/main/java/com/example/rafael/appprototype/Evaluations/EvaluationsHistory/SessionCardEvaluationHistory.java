@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
@@ -17,9 +16,10 @@ import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryGrid;
-import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleSession;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.SessionCardHelper;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
             super(view);
             patientName = (TextView) view.findViewById(R.id.patientName);
 //            photo = (ImageView) view.findViewById(R.id.patientPhoto);
-//            overflow = (ImageView) view.findViewById(R.id.overflow);
+            overflow = (ImageView) view.findViewById(R.id.overflow);
             testsList = (RecyclerView) view.findViewById(R.id.recyclerview);
         }
     }
@@ -94,8 +94,8 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                args.putSerializable(ReviewSingleSession.SESSION, session);
-                FragmentTransitions.replaceFragment(context, new ReviewSingleSession(), args, Constants.tag_review_session);
+                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+                FragmentTransitions.replaceFragment(context, new ReviewSingleSessionWithPatient(), args, Constants.tag_review_session);
             }
         });
 
@@ -113,6 +113,8 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
                 layoutManager.getOrientation());
         holder.testsList.addItemDecoration(dividerItemDecoration);
+
+        holder.overflow.setOnClickListener(new SessionCardHelper(holder.overflow, position, context, session, fragment));
     }
 
 

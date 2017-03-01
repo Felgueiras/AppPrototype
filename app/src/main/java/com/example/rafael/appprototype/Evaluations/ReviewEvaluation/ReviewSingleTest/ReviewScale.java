@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleTest;
+package com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -111,12 +111,23 @@ public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder>
         holder.name.setText(currentScale.getShortName());
 
         // display Scoring to the user
-        GradingNonDB match = Scales.getGradingForScale(
-                currentScale,
-                patient.getGender());
-        holder.result_qualitative.setText(match.getGrade());
+        GradingNonDB match;
+        if(patient!=null)
+        {
+            match = Scales.getGradingForScale(
+                    currentScale,
+                    patient.getGender());
+        }
+        else
+        {
+            match = Scales.getGradingForScale(
+                    currentScale,
+                    Constants.SESSION_GENDER);
+        }
+        if(match!=null)
+            holder.result_qualitative.setText(match.getGrade());
 
-        if (comparePrevious) {
+        if (comparePrevious && patient!=null) {
             comparePreviousSessions(currentScale, holder);
         }
 
@@ -140,7 +151,7 @@ public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder>
             quantitative += " (" + testNonDB.getScoring().getMinScore();
             quantitative += "-" + testNonDB.getScoring().getMaxScore() + ")";
         } else {
-            if (patient.getGender() == Constants.MALE) {
+            if ((patient != null ? patient.getGender() : 0) == Constants.MALE) {
                 quantitative += " (" + testNonDB.getScoring().getMinMen();
                 quantitative += "-" + testNonDB.getScoring().getMaxMen() + ")";
             }
@@ -184,7 +195,7 @@ public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder>
                 bundle.putSerializable(ReviewSingleScaleFragment.testDBobject, currentScale);
                 newFragment.setArguments(bundle);
                 // setup the transaction
-                FragmentTransaction transaction = ((PrivateArea) context).getFragmentManager().beginTransaction();
+                FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
                 transaction.replace(R.id.current_fragment, newFragment);
                 transaction.addToBackStack(Constants.tag_review_test).commit();
             }
@@ -207,6 +218,7 @@ public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder>
 
         // get all the instances of that Scale for this Patient
         ArrayList<GeriatricScale> scaleInstances = new ArrayList<>();
+
         ArrayList<Session> patientSessions = patient.getSessionsFromPatient();
         //patientSessions.remove(currentSession);
 

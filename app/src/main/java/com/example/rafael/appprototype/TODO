@@ -1,7 +1,9 @@
+- card with uniform click listener
 - Text sometimes small
 
-- physical examination
-- view session results with no patient
 - criar "scale" mas que não é avaliada, é só um conjunto de questões para referência futura
+- error when creating session w/out patient and then select one
+
+- physical examination
 
 

@@ -1,12 +1,10 @@
-package com.example.rafael.appprototype.Patients.ReviewEvaluation;
+package com.example.rafael.appprototype.Evaluations.ReviewEvaluation;
 
 import android.app.Fragment;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,19 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DatesHandler;
-import com.example.rafael.appprototype.Patients.ReviewEvaluation.ReviewSingleTest.ReviewArea;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewArea;
 import com.example.rafael.appprototype.R;
 
 
-public class ReviewSingleSession extends Fragment {
+public class ReviewSingleSessionWithPatient extends Fragment {
 
     public static String COMPARE_PREVIOUS;
-    /**
-     * Patient for this Session
-     */
-    Patient patient;
     /**
      * Session object
      */
@@ -57,8 +50,11 @@ public class ReviewSingleSession extends Fragment {
         Bundle args = getArguments();
         // get Session and Patient
         session = (Session) args.getSerializable(SESSION);
-        getActivity().setTitle(session.getPatient().getName()+" - " + DatesHandler.dateToStringWithoutHour(session.getDate()));
-        patient = session.getPatient();
+        if (session.getPatient() != null) {
+            getActivity().setTitle(session.getPatient().getName() + " - " + DatesHandler.dateToStringWithoutHour(session.getDate()));
+        } else {
+            getActivity().setTitle(DatesHandler.dateToStringWithoutHour(session.getDate()));
+        }
 
         // check if we have to compare to the previous session
         //comparePreviousSession = args.getBoolean(COMPARE_PREVIOUS);
@@ -76,15 +72,6 @@ public class ReviewSingleSession extends Fragment {
         recyclerView.setAdapter(adapter);
 
         return myInflatedView;
-    }
-
-
-    /**
-     * Converting dp to pixel
-     */
-    private int dpToPx(int dp) {
-        Resources r = getActivity().getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
 }
