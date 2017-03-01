@@ -5,14 +5,6 @@
     android:orientation="vertical">
 
     <!--Stub for holding area info-->
-    <ViewStub
-        android:id="@+id/area_info_stub"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:inflatedId="@+id/inflatedview"
-        android:layout="@layout/custom_stub"
-        />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,6 +12,7 @@
 
         <!-- Text of the question-->
         <TextView
+            android:paddingLeft="5dp"
             android:id="@+id/nameQuestion"
             android:layout_width="0dp"
             android:layout_weight="3"
@@ -55,8 +48,13 @@
 
     </LinearLayout>
 
-
-
+    <ViewStub
+        android:id="@+id/area_info_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/inflatedview"
+        android:layout="@layout/custom_stub"
+        />
 
 
 </LinearLayout>

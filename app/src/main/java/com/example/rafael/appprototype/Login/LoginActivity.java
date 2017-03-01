@@ -34,6 +34,7 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -315,8 +316,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 sharedPreferences.edit().putString(Constants.userName, "[username]").apply();
                 sharedPreferences.edit().putBoolean(Constants.logged_in, true).apply();
 
-                boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
-                System.out.println("Logged? " + alreadyLogged);
+                // clear lock status, so when logging in the lock screen isn't shown
+                SharedPreferencesHelper.setLockStatus(getApplicationContext(),false);
 
                 Intent intent = new Intent(LoginActivity.this,PrivateArea.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -387,6 +387,7 @@ public class Scales {
         escalaDepressao.addQuestion(question);
         // 7
         question = new QuestionNonDB("Sente-se feliz na maior parte do tempo?", 0, 1);
+        question.setYesOrNo(true);
         escalaDepressao.addQuestion(question);
         // 8
         question = new QuestionNonDB("Sente-se frequentemente abandonado / desamparado?", 1, 0);
@@ -1320,7 +1321,7 @@ public class Scales {
 
         // 5
         question = new QuestionNonDB("Pequenos desequilíbrios na mesma posição (sujeito de pé com os pés próximos, o observador" +
-                "empurra-o levemente com a palma da mão, 3 vezes ao n+ivel do esterno)", false);
+                " empurra-o levemente com a palma da mão, 3 vezes ao nível do esterno)", false);
         choiceNonDBs = new ArrayList<>();
         choiceNonDBs.add(new ChoiceNonDB("Começa a cair", 0));
         choiceNonDBs.add(new ChoiceNonDB("Vacilante, agarra-se, mas estabiliza", 1));

@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -22,9 +23,8 @@ import android.widget.TextView;
 import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
-import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
+import com.example.rafael.appprototype.LockScreen.LockScreenActivity;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.R;
@@ -75,18 +75,17 @@ public class PrivateArea extends AppCompatActivity {
                 if (!Constants.upButton) {
                     drawer.openDrawer(Gravity.LEFT);
                 } else {
-                    Log.d("Toolbar","Up button showing");
+                    Log.d("Toolbar", "Up button showing");
                     onBackPressed();
                 }
             }
         });
 
 
-        Log.d("Lock", "onCreate");
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         final String sessionID = sharedPreferences.getString(getResources().getString(R.string.saved_session_private), null);
         if (sessionID != null) {
-            Log.d("Lock", "We have sessionID!");
+            Log.d("Session","Ongoing private session");
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
             alertDialog.setMessage("Deseja retomar a Sessão que tinha em curso?");
@@ -183,60 +182,37 @@ public class PrivateArea extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("Resuming", "Resuming - PrivateArea");
-        // check if we have an ongoing session
-        Log.d("Resuming", "Resuming - PrivateArea");
 
-
-        if (getLockStatus()) {
+        if (SharedPreferencesHelper.getLockStatus(this)) {
             // show lockscreen
-            Log.d("Lock", "showing lock screen (onResume)");
+            Log.d("Lock", "onResume - showing lock screen");
             // store current fragment
-            // showLockScreen();
-
+            showLockScreen();
         } else {
-            // we are not locked.
-            Log.d("Lock", "not locked");
-
+            Log.d("Lock", "onResume - not locked");
         }
 
     }
 
     private void showLockScreen() {
         currentFragment = this.getFragmentManager().findFragmentById(R.id.current_fragment);
-        Log.d("Lock", "Stored current fragment");
-        // create LockScreenFragment
-        LockScreenFragment fragment = new LockScreenFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.current_fragment, fragment)
-                .commit();
+        // create LockScreenActivity
+//        LockScreenActivity fragment = new LockScreenActivity();
+//        FragmentManager fragmentManager = getFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.current_fragment, fragment)
+//                .commit();
+
+        Intent intent = new Intent(PrivateArea.this,LockScreenActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
-    public void setLockStatus(boolean lock) {
-        getSharedPreferences("SOMETAG", 0).edit().putBoolean("LOCK", lock)
-                .commit();
-    }
-
-    public boolean getLockStatus() {
-        return getSharedPreferences("SOMETAG", 0).getBoolean("LOCK", true);
-    }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("Lock", "onPause -> going to lock");
-        setLockStatus(true);
-    }
-
-
-    public void resumeAfterLock() {
-        Log.d("Lock", "Resuming after lock!");
-        // replace the Fragment before lock screen
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.current_fragment, currentFragment)
-                .commit();
     }
 
 //    public boolean onCreateOptionsMenu(Menu menu) {
@@ -274,13 +250,13 @@ public class PrivateArea extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        if (getLockStatus()) {
+        if (SharedPreferencesHelper.getLockStatus(this)) {
             // show lockscreen
-            Log.d("Lock", "showing lock screen (onStart)");
+//            Log.d("Lock", "showing lock screen (onStart)");
             // set lock status to false
         } else {
             // we are not locked.
-            Log.d("Lock", "not locked");
+//            Log.d("Lock", "not locked");
         }
     }
 
@@ -334,7 +310,8 @@ public class PrivateArea extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        Log.d("Lock", "Private onStop -> going to lock");
         super.onStop();
+        Log.d("Lock", "onStop -> going to lock");
+        SharedPreferencesHelper.setLockStatus(this, true);
     }
 }

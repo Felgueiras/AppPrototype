@@ -25,12 +25,11 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragment;
 import com.example.rafael.appprototype.Introduction.MyIntro;
-import com.example.rafael.appprototype.LockScreen.LockScreenFragment;
+import com.example.rafael.appprototype.LockScreen.LockScreenActivity;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.SharedPreferencesHelper;
@@ -211,49 +210,10 @@ public class PublicArea extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (getLockStatus()) {
-            // show lockscreen
-            Log.d("Lock", "showing lock screen (onResume)");
-            // store current fragment
-            // showLockScreen();
 
-        } else {
-            // we are not locked.
-            Log.d("Lock", "not locked");
-
-        }
 
     }
 
-    private void showLockScreen() {
-        currentFragment = this.getFragmentManager().findFragmentById(R.id.current_fragment);
-        Log.d("Lock", "Stored current fragment");
-        // create LockScreenFragment
-        LockScreenFragment fragment = new LockScreenFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.current_fragment, fragment)
-                .commit();
-    }
-
-    public void setLockStatus(boolean lock) {
-        getSharedPreferences("SOMETAG", 0).edit().putBoolean("LOCK", lock)
-                .commit();
-    }
-
-    public boolean getLockStatus() {
-        return getSharedPreferences("SOMETAG", 0).getBoolean("LOCK", true);
-    }
-
-
-    public void resumeAfterLock() {
-        Log.d("Lock", "Resuming after lock!");
-        // replace the Fragment before lock screen
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.current_fragment, currentFragment)
-                .commit();
-    }
 
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //
@@ -283,14 +243,6 @@ public class PublicArea extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        if (getLockStatus()) {
-            // show lockscreen
-            Log.d("Lock", "showing lock screen (onStart)");
-            // set lock status to false
-        } else {
-            // we are not locked.
-            Log.d("Lock", "not locked");
-        }
     }
 
     /**

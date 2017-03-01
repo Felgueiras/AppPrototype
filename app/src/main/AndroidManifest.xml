@@ -66,6 +66,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".LockScreen.LockScreenActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+        <activity android:name=".TestFAB"></activity>
+        <activity
             android:name=".Main.PrivateArea"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"></activity>

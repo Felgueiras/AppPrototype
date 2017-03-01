@@ -76,7 +76,8 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
                 Constants.SESSION_GENDER);
         // update views
         holder.testName.setText(name);
-        holder.testResult.setText(grading.getGrade());
+        if(grading!=null)
+            holder.testResult.setText(grading.getGrade());
     }
 
     @Override

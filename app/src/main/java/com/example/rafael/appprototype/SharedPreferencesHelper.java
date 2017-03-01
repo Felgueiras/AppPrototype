@@ -39,4 +39,14 @@ public class SharedPreferencesHelper {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         sharedPreferences.edit().putString(context.getString(R.string.saved_session_private), null).apply();
     }
+
+    public static boolean getLockStatus(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        return sharedPreferences.getBoolean("LOCK", false);
+    }
+
+    public static void setLockStatus(Context context, boolean lock) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean("LOCK", lock).apply();
+    }
 }
