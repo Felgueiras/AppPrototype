@@ -86,7 +86,7 @@
     <string name="help_evaluations_description">Ver as últimas avaliações, pode pesquisar por data.</string>
     <string name="help_features">Funcionalidades</string>
     <string name="logout_choice">Deseja fazer o log out?</string>
-    <string name="patients_sessions">Avaliações</string>
+    <string name="patients_sessions">Sessões</string>
     <string name="patients_favorites">Favoritos</string>
     <string name="patients_all">Todos</string>
     <string name="menu_search">Procurar</string>
@@ -106,7 +106,8 @@
         fornecer-lhes auxílio enquanto realizam o ACG.\n\n
         Para avaliar um paciente na área pública clique em "Criar Sessão", selecione o género do paciente (o resultado
         de certas escalas depende do género) e depois selecione a escala que pretende avaliar. Estas encontram-se agrupadas por
-        áreas . Quando quiser terminar a sessão volte ao ecrã onde estão todas as áreas, prima o botão "+" e selecione terminar.
+        áreas. Preencha somente as escalas que achar adequadas, não necessita de preencher todas à partida.
+        Quando quiser terminar a sessão volte ao ecrã onde estão todas as áreas, prima o botão "+" e selecione terminar.
         </string>
     <string name="help_patients_description">
         Em Pacientes, na sua área pessoal, pode ver os seus pacientes, as últimas avaliações e os pacientes favoritos.
@@ -164,7 +165,7 @@ física y/o verbal.
     </string>
     <string name="session_reset">Terminar</string>
     <string name="session_reset_question">Deseja terminar esta sessão?</string>
-    <string name="evaluations">Avaliações</string>
+    <string name="evaluations">Sessões</string>
     <string name="consult_progress">Consultar progresso</string>
     <string name="progress">Progresso</string>
     <string name="help_cga">Avaliação Geriátrica Global</string>

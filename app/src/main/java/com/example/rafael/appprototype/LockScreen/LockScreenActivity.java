@@ -9,7 +9,6 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.activeandroid.ActiveAndroid;
-import com.example.rafael.appprototype.Login.LoginActivity;
 import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.SharedPreferencesHelper;
@@ -27,8 +26,8 @@ public class LockScreenActivity extends AppCompatActivity {
         ActiveAndroid.initialize(getApplication());
         setContentView(R.layout.content_lock_screen);
         setTitle(getResources().getString(R.string.prompt_password));
-        EditText password = (EditText) findViewById(R.id.password);
-        password.addTextChangedListener(new TextWatcher() {
+        final EditText passwordEditText = (EditText) findViewById(R.id.password);
+        passwordEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -39,7 +38,7 @@ public class LockScreenActivity extends AppCompatActivity {
                 String password = s.toString();
                 Log.d("Lock", password.equals(correctPassword) + "");
                 if (password.equals(correctPassword)) {
-
+                    passwordEditText.clearFocus();
                     SharedPreferencesHelper.setLockStatus(getApplicationContext(),false);
 
                     Intent intent = new Intent(LockScreenActivity.this, PrivateArea.class);

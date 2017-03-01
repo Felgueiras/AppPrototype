@@ -274,8 +274,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
         // get fragment on top of stack
         FragmentManager fragmentManager = context.getFragmentManager();
 
-        String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
-        Fragment currentFragment = fragmentManager.findFragmentByTag(fragmentTag);
+        //String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
+        //Fragment currentFragment = fragmentManager.findFragmentByTag(fragmentTag);
 
         Fragment fr = fragmentManager.findFragmentById(R.id.current_fragment);
         // current Fragment
@@ -319,7 +319,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             fragment = new PatientsMain();
 
         }
-        currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
         fragmentManager.beginTransaction()
                 .remove(currentFragment)
                 .replace(R.id.current_fragment, fragment)

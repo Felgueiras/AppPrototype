@@ -41,10 +41,10 @@ public class DrugInfoBeers extends Fragment {
         TextView strengthOfRecommendation = (TextView) view.findViewById(R.id.strengthOfRecommendation);
 
         // set the views
-        recommendation.setText(drugInfo.getRecommendation());
-        rationale.setText(drugInfo.getRationale());
-        qualityOfEvidence.setText(drugInfo.getQualityOfEvidence());
-        strengthOfRecommendation.setText(drugInfo.getStrengthOfRecommendation());
+        recommendation.setText(getString(R.string.beers_recommendation) + " " + drugInfo.getRecommendation());
+        rationale.setText(getString(R.string.beers_rationale) + " " + drugInfo.getRationale());
+        qualityOfEvidence.setText(getString(R.string.beers_quality_evidence) + " " + drugInfo.getQualityOfEvidence());
+        strengthOfRecommendation.setText(getString(R.string.beers_strength_recommendation) + " " + drugInfo.getStrengthOfRecommendation());
 
         return view;
     }
