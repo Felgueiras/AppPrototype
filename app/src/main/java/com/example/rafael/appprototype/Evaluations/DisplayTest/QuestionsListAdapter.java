@@ -1,5 +1,6 @@
 package com.example.rafael.appprototype.Evaluations.DisplayTest;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.text.Editable;
@@ -72,7 +73,7 @@ public class QuestionsListAdapter extends BaseAdapter {
      * @param test     GeriatricScale that is being filled up
      * @param progress
      */
-    public QuestionsListAdapter(Context context, GeriatricScaleNonDB testNonDb, GeriatricScale test, ProgressBar progress) {
+    public QuestionsListAdapter(Activity context, GeriatricScaleNonDB testNonDb, GeriatricScale test, ProgressBar progress) {
         this.context = context;
         this.questions = testNonDb.getQuestions();
         this.scale = test;

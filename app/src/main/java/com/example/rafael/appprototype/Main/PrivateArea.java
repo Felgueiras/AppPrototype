@@ -83,7 +83,7 @@ public class PrivateArea extends AppCompatActivity {
 
 
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
-        final String sessionID = sharedPreferences.getString(getResources().getString(R.string.saved_session_private), null);
+        final String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);
         if (sessionID != null) {
             Log.d("Session","Ongoing private session");
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -188,7 +188,7 @@ public class PrivateArea extends AppCompatActivity {
             Log.d("Lock", "onResume - showing lock screen");
             // store current fragment
             // TODO restore
-            // showLockScreen();
+//            showLockScreen();
         } else {
             Log.d("Lock", "onResume - not locked");
         }

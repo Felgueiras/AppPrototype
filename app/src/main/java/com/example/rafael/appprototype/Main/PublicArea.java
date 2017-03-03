@@ -324,7 +324,8 @@ public class PublicArea extends AppCompatActivity {
 
 
     public void isTherePublicSession() {
-        final String sessionID = sharedPreferences.getString(getResources().getString(R.string.saved_session_public), null);
+        Log.d("Session","checking if there is public session");
+        final String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(this);
         if (sessionID != null) {
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");

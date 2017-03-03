@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,9 +23,12 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.Scales;
 import com.example.rafael.appprototype.DatesHandler;
+import com.example.rafael.appprototype.Evaluations.PickPatientFragment;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
+import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.SharedPreferencesHelper;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -69,6 +73,9 @@ public class CGAPublic extends Fragment {
 
         sharedPreferences = getActivity().getSharedPreferences(getResources().getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
 
+        Log.d("Session", "Inside CGAPublic");
+
+
         /**
          * Resume an Evaluation.
          */
@@ -85,6 +92,7 @@ public class CGAPublic extends Fragment {
             createNewSession();
             addTestsToSession();
 
+            Log.d("Session", "showing dialog");
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.select_patient_gender);
 
@@ -108,6 +116,7 @@ public class CGAPublic extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // positive button logic
+                            dialog.dismiss();
                         }
                     });
 
@@ -152,9 +161,9 @@ public class CGAPublic extends Fragment {
                                 session.eraseScalesNotCompleted();
 
                                 if (session.getScalesFromSession().size() == 0) {
-                                    session.delete();
-                                    sharedPreferences.edit().putString(getString(R.string.saved_session_public), null).apply();
+                                    SharedPreferencesHelper.resetPublicSession(getActivity(), sessionID);
 
+                                    BackStackHandler.clearBackStack();
                                     FragmentManager fragmentManager = getFragmentManager();
                                     Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
                                     Fragment fragment = new CGAPublicInfo();
@@ -164,21 +173,20 @@ public class CGAPublic extends Fragment {
                                             .commit();
                                 } else {
                                     Session sessionCopy = session;
-                                    //session.delete();
-                                    sharedPreferences.edit().putString(getString(R.string.saved_session_public), null).apply();
+                                    SharedPreferencesHelper.resetPublicSession(getActivity(), null);
 
-                                    BackStackHandler.clearBackStack();
-
+//                                    BackStackHandler.clearBackStack();
                                     Bundle args = new Bundle();
-                                    args.putSerializable(ReviewSingleSessionWithPatient.SESSION, sessionCopy);
-                                    ReviewSingleSessionNoPatient fragment = new ReviewSingleSessionNoPatient();
-
-                                    fragment.setArguments(args);
+                                    args.putSerializable(ReviewSingleSessionNoPatient.SESSION, sessionCopy);
                                     FragmentManager fragmentManager = getFragmentManager();
+                                    Fragment fragment = new ReviewSingleSessionNoPatient();
+                                    fragment.setArguments(args);
                                     Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                                    fragmentManager.popBackStack();
                                     fragmentManager.beginTransaction()
                                             .remove(currentFragment)
                                             .replace(R.id.current_fragment, fragment)
+//                                            .addToBackStack(Constants.tag_review_session_public)
                                             .commit();
                                 }
 

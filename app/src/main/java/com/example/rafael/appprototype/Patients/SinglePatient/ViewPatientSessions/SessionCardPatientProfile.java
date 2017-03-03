@@ -51,7 +51,6 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
         public MyViewHolder(View view) {
             super(view);
             this.view = view;
-
             date = (TextView) view.findViewById(R.id.recordDate);
             testsList = (RecyclerView) view.findViewById(R.id.session_tests_results);
             overflow = (ImageView) view.findViewById(R.id.overflow);
@@ -92,15 +91,18 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
                 layoutManager.getOrientation());
         holder.testsList.addItemDecoration(dividerItemDecoration);
 
-        // add on click listener for the Session
-        holder.view.setOnClickListener(new View.OnClickListener() {
+
+        View.OnClickListener cardSelected = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
                 args.putSerializable(ReviewSingleSessionWithPatient.SESSION, sessions.get(position));
                 FragmentTransitions.replaceFragment(context, new ReviewSingleSessionWithPatient(), args, Constants.tag_review_session_from_patient_profile);
             }
-        });
+        };
+        // add on click listener for the Session
+        holder.view.setOnClickListener(cardSelected);
+        holder.testsList.setOnClickListener(cardSelected);
 
         holder.overflow.setOnClickListener(new SessionCardHelper(holder.overflow, position, context, session, fragment));
     }

@@ -6,18 +6,22 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewArea;
+import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.SharedPreferencesHelper;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 
@@ -53,11 +57,9 @@ public class ReviewSingleSessionNoPatient extends Fragment {
         Bundle args = getArguments();
         // get Session and Patient
         session = (Session) args.getSerializable(SESSION);
-        if (session.getPatient() != null) {
-            getActivity().setTitle(session.getPatient().getName() + " - " + DatesHandler.dateToStringWithoutHour(session.getDate()));
-        } else {
-            getActivity().setTitle(DatesHandler.dateToStringWithoutHour(session.getDate()));
-        }
+
+        getActivity().setTitle(DatesHandler.dateToStringWithoutHour(session.getDate()));
+
 
         // check if we have to compare to the previous session
         //comparePreviousSession = args.getBoolean(COMPARE_PREVIOUS);
@@ -79,10 +81,18 @@ public class ReviewSingleSessionNoPatient extends Fragment {
         closeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                session.delete();
                 FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.popBackStack();
                 Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-                Fragment fragment = new CGAPublicInfo();
+                // check if logged in
+                Fragment fragment;
+                if (SharedPreferencesHelper.isLoggedIn(getActivity())) {
+                    SharedPreferencesHelper.resetPrivateSession(getActivity(), session.getGuid());
+                    fragment = new PatientsMain();
+                } else {
+                    SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
+                    fragment = new CGAPublicInfo();
+                }
                 fragmentManager.beginTransaction()
                         .remove(currentFragment)
                         .replace(R.id.current_fragment, fragment)

@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
-import com.example.rafael.appprototype.Patients.SinglePatient.PatientCard;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;

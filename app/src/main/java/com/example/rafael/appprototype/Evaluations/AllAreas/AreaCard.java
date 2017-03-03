@@ -92,7 +92,6 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
          * Check if all scales were completed.
          */
         ArrayList<GeriatricScale> scalesFromArea = session.getScalesFromArea(area);
-        Log.d("Area", "Size " + scalesFromArea.size());
         boolean allCompleted = true;
         for (GeriatricScale scale : scalesFromArea) {
             if (!scale.isCompleted()) {
@@ -101,9 +100,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
             }
         }
         if (!allCompleted) {
-            Log.d("Area", "Not all scales completed " + area);
         } else {
-            Log.d("Area", "All scales completed " + area);
             holder.cgaCompletion.setText("Todas as escalas foram preenchidas");
 
         }

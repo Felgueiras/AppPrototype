@@ -33,25 +33,18 @@ public class Constants {
     public static final String test_name_set_set = "Set Test de Isaacs";
     public static final String test_name_hamilton = "Hamilton Depression Rating Scale";
     public static final String test_name_tinetti = "Escala de Tinetti";
-    public static final String test_name_advancedDailyLifeActivities="Atividades avançadas da vida diária";
+
+    /**
+     * Question sets.
+     */
+    public static final String set_name_advancedDailyLifeActivities = "Atividades avançadas da vida diária";
 
 
-
-
-    public static final String[] allTests = new String[]{
-            test_name_mini_nutritional_assessment_triagem,
-            test_name_escalaDepressaoYesavage,
-            test_name_testeDeKatz, test_name_escalaLawtonBrody,
-            test_name_marchaHolden,
-            test_name_valoracionSocioFamiliar,
-            test_name_recursos_sociales,
-            test_name_burden_interview,
-            test_name_barthel_index};
     /**
      * Back stack tags.
      */
-    public static final String tag_view_patien_info_records = "viewPatientInfoRecords";
-    public static final String tag_create_patient = "createPatient";
+    public static final String tag_view_patient_info_records = "tag_view_patient_info_records";
+    public static final String tag_create_patient = "tag_create_patient";
     public static final String tag_patient_progress = "tag_patient_progress";
     public static final String tag_progress_detail = "tag_progress_detail";
     public static final String tag_help_topic = "tag_help_topic";
@@ -63,12 +56,17 @@ public class Constants {
     public static final String tag_create_session_no_patient = "tag_create_session_no_patient";
     public static final String tag_display_session_scale = "tag_display_session_scale";
     // review Evaluation
-    public static final String tag_view_sessions_history = "viewSessionsHistory";
-    public static final String tag_review_session = "reviewSession";
-    public static final String tag_review_session_from_patient_profile = "reviewSessionPatient";
-    public static final String tag_review_test = "reviewTest";
+    public static final String tag_view_sessions_history = "tag_view_sessions_history";
+    public static final String tag_review_session = "tag_review_session";
+    public static final String tag_review_session_public = "tag_review_session_public";
+    public static final String tag_review_session_from_patient_profile = "tag_review_session_from_patient_profile";
+    public static final String tag_review_test = "tag_review_test";
+    public static String tag_display_single_area_public = "tag_display_single_area_public";
+    public static String tag_display_single_area_private = "tag_display_single_area_private";
     // drug prescription
-    public static final String tag_view_drug_info = "drugInfo";
+    public static final String tag_view_drug_info = "tag_view_drug_info";
+    public static final String tag_pick_patient = "tag_pick_patient";
+
 
 
     /**
@@ -82,7 +80,6 @@ public class Constants {
      * Current Session ID.
      */
     public static String SESSION_ID = null;
-    public static boolean pickingPatient = false;
     public static String userName = "userName";
     public static int vpPatientsPage = 0;
     public static int vpPrescriptionPage = 0;
@@ -91,8 +88,7 @@ public class Constants {
     public static String area_public = "public";
     public static String area;
     public static String logged_in = "logged_in";
-    public static String tag_display_single_area_public = "display_single_area_public";
-    public static String tag_display_single_area_private = "display_single_area_private";
+
 
     /**
      * CGA areas.

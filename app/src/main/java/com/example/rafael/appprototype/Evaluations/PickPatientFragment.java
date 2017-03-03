@@ -4,26 +4,18 @@ import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
-import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.Main.FragmentTransitions;
-import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
-import com.example.rafael.appprototype.Patients.SinglePatient.PatientCard;
 import com.example.rafael.appprototype.R;
-import com.getbase.floatingactionbutton.AddFloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -32,7 +24,7 @@ import java.util.ArrayList;
  */
 public class PickPatientFragment extends Fragment {
 
-    private PatientCard adapter;
+    private PatientCardPicker adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,11 +64,8 @@ public class PickPatientFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.content_patients_list, container, false);
+        View view = inflater.inflate(R.layout.pick_patient, container, false);
         getActivity().setTitle(getResources().getString(R.string.pick_patient));
-
-        // signal a patient is to be chosen
-        Constants.selectPatient = true;
 
         // get the patients
         ArrayList<Patient> patients = Patient.getAllPatients();
@@ -88,21 +77,21 @@ public class PickPatientFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        adapter = new PatientCard(getActivity(), patients);
+        adapter = new PatientCardPicker(getActivity(), patients);
         recyclerView.setAdapter(adapter);
 
-        // FAB
-        AddFloatingActionButton fab = (AddFloatingActionButton) view.findViewById(R.id.patients_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                // create a new Patient - switch to CreatePatient Fragment
-                Bundle args = new Bundle();
-                FragmentTransitions.replaceFragment(getActivity(), new CreatePatient(), args, Constants.tag_create_patient);
-
-            }
-        });
+//        // FAB
+//        AddFloatingActionButton fab = (AddFloatingActionButton) view.findViewById(R.id.patients_fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                // create a new Patient - switch to CreatePatient Fragment
+//                Bundle args = new Bundle();
+//                FragmentTransitions.replaceFragment(getActivity(), new CreatePatient(), args, Constants.tag_create_patient);
+//
+//            }
+//        });
 
         return view;
     }

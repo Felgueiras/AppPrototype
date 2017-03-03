@@ -1,8 +1,8 @@
-package com.example.rafael.appprototype.Patients.SinglePatient;
+package com.example.rafael.appprototype.Evaluations;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.SharedPreferences;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -19,18 +19,13 @@ import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
-import com.example.rafael.appprototype.Main.FragmentTransitions;
-import com.example.rafael.appprototype.Main.PrivateArea;
-import com.example.rafael.appprototype.Patients.PatientsMain;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 
-import static android.content.Context.MODE_PRIVATE;
-
-public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> implements Filterable {
+public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.MyViewHolder> implements Filterable {
 
     private final ArrayList<Patient> filteredList;
     private Activity context;
@@ -67,7 +62,7 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
      * @param context
      * @param patients
      */
-    public PatientCard(Activity context, ArrayList<Patient> patients) {
+    public PatientCardPicker(Activity context, ArrayList<Patient> patients) {
         this.context = context;
         this.patients = patients;
         this.filteredList = new ArrayList<>();
@@ -104,47 +99,44 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
                  * Pick a patient to be associated with a Session.
                  */
 
-                if (Constants.selectPatient) {
-                    Log.d("Patient", "Selected patient");
-                    // go back to CreateSession
-                    Bundle args = new Bundle();
-                    // add Patient to Session
-                    SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
-                    String sessionID = sharedPreferences.getString(context.getString(R.string.saved_session_private), null);
+                Constants.selectPatient = false;
+                Snackbar.make(v, context.getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
+                Log.d("Patient", "Selected patient");
+                // add Patient to Session
+                String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);
 
-                        // get session by ID
-                    Session session = Session.getSessionByID(sessionID);
-                    session.setPatient(patient);
-                    session.eraseScalesNotCompleted();
-                    session.save();
+                // get session by ID
+                Session session = Session.getSessionByID(sessionID);
+                session.setPatient(patient);
+                session.eraseScalesNotCompleted();
+                session.save();
 
-                    // reset current private session
-                    SharedPreferencesHelper.resetPrivateSession(context,"");
-                    FragmentTransitions.replaceFragment(context, new PatientsMain(), args, "");
-                    Constants.selectPatient = false;
-                    Snackbar.make(v, context.getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
-                } else {
-                    // TODO add shared elements for transitions
-                    Fragment endFragment = new ViewSinglePatientInfo();
-                    /*
-                    endFragment.setSharedElementReturnTransition(TransitionInflater.from(
-                            context).inflateTransition(R.transition.change_image_trans));
+                // reset current private session
+                SharedPreferencesHelper.resetPrivateSession(context, "");
 
+                FragmentManager fragmentManager = context.getFragmentManager();
+//                    fragmentManager.popBackStack();
+                BackStackHandler.clearBackStack();
+//                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+//                    fragmentManager.beginTransaction()
+//                            .remove(currentFragment)
+//                            .replace(R.id.current_fragment, new PatientsMain())
+//                            .commit();
+                /**
+                 * Review session created for patient.
+                 */
+                Bundle args = new Bundle();
+                args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
+                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+                Fragment fragment = new ReviewSingleSessionWithPatient();
 
-                    endFragment.setSharedElementEnterTransition(TransitionInflater.from(
-                            context).inflateTransition(R.transition.change_image_trans));
-                    */
-
-
-//                    patientTransitionName = holder.name.getTransitionName();
-                    Bundle args = new Bundle();
-                    args.putString("ACTION", holder.name.getText().toString());
-                    args.putString("TRANS_TEXT", patientTransitionName);
-                    args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
-                    ((PrivateArea) context).replaceFragmentSharedElements(endFragment, args, Constants.tag_view_patien_info_records,
-                            holder.name);
-                }
-
+                fragment.setArguments(args);
+                Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                fragmentManager.beginTransaction()
+                        .remove(currentFragment)
+                        .replace(R.id.current_fragment, fragment)
+                        .addToBackStack(Constants.tag_review_session)
+                        .commit();
             }
         });
 
@@ -181,11 +173,11 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
      * Class that allows for the Patients to be filtered by area.
      */
     private class PatientsFilter extends Filter {
-        private final PatientCard adapter;
+        private final PatientCardPicker adapter;
         private final ArrayList<Patient> originalList;
         private final ArrayList<Patient> filteredList;
 
-        public PatientsFilter(PatientCard adapter, ArrayList<Patient> patients) {
+        public PatientsFilter(PatientCardPicker adapter, ArrayList<Patient> patients) {
             super();
             this.adapter = adapter;
             this.originalList = new ArrayList<>();

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class holds  definition of all the tests that exist
+ * This class holds  definition of all the scales that exist
  */
 public class Scales {
 
@@ -1077,22 +1077,22 @@ public class Scales {
         // create Gradings
         ArrayList<GradingNonDB> gradings = new ArrayList<>();
         gradings.add(new GradingNonDB("Marcha independente", 5, "O idoso é capaz de andar independentemente em superfícies planas, inclinadas ou escadas"));
-        gradings.add(new GradingNonDB("Marcha independente (superfície plana)", 4, "O idoso é capaz de andar de forma independente em\n" +
-                "superfícies planas, mas requer supervisão ou ajuda física\n" +
-                "para superar escadas, superfícies inclinadas ou terrenos\n" +
+        gradings.add(new GradingNonDB("Marcha independente (superfície plana)", 4, "O idoso é capaz de andar de forma independente em " +
+                "superfícies planas, mas requer supervisão ou ajuda física " +
+                "para superar escadas, superfícies inclinadas ou terrenos " +
                 "não planos"));
-        gradings.add(new GradingNonDB("Marcha dependente com supervisão", 3, "O idoso é capaz de andar de forma independente em\n" +
-                "superfícies planas sem ajuda, mas para a sua segurança\n" +
+        gradings.add(new GradingNonDB("Marcha dependente com supervisão", 3, "O idoso é capaz de andar de forma independente em " +
+                "superfícies planas sem ajuda, mas para a sua segurança " +
                 "requer supervisão de uma pessoa."));
-        gradings.add(new GradingNonDB("Marcha dependente - Nível II", 2, "O idoso requer ajuda mínima de uma pessoa para não\n" +
-                "cair na test_type_marcha em superfície plana. A ajuda consiste em\n" +
-                "toques suaves, contínuos ou intermitentes, para ajudar a\n" +
+        gradings.add(new GradingNonDB("Marcha dependente - Nível II", 2, "O idoso requer ajuda mínima de uma pessoa para não " +
+                "cair em superfície plana. A ajuda consiste em " +
+                "toques suaves, contínuos ou intermitentes, para ajudar a " +
                 "manter o equilíbrio e a coordenação"));
-        gradings.add(new GradingNonDB("Marcha dependente - Nível I", 1, "O idoso necessita de grande ajuda de uma pessoa para\n" +
-                "andar e evitar quedas. Esta ajuda é constante, sendo\n" +
-                "necessária para suportar o peso do corpo ou para manter\n" +
+        gradings.add(new GradingNonDB("Marcha dependente - Nível I", 1, "O idoso necessita de grande ajuda de uma pessoa para " +
+                "andar e evitar quedas. Esta ajuda é constante, sendo " +
+                "necessária para suportar o peso do corpo ou para manter " +
                 "o equilíbrio ou a coordenação"));
-        gradings.add(new GradingNonDB("Marcha ineficaz", 0, "O idoso não é capaz de caminhar, caminha apenas em\n" +
+        gradings.add(new GradingNonDB("Marcha ineficaz", 0, "O idoso não é capaz de caminhar, caminha apenas em " +
                 "barras paralelas ou requer ajuda física ou supervisã"));
         // add Gradings to Scoring
         marchaScoring.setValuesBoth(gradings);
@@ -1101,43 +1101,6 @@ public class Scales {
         marcha.setSingleQuestion(true);
 
         return marcha;
-    }
-
-
-    public static GeriatricScaleNonDB advancedDailyLifeActivities() {
-        GeriatricScaleNonDB escalaDepressao = new GeriatricScaleNonDB(Constants.test_name_advancedDailyLifeActivities,
-                Constants.cga_functional, Constants.test_name_advancedDailyLifeActivities,
-                "");
-        // short area
-        escalaDepressao.setShortName("Atividades avançadas");
-        // create Scoring
-        ScoringNonDB depressionScoring = new ScoringNonDB(0, 4, false);
-        // create Gradings
-        ArrayList<GradingNonDB> gradings = new ArrayList<>();
-        gradings.add(new GradingNonDB("TODO", 0, 4));
-        // add Gradings to Scoring
-        depressionScoring.setValuesBoth(gradings);
-        // add Scoring to Test
-        escalaDepressao.setScoring(depressionScoring);
-
-        // 1
-        QuestionNonDB question = new QuestionNonDB("Colabora? em atividades sócio-recreativas e trabalho?", 0, 1);
-        question.setYesOrNo(true);
-        escalaDepressao.addQuestion(question);
-        // 2
-        question = new QuestionNonDB("Utiliza tecnologia? (Ipad)", 1, 0);
-        question.setYesOrNo(true);
-        escalaDepressao.addQuestion(question);
-        // 3
-        question = new QuestionNonDB("Viaja?", 1, 0);
-        question.setYesOrNo(true);
-        escalaDepressao.addQuestion(question);
-        // 4
-        question = new QuestionNonDB("Pratica exercício físico intenso?", 1, 0);
-        question.setYesOrNo(true);
-        escalaDepressao.addQuestion(question);
-
-        return escalaDepressao;
     }
 
 
@@ -1953,8 +1916,6 @@ public class Scales {
                 return hamiltonDepressionScale();
             case Constants.test_name_tinetti:
                 return tinettiScale();
-            case Constants.test_name_advancedDailyLifeActivities:
-                return advancedDailyLifeActivities();
         }
         return null;
     }
@@ -2054,7 +2015,6 @@ public class Scales {
 //        tests.add(setTest());
         // tests.add(hamiltonDepressionScale());
         tests.add(tinettiScale());
-        tests.add(advancedDailyLifeActivities());
         return tests;
     }
 

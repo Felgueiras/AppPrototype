@@ -2,6 +2,7 @@ package com.example.rafael.appprototype.Evaluations.AllAreas;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,10 +39,14 @@ public class CGAPublicInfo extends Fragment {
         View view = inflater.inflate(R.layout.cga_public_info, container, false);
         getActivity().setTitle(getResources().getString(R.string.cga));
 
+        Log.d("Session","Inside CGAPublicInfo");
+
+
         Button startSession = (Button) view.findViewById(R.id.start_acg_evaluation);
         startSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("Session","Clicked!");
                 FragmentTransitions.replaceFragment(getActivity(), new CGAPublic(), null, Constants.tag_cga_public);
             }
         });

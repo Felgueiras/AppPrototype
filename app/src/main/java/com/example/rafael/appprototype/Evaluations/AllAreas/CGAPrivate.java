@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,12 +28,14 @@ import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.Scales;
 import com.example.rafael.appprototype.DatesHandler;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.Evaluations.PickPatientFragment;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Patients.ViewPatients.PatientsListFragment;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.SharedPreferencesHelper;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -43,7 +46,7 @@ import java.util.List;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
- * Create a new public CGA.
+ * Create a new private CGA.
  */
 public class CGAPrivate extends Fragment {
 
@@ -76,18 +79,25 @@ public class CGAPrivate extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View myInflatedView = inflater.inflate(R.layout.content_new_session_tab, container, false);
-        getActivity().setTitle(getResources().getString(R.string.cga));
 
-
-        // check the Constants
+        Log.d("CGAPrivate", "onCreateView");
         Bundle args = getArguments();
         if (args != null)
             patient = (Patient) args.getSerializable(PATIENT);
 
+        // Inflate the layout for this fragment
+        View view;
+        if (patient != null) {
+            view = inflater.inflate(R.layout.content_new_session_private, container, false);
+        } else {
+            view = inflater.inflate(R.layout.content_new_session_private_no_patient, container, false);
+        }
+        getActivity().setTitle(getResources().getString(R.string.cga));
+
+
         sharedPreferences = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
-        String sessionID = sharedPreferences.getString(getString(R.string.saved_session_private), null);
+        String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(getActivity());
+
 
         if (sessionID != null) {
             // get session by ID
@@ -98,11 +108,6 @@ public class CGAPrivate extends Fragment {
                 // set the patient for this session
                 session.setPatient(patient);
                 session.save();
-                if (Constants.pickingPatient) {
-                    Constants.pickingPatient = false;
-                    sharedPreferences.edit().putString(getString(R.string.saved_session_private), null).apply();
-//                    FragmentTransitions.replaceFragment(getActivity(), new EvaluationsHistoryMain(), null, Constants.tag_view_sessions_history);
-                }
             }
         }
         /**
@@ -157,7 +162,7 @@ public class CGAPrivate extends Fragment {
         }
 
 
-        RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.area_scales_recycler_view);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);
         AreaCard adapter;
 
         // new evaluation created for no Patient
@@ -170,7 +175,7 @@ public class CGAPrivate extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        saveFAB = (FloatingActionButton) myInflatedView.findViewById(R.id.session_save);
+        saveFAB = (FloatingActionButton) view.findViewById(R.id.session_save);
         saveFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -206,28 +211,49 @@ public class CGAPrivate extends Fragment {
                                     /**
                                      * Open the fragment to pick an already existing Patient.
                                      */
-                                    Constants.pickingPatient = true;
-                                    Bundle args = new Bundle();
-                                    args.putBoolean(PatientsListFragment.selectPatient, true);
-                                    FragmentTransitions.replaceFragment(getActivity(), new PickPatientFragment(), args,
-                                            Constants.fragment_show_patients);
+                                    FragmentManager fragmentManager = getFragmentManager();
+//                                    fragmentManager.popBackStack();
+                                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                                    fragmentManager.beginTransaction()
+                                            .remove(currentFragment)
+                                            .replace(R.id.current_fragment, new PickPatientFragment())
+                                            .commit();
                                     dialog.dismiss();
                                 }
                             });
                     alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
                                     // reset this Session
-                                    sharedPreferences.edit().putString(getString(R.string.saved_session_private), null).apply();
-
-                                    // delete Session from DB
-                                    session.delete();
                                     FragmentManager fragmentManager = getFragmentManager();
+//                                    fragmentManager.popBackStack();
+                                    BackStackHandler.clearBackStack();
+                                    session.eraseScalesNotCompleted();
+                                    Session sessionCopy = session;
+                                    SharedPreferencesHelper.resetPrivateSession(getActivity(), "");
+                                    SharedPreferencesHelper.resetPrivateSession(getActivity(), session.getGuid());
+                                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
                                     fragmentManager.beginTransaction()
+                                            .remove(currentFragment)
                                             .replace(R.id.current_fragment, new PatientsMain())
                                             .commit();
-                                    Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
+
+//                                    /**
+//                                     * Review session created for patient.
+//                                     */
+//                                    Bundle args = new Bundle();
+//                                    args.putSerializable(ReviewSingleSessionNoPatient.SESSION, sessionCopy);
+//                                    Fragment fragment = new ReviewSingleSessionNoPatient();
+//                                    fragment.setArguments(args);
+//                                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+//                                    fragmentManager.beginTransaction()
+//                                            .remove(currentFragment)
+//                                            .replace(R.id.current_fragment, fragment)
+//                                            .addToBackStack(Constants.tag_review_session)
+//                                            .commit();
+
+                                    dialog.dismiss();
+//                                    Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
                                 }
                             });
                     alertDialog.show();
@@ -270,7 +296,7 @@ public class CGAPrivate extends Fragment {
             }
         });
 
-        discardFAB = (FloatingActionButton) myInflatedView.findViewById(R.id.session_discard);
+        discardFAB = (FloatingActionButton) view.findViewById(R.id.session_discard);
         discardFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -281,8 +307,7 @@ public class CGAPrivate extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // remove session
-                                session.delete();
-                                sharedPreferences.edit().putString(getString(R.string.saved_session_private), null).apply();
+                                SharedPreferencesHelper.resetPrivateSession(getActivity(), session.getGuid());
                                 BackStackHandler.discardSession(session.getPatient());
                                 dialog.dismiss();
                                 Snackbar.make(getView(), getResources().getString(R.string.session_discarded), Snackbar.LENGTH_SHORT).show();
@@ -298,7 +323,7 @@ public class CGAPrivate extends Fragment {
             }
         });
 
-        return myInflatedView;
+        return view;
     }
 
     /**
@@ -325,6 +350,7 @@ public class CGAPrivate extends Fragment {
      * Generate a new SESSION_ID.
      */
     private void createNewSession() {
+        Log.d("CGAprivate", "Creating new session");
         Calendar c = Calendar.getInstance();
         Date time = c.getTime();
         String sessionID = time.toString();
@@ -346,7 +372,7 @@ public class CGAPrivate extends Fragment {
         session.save();
 
         // save the ID
-        sharedPreferences.edit().putString(getString(R.string.saved_session_private), sessionID).apply();
+        SharedPreferencesHelper.setPrivateSession(getActivity(), sessionID);
     }
 
 

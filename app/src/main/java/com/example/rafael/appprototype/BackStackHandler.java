@@ -10,6 +10,7 @@ import android.util.Log;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivate;
 import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
@@ -62,13 +63,12 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             FragmentManager.BackStackEntry backEntry = fragmentManager.getBackStackEntryAt(index);
             String tag = backEntry.getName();
 
-            Log.d("Stack", tag);
+            Log.d("Stack", "handleBackButton (tag):" + tag);
             /**
              * Only pop backstack if changing fragments/screens
              */
             if (!tag.equals(Constants.tag_create_session_no_patient) &&
-                    !tag.equals(Constants.tag_create_session_with_patient) &&
-                    !tag.equals(Constants.tag_cga_public)) {
+                    !tag.equals(Constants.tag_create_session_with_patient)) {
                 fragmentManager.popBackStack();
             }
 
@@ -86,9 +86,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 Session session = test.getSession();
                 Patient patient = (Patient) arguments.getSerializable(ScaleFragment.patient);
 
-                boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
-
-                if (alreadyLogged) {
+                if (SharedPreferencesHelper.isLoggedIn(context)) {
                     args = new Bundle();
                     args.putSerializable(CGAAreaPrivate.sessionObject, session);
                     args.putSerializable(CGAAreaPrivate.PATIENT, patient);
@@ -107,12 +105,9 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
              * Viewing single area (public).
              */
             else if (tag.equals(Constants.tag_display_single_area_public)) {
-
                 args = new Bundle();
                 fragment = new CGAPublic();
-
                 fragment.setArguments(args);
-
             } else if (tag.equals(Constants.tag_display_single_area_private)) {
 
                 // get the arguments
@@ -152,7 +147,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 Patient patient = (Patient) arguments.getSerializable(ProgressDetail.PATIENT);
                 args.putSerializable(ProgressMainFragment.PATIENT, patient);
 
-            } else if (tag.equals(Constants.tag_view_patien_info_records)) {
+            } else if (tag.equals(Constants.tag_view_patient_info_records)) {
                 fragment = new PatientsMain();
             } else if (tag.equals(Constants.tag_view_drug_info)) {
                 fragment = new DrugPrescriptionMain();
@@ -168,6 +163,9 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 Log.d("Stack", "pressed back in new session (public)");
                 ((CGAPublic) currentFragment).resetFAB.performClick();
                 return;
+            } else if (tag.equals(Constants.tag_review_session_public)) {
+                Log.d("Stack", "Reviewing session (public area)");
+                fragment = new CGAPublicInfo();
             } else if (tag.equals(Constants.tag_help_topic)) {
                 args = new Bundle();
                 fragment = new HelpTopics();
@@ -216,15 +214,21 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
     @Override
     public void onBackStackChanged() {
-        if (fragmentManager.getBackStackEntryCount() == 0) {
+        int stackSize = fragmentManager.getBackStackEntryCount();
+        if (stackSize == 0) {
             ToolbarHelper.hideBackButton(context);
         } else {
             ToolbarHelper.showBackButton(context);
-            String fragmentName = fragmentManager.getBackStackEntryAt(0).getName();
-            int index = fragmentManager.getBackStackEntryCount() - 1;
-            FragmentManager.BackStackEntry backEntry = fragmentManager.getBackStackEntryAt(index);
-            String tag = backEntry.getName();
-            Log.d("BackStack", "BackStack changed, Top fragment tag is now " + tag);
+
+            // display back stack
+            Log.d("Stack", "Size: " + stackSize);
+            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+                FragmentManager.BackStackEntry backEntry = fragmentManager.getBackStackEntryAt(i);
+                String tag = backEntry.getName();
+                Log.d("Stack", i + "-" + tag);
+            }
+
+
         }
     }
 
@@ -237,14 +241,12 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
         Log.d("Session", "Discarding session for patient " + patient);
         fragmentManager.popBackStack();
         Bundle args = new Bundle();
-        Fragment fr = fragmentManager.findFragmentById(R.id.current_fragment);
+//        Fragment fr = fragmentManager.findFragmentById(R.id.current_fragment);
 
-        // session is discarded -> go back to the Patient's profile
         Constants.discard_session = false;
-        // session is created -> go back to the Patient session view
-        sharedPreferences.edit().putString(context.getString(R.string.saved_session_private), null).apply();
+        SharedPreferencesHelper.resetPrivateSession(context, "");
 
-        Fragment fragment = null;
+        Fragment fragment;
         if (patient != null) {
             /**
              * Session with patient.
@@ -298,7 +300,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
             String tagPrevious = backEntryPrevious.getName();
             Log.d("Stack", "Previous tag:" + tagPrevious);
-            if (tagPrevious.equals(Constants.tag_view_patien_info_records)) {
+            if (tagPrevious.equals(Constants.tag_view_patient_info_records)) {
 
 
                 fragmentManager.popBackStack();
