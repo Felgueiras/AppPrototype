@@ -170,7 +170,9 @@ public class ViewSinglePatientInfo extends Fragment {
 
                                 BackStackHandler.clearBackStack();
                                 FragmentManager fragmentManager = getFragmentManager();
+                                Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
                                 fragmentManager.beginTransaction()
+                                        .remove(currentFragment)
                                         .replace(R.id.current_fragment, new PatientsMain())
                                         .commit();
                                 Snackbar.make(getView(), getResources().getString(R.string.patient_erase_snackbar), Snackbar.LENGTH_SHORT).show();

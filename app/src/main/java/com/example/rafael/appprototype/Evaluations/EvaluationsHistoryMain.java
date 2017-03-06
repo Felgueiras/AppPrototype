@@ -2,6 +2,7 @@ package com.example.rafael.appprototype.Evaluations;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -20,7 +21,6 @@ public class EvaluationsHistoryMain extends Fragment {
 
     private final ViewPager viewPager;
     private final int page;
-    private FragmentManager fragmentManager;
 
     public EvaluationsHistoryMain(ViewPager viewPager, int position) {
         this.viewPager = viewPager;
@@ -33,26 +33,25 @@ public class EvaluationsHistoryMain extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.evaluations_history, container, false);
 
+        FragmentManager fragmentManager = getActivity().getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Fragment fragment;
+        /**
+         * Setup fragment for FrameLayout.
+         */
         if (Session.getAllSessions().isEmpty()) {
-            fragmentManager = getFragmentManager();
-            Fragment fragment = new EmptyStateFragment();
+            fragment = new EmptyStateFragment();
             Bundle args = new Bundle();
             args.putString(EmptyStateFragment.MESSAGE, getResources().getString(R.string.no_sessions_history));
             fragment.setArguments(args);
-
-            Fragment currentFragment = fragmentManager.findFragmentById(R.id.evaluation_history_frame_layout);
-            fragmentManager.beginTransaction()
-                    //.remove(currentFragment)
-                    .replace(R.id.evaluation_history_frame_layout, fragment)
-                    .commit();
-
         } else {
-            fragmentManager = getFragmentManager();
-            Fragment fragment = new EvaluationsHistoryGrid(viewPager, page);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.evaluation_history_frame_layout, fragment)
-                    .commit();
+            fragment = new EvaluationsHistoryGrid(viewPager, page);
         }
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.evaluation_history_frame_layout);
+        if (currentFragment != null)
+            transaction.remove(currentFragment);
+        transaction.replace(R.id.evaluation_history_frame_layout, fragment);
+        transaction.commit();
 
         // create a new session without a patient
         AddFloatingActionButton fab = (AddFloatingActionButton) view.findViewById(R.id.new_evaluation_fab);

@@ -18,11 +18,11 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
-import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
 import com.example.rafael.appprototype.Help_Feedback.SendFeedback;
-import com.example.rafael.appprototype.Login.LoginActivity;
+import com.example.rafael.appprototype.Login.LoginFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
+import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.SharedPreferencesHelper;
 
@@ -52,25 +52,20 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
 
         // ToolbarHelper.hideBackButton(context);
 
+
+
+        Fragment endFragment = null;
+
         if (id == R.id.login) {
-            // Insert the fragment by replacing any existing fragment
-            Log.d("Login", "Going to login");
             // check if there is any on-going session
             String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(context);
             if (sessionID != null) {
                 SharedPreferencesHelper.resetPublicSession(context, sessionID);
             }
-            // go to login screen
-            Intent intent = new Intent(context, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            context.startActivity(intent);
-            context.finish();
-            return true;
+            endFragment = new LoginFragment();
+
         }
-
-        Fragment endFragment = null;
-
-        if (id == R.id.cga_public) {
+        else if (id == R.id.cga_public) {
             /**
              * Check if there's an ongoing session.
              */

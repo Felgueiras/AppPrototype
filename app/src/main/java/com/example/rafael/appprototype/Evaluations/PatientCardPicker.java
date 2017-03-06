@@ -115,6 +115,10 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                 SharedPreferencesHelper.resetPrivateSession(context, "");
 
                 FragmentManager fragmentManager = context.getFragmentManager();
+                Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                fragmentManager.beginTransaction()
+                        .remove(currentFragment)
+                        .commit();
 //                    fragmentManager.popBackStack();
                 BackStackHandler.clearBackStack();
 //                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
@@ -131,7 +135,7 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                 Fragment fragment = new ReviewSingleSessionWithPatient();
 
                 fragment.setArguments(args);
-                Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
                 fragmentManager.beginTransaction()
                         .remove(currentFragment)
                         .replace(R.id.current_fragment, fragment)

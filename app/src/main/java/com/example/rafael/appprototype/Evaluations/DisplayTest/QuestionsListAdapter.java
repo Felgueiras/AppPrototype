@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -456,6 +457,8 @@ public class QuestionsListAdapter extends BaseAdapter {
             String grade = currentGrading.getGrade();
             String description = currentGrading.getDescription();
             newRadioButton.setText(description);
+            newRadioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    context.getResources().getDimension(R.dimen.font_size));
 
             LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
                     RadioGroup.LayoutParams.WRAP_CONTENT,

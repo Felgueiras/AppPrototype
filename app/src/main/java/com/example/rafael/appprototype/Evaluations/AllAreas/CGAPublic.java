@@ -44,7 +44,6 @@ public class CGAPublic extends Fragment {
 
     public static String GENDER = "gender";
 
-
     private Session session;
 
     boolean resuming = false;
