@@ -612,10 +612,11 @@ public class QuestionsListAdapter extends BaseAdapter {
         View questionView = inflater.inflate(R.layout.content_question_yes_no, null);
         Question questionInDB = scale.getQuestionsFromScale().get(position);
 
+        Holder holder = new Holder();
+        holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
+        holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
         if (questionInDB.isAnswered()) {
-            Holder holder = new Holder();
-            holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
-            holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
+
 
             RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
             radioGroup.setOnCheckedChangeListener(new YesNoQuestionHandler(questionInDB, this, position));

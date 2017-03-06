@@ -33,7 +33,13 @@ public class EvaluationsHistoryMain extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.evaluations_history, container, false);
 
-        FragmentManager fragmentManager = getActivity().getFragmentManager();
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         Fragment fragment;
         /**
@@ -58,14 +64,12 @@ public class EvaluationsHistoryMain extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 // create a new Session - switch to CreatePatient Fragment
                 Bundle args = null;
                 FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), args, Constants.tag_create_session_no_patient);
             }
         });
-
-        return view;
     }
+
 }
 

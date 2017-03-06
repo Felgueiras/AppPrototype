@@ -38,7 +38,6 @@ public class PatientsListFragment extends Fragment {
     public PatientsListFragment(ViewPager viewPager, int position) {
         this.viewPager = viewPager;
         this.page = position;
-
     }
 
 

@@ -187,8 +187,7 @@ public class PrivateArea extends AppCompatActivity {
             // show lockscreen
             Log.d("Lock", "onResume - showing lock screen");
             // store current fragment
-            // TODO restore
-//            showLockScreen();
+            showLockScreen();
         } else {
             Log.d("Lock", "onResume - not locked");
         }
