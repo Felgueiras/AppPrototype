@@ -64,6 +64,7 @@ public class EvaluationsHistoryGrid extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         if (viewPager.getCurrentItem() == page) {
+            menu.clear();
             inflater.inflate(R.menu.menu_evaluations, menu);
             Log.d("Menu", "Evaluations");
         }

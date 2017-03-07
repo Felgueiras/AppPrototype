@@ -49,9 +49,9 @@ public class PatientsListFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
         super.onCreateOptionsMenu(menu, inflater);
         if (viewPager.getCurrentItem() == page) {
+            menu.clear();
             inflater.inflate(R.menu.menu_search, menu);
             Log.d("Menu", "Patients 2");
 

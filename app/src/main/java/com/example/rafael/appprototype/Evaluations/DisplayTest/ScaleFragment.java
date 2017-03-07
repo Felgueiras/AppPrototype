@@ -30,6 +30,7 @@ public class ScaleFragment extends Fragment {
     public static String CGA_AREA;
     Session session;
 
+
     /**
      * Selected Test.
      */
@@ -44,7 +45,7 @@ public class ScaleFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(false);
+        setHasOptionsMenu(true);
 
 
         // get the list of tests
