@@ -15,13 +15,13 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.BackStackHandler;
+import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.SharedPreferencesHelper;
+import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 

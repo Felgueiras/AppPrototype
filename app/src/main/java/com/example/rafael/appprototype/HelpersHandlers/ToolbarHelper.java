@@ -1,7 +1,9 @@
-package com.example.rafael.appprototype;
+package com.example.rafael.appprototype.HelpersHandlers;
 
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.rafael.appprototype.Constants;
 
 /**
  * Created by felgueiras on 22/02/2017.

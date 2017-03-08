@@ -16,19 +16,16 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rafael.appprototype.BackStackHandler;
+import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.Scales;
-import com.example.rafael.appprototype.DatesHandler;
-import com.example.rafael.appprototype.Evaluations.PickPatientFragment;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
+import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
-import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.SharedPreferencesHelper;
+import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;

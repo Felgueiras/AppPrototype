@@ -251,4 +251,5 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="session_discarded">Sessão descartada.</string>
     <string name="pick_patient">Selecione o paciente</string>
     <string name="session_finish">Terminar</string>
+    <string name="action_options">Opções</string>
 </resources>

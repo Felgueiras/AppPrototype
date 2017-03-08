@@ -13,7 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.example.rafael.appprototype.BackStackHandler;
+import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
@@ -24,7 +24,7 @@ import com.example.rafael.appprototype.Login.LoginFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.SharedPreferencesHelper;
+import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -52,6 +52,11 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
 
         // ToolbarHelper.hideBackButton(context);
 
+//        if (id == R.id.options) {
+//            Intent i = new Intent(context, MyPreferencesActivity.class);
+//            context.startActivity(i);
+//            return true;
+//        }
 
 
         Fragment endFragment = null;
@@ -64,8 +69,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             }
             endFragment = new LoginFragment();
 
-        }
-        else if (id == R.id.cga_public) {
+        } else if (id == R.id.cga_public) {
             /**
              * Check if there's an ongoing session.
              */
@@ -136,8 +140,6 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 
 
 }

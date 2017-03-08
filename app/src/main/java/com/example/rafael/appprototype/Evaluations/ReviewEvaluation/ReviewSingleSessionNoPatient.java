@@ -6,22 +6,19 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rafael.appprototype.BackStackHandler;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.DatesHandler;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
+import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewArea;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.SharedPreferencesHelper;
+import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 

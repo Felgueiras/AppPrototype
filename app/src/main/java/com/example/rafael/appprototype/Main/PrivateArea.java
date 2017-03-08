@@ -21,15 +21,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
-import com.example.rafael.appprototype.BackStackHandler;
+import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.LockScreen.LockScreenActivity;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.SharedPreferencesHelper;
-import com.example.rafael.appprototype.ToolbarHelper;
+import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
+import com.example.rafael.appprototype.HelpersHandlers.ToolbarHelper;
 
 public class PrivateArea extends AppCompatActivity {
 

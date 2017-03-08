@@ -6,7 +6,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.ToolbarHelper;
+import com.example.rafael.appprototype.HelpersHandlers.ToolbarHelper;
 
 /**
  * Created by felgueiras on 18/01/2017.

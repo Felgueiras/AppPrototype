@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype;
+package com.example.rafael.appprototype.HelpersHandlers;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
@@ -25,6 +26,7 @@ import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingle
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragment;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
+import com.example.rafael.appprototype.R;
 
 import static android.content.Context.MODE_PRIVATE;
 

@@ -20,7 +20,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
-import com.example.rafael.appprototype.BackStackHandler;
+import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
@@ -29,10 +29,9 @@ import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragment;
 import com.example.rafael.appprototype.Introduction.MyIntro;
-import com.example.rafael.appprototype.LockScreen.LockScreenActivity;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.SharedPreferencesHelper;
+import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 
 public class PublicArea extends AppCompatActivity {
 

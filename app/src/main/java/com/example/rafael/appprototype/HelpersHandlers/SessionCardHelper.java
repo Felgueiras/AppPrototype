@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype;
+package com.example.rafael.appprototype.HelpersHandlers;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryGrid;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
+import com.example.rafael.appprototype.R;
 
 /**
  * Created by felgueiras on 20/02/2017.

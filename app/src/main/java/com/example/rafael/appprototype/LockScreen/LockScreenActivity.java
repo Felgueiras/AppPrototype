@@ -11,7 +11,7 @@ import android.widget.EditText;
 import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
-import com.example.rafael.appprototype.SharedPreferencesHelper;
+import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 
 public class LockScreenActivity extends AppCompatActivity {
     /**
