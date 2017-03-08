@@ -138,7 +138,7 @@ public class PrivateArea extends AppCompatActivity {
             // TODO set the doctor photo after having logged in
             View headerLayout = navigationView.getHeaderView(0);
             TextView userName = (TextView) headerLayout.findViewById(R.id.userName);
-            userName.setText(sharedPreferences.getString(Constants.userName, null));
+            userName.setText(sharedPreferences.getString(getString(R.string.username), null));
             ImageView userImage = (ImageView) headerLayout.findViewById(R.id.userPhoto);
             //userImage.setImageResource(R.drawable.male);
             //TextView userSubtext = (TextView) headerLayout.findViewById(R.id.userSubText);

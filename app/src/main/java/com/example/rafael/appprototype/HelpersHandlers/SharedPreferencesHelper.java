@@ -66,4 +66,41 @@ public class SharedPreferencesHelper {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         return sharedPreferences.getBoolean(Constants.logged_in, false);
     }
+
+
+    /**
+     * Login/Register logic.
+     */
+    public static void registerUser(Context context, String username, String email, String password) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        sharedPreferences.edit().putString(context.getString(R.string.username), username).apply();
+        sharedPreferences.edit().putString(context.getString(R.string.email), email).apply();
+        sharedPreferences.edit().putString(context.getString(R.string.password), password).apply();
+    }
+
+
+    /**
+     * Get user email.
+     *
+     * @param context
+     * @return
+     */
+    public static String getUserEmail(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        return sharedPreferences.getString(context.getString(R.string.email), "");
+    }
+
+    public static String getUserPassword(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        return sharedPreferences.getString(context.getString(R.string.password), "");
+    }
+
+    public static void login(Context context) {
+        // set the user as being logged in
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean(Constants.logged_in, true).apply();
+
+        // clear lock status, so when logging in the lock screen isn't shown
+        setLockStatus(context, false);
+    }
 }

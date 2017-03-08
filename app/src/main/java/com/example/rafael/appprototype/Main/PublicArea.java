@@ -80,7 +80,7 @@ public class PublicArea extends AppCompatActivity {
                 if (!Constants.upButton) {
                     drawer.openDrawer(Gravity.LEFT);
                 } else {
-                    Log.d("Toolbar","Up button showing");
+                    Log.d("Toolbar", "Up button showing");
                     onBackPressed();
                 }
             }
@@ -112,34 +112,27 @@ public class PublicArea extends AppCompatActivity {
 
         //  Declare a new thread to do a preference check
         final SharedPreferences finalSharedPreferences = sharedPreferences;
-        Thread t = new Thread(new Runnable() {
+        Thread checkFirstStart = new Thread(new Runnable() {
             @Override
             public void run() {
-
                 //  Create a new boolean and preference and set it to true
                 boolean isFirstStart = finalSharedPreferences.getBoolean("firstStart", true);
-
                 //  If the activity has never started before...
                 if (isFirstStart) {
-
                     //  Launch app intro
                     Intent i = new Intent(PublicArea.this, MyIntro.class);
                     startActivity(i);
-
                     //  Make a new preferences editor
                     SharedPreferences.Editor e = finalSharedPreferences.edit();
-
-                    //  Edit preference to make it false because we don't want this to run again
+                    //  Edit preference to make it false because we don'checkFirstStart want this to run again
                     e.putBoolean("firstStart", false);
-
                     //  Apply changes
                     e.apply();
                 }
             }
         });
-
         // Start the thread
-        t.start();
+        checkFirstStart.start();
 
         Constants.area = Constants.area_public;
 
@@ -315,15 +308,9 @@ public class PublicArea extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onPause() {
-        Log.d("Lock", "Public onPause -> going to lock");
-        super.onStop();
-    }
-
 
     public void isTherePublicSession() {
-        Log.d("Session","checking if there is public session");
+        Log.d("Session", "checking if there is public session");
         final String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(this);
         if (sessionID != null) {
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();

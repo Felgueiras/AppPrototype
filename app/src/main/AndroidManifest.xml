@@ -36,7 +36,7 @@
             android:name=".Introduction.MyIntro"
             android:theme="@style/FullscreenTheme" />
         <activity
-            android:name=".Login.LoginActivity"
+            android:name=".LoginRegister.LoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" />
@@ -75,6 +75,8 @@
             android:name=".MyPreferencesActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
+        <activity android:name=".Register.RegisterUser" />
+        <activity android:name=".LoginRegister.RegisterUser"></activity>
     </application>
 
 </manifest>

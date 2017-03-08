@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Login;
+package com.example.rafael.appprototype.LoginRegister;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -14,6 +14,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -34,7 +37,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginFragment extends Fragment{
+public class LoginFragment extends Fragment {
 
 
     private static final String[] DUMMY_CREDENTIALS = new String[]{
@@ -53,6 +56,34 @@ public class LoginFragment extends Fragment{
     private View mLoginFormView;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_login, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.register:
+                /**
+                 * Register the user and associate it with the app.
+                 */
+                Intent intent = new Intent(getActivity(), RegisterUser.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                getActivity().finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -60,7 +91,7 @@ public class LoginFragment extends Fragment{
         View view = inflater.inflate(R.layout.activity_login, container, false);
 
         // set the title
-        getActivity().setTitle(getResources().getString(R.string.title_activity_login));
+        getActivity().setTitle(getResources().getString(R.string.action_log_in));
 
         mEmailView = (AutoCompleteTextView) view.findViewById(R.id.email);
         populateAutoComplete();
@@ -210,7 +241,6 @@ public class LoginFragment extends Fragment{
     }
 
 
-
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
@@ -245,15 +275,15 @@ public class LoginFragment extends Fragment{
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            return true;
+            // validate from dummy credentials
+//            for (String credential : DUMMY_CREDENTIALS) {
+//                String[] pieces = credential.split(":");
+//                if (pieces[0].equals(mEmail)) {
+//                    // Account exists, return true if the password matches.
+//                    return pieces[1].equals(mPassword);
+//                }
+//            }
+            return validateLogin(mEmail, mPassword);
         }
 
         @Override
@@ -262,15 +292,7 @@ public class LoginFragment extends Fragment{
             showProgress(false);
 
             if (success) {
-                // go to the main activity
-                Log.d("Login", "Logged in");
-                // save userName on shared pref
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
-                sharedPreferences.edit().putString(Constants.userName, "[username]").apply();
-                sharedPreferences.edit().putBoolean(Constants.logged_in, true).apply();
-
-                // clear lock status, so when logging in the lock screen isn't shown
-                SharedPreferencesHelper.setLockStatus(getActivity(), false);
+                SharedPreferencesHelper.login(getActivity());
 
                 Intent intent = new Intent(getActivity(), PrivateArea.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -287,6 +309,11 @@ public class LoginFragment extends Fragment{
             mAuthTask = null;
             showProgress(false);
         }
+    }
+
+    private Boolean validateLogin(String email, String password) {
+        return SharedPreferencesHelper.getUserEmail(getActivity()).equals(email) &&
+                SharedPreferencesHelper.getUserPassword(getActivity()).equals(password);
     }
 }
 

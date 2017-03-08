@@ -252,4 +252,12 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="pick_patient">Selecione o paciente</string>
     <string name="session_finish">Terminar</string>
     <string name="action_options">Opções</string>
+    <string name="action_register">Registar</string>
+    <string name="register_disclaimer">Ao registar-se vai poder criar perfis de pacientes e associar-lhes sessões de ACG.
+    Será mais fácil acompanhar o seu progresso pois poderá consultar consultas anteriores. Deste modo, a confidencialidade
+    dos dados também se encontra assegurada.</string>
+    <string name="username">username</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="create_account">Registar</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Login;
+package com.example.rafael.appprototype.LoginRegister;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

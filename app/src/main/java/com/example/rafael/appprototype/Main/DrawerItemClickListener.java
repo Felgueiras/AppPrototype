@@ -20,7 +20,7 @@ import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
 import com.example.rafael.appprototype.Help_Feedback.SendFeedback;
-import com.example.rafael.appprototype.Login.LoginFragment;
+import com.example.rafael.appprototype.LoginRegister.LoginFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.R;
