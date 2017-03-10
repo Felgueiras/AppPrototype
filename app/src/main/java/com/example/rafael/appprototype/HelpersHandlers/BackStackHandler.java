@@ -57,7 +57,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
         if (fragmentManager.getBackStackEntryCount() > 0) {
             // get fragment on top of stack
             String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
-            Fragment currentFragment = fragmentManager.findFragmentByTag(fragmentTag);
+//            Fragment currentFragment = fragmentManager.findFragmentByTag(fragmentTag);
 
 
             Fragment fr = fragmentManager.findFragmentById(R.id.current_fragment);
@@ -79,29 +79,30 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
              */
             if (tag.equals(Constants.tag_display_session_scale)) {
 
+                fragment = fr;
                 // get the arguments
                 Bundle arguments = fr.getArguments();
                 GeriatricScale test = (GeriatricScale) arguments.getSerializable(ScaleFragment.testDBobject);
                 assert test != null;
                 test.setAlreadyOpened(true);
                 test.save();
-                Session session = test.getSession();
-                Patient patient = (Patient) arguments.getSerializable(ScaleFragment.patient);
-
-                if (SharedPreferencesHelper.isLoggedIn(context)) {
-                    args = new Bundle();
-                    args.putSerializable(CGAAreaPrivate.sessionObject, session);
-                    args.putSerializable(CGAAreaPrivate.PATIENT, patient);
-                    args.putSerializable(CGAAreaPrivate.CGA_AREA, arguments.getSerializable(ScaleFragment.CGA_AREA));
-                    fragment = new CGAAreaPrivate();
-                } else {
-                    args = new Bundle();
-                    args.putSerializable(CGAAreaPublic.sessionObject, session);
-                    args.putSerializable(CGAAreaPublic.PATIENT, patient);
-                    args.putSerializable(CGAAreaPublic.CGA_AREA, arguments.getSerializable(ScaleFragment.CGA_AREA));
-
-                    fragment = new CGAAreaPublic();
-                }
+//                Session session = test.getSession();
+//                Patient patient = (Patient) arguments.getSerializable(ScaleFragment.patient);
+//
+//                if (SharedPreferencesHelper.isLoggedIn(context)) {
+//                    args = new Bundle();
+//                    args.putSerializable(CGAAreaPrivate.sessionObject, session);
+//                    args.putSerializable(CGAAreaPrivate.PATIENT, patient);
+//                    args.putSerializable(CGAAreaPrivate.CGA_AREA, arguments.getSerializable(ScaleFragment.CGA_AREA));
+//                    fragment = new CGAAreaPrivate();
+//                } else {
+//                    args = new Bundle();
+//                    args.putSerializable(CGAAreaPublic.sessionObject, session);
+//                    args.putSerializable(CGAAreaPublic.PATIENT, patient);
+//                    args.putSerializable(CGAAreaPublic.CGA_AREA, arguments.getSerializable(ScaleFragment.CGA_AREA));
+//
+//                    fragment = new CGAAreaPublic();
+//                }
             }
             /**
              * Viewing single area (public).
@@ -152,18 +153,18 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             } else if (tag.equals(Constants.tag_view_patient_info_records)) {
                 fragment = new PatientsMain();
             } else if (tag.equals(Constants.tag_view_drug_info)) {
-                fragment = new DrugPrescriptionMain();
+                fragment = fr;
             } else if (tag.equals(Constants.tag_create_session_no_patient)) {
                 Log.d("Stack", "pressed back in new session");
-                ((CGAPrivate) currentFragment).discardFAB.performClick();
+                ((CGAPrivate) fr).discardFAB.performClick();
                 return;
             } else if (tag.equals(Constants.tag_create_session_with_patient)) {
                 Log.d("Stack", "pressed back in new session with patient");
-                ((CGAPrivate) currentFragment).discardFAB.performClick();
+                ((CGAPrivate) fr).discardFAB.performClick();
                 return;
             } else if (tag.equals(Constants.tag_cga_public)) {
                 Log.d("Stack", "pressed back in new session (public)");
-                ((CGAPublic) currentFragment).resetFAB.performClick();
+                ((CGAPublic) fr).resetFAB.performClick();
                 return;
             } else if (tag.equals(Constants.tag_review_session_public)) {
                 Log.d("Stack", "Reviewing session (public area)");
@@ -201,8 +202,10 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 }
             }
 
-            fragment.setArguments(args);
-            currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+            if (fragment.getArguments() == null) {
+                fragment.setArguments(args);
+            }
+            Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
             fragmentManager.beginTransaction()
                     .remove(currentFragment)
                     .replace(R.id.current_fragment, fragment)
