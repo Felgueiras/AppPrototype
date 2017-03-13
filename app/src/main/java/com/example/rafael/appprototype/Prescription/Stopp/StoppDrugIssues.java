@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Display a List of the resume for each GeriatricScale inside a Sesssion.
  */
-public class DrugIssues extends BaseAdapter {
+public class StoppDrugIssues extends BaseAdapter {
     /**
      * Questions for a Test
      */
@@ -27,7 +27,7 @@ public class DrugIssues extends BaseAdapter {
      *
      * @param issues ArrayList of Questions
      */
-    public DrugIssues(Context context, ArrayList<Issue> issues) {
+    public StoppDrugIssues(Context context, ArrayList<Issue> issues) {
         this.issues = issues;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

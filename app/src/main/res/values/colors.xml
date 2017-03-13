@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3f51b5</color>
-    <color name="colorPrimaryDark">#303f9f</color>
+    <color name="colorPrimaryDark">#0385a3</color>
     <color name="colorAccent">#03a9f4</color>
     <color name="viewBg">#f1f5f8</color>
     <color name="album_title">#4c4c4c</color>
@@ -23,4 +23,10 @@
     <color name="colorTextPrimary">#ffffff</color>
     <color name="colorTextSecondary">#757575</color>
     <color name="colorBackground">#bdbdbd</color>
+    <color name="transparent">#00000000</color>
+    <color name="button">#dd0000</color>
+    <!--Criteria color-->
+    <color name="startCriteriaColor">#00dd3b</color>
+    <color name="stoppCriteriaColor">#dd0004</color>
+    <color name="beersCriteriaColor">#001ddd</color>
 </resources>

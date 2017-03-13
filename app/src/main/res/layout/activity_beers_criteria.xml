@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:id="@+id/beersSelection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:checked="true"
+            android:id="@+id/organSystem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Organ System/Therapeutic Category" />
+
+        <RadioButton
+            android:id="@+id/disease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disease/Syndrome" />
+    </RadioGroup>
+
+    <ExpandableListView
+        android:id="@+id/lvExp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>

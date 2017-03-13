@@ -282,7 +282,7 @@ public class GeriatricScale extends Model implements Serializable {
 
         if (singleQuestion) {
             //system.out.println("SINGLE");
-            ScoringNonDB scoring = Scales.getTestByName(this.getScaleName()).getScoring();
+            ScoringNonDB scoring = Scales.getScaleByName(this.getScaleName()).getScoring();
             ArrayList<GradingNonDB> valuesBoth = scoring.getValuesBoth();
             for (GradingNonDB grade : valuesBoth) {
                 if (grade.getGrade().equals(answer)) {

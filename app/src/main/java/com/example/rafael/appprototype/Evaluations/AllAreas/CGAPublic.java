@@ -65,7 +65,7 @@ public class CGAPublic extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View myInflatedView = inflater.inflate(R.layout.content_new_session_public, container, false);
-        getActivity().setTitle(getResources().getString(R.string.cga));
+        getActivity().setTitle(getResources().getString(R.string.cga_public));
 
         sharedPreferences = getActivity().getSharedPreferences(getResources().getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
 
@@ -88,7 +88,6 @@ public class CGAPublic extends Fragment {
             createNewSession();
             addTestsToSession();
 
-            Log.d("Session", "showing dialog");
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.select_patient_gender);
 
@@ -116,14 +115,6 @@ public class CGAPublic extends Fragment {
                         }
                     });
 
-            String negativeText = getString(android.R.string.cancel);
-            builder.setNegativeButton(negativeText,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // negative button logic
-                        }
-                    });
 
             builder.setCancelable(false);
             AlertDialog dialog = builder.create();
@@ -141,65 +132,6 @@ public class CGAPublic extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
-        // reset the session
-        resetFAB = (FloatingActionButton) myInflatedView.findViewById(R.id.session_reset);
-        resetFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                alertDialog.setTitle(getResources().getString(R.string.session_reset));
-                alertDialog.setMessage(getResources().getString(R.string.session_reset_question));
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // remove session
-                                session.eraseScalesNotCompleted();
-
-                                if (session.getScalesFromSession().size() == 0) {
-                                    SharedPreferencesHelper.resetPublicSession(getActivity(), sessionID);
-
-                                    BackStackHandler.clearBackStack();
-                                    FragmentManager fragmentManager = getFragmentManager();
-                                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-                                    Fragment fragment = new CGAPublicInfo();
-                                    fragmentManager.beginTransaction()
-                                            .remove(currentFragment)
-                                            .replace(R.id.current_fragment, fragment)
-                                            .commit();
-                                } else {
-                                    Session sessionCopy = session;
-                                    SharedPreferencesHelper.resetPublicSession(getActivity(), null);
-
-//                                    BackStackHandler.clearBackStack();
-                                    Bundle args = new Bundle();
-                                    args.putSerializable(ReviewSingleSessionNoPatient.SESSION, sessionCopy);
-                                    FragmentManager fragmentManager = getFragmentManager();
-                                    Fragment fragment = new ReviewSingleSessionNoPatient();
-                                    fragment.setArguments(args);
-                                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-                                    fragmentManager.popBackStack();
-                                    fragmentManager.beginTransaction()
-                                            .remove(currentFragment)
-                                            .replace(R.id.current_fragment, fragment)
-//                                            .addToBackStack(Constants.tag_review_session_public)
-                                            .commit();
-                                }
-
-                                dialog.dismiss();
-
-                                // Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
-                            }
-                        });
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
-            }
-        });
 
         /*
         saveFAB = (FloatingActionButton) myInflatedView.findViewById(R.id.session_save);
@@ -241,8 +173,8 @@ public class CGAPublic extends Fragment {
         /*
                                     Constants.pickingPatient = true;
                                     Bundle args = new Bundle();
-                                    args.putBoolean(PatientsListFragment.selectPatient, true);
-                                    FragmentTransitions.replaceFragment(getActivity(), new PatientsListFragment(), args,
+                                    args.putBoolean(PatientsAll.selectPatient, true);
+                                    FragmentTransitions.replaceFragment(getActivity(), new PatientsAll(), args,
                                             Constants.fragment_show_patients);
                                     dialog.dismiss();
                                     Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
@@ -330,5 +262,59 @@ public class CGAPublic extends Fragment {
         sharedPreferences.edit().putString(getString(R.string.saved_session_public), sessionID).apply();
     }
 
+    public void discardSession() {
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setTitle(getResources().getString(R.string.session_reset));
+        alertDialog.setMessage(getResources().getString(R.string.session_reset_question));
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // remove session
+                        session.eraseScalesNotCompleted();
+
+                        if (session.getScalesFromSession().size() == 0) {
+                            SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
+
+                            BackStackHandler.clearBackStack();
+                            FragmentManager fragmentManager = getFragmentManager();
+                            Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                            Fragment fragment = new CGAPublicInfo();
+                            fragmentManager.beginTransaction()
+                                    .remove(currentFragment)
+                                    .replace(R.id.current_fragment, fragment)
+                                    .commit();
+                        } else {
+                            Session sessionCopy = session;
+                            SharedPreferencesHelper.resetPublicSession(getActivity(), null);
+
+//                                    BackStackHandler.clearBackStack();
+                            Bundle args = new Bundle();
+                            args.putSerializable(ReviewSingleSessionNoPatient.SESSION, sessionCopy);
+                            FragmentManager fragmentManager = getFragmentManager();
+                            Fragment fragment = new ReviewSingleSessionNoPatient();
+                            fragment.setArguments(args);
+                            Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                            fragmentManager.popBackStack();
+                            fragmentManager.beginTransaction()
+                                    .remove(currentFragment)
+                                    .replace(R.id.current_fragment, fragment)
+//                                            .addToBackStack(Constants.tag_review_session_public)
+                                    .commit();
+                        }
+
+                        dialog.dismiss();
+
+                        // Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
+    }
 }
 

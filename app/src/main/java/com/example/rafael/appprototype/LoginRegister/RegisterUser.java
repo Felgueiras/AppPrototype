@@ -67,7 +67,7 @@ public class RegisterUser extends AppCompatActivity {
 
         final ProgressDialog progressDialog = new ProgressDialog(RegisterUser.this);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
+        progressDialog.setMessage("Registando-se...");
         progressDialog.show();
 
         final String name = _nameText.getText().toString();

@@ -6,15 +6,14 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
-import com.example.rafael.appprototype.Patients.FavoritePatients.FavoritePatientsMain;
-import com.example.rafael.appprototype.Patients.ViewPatients.PatientsListFragment;
+import com.example.rafael.appprototype.Patients.FavoritePatients.PatientsFavorite;
+import com.example.rafael.appprototype.Patients.ViewPatients.PatientsAll;
+import com.example.rafael.appprototype.Patients.ViewPatients.PatientsRecent;
 import com.example.rafael.appprototype.R;
 
 
@@ -40,7 +39,7 @@ public class PatientsMain extends Fragment {
 
 
         // set the title
-        getActivity().setTitle(getResources().getString(R.string.tab_drug_prescription));
+        getActivity().setTitle(getResources().getString(R.string.tab_my_patients));
         viewPager = (ViewPager) v.findViewById(R.id.viewpager);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager(), viewPager);
 
@@ -85,16 +84,14 @@ public class PatientsMain extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new PatientsListFragment(viewPager, position);
+                return new PatientsAll(viewPager, position);
             } else if (position == 1) {
-                return new EvaluationsHistoryMain(viewPager, position);
+                return new PatientsFavorite();
             } else if (position == 2) {
-                return new FavoritePatientsMain();
+                return new PatientsRecent(viewPager, position);
             }
             return null;
         }
-
-
 
 
 
@@ -109,9 +106,9 @@ public class PatientsMain extends Fragment {
                 case 0:
                     return getResources().getString(R.string.patients_all);
                 case 1:
-                    return getResources().getString(R.string.patients_sessions);
-                case 2:
                     return getResources().getString(R.string.patients_favorites);
+                case 2:
+                    return getResources().getString(R.string.patients_recent);
             }
             return null;
         }

@@ -66,44 +66,15 @@ public class DatabaseOps {
      * Insert dummy data into DB
      */
     public static void insertDataToDB() {
-        int numSessionsPerPacient = 0;
 
-        String[] patientNames = new String[]{
-                "João Almeida",
-                "Maria da Luz",
-                "José Francisco Pinto",
-                "Leonor Conceição",
-                "Vítor Semedo"
-        };
-        Date[] patientBirthDates = new Date[]{
-                DatesHandler.stringToDate("1920-12-01"),
-                DatesHandler.stringToDate("1920-12-01"),
-                DatesHandler.stringToDate("1920-12-01"),
-                DatesHandler.stringToDate("1920-12-01"),
-                DatesHandler.stringToDate("1920-12-01")
-        };
-        char[] patientGenders = new char[]{
-                'm',
-                'f',
-                'm',
-                'f',
-                'm'
-        };
-        String[] patientAddresses = new String[]{
-                "Cacia",
-                "Aveiro",
-                "Sarrazola",
-                "Vilar",
-                "Porto"
-        };
-
-        /*
-        int numPatients = 5;
+        int numPatients = 40;
         String[] patientNames = new String[numPatients];
         int[] patientAges = new int[numPatients];
         String[] patientAddresses = new String[numPatients];
         double[] patientGenders = new double[numPatients];
-        */
+        Date[] patientBirthDates = new Date[numPatients];
+
+
 
         for (int patient = 0; patient < patientNames.length; patient++) {
             patientNames[patient] = "Patient " + patient;

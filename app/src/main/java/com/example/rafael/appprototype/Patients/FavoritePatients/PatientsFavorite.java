@@ -2,7 +2,6 @@ package com.example.rafael.appprototype.Patients.FavoritePatients;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,19 +10,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
-import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.EmptyStateFragment;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryGrid;
-import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
-import com.getbase.floatingactionbutton.AddFloatingActionButton;
 
 import java.util.ArrayList;
 
-public class FavoritePatientsMain extends Fragment {
+public class PatientsFavorite extends Fragment {
 
 
     @Override

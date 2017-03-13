@@ -3,8 +3,11 @@ package com.example.rafael.appprototype.HelpersHandlers;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.example.rafael.appprototype.Constants;
@@ -12,6 +15,7 @@ import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivate;
 import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
@@ -70,7 +74,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
              * Only pop backstack if changing fragments/screens
              */
             if (!tag.equals(Constants.tag_create_session_no_patient) &&
-                    !tag.equals(Constants.tag_create_session_with_patient)) {
+                    !tag.equals(Constants.tag_create_session_with_patient) &&
+                    !tag.equals(Constants.tag_cga_public)) {
                 fragmentManager.popBackStack();
             }
 
@@ -153,18 +158,18 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             } else if (tag.equals(Constants.tag_view_patient_info_records)) {
                 fragment = new PatientsMain();
             } else if (tag.equals(Constants.tag_view_drug_info)) {
-                fragment = fr;
+                fragment = new DrugPrescriptionMain();
             } else if (tag.equals(Constants.tag_create_session_no_patient)) {
                 Log.d("Stack", "pressed back in new session");
-                ((CGAPrivate) fr).discardFAB.performClick();
+                ((CGAPrivate) fr).discardSession();
                 return;
             } else if (tag.equals(Constants.tag_create_session_with_patient)) {
                 Log.d("Stack", "pressed back in new session with patient");
-                ((CGAPrivate) fr).discardFAB.performClick();
+                ((CGAPrivate) fr).discardSession();
                 return;
             } else if (tag.equals(Constants.tag_cga_public)) {
                 Log.d("Stack", "pressed back in new session (public)");
-                ((CGAPublic) fr).resetFAB.performClick();
+                ((CGAPublic) fr).discardSession();
                 return;
             } else if (tag.equals(Constants.tag_review_session_public)) {
                 Log.d("Stack", "Reviewing session (public area)");
@@ -177,7 +182,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
              * Sessions history / review
              */
             else if (tag.equals(Constants.tag_review_session)) {
-                fragment = new PatientsMain();
+                fragment = new EvaluationsHistoryMain();
             } else if (tag.equals(Constants.tag_review_session_from_patient_profile)) {
 
                 // get the arguments
@@ -200,6 +205,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 if (session.getPatient() == null) {
                     fragment = new ReviewSingleSessionNoPatient();
                 }
+            } else if (tag.equals(Constants.tag_create_patient)) {
+                fragment = new PatientsMain();
             }
 
             if (fragment.getArguments() == null) {
@@ -211,9 +218,28 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     .replace(R.id.current_fragment, fragment)
                     .commit();
         } else {
-            // empty stack
-            System.out.println("Empty stack");
-            context.finish();
+            /**
+             * Empty stack - ask if user really wishes to close the app
+             */
+
+            AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+            alertDialog.setTitle(context.getResources().getString(R.string.app_close));
+            alertDialog.setMessage(context.getResources().getString(R.string.app_close_question));
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, context.getResources().getString(R.string.yes),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            context.finish();
+                        }
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, context.getResources().getString(R.string.no),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+
         }
     }
 

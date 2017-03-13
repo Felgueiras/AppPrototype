@@ -7,11 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rafael.appprototype.DataTypes.Criteria.BeersCriteria;
+import com.example.rafael.appprototype.DataTypes.Criteria.Beers.BeersCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.RecommendationInfo;
 import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStart;
 import com.example.rafael.appprototype.DataTypes.Criteria.StartCriteria;
@@ -32,7 +31,6 @@ public class ViewSingleDrugtInfo extends Fragment {
 
     public static final String DRUG = "drug";
     private String drug;
-    private ArrayList<BeersCriteria> beersData;
     private ArrayList<StoppCriteria> stoppData;
     private ArrayList<StartCriteria> startData;
 
@@ -47,30 +45,30 @@ public class ViewSingleDrugtInfo extends Fragment {
             // get drug area
             drug = bundle.getString(DRUG);
         }
+        Log.d("Drug","Current drug-"+drug);
 
         // access Views
         getActivity().setTitle(drug);
 
         // get drug info
-        beersData = BeersCriteria.getBeersData();
         stoppData = StoppCriteria.getStoppData();
         startData = StartCriteria.getStartData();
         // stopp
         final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(stoppData);
         // beers
-        final ArrayList<String> beersCriteriaDrugs = BeersCriteria.getAllDrugsBeers(beersData);
+        final ArrayList<String> beersCriteriaDrugs = BeersCriteria.getBeersDrugsAllString();
         // start
         final ArrayList<String> startCriteriaDrugs = StartCriteria.getAllDrugsStart(startData);
 
         // check info (start, stopp or beers)
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getChildFragmentManager();
         // start
         if (startCriteriaDrugs.contains(drug)) {
             // get info about the Start criteria for that drug
-            PrescriptionStart pr = StartCriteria.getStartCriteriaPresciptionForDrug(drug, startData);
+            ArrayList<PrescriptionStart> pr = StartCriteria.getStartCriteriaPresciptionForDrug(drug, startData);
             DrugInfoStart drugInfoStart = new DrugInfoStart();
             Bundle args = new Bundle();
-            args.putSerializable(DrugInfoStart.DRUG, pr);
+            args.putSerializable(DrugInfoStart.DRUGS, pr);
             drugInfoStart.setArguments(args);
             fragmentManager.beginTransaction()
                     .replace(R.id.drug_info_start, drugInfoStart)
@@ -87,10 +85,11 @@ public class ViewSingleDrugtInfo extends Fragment {
         // stopp
         if (stoppCriteriaDrugs.contains(drug)) {
             // get info about the Stopp criteria for that drug
-            PrescriptionStopp pr = StoppCriteria.getStoppCriteriaPresciptionForDrug(drug, stoppData);
+            ArrayList<PrescriptionStopp> pr = StoppCriteria.getStoppCriteriaPresciptionForDrug(drug, stoppData);
+            Log.d("Drug","STOPP");
             DrugInfoStopp drugInfoStopp = new DrugInfoStopp();
             Bundle args = new Bundle();
-            args.putSerializable(DrugInfoStopp.DRUG, pr);
+            args.putSerializable(DrugInfoStopp.DRUGS, pr);
             drugInfoStopp.setArguments(args);
             fragmentManager.beginTransaction()
                     .replace(R.id.drug_info_stopp, drugInfoStopp)
@@ -104,18 +103,20 @@ public class ViewSingleDrugtInfo extends Fragment {
                     .replace(R.id.drug_info_stopp, fragment)
                     .commit();
         }
-        // beers
+        /**
+         * Beers.
+         */
         if (beersCriteriaDrugs.contains(drug)) {
-            RecommendationInfo drugInfo = BeersCriteria.getBeersCriteriaInfoAboutDrug(drug, beersData);
+            ArrayList<RecommendationInfo> drugInfos = BeersCriteria.getBeersCriteria(drug);
             DrugInfoBeers drugInfoBeers = new DrugInfoBeers();
             Bundle args = new Bundle();
-            args.putSerializable(DrugInfoBeers.DRUG, drugInfo);
+            args.putSerializable(DrugInfoBeers.DRUGS, drugInfos);
             drugInfoBeers.setArguments(args);
             fragmentManager.beginTransaction()
                     .replace(R.id.drug_info_beers, drugInfoBeers)
                     .commit();
-        }
-        else {
+        } else {
+            // check if it's a drug or a drug category
             Fragment fragment = new EmptyStateFragment();
             Bundle args = new Bundle();
             args.putString(EmptyStateFragment.MESSAGE, getResources().getString(R.string.no_beers_criteria));

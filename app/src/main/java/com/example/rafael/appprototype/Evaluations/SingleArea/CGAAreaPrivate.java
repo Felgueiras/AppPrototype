@@ -136,8 +136,8 @@ public class CGAAreaPrivate extends Fragment {
 //                                     */
 //                                    Constants.pickingPatient = true;
 //                                    Bundle args = new Bundle();
-//                                    args.putBoolean(PatientsListFragment.selectPatient, true);
-//                                    FragmentTransitions.replaceFragment(getActivity(), new PatientsListFragment(), args,
+//                                    args.putBoolean(PatientsAll.selectPatient, true);
+//                                    FragmentTransitions.replaceFragment(getActivity(), new PatientsAll(), args,
 //                                            Constants.fragment_show_patients);
 //                                    dialog.dismiss();
 //                                    Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();

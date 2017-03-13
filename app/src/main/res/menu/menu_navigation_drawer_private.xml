@@ -6,12 +6,10 @@
             android:id="@+id/patients"
             android:icon="@drawable/ic_account_circle_black_24dp"
             android:title="@string/tab_my_patients" />
-        <!--
         <item
-            android:id="@+id/evaluations"
+            android:id="@+id/sessions"
             android:icon="@drawable/ic_assignment_black_24dp"
             android:title="@string/tab_sessions" />
-            -->
         <item
             android:id="@+id/prescription"
             android:icon="@drawable/ic_pill"

@@ -41,7 +41,6 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
      * CGA area.
      */
     private final String area;
-    private final boolean reviewing;
 
     private Activity context;
     private ArrayList<GeriatricScaleNonDB> testsForArea;
@@ -89,7 +88,6 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
         this.session = session;
         this.patientGender = patientGender;
         this.area = area;
-        this.reviewing = reviewing;
     }
 
     @Override
@@ -131,20 +129,26 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                         currentScale,
                         patientGender);
                 // qualitative result
-                if(match != null)
+                if (match != null)
                     holder.result_qualitative.setText(match.getGrade());
                 // quantitative result
                 String quantitative = "";
                 quantitative += currentScale.getResult();
-                GeriatricScaleNonDB testNonDB = Scales.getTestByName(currentScale.getScaleName());
-                if (!testNonDB.getScoring().isDifferentMenWomen()) {
-                    quantitative += " (" + testNonDB.getScoring().getMinScore();
-                    quantitative += "-" + testNonDB.getScoring().getMaxScore() + ")";
-                } else {
-                    if (patientGender == Constants.MALE) {
-                        quantitative += " (" + testNonDB.getScoring().getMinMen();
-                        quantitative += "-" + testNonDB.getScoring().getMaxMen() + ")";
+                GeriatricScaleNonDB testNonDB = Scales.getScaleByName(currentScale.getScaleName());
+                if (testNonDB.getScoring() != null) {
+                    if (!testNonDB.getScoring().isDifferentMenWomen()) {
+                        quantitative += " (" + testNonDB.getScoring().getMinScore();
+                        quantitative += "-" + testNonDB.getScoring().getMaxScore() + ")";
+                    } else {
+                        if (patientGender == Constants.MALE) {
+                            quantitative += " (" + testNonDB.getScoring().getMinMen();
+                            quantitative += "-" + testNonDB.getScoring().getMaxMen() + ")";
+                        }
                     }
+                }
+                else
+                {
+                    quantitative ="";
                 }
                 holder.result_quantitative.setText(quantitative);
             }
@@ -199,7 +203,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                 Fragment newFragment = new ScaleFragment();
                 // add arguments
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(ScaleFragment.testObject, Scales.getTestByName(selectedTestName));
+                bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(selectedTestName));
                 bundle.putSerializable(ScaleFragment.testDBobject, finalCurrentTest);
                 bundle.putSerializable(ScaleFragment.CGA_AREA, area);
                 bundle.putSerializable(ScaleFragment.patient, session.getPatient());

@@ -2,6 +2,8 @@ package com.example.rafael.appprototype.Evaluations.DisplayTest;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -76,6 +78,7 @@ public class ScaleFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
     }
+
 
 
 

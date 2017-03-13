@@ -35,7 +35,7 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
         private final TextView testName;
         private final TextView testResult;
         public TextView patientName;
-        public ImageView  overflow;
+        public ImageView overflow;
 
         public MyViewHolder(View view) {
             super(view);
@@ -55,7 +55,6 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
     }
 
 
-
     @Override
     public SessionScalesAdapterRecycler.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.test_result, parent, false);
@@ -67,14 +66,12 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
     public void onBindViewHolder(SessionScalesAdapterRecycler.MyViewHolder holder, int position) {
 
         // get values
-        GeriatricScale test = sessionScales.get(position);
-        String name = Scales.getShortName(test.getScaleName());
-        GradingNonDB grading = Scales.getGradingForTestWithoutGenerating(
-                test,
-                Constants.SESSION_GENDER);
+        GeriatricScale scale = sessionScales.get(position);
+        String name = Scales.getShortName(scale.getScaleName());
+        GradingNonDB grading = Scales.getGradingForTestWithoutGenerating(scale, Constants.SESSION_GENDER);
         // update views
         holder.testName.setText(name);
-        if(grading!=null)
+        if (grading != null)
             holder.testResult.setText(grading.getGrade());
     }
 

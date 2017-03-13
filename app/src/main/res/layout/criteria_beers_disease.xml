@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp">
+
+        <TextView
+            android:id="@+id/beersDisease"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Disease"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/drugs"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="Drugs" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/recommendation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recommendation" />
+
+        <TextView
+            android:id="@+id/rationale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rationale" />
+
+        <TextView
+            android:id="@+id/qualityOfEvidence"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="QE" />
+
+
+        <TextView
+            android:id="@+id/strengthOfRecommendation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SR" />
+    </LinearLayout>
+
+</LinearLayout>

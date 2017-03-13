@@ -56,7 +56,7 @@ public class ReviewSingleScaleFragment extends Fragment {
         // create the adapter
         QuestionsListAdapter adapter = new QuestionsListAdapter(
                 this.getActivity(),
-                Scales.getTestByName(test.getScaleName()),
+                Scales.getScaleByName(test.getScaleName()),
                 test, null);
         testQuestions.setAdapter(adapter);
         return view;

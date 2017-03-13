@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
+import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
@@ -85,7 +86,7 @@ public class PrivateArea extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         final String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);
         if (sessionID != null) {
-            Log.d("Session","Ongoing private session");
+            Log.d("Session", "Ongoing private session");
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
             alertDialog.setMessage("Deseja retomar a Sessão que tinha em curso?");
@@ -123,29 +124,23 @@ public class PrivateArea extends AppCompatActivity {
         if (sharedPreferences.getBoolean(Constants.first_run, true)) {
             Log.d("FIRST RUN", "first run");
             sharedPreferences.edit().putBoolean(Constants.first_run, false).commit();
-            //DatabaseOps.insertDataToDB();
+            DatabaseOps.insertDataToDB();
             // display login screen
-            // TODO log in
-            /*
-            Intent i = new Intent(CGAAreaPrivate.this, LoginActivity.class);
-            startActivity(i);
-            */
 
         }
         // user already logged in
-
         else {
             // TODO set the doctor photo after having logged in
             View headerLayout = navigationView.getHeaderView(0);
             TextView userName = (TextView) headerLayout.findViewById(R.id.userName);
             userName.setText(sharedPreferences.getString(getString(R.string.username), null));
+            // TODO remove (just for testing)
+            DatabaseOps.insertDataToDB();
             ImageView userImage = (ImageView) headerLayout.findViewById(R.id.userPhoto);
             //userImage.setImageResource(R.drawable.male);
             //TextView userSubtext = (TextView) headerLayout.findViewById(R.id.userSubText);
             //userSubtext.setText("[Some text here]");
         }
-
-        System.out.println("PRIVATE AREA");
 
         // set handler for the Fragment stack
         BackStackHandler handler = new BackStackHandler(getFragmentManager(), this);
@@ -153,7 +148,7 @@ public class PrivateArea extends AppCompatActivity {
 
         // set sample fragment
         Fragment fragment = null;
-        String defaultFragment = Constants.fragment_show_patients;
+        String defaultFragment = Constants.fragment_drug_prescription;
         switch (defaultFragment) {
             case Constants.fragment_show_patients:
                 fragment = new PatientsMain();
@@ -187,7 +182,7 @@ public class PrivateArea extends AppCompatActivity {
             // show lockscreen
             Log.d("Lock", "onResume - showing lock screen");
             // store current fragment
-            showLockScreen();
+//            showLockScreen();
         } else {
             Log.d("Lock", "onResume - not locked");
         }
@@ -203,7 +198,7 @@ public class PrivateArea extends AppCompatActivity {
 //                .replace(R.id.current_fragment, fragment)
 //                .commit();
 
-        Intent intent = new Intent(PrivateArea.this,LockScreenActivity.class);
+        Intent intent = new Intent(PrivateArea.this, LockScreenActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
@@ -313,5 +308,9 @@ public class PrivateArea extends AppCompatActivity {
         super.onStop();
         Log.d("Lock", "onStop -> going to lock");
         SharedPreferencesHelper.setLockStatus(this, true);
+    }
+
+    public void changeTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
 }

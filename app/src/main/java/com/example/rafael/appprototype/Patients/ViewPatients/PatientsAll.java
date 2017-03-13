@@ -4,8 +4,10 @@ import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -19,23 +21,24 @@ import android.view.ViewGroup;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
+import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
 import com.example.rafael.appprototype.R;
-import com.getbase.floatingactionbutton.AddFloatingActionButton;
 
 import java.util.ArrayList;
 
 /**
  * Display the list of Patients to view them or select one of them.
  */
-public class PatientsListFragment extends Fragment {
+public class PatientsAll extends Fragment {
 
     public static String selectPatient = "selectPatient";
     private final ViewPager viewPager;
     private final int page;
     private PatientCard adapter;
+    private RecyclerView patientsRecyclerView;
 
-    public PatientsListFragment(ViewPager viewPager, int position) {
+    public PatientsAll(ViewPager viewPager, int position) {
         this.viewPager = viewPager;
         this.page = position;
     }
@@ -53,7 +56,6 @@ public class PatientsListFragment extends Fragment {
         if (viewPager.getCurrentItem() == page) {
             menu.clear();
             inflater.inflate(R.menu.menu_search, menu);
-            Log.d("Menu", "Patients 2");
 
 
             SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
@@ -74,8 +76,6 @@ public class PatientsListFragment extends Fragment {
                 }
             });
         }
-
-
     }
 
     @Override
@@ -84,7 +84,6 @@ public class PatientsListFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_patients_list, container, false);
-        getActivity().setTitle(getResources().getString(R.string.tab_my_patients));
 
         // get the patients
         ArrayList<Patient> patients = Patient.getAllPatients();
@@ -99,17 +98,23 @@ public class PatientsListFragment extends Fragment {
         }
 
         // fill the RecyclerView
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        patientsRecyclerView = (RecyclerView) view.findViewById(R.id.patients_recycler_view);
 
-        // create Layout
+        // display card for each Patientndroid rec
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        patientsRecyclerView.setLayoutManager(mLayoutManager);
+        patientsRecyclerView.setItemAnimator(new DefaultItemAnimator());
         adapter = new PatientCard(getActivity(), patients);
-        recyclerView.setAdapter(adapter);
+        patientsRecyclerView.setAdapter(adapter);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(),
+                layoutManager.getOrientation());
+        patientsRecyclerView.addItemDecoration(dividerItemDecoration);
+
 
         // FAB
-        AddFloatingActionButton fab = (AddFloatingActionButton) view.findViewById(R.id.patients_fab);
+        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.patients_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,12 +122,54 @@ public class PatientsListFragment extends Fragment {
                 // create a new Patient - switch to CreatePatient Fragment
                 Bundle args = new Bundle();
                 FragmentTransitions.replaceFragment(getActivity(), new CreatePatient(), args, Constants.tag_create_patient);
+            }
+        });
 
+        // hide/show FAB when scrolling
+        patientsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0 || dy < 0 && fab.isShown()) {
+                    fab.hide();
+                }
+            }
 
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    fab.show();
+                }
+
+                super.onScrollStateChanged(recyclerView, newState);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // save the patients recylcer view state
+        RecyclerView.LayoutManager layoutManager = patientsRecyclerView.getLayoutManager();
+        if (layoutManager != null && layoutManager instanceof LinearLayoutManager) {
+            int position = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+            if (position != -1) {
+                Constants.patientsListPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+                Log.d("Patients", "Storing position " + Constants.patientsListPosition);
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        RecyclerView.LayoutManager layoutManager = patientsRecyclerView.getLayoutManager();
+        int count = layoutManager.getChildCount();
+        Log.d("Patients", "Restoring position " + Constants.patientsListPosition);
+        if (Constants.patientsListPosition != RecyclerView.NO_POSITION && Constants.patientsListPosition < count) {
+            layoutManager.scrollToPosition(Constants.patientsListPosition);
+        }
     }
 }
 

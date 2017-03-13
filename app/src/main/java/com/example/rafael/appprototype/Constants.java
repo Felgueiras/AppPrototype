@@ -1,5 +1,6 @@
 package com.example.rafael.appprototype;
 
+import android.os.Parcelable;
 import android.support.v7.app.ActionBarDrawerToggle;
 
 /**
@@ -66,7 +67,6 @@ public class Constants {
     // drug prescription
     public static final String tag_view_drug_info = "tag_view_drug_info";
     public static final String tag_pick_patient = "tag_pick_patient";
-
 
 
     /**
@@ -184,4 +184,6 @@ public class Constants {
     public static final String fileChoices = "choices.txt";
     public static ActionBarDrawerToggle toggle;
     public static boolean upButton;
+    public static int patientsListPosition;
+    public static Parcelable drugsListState;
 }

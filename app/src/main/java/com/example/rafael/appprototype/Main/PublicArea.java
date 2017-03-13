@@ -151,7 +151,7 @@ public class PublicArea extends AppCompatActivity {
 
         // set sample fragment
         Fragment fragment = null;
-        String defaultFragment = Constants.fragment_sessions;
+        String defaultFragment = Constants.fragment_drug_prescription;
         switch (defaultFragment) {
             case Constants.fragment_sessions:
                 fragment = new CGAPublicInfo();

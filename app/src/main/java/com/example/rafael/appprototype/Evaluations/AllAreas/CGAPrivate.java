@@ -16,6 +16,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -71,116 +73,23 @@ public class CGAPrivate extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
+        inflater.inflate(R.menu.menu_cga_private_patient, menu);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        Log.d("CGAPrivate", "onCreateView");
-        Bundle args = getArguments();
-        if (args != null)
-            patient = (Patient) args.getSerializable(PATIENT);
-
-        // Inflate the layout for this fragment
-        View view;
-        if (patient != null) {
-            view = inflater.inflate(R.layout.content_new_session_private, container, false);
-        } else {
-            view = inflater.inflate(R.layout.content_new_session_private_no_patient, container, false);
-        }
-        getActivity().setTitle(getResources().getString(R.string.cga));
-
-
-        sharedPreferences = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
-        String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(getActivity());
-
-
-        if (sessionID != null) {
-            // get session by ID
-            session = Session.getSessionByID(sessionID);
-            patient = session.getPatient();
-            // create a new Fragment to hold info about the Patient
-            if (patient != null) {
-                // set the patient for this session
-                session.setPatient(patient);
-                session.save();
-            }
-        }
-        /**
-         * Create a new one.
-         */
-        else {
-            // create a new session
-            createNewSession();
-            addTestsToSession();
-            if (patient != null)
-                Constants.SESSION_GENDER = patient.getGender();
-            else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle(R.string.select_patient_gender);
-
-                //list of items
-                String[] items = new String[]{"M", "F"};
-                builder.setSingleChoiceItems(items, 0,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // item selected logic
-                                if (which == 0)
-                                    Constants.SESSION_GENDER = Constants.MALE;
-                                else
-                                    Constants.SESSION_GENDER = Constants.FEMALE;
-                            }
-                        });
-
-                String positiveText = getString(android.R.string.ok);
-                builder.setPositiveButton(positiveText,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // positive button logic
-                            }
-                        });
-
-                String negativeText = getString(android.R.string.cancel);
-                builder.setNegativeButton(negativeText,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // negative button logic
-                            }
-                        });
-
-                AlertDialog dialog = builder.create();
-                // display dialog
-                dialog.show();
-            }
-        }
-
-
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);
-        AreaCard adapter;
-
-        // new evaluation created for no Patient
-        adapter = new AreaCard(getActivity(), session, resuming, Constants.SESSION_GENDER);
-
-        // create Layout
-        int numbercolumns = 1;
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-
-        saveFAB = (FloatingActionButton) view.findViewById(R.id.session_save);
-        saveFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        switch (item.getItemId()) {
+            case R.id.session_save:
+                /**
+                 * Create session.
+                 */
                 RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.newSessionLayout);
 
                 // no test selected
                 if (session.getScalesFromSession().size() == 0) {
                     Snackbar.make(layout, getResources().getString(R.string.you_must_select_test), Snackbar.LENGTH_SHORT).show();
-                    return;
+                    break;
                 }
 
                 // check how many tests were completed
@@ -192,7 +101,7 @@ public class CGAPrivate extends Fragment {
                 }
                 if (numTestsCompleted == 0) {
                     Snackbar.make(layout, getResources().getString(R.string.complete_one_scale_atleast), Snackbar.LENGTH_SHORT).show();
-                    return;
+                    break;
                 }
 
                 // check if there is an added patient or not
@@ -253,7 +162,7 @@ public class CGAPrivate extends Fragment {
                                 }
                             });
                     alertDialog.show();
-                    return;
+                    break;
                 }
 
                 /**
@@ -289,37 +198,139 @@ public class CGAPrivate extends Fragment {
 
                 Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
                 BackStackHandler.goToPreviousScreen();
-            }
-        });
+                break;
 
-        discardFAB = (FloatingActionButton) view.findViewById(R.id.session_discard);
-        discardFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                alertDialog.setTitle(getResources().getString(R.string.session_discard));
-                alertDialog.setMessage(getResources().getString(R.string.session_discard_question));
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // remove session
-                                SharedPreferencesHelper.resetPrivateSession(getActivity(), session.getGuid());
-                                BackStackHandler.discardSession(session.getPatient());
-                                dialog.dismiss();
-                                Snackbar.make(getView(), getResources().getString(R.string.session_discarded), Snackbar.LENGTH_SHORT).show();
-                            }
-                        });
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
+
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        Log.d("CGAPrivate", "onCreateView");
+        Bundle args = getArguments();
+        if (args != null)
+            patient = (Patient) args.getSerializable(PATIENT);
+
+        // Inflate the layout for this fragment
+        View view;
+        if (patient != null) {
+            view = inflater.inflate(R.layout.content_new_session_private, container, false);
+            getActivity().setTitle(patient.getName() + " - " + getResources().getString(R.string.cga));
+        } else {
+            view = inflater.inflate(R.layout.content_new_session_private_no_patient, container, false);
+            getActivity().setTitle(getResources().getString(R.string.cga));
+        }
+
+
+        sharedPreferences = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(getActivity());
+
+
+        if (sessionID != null) {
+            // get session by ID
+            session = Session.getSessionByID(sessionID);
+            patient = session.getPatient();
+            // create a new Fragment to hold info about the Patient
+            if (patient != null) {
+                // set the patient for this session
+                session.setPatient(patient);
+                session.save();
             }
-        });
+        }
+        /**
+         * Create a new one.
+         */
+        else {
+            // create a new session
+            createNewSession();
+            addTestsToSession();
+            if (patient != null)
+                Constants.SESSION_GENDER = patient.getGender();
+            else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(R.string.select_patient_gender);
+
+                //list of items
+                String[] items = new String[]{"M", "F"};
+                builder.setSingleChoiceItems(items, 0,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // item selected logic
+                                if (which == 0)
+                                    Constants.SESSION_GENDER = Constants.MALE;
+                                else
+                                    Constants.SESSION_GENDER = Constants.FEMALE;
+                            }
+                        });
+
+                String positiveText = getString(android.R.string.ok);
+                builder.setPositiveButton(positiveText,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // positive button logic
+                            }
+                        });
+
+//                String negativeText = getString(android.R.string.cancel);
+//                builder.setNegativeButton(negativeText,
+//                        new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                // negative button logic
+//                            }
+//                        });
+
+                AlertDialog dialog = builder.create();
+                // display dialog
+                dialog.show();
+            }
+        }
+
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);
+        AreaCard adapter;
+
+        // new evaluation created for no Patient
+        adapter = new AreaCard(getActivity(), session, resuming, Constants.SESSION_GENDER);
+
+        // create Layout
+        int numbercolumns = 1;
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    public void discardSession() {
+
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setTitle(getResources().getString(R.string.session_discard));
+        alertDialog.setMessage(getResources().getString(R.string.session_discard_question));
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // remove session
+                        SharedPreferencesHelper.resetPrivateSession(getActivity(), session.getGuid());
+                        BackStackHandler.discardSession(session.getPatient());
+                        dialog.dismiss();
+                        Snackbar.make(getView(), getResources().getString(R.string.session_discarded), Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
     /**

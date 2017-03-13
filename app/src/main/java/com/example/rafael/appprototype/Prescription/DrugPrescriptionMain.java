@@ -100,9 +100,9 @@ public class DrugPrescriptionMain extends Fragment {
                 case 0:
                     return getResources().getString(R.string.drugs_all);
                 case 1:
-                    return getResources().getString(R.string.drugs_stopp);
-                case 2:
                     return getResources().getString(R.string.drugs_start);
+                case 2:
+                    return getResources().getString(R.string.drugs_stopp);
                 case 3:
                     return getResources().getString(R.string.drugs_beers);
             }

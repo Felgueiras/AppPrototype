@@ -34,16 +34,90 @@ public class StartCriteria {
         ArrayList<StartCriteria> startGeneral = new ArrayList<>();
         // Encodrine
         StartCriteria criterion = new StartCriteria("Endocrine System");
+        // 1
         PrescriptionStart prescriptionStart = new PrescriptionStart("Metformin", "Metformin with type 2 diabetes +/- metabolic syndrome" +
                 "(in the absence of renal impairment—estimated GFR <50ml/ min).");
         criterion.addPrescription(prescriptionStart);
+        // 2
+        prescriptionStart = new PrescriptionStart("ACE inhibitor or Angiotensin Receptor Blocker",
+                "in diabetes with nephropathy i.e. overt urinalysis" +
+                        " proteinuria or micoralbuminuria (>30mg/24 hours)" +
+                        " +/- serum biochemical renal impairment—estimated GFR <50ml/min.");
+        criterion.addPrescription(prescriptionStart);
+        // 3
+        prescriptionStart = new PrescriptionStart("Antiplatelet therapy",
+                "in diabetes mellitus if one or more co-existing major cardiovascular " +
+                        "risk factor present (hypertension, hypercholesterolaemia, smoking history).");
+        criterion.addPrescription(prescriptionStart);
+        // 4
+        prescriptionStart = new PrescriptionStart("Statin",
+                "Statin therapy in diabetes mellitus if one or more co-existing major cardiovascular risk factor present");
+        criterion.addPrescription(prescriptionStart);
         startGeneral.add(criterion);
+
+
         // Musculoskeletal
         criterion = new StartCriteria("Musculoskeletal System");
         prescriptionStart = new PrescriptionStart("Disease-modifying anti-rheumatic drug (DMARD)",
                 "with active moderate-severe rheumatoid disease lasting > 12 weeks");
         criterion.addPrescription(prescriptionStart);
+        prescriptionStart = new PrescriptionStart("Bisphosphonates",
+                "in patients taking maintenance oral corticosteroid therapy.");
+        criterion.addPrescription(prescriptionStart);
+        prescriptionStart = new PrescriptionStart("Calcium and Vitamin D",
+                "supplement in patients with known osteoporosis (radiological" +
+                        " evidence or previous fragility fracture or acquired dorsal kyphosis).");
+        criterion.addPrescription(prescriptionStart);
         startGeneral.add(criterion);
+
+        // Cardiovascular System
+        criterion = new StartCriteria("Cardiovascular System");
+        prescriptionStart = new PrescriptionStart("Warfarin",
+                "in the presence of chronic atrial fibrillation");
+        criterion.addPrescription(prescriptionStart);
+        prescriptionStart = new PrescriptionStart("Aspirin",
+                "in the presence of chronic atrial fibrillation, where warfarin is contraindicated, but not aspirin");
+        criterion.addPrescription(prescriptionStart);
+        prescriptionStart = new PrescriptionStart("Aspirin or clopidogrel",
+                "with a documented history of atherosclerotic coronary, cerebral" +
+                        " or peripheral vascular disease in patients with sinus rhythm.");
+        criterion.addPrescription(prescriptionStart);
+        prescriptionStart = new PrescriptionStart("Antihypertensive",
+                "Antihypertensive therapy where systolic blood pressure consistently >160 mmHg.");
+        criterion.addPrescription(prescriptionStart);
+        prescriptionStart = new PrescriptionStart("Statin",
+                "Statin therapy with a documented history of coronary, cerebral or peripheral vascular disease, where the patient’s functional status remains" +
+                        " independent for activities of daily living and life expectancy is > 5 years");
+        criterion.addPrescription(prescriptionStart);
+        prescriptionStart = new PrescriptionStart("Angiotensin Converting Enzyme (ACE) inhibitor",
+                "with chronic heart failure");
+        criterion.addPrescription(prescriptionStart);
+        prescriptionStart = new PrescriptionStart("ACE inhibitor",
+                "following acute myocardial infarction");
+        criterion.addPrescription(prescriptionStart);
+        prescriptionStart = new PrescriptionStart("Beta-blocker",
+                "with chronic stable angina");
+        criterion.addPrescription(prescriptionStart);
+        startGeneral.add(criterion);
+
+        // Central Nervous System and Psychotropic Drugs
+        criterion = new StartCriteria("Central Nervous System and Psychotropic Drugs");
+        prescriptionStart = new PrescriptionStart("L-DOPA",
+                "in idiopathic Parkinson’s disease with definite functional impairment and resultant disability.");
+        criterion.addPrescription(prescriptionStart);
+        prescriptionStart = new PrescriptionStart("Antidepressant drug",
+                "in the presence of moderate-severe depressive symptoms lasting at least three months");
+        criterion.addPrescription(prescriptionStart);
+        startGeneral.add(criterion);
+
+        // Respiratory System
+        criterion = new StartCriteria("Respiratory System");
+        prescriptionStart = new PrescriptionStart("Regular inhaled beta 2 agonist or anticholinergic (antimuscarinic)",
+                "agent for mild to moderate asthma or COPD");
+        criterion.addPrescription(prescriptionStart);
+        startGeneral.add(criterion);
+
+
         //Gastrointestinal
         criterion = new StartCriteria("Gastrointestinal System");
         prescriptionStart = new PrescriptionStart("Proton Pump Inhibitor",
@@ -59,8 +133,8 @@ public class StartCriteria {
     /**
      * Get all the drugs from StoppGeneral.
      *
-     * @return
      * @param general
+     * @return
      */
     public static ArrayList<String> getAllDrugsStart(ArrayList<StartCriteria> general) {
         ArrayList<String> drugs = new ArrayList<>();
@@ -79,16 +153,18 @@ public class StartCriteria {
      * @param drugSearchingFor
      * @return
      */
-    public static PrescriptionStart getStartCriteriaPresciptionForDrug(String drugSearchingFor, ArrayList<StartCriteria> criterions) {
+    public static ArrayList<PrescriptionStart> getStartCriteriaPresciptionForDrug(String drugSearchingFor, ArrayList<StartCriteria> criterions) {
+        ArrayList<PrescriptionStart> prescriptionStarts = new ArrayList<>();
+
         for (StartCriteria criterion : criterions) {
             ArrayList<PrescriptionStart> prescriptions = criterion.getPrescriptions();
             for (PrescriptionStart pr : prescriptions) {
                 String drugName = pr.getDrugName();
                 if (drugName.equals(drugSearchingFor)) {
-                    return pr;
+                    prescriptionStarts.add(pr);
                 }
             }
         }
-        return null;
+        return prescriptionStarts;
     }
 }

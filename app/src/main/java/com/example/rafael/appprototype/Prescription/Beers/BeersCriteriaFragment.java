@@ -2,6 +2,7 @@ package com.example.rafael.appprototype.Prescription.Beers;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,9 +10,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ListAdapter;
+import android.widget.RadioGroup;
 
-import com.example.rafael.appprototype.DataTypes.Criteria.BeersCriteria;
+import com.example.rafael.appprototype.DataTypes.Criteria.Beers.BeersCriteria;
+import com.example.rafael.appprototype.DataTypes.Criteria.Beers.DiseaseSyndrome;
+import com.example.rafael.appprototype.DataTypes.Criteria.Beers.OrganSystemWithDiseasesSyndromes;
+import com.example.rafael.appprototype.DataTypes.Criteria.Beers.TherapeuticCategoryOrganSystem;
+import com.example.rafael.appprototype.Prescription.Beers.ExpandableListViewAdapter.BeersCriteriaDisease;
+import com.example.rafael.appprototype.Prescription.Beers.ExpandableListViewAdapter.BeersCriteriaOrganSystem;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -21,13 +30,16 @@ import java.util.List;
 public class BeersCriteriaFragment extends Fragment {
 
 
-    ArrayList<BeersCriteria> beersGeneral = new ArrayList<>();
 
 
-    ExpandableListAdapterBeers listAdapter;
     ExpandableListView expListView;
-    List<String> listDataHeader;
-    HashMap<String, List<TherapeuticCategoryEntry>> listDataChild;
+    //OrganSystem
+    List<String> listDataHeaderOrganSystem;
+    HashMap<String, List<TherapeuticCategoryEntry>> listDataChildOrganSystem;
+    // Disease
+    List<String> listDataHeaderDisease;
+    HashMap<String, List<DiseaseSyndrome>> listDataChildDisease;
+    private BaseExpandableListAdapter listAdapter;
 
 
     @Override
@@ -57,81 +69,78 @@ public class BeersCriteriaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_start_criteria, container, false);
+        View view = inflater.inflate(R.layout.activity_beers_criteria, container, false);
+
 
         // get the listview
-        expListView = (ExpandableListView) v.findViewById(R.id.lvExp);
+        expListView = (ExpandableListView) view.findViewById(R.id.lvExp);
 
         // preparing list data
-        beersGeneral = BeersCriteria.getBeersData();
-        prepareListData();
+        prepareListDataOrganSystem();
+        prepareListDataDisease();
 
-        listAdapter = new ExpandableListAdapterBeers(getActivity(), listDataHeader, listDataChild);
-
-        // setting list adapter
+        listAdapter = new BeersCriteriaOrganSystem(getActivity(), listDataHeaderOrganSystem, listDataChildOrganSystem);
         expListView.setAdapter(listAdapter);
 
-        // Listview Group click listener
-        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
 
+        // user's selection
+        RadioGroup beersSelection = (RadioGroup) view.findViewById(R.id.beersSelection);
+
+        beersSelection.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public boolean onGroupClick(ExpandableListView parent, View v,
-                                        int groupPosition, long id) {
-                return false;
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int checkedId) {
+                if (checkedId == R.id.organSystem) {
+                    listAdapter = new BeersCriteriaOrganSystem(getActivity(), listDataHeaderOrganSystem, listDataChildOrganSystem);
+                    expListView.setAdapter(listAdapter);
+                } else if (checkedId == R.id.disease) {
+                    listAdapter = new BeersCriteriaDisease(getActivity(), listDataHeaderDisease,
+                            listDataChildDisease);
+                    expListView.setAdapter(listAdapter);
+                }
             }
         });
 
-        // Listview Group expanded listener
-        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-
-            @Override
-            public void onGroupExpand(int groupPosition) {
-
-            }
-        });
-
-        // Listview Group collasped listener
-        expListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-
-
-            }
-        });
-
-        // Listview on child click listener
-        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-
-                return false;
-            }
-        });
-        // Inflate the layout for this fragment
-        return v;
+        return view;
     }
 
-    /*
-     * Preparing the list data
-     */
-    private void prepareListData() {
-        listDataHeader = new ArrayList<>();
-        listDataChild = new HashMap<>();
+
+    private void prepareListDataDisease() {
+        listDataHeaderDisease = new ArrayList<>();
+        listDataChildDisease = new HashMap<>();
+
+        ArrayList<OrganSystemWithDiseasesSyndromes> beersOrganSystem = BeersCriteria.getBeersDiseaseSyndrome();
 
         // Adding child data
-        for (int i = 0; i < beersGeneral.size(); i++) {
-            BeersCriteria s = beersGeneral.get(i);
+        for (int i = 0; i < beersOrganSystem.size(); i++) {
+            OrganSystemWithDiseasesSyndromes s = beersOrganSystem.get(i);
             // header
-            listDataHeader.add(s.getOrganSystem());
+            listDataHeaderDisease.add(s.getOrganSystem());
+            // child
+            List<DiseaseSyndrome> child = new ArrayList<>();
+            for (DiseaseSyndrome entry : s.getDiseaseSyndromes()) {
+                child.add(entry);
+            }
+            listDataChildDisease.put(listDataHeaderDisease.get(i), child); // Header, Child data
+        }
+    }
+
+    private void prepareListDataOrganSystem() {
+        listDataHeaderOrganSystem = new ArrayList<>();
+        listDataChildOrganSystem = new HashMap<>();
+
+        ArrayList<TherapeuticCategoryOrganSystem> beersTherapeuticalCategoryOrganSystem = BeersCriteria.getBeersTherapeuticCategoryOrganSystem();
+
+        // Adding child data
+        for (int i = 0; i < beersTherapeuticalCategoryOrganSystem.size(); i++) {
+            TherapeuticCategoryOrganSystem s = beersTherapeuticalCategoryOrganSystem.get(i);
+            // header
+            listDataHeaderOrganSystem.add(s.getTherapeuticCategoryOrganSystem());
             // child
             List<TherapeuticCategoryEntry> child = new ArrayList<>();
             for (TherapeuticCategoryEntry entry : s.getEntries()) {
                 child.add(entry);
             }
-            listDataChild.put(listDataHeader.get(i), child); // Header, Child data
+            listDataChildOrganSystem.put(listDataHeaderOrganSystem.get(i), child); // Header, Child data
         }
     }
 

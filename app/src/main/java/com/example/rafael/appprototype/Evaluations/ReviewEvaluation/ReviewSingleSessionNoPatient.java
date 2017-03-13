@@ -55,7 +55,7 @@ public class ReviewSingleSessionNoPatient extends Fragment {
         // get Session and Patient
         session = (Session) args.getSerializable(SESSION);
 
-        getActivity().setTitle(DatesHandler.dateToStringWithoutHour(session.getDate()));
+        getActivity().setTitle("Resultados da Sessão");
 
 
         // check if we have to compare to the previous session

@@ -5,12 +5,16 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
+import com.example.rafael.appprototype.DataTypes.DB.Question;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewArea;
@@ -46,7 +50,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View myInflatedView = inflater.inflate(R.layout.content_review_session, container, false);
+        View view = inflater.inflate(R.layout.content_review_session, container, false);
         Bundle args = getArguments();
         // get Session and Patient
         session = (Session) args.getSerializable(SESSION);
@@ -60,10 +64,34 @@ public class ReviewSingleSessionWithPatient extends Fragment {
         //comparePreviousSession = args.getBoolean(COMPARE_PREVIOUS);
         comparePreviousSession = true;
 
+        EditText sessionNotes = (EditText) view.findViewById(R.id.session_notes);
+        // if question is already answered
+        if (session.getNotes() != null)
+            if (!session.getNotes().equals("")) sessionNotes.setText(session.getNotes());
+
+
+        sessionNotes.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                session.setNotes(charSequence.toString());
+                session.save();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
         /**
          * Show info about evaluations for every area.
          */
-        RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.area_scales_recycler_view);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);
         ReviewArea adapter = new ReviewArea(getActivity(), session, comparePreviousSession);
         int numbercolumns = 1;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
@@ -71,7 +99,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        return myInflatedView;
+        return view;
     }
 
 }

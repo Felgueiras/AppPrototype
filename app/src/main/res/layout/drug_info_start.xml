@@ -4,10 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <ListView
 
-
-    <TextView
-        android:id="@+id/description"
+        android:id="@+id/start_drugs_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

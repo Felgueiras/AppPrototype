@@ -15,7 +15,10 @@ public class TherapeuticCategoryEntry {
 
     public TherapeuticCategoryEntry(String category) {
         this.categoryName = category;
+    }
 
+    public String getCategoryName() {
+        return categoryName;
     }
 
     public void setDrugs(ArrayList<String> drugs) {
@@ -25,6 +28,14 @@ public class TherapeuticCategoryEntry {
 
     public ArrayList<String> getDrugs() {
         return drugs;
+    }
+
+    public String getDrugsAsList() {
+        String ret = "";
+        for (String drug : drugs) {
+            ret += "• " + drug + "\n";
+        }
+        return ret;
     }
 
 

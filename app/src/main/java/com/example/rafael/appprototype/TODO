@@ -1,3 +1,16 @@
-- question sets integration
+- remember drug list position
+- rever histórico de pacientes, mostrar o último em grande plano
+- search view destacada
+- FAB à frente da lista de sessões
+- não está registado, pode no entanto registar-se, ao terminar a avaliação " quer guardar, registe-se"
+- da segunda vez que vai a registar aparece logo o nome da pessoa e depois terá que
+- tornar toda a área do scale card clickable
+- review when resuming closed session error
+
+- aplicação populada já com dados de pacientes
+- ícones sobre escalas
+- guardar a última sessão, pra poder adicioná-la, ao criar uma nova sem paciente diz "a ultima vai ser descartada, sim não"
 
 - physical examination
+- setup unlock pattern
+- store prescriptions for a patient?

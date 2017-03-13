@@ -294,6 +294,13 @@ public class LoginFragment extends Fragment {
             if (success) {
                 SharedPreferencesHelper.login(getActivity());
 
+                // erase all sessions without pacients just to avoid errors
+                for (Session sess : Session.getAllSessions()) {
+                    if (sess.getPatient() == null) {
+                        sess.delete();
+                    }
+                }
+
                 Intent intent = new Intent(getActivity(), PrivateArea.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

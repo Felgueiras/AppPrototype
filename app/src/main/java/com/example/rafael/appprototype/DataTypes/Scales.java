@@ -426,6 +426,44 @@ public class Scales {
         return escalaDepressao;
     }
 
+    public static GeriatricScaleNonDB advancedDailyLifeActivities() {
+        GeriatricScaleNonDB escala = new GeriatricScaleNonDB(Constants.set_name_advancedDailyLifeActivities,
+                Constants.cga_functional, Constants.set_name_advancedDailyLifeActivities,
+                "");
+        // short area
+        escala.setShortName("Atividades avançadas");
+//        // create Scoring
+//        ScoringNonDB depressionScoring = new ScoringNonDB(0, 15, false);
+//        // create Gradings
+//        ArrayList<GradingNonDB> gradings = new ArrayList<>();
+//        gradings.add(new GradingNonDB("Sem depressão", 0, 5));
+//        gradings.add(new GradingNonDB("Depressão ligeira", 6, 10));
+//        gradings.add(new GradingNonDB("Depressão grave", 11, 15));
+//        // add Gradings to Scoring
+//        depressionScoring.setValuesBoth(gradings);
+//        // add Scoring to Test
+//        escala.setScoring(depressionScoring);
+
+        // 1
+        QuestionNonDB question = new QuestionNonDB("Colabora? em atividades sócio-recreativas e trabalho?", 0, 1);
+        question.setYesOrNo(true);
+        escala.addQuestion(question);
+        // 2
+        question = new QuestionNonDB("Utiliza tecnologia? (Ipad)", 1, 0);
+        question.setYesOrNo(true);
+        escala.addQuestion(question);
+        // 3
+        question = new QuestionNonDB("Viaja?", 1, 0);
+        question.setYesOrNo(true);
+        escala.addQuestion(question);
+        // 4
+        question = new QuestionNonDB("Pratica exercício físico intenso?", 1, 0);
+        question.setYesOrNo(true);
+        escala.addQuestion(question);
+
+        return escala;
+    }
+
     /**
      * Get infos about 'Escala de Katz'
      */
@@ -1879,11 +1917,11 @@ public class Scales {
     /**
      * Get access to a test definition by its date
      *
-     * @param testName
+     * @param scaleName
      * @return
      */
-    public static GeriatricScaleNonDB getTestByName(String testName) {
-        switch (testName) {
+    public static GeriatricScaleNonDB getScaleByName(String scaleName) {
+        switch (scaleName) {
             case Constants.test_name_testeDeKatz:
                 return escalaDeKatz();
             case Constants.test_name_escalaDepressaoYesavage:
@@ -1916,6 +1954,8 @@ public class Scales {
                 return hamiltonDepressionScale();
             case Constants.test_name_tinetti:
                 return tinettiScale();
+            case Constants.set_name_advancedDailyLifeActivities:
+                return advancedDailyLifeActivities();
         }
         return null;
     }
@@ -1926,7 +1966,7 @@ public class Scales {
      * @param testName
      */
     public static String getShortName(String testName) {
-        return getTestByName(testName).getShortName();
+        return getScaleByName(testName).getShortName();
     }
 
     /**
@@ -1939,9 +1979,11 @@ public class Scales {
     public static GradingNonDB getGradingForScale(GeriatricScale test, int gender) {
 
         double testResult = test.generateTestResult();
-        ScoringNonDB scoring = getTestByName(test.getScaleName()).getScoring();
+        ScoringNonDB scoring = getScaleByName(test.getScaleName()).getScoring();
         GradingNonDB match;
         // check if it's different for men and women
+        if (scoring == null)
+            return null;
         if (scoring.isDifferentMenWomen()) {
             if (gender == Constants.MALE) {
                 match = scoring.getGrading(testResult, Constants.MALE);
@@ -1958,7 +2000,7 @@ public class Scales {
 
 
         double testResult = test.generateTestResult();
-        ScoringNonDB scoring = getTestByName(test.getScaleName()).getScoring();
+        ScoringNonDB scoring = getScaleByName(test.getScaleName()).getScoring();
         int match;
         // check if it's different for men and women
         if (scoring.isDifferentMenWomen()) {
@@ -1976,8 +2018,11 @@ public class Scales {
 
     public static GradingNonDB getGradingForTestWithoutGenerating(GeriatricScale test, int gender) {
         double testResult = test.getResult();
-        ScoringNonDB scoring = getTestByName(test.getScaleName()).getScoring();
+        ScoringNonDB scoring = getScaleByName(test.getScaleName()).getScoring();
         GradingNonDB match;
+        // question sets don't have scoring
+        if (scoring == null)
+            return null;
         // check if it's different for men and women
         if (scoring.isDifferentMenWomen()) {
             if (gender == Constants.MALE) {
@@ -2015,6 +2060,7 @@ public class Scales {
 //        tests.add(setTest());
         // tests.add(hamiltonDepressionScale());
         tests.add(tinettiScale());
+//        tests.add(advancedDailyLifeActivities());
         return tests;
     }
 
@@ -2037,7 +2083,7 @@ public class Scales {
     public static ArrayList<GeriatricScale> getTestsForArea(List<GeriatricScale> scales, String area) {
         ArrayList<GeriatricScale> testsForArea = new ArrayList<>();
         for (GeriatricScale test : scales) {
-            if (Scales.getTestByName(test.getScaleName()).getArea().equals(area)) {
+            if (Scales.getScaleByName(test.getScaleName()).getArea().equals(area)) {
                 testsForArea.add(test);
             }
         }

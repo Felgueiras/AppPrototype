@@ -33,6 +33,10 @@ public class Session extends Model implements Serializable {
     @Column(name = "patient", onDelete = Column.ForeignKeyAction.CASCADE)
     Patient patient;
 
+    @Expose
+    @Column(name = "notes")
+    String  notes;
+
 
     /**
      * Get all the scales from this Session.
@@ -219,5 +223,13 @@ public class Session extends Model implements Serializable {
             }
         }
 
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

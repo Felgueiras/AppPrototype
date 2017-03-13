@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.DataTypes.Criteria.BeersCriteria;
+import com.example.rafael.appprototype.DataTypes.Criteria.Beers.BeersCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.RecommendationInfo;
 import com.example.rafael.appprototype.R;
 
@@ -57,7 +57,7 @@ public class BeersCriteriaAdapter extends ArrayAdapter<String> {
     }
 
     /**
-     * Return the Beers criteria beersGeneral for a certain drug patientName.
+     * Return the Beers criteria beersTherapeuticalCategoryOrganSystem for a certain drug patientName.
      *
      * @param selectedDrug
      * @return

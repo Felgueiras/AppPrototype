@@ -29,14 +29,11 @@ import java.util.List;
 
 public class EvaluationsHistoryGrid extends Fragment {
 
-    private final ViewPager viewPager;
-    private final int page;
     private ListAdapter adapter;
     private GridView gridView;
 
-    public EvaluationsHistoryGrid(ViewPager viewPager, int page) {
-        this.viewPager = viewPager;
-        this.page = page;
+    public EvaluationsHistoryGrid() {
+
     }
 
     // Store instance variables based on arguments passed
@@ -63,11 +60,10 @@ public class EvaluationsHistoryGrid extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        if (viewPager.getCurrentItem() == page) {
-            menu.clear();
-            inflater.inflate(R.menu.menu_evaluations, menu);
-            Log.d("Menu", "Evaluations");
-        }
+        menu.clear();
+        inflater.inflate(R.menu.menu_evaluations, menu);
+        Log.d("Menu", "Evaluations");
+
     }
 
     @Override

@@ -1,11 +1,14 @@
 package com.example.rafael.appprototype.Prescription.Stopp;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStopp;
@@ -19,7 +22,8 @@ import java.util.List;
  */
 public class ExpandableListAdapterStop extends BaseExpandableListAdapter {
 
-    private Context _context;
+    private final FragmentManager fragmentManager;
+    private Activity _context;
     /**
      * Headers.
      */
@@ -29,11 +33,12 @@ public class ExpandableListAdapterStop extends BaseExpandableListAdapter {
      */
     private HashMap<String, List<PrescriptionStopp>> _listDataChild;
 
-    public ExpandableListAdapterStop(Context context, List<String> listDataHeader,
-                                     HashMap<String, List<PrescriptionStopp>> listChildData) {
+    public ExpandableListAdapterStop(Activity context, List<String> listDataHeader,
+                                     HashMap<String, List<PrescriptionStopp>> listChildData, FragmentManager childFragmentManager) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
+        this.fragmentManager = childFragmentManager;
     }
 
     @Override
@@ -50,16 +55,21 @@ public class ExpandableListAdapterStop extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String childText = getChild(groupPosition, childPosition).toString();
+        PrescriptionStopp prescription = getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_item2, null);
+            convertView = infalInflater.inflate(R.layout.criteria_stopp, null);
         }
 
-        TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
+        // drug names
+        TextView drugName = (TextView) convertView.findViewById(R.id.drug_name);
+        drugName.setText(prescription.getDrugName());
 
-        txtListChild.setText(childText);
+        // issues
+        ListView drugIssues = (ListView) convertView.findViewById(R.id.issues);
+        StoppDrugIssues adapter = new StoppDrugIssues(_context, prescription.getIssues());
+        drugIssues.setAdapter(adapter);
         return convertView;
     }
 

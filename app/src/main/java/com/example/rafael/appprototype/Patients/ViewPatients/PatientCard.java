@@ -115,7 +115,6 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
                 ((PrivateArea) context).replaceFragmentSharedElements(endFragment, args, Constants.tag_view_patient_info_records,
                         holder.name);
 
-
             }
         });
 

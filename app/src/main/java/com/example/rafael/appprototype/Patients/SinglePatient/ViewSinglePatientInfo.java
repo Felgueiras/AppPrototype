@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -27,12 +28,12 @@ import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.EmptyStateFragment;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
+import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.Patients.PatientProgress.ProgressMainFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientNotesFragment;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
 import com.example.rafael.appprototype.R;
-import com.getbase.floatingactionbutton.AddFloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -105,6 +106,8 @@ public class ViewSinglePatientInfo extends Fragment {
 
         // get patient
         patient = (Patient) bundle.getSerializable(PATIENT);
+//        ((PrivateArea)getActivity()).changeTitle(patient.getName());
+
         getActivity().setTitle(patient.getName());
 
         // access Views
@@ -125,7 +128,7 @@ public class ViewSinglePatientInfo extends Fragment {
         /**
          * Setup FABS
          */
-        AddFloatingActionButton fabAddSession = (AddFloatingActionButton) view.findViewById(R.id.patient_createSession);
+        FloatingActionButton fabAddSession = (FloatingActionButton) view.findViewById(R.id.patient_createSession);
         fabAddSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
@@ -90,6 +91,8 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             endFragment = new SendFeedback();
         } else if (id == R.id.help) {
             endFragment = new HelpTopics();
+        }else if (id == R.id.sessions) {
+            endFragment = new EvaluationsHistoryMain();
         }
 
         if (id == R.id.logout) {
@@ -132,9 +135,6 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             fragmentManager.beginTransaction()
                     .replace(R.id.current_fragment, endFragment)
                     .commit();
-
-
-            Log.d("BackStack", "Size: " + fragmentManager.getBackStackEntryCount());
         }
 
         drawer.closeDrawer(GravityCompat.START);

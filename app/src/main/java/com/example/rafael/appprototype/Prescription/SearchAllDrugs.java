@@ -4,7 +4,11 @@ import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,21 +16,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.Criteria.BeersCriteria;
-import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionGeneral;
+import com.example.rafael.appprototype.DataTypes.Criteria.Beers.BeersCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.StartCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.StoppCriteria;
-import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Search a drug by its area.
@@ -34,34 +33,27 @@ import java.util.Collections;
 public class SearchAllDrugs extends Fragment {
 
     // List view
-    private ListView drugsList;
+    private RecyclerView drugsRecyclerView;
 
     // Listview Adapter
-    ArrayAdapter<String> adapter;
+    DrugListItem adapter;
 
-    /**
-     * Selected drugs.
-     */
-    ArrayList<PrescriptionGeneral> selectedDrugs = new ArrayList<>();
     /**
      * Stopp criteria.
      */
     private ArrayList<StoppCriteria> stoppGeneral;
-    /**
-     * Beers criteria.
-     */
-    private ArrayList<BeersCriteria> beersData;
+
     /**
      * Start criteria.
      */
     private ArrayList<StartCriteria> startGeneral;
+    private Parcelable state;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // get all the criterias
-        beersData = BeersCriteria.getBeersData();
         stoppGeneral = StoppCriteria.getStoppData();
         startGeneral = StartCriteria.getStartData();
         setHasOptionsMenu(true);
@@ -74,12 +66,16 @@ public class SearchAllDrugs extends Fragment {
         View v = inflater.inflate(R.layout.search_drugs, container, false);
 
         // list view with possible choices and selected ones
-        drugsList = (ListView) v.findViewById(R.id.list_view);
+        drugsRecyclerView = (RecyclerView) v.findViewById(R.id.list_view);
 
         // stopp
         final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(stoppGeneral);
-        // beers
-        final ArrayList<String> beersCriteriaDrugs = BeersCriteria.getAllDrugsBeers(beersData);
+        // beers - organ system
+        final ArrayList<String> beersDrugsOrganSystem = BeersCriteria.getBeersDrugsByOrganSystemString();
+        // beers - disease
+        final ArrayList<String> beersDrugsDisease = BeersCriteria.getBeersDrugsByDiseaseString();
+        // beers - drugs
+        final ArrayList<String> beersDrugsNoCategory = BeersCriteria.getBeersDrugsNamesString();
         // start
         final ArrayList<String> startCriteriaDrugs = StartCriteria.getAllDrugsStart(startGeneral);
 
@@ -87,32 +83,54 @@ public class SearchAllDrugs extends Fragment {
         ArrayList<String> allDrugs = new ArrayList<>();
         allDrugs.addAll(stoppCriteriaDrugs);
         allDrugs.addAll(startCriteriaDrugs);
-        allDrugs.addAll(beersCriteriaDrugs);
+        allDrugs.addAll(beersDrugsDisease);
+        allDrugs.addAll(beersDrugsOrganSystem);
+        allDrugs.addAll(beersDrugsNoCategory);
+
+        // remove duplicates
+        Set<String> hs = new HashSet<>();
+        hs.addAll(allDrugs);
+        allDrugs.clear();
+        allDrugs.addAll(hs);
         // sort list
         Collections.sort(allDrugs);
 
-        adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item, R.id.drug_name, allDrugs);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        drugsRecyclerView.setLayoutManager(mLayoutManager);
+        adapter = new DrugListItem(getActivity(), allDrugs);
 
-        drugsList.setAdapter(adapter);
+        drugsRecyclerView.setAdapter(adapter);
 
-        drugsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedDrug;
-                TextView textView = (TextView) view.findViewById(R.id.drug_name);
-                selectedDrug = (String) textView.getText();
-
-                Fragment endFragment = new ViewSingleDrugtInfo();
-                Bundle args = new Bundle();
-                args.putString(ViewSingleDrugtInfo.DRUG, selectedDrug);
-                FragmentTransitions.replaceFragment(getActivity(), endFragment, args, Constants.tag_view_drug_info);
-
-            }
-        });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(),
+                layoutManager.getOrientation());
+        drugsRecyclerView.addItemDecoration(dividerItemDecoration);
+//        drugsRecyclerView.setFastScrollEnabled(true);
 
 
         return v;
     }
+
+
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        // save the listView state
+//        Constants.drugsListState = drugsRecyclerView.onSaveInstanceState();
+//        Log.d("List", "Saving position " + state);
+//    }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        // check if there is a saved state for the list
+//        if (Constants.drugsListState != null) {
+//            // restore list state
+//            drugsRecyclerView.onRestoreInstanceState(Constants.drugsListState);
+//            Log.d("List", "Restoring position");
+//        }
+//        Log.d("List", "Resuming");
+//    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

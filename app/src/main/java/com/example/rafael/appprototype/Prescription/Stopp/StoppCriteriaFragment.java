@@ -24,16 +24,7 @@ import java.util.List;
 
 public class StoppCriteriaFragment extends Fragment {
 
-    // List view
-    private ListView drugsSearchList, selectedDrugsList;
 
-    // Listview Adapter
-    ArrayAdapter<String> drugsListAdapter;
-
-    // Search EditText
-    EditText inputSearch;
-
-    ArrayList<PrescriptionStopp> selectedPrescriptions = new ArrayList<>();
     private ArrayList<StoppCriteria> stoppGeneral;
 
     ExpandableListAdapterStop listAdapter;
@@ -71,6 +62,7 @@ public class StoppCriteriaFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_start_criteria, container, false);
 
+
         // get the listview
         expListView = (ExpandableListView) v.findViewById(R.id.lvExp);
 
@@ -78,7 +70,7 @@ public class StoppCriteriaFragment extends Fragment {
         stoppGeneral = StoppCriteria.getStoppData();
         prepareListData();
 
-        listAdapter = new ExpandableListAdapterStop(getActivity(), listDataHeader, listDataChild);
+        listAdapter = new ExpandableListAdapterStop(getActivity(), listDataHeader, listDataChild, getChildFragmentManager());
 
         // setting list adapter
         expListView.setAdapter(listAdapter);

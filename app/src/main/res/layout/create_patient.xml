@@ -25,19 +25,48 @@
             android:layout_below="@id/name"
             android:hint="          " />
 
-
-        <Button
-            android:id="@+id/setDate"
+        <TextView
+            android:id="@+id/birthDate"
+            android:layout_below="@id/patientName"
+            style="@style/header1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/patientName"
-            android:hint="@string/date_of_birth" />
+            android:text="Data de nascimento" />
+
+
+        <LinearLayout
+            android:layout_below="@+id/birthDate"
+            android:id="@+id/patient_birth_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/birth_date_day"
+                android:hint="dia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+            <EditText
+                android:id="@+id/birth_date_month"
+                android:hint="mês"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+            <EditText
+                android:id="@+id/birth_date_year"
+                android:hint="ano"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/setDate"
+            android:layout_below="@id/patient_birth_date"
             android:text="" />
 
         <ImageView
@@ -54,14 +83,15 @@
             style="@style/header1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Género"
-            android:layout_below="@id/date"/>
+            android:layout_below="@id/date"
+            android:text="Género" />
+
         <RadioGroup
             android:id="@+id/myRadioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/gender"
             android:layout_alignBottom="@id/gender"
+            android:layout_toEndOf="@id/gender"
             android:orientation="horizontal">
 
             <RadioButton
@@ -83,10 +113,10 @@
         <TextView
             android:id="@+id/address"
             style="@style/header1"
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/myRadioGroup"
+            android:layout_marginTop="10dp"
             android:text="@string/address" />
 
         <EditText
@@ -98,38 +128,5 @@
 
 
     </RelativeLayout>
-
-
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/multiple_actions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-
-        fab:fab_labelStyle="@style/menu_labels_style">
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/new_patient_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorPressed="@color/white_pressed"
-            fab:fab_icon="@drawable/ic_cancel"
-            fab:fab_title="@string/session_discard" />
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/new_patient_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorPressed="@color/white_pressed"
-            fab:fab_icon="@drawable/ic_done"
-            fab:fab_title="@string/session_save" />
-
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
 
 </RelativeLayout>

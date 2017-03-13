@@ -2,21 +2,31 @@ package com.example.rafael.appprototype.Prescription.Beers;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.Criteria.RecommendationInfo;
+import com.example.rafael.appprototype.Patients.ViewPatients.PatientCard;
 import com.example.rafael.appprototype.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by felgueiras on 14/01/2017.
  */
 public class DrugInfoBeers extends Fragment {
 
-    public static String DRUG;
+    public static String DRUG = "drug";
+    public static String DRUGS = "drugs";
     private RecommendationInfo drugInfo;
+    private ArrayList<RecommendationInfo> drugInfos;
+    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,25 +36,26 @@ public class DrugInfoBeers extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.drug_info_beers, container, false);
-        System.out.println("Beers criteria");
         Bundle bundle = getArguments();
         if (bundle != null) {
-            // get drug area
-            drugInfo = (RecommendationInfo) bundle.getSerializable(DRUG);
+            drugInfos = (ArrayList<RecommendationInfo>) bundle.getSerializable(DRUGS);
+            view = inflater.inflate(R.layout.drug_info_beers_multiple, container, false);
+
+            // fill the RecyclerView
+            RecyclerView recommendationIndoRecyclerView = (RecyclerView) view.findViewById(R.id.beers_criteria_recycler_view);
+
+            // display card for each Patientndroid rec
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+            recommendationIndoRecyclerView.setLayoutManager(mLayoutManager);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recommendationIndoRecyclerView.getContext(),
+                    layoutManager.getOrientation());
+            recommendationIndoRecyclerView.addItemDecoration(dividerItemDecoration);
+            BeersSingleDrugInfo adapter = new BeersSingleDrugInfo(getActivity(), drugInfos);
+            recommendationIndoRecyclerView.setAdapter(adapter);
+
         }
 
-        // get the views
-        TextView recommendation = (TextView) view.findViewById(R.id.recommendation);
-        TextView rationale = (TextView) view.findViewById(R.id.rationale);
-        TextView qualityOfEvidence = (TextView) view.findViewById(R.id.qualityOfEvidence);
-        TextView strengthOfRecommendation = (TextView) view.findViewById(R.id.strengthOfRecommendation);
-
-        // set the views
-        recommendation.setText(getString(R.string.beers_recommendation) + " " + drugInfo.getRecommendation());
-        rationale.setText(getString(R.string.beers_rationale) + " " + drugInfo.getRationale());
-        qualityOfEvidence.setText(getString(R.string.beers_quality_evidence) + " " + drugInfo.getQualityOfEvidence());
-        strengthOfRecommendation.setText(getString(R.string.beers_strength_recommendation) + " " + drugInfo.getStrengthOfRecommendation());
 
         return view;
     }

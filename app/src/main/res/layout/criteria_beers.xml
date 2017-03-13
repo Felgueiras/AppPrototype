@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:paddingLeft="5dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/therapeutic_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Therapeutic Category" />
+
+        <TextView
+            android:id="@+id/drugs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Drugs" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/recommendation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recommendation" />
+
+        <TextView
+            android:id="@+id/rationale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rationale" />
+
+        <TextView
+            android:id="@+id/qualityOfEvidence"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="QE" />
+
+
+        <TextView
+            android:id="@+id/strengthOfRecommendation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SR" />
+    </LinearLayout>
+
+</LinearLayout>

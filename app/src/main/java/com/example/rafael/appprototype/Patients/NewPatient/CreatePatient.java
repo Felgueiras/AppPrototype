@@ -3,13 +3,19 @@ package com.example.rafael.appprototype.Patients.NewPatient;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -32,15 +38,13 @@ import java.util.Random;
 public class CreatePatient extends Fragment {
 
     RadioGroup radioGroup;
-    private static final int REQUEST_CODE = 1;
-    private static final int CAMERA_REQUEST = 1888;
     private Bitmap bitmap;
     ImageView patientPhoto;
-    private int year, month, day;
+    private EditText year, month, day;
     private EditText patientName;
     private String patientGender = null;
-    private FloatingActionButton cancelFAB;
-    private FloatingActionButton saveFAB;
+    private Button cancelFAB;
+    private Button saveFAB;
     private static TextView dateView;
     private EditText patientAddress;
     private static Date selectedDate = null;
@@ -50,6 +54,91 @@ public class CreatePatient extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.new_patient_save:
+                /**
+                 * Create patient.
+                 */
+
+                if (patientName.getText().length() == 0) {
+                    Snackbar.make(getView(), R.string.create_patient_error_name, Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
+                // birth date validation
+                String dayText = day.getText().toString();
+                String monthText = month.getText().toString();
+                String yearText = year.getText().toString();
+                if (dayText.equals("") || monthText.equals("") || yearText.equals("")) {
+                    Snackbar.make(getView(), R.string.create_patient_error_no_birthDate, Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
+                Calendar c = Calendar.getInstance();
+                c.set(Integer.parseInt(yearText),
+                        Integer.parseInt(monthText)-1,
+                        Integer.parseInt(dayText));
+                selectedDate = c.getTime();
+                if (patientAddress.getText().length() == 0) {
+                    Snackbar.make(getView(), R.string.create_patient_error_address, Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
+                if (patientGender == null) {
+                    Snackbar.make(getView(), R.string.create_patient_error_gender, Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
+
+                // TODO set photo
+                Patient patient = new Patient();
+                patient.setName(patientName.getText().toString());
+
+                patient.setBirthDate(selectedDate);
+                patient.setGuid("patient" + new Random().nextInt());
+                patient.setAddress(patientAddress.getText().toString());
+                if (patientGender.equals("male"))
+                    patient.setPicture(R.drawable.male);
+                else {
+                    patient.setPicture(R.drawable.female);
+                }
+                patient.setFavorite(false);
+                patient.save();
+
+                Snackbar.make(getView(), R.string.create_patient_success, Snackbar.LENGTH_SHORT).show();
+                BackStackHandler.goToPreviousScreen();
+                break;
+//            switch (cancel):
+//            //                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+////                //alertDialog.setTitle(getResources().getString(R.string.session_discard));
+////                alertDialog.setMessage(getResources().getString(R.string.new_patient_discard));
+////                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
+////                        new DialogInterface.OnClickListener() {
+////                            public void onClick(DialogInterface dialog, int which) {
+////                                BackStackHandler.goToPreviousScreen();
+////                            }
+////                        });
+////                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
+////                        new DialogInterface.OnClickListener() {
+////                            public void onClick(DialogInterface dialog, int which) {
+////                                dialog.dismiss();
+////                            }
+////                        });
+////                alertDialog.show();
+//            break;
+
+
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_create_patient, menu);
     }
 
 
@@ -85,124 +174,20 @@ public class CreatePatient extends Fragment {
             }
         });
 
-        dateView = (TextView) view.findViewById(R.id.date);
-        Button setDate = (Button) view.findViewById(R.id.setDate);
-        setDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment picker = new DatePickerFragment();
-                picker.show(getFragmentManager(), "datePicker");
-            }
-        });
-        Calendar calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-        //showDate(year, month + 1, day);
+        // birth date
+        day = (EditText) view.findViewById(R.id.birth_date_day);
+        month = (EditText) view.findViewById(R.id.birth_date_month);
+        year = (EditText) view.findViewById(R.id.birth_date_year);
 
-        // cancel button
-        cancelFAB = (FloatingActionButton) view.findViewById(R.id.new_patient_cancel);
-        cancelFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                //alertDialog.setTitle(getResources().getString(R.string.session_discard));
-                alertDialog.setMessage(getResources().getString(R.string.new_patient_discard));
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                BackStackHandler.goToPreviousScreen();
-                            }
-                        });
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
-            }
-        });
-
-        // confirm button
-        saveFAB = (FloatingActionButton) view.findViewById(R.id.new_patient_save);
-        saveFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (patientName.getText().length() == 0) {
-                    Snackbar.make(getView(), R.string.create_patient_error_name, Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
-                if (patientAddress.getText().length() == 0) {
-                    Snackbar.make(getView(), R.string.create_patient_error_address, Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
-                if (selectedDate == null) {
-                    Snackbar.make(getView(), R.string.create_patient_error_birthDate, Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
-                if (patientGender == null) {
-                    Snackbar.make(getView(), R.string.create_patient_error_gender, Snackbar.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // TODO set photo
-                Patient patient = new Patient();
-                patient.setName(patientName.getText().toString());
-                patient.setBirthDate(selectedDate);
-                patient.setGuid("patient" + new Random().nextInt());
-                patient.setAddress(patientAddress.getText().toString());
-                if (patientGender.equals("male"))
-                    patient.setPicture(R.drawable.male);
-                else {
-                    patient.setPicture(R.drawable.female);
-                }
-                patient.setFavorite(false);
-                patient.save();
-
-                Snackbar.make(getView(), R.string.create_patient_success, Snackbar.LENGTH_SHORT).show();
-                BackStackHandler.goToPreviousScreen();
-            }
-        });
 
         return view;
 
     }
 
-    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-// Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-
-        @Override
-        public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-            Calendar c = Calendar.getInstance();
-            c.set(year, month, day);
-            selectedDate = c.getTime();
-
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-            String formattedDate = sdf.format(c.getTime());
-            dateView.setText(formattedDate);
-        }
-
-
-    }
-
-
-    /**
-     * Launch an AlertDialog that lets the user take a photo or select one from the device.
-     */
+/**
+ * Launch an AlertDialog that lets the user take a photo or select one from the device.
+ */
     /*
     private void selectImage() {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};

@@ -144,15 +144,18 @@ public class QuestionsListAdapter extends BaseAdapter {
                 progressBar.setProgress(positionsFilled.size());
         }
         int nq = numquestions;
-        if (testNonDB.getScoring().isDifferentMenWomen()) {
-            if (Constants.SESSION_GENDER == Constants.MALE) {
-                nq = 0;
-                for (QuestionNonDB questionNonDB : testNonDB.getQuestions()) {
-                    if (!questionNonDB.isOnlyForWomen())
-                        nq++;
+        if (testNonDB.getScoring() != null) {
+            if (testNonDB.getScoring().isDifferentMenWomen()) {
+                if (Constants.SESSION_GENDER == Constants.MALE) {
+                    nq = 0;
+                    for (QuestionNonDB questionNonDB : testNonDB.getQuestions()) {
+                        if (!questionNonDB.isOnlyForWomen())
+                            nq++;
+                    }
                 }
             }
         }
+
 
         if (positionsFilled.size() == nq) {
             if (!scale.isCompleted()) {

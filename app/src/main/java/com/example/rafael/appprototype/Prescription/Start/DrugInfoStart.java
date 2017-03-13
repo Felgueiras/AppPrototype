@@ -5,18 +5,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStart;
 import com.example.rafael.appprototype.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by felgueiras on 14/01/2017.
  */
 public class DrugInfoStart extends Fragment {
 
-    public static String DRUG;
-    private PrescriptionStart drugInfo;
+    public static String DRUGS = "drugs";
+    private ArrayList<PrescriptionStart> drugInfos;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,11 +33,24 @@ public class DrugInfoStart extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             // get drug area
-            drugInfo = (PrescriptionStart) bundle.getSerializable(DRUG);
+            drugInfos = (ArrayList<PrescriptionStart>) bundle.getSerializable(DRUGS);
         }
 
-        TextView descriptionTextView = (TextView) view.findViewById(R.id.description);
-        descriptionTextView.setText("Recommendation: " + drugInfo.getDescription());
+        ListView startList = (ListView) view.findViewById(R.id.start_drugs_list_view);
+
+
+        ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_normal, R.id.drug_name,
+                drugInfoAsRecommendation());
+        startList.setAdapter(adapter);
         return view;
+    }
+
+    private ArrayList<String> drugInfoAsRecommendation() {
+        ArrayList<String> recommendations = new ArrayList<>();
+        for (PrescriptionStart prescriptionStart : drugInfos) {
+            recommendations.add("Recommendation: " + prescriptionStart.getDescription());
+        }
+
+        return  recommendations;
     }
 }

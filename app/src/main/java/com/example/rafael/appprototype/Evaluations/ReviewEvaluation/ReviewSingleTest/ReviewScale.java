@@ -26,7 +26,6 @@ import com.example.rafael.appprototype.DataTypes.Scales;
 import com.example.rafael.appprototype.Evaluations.SingleArea.ScaleCard;
 import com.example.rafael.appprototype.Evaluations.SingleArea.ScaleHandlerInfo;
 import com.example.rafael.appprototype.Evaluations.SingleArea.ScaleHandlerNotes;
-import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -146,14 +145,16 @@ public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder>
         // quantitative result
         String quantitative = "";
         quantitative += currentScale.getResult();
-        GeriatricScaleNonDB testNonDB = Scales.getTestByName(currentScale.getScaleName());
-        if (!testNonDB.getScoring().isDifferentMenWomen()) {
-            quantitative += " (" + testNonDB.getScoring().getMinScore();
-            quantitative += "-" + testNonDB.getScoring().getMaxScore() + ")";
-        } else {
-            if ((patient != null ? patient.getGender() : 0) == Constants.MALE) {
-                quantitative += " (" + testNonDB.getScoring().getMinMen();
-                quantitative += "-" + testNonDB.getScoring().getMaxMen() + ")";
+        GeriatricScaleNonDB testNonDB = Scales.getScaleByName(currentScale.getScaleName());
+        if (testNonDB != null) {
+            if (!testNonDB.getScoring().isDifferentMenWomen()) {
+                quantitative += " (" + testNonDB.getScoring().getMinScore();
+                quantitative += "-" + testNonDB.getScoring().getMaxScore() + ")";
+            } else {
+                if ((patient != null ? patient.getGender() : 0) == Constants.MALE) {
+                    quantitative += " (" + testNonDB.getScoring().getMinMen();
+                    quantitative += "-" + testNonDB.getScoring().getMaxMen() + ")";
+                }
             }
         }
         holder.result_quantitative.setText(quantitative);

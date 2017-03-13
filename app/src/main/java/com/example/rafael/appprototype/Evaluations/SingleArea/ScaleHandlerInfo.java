@@ -47,69 +47,71 @@ public class ScaleHandlerInfo implements View.OnClickListener {
 
         // create table with classification for this scale
         TableLayout table = (TableLayout) dialogView.findViewById(R.id.scale_outcomes);
-        GeriatricScaleNonDB test = Scales.getTestByName(currentScale.getScaleName());
-        if (!test.getScoring().isDifferentMenWomen()) {
-            addTableHeader(table, false);
+        GeriatricScaleNonDB test = Scales.getScaleByName(currentScale.getScaleName());
+        if (test.getScoring() != null) {
+            if (!test.getScoring().isDifferentMenWomen()) {
+                addTableHeader(table, false);
 
-            // add content
-            ArrayList<GradingNonDB> gradings = test.getScoring().getValuesBoth();
-            for (GradingNonDB grading : gradings) {
-                TableRow row = new TableRow(context);
-                TextView grade = new TextView(context);
-                grade.setBackgroundResource(background);
-                grade.setPadding(paddingValue, paddingValue, paddingValue, paddingValue);
-                TextView score = new TextView(context);
-                score.setBackgroundResource(background);
-                score.setPadding(paddingValue, paddingValue, paddingValue, paddingValue);
-                //TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
-                grade.setText(grading.getGrade());
-                grade.setLayoutParams(new TableRow.LayoutParams(1));
-                if (grading.getMin() != grading.getMax() && grading.getMax() > grading.getMin())
-                    score.setText(grading.getMin() + "-" + grading.getMax());
-                else
-                    score.setText(grading.getMin() + "");
-                score.setLayoutParams(new TableRow.LayoutParams(2));
-                row.addView(grade);
-                row.addView(score);
-                table.addView(row);
-            }
-        } else {
-            addTableHeader(table, true);
+                // add content
+                ArrayList<GradingNonDB> gradings = test.getScoring().getValuesBoth();
+                for (GradingNonDB grading : gradings) {
+                    TableRow row = new TableRow(context);
+                    TextView grade = new TextView(context);
+                    grade.setBackgroundResource(background);
+                    grade.setPadding(paddingValue, paddingValue, paddingValue, paddingValue);
+                    TextView score = new TextView(context);
+                    score.setBackgroundResource(background);
+                    score.setPadding(paddingValue, paddingValue, paddingValue, paddingValue);
+                    //TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+                    grade.setText(grading.getGrade());
+                    grade.setLayoutParams(new TableRow.LayoutParams(1));
+                    if (grading.getMin() != grading.getMax() && grading.getMax() > grading.getMin())
+                        score.setText(grading.getMin() + "-" + grading.getMax());
+                    else
+                        score.setText(grading.getMin() + "");
+                    score.setLayoutParams(new TableRow.LayoutParams(2));
+                    row.addView(grade);
+                    row.addView(score);
+                    table.addView(row);
+                }
+            } else {
+                addTableHeader(table, true);
 
-            // show values for men and women
-            ArrayList<GradingNonDB> gradings = test.getScoring().getValuesBoth();
-            for (int i = 0; i < test.getScoring().getValuesMen().size(); i++) {
-                GradingNonDB gradingMen = test.getScoring().getValuesMen().get(i);
-                GradingNonDB gradingWomen = test.getScoring().getValuesWomen().get(i);
-                TableRow row = new TableRow(context);
-                TextView grade = new TextView(context);
-                grade.setBackgroundResource(background);
-                grade.setPadding(paddingValue, paddingValue, paddingValue, paddingValue);
-                TextView scoreMen = new TextView(context);
-                scoreMen.setBackgroundResource(background);
-                scoreMen.setPadding(paddingValue, paddingValue, paddingValue, paddingValue);
-                TextView scoreWomen = new TextView(context);
-                scoreWomen.setBackgroundResource(background);
-                scoreWomen.setPadding(paddingValue, paddingValue, paddingValue, paddingValue);
-                //TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
-                grade.setText(gradingMen.getGrade());
-                grade.setLayoutParams(new TableRow.LayoutParams(1));
-                // men
-                if (gradingMen.getMin() != gradingMen.getMax() && gradingMen.getMax() > gradingMen.getMin())
-                    scoreMen.setText(gradingMen.getMin() + "-" + gradingMen.getMax());
-                else
-                    scoreMen.setText(gradingMen.getMin() + "");
-                scoreMen.setLayoutParams(new TableRow.LayoutParams(2));
-                // women
-                if (gradingWomen.getMin() != gradingWomen.getMax() && gradingWomen.getMax() > gradingWomen.getMin())
-                    scoreWomen.setText(gradingWomen.getMin() + "-" + gradingWomen.getMax());
-                else
-                    scoreWomen.setText(gradingWomen.getMin() + "");
-                scoreWomen.setLayoutParams(new TableRow.LayoutParams(3));
-                row.addView(grade);
-                row.addView(scoreMen);
-                row.addView(scoreWomen);
-                table.addView(row);
+                // show values for men and women
+                ArrayList<GradingNonDB> gradings = test.getScoring().getValuesBoth();
+                for (int i = 0; i < test.getScoring().getValuesMen().size(); i++) {
+                    GradingNonDB gradingMen = test.getScoring().getValuesMen().get(i);
+                    GradingNonDB gradingWomen = test.getScoring().getValuesWomen().get(i);
+                    TableRow row = new TableRow(context);
+                    TextView grade = new TextView(context);
+                    grade.setBackgroundResource(background);
+                    grade.setPadding(paddingValue, paddingValue, paddingValue, paddingValue);
+                    TextView scoreMen = new TextView(context);
+                    scoreMen.setBackgroundResource(background);
+                    scoreMen.setPadding(paddingValue, paddingValue, paddingValue, paddingValue);
+                    TextView scoreWomen = new TextView(context);
+                    scoreWomen.setBackgroundResource(background);
+                    scoreWomen.setPadding(paddingValue, paddingValue, paddingValue, paddingValue);
+                    //TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+                    grade.setText(gradingMen.getGrade());
+                    grade.setLayoutParams(new TableRow.LayoutParams(1));
+                    // men
+                    if (gradingMen.getMin() != gradingMen.getMax() && gradingMen.getMax() > gradingMen.getMin())
+                        scoreMen.setText(gradingMen.getMin() + "-" + gradingMen.getMax());
+                    else
+                        scoreMen.setText(gradingMen.getMin() + "");
+                    scoreMen.setLayoutParams(new TableRow.LayoutParams(2));
+                    // women
+                    if (gradingWomen.getMin() != gradingWomen.getMax() && gradingWomen.getMax() > gradingWomen.getMin())
+                        scoreWomen.setText(gradingWomen.getMin() + "-" + gradingWomen.getMax());
+                    else
+                        scoreWomen.setText(gradingWomen.getMin() + "");
+                    scoreWomen.setLayoutParams(new TableRow.LayoutParams(3));
+                    row.addView(grade);
+                    row.addView(scoreMen);
+                    row.addView(scoreWomen);
+                    table.addView(row);
+                }
             }
         }
 
