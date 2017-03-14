@@ -92,9 +92,13 @@ public class DatabaseOps {
             patient.setAddress(patientAddresses[i]);
             patient.setGender(Constants.MALE);
             if (patientGenders[i] == 'm')
+            {
                 patient.setPicture(R.drawable.male);
+                patient.setGender(Constants.MALE);
+            }
             else {
                 patient.setPicture(R.drawable.female);
+                patient.setGender(Constants.FEMALE);
             }
             patient.setFavorite(false);
             patient.save();

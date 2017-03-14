@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.DatabaseOps;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
@@ -130,12 +131,12 @@ public class PrivateArea extends AppCompatActivity {
         }
         // user already logged in
         else {
-            // TODO set the doctor photo after having logged in
+            // TODO set the doctor icon after having logged in
             View headerLayout = navigationView.getHeaderView(0);
             TextView userName = (TextView) headerLayout.findViewById(R.id.userName);
             userName.setText(sharedPreferences.getString(getString(R.string.username), null));
             // TODO remove (just for testing)
-            DatabaseOps.insertDataToDB();
+//            DatabaseOps.insertDataToDB();
             ImageView userImage = (ImageView) headerLayout.findViewById(R.id.userPhoto);
             //userImage.setImageResource(R.drawable.male);
             //TextView userSubtext = (TextView) headerLayout.findViewById(R.id.userSubText);
@@ -148,7 +149,7 @@ public class PrivateArea extends AppCompatActivity {
 
         // set sample fragment
         Fragment fragment = null;
-        String defaultFragment = Constants.fragment_drug_prescription;
+        String defaultFragment = Constants.fragment_sessions;
         switch (defaultFragment) {
             case Constants.fragment_show_patients:
                 fragment = new PatientsMain();
@@ -158,6 +159,11 @@ public class PrivateArea extends AppCompatActivity {
                 fragment = new DrugPrescriptionMain();
                 setTitle(getResources().getString(R.string.tab_drug_prescription));
                 break;
+            case Constants.fragment_sessions:
+                fragment = new EvaluationsHistoryMain();
+                setTitle(getResources().getString(R.string.tab_sessions));
+                break;
+
         }
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()

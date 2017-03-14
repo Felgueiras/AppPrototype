@@ -56,7 +56,6 @@ public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder>
     /**
      * Name of Test being displayed.
      */
-    private String testName;
     private ArrayList<GeriatricScale> scalesForArea;
     private ViewManager parentView;
 
@@ -104,7 +103,6 @@ public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder>
 
         // get current test
         final GeriatricScale currentScale = scalesForArea.get(position);
-        testName = currentScale.getScaleName();
 
         // access a given Test from the DB
         holder.name.setText(currentScale.getShortName());

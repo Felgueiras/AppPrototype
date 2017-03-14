@@ -39,11 +39,6 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class LoginFragment extends Fragment {
 
-
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world",
-            "abc@123.com:1234", "abc@abc.com:1234"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -54,6 +49,7 @@ public class LoginFragment extends Fragment {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,59 +83,89 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.activity_login, container, false);
+        /**
+         * Check if there's an already registered user.
+         */
+        final String email = SharedPreferencesHelper.getUserEmail(getActivity());
+        if (email != null) {
+            // Inflate the layout for this fragment
+            view = inflater.inflate(R.layout.activity_login_already_registered, container, false);
 
-        // set the title
-        getActivity().setTitle(getResources().getString(R.string.action_log_in));
+            // set the title
+            getActivity().setTitle(getResources().getString(R.string.action_log_in));
 
-        mEmailView = (AutoCompleteTextView) view.findViewById(R.id.email);
-        populateAutoComplete();
+            TextView userNameTextView = (TextView) view.findViewById(R.id.userName);
+            String userName = SharedPreferencesHelper.getUserName(getActivity());
+            userNameTextView.setText(userName);
 
-        // check how many sessions are there in the DB
-        System.out.println("Sessions: " + Session.getAllSessions().size());
 
-        mPasswordView = (EditText) view.findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
+            mPasswordView = (EditText) view.findViewById(R.id.password);
+            mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                    if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                        attemptLogin(email,mPasswordView.getText().toString());
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
 
-        Button mEmailSignInButton = (Button) view.findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+            Button mEmailSignInButton = (Button) view.findViewById(R.id.email_sign_in_button);
+            mEmailSignInButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    attemptLogin(email,mPasswordView.getText().toString());
+                }
+            });
 
-        mLoginFormView = view.findViewById(R.id.login_form);
-        mProgressView = view.findViewById(R.id.login_progress);
+            mLoginFormView = view.findViewById(R.id.login_form);
+            mProgressView = view.findViewById(R.id.login_progress);
+
+//            Button otherAccount = (Button) view.findViewById(R.id.other_account);
+//            otherAccount.setOnClickListener(new OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//
+//                }
+//            });
+
+
+        } else {
+            // Inflate the layout for this fragment
+            view = inflater.inflate(R.layout.activity_login, container, false);
+
+            // set the title
+            getActivity().setTitle(getResources().getString(R.string.action_log_in));
+
+            mEmailView = (AutoCompleteTextView) view.findViewById(R.id.email);
+
+            mPasswordView = (EditText) view.findViewById(R.id.password);
+            mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                    if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                        attemptLogin(mEmailView.getText().toString(),mPasswordView.getText().toString());
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
+            Button mEmailSignInButton = (Button) view.findViewById(R.id.email_sign_in_button);
+            mEmailSignInButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    attemptLogin(mEmailView.getText().toString(),mPasswordView.getText().toString());
+                }
+            });
+
+            mLoginFormView = view.findViewById(R.id.login_form);
+            mProgressView = view.findViewById(R.id.login_progress);
+        }
+
 
         return view;
-    }
-
-    private void populateAutoComplete() {
-
-        if (!mayRequestContacts()) {
-            return;
-        }
-
-//        getLoaderManager().initLoader(0, null, this);
-    }
-
-    private boolean mayRequestContacts() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-//        return checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
-        return true;
     }
 
 
@@ -148,24 +174,21 @@ public class LoginFragment extends Fragment {
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
+    private void attemptLogin(String email, String password) {
         if (mAuthTask != null) {
             return;
         }
 
         // Reset errors.
-        mEmailView.setError(null);
+        if(mEmailView!=null)
+            mEmailView.setError(null);
         mPasswordView.setError(null);
-
-        // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -238,17 +261,6 @@ public class LoginFragment extends Fragment {
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
-    }
-
-
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
     }
 
     /**

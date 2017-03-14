@@ -14,10 +14,7 @@ import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.SessionCardEvaluationHistory;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryGrid;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
-import com.example.rafael.appprototype.Patients.ViewPatients.PatientsRecent;
 import com.example.rafael.appprototype.R;
 
 import java.util.Date;
@@ -25,7 +22,7 @@ import java.util.List;
 
 
 /**
- * Show all the Evaluations for a single day.
+ * Show all the Patients for a single day.
  */
 public class PatientsByDayAdapter extends BaseAdapter {
     private final PatientsRecent fragment;
@@ -33,7 +30,7 @@ public class PatientsByDayAdapter extends BaseAdapter {
     LayoutInflater inflater;
     private List<Session> sessionsFromDate;
     private RecyclerView recyclerView;
-    private PatientCardEvaluationHistory adapter;
+    private PatientCardRecent adapter;
 
     public PatientsByDayAdapter(Activity context, PatientsRecent evaluationsHistoryGrid) {
         this.context = context;
@@ -53,7 +50,7 @@ public class PatientsByDayAdapter extends BaseAdapter {
 
         // fill the RecyclerView
         recyclerView = (RecyclerView) singleDayInfo.findViewById(R.id.recycler_view_sessions_day);
-        adapter = new PatientCardEvaluationHistory(context, sessionsFromDate, fragment);
+        adapter = new PatientCardRecent(context, sessionsFromDate, fragment);
 
         // create Layout
         int numbercolumns = 1;

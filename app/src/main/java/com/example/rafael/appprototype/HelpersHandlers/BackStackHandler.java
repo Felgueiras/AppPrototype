@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
@@ -23,7 +22,6 @@ import com.example.rafael.appprototype.Patients.PatientProgress.ProgressDetail;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
-import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublic;
 import com.example.rafael.appprototype.Patients.PatientProgress.ProgressMainFragment;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewSingleScaleFragment;
@@ -169,7 +167,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 return;
             } else if (tag.equals(Constants.tag_cga_public)) {
                 Log.d("Stack", "pressed back in new session (public)");
-                ((CGAPublic) fr).discardSession();
+                ((CGAPublic) fr).finishSession();
                 return;
             } else if (tag.equals(Constants.tag_review_session_public)) {
                 Log.d("Stack", "Reviewing session (public area)");

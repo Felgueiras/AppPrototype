@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.R;
@@ -91,7 +92,7 @@ public class CreatePatient extends Fragment {
                     break;
                 }
 
-                // TODO set photo
+                // TODO set icon
                 Patient patient = new Patient();
                 patient.setName(patientName.getText().toString());
 
@@ -99,9 +100,13 @@ public class CreatePatient extends Fragment {
                 patient.setGuid("patient" + new Random().nextInt());
                 patient.setAddress(patientAddress.getText().toString());
                 if (patientGender.equals("male"))
+                {
                     patient.setPicture(R.drawable.male);
+                    patient.setGender(Constants.MALE);
+                }
                 else {
                     patient.setPicture(R.drawable.female);
+                    patient.setGender(Constants.FEMALE);
                 }
                 patient.setFavorite(false);
                 patient.save();
@@ -186,7 +191,7 @@ public class CreatePatient extends Fragment {
 
 
 /**
- * Launch an AlertDialog that lets the user take a photo or select one from the device.
+ * Launch an AlertDialog that lets the user take a icon or select one from the device.
  */
     /*
     private void selectImage() {
@@ -244,8 +249,8 @@ public class CreatePatient extends Fragment {
         }
         /*
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            patientPhoto.setImageBitmap(photo);
+            Bitmap icon = (Bitmap) data.getExtras().get("data");
+            patientPhoto.setImageBitmap(icon);
         }
         */
 

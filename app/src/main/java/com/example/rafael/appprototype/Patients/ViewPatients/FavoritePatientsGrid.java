@@ -1,7 +1,9 @@
 package com.example.rafael.appprototype.Patients.ViewPatients;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.Main.PrivateArea;
+import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -31,30 +38,80 @@ public class FavoritePatientsGrid extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        //context = parent.getContext();
+        final Patient patient = patients.get(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // each view is a Fragment layout that holds a Fragment with a Recycler View inside
-        View gridElement = inflater.inflate(R.layout.favorite_patients_list, null);
+        View card = inflater.inflate(R.layout.patient_card_grid, null);
 
-        // fill the RecyclerView
-        RecyclerView recyclerView = (RecyclerView) gridElement.findViewById(R.id.recycler_view);
+        ImageView icon = (ImageView) card.findViewById(R.id.patientIcon);
+        final TextView name = (TextView) card.findViewById(R.id.patientName);
 
-        // create Layout
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        PatientCard adapter = new PatientCard(context, patients);
-        recyclerView.setAdapter(adapter);
+        name.setText(patient.getName());
+        // holder.type.setText(patient.getAge());
 
-        return gridElement;
+
+        // loading album cover using Glide library
+        //Glide.with(context).load(patient.getPicture()).into(holder.icon);
+
+        // add on click listener for the icon
+        switch (patient.getGender())
+        {
+            case Constants.MALE:
+                icon.setImageResource(R.drawable.male);
+                break;
+            case Constants.FEMALE:
+                icon.setImageResource(R.drawable.female);
+                break;
+        }
+
+
+        View.OnClickListener clickListener =  new View.OnClickListener() {
+            public String patientTransitionName;
+
+            @Override
+            public void onClick(View v) {
+                /**
+                 * Pick a patient to be associated with a Session.
+                 */
+
+
+                // TODO add shared elements for transitions
+                Fragment endFragment = new ViewSinglePatientInfo();
+                    /*
+                    endFragment.setSharedElementReturnTransition(TransitionInflater.from(
+                            context).inflateTransition(R.transition.change_image_trans));
+
+
+                    endFragment.setSharedElementEnterTransition(TransitionInflater.from(
+                            context).inflateTransition(R.transition.change_image_trans));
+                    */
+
+
+//                    patientTransitionName = holder.name.getTransitionName();
+                Bundle args = new Bundle();
+//                args.putString("ACTION", holder.name.getText().toString());
+                args.putString("TRANS_TEXT", patientTransitionName);
+                args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
+                ((PrivateArea) context).replaceFragmentSharedElements(endFragment, args, Constants.tag_view_patient_info_records,
+                        name);
+
+            }
+        };
+
+        name.setOnClickListener(clickListener);
+        icon.setOnClickListener(clickListener);
+
+
+
+        return card;
     }
 
 
     @Override
     public int getCount() {
-        return 1;
+        return patients.size();
     }
 
     @Override

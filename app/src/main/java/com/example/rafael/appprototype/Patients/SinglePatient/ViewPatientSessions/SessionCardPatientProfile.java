@@ -102,7 +102,7 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
         };
         // add on click listener for the Session
         holder.view.setOnClickListener(cardSelected);
-        holder.testsList.setOnClickListener(cardSelected);
+        adapter.setOnClickListener(cardSelected);
 
         holder.overflow.setOnClickListener(new SessionCardHelper(holder.overflow, position, context, session, fragment));
     }

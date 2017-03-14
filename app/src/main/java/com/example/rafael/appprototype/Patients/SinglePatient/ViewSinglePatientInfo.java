@@ -123,6 +123,14 @@ public class ViewSinglePatientInfo extends Fragment {
         patientBirthDate.setText(DatesHandler.dateToStringWithoutHour(patient.getBirthDate()) + "");
         patientAddress.setText(patient.getAddress());
         //patientPhoto.setImageResource(patient.getPicture());
+        switch (patient.getGender()) {
+            case Constants.MALE:
+                patientPhoto.setImageResource(R.drawable.male);
+                break;
+            case Constants.FEMALE:
+                patientPhoto.setImageResource(R.drawable.female);
+                break;
+        }
 
 
         /**

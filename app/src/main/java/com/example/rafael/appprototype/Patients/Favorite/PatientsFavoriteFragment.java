@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.FavoritePatients;
+package com.example.rafael.appprototype.Patients.Favorite;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import com.example.rafael.appprototype.R;
 import java.util.ArrayList;
 
 
-public class FavoritePatientsFragment extends Fragment {
+public class PatientsFavoriteFragment extends Fragment {
 
     // Store instance variables based on arguments passed
     @Override

@@ -47,7 +47,17 @@ public class DatesHandler {
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         String datetime;
         datetime = format.format(date);
-        return datetime;
+
+        // get current date - if they match day is 'Hoje'
+        Calendar cal = Calendar.getInstance();
+        Date currentDate = cal.getTime();
+        String datetimeCurrent;
+        datetimeCurrent = format.format(currentDate);
+
+        if (datetime.equals(datetimeCurrent))
+            return "Hoje";
+        else
+            return datetime;
     }
 
     public static Date createCustomDate(int year, int month, int day, int hour, int minute) {

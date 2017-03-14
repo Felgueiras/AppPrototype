@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,7 +23,6 @@ import android.view.ViewGroup;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
-import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
 import com.example.rafael.appprototype.R;
 
@@ -32,6 +33,7 @@ import java.util.ArrayList;
  */
 public class PatientsAll extends Fragment {
 
+    private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
     public static String selectPatient = "selectPatient";
     private final ViewPager viewPager;
     private final int page;
@@ -107,6 +109,8 @@ public class PatientsAll extends Fragment {
         adapter = new PatientCard(getActivity(), patients);
         patientsRecyclerView.setAdapter(adapter);
 
+
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(),
                 layoutManager.getOrientation());
@@ -148,28 +152,20 @@ public class PatientsAll extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        // save the patients recylcer view state
-        RecyclerView.LayoutManager layoutManager = patientsRecyclerView.getLayoutManager();
-        if (layoutManager != null && layoutManager instanceof LinearLayoutManager) {
-            int position = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
-            if (position != -1) {
-                Constants.patientsListPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
-                Log.d("Patients", "Storing position " + Constants.patientsListPosition);
-            }
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if (Constants.patientsListBundle != null) {
+            Parcelable savedRecyclerLayoutState = Constants.patientsListBundle.getParcelable(BUNDLE_RECYCLER_LAYOUT);
+            patientsRecyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
         }
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        RecyclerView.LayoutManager layoutManager = patientsRecyclerView.getLayoutManager();
-        int count = layoutManager.getChildCount();
-        Log.d("Patients", "Restoring position " + Constants.patientsListPosition);
-        if (Constants.patientsListPosition != RecyclerView.NO_POSITION && Constants.patientsListPosition < count) {
-            layoutManager.scrollToPosition(Constants.patientsListPosition);
-        }
+    public void onPause() {
+        super.onPause();
+        Constants.patientsListBundle = new Bundle();
+        Constants.patientsListBundle.putParcelable(BUNDLE_RECYCLER_LAYOUT, patientsRecyclerView.getLayoutManager().onSaveInstanceState());
     }
 }
 

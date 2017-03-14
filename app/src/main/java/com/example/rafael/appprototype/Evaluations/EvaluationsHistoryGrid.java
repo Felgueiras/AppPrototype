@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.ListAdapter;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowEvaluationsAllDays;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowEvaluationsSingleDay;
@@ -29,6 +32,7 @@ import java.util.List;
 
 public class EvaluationsHistoryGrid extends Fragment {
 
+    private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
     private ListAdapter adapter;
     private GridView gridView;
 
@@ -50,7 +54,6 @@ public class EvaluationsHistoryGrid extends Fragment {
         View view = inflater.inflate(R.layout.sessions_history_grid, container, false);
         // fill the GridView
         gridView = (GridView) view.findViewById(R.id.gridView);
-
         adapter = new ShowEvaluationsAllDays(getActivity(), this);
         gridView.setAdapter(adapter);
 
@@ -90,6 +93,41 @@ public class EvaluationsHistoryGrid extends Fragment {
 //        adapter.notifyDataSetChanged();
         adapter = new ShowEvaluationsAllDays(getActivity(), this);
         gridView.setAdapter(adapter);
+    }
+
+    /**
+     * This is a method for Fragment.
+     * You can do the same in onCreate or onRestoreInstanceState
+     */
+//    @Override
+//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+//        super.onViewStateRestored(savedInstanceState);
+//
+//        if (savedInstanceState != null) {
+//            Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
+//            gridView..onRestoreInstanceState(savedRecyclerLayoutState);
+//        }
+//    }
+//
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, patientsRecyclerView.getLayoutManager().onSaveInstanceState());
+//    }
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if (Constants.sessionsGridViewIndex != 0) {
+            gridView.smoothScrollToPosition(Constants.sessionsGridViewIndex);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Constants.sessionsGridViewIndex = gridView.getFirstVisiblePosition();
+        Log.d("Grid",Constants.sessionsGridViewIndex+"");
     }
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {

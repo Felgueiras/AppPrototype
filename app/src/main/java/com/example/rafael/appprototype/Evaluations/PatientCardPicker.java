@@ -85,9 +85,9 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
 
 
         // loading album cover using Glide library
-        //Glide.with(context).load(patient.getPicture()).into(holder.photo);
+        //Glide.with(context).load(patient.getPicture()).into(holder.icon);
 
-        // add on click listener for the photo
+        // add on click listener for the icon
 
 
         holder.name.setOnClickListener(new View.OnClickListener() {

@@ -199,7 +199,9 @@ public class CGAPrivate extends Fragment {
                 Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
                 BackStackHandler.goToPreviousScreen();
                 break;
-
+            case R.id.session_cancel:
+                discardSession();
+                break;
 
         }
         return super.onOptionsItemSelected(item);
@@ -382,14 +384,6 @@ public class CGAPrivate extends Fragment {
         SharedPreferencesHelper.setPrivateSession(getActivity(), sessionID);
     }
 
-
-    /**
-     * Converting dp to pixel
-     */
-    private int dpToPx(int dp) {
-        Resources r = getActivity().getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
-    }
 
 }
 

@@ -78,6 +78,10 @@ public class SharedPreferencesHelper {
         sharedPreferences.edit().putString(context.getString(R.string.password), password).apply();
     }
 
+    public static String getUserName(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        return sharedPreferences.getString(context.getString(R.string.username), "");
+    }
 
     /**
      * Get user email.
@@ -87,7 +91,7 @@ public class SharedPreferencesHelper {
      */
     public static String getUserEmail(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
-        return sharedPreferences.getString(context.getString(R.string.email), "");
+        return sharedPreferences.getString(context.getString(R.string.email), null);
     }
 
     public static String getUserPassword(Context context) {

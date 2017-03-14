@@ -191,7 +191,7 @@ public class CGAAreaPrivate extends Fragment {
 //                                if (Constants.area.equals(Constants.area_private))
 //                                {
 //                                    Constants.discard_session = true;
-//                                    BackStackHandler.discardSession();
+//                                    BackStackHandler.finishSession();
 //                                }
 //                                else {
 //                                    FragmentManager fragmentManager = getFragmentManager();

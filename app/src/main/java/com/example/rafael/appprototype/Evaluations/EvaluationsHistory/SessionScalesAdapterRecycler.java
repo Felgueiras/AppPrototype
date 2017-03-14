@@ -2,10 +2,12 @@ package com.example.rafael.appprototype.Evaluations.EvaluationsHistory;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
@@ -26,6 +28,11 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
     private final List<GeriatricScale> sessionScales;
     private final Context context;
     private View testView;
+    private View.OnClickListener onClickListener;
+
+    public void setOnClickListener(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
 
 
     /**
@@ -34,11 +41,13 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView testName;
         private final TextView testResult;
+        private final LinearLayout card;
         public TextView patientName;
         public ImageView overflow;
 
         public MyViewHolder(View view) {
             super(view);
+            card = (LinearLayout)view.findViewById(R.id.testResultCard);
             testName = (TextView) view.findViewById(R.id.testName);
             testResult = (TextView) view.findViewById(R.id.testResult);
         }
@@ -73,6 +82,13 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
         holder.testName.setText(name);
         if (grading != null)
             holder.testResult.setText(grading.getGrade());
+
+        /**
+         * If a ClickListener was passed, add it
+         */
+        if (onClickListener != null) {
+            holder.card.setOnClickListener(onClickListener);
+        }
     }
 
     @Override

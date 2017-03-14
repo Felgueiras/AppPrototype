@@ -11,9 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.Patients.FavoritePatients.PatientsFavorite;
+import com.example.rafael.appprototype.Patients.Favorite.PatientsFavoriteMain;
 import com.example.rafael.appprototype.Patients.ViewPatients.PatientsAll;
-import com.example.rafael.appprototype.Patients.ViewPatients.PatientsRecent;
+import com.example.rafael.appprototype.Patients.Recent.PatientsRecent;
 import com.example.rafael.appprototype.R;
 
 
@@ -86,7 +86,7 @@ public class PatientsMain extends Fragment {
             if (position == 0) {
                 return new PatientsAll(viewPager, position);
             } else if (position == 1) {
-                return new PatientsFavorite();
+                return new PatientsFavoriteMain();
             } else if (position == 2) {
                 return new PatientsRecent(viewPager, position);
             }

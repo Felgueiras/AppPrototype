@@ -1,7 +1,10 @@
 package com.example.rafael.appprototype;
 
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBarDrawerToggle;
+
+import java.util.HashMap;
 
 /**
  * Created by rafael on 24-09-2016.
@@ -184,6 +187,13 @@ public class Constants {
     public static final String fileChoices = "choices.txt";
     public static ActionBarDrawerToggle toggle;
     public static boolean upButton;
-    public static int patientsListPosition;
-    public static Parcelable drugsListState;
+
+    /**
+     * Bundles - save scroll positions.
+     */
+    public static Bundle patientsListBundle;
+    public static Bundle drugsListBundle;
+    public static HashMap<String,Bundle> patientsSessionsBundle = new HashMap<>();
+    public static Bundle sessionsListBundle;
+    public static int sessionsGridViewIndex;
 }

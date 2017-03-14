@@ -2,6 +2,8 @@ package com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessio
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.R;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 public class PatientSessionsFragment extends Fragment {
 
     public static final String PATIENT = "PATIENT";
+    private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
     private Patient patient;
     private ArrayList<Session> sessionsFromPatient;
     private RecyclerView recyclerView;
@@ -65,5 +69,24 @@ public class PatientSessionsFragment extends Fragment {
         adapter.notifyItemRemoved(index);
         adapter.notifyItemRangeChanged(index, sessionsFromPatient.size());
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        Bundle bundle = Constants.patientsSessionsBundle.get(patient.getGuid());
+        if (bundle != null) {
+            Parcelable savedRecyclerLayoutState = bundle.getParcelable(BUNDLE_RECYCLER_LAYOUT);
+            recyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Bundle bundle = new Bundle();
+        Constants.patientsSessionsBundle.put(patient.getGuid(), bundle);
+        Constants.patientsSessionsBundle.get(patient.getGuid()).putParcelable(BUNDLE_RECYCLER_LAYOUT, recyclerView.getLayoutManager().onSaveInstanceState());
     }
 }

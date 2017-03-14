@@ -19,14 +19,12 @@ import com.example.rafael.appprototype.R;
 public class EvaluationsHistoryMain extends Fragment {
 
 
-    public EvaluationsHistoryMain() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.evaluations_history, container, false);
+        getActivity().setTitle(getResources().getString(R.string.evaluations));
         return view;
     }
 

@@ -36,11 +36,6 @@
             android:name=".Introduction.MyIntro"
             android:theme="@style/FullscreenTheme" />
         <activity
-            android:name=".LoginRegister.LoginActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_login"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Tutorial.OtherActivity"
             android:launchMode="singleTop" />
         <activity android:name=".Tutorial.SearchableActivity">

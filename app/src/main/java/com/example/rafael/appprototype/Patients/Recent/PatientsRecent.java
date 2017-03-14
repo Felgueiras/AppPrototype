@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ViewPatients;
+package com.example.rafael.appprototype.Patients.Recent;
 
 import android.app.Fragment;
 import android.app.SearchManager;

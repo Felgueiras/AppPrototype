@@ -9,6 +9,6 @@
         android:id="@+id/patients_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="1" />
+        android:numColumns="2" />
 
 </android.support.design.widget.CoordinatorLayout>

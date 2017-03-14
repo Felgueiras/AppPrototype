@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Criteria.Beers.BeersCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.StartCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.StoppCriteria;
@@ -107,30 +109,27 @@ public class SearchAllDrugs extends Fragment {
         drugsRecyclerView.addItemDecoration(dividerItemDecoration);
 //        drugsRecyclerView.setFastScrollEnabled(true);
 
-
         return v;
     }
 
+    private static final String BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout";
 
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        // save the listView state
-//        Constants.drugsListState = drugsRecyclerView.onSaveInstanceState();
-//        Log.d("List", "Saving position " + state);
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        // check if there is a saved state for the list
-//        if (Constants.drugsListState != null) {
-//            // restore list state
-//            drugsRecyclerView.onRestoreInstanceState(Constants.drugsListState);
-//            Log.d("List", "Restoring position");
-//        }
-//        Log.d("List", "Resuming");
-//    }
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if (Constants.drugsListBundle != null) {
+            Parcelable savedRecyclerLayoutState = Constants.drugsListBundle.getParcelable(BUNDLE_RECYCLER_LAYOUT);
+            drugsRecyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Constants.drugsListBundle = new Bundle();
+        Constants.drugsListBundle.putParcelable(BUNDLE_RECYCLER_LAYOUT, drugsRecyclerView.getLayoutManager().onSaveInstanceState());
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

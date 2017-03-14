@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.FavoritePatients;
+package com.example.rafael.appprototype.Patients.Favorite;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -16,7 +16,7 @@ import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
 
-public class PatientsFavorite extends Fragment {
+public class PatientsFavoriteMain extends Fragment {
 
 
     @Override
@@ -65,7 +65,7 @@ public class PatientsFavorite extends Fragment {
 
 
         } else {
-            Fragment fragment = new FavoritePatientsFragment();
+            Fragment fragment = new PatientsFavoriteFragment();
             fragmentManager.beginTransaction()
                     .replace(R.id.favorite_patients_frame_layout, fragment)
                     .commit();
