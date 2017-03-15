@@ -2,11 +2,9 @@ package com.example.rafael.appprototype.Evaluations.DisplayTest;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewManager;
 import android.view.ViewStub;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.RadioGroup;
@@ -106,7 +104,7 @@ public class ExpandableListAdapterCategories extends BaseExpandableListAdapter {
             // create question and add to DB
             questionInDB.setGuid(dummyID);
             questionInDB.setDescription(currentQuestionNonDB.getDescription());
-            questionInDB.setTest(test);
+            questionInDB.setScale(test);
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(true);
             questionInDB.save();

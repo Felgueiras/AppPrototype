@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <EditTextPreference android:title="Your Name"
-        android:key="username"
-        android:summary="Please provide your username"></EditTextPreference>
-    <CheckBoxPreference android:title="Application Updates"
+    <!--<EditTextPreference-->
+        <!--android:key="username"-->
+        <!--android:summary="Please provide your username"-->
+        <!--android:title="Your Name"></EditTextPreference>-->
+    <CheckBoxPreference
         android:defaultValue="false"
-        android:summary="This option if selected will allow the application to check for latest versions."
-        android:key="applicationUpdates" />
-    <ListPreference     android:title="Download Details"
-        android:summary="Select the kind of data that you would like to download"
-        android:key="downloadType"
+        android:key="@string/areaCardShowScalesIcon"
+        android:summary="Selecione para ver ícones das escalas no botão de cada área, podendo
+aceder mais rapidamente à escala a executar"
+        android:title="Ícones de Escalas" />
+    <!--<CheckBoxPreference-->
+        <!--android:defaultValue="false"-->
+        <!--android:key="@string/areaCardShowScalesIcon"-->
+        <!--android:summary="Selecione para ver ícones das escalas no botão de cada área, podendo-->
+<!--aceder mais rapidamente à escala a executar"-->
+        <!--android:title="Ícones de Escalas" />-->
+    <ListPreference
         android:defaultValue="1"
-        android:entries="@array/listArray"
-        android:entryValues="@array/listValues" />
+        android:entries="@array/sessionResumeInfoNames"
+        android:entryValues="@array/sessionResumeInfoIndex"
+        android:key="@string/sessionResumeInformation"
+        android:summary="Selecione a informação a ver no resumo de uma sessão de AGG"
+        android:title="Resumo de sessão" />
 </PreferenceScreen>

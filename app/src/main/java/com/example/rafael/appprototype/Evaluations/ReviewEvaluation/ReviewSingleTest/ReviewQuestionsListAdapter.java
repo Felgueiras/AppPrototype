@@ -26,16 +26,11 @@ public class ReviewQuestionsListAdapter extends BaseAdapter {
     private final ArrayList<Question> questions;
     private static LayoutInflater inflater = null;
     /**
-     * Current Context
-     */
-    private final Context context;
-    /**
      * Test
      */
     private final GeriatricScale test;
 
     int numquestions;
-    private View questionView;
 
 
     /**
@@ -45,13 +40,16 @@ public class ReviewQuestionsListAdapter extends BaseAdapter {
      * @param test    GeriatricScale that is being filled up
      */
     public ReviewQuestionsListAdapter(Context context, GeriatricScale test) {
-        this.context = context;
+        /*
+      Current Context
+     */
+        Context context1 = context;
         this.questions = test.getQuestionsFromScale();
         this.test = test;
         numquestions = questions.size();
         // TODO display all questions
         numquestions = 5;
-        inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -78,7 +76,7 @@ public class ReviewQuestionsListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        questionView = null;
+        View questionView = null;
         Question currentQuestion = questions.get(position);
 
 

@@ -26,10 +26,6 @@ public class ReviewArea extends RecyclerView.Adapter<ReviewArea.TestCardHolder> 
      * Session for the Tests.
      */
     private final Session session;
-    /**
-     * Patient for this Session
-     */
-    private final Patient patient;
     private final boolean comparePrevious;
     /**
      * Context.
@@ -51,7 +47,10 @@ public class ReviewArea extends RecyclerView.Adapter<ReviewArea.TestCardHolder> 
     public ReviewArea(Activity context, Session session, boolean comparePreviousSession) {
         this.context = context;
         this.session = session;
-        this.patient = session.getPatient();
+        /*
+      Patient for this Session
+     */
+        Patient patient = session.getPatient();
         this.comparePrevious = comparePreviousSession;
     }
 

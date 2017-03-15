@@ -85,11 +85,11 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 fragment = fr;
                 // get the arguments
                 Bundle arguments = fr.getArguments();
-                GeriatricScale test = (GeriatricScale) arguments.getSerializable(ScaleFragment.testDBobject);
-                assert test != null;
-                test.setAlreadyOpened(true);
-                test.save();
-//                Session session = test.getSession();
+                GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragment.testDBobject);
+                assert scale != null;
+                scale.setAlreadyOpened(true);
+                scale.save();
+//                Session session = scale.getSession();
 //                Patient patient = (Patient) arguments.getSerializable(ScaleFragment.patient);
 //
 //                if (SharedPreferencesHelper.isLoggedIn(context)) {
@@ -106,8 +106,12 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 //
 //                    fragment = new CGAAreaPublic();
 //                }
+            } else if (tag.equals(Constants.tag_display_session_scale_shortcut)) {
+                fragment = fr;
+//                fragment = new CGAPublic();
             }
             /**
+             *
              * Viewing single area (public).
              */
             else if (tag.equals(Constants.tag_display_single_area_public)) {
@@ -155,6 +159,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
             } else if (tag.equals(Constants.tag_view_patient_info_records)) {
                 fragment = new PatientsMain();
+            } else if (tag.equals(Constants.tag_view_patient_info_records_from_sessions_list)) {
+                fragment = new EvaluationsHistoryMain();
             } else if (tag.equals(Constants.tag_view_drug_info)) {
                 fragment = new DrugPrescriptionMain();
             } else if (tag.equals(Constants.tag_create_session_no_patient)) {
@@ -329,8 +335,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
             String tagPrevious = backEntryPrevious.getName();
             Log.d("Stack", "Previous tag:" + tagPrevious);
-            if (tagPrevious.equals(Constants.tag_view_patient_info_records)) {
-
+            if (tagPrevious.equals(Constants.tag_view_patient_info_records) ||
+                    tagPrevious.equals(Constants.tag_view_patient_info_records_from_sessions_list)) {
 
                 fragmentManager.popBackStack();
                 Bundle args = new Bundle();

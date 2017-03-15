@@ -34,10 +34,8 @@
         <!-- Intro -->
         <activity
             android:name=".Introduction.MyIntro"
-            android:theme="@style/FullscreenTheme" />
-        <activity
-            android:name=".Tutorial.OtherActivity"
-            android:launchMode="singleTop" />
+            android:theme="@style/FullscreenTheme"
+            android:screenOrientation="portrait"/>
         <activity android:name=".Tutorial.SearchableActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -47,8 +45,6 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".Tutorial.CalendarViewTutorial" />
-        <activity android:name=".Tutorial.DatePickerActivity" />
         <activity
             android:name=".Main.PublicArea"
             android:screenOrientation="portrait">
@@ -67,11 +63,10 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MyPreferencesActivity"
+            android:name=".Settings"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
-        <activity android:name=".Register.RegisterUser" />
-        <activity android:name=".LoginRegister.RegisterUser"></activity>
+        <activity android:name=".LoginRegister.RegisterUser" />
     </application>
 
 </manifest>

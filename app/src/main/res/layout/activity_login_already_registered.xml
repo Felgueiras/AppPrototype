@@ -18,18 +18,23 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
+    <ScrollView
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
 
     <LinearLayout
-        android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="400dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="400dp"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
+            android:scaleType="fitXY"
             android:scaleX="0.4"
             android:scaleY="0.4"
             android:src="@drawable/icon" />
@@ -79,4 +84,6 @@
             <!--android:textStyle="bold" />-->
 
     </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>

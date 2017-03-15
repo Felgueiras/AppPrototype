@@ -26,4 +26,6 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="button_size">120dp</dimen>
     <dimen name="criteriaInfoSize">15dp</dimen>
+    <dimen name="search_view_inset">10dp</dimen>
+    <dimen name="subText">15dp</dimen>
 </resources>

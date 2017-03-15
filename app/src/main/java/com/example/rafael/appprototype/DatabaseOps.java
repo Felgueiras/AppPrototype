@@ -26,6 +26,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import static android.content.Context.MODE_APPEND;
 import static android.content.Context.MODE_PRIVATE;
@@ -65,41 +66,92 @@ public class DatabaseOps {
     /**
      * Insert dummy data into DB
      */
-    public static void insertDataToDB() {
+    public static void insertDummyData() {
 
-        int numPatients = 40;
-        String[] patientNames = new String[numPatients];
-        int[] patientAges = new int[numPatients];
-        String[] patientAddresses = new String[numPatients];
-        double[] patientGenders = new double[numPatients];
-        Date[] patientBirthDates = new Date[numPatients];
+        Log.d("Dummy", "Inserting dummy data");
+
+        int totalPatients = 30;
+        String[] patientsMale =
+                {"Manuel Vieira",
+                        "Ivo Silva",
+                        "Júlio Arrábida",
+                        "Manuel João Costa",
+                        "Vitor Manuel da Assunção",
+                        "José Pinto",
+                        "Teotónio Francisco",
+                        "Fernando Silva",
+                        "Augusto Cunha",
+                        "Óscar Felgueiras",
+                        "Vítor de Sá",
+                        "Leandro Ricardo",
+                        "Mário Alexandre Costa",
+                        "Aníbal Salgueiro",
+                        "Bernardo Silva"};
+        String[] patientsFemale =
+                {"Maria da Graça",
+                        "Maria Silva",
+                        "Júlia Adalberto",
+                        "Beatriz Fernandes Madureira",
+                        "Emília Felgueiras Pinto",
+                        "Maria Adélia Cirne",
+                        "Ana Inês Gonçalves",
+                        "Clara Ferreira",
+                        "Ana Maria Pureza",
+                        "Leonor Fernandes",
+                        "Lurdes Onofre Seixas",
+                        "Teresa Silves",
+                        "Paula Faria",
+                        "Leonor da Graça Gomes",
+                        "Beatriz Flores"};
+
+        String[] patientNames = new String[totalPatients];
+        int[] patientAges = new int[totalPatients];
+        String[] patientAddresses = new String[totalPatients];
+        double[] patientGenders = new double[totalPatients];
+        Date[] patientBirthDates = new Date[totalPatients];
 
 
+        String[] addresses = {
+                "Aveiro",
+                "Eixo",
+                "Esgueira",
+                "Ílhavo",
+                "Estarreja",
+                "Cacia",
+                "Azurva",
+                "Salreu"
+        };
 
-        for (int patient = 0; patient < patientNames.length; patient++) {
-            patientNames[patient] = "Patient " + patient;
-            patientBirthDates[patient] = DatesHandler.stringToDate("1920-12-01");
-            patientAddresses[patient] = "Aveiro";
-            patientGenders[patient] = 'm';
-        }
-        for (int i = 0; i < patientNames.length; i++) {
+        Random random = new Random();
+
+        /**
+         * Male patients.
+         */
+        for (String aPatientsMale : patientsMale) {
             // create patients
             Patient patient = new Patient();
-            patient.setName(patientNames[i]);
+            patient.setName(aPatientsMale);
 
-            patient.setBirthDate(patientBirthDates[i]);
-            patient.setGuid("patient" + i);
-            patient.setAddress(patientAddresses[i]);
+            patient.setBirthDate(DatesHandler.stringToDate("01-12-1920"));
+            patient.setGuid("patient-" + aPatientsMale);
+            patient.setAddress(addresses[random.nextInt(addresses.length)]);
+            patient.setPicture(R.drawable.male);
             patient.setGender(Constants.MALE);
-            if (patientGenders[i] == 'm')
-            {
-                patient.setPicture(R.drawable.male);
-                patient.setGender(Constants.MALE);
-            }
-            else {
-                patient.setPicture(R.drawable.female);
-                patient.setGender(Constants.FEMALE);
-            }
+            patient.setFavorite(false);
+            patient.save();
+        }
+        /**
+         * Female patients.
+         */
+        for (String aPatientsFemale : patientsFemale) {
+            // create patients
+            Patient patient = new Patient();
+            patient.setName(aPatientsFemale);
+            patient.setBirthDate(DatesHandler.stringToDate("01-12-1920"));
+            patient.setGuid("patient-" + aPatientsFemale);
+            patient.setAddress(addresses[random.nextInt(addresses.length)]);
+            patient.setPicture(R.drawable.female);
+            patient.setGender(Constants.FEMALE);
             patient.setFavorite(false);
             patient.save();
         }
@@ -138,6 +190,38 @@ public class DatabaseOps {
         ArrayList<Choice> choices = Choice.getAllChoices();
         jsonArray = gson.toJson(choices);
         writeToFile(jsonArray, context, Constants.fileChoices);
+    }
+
+    public static void displayData(Context context) {
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+        // Patients
+        ArrayList<Patient> patients = Patient.getAllPatients();
+        String jsonArray = gson.toJson(patients);
+        System.out.println(jsonArray);
+
+        // Sessions
+        ArrayList<Session> sessions = Session.getAllSessions();
+        jsonArray = gson.toJson(sessions);
+        System.out.println(jsonArray);
+
+
+        // Scales
+        ArrayList<GeriatricScale> scales = GeriatricScale.getAllScales();
+        jsonArray = gson.toJson(scales);
+        System.out.println(jsonArray);
+
+
+        // Questions
+        ArrayList<Question> questions = Question.getAllQuestions();
+        jsonArray = gson.toJson(questions);
+        System.out.println(jsonArray);
+
+
+        // Choices
+        ArrayList<Choice> choices = Choice.getAllChoices();
+        jsonArray = gson.toJson(choices);
+        System.out.println(jsonArray);
     }
 
     public static void readDataGson(Context context) {

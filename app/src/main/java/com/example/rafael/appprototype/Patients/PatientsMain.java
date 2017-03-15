@@ -20,10 +20,6 @@ import com.example.rafael.appprototype.R;
 public class PatientsMain extends Fragment {
 
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,8 +36,8 @@ public class PatientsMain extends Fragment {
 
         // set the title
         getActivity().setTitle(getResources().getString(R.string.tab_my_patients));
-        viewPager = (ViewPager) v.findViewById(R.id.viewpager);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager(), viewPager);
+        ViewPager viewPager = (ViewPager) v.findViewById(R.id.viewpager);
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager(), viewPager);
 
         // Set up the ViewPager with the sections adapter.
         viewPager.setAdapter(mSectionsPagerAdapter);
@@ -65,7 +61,7 @@ public class PatientsMain extends Fragment {
         });
 
 
-        tabLayout = (TabLayout) v.findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) v.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         return v;

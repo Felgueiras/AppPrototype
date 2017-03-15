@@ -2,7 +2,6 @@ package com.example.rafael.appprototype.Evaluations.EvaluationsHistory;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
      * Questions for a Test
      */
     private final List<GeriatricScale> sessionScales;
-    private final Context context;
     private View testView;
     private View.OnClickListener onClickListener;
 
@@ -60,7 +58,7 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
      */
     public SessionScalesAdapterRecycler(Context context, List<GeriatricScale> tests) {
         this.sessionScales = tests;
-        this.context = context;
+        Context context1 = context;
     }
 
 

@@ -35,6 +35,7 @@ public class Scales {
                         "sociales (1 punto) hasta el deterioro social total " +
                         "(6 puntos).");
         recursosSociales.setShortName("Recursos sociales");
+        recursosSociales.setIconName("RS");
         // create Scoring
         ScoringNonDB scoring = new ScoringNonDB(1, 6, false);
         // create Gradings
@@ -77,6 +78,7 @@ public class Scales {
                 Constants.cga_mental, Constants.cga_afective,
                 "• The HAM-D is designed to rate the severity of depression in patients.");
         hamiltonScale.setShortName("HAM-D");
+        hamiltonScale.setIconName("HD");
         hamiltonScale.setMultipleChoice(true);
         // create Scoring
         ScoringNonDB hamiltonScoring = new ScoringNonDB(0, 50, false);
@@ -349,6 +351,7 @@ public class Scales {
                         "• Tempo de aplicação: 6 minutos.");
         // short area
         escalaDepressao.setShortName("Escala Depressão Yesavage (curta)");
+        escalaDepressao.setIconName("YS");
         // create Scoring
         ScoringNonDB depressionScoring = new ScoringNonDB(0, 15, false);
         // create Gradings
@@ -432,6 +435,7 @@ public class Scales {
                 "");
         // short area
         escala.setShortName("Atividades avançadas");
+        escala.setIconName("AA");
 //        // create Scoring
 //        ScoringNonDB depressionScoring = new ScoringNonDB(0, 15, false);
 //        // create Gradings
@@ -476,6 +480,7 @@ public class Scales {
                         " familiares ou cuidadores;\n" +
                         "• Tempo de aplicação: 5 minutos.");
         testeDeKatz.setShortName("Escala Katz");
+        testeDeKatz.setIconName("KZ");
         testeDeKatz.setMultipleChoice(true);
         // create Scoring
         ScoringNonDB katzScoring = new ScoringNonDB(0, 6, false);
@@ -561,6 +566,7 @@ public class Scales {
                         "• For each item, caregivers are to indicate how often they felt that" +
                         "way (never, rarely, sometimes, quite frequently, or nearly always).");
         zaritBurdenInterview.setShortName("Burden Interview");
+        zaritBurdenInterview.setIconName("BI");
         zaritBurdenInterview.setMultipleChoice(true);
         // create Scoring
         ScoringNonDB scoring = new ScoringNonDB(0, 88, false);
@@ -708,6 +714,7 @@ public class Scales {
                         "de rehabilitación y ubicación al alta de pacientes con " +
                         "accidente cerebrovascular.");
         barthelIndex.setShortName("Barthel Index");
+        barthelIndex.setIconName("BI");
         barthelIndex.setMultipleChoice(true);
         // create Scoring
         ScoringNonDB scoring = new ScoringNonDB(0, 100, false);
@@ -826,6 +833,7 @@ public class Scales {
                         "apoyos de la red social" +
                         " y situación económica");
         valoracionSocioFamiliar.setShortName("Valoracion Socio-Familiar");
+        valoracionSocioFamiliar.setIconName("VSF");
         valoracionSocioFamiliar.setMultipleChoice(true);
         // create Scoring
         ScoringNonDB valoracionScoring = new ScoringNonDB(5, 25, false);
@@ -914,6 +922,7 @@ public class Scales {
                         "familiares ou cuidadores;\n" +
                         "•  Tempo de aplicação: 5 minutos.");
         escalaLawtonBrody.setShortName("Escala Lawton Brody");
+        escalaLawtonBrody.setIconName("LB");
         escalaLawtonBrody.setMultipleChoice(true);
         // create Scoring
         ScoringNonDB lawtonScoring = new ScoringNonDB(0, 8, true);
@@ -1054,6 +1063,7 @@ public class Scales {
                         "•  Higher scores reflect a greater number of errors and more impairment. A score of ≥3 represents\n" +
                         "a cognitive deficit, while a score of 1 or 2 is considered normal. ");
         clockDrawing.setShortName("Clock Drawing");
+        clockDrawing.setIconName("CD");
         // create Scoring
         ScoringNonDB clockDrawingScoring = new ScoringNonDB(1, 6, false);
         // create Gradings
@@ -1109,6 +1119,8 @@ public class Scales {
                         "familiares ou cuidadores;\n" +
                         "• Tempo de aplicação: 3-5 minutos.");
         marcha.setShortName("Marcha");
+        marcha.setIconName("M");
+
         marcha.setSingleQuestion(true);
         // create Scoring
         ScoringNonDB marchaScoring = new ScoringNonDB(0, 5, false);
@@ -1163,6 +1175,7 @@ public class Scales {
                         "normal, sob risco de malnutrição, malnutrição;");
         // short area
         nutritionalAssessment.setShortName("Nutritional assessment - triagem");
+        nutritionalAssessment.setIconName("NA-T");
         nutritionalAssessment.setMultipleChoice(true);
 //        // create Scoring
 //        ScoringNonDB scoring = new ScoringNonDB(0, 30, false);
@@ -1265,6 +1278,7 @@ public class Scales {
                         " auxiliares de marcha habituais");
         // short area
         tinettiScale.setShortName("Tinetti");
+        tinettiScale.setIconName("TI");
         tinettiScale.setMultipleChoice(true);
         // create Scoring
         ScoringNonDB scoring = new ScoringNonDB(0, 28, false);
@@ -1471,6 +1485,7 @@ public class Scales {
                         "normal, sob risco de malnutrição, malnutrição;");
         // short area
         nutritionalAssessment.setShortName("Nutritional assessment - avaliação global");
+        nutritionalAssessment.setIconName("NA-G");
         nutritionalAssessment.setMultipleChoice(true);
         // create Scoring
         ScoringNonDB scoring = new ScoringNonDB(0, 30, false);
@@ -1618,6 +1633,7 @@ public class Scales {
                         "• Tempo de aplicação: 5-10 minutos.");
         // short area
         mentalState.setShortName("Mini-Mental State Examination");
+        mentalState.setIconName("MMSE");
         mentalState.setMultipleCategories(true);
 
         // create Scoring
@@ -1816,6 +1832,7 @@ public class Scales {
                         "aciertos, y de 27 o más si se trata de ancianos.");
         // short area
         setTest.setShortName("Set Test");
+        setTest.setIconName("ST");
         // create Scoringleve
         ScoringNonDB setTestScoring = new ScoringNonDB(0, 40, false);
         // create Gradings
@@ -1878,6 +1895,7 @@ public class Scales {
                         "la evolución.");
         // short area
         shortPortableMentalStatus.setShortName("SPMSQ");
+        shortPortableMentalStatus.setIconName("SPMSQ");
         // create Scoringleve
         ScoringNonDB mentalStateScoring = new ScoringNonDB(0, 10, false);
         // create Gradings
@@ -2057,7 +2075,7 @@ public class Scales {
         tests.add(barthelIndex());
         //tests.add(shortPortableMentalStatus());
         tests.add(clockDrawing());
-//        tests.add(setTest());
+//        tests.add(setScale());
         // tests.add(hamiltonDepressionScale());
         tests.add(tinettiScale());
 //        tests.add(advancedDailyLifeActivities());

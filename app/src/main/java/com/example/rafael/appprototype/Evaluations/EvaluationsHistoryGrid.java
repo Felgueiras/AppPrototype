@@ -5,9 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.ListAdapter;
@@ -36,10 +35,6 @@ public class EvaluationsHistoryGrid extends Fragment {
     private ListAdapter adapter;
     private GridView gridView;
 
-    public EvaluationsHistoryGrid() {
-
-    }
-
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +51,11 @@ public class EvaluationsHistoryGrid extends Fragment {
         gridView = (GridView) view.findViewById(R.id.gridView);
         adapter = new ShowEvaluationsAllDays(getActivity(), this);
         gridView.setAdapter(adapter);
+
+        /**
+         * On scroll, hide FAB.
+         */
+
 
         return view;
     }
@@ -93,6 +93,18 @@ public class EvaluationsHistoryGrid extends Fragment {
 //        adapter.notifyDataSetChanged();
         adapter = new ShowEvaluationsAllDays(getActivity(), this);
         gridView.setAdapter(adapter);
+
+        gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int newState) {
+                Log.d("Scroll", newState+"");
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+                Log.d("Scroll", i + "-" + i1 + "-" + i2);
+            }
+        });
     }
 
     /**
@@ -127,7 +139,7 @@ public class EvaluationsHistoryGrid extends Fragment {
     public void onPause() {
         super.onPause();
         Constants.sessionsGridViewIndex = gridView.getFirstVisiblePosition();
-        Log.d("Grid",Constants.sessionsGridViewIndex+"");
+        Log.d("Grid", Constants.sessionsGridViewIndex + "");
     }
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {

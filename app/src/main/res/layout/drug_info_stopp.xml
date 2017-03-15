@@ -32,9 +32,9 @@
     </LinearLayout>
     -->
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/issues"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:divider="?android:attr/dividerHorizontal"
         android:showDividers="middle"/>

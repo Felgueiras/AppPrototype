@@ -52,7 +52,7 @@ public class GeriatricScaleNonDB implements Serializable {
     ArrayList<QuestionNonDB> questions = new ArrayList<>();
     private ArrayList<QuestionCategory> questionsCategories;
     private boolean multipleCategories;
-    private int numberQuestions;
+    private String iconName;
 
     public ArrayList<QuestionCategory> getQuestionsCategories() {
         return questionsCategories;
@@ -223,5 +223,13 @@ public class GeriatricScaleNonDB implements Serializable {
 
     public void setMultipleChoice(boolean multipleChoice) {
         this.multipleChoice = multipleChoice;
+    }
+
+    public String getIconName() {
+        return iconName;
+    }
+
+    public void setIconName(String iconName) {
+        this.iconName = iconName;
     }
 }

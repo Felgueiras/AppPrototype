@@ -201,7 +201,7 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                 final String filterPattern = constraint.toString().toLowerCase().trim();
 
                 for (final Patient patient : originalList) {
-                    if (patient.getName().toString().toLowerCase().trim().contains(filterPattern)) {
+                    if (patient.getName().toLowerCase().trim().contains(filterPattern)) {
                         filteredList.add(patient);
                     }
                 }

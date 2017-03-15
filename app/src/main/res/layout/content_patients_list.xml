@@ -22,7 +22,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:src="@drawable/account_plus"
+        app:srcCompat="@drawable/account_plus"
         app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

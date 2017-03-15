@@ -1,17 +1,9 @@
 package com.example.rafael.appprototype.Patients.NewPatient;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.Fragment;
-import android.app.SearchManager;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -29,9 +20,7 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.R;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -48,7 +37,6 @@ public class CreatePatient extends Fragment {
     private Button saveFAB;
     private static TextView dateView;
     private EditText patientAddress;
-    private static Date selectedDate = null;
 
 
     @Override
@@ -82,7 +70,7 @@ public class CreatePatient extends Fragment {
                 c.set(Integer.parseInt(yearText),
                         Integer.parseInt(monthText)-1,
                         Integer.parseInt(dayText));
-                selectedDate = c.getTime();
+                Date selectedDate = c.getTime();
                 if (patientAddress.getText().length() == 0) {
                     Snackbar.make(getView(), R.string.create_patient_error_address, Snackbar.LENGTH_SHORT).show();
                     break;

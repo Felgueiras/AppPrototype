@@ -28,17 +28,12 @@ public class CGAAreaPrivate extends Fragment {
     public static String CGA_AREA = "area";
 
     Patient patientForThisSession;
-    /**
-     * Session object
-     */
-    private Session session;
 
     public static String sessionObject = "session";
 
     boolean resuming = false;
 
 
-    private String area;
     private FloatingActionButton discardFAB;
     private FloatingActionButton saveFAB;
 
@@ -62,8 +57,11 @@ public class CGAAreaPrivate extends Fragment {
         Bundle args = getArguments();
         patientForThisSession = (Patient) args.getSerializable(PATIENT);
 
-        area = args.getString(CGA_AREA);
-        session = (Session) args.getSerializable(sessionObject);
+        String area = args.getString(CGA_AREA);
+        /*
+      Session object
+     */
+        Session session = (Session) args.getSerializable(sessionObject);
         getActivity().setTitle(area);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);

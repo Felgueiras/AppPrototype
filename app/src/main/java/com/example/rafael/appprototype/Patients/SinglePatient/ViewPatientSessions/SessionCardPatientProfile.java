@@ -27,17 +27,12 @@ import java.util.List;
 
 public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardPatientProfile.MyViewHolder> {
 
-    /**
-     * Patient which has these NewEvaluationPrivate.
-     */
-    private final Patient patient;
     private final PatientSessionsFragment fragment;
     private Activity context;
     /**
      * Records from that patient
      */
     private ArrayList<Session> sessions;
-    private Session session;
 
     /**
      * Create a View
@@ -61,7 +56,10 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
     public SessionCardPatientProfile(Activity context, ArrayList<Session> sessions, Patient patient, PatientSessionsFragment patientSessionsFragment) {
         this.context = context;
         this.sessions = sessions;
-        this.patient = patient;
+        /*
+      Patient which has these NewEvaluationPrivate.
+     */
+        Patient patient1 = patient;
         this.fragment = patientSessionsFragment;
     }
 
@@ -75,7 +73,7 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        session = sessions.get(position);
+        Session session = sessions.get(position);
         holder.date.setText(DatesHandler.dateToStringWithoutHour(session.getDate()));
         List<GeriatricScale> sessionScales = sessions.get(position).getScalesFromSession();
 

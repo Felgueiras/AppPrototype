@@ -44,9 +44,6 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
     private Activity context;
     private ArrayList<GeriatricScaleNonDB> testsForArea;
-    private ViewManager parentView;
-    private int paddingValue;
-    private int background;
 
 
     /**
@@ -100,11 +97,10 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
     @Override
     public void onBindViewHolder(final ScaleCardHolder holder, int position) {
         // get constants
-        parentView = (ViewManager) holder.result_qualitative.getParent();
+        ViewManager parentView = (ViewManager) holder.result_qualitative.getParent();
 
         String testCompletionNotSelected = context.getResources().getString(R.string.test_not_selected);
         String testCompletionSelectedIncomplete = context.getResources().getString(R.string.test_incomplete);
-        String testCompletionResult = context.getResources().getString(R.string.test_result);
 
         String scaleName = testsForArea.get(position).getTestName();
 
@@ -124,7 +120,6 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
             // already complete
             if (currentScale.isCompleted()) {
                 // display Scoring to the user
-                System.out.println("Gender is " + patientGender);
                 GradingNonDB match = Scales.getGradingForScale(
                         currentScale,
                         patientGender);

@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStopp;
@@ -22,7 +24,6 @@ import java.util.List;
  */
 public class ExpandableListAdapterStop extends BaseExpandableListAdapter {
 
-    private final FragmentManager fragmentManager;
     private Activity _context;
     /**
      * Headers.
@@ -38,7 +39,7 @@ public class ExpandableListAdapterStop extends BaseExpandableListAdapter {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
-        this.fragmentManager = childFragmentManager;
+        FragmentManager fragmentManager = childFragmentManager;
     }
 
     @Override
@@ -53,24 +54,35 @@ public class ExpandableListAdapterStop extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, final int childPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
+                             boolean isLastChild, View childView, ViewGroup parent) {
 
         PrescriptionStopp prescription = getChild(groupPosition, childPosition);
 
-        if (convertView == null) {
+        if (childView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.criteria_stopp, null);
+            childView = infalInflater.inflate(R.layout.criteria_stopp, null);
         }
 
         // drug names
-        TextView drugName = (TextView) convertView.findViewById(R.id.drug_name);
+        TextView drugName = (TextView) childView.findViewById(R.id.drug_name);
         drugName.setText(prescription.getDrugName());
 
         // issues
-        ListView drugIssues = (ListView) convertView.findViewById(R.id.issues);
-        StoppDrugIssues adapter = new StoppDrugIssues(_context, prescription.getIssues());
+        RecyclerView drugIssues = (RecyclerView) childView.findViewById(R.id.issues);
+
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(_context, LinearLayoutManager.VERTICAL, false);
+        drugIssues.setLayoutManager(layoutManager);
+
+        StoppDrugIssuesAdapter adapter = new StoppDrugIssuesAdapter(_context, prescription.getIssues());
         drugIssues.setAdapter(adapter);
-        return convertView;
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(_context,
+                layoutManager.getOrientation());
+        drugIssues.addItemDecoration(dividerItemDecoration);
+
+
+        return childView;
     }
 
     @Override

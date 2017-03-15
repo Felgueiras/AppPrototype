@@ -140,7 +140,7 @@ public class Question extends Model {
         return test;
     }
 
-    public void setTest(GeriatricScale test) {
+    public void setScale(GeriatricScale test) {
         this.test = test;
     }
 

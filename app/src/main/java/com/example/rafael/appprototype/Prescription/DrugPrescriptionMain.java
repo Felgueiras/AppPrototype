@@ -22,10 +22,6 @@ import com.example.rafael.appprototype.R;
 public class DrugPrescriptionMain extends Fragment {
 
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,11 +33,11 @@ public class DrugPrescriptionMain extends Fragment {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.prescription_main, container, false);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
 
         // Set up the ViewPager with the sections adapter.
-        viewPager = (ViewPager) v.findViewById(R.id.container);
+        ViewPager viewPager = (ViewPager) v.findViewById(R.id.container);
         viewPager.setAdapter(mSectionsPagerAdapter);
         viewPager.setCurrentItem(Constants.vpPrescriptionPage);
 
@@ -62,7 +58,7 @@ public class DrugPrescriptionMain extends Fragment {
             }
         });
 
-        tabLayout = (TabLayout) v.findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) v.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         return v;

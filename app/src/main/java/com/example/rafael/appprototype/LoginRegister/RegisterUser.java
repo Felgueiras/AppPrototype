@@ -8,9 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
@@ -83,6 +83,13 @@ public class RegisterUser extends AppCompatActivity {
                         onSignupSuccess();
                         // onSignupFailed();
                         progressDialog.dismiss();
+
+                        // erase all sessions without patients just to avoid errors
+                        for (Session sess : Session.getAllSessions()) {
+                            if (sess.getPatient() == null) {
+                                sess.delete();
+                            }
+                        }
 
                         // Register user to the app
                         SharedPreferencesHelper.registerUser(getBaseContext(), name, email, password);

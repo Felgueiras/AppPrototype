@@ -28,7 +28,6 @@ import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.EmptyStateFragment;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
-import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.Patients.PatientProgress.ProgressMainFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientNotesFragment;
@@ -48,11 +47,6 @@ public class ViewSinglePatientInfo extends Fragment {
      */
     private Patient patient;
 
-    private PatientSectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
-    private String actionTitle;
-    private String transText;
     private Menu menu;
 
     @Override
@@ -70,17 +64,17 @@ public class ViewSinglePatientInfo extends Fragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            actionTitle = bundle.getString("ACTION");
-            transText = bundle.getString("TRANS_TEXT");
+            String actionTitle = bundle.getString("ACTION");
+            String transText = bundle.getString("TRANS_TEXT");
             //view.findViewById(R.id.patientName).setTransitionName(transText);
             //system.out.println("lol 2");
         }
 
-        mSectionsPagerAdapter = new PatientSectionsPagerAdapter(getChildFragmentManager());
+        PatientSectionsPagerAdapter mSectionsPagerAdapter = new PatientSectionsPagerAdapter(getChildFragmentManager());
 
 
         // Set up the ViewPager with the sections adapter.
-        viewPager = (ViewPager) view.findViewById(R.id.container);
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.container);
         viewPager.setAdapter(mSectionsPagerAdapter);
         viewPager.setCurrentItem(Constants.vpPatientsPage);
 
@@ -101,7 +95,7 @@ public class ViewSinglePatientInfo extends Fragment {
             }
         });
 
-        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         // get patient

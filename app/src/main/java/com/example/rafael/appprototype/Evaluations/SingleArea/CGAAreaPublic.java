@@ -3,14 +3,12 @@ package com.example.rafael.appprototype.Evaluations.SingleArea;
 import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,17 +28,11 @@ public class CGAAreaPublic extends Fragment {
     public static String CGA_AREA = "area";
 
     Patient patientForThisSession;
-    /**
-     * Session object
-     */
-    private Session session;
 
     public static String sessionObject = "session";
 
     boolean resuming = false;
 
-    public static FloatingActionButton resetFAB;
-    private String area;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,8 +42,8 @@ public class CGAAreaPublic extends Fragment {
         Bundle args = getArguments();
         patientForThisSession = (Patient) args.getSerializable(PATIENT);
 
-        area = args.getString(CGA_AREA);
-        session = (Session) args.getSerializable(sessionObject);
+        String area = args.getString(CGA_AREA);
+        Session session = (Session) args.getSerializable(sessionObject);
         getActivity().setTitle(area);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);

@@ -3,6 +3,7 @@ package com.example.rafael.appprototype.Evaluations.ReviewEvaluation;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,13 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewArea;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 
 
 public class ReviewSingleSessionNoPatient extends Fragment {
@@ -32,7 +31,6 @@ public class ReviewSingleSessionNoPatient extends Fragment {
      * String that identifies the Session to be passed as argument.
      */
     public static String SESSION = "session";
-    private boolean comparePreviousSession;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +58,7 @@ public class ReviewSingleSessionNoPatient extends Fragment {
 
         // check if we have to compare to the previous session
         //comparePreviousSession = args.getBoolean(COMPARE_PREVIOUS);
-        comparePreviousSession = true;
+        boolean comparePreviousSession = true;
 
         /**
          * Show info about evaluations for every area.

@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +89,7 @@ public class FavoritePatientsGrid extends BaseAdapter {
 //                    patientTransitionName = holder.name.getTransitionName();
                 Bundle args = new Bundle();
 //                args.putString("ACTION", holder.name.getText().toString());
-                args.putString("TRANS_TEXT", patientTransitionName);
+//                args.putString("TRANS_TEXT", patientTransitionName);
                 args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
                 ((PrivateArea) context).replaceFragmentSharedElements(endFragment, args, Constants.tag_view_patient_info_records,
                         name);

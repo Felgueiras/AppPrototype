@@ -1,7 +1,9 @@
 package com.example.rafael.appprototype.Evaluations.EvaluationsHistory;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,9 +27,7 @@ import com.example.rafael.appprototype.HelpersHandlers.SessionCardHelper;
 
 import java.util.List;
 
-/**
- * Display the resume of an Evaluation.
- */
+
 public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCardEvaluationHistory.MyViewHolder> {
 
     private final EvaluationsHistoryGrid fragment;
@@ -36,25 +36,21 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
      * Data to be displayed.
      */
     private List<Session> sessionsList;
-    /**
-     * View that holds the current evaluation.
-     */
-    private View evaluationView;
 
     /**
      * Create a View
      */
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        private CardView card;
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        public CardView card;
         public TextView patientName;
-        public ImageView  overflow;
-        public RecyclerView testsList;
+        public ImageView overflow;
+        public RecyclerView testsForDayRecycler;
 
         public MyViewHolder(View view) {
             super(view);
             patientName = (TextView) view.findViewById(R.id.patientName);
             overflow = (ImageView) view.findViewById(R.id.overflow);
-            testsList = (RecyclerView) view.findViewById(R.id.recyclerview);
+            testsForDayRecycler = (RecyclerView) view.findViewById(R.id.recyclerview);
             card = (CardView) view.findViewById(R.id.sessionHistoryCard);
         }
     }
@@ -74,7 +70,19 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        evaluationView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_session_history, parent, false);
+        /*
+      View that holds the current evaluation.
+     */
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
+        String infoType = SP.getString(context.getResources().getString(R.string.sessionResumeInformation), "1");
+        Log.d("Settings", infoType);
+        View evaluationView = null;
+        if (infoType.equals("2") || infoType.equals("1")) {
+            evaluationView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_session_history_patient_scale, parent, false);
+        } else {
+            evaluationView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_session_history_patient_scale_result, parent, false);
+        }
+
         return new MyViewHolder(evaluationView);
     }
 
@@ -93,7 +101,7 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Review","Clicked");
+                Log.d("Review", "Clicked");
                 Bundle args = new Bundle();
                 args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
                 FragmentTransitions.replaceFragment(context, new ReviewSingleSessionWithPatient(), args, Constants.tag_review_session);
@@ -108,20 +116,58 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
         /**
          * Setup list.
          */
-        holder.testsList.setHasFixedSize(true);
+        holder.testsForDayRecycler.setHasFixedSize(true);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        holder.testsList.setLayoutManager(layoutManager);
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
+        String infoType = SP.getString(context.getResources().getString(R.string.sessionResumeInformation), "1");
+        Log.d("Settings", infoType);
+        if (infoType.equals("2")) {
+            /**
+             * Patient name + scale.
+             */
+            /**
+             * Setup list.
+             */
+            holder.testsForDayRecycler.setHasFixedSize(true);
 
-        SessionScalesAdapterRecycler adapter = new SessionScalesAdapterRecycler(context, scalesFromSession);
-        adapter.setOnClickListener(clickListener);
-        holder.testsList.setAdapter(adapter);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+            holder.testsForDayRecycler.setLayoutManager(layoutManager);
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
-                layoutManager.getOrientation());
-        holder.testsList.addItemDecoration(dividerItemDecoration);
+            SessionScalesAdapterRecyclerIcons adapter = new SessionScalesAdapterRecyclerIcons(context, scalesFromSession);
+            adapter.setOnClickListener(clickListener);
+            holder.testsForDayRecycler.setAdapter(adapter);
 
-        holder.overflow.setOnClickListener(new SessionCardHelper(holder.overflow, position, context, session, fragment));
+
+            holder.overflow.setOnClickListener(
+                    new SessionCardHelper(holder.overflow,
+                            position,
+                            context,
+                            session,
+                            fragment));
+        } else if (infoType.equals("3")) {
+            /**
+             * Patient name + scale + result.
+             */
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+            holder.testsForDayRecycler.setLayoutManager(layoutManager);
+
+            SessionScalesAdapterRecycler adapter = new SessionScalesAdapterRecycler(context, scalesFromSession);
+            adapter.setOnClickListener(clickListener);
+            holder.testsForDayRecycler.setAdapter(adapter);
+
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
+                    layoutManager.getOrientation());
+            holder.testsForDayRecycler.addItemDecoration(dividerItemDecoration);
+
+            holder.overflow.setOnClickListener(
+                    new SessionCardHelper(holder.overflow,
+                            position,
+                            context,
+                            session,
+                            fragment));
+        }
+
+
     }
 
 

@@ -1,15 +1,19 @@
-- da segunda vez que vai a registar aparece logo o nome da pessoa e depois terá que
-- list scroll (sessions list)
-- from Sessions access patient profile
-- search view destacada
-- rever histórico de pacientes, mostrar o último em grande plano
-- aplicação populada já com dados de pacientes
-- FAB à frente da lista de sessões
-- não está registado, pode no entanto registar-se, ao terminar a avaliação " quer guardar, registe-se"
+- show session time in session list
+- patient progress in a table-like fashion
 
+- não está registado, pode no entanto registar-se, ao terminar a avaliação " quer guardar, registe-se"
+- rever histórico de pacientes, mostrar o último em grande plano
 - guardar a última sessão, pra poder adicioná-la, ao criar uma nova sem paciente diz "a ultima vai ser descartada, sim não"
-- desde AreaCard aceder diretamente à escala
-- ícones sobre escalas
+
+- list position in questions list
+- list position in PatientProgress
+- list scroll (sessions list)
+- refresh activity when changing sessings
+
+- nutrition - global
+- search view destacada
+- FAB à frente da lista de sessões
+
 - physical examination
 - setup unlock pattern
 - store prescriptions for a patient?

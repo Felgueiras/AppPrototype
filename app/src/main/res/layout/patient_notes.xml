@@ -5,9 +5,9 @@
     android:orientation="vertical">
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/patient_notes"
-        android:hint="Notas"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Notas" />
 
 </RelativeLayout>

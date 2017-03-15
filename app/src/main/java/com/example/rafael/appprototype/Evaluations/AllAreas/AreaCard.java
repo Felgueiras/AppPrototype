@@ -5,12 +5,15 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -21,6 +24,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivate;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublic;
+import com.example.rafael.appprototype.Prescription.Stopp.StoppDrugIssuesAdapter;
 import com.example.rafael.appprototype.R;
 
 import java.io.Serializable;
@@ -47,6 +51,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
      */
     public class CGACardHolder extends RecyclerView.ViewHolder implements Serializable {
         private final ImageButton infoButton;
+        private final RecyclerView scalesIcons;
         public TextView name, type, cgaCompletion;
         public View view;
         public EditText notes;
@@ -57,6 +62,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
             //type = (TextView) view.findViewById(R.id.testType);
             infoButton = (ImageButton) view.findViewById(R.id.area_info);
             cgaCompletion = (TextView) view.findViewById(R.id.cga_completion);
+            scalesIcons = (RecyclerView) view.findViewById(R.id.area_scales);
             //addNotesButton = (EditText) view.findViewById(R.id.testNotes);
             this.view = view;
         }
@@ -87,7 +93,6 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
         final String area = Constants.cga_areas[position];
 
         holder.name.setText(area);
-
         /**
          * Check if all scales were completed.
          */
@@ -100,11 +105,11 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
             }
         }
         if (!allCompleted) {
+            ViewManager parentView = (ViewManager) holder.cgaCompletion.getParent();
+            parentView.removeView(holder.cgaCompletion);
         } else {
             holder.cgaCompletion.setText("Todas as escalas foram preenchidas");
-
         }
-
 
         holder.infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,28 +191,19 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
             }
         });
 
-        /**
-         * Add a listener for when a note is added.
-         */
-        /*
-        holder.addNotesButton.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean showScalesIcon = SP.getBoolean(context.getResources().getString(R.string.areaCardShowScalesIcon), false);
+        if (showScalesIcon) {
+            /**
+             * Display icons for the areas that exist.
+             */
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+            holder.scalesIcons.setLayoutManager(layoutManager);
 
-            }
+            AreaScalesIconsAdapter adapter = new AreaScalesIconsAdapter(context, scalesFromArea, session);
+            holder.scalesIcons.setAdapter(adapter);
+        }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                currentTest.setNotes(charSequence.toString());
-                currentTest.save();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-        */
     }
 
     @Override

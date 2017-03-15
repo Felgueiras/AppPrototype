@@ -2,10 +2,8 @@ package com.example.rafael.appprototype.Prescription;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +15,9 @@ import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.Criteria.Beers.BeersCriteria;
-import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStart;
-import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStopp;
-import com.example.rafael.appprototype.DataTypes.Criteria.RecommendationInfo;
 import com.example.rafael.appprototype.DataTypes.Criteria.StartCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.StoppCriteria;
-import com.example.rafael.appprototype.EmptyStateFragment;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
-import com.example.rafael.appprototype.Main.PrivateArea;
-import com.example.rafael.appprototype.Main.PublicArea;
-import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
-import com.example.rafael.appprototype.Prescription.Beers.DrugInfoBeers;
-import com.example.rafael.appprototype.Prescription.Start.DrugInfoStart;
-import com.example.rafael.appprototype.Prescription.Stopp.DrugInfoStopp;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -43,8 +31,6 @@ public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder
      */
     private ArrayList<String> drugs;
     private DrugsFilter patientsFilter;
-    private ArrayList<StoppCriteria> stoppData;
-    private ArrayList<StartCriteria> startData;
     private ArrayList<String> stoppCriteriaDrugs;
     private ArrayList<String> beersCriteriaDrugs;
     private ArrayList<String> startCriteriaDrugs;
@@ -97,8 +83,8 @@ public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.drug_item, parent, false);
         // check the criterias we have for this drug
         // get drug info
-        stoppData = StoppCriteria.getStoppData();
-        startData = StartCriteria.getStartData();
+        ArrayList<StoppCriteria> stoppData = StoppCriteria.getStoppData();
+        ArrayList<StartCriteria> startData = StartCriteria.getStartData();
         // stopp
         stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(stoppData);
         // beers

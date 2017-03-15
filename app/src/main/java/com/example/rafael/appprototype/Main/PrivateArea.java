@@ -17,11 +17,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
-import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
@@ -100,7 +98,6 @@ public class PrivateArea extends AppCompatActivity {
                                     .commit();
                         }
                     });
-            final SharedPreferences finalSharedPreferences1 = sharedPreferences;
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -119,29 +116,11 @@ public class PrivateArea extends AppCompatActivity {
         }
 
 
-        // insert data in DB (if first run)
-        sharedPreferences = getSharedPreferences("com.mycompany.myAppName", 0);
-        // user not logged in
-        if (sharedPreferences.getBoolean(Constants.first_run, true)) {
-            Log.d("FIRST RUN", "first run");
-            sharedPreferences.edit().putBoolean(Constants.first_run, false).commit();
-            DatabaseOps.insertDataToDB();
-            // display login screen
+        // set username
+        View headerLayout = navigationView.getHeaderView(0);
+        TextView userName = (TextView) headerLayout.findViewById(R.id.userName);
+        userName.setText(sharedPreferences.getString(getString(R.string.username), null));
 
-        }
-        // user already logged in
-        else {
-            // TODO set the doctor icon after having logged in
-            View headerLayout = navigationView.getHeaderView(0);
-            TextView userName = (TextView) headerLayout.findViewById(R.id.userName);
-            userName.setText(sharedPreferences.getString(getString(R.string.username), null));
-            // TODO remove (just for testing)
-//            DatabaseOps.insertDataToDB();
-            ImageView userImage = (ImageView) headerLayout.findViewById(R.id.userPhoto);
-            //userImage.setImageResource(R.drawable.male);
-            //TextView userSubtext = (TextView) headerLayout.findViewById(R.id.userSubText);
-            //userSubtext.setText("[Some text here]");
-        }
 
         // set handler for the Fragment stack
         BackStackHandler handler = new BackStackHandler(getFragmentManager(), this);
@@ -149,7 +128,7 @@ public class PrivateArea extends AppCompatActivity {
 
         // set sample fragment
         Fragment fragment = null;
-        String defaultFragment = Constants.fragment_sessions;
+        String defaultFragment = Constants.fragment_show_patients;
         switch (defaultFragment) {
             case Constants.fragment_show_patients:
                 fragment = new PatientsMain();
@@ -231,7 +210,7 @@ public class PrivateArea extends AppCompatActivity {
 //            case R.id.erase_data:
 //                // erase all data
 //                DatabaseOps.eraseAll();
-//                DatabaseOps.insertDataToDB();
+//                DatabaseOps.insertDummyData();
 //                return true;
 ////            case R.id.save_gson:
 ////                // save data as GSON

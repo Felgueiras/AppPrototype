@@ -65,10 +65,10 @@ public class SearchAllDrugs extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.search_drugs, container, false);
+        View view = inflater.inflate(R.layout.search_drugs, container, false);
 
         // list view with possible choices and selected ones
-        drugsRecyclerView = (RecyclerView) v.findViewById(R.id.list_view);
+        drugsRecyclerView = (RecyclerView) view.findViewById(R.id.list_view);
 
         // stopp
         final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(stoppGeneral);
@@ -109,7 +109,22 @@ public class SearchAllDrugs extends Fragment {
         drugsRecyclerView.addItemDecoration(dividerItemDecoration);
 //        drugsRecyclerView.setFastScrollEnabled(true);
 
-        return v;
+//        final FloatingSearchView floatingSearchView = (FloatingSearchView) view.findViewById(R.id.floating_search_view);
+//        drugsRecyclerView.setLayoutManager(mLayoutManager);
+//        floatingSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+//            @Override
+//            public void onSearchTextChanged(String oldQuery, final String newQuery) {
+//
+//                //get suggestions based on newQuery
+//
+//                //pass them on to the search view
+////                floatingSearchView.swapSuggestions(newSuggestions);
+//                Log.d("Search",oldQuery+"-"+newQuery);
+//            }
+//        });
+
+
+        return view;
     }
 
     private static final String BUNDLE_RECYCLER_LAYOUT = "classname.recycler.layout";

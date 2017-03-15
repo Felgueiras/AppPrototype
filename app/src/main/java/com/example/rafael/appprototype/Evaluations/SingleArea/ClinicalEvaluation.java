@@ -24,13 +24,6 @@ public class ClinicalEvaluation extends RecyclerView.Adapter<ClinicalEvaluation.
      * ID for this Session
      */
     private final Session session;
-    private final int patientGender;
-    /**
-     * CGA area.
-     */
-    private final String area;
-
-    private Activity context;
 
 
     /**
@@ -114,10 +107,13 @@ public class ClinicalEvaluation extends RecyclerView.Adapter<ClinicalEvaluation.
      * @param area
      */
     public ClinicalEvaluation(Activity context, Session session, boolean resuming, int patientGender, String area) {
-        this.context = context;
+        Activity context1 = context;
         this.session = session;
-        this.patientGender = patientGender;
-        this.area = area;
+        int patientGender1 = patientGender;
+        /*
+      CGA area.
+     */
+        String area1 = area;
     }
 
 

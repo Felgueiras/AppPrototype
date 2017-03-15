@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
+import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
@@ -92,6 +93,7 @@ public class PublicArea extends AppCompatActivity {
         context = this;
 
         // access SharedPreferences
+        Log.d("Preferences",getString(R.string.sharedPreferencesTag));
         sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
 
         // is there an ongoing public session?
@@ -100,6 +102,7 @@ public class PublicArea extends AppCompatActivity {
         // get screen size
         Constants.screenSize = getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK;
+
 
         boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
         if (alreadyLogged) {
@@ -126,24 +129,17 @@ public class PublicArea extends AppCompatActivity {
                     SharedPreferences.Editor e = finalSharedPreferences.edit();
                     //  Edit preference to make it false because we don'checkFirstStart want this to run again
                     e.putBoolean("firstStart", false);
-                    //  Apply changes
                     e.apply();
+                    // insert dummy data in the app
+                    DatabaseOps.insertDummyData();
                 }
             }
         });
         // Start the thread
         checkFirstStart.start();
 
+        // set public area of the app
         Constants.area = Constants.area_public;
-
-
-        // insert data in DB (if first run)
-        // user not logged in
-        if (sharedPreferences.getBoolean(Constants.first_run, true)) {
-            Log.d("FIRST RUN", "first run");
-            sharedPreferences.edit().putBoolean(Constants.first_run, false).commit();
-            //DatabaseOps.insertDataToDB();
-        }
 
         // set handler for the Fragment stack
         BackStackHandler handler = new BackStackHandler(getFragmentManager(), this);
@@ -223,7 +219,7 @@ public class PublicArea extends AppCompatActivity {
 //            case R.id.erase_data:
 //                // erase all data
 //                DatabaseOps.eraseAll();
-//                DatabaseOps.insertDataToDB();
+//                DatabaseOps.insertDummyData();
 //                return true;
 //            default:
 //                return super.onOptionsItemSelected(item);

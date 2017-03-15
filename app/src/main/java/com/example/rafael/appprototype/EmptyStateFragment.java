@@ -13,7 +13,6 @@ import android.widget.TextView;
 public class EmptyStateFragment extends Fragment {
 
     public static final String MESSAGE = "MESSAGE";
-    private String messageToDisplay;
 
 
     // Inflate the view for the fragment based on layout XML
@@ -22,7 +21,7 @@ public class EmptyStateFragment extends Fragment {
         View view = inflater.inflate(R.layout.display_empty_state, container, false);
 
         Bundle bundle = getArguments();
-        messageToDisplay = bundle.getString(MESSAGE,"Empty state");
+        String messageToDisplay = bundle.getString(MESSAGE, "Empty state");
         TextView emptyStateTextView = (TextView) view.findViewById(R.id.emptyStateText);
         emptyStateTextView.setText(messageToDisplay);
 

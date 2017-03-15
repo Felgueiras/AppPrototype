@@ -12,9 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.R;
@@ -26,7 +26,6 @@ import java.util.List;
  */
 public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.MyViewHolder> {
 
-    private final PatientsRecent fragment;
     private Activity context;
     /**
      * Data to be displayed.
@@ -42,12 +41,13 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private final LinearLayout card;
-        public TextView name;
+        public TextView name, time;
         public ImageView icon;
 
         public MyViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.patientName);
+            time = (TextView) view.findViewById(R.id.sessionTime);
             icon = (ImageView) view.findViewById(R.id.patientIcon);
             card = (LinearLayout) view.findViewById(R.id.patientCard);
         }
@@ -63,7 +63,8 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
     public PatientCardRecent(Activity context, List<Session> sessionsList, PatientsRecent fragment) {
         this.context = context;
         this.sessionsList = sessionsList;
-        this.fragment = fragment;
+        PatientsRecent fragment1 = fragment;
+
     }
 
     @Override
@@ -76,14 +77,14 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         // get the current Session and tests from that Session
         final Session session = sessionsList.get(position);
-        List<GeriatricScale> scalesFromSession = session.getScalesFromSession();
+//        List<GeriatricScale> scalesFromSession = session.getScalesFromSession();
         final Patient patient = session.getPatient();
-        if (patient != null) {
+        if(patient!=null)
+        {
             holder.name.setText(patient.getName());
             // loading album cover using Glide library
             //Glide.with(context).load(patientView.getPicture()).into(holder.photo);
-            switch (patient.getGender())
-            {
+            switch (patient.getGender()) {
                 case Constants.MALE:
                     holder.icon.setImageResource(R.drawable.male);
                     break;
@@ -91,14 +92,13 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
                     holder.icon.setImageResource(R.drawable.female);
                     break;
             }
+
+            // set session time
+            holder.time.setText(DatesHandler.hour(session.getDate()));
         }
 
 
-
-        /**
-         * Review a Session.
-         */
-        this.patientView.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -112,7 +112,14 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
                 ((PrivateArea) context).replaceFragmentSharedElements(endFragment, args, Constants.tag_view_patient_info_records,
                         holder.name);
             }
-        });
+        };
+
+        /**
+         * Review a Session.
+         */
+        this.patientView.setOnClickListener(clickListener);
+        holder.icon.setOnClickListener(clickListener);
+
     }
 
 

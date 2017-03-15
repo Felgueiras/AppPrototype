@@ -31,8 +31,6 @@ public class ViewSingleDrugtInfo extends Fragment {
 
     public static final String DRUG = "drug";
     private String drug;
-    private ArrayList<StoppCriteria> stoppData;
-    private ArrayList<StartCriteria> startData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,8 +49,8 @@ public class ViewSingleDrugtInfo extends Fragment {
         getActivity().setTitle(drug);
 
         // get drug info
-        stoppData = StoppCriteria.getStoppData();
-        startData = StartCriteria.getStartData();
+        ArrayList<StoppCriteria> stoppData = StoppCriteria.getStoppData();
+        ArrayList<StartCriteria> startData = StartCriteria.getStartData();
         // stopp
         final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(stoppData);
         // beers
@@ -86,7 +84,6 @@ public class ViewSingleDrugtInfo extends Fragment {
         if (stoppCriteriaDrugs.contains(drug)) {
             // get info about the Stopp criteria for that drug
             ArrayList<PrescriptionStopp> pr = StoppCriteria.getStoppCriteriaPresciptionForDrug(drug, stoppData);
-            Log.d("Drug","STOPP");
             DrugInfoStopp drugInfoStopp = new DrugInfoStopp();
             Bundle args = new Bundle();
             args.putSerializable(DrugInfoStopp.DRUGS, pr);

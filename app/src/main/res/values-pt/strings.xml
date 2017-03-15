@@ -40,8 +40,8 @@
     <string name="you_must_select_test">Tem de selecionar pelo menos um teste</string>
     <string name="selectPatient">Selecione um paciente</string>
     <string name="drug_prescription">Prescrição</string>
-    <string name="hello_blank_fragment">Procure medicamentos...</string>
-    <string name="search_drugs">Escreva nome de medicamento...</string>
+    <string name="hello_blank_fragment">Procure medicamentos…</string>
+    <string name="search_drugs">Escreva nome de medicamento…</string>
     <string name="tab_drug_prescription">Prescrição</string>
     <string name="stoppCriteriaDisclaimer">Pesquise pelo nome de um composto ativo ou medicamento e veja os critérios Stopp associados</string>
     <string name="beersCriteriaDisclaimer">Pesquise pelo nome de um composto ativo ou medicamento e veja os critérios Beers associados</string>

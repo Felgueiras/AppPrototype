@@ -9,12 +9,9 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.Criteria.Beers.DiseaseSyndrome;
-import com.example.rafael.appprototype.DataTypes.Criteria.Beers.DrugCategory;
 import com.example.rafael.appprototype.DataTypes.Criteria.RecommendationInfo;
-import com.example.rafael.appprototype.Prescription.Beers.TherapeuticCategoryEntry;
 import com.example.rafael.appprototype.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 

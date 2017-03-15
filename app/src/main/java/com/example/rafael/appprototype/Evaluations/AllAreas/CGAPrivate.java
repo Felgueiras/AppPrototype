@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -12,7 +11,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
@@ -39,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -61,7 +59,6 @@ public class CGAPrivate extends Fragment {
 
     public static FloatingActionButton discardFAB;
     private static FloatingActionButton saveFAB;
-    private SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -196,6 +193,9 @@ public class CGAPrivate extends Fragment {
                  */
                 session.eraseScalesNotCompleted();
 
+                // display results in JSON
+                DatabaseOps.displayData(getActivity());
+
                 Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
                 BackStackHandler.goToPreviousScreen();
                 break;
@@ -228,7 +228,7 @@ public class CGAPrivate extends Fragment {
         }
 
 
-        sharedPreferences = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(getActivity());
 
 

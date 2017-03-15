@@ -8,10 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.example.rafael.appprototype.DataTypes.Criteria.PrescriptionStopp;
-import com.example.rafael.appprototype.Prescription.Beers.BeersSingleDrugInfo;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;

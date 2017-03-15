@@ -19,7 +19,7 @@
         android:adjustViewBounds="true"
         android:maxWidth="70dp"
         android:scaleType="centerCrop"
-        android:background="@drawable/empty_drawable"
+        android:background="@color/transparent"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         app:srcCompat="@drawable/icon_small" />
 

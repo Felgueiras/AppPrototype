@@ -19,18 +19,17 @@
 
     </RelativeLayout>
 
-    <com.getbase.floatingactionbutton.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/close_session"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
         android:layout_gravity="bottom|right"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        fab:fab_icon="@drawable/ic_close_white_24dp"
-        fab:fab_title="@string/add_session" />
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/ic_close_white_24dp"
+        app:layout_anchorGravity="bottom|right|end"
+
+        />
 
 
 </android.support.design.widget.CoordinatorLayout>

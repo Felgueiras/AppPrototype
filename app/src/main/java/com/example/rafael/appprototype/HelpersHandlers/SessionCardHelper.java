@@ -3,6 +3,7 @@ package com.example.rafael.appprototype.HelpersHandlers;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
@@ -11,9 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryGrid;
+import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
+import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.R;
 
 /**
@@ -47,7 +51,15 @@ public class SessionCardHelper implements View.OnClickListener {
         // inflate menu
         PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_session_card, popup.getMenu());
+        /**
+         * Inflate menu depending on the fragment.
+         */
+        if (fragment instanceof EvaluationsHistoryGrid)
+            inflater.inflate(R.menu.menu_session_card_session_list, popup.getMenu());
+        else
+        {
+            inflater.inflate(R.menu.menu_session_card_patient_profile, popup.getMenu());
+        }
         popup.setOnMenuItemClickListener(new MyMenuItemClickListener(view, position));
         popup.show();
     }
@@ -78,10 +90,10 @@ public class SessionCardHelper implements View.OnClickListener {
                                     Snackbar.make(view, "Sessão eliminada.", Snackbar.LENGTH_SHORT).show();
                                     session.delete();
                                     // refresh the adapter
-                                    if(fragment instanceof PatientSessionsFragment)
-                                        ((PatientSessionsFragment)fragment).removeSession(position);
-                                    else if(fragment instanceof EvaluationsHistoryGrid)
-                                        ((EvaluationsHistoryGrid)fragment).removeSession(position);
+                                    if (fragment instanceof PatientSessionsFragment)
+                                        ((PatientSessionsFragment) fragment).removeSession(position);
+                                    else if (fragment instanceof EvaluationsHistoryGrid)
+                                        ((EvaluationsHistoryGrid) fragment).removeSession(position);
                                 }
                             });
                     alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
@@ -93,6 +105,16 @@ public class SessionCardHelper implements View.OnClickListener {
                             });
                     alertDialog.show();
                     return true;
+                case R.id.session_go_patient_profile:
+                    Fragment endFragment = new ViewSinglePatientInfo();
+
+                    Bundle args = new Bundle();
+                    args.putSerializable(ViewSinglePatientInfo.PATIENT, session.getPatient());
+                    ((PrivateArea) context).replaceFragmentSharedElements(endFragment,
+                            args,
+                            Constants.tag_view_patient_info_records_from_sessions_list,
+                            null);
+                    break;
                 default:
             }
             return false;

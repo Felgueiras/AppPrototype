@@ -12,7 +12,6 @@ import com.example.rafael.appprototype.DataTypes.Criteria.RecommendationInfo;
 import com.example.rafael.appprototype.Prescription.Beers.TherapeuticCategoryEntry;
 import com.example.rafael.appprototype.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,28 +49,28 @@ public class BeersCriteriaOrganSystem extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, final int childPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
+                             boolean isLastChild, View childView, ViewGroup parent) {
 
         final TherapeuticCategoryEntry therapeuticCategory = getChild(groupPosition, childPosition);
 
-        if (convertView == null) {
+        if (childView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.criteria_beers, null);
+            childView = infalInflater.inflate(R.layout.criteria_beers, null);
         }
 
 
         // therapeutic category
-        TextView category = (TextView) convertView.findViewById(R.id.therapeutic_category);
+        TextView category = (TextView) childView.findViewById(R.id.therapeutic_category);
         // drugs list
-        TextView drugs = (TextView) convertView.findViewById(R.id.drugs);
+        TextView drugs = (TextView) childView.findViewById(R.id.drugs);
         // Reccomendation
-        TextView recommendation = (TextView) convertView.findViewById(R.id.recommendation);
+        TextView recommendation = (TextView) childView.findViewById(R.id.recommendation);
         // Rationale
-        TextView rationale = (TextView) convertView.findViewById(R.id.rationale);
+        TextView rationale = (TextView) childView.findViewById(R.id.rationale);
         // QE
-        TextView qualityOfEvidence = (TextView) convertView.findViewById(R.id.qualityOfEvidence);
+        TextView qualityOfEvidence = (TextView) childView.findViewById(R.id.qualityOfEvidence);
         // SR
-        TextView strengthOfRecommendation = (TextView) convertView.findViewById(R.id.strengthOfRecommendation);
+        TextView strengthOfRecommendation = (TextView) childView.findViewById(R.id.strengthOfRecommendation);
 
         // set the views
         category.setText(therapeuticCategory.getCategoryName());
@@ -83,7 +82,7 @@ public class BeersCriteriaOrganSystem extends BaseExpandableListAdapter {
         strengthOfRecommendation.setText(_context.getString(R.string.beers_strength_recommendation) + " " + drugInfo.getStrengthOfRecommendation());
 
 
-        return convertView;
+        return childView;
     }
 
     @Override

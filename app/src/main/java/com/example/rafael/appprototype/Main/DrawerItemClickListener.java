@@ -22,6 +22,7 @@ import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
 import com.example.rafael.appprototype.Help_Feedback.SendFeedback;
 import com.example.rafael.appprototype.LoginRegister.LoginFragment;
+import com.example.rafael.appprototype.Settings;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.R;
@@ -54,7 +55,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         // ToolbarHelper.hideBackButton(context);
 
 //        if (id == R.id.options) {
-//            Intent i = new Intent(context, MyPreferencesActivity.class);
+//            Intent i = new Intent(context, Settings.class);
 //            context.startActivity(i);
 //            return true;
 //        }
@@ -93,6 +94,11 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             endFragment = new HelpTopics();
         }else if (id == R.id.sessions) {
             endFragment = new EvaluationsHistoryMain();
+        }
+        else if (id == R.id.settings) {
+            Intent i = new Intent(context, Settings.class);
+            context.startActivity(i);
+            return true;
         }
 
         if (id == R.id.logout) {

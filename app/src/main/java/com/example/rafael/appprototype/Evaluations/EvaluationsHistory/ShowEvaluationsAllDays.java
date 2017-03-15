@@ -2,10 +2,13 @@ package com.example.rafael.appprototype.Evaluations.EvaluationsHistory;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +34,7 @@ public class ShowEvaluationsAllDays extends BaseAdapter {
     LayoutInflater inflater;
     private List<Session> sessionsFromDate;
     private RecyclerView recyclerView;
-    private SessionCardEvaluationHistory adapter;
+    private RecyclerView.Adapter<SessionCardEvaluationHistory.MyViewHolder> adapter;
 
     public ShowEvaluationsAllDays(Activity context, EvaluationsHistoryGrid evaluationsHistoryGrid) {
         this.context = context;
@@ -51,8 +54,8 @@ public class ShowEvaluationsAllDays extends BaseAdapter {
 
         // fill the RecyclerView
         recyclerView = (RecyclerView) singleDayInfo.findViewById(R.id.recycler_view_sessions_day);
-        adapter = new SessionCardEvaluationHistory(context, sessionsFromDate, fragment);
 
+        adapter = new SessionCardEvaluationHistory(context, sessionsFromDate, fragment);
         // create Layout
         int numbercolumns = 1;
         if (Constants.screenSize > Configuration.SCREENLAYOUT_SIZE_NORMAL) {
@@ -62,6 +65,8 @@ public class ShowEvaluationsAllDays extends BaseAdapter {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+
+
         return singleDayInfo;
     }
 

@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ListAdapter;
 import android.widget.RadioGroup;
 
 import com.example.rafael.appprototype.DataTypes.Criteria.Beers.BeersCriteria;
@@ -28,8 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class BeersCriteriaFragment extends Fragment {
-
-
 
 
     ExpandableListView expListView;

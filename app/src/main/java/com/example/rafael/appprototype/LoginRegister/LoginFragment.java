@@ -5,13 +5,10 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,13 +23,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A login screen that offers login via email/password.
@@ -49,7 +43,6 @@ public class LoginFragment extends Fragment {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +80,7 @@ public class LoginFragment extends Fragment {
          * Check if there's an already registered user.
          */
         final String email = SharedPreferencesHelper.getUserEmail(getActivity());
+        View view;
         if (email != null) {
             // Inflate the layout for this fragment
             view = inflater.inflate(R.layout.activity_login_already_registered, container, false);

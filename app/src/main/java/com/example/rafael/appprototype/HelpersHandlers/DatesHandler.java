@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by felgueiras on 15/01/2017.
@@ -18,7 +19,7 @@ public class DatesHandler {
      * @return Date object for that String
      */
     public static Date stringToDate(String dateString) {
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy",Locale.UK);
         Date date = null;
         try {
             date = format.parse(dateString);
@@ -58,6 +59,14 @@ public class DatesHandler {
             return "Hoje";
         else
             return datetime;
+    }
+
+    public static String hour(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.UK);
+        String datetime;
+        datetime = format.format(date);
+
+        return datetime;
     }
 
     public static Date createCustomDate(int year, int month, int day, int hour, int minute) {

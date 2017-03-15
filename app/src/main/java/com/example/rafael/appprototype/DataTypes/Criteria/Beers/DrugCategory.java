@@ -12,7 +12,7 @@ public class DrugCategory {
 
     public DrugCategory(String category) {
         this.category = category;
-        this.drugs = new ArrayList<String>();
+        this.drugs = new ArrayList<>();
     }
 
 

@@ -14,15 +14,4 @@
         android:clipToPadding="false"
         android:scrollbars="vertical" />
 
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/patients_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        android:src="@drawable/account_plus"
-        app:layout_anchorGravity="bottom|right|end" />
-
 </android.support.design.widget.CoordinatorLayout>

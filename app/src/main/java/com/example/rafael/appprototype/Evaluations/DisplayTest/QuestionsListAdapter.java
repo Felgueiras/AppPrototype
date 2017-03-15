@@ -51,10 +51,6 @@ public class QuestionsListAdapter extends BaseAdapter {
      * Test
      */
     private final GeriatricScale scale;
-    /**
-     * Yes if scale already opened, no otherwise
-     */
-    private final boolean testAlreadyOpened;
     private final GeriatricScaleNonDB testNonDB;
     private final ProgressBar progressBar;
     /**
@@ -97,7 +93,10 @@ public class QuestionsListAdapter extends BaseAdapter {
             progressBar.setProgress(numAnswered);
         }
 
-        testAlreadyOpened = test.isAlreadyOpened();
+        /*
+      Yes if scale already opened, no otherwise
+     */
+        boolean testAlreadyOpened = test.isAlreadyOpened();
         inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -220,28 +219,14 @@ public class QuestionsListAdapter extends BaseAdapter {
             return questionView;
         }
 
-        if (!testAlreadyOpened) {
-            // yes/no questions
-            if (currentQuestionNonDB.isYesOrNo()) {
-                questionView = yesNoNotOpened(currentQuestionNonDB, questionIndex);
-            }
-            // right/wrong
-            if (currentQuestionNonDB.isRightWrong()) {
-                questionView = rightWrong(currentQuestionNonDB, questionIndex);
-            }
+        // right/wrong
+        if (currentQuestionNonDB.isRightWrong()) {
+            questionView = rightWrong(currentQuestionNonDB, questionIndex);
+            return questionView;
         }
 
-        // Test already opened
-        else {
-            // right/wrong
-            if (currentQuestionNonDB.isRightWrong()) {
-                questionView = rightWrong(currentQuestionNonDB, questionIndex);
-            }
-            // check if question is multiple choice or yes/no
-            if (currentQuestionNonDB.isYesOrNo()) {
-                questionView = yesNoAlreadyOpened(currentQuestionNonDB, questionIndex);
-            }
-
+        if (currentQuestionNonDB.isYesOrNo()) {
+            questionView = yesNo(currentQuestionNonDB, questionIndex);
         }
 
         return questionView;
@@ -264,7 +249,7 @@ public class QuestionsListAdapter extends BaseAdapter {
             questionInDB = new Question();
             questionInDB.setGuid(dummyID);
             questionInDB.setDescription(currentQuestionNonDB.getDescription());
-            questionInDB.setTest(scale);
+            questionInDB.setScale(scale);
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(false);
             questionInDB.setNumerical(false);
@@ -331,7 +316,7 @@ public class QuestionsListAdapter extends BaseAdapter {
             questionInDB = new Question();
             questionInDB.setGuid(dummyID);
             questionInDB.setDescription(questionNonDB.getDescription());
-            questionInDB.setTest(scale);
+            questionInDB.setScale(scale);
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(false);
             questionInDB.setNumerical(true);
@@ -407,7 +392,7 @@ public class QuestionsListAdapter extends BaseAdapter {
             questionInDB = new Question();
             questionInDB.setGuid(dummyID);
             questionInDB.setDescription(currentQuestionNonDB.getDescription());
-            questionInDB.setTest(scale);
+            questionInDB.setScale(scale);
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(true);
             questionInDB.save();
@@ -538,7 +523,7 @@ public class QuestionsListAdapter extends BaseAdapter {
             question = new Question();
             question.setDescription(currentQuestionNonDB.getDescription());
             question.setGuid(questionID);
-            question.setTest(scale);
+            question.setScale(scale);
             question.setYesOrNo(false);
             question.save();
 
@@ -611,62 +596,47 @@ public class QuestionsListAdapter extends BaseAdapter {
         return questionView;
     }
 
-    private View yesNoAlreadyOpened(QuestionNonDB currentQuestionNonDB, int position) {
-        View questionView = inflater.inflate(R.layout.content_question_yes_no, null);
-        Question questionInDB = scale.getQuestionsFromScale().get(position);
 
-        Holder holder = new Holder();
-        holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
-        holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
-        if (questionInDB.isAnswered()) {
-
-
-            RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
-            radioGroup.setOnCheckedChangeListener(new YesNoQuestionHandler(questionInDB, this, position));
-            if (questionInDB.getSelectedYesNoChoice().equals("yes")) {
-                radioGroup.check(R.id.yesChoice);
-            } else {
-                radioGroup.check(R.id.noChoice);
-            }
-        }
-        /**
-         * Test already opened, but question not answered
-         */
-        else {
-            RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
-            radioGroup.setOnCheckedChangeListener(new YesNoQuestionHandler(questionInDB, this, position));
-        }
-        return questionView;
-    }
-
-
-    /**
-     * Yes/No question, Test not opened before
-     *
-     * @param currentQuestionNonDB
-     * @param position
-     */
-    private View yesNoNotOpened(QuestionNonDB currentQuestionNonDB, int position) {
-        View questionView = inflater.inflate(R.layout.content_question_yes_no, null);
-        // create question and add to DB
-        Question question = new Question();
+    private View yesNo(QuestionNonDB currentQuestionNonDB, int position) {
+        // question in DB
+        Question question;
         String dummyID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
-        question.setGuid(dummyID);
-        question.setDescription(currentQuestionNonDB.getDescription());
-        question.setTest(scale);
-        question.setYesOrNo(true);
-        question.setYesValue(currentQuestionNonDB.getYesScore());
-        question.setNoValue(currentQuestionNonDB.getNoScore());
-        question.save();
+        question = Question.getQuestionByID(dummyID);
+        if (question == null) {
+            // create question and add to DB
+            question = new Question();
+            question.setGuid(dummyID);
+            question.setDescription(currentQuestionNonDB.getDescription());
+            question.setScale(scale);
+            question.setYesOrNo(true);
+            question.setRightWrong(false);
+            question.setYesValue(currentQuestionNonDB.getYesScore());
+            question.setNoValue(currentQuestionNonDB.getNoScore());
+            question.save();
+        }
+
 
         /**
          * Set View
          */
+        View questionView = inflater.inflate(R.layout.content_question_yes_no, null);
         Holder holder = new Holder();
         holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
         holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
         // detect when choice changed
         RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
+
+        /**
+         * Question already answered.
+         */
+        if (question.isAnswered()) {
+            if (question.getSelectedYesNoChoice().equals("yes")) {
+                radioGroup.check(R.id.yesChoice);
+            } else {
+                radioGroup.check(R.id.noChoice);
+            }
+        }
+
         radioGroup.setOnCheckedChangeListener(new YesNoQuestionHandler(question, this, position));
         return questionView;
     }

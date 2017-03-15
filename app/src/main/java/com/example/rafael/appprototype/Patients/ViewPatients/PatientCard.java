@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,8 +87,7 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
 
         // add on click listener for the icon
 
-        switch (patient.getGender())
-        {
+        switch (patient.getGender()) {
             case Constants.MALE:
                 holder.icon.setImageResource(R.drawable.male);
                 break;
@@ -99,7 +97,7 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
         }
 
 
-        View.OnClickListener clickListener =  new View.OnClickListener() {
+        View.OnClickListener clickListener = new View.OnClickListener() {
             public String patientTransitionName;
 
             @Override
@@ -111,24 +109,15 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
 
                 // TODO add shared elements for transitions
                 Fragment endFragment = new ViewSinglePatientInfo();
-                    /*
-                    endFragment.setSharedElementReturnTransition(TransitionInflater.from(
-                            context).inflateTransition(R.transition.change_image_trans));
 
 
-                    endFragment.setSharedElementEnterTransition(TransitionInflater.from(
-                            context).inflateTransition(R.transition.change_image_trans));
-                    */
-
-
-//                    patientTransitionName = holder.name.getTransitionName();
                 Bundle args = new Bundle();
-                args.putString("ACTION", holder.name.getText().toString());
-                args.putString("TRANS_TEXT", patientTransitionName);
+//                args.putString("ACTION", holder.name.getText().toString());
+//                args.putString("TRANS_TEXT", patientTransitionName);
                 args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
-                ((PrivateArea) context).replaceFragmentSharedElements(endFragment, args, Constants.tag_view_patient_info_records,
+                ((PrivateArea) context).replaceFragmentSharedElements(endFragment, args,
+                        Constants.tag_view_patient_info_records,
                         holder.name);
-
             }
         };
 
@@ -192,7 +181,7 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
                 final String filterPattern = constraint.toString().toLowerCase().trim();
 
                 for (final Patient patient : originalList) {
-                    if (patient.getName().toString().toLowerCase().trim().contains(filterPattern)) {
+                    if (patient.getName().toLowerCase().trim().contains(filterPattern)) {
                         filteredList.add(patient);
                     }
                 }

@@ -57,7 +57,6 @@ public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder>
      * Name of Test being displayed.
      */
     private ArrayList<GeriatricScale> scalesForArea;
-    private ViewManager parentView;
 
 
     /**
@@ -128,7 +127,7 @@ public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder>
             comparePreviousSessions(currentScale, holder);
         }
 
-        parentView = (ViewManager) holder.result_qualitative.getParent();
+        ViewManager parentView = (ViewManager) holder.result_qualitative.getParent();
 
         if (currentScale.hasNotes()) {
             parentView.removeView(holder.addNotesButton);

@@ -1,7 +1,6 @@
 package com.example.rafael.appprototype;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.ActionBarDrawerToggle;
 
 import java.util.HashMap;
@@ -53,6 +52,9 @@ public class Constants {
     public static final String tag_progress_detail = "tag_progress_detail";
     public static final String tag_help_topic = "tag_help_topic";
     public static final String tag_cga_public = "tag_cga_public";
+    public static final String tag_display_session_scale_shortcut = "tag_display_session_scale_shortcut";
+    public static final String tag_view_patient_info_records_from_sessions_list = "tag_view_patient_info_records_from_sessions_list";
+
 
 
     // create new Session
@@ -86,10 +88,10 @@ public class Constants {
     public static String userName = "userName";
     public static int vpPatientsPage = 0;
     public static int vpPrescriptionPage = 0;
-    public static String first_run;
+    public static String first_run = "first_run";
     public static String area_private = "private";
     public static String area_public = "public";
-    public static String area;
+    public static String area = "area";
     public static String logged_in = "logged_in";
 
 

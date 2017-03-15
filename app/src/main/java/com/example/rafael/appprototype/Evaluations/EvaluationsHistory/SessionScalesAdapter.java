@@ -24,7 +24,6 @@ public class SessionScalesAdapter extends BaseAdapter {
      */
     private final List<GeriatricScale> sessionScales;
     private static LayoutInflater inflater = null;
-    private View testView;
 
     /**
      * Display all Questions for a GeriatricScale
@@ -40,7 +39,7 @@ public class SessionScalesAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // setup views
-        testView = inflater.inflate(R.layout.test_result, parent, false);
+        View testView = inflater.inflate(R.layout.test_result, parent, false);
         TextView testName = (TextView) testView.findViewById(R.id.testName);
         TextView testResult = (TextView) testView.findViewById(R.id.testResult);
 

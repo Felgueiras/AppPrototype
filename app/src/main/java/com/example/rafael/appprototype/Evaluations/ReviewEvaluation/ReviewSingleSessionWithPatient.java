@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.example.rafael.appprototype.DataTypes.DB.Question;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewArea;
@@ -32,7 +31,6 @@ public class ReviewSingleSessionWithPatient extends Fragment {
      * String that identifies the Session to be passed as argument.
      */
     public static String SESSION = "session";
-    private boolean comparePreviousSession;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +60,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
 
         // check if we have to compare to the previous session
         //comparePreviousSession = args.getBoolean(COMPARE_PREVIOUS);
-        comparePreviousSession = true;
+        boolean comparePreviousSession = true;
 
         EditText sessionNotes = (EditText) view.findViewById(R.id.session_notes);
         // if question is already answered
