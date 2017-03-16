@@ -37,8 +37,8 @@ public class DatesHandler {
      * @param date Date object
      * @return String representation of that Date
      */
-    public static String dateToString(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+    public static String dateToStringDayMonthYear(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy",Locale.UK);
         String datetime;
         datetime = format.format(date);
         return datetime;

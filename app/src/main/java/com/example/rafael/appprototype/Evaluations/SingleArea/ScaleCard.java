@@ -102,7 +102,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
         String testCompletionNotSelected = context.getResources().getString(R.string.test_not_selected);
         String testCompletionSelectedIncomplete = context.getResources().getString(R.string.test_incomplete);
 
-        String scaleName = testsForArea.get(position).getTestName();
+        String scaleName = testsForArea.get(position).getScaleName();
 
         // access a given Test from the DB
         GeriatricScale currentScale = session.getScaleByName(scaleName);

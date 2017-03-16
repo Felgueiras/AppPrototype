@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <!--<EditTextPreference-->
-        <!--android:key="username"-->
-        <!--android:summary="Please provide your username"-->
-        <!--android:title="Your Name"></EditTextPreference>-->
+    <!--android:key="username"-->
+    <!--android:summary="Please provide your username"-->
+    <!--android:title="Your Name"></EditTextPreference>-->
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="@string/areaCardShowScalesIcon"
@@ -11,11 +11,11 @@
 aceder mais rapidamente à escala a executar"
         android:title="Ícones de Escalas" />
     <!--<CheckBoxPreference-->
-        <!--android:defaultValue="false"-->
-        <!--android:key="@string/areaCardShowScalesIcon"-->
-        <!--android:summary="Selecione para ver ícones das escalas no botão de cada área, podendo-->
-<!--aceder mais rapidamente à escala a executar"-->
-        <!--android:title="Ícones de Escalas" />-->
+    <!--android:defaultValue="false"-->
+    <!--android:key="@string/areaCardShowScalesIcon"-->
+    <!--android:summary="Selecione para ver ícones das escalas no botão de cada área, podendo-->
+    <!--aceder mais rapidamente à escala a executar"-->
+    <!--android:title="Ícones de Escalas" />-->
     <ListPreference
         android:defaultValue="1"
         android:entries="@array/sessionResumeInfoNames"
@@ -23,4 +23,20 @@ aceder mais rapidamente à escala a executar"
         android:key="@string/sessionResumeInformation"
         android:summary="Selecione a informação a ver no resumo de uma sessão de AGG"
         android:title="Resumo de sessão" />
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/patientProgressTypes"
+        android:entryValues="@array/patientProgressIndex"
+        android:key="@string/patientProgressType"
+        android:summary="Escolha a forma como o progresso do paciente por escala
+é visualizado"
+        android:title="Progresso do Paciente" />
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/multipleChoiceTypes"
+        android:entryValues="@array/multipleChoiceIndex"
+        android:key="@string/multipleChoiceType"
+        android:summary="Selecione se prefere ver logo todas as opções na lista
+ou ver só as opções de resposta quando selecionar a pergunta"
+        android:title="Questões escolha múltipla" />
 </PreferenceScreen>

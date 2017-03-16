@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.PatientProgress;
+package com.example.rafael.appprototype.Patients.Progress;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import com.example.rafael.appprototype.R;
 import java.util.ArrayList;
 
 
-public class ProgressMainFragment extends Fragment {
+public class ProgressMain extends Fragment {
 
     public static final String PATIENT = "PATIENT";
     private Patient patient;

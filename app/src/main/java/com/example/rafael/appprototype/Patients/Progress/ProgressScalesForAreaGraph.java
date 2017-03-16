@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.PatientProgress;
+package com.example.rafael.appprototype.Patients.Progress;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import static android.view.WindowManager.*;
 
-public class ProgressScales extends RecyclerView.Adapter<ProgressScales.MyViewHolder> {
+public class ProgressScalesForAreaGraph extends RecyclerView.Adapter<ProgressScalesForAreaGraph.MyViewHolder> {
 
     /**
      * Patient which has these NewEvaluationPrivate.
@@ -60,7 +60,7 @@ public class ProgressScales extends RecyclerView.Adapter<ProgressScales.MyViewHo
      * @param sessions
      * @param area
      */
-    public ProgressScales(Activity context, ArrayList<Session> sessions, String area, Patient patient) {
+    public ProgressScalesForAreaGraph(Activity context, ArrayList<Session> sessions, String area, Patient patient) {
         this.context = context;
         this.area = area;
         this.patientSessions = sessions;
@@ -69,7 +69,7 @@ public class ProgressScales extends RecyclerView.Adapter<ProgressScales.MyViewHo
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.patient_progress_scale, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.patient_progress_scale_graph, parent, false);
 
         context.getWindow().setFlags(
                 LayoutParams.FLAG_HARDWARE_ACCELERATED,
@@ -84,7 +84,7 @@ public class ProgressScales extends RecyclerView.Adapter<ProgressScales.MyViewHo
 
         // current test
         final GeriatricScaleNonDB scaleInfo = testsForArea.get(position);
-        final String currentScale = testsForArea.get(position).getTestName();
+        final String currentScale = testsForArea.get(position).getScaleName();
 
         // get all the instances of that Test for this Patient
         ArrayList<GeriatricScale> scaleInstances = GeriatricScale.getScaleInstancesForPatient(patientSessions, currentScale);

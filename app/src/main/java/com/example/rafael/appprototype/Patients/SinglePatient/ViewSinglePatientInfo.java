@@ -28,7 +28,7 @@ import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.EmptyStateFragment;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
-import com.example.rafael.appprototype.Patients.PatientProgress.ProgressMainFragment;
+import com.example.rafael.appprototype.Patients.Progress.ProgressMain;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientNotesFragment;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
@@ -146,10 +146,10 @@ public class ViewSinglePatientInfo extends Fragment {
             @Override
             public void onClick(View view) {
                 System.out.println("EVOLUTION");
-                Fragment fragment = new ProgressMainFragment();
+                Fragment fragment = new ProgressMain();
                 Bundle args = new Bundle();
-                args.putSerializable(ProgressMainFragment.PATIENT, patient);
-                FragmentTransitions.replaceFragment(getActivity(), new ProgressMainFragment(), args, Constants.tag_patient_progress);
+                args.putSerializable(ProgressMain.PATIENT, patient);
+                FragmentTransitions.replaceFragment(getActivity(), new ProgressMain(), args, Constants.tag_patient_progress);
             }
         });
 

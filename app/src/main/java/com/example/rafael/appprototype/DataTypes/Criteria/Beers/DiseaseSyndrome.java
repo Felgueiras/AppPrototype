@@ -46,7 +46,7 @@ public class DiseaseSyndrome {
     public String getDrugsAsList() {
         String ret = "";
         for (DrugCategory category : drugCategories) {
-            // category name
+            // category questionTextView
             ret += category.getCategory() + "\n";
             for (String drug : category.getDrugs()) {
                 ret += "• " + drug + "\n";

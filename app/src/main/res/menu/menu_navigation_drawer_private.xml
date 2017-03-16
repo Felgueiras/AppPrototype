@@ -44,5 +44,10 @@
         </menu>
     </item>
 
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/ic_info_outline_black_24dp"
+        android:title="Sobre" />
+
 
 </menu>

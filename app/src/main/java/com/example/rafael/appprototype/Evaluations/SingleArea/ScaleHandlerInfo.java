@@ -33,6 +33,10 @@ public class ScaleHandlerInfo implements View.OnClickListener {
         this.currentScale = currentScale;
     }
 
+    public ScaleHandlerInfo(Activity context) {
+        this.context = context;
+    }
+
     @Override
     public void onClick(View view) {
 
@@ -48,6 +52,14 @@ public class ScaleHandlerInfo implements View.OnClickListener {
         // create table with classification for this scale
         TableLayout table = (TableLayout) dialogView.findViewById(R.id.scale_outcomes);
         GeriatricScaleNonDB test = Scales.getScaleByName(currentScale.getScaleName());
+        fillTableScaleScoring(test, table);
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.setTitle(currentScale.getScaleName());
+        alertDialog.show();
+    }
+
+    public void fillTableScaleScoring(GeriatricScaleNonDB test, TableLayout table) {
         if (test.getScoring() != null) {
             if (!test.getScoring().isDifferentMenWomen()) {
                 addTableHeader(table, false);
@@ -114,11 +126,6 @@ public class ScaleHandlerInfo implements View.OnClickListener {
                 }
             }
         }
-
-
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.setTitle(currentScale.getScaleName());
-        alertDialog.show();
     }
 
     /**

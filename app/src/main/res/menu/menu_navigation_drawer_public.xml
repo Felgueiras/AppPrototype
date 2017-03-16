@@ -22,22 +22,22 @@
             android:id="@+id/help"
             android:icon="@drawable/ic_help_black_24dp"
             android:title="@string/help" />
+        <item
+            android:id="@+id/cga_guide"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/cga_guide" />
+
     </group>
 
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="Definições" />
 
-
-    <item android:title="@string/actions_account">
-        <menu>
-            <item
-                android:id="@+id/login"
-                android:icon="@drawable/ic_exit_to_app_black_24dp"
-                android:title="@string/action_log_in" />
-            <!--<item-->
-                <!--android:id="@+id/options"-->
-                <!--android:icon="@drawable/ic_exit_to_app_black_24dp"-->
-                <!--android:title="@string/action_options" />-->
-        </menu>
-    </item>
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/ic_info_outline_black_24dp"
+        android:title="Sobre" />
 
 
 </menu>

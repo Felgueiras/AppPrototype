@@ -2,13 +2,20 @@ package com.example.rafael.appprototype.Evaluations.DisplayTest;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -187,9 +194,10 @@ public class QuestionsListAdapter extends BaseAdapter {
 
         // multiple categories
         if (testNonDB.isMultipleCategories()) {
-            questionView = new QuestionMultipleCategories(inflater,
+            // TODO replace here
+            questionView = new QuestionMultipleCategoriesIndividualCategory(inflater,
                     testNonDB,
-                    context,
+                    (Activity) context,
                     scale,
                     this).getView();
             return questionView;
@@ -492,7 +500,6 @@ public class QuestionsListAdapter extends BaseAdapter {
                 newRadioButton.setText(choice.getName() + " - " + choice.getDescription());
             else
                 newRadioButton.setText(choice.getDescription());
-
         }
 
         LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
@@ -511,6 +518,21 @@ public class QuestionsListAdapter extends BaseAdapter {
      * @return
      */
     public View multipleChoice(QuestionNonDB currentQuestionNonDB, int position) {
+
+        // show all or click and open AlertDialog to choose option
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
+        String multipleChoiceType = SP.getString(context.getResources().getString(R.string.multipleChoiceType), "1");
+        Log.d("Multiple", multipleChoiceType);
+        if (multipleChoiceType.equals("1")) {
+            return multipleChoiceShowAllOptions(currentQuestionNonDB, position);
+        } else if (multipleChoiceType.equals("2")) {
+            return multipleChoiceSelectFromDialog(currentQuestionNonDB, position);
+        }
+        return null;
+
+    }
+
+    private View multipleChoiceShowAllOptions(QuestionNonDB currentQuestionNonDB, int position) {
 
         View questionView = inflater.inflate(R.layout.content_question_multiple_choice, null);
 
@@ -593,6 +615,149 @@ public class QuestionsListAdapter extends BaseAdapter {
             holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
             holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
         }
+        return questionView;
+    }
+
+
+    private View multipleChoiceSelectFromDialog(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
+
+        View questionView = inflater.inflate(R.layout.content_question_multiple_choice_alertdialog, null);
+
+        String questionText = (questionIndex + 1) + " - " + currentQuestionNonDB.getDescription();
+
+        //list of items
+        final AlertDialog.Builder builderSingle = new AlertDialog.Builder(context);
+//        builderSingle.setIcon(R.drawable.ic_launcher);
+        builderSingle.setTitle(questionText);
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                context,
+                android.R.layout.select_dialog_singlechoice);
+
+        // check if is already in DB
+        String questionID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
+        Question question = Question.getQuestionByID(questionID);
+        if (question == null) {
+            // create question and add to DB
+            question = new Question();
+            question.setDescription(currentQuestionNonDB.getDescription());
+            question.setGuid(questionID);
+            question.setScale(scale);
+            question.setYesOrNo(false);
+            question.save();
+
+            // create Choices and add to DB
+            ArrayList<ChoiceNonDB> choicesNonDB = currentQuestionNonDB.getChoices();
+
+            for (int i = 0; i < choicesNonDB.size(); i++) {
+                ChoiceNonDB currentChoice = choicesNonDB.get(i);
+                Choice choice = new Choice();
+                String choiceID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription() + "-" + currentChoice.getDescription();
+                // check if already in DB
+                if (Choice.getChoiceByID(choiceID) == null) {
+                    choice.setGuid(choiceID);
+                    choice.setQuestion(question);
+                    if (currentChoice.getName() != null)
+                        choice.setName(currentChoice.getName());
+                    choice.setDescription(currentChoice.getDescription());
+                    choice.setScore(currentChoice.getScore());
+                    choice.save();
+                }
+
+                if (choice.getName().equals("") || choice.getName() == null) {
+                    arrayAdapter.add(choice.getDescription());
+                } else {
+                    if (!choice.getName().equals(choice.getDescription())) {
+                        arrayAdapter.add(choice.getName() + " - " + choice.getDescription());
+                    } else {
+                        arrayAdapter.add(choice.getDescription());
+                    }
+                }
+            }
+
+        } else {
+            /**
+             * Question in DB,
+             */
+            // get Question from DB
+            question = scale.getQuestionsFromScale().get(questionIndex);
+            // create Radio Group from the info in DB
+
+            for (int i = 0; i < question.getChoicesForQuestion().size(); i++) {
+                Choice choice = question.getChoicesForQuestion().get(i);
+
+                if (choice.getName().equals("") || choice.getName() == null) {
+                    arrayAdapter.add(choice.getDescription());
+                } else {
+                    if (!choice.getName().equals(choice.getDescription())) {
+                        arrayAdapter.add(choice.getName() + " - " + choice.getDescription());
+                    } else {
+                        arrayAdapter.add(choice.getDescription());
+                    }
+                }
+            }
+        }
+
+        // cancel button
+        builderSingle.setNegativeButton("cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        final Holder holder = new Holder();
+        holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
+        holder.question.setText(questionText);
+
+
+        final Question finalQuestion = question;
+        final QuestionsListAdapter adapter = this;
+        builderSingle.setAdapter(arrayAdapter,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int selectedAnswer) {
+                        Log.d("Selected Item : ", arrayAdapter.getItem(selectedAnswer));
+                        MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex);
+                        multipleChoiceHandler.selectedFromAlertDialog(selectedAnswer);
+                        holder.question.setBackgroundResource(R.color.question_answered);
+                        dialog.dismiss();
+                    }
+                });
+
+
+        final Question finalQuestion1 = question;
+        holder.question.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // check if already answered
+                int selectedIdx = -1;
+                if (finalQuestion1.isAnswered()) {
+
+                    holder.question.setBackgroundResource(R.color.question_answered);
+                    // set the selected option
+                    String selectedChoice = finalQuestion1.getSelectedChoice();
+                    //system.out.println("sel choice is " + selectedChoice);
+                    ArrayList<Choice> choices = finalQuestion1.getChoicesForQuestion();
+                    for (int i = 0; i < choices.size(); i++) {
+                        if (choices.get(i).getName().equals(selectedChoice)) {
+                            selectedIdx = i;
+                        }
+                    }
+                }
+                builderSingle.setSingleChoiceItems(arrayAdapter, selectedIdx,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int selectedAnswer) {
+                                MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex);
+                                multipleChoiceHandler.selectedFromAlertDialog(selectedAnswer);
+                                holder.question.setBackgroundResource(R.color.question_answered);
+                                dialog.dismiss();
+                            }
+                        });
+                builderSingle.show();
+            }
+        });
+
         return questionView;
     }
 

@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.PatientProgress;
+package com.example.rafael.appprototype.Patients.Progress;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -35,7 +35,7 @@ public class ProgressDetail extends Fragment {
         Patient patient = (Patient) arguments.getSerializable(PATIENT);
         GeriatricScaleNonDB scaleInfo = (GeriatricScaleNonDB) arguments.getSerializable(SCALE_INFO);
 
-        getActivity().setTitle(scaleInfo.getTestName());
+        getActivity().setTitle(scaleInfo.getScaleName());
         GraphView graphView = (GraphView) view.findViewById(R.id.graph_view);
 
         ArrayList<GeriatricScale> scaleInstances = GeriatricScale.getScaleInstancesForPatient(patient.getSessionsFromPatient(), scale);

@@ -86,9 +86,9 @@ public class FavoritePatientsGrid extends BaseAdapter {
                     */
 
 
-//                    patientTransitionName = holder.name.getTransitionName();
+//                    patientTransitionName = holder.questionTextView.getTransitionName();
                 Bundle args = new Bundle();
-//                args.putString("ACTION", holder.name.getText().toString());
+//                args.putString("ACTION", holder.questionTextView.getText().toString());
 //                args.putString("TRANS_TEXT", patientTransitionName);
                 args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
                 ((PrivateArea) context).replaceFragmentSharedElements(endFragment, args, Constants.tag_view_patient_info_records,

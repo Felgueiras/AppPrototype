@@ -56,6 +56,11 @@ public class Constants {
     public static final String tag_view_patient_info_records_from_sessions_list = "tag_view_patient_info_records_from_sessions_list";
 
 
+    /**
+     * CGA Guide.
+     */
+    public static final String tag_guide_area = "tag_guide_area";
+
 
     // create new Session
     public static final String tag_create_session_with_patient = "tag_create_session_with_patient";
@@ -195,7 +200,7 @@ public class Constants {
      */
     public static Bundle patientsListBundle;
     public static Bundle drugsListBundle;
-    public static HashMap<String,Bundle> patientsSessionsBundle = new HashMap<>();
+    public static HashMap<String, Bundle> patientsSessionsBundle = new HashMap<>();
     public static Bundle sessionsListBundle;
     public static int sessionsGridViewIndex;
 }

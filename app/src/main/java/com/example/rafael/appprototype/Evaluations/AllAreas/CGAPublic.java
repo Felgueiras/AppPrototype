@@ -120,6 +120,7 @@ public class CGAPublic extends Fragment {
                                 Constants.SESSION_GENDER = Constants.FEMALE;
                         }
                     });
+            
 
             String positiveText = getString(android.R.string.ok);
             builder.setPositiveButton(positiveText,
@@ -239,8 +240,8 @@ public class CGAPublic extends Fragment {
         ArrayList<GeriatricScaleNonDB> testsNonDB = Scales.getAllScales();
         for (GeriatricScaleNonDB testNonDB : testsNonDB) {
             GeriatricScale test = new GeriatricScale();
-            test.setGuid(session.getGuid() + "-" + testNonDB.getTestName());
-            test.setTestName(testNonDB.getTestName());
+            test.setGuid(session.getGuid() + "-" + testNonDB.getScaleName());
+            test.setTestName(testNonDB.getScaleName());
             test.setShortName(testNonDB.getShortName());
             test.setArea(testNonDB.getArea());
             test.setSession(session);

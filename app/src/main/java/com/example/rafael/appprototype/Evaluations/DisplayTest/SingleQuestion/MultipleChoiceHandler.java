@@ -50,4 +50,18 @@ public class MultipleChoiceHandler implements RadioGroup.OnCheckedChangeListener
     }
 
 
+    public void selectedFromAlertDialog(int selectedAnswer) {
+
+        // save the text of the option
+        String selected = question.getChoicesForQuestion().get(selectedAnswer).getName();
+        System.out.println("Selected " + selected);
+        question.setSelectedChoice(question.getChoicesForQuestion().get(selectedAnswer).getName());
+
+        question.setAnswered(true);
+        question.save();
+        /**
+         * Signal that que Question was answered
+         */
+        adapter.questionAnswered(position);
+    }
 }

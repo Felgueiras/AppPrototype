@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Session resume info-->
     <string-array name="sessionResumeInfoNames">
         <item>Nome do paciente</item>
         <item>Nome do paciente + Escala</item>
         <item>Nome do paciente + Escala + Resultado da Escala</item>
     </string-array>
-
     <string-array name="sessionResumeInfoIndex">
         <item>1</item>
         <item>2</item>
         <item>3</item>
+    </string-array>
+
+    <!--Patient progress display type-->
+    <string-array name="patientProgressTypes">
+        <item>Tabela</item>
+        <item>Gráfico</item>
+    </string-array>
+    <string-array name="patientProgressIndex">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <!--Multiple choice types-->
+    <string-array name="multipleChoiceTypes">
+        <item>Ver opções na lista</item>
+        <item>Mostrar opções só ao selecionar</item>
+    </string-array>
+    <string-array name="multipleChoiceIndex">
+        <item>1</item>
+        <item>2</item>
     </string-array>
 </resources>

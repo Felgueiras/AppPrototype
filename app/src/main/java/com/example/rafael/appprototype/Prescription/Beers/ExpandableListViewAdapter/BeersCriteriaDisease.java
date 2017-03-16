@@ -59,7 +59,7 @@ public class BeersCriteriaDisease extends BaseExpandableListAdapter {
         }
 
 
-        // Disease name
+        // Disease questionTextView
         TextView diseaseText = (TextView) convertView.findViewById(R.id.beersDisease);
         // drugs list
         TextView drugs = (TextView) convertView.findViewById(R.id.drugs);

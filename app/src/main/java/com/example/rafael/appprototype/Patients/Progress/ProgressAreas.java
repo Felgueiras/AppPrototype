@@ -1,12 +1,13 @@
-package com.example.rafael.appprototype.Patients.PatientProgress;
+package com.example.rafael.appprototype.Patients.Progress;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +74,7 @@ public class ProgressAreas extends RecyclerView.Adapter<ProgressAreas.TestCardHo
     @Override
     public TestCardHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // get the Test CardView
-        final View testCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_evolution_area, parent, false);
+        final View testCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_progress_area, parent, false);
         return new TestCardHolder(testCard);
     }
 
@@ -90,24 +91,31 @@ public class ProgressAreas extends RecyclerView.Adapter<ProgressAreas.TestCardHo
         /**
          * Show info about evaluations for every area.
          */
-        ProgressScales adapter = new ProgressScales(context, patientSessions, Constants.cga_areas[position], patient);
-        // display the different scales to choose from this area
-        int numbercolumns = 1;
-        if (Constants.screenSize > Configuration.SCREENLAYOUT_SIZE_NORMAL) {
-            numbercolumns = 2;
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
+        String progressType = SP.getString(context.getResources().getString(R.string.patientProgressType), "1");
+        if (progressType.equals("2")) {
+            ProgressScalesForAreaGraph adapter = new ProgressScalesForAreaGraph(context, patientSessions, Constants.cga_areas[position], patient);
+            int numbercolumns = 1;
+            if (Constants.screenSize > Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+                numbercolumns = 2;
+            }
+            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, numbercolumns);
+            holder.scales.setLayoutManager(mLayoutManager);
+            holder.scales.setItemAnimator(new DefaultItemAnimator());
+            holder.scales.setAdapter(adapter);
+        } else if (progressType.equals("1")) {
+            ProgressScalesForAreaTable adapter = new ProgressScalesForAreaTable(context, patientSessions, Constants.cga_areas[position], patient);
+            // display the different scales to choose from this area
+            int numbercolumns = 1;
+            if (Constants.screenSize > Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+                numbercolumns = 2;
+            }
+            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, numbercolumns);
+            holder.scales.setLayoutManager(mLayoutManager);
+            holder.scales.setItemAnimator(new DefaultItemAnimator());
+            holder.scales.setAdapter(adapter);
         }
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, numbercolumns);
-        holder.scales.setLayoutManager(mLayoutManager);
-        holder.scales.setItemAnimator(new DefaultItemAnimator());
-        holder.scales.setAdapter(adapter);
-    }
 
-    /**
-     * Converting dp to pixel
-     */
-    private int dpToPx(int dp) {
-        Resources r = context.getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
 

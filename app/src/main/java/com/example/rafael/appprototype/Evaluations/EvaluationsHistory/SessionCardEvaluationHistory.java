@@ -123,7 +123,7 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
         Log.d("Settings", infoType);
         if (infoType.equals("2")) {
             /**
-             * Patient name + scale.
+             * Patient questionTextView + scale.
              */
             /**
              * Setup list.
@@ -146,7 +146,7 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
                             fragment));
         } else if (infoType.equals("3")) {
             /**
-             * Patient name + scale + result.
+             * Patient questionTextView + scale + result.
              */
             LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
             holder.testsForDayRecycler.setLayoutManager(layoutManager);

@@ -33,7 +33,7 @@ public class MyIntro extends AppIntro {
 
     @Override
     public void onSkipPressed() {
-        // Do buildGraph here when users click or tap on Skip button.
+        // Do buildTable here when users click or tap on Skip button.
         Toast.makeText(getApplicationContext(),
                 getString(R.string.app_intro_skip), Toast.LENGTH_SHORT).show();
         Intent i = new Intent(getApplicationContext(), PublicArea.class);
@@ -42,17 +42,17 @@ public class MyIntro extends AppIntro {
 
     @Override
     public void onNextPressed() {
-        // Do buildGraph here when users click or tap on Next button.
+        // Do buildTable here when users click or tap on Next button.
     }
 
     @Override
     public void onDonePressed() {
-        // Do buildGraph here when users click or tap tap on Done button.
+        // Do buildTable here when users click or tap tap on Done button.
         finish();
     }
 
     @Override
     public void onSlideChanged() {
-        // Do buildGraph here when slide is changed
+        // Do buildTable here when slide is changed
     }
 }

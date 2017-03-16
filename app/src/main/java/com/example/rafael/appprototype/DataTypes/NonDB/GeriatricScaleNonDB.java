@@ -95,7 +95,7 @@ public class GeriatricScaleNonDB implements Serializable {
         this.questions = questions;
     }
 
-    public String getTestName() {
+    public String getScaleName() {
         return testName;
     }
 

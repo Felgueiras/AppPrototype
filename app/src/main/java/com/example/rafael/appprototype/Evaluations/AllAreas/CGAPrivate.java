@@ -342,8 +342,8 @@ public class CGAPrivate extends Fragment {
         ArrayList<GeriatricScaleNonDB> testsNonDB = Scales.getAllScales();
         for (GeriatricScaleNonDB testNonDB : testsNonDB) {
             GeriatricScale test = new GeriatricScale();
-            test.setGuid(session.getGuid() + "-" + testNonDB.getTestName());
-            test.setTestName(testNonDB.getTestName());
+            test.setGuid(session.getGuid() + "-" + testNonDB.getScaleName());
+            test.setTestName(testNonDB.getScaleName());
             test.setArea(testNonDB.getArea());
             test.setShortName(testNonDB.getShortName());
             test.setSession(session);

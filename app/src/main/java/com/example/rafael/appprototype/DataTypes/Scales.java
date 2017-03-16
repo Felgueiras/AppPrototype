@@ -781,7 +781,7 @@ public class Scales {
         question = new QuestionNonDB("Toilet use", false);
         choices = new ArrayList<>();
         choices.add(new ChoiceNonDB("1", "dependent", 0));
-        choices.add(new ChoiceNonDB("2", "needs some help, but can do buildGraph alone", 5));
+        choices.add(new ChoiceNonDB("2", "needs some help, but can do buildTable alone", 5));
         choices.add(new ChoiceNonDB("3", "independent (on and off, dressing, wiping)", 10));
         question.setChoices(choices);
         barthelIndex.addQuestion(question);
@@ -1093,7 +1093,7 @@ public class Scales {
                 "described in scoring of 4 ", 5, "See examples for scoring of 4 "));
         gradings.add(new GradingNonDB("No reasonable representation of a clock ", 6, "a) No attempt at all\n" +
                 "b) No semblance of a clock at all\n" +
-                "c) Writes a word or name "));
+                "c) Writes a word or questionTextView "));
         // add Gradings to Scoring
         clockDrawingScoring.setValuesBoth(gradings);
         // add Scoring to Test
@@ -1724,7 +1724,9 @@ public class Scales {
         // Atenção e cálculo
         category = new QuestionCategory("Atenção e cálculo");
         category.setDescription("“Agora peço-lhe que me diga quantos são 30 menos 3 e depois ao número encontrado volta a tirar 3 e repete assim\n" +
-                "até eu lhe dizer para parar”");
+                "até eu lhe dizer para parar”\n" +
+                "Se der uma errada mas depois continuar a subtrair bem, " +
+                "consideram-se as seguintes como correctas. Parar ao fim de 5 respostas");
         // 14
         question = new QuestionNonDB("27", 1, 0);
         question.setRightWrong(true);

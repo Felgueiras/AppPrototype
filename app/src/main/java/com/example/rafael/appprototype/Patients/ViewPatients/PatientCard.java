@@ -112,7 +112,7 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
 
 
                 Bundle args = new Bundle();
-//                args.putString("ACTION", holder.name.getText().toString());
+//                args.putString("ACTION", holder.questionTextView.getText().toString());
 //                args.putString("TRANS_TEXT", patientTransitionName);
                 args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
                 ((PrivateArea) context).replaceFragmentSharedElements(endFragment, args,

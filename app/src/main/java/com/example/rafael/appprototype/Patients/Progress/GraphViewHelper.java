@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.PatientProgress;
+package com.example.rafael.appprototype.Patients.Progress;
 
 import android.content.Context;
 import android.graphics.Color;

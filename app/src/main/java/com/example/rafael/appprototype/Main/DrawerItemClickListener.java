@@ -13,6 +13,8 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.rafael.appprototype.AboutFragment;
+import com.example.rafael.appprototype.CGAGuide.CGAGuide;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
@@ -92,10 +94,13 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             endFragment = new SendFeedback();
         } else if (id == R.id.help) {
             endFragment = new HelpTopics();
-        }else if (id == R.id.sessions) {
+        } else if (id == R.id.sessions) {
             endFragment = new EvaluationsHistoryMain();
-        }
-        else if (id == R.id.settings) {
+        } else if (id == R.id.about) {
+            endFragment = new AboutFragment();
+        } else if (id == R.id.cga_guide) {
+            endFragment = new CGAGuide();
+        } else if (id == R.id.settings) {
             Intent i = new Intent(context, Settings.class);
             context.startActivity(i);
             return true;

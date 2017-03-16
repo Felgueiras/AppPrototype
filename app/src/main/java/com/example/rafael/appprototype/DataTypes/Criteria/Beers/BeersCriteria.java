@@ -64,7 +64,7 @@ public class BeersCriteria {
         for (OrganSystemWithDiseasesSyndromes disease : getBeersDiseaseSyndrome()) {
             for (DiseaseSyndrome entry : disease.getDiseaseSyndromes()) {
                 ArrayList<DrugCategory> drugCategories = entry.getDrugCategories();
-                // if single category, add category name
+                // if single category, add category questionTextView
                 for (DrugCategory category : drugCategories) {
                     if (category.getDrugs().size() == 0) {
                         drugs.add(category.getCategory());

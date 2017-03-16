@@ -157,7 +157,7 @@ física y/o verbal.
     localização dos recursos necessários, disponibilidade de transportes e recursos financeiros.</string>
     <string name="cga_nutritional">Detetar a presença ou risco de malnutrição sem recurso a parâmetros
     analíticos</string>
-    <string name="cga_mental">Composta por avaliação Cognitiva e Afetiva. A Cognitiva relaciona-se com o estado cognitivo do paciente, nomeadamente
+    <string name="cga_mental">Composto por avaliação Cognitiva e Afetiva. A Cognitiva relaciona-se com o estado cognitivo do paciente, nomeadamente
     orientação, memória, cálculo, pensamento abstracto, linguagem, etc. A Afetiva é afecta ao estado emocional do paciente, humor, tristeza e depressão.</string>
     <string name="cga_functional">Tem como objetivo determinar o grau de independência do paciente.
     Aborda as atividades da vida diária, dividindo-as em básicas (ABVD - independência para o auto-cuidado) e
@@ -268,4 +268,8 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="app_close">Fechar aplicação</string>
     <string name="app_close_question">Deseja fechar a aplicação?</string>
     <string name="cga_public">Sessão AGG Pública</string>
+    <string name="about">Informações</string>
+    <string name="about_app">Aplicação desenvolvida no âmbito da Dissertação de Mestrado em Engenharia de Computadores
+    e Telemática da Universidade de Aveiro do aluno Rafael Salgueiro Felgueiras Pinto.</string>
+    <string name="cga_guide">Guia da AGG</string>
 </resources>

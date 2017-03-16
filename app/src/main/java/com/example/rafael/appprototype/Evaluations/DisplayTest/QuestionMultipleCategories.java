@@ -60,7 +60,7 @@ public class QuestionMultipleCategories {
         for (int i = 0; i < testNonDB.getQuestionsCategories().size(); i++) {
             // get QuestionCategory and add it to the headers
             QuestionCategory cat = testNonDB.getQuestionsCategories().get(i);
-            listDataHeader.add(cat.getCategory());
+            listDataHeader.add(cat.getName());
             // child
             List<QuestionNonDB> questions = new ArrayList<>();
             for (QuestionNonDB question : cat.getQuestions()) {

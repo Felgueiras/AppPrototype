@@ -75,7 +75,7 @@ public class QuestionCategory {
         return choiceNonDB.getNo();
     }
 
-    public String getCategory() {
+    public String getName() {
         return category;
     }
 

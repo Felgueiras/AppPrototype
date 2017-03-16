@@ -201,7 +201,7 @@ public class Session extends Model implements Serializable {
                 .distinct()
                 .from(Session.class)
                 .groupBy("date")
-                .orderBy("date DESC")
+                .orderBy("date ASC")
                 .execute();
         HashSet<Date> days = new HashSet<>();
         for (Session session : dates) {

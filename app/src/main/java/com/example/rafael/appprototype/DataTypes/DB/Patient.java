@@ -178,7 +178,11 @@ public class Patient extends Model implements Serializable {
      * @return
      */
     public ArrayList<Session> getSessionsFromPatient() {
-        List<Session> recordsList = getMany(Session.class, "patient");
+        List<Session> recordsList = new Select()
+                .from(Session.class)
+                .where("patient = ?", this.getId())
+                .orderBy("date DESC")
+                .execute();
         ArrayList<Session> sessions = new ArrayList<>();
         sessions.addAll(recordsList);
         return sessions;
