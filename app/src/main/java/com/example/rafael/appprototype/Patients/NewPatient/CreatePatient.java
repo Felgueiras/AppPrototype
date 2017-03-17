@@ -80,7 +80,6 @@ public class CreatePatient extends Fragment {
                     break;
                 }
 
-                // TODO set icon
                 Patient patient = new Patient();
                 patient.setName(patientName.getText().toString());
 

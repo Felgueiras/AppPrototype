@@ -28,4 +28,5 @@
     <dimen name="criteriaInfoSize">15dp</dimen>
     <dimen name="search_view_inset">10dp</dimen>
     <dimen name="subText">15dp</dimen>
+    <dimen name="tab_label">14sp</dimen>
 </resources>

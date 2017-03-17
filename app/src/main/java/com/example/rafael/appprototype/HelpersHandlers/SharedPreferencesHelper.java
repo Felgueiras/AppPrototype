@@ -107,4 +107,26 @@ public class SharedPreferencesHelper {
         // clear lock status, so when logging in the lock screen isn't shown
         setLockStatus(context, false);
     }
+
+    /**
+     * Check if it is the first public evaluation.
+     *
+     * @param context
+     * @return
+     */
+    public static boolean checkFirstPublicEvaluation(Activity context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
+        if (!alreadyLogged) {
+            boolean firstPublicEvaluation = sharedPreferences.getBoolean("first_public_evaluation", true);
+            if (firstPublicEvaluation) {
+                SharedPreferences.Editor e = sharedPreferences.edit();
+                //  Edit preference to make it false because we don'checkFirstStart want this to run again
+                e.putBoolean("first_public_evaluation", false);
+                e.apply();
+                return true;
+            }
+        }
+        return false;
+    }
 }

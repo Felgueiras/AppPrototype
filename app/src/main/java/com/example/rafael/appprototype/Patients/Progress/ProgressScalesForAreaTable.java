@@ -103,7 +103,7 @@ public class ProgressScalesForAreaTable extends RecyclerView.Adapter<ProgressSca
                 View inflated = graphViewStub.inflate();
                 TableLayout table = (TableLayout) inflated.findViewById(R.id.table);
 
-                new ProgressTableHelper().buildTable(table, scaleInstances, scale, context);
+                new ProgressTableHelper().buildTable(table, scaleInstances, scale, context, patient);
 
                 /**
                  * View progress in detail.

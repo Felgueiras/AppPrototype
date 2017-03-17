@@ -6,7 +6,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
+import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.Scales;
@@ -17,6 +19,8 @@ import com.jjoe64.graphview.series.DataPoint;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -34,27 +38,36 @@ public class ProgressTableHelper {
      * @param scaleInstances
      * @param scale
      * @param context
+     * @param patient
      */
-    public void buildTable(TableLayout table, ArrayList<GeriatricScale> scaleInstances,
-                           GeriatricScaleNonDB scale, Context context) {
+    public void buildTable(TableLayout table,
+                           ArrayList<GeriatricScale> scaleInstances,
+                           GeriatricScaleNonDB scale,
+                           Context context, Patient patient) {
+        // order scale instances by date
+        Collections.sort(scaleInstances, new Comparator<GeriatricScale>() {
+            @Override
+            public int compare(GeriatricScale first, GeriatricScale second) {
+                Date firstDate = first.getSession().getDate();
+                Date secondDate = second.getSession().getDate();
+                if (firstDate.after(secondDate)) {
+                    return 1;
+                } else if (firstDate.before(secondDate)) {
+                    return -1;
+                } else
+                    return 0;
+            }
+        });
+
         // create axis information
         // x axis - date
-        ArrayList<Date> xAxis = new ArrayList<>();
+        ArrayList<Date> dates = new ArrayList<>();
         // y axis - score
-        ArrayList<Double> yAxis = new ArrayList<>();
         for (GeriatricScale t : scaleInstances) {
             Date date = t.getSession().getDate();
-            xAxis.add(date);
-            //system.out.println(date.toString());
-            yAxis.add(t.getResult());
+            dates.add(date);
         }
 
-        // create DataPoints
-        DataPoint[] points = new DataPoint[xAxis.size()];
-        for (int pos = 0; pos < xAxis.size(); pos++) {
-            points[pos] = new DataPoint(xAxis.get(pos), yAxis.get(pos));
-        }
-        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(points);
         // set date label formatter
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
         /**
@@ -67,7 +80,7 @@ public class ProgressTableHelper {
         dummy.setText("Header");
         dummy.setLayoutParams(new TableRow.LayoutParams(1));
         row.addView(dummy);
-        for (Date sessionDate : xAxis) {
+        for (Date sessionDate : dates) {
             TextView dateTextView = new TextView(context);
             dateTextView.setBackgroundResource(background);
             dateTextView.setPadding(paddingValue, paddingValue, paddingValue, paddingValue);
@@ -80,8 +93,18 @@ public class ProgressTableHelper {
         /**
          * Other rows - for each score, days that had that result
          */
-        // TODO check if values are male or female specific
-        for (GradingNonDB grading : scale.getScoring().getValuesBoth()) {
+        ArrayList<GradingNonDB> valuesToConsider;
+        if (scale.getScoring().isDifferentMenWomen()) {
+            if (patient.getGender() == Constants.MALE)
+                valuesToConsider = scale.getScoring().getValuesMen();
+            else
+                valuesToConsider = scale.getScoring().getValuesWomen();
+        } else {
+            valuesToConsider = scale.getScoring().getValuesBoth();
+        }
+
+
+        for (GradingNonDB grading : valuesToConsider) {
             row = new TableRow(context);
             dummy = new TextView(context);
             dummy.setBackgroundResource(background);
@@ -110,5 +133,7 @@ public class ProgressTableHelper {
             }
             table.addView(row);
         }
+
     }
 }
+

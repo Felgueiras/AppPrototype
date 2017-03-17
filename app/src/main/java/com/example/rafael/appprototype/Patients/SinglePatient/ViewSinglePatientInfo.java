@@ -259,9 +259,9 @@ public class ViewSinglePatientInfo extends Fragment {
     private void checkFavorite() {
         MenuItem favoriteItem = menu.findItem(R.id.favorite);
         if (patient.isFavorite())
-            favoriteItem.setIcon(R.drawable.ic_favorite_border_white_24dp);
+            favoriteItem.setIcon(R.drawable.ic_star_border_white_24dp);
         else
-            favoriteItem.setIcon(R.drawable.ic_favorite_white_24dp);
+            favoriteItem.setIcon(R.drawable.ic_star_white_24dp);
     }
 
     @Override
@@ -273,11 +273,11 @@ public class ViewSinglePatientInfo extends Fragment {
 
                 if (patient.isFavorite()) {
                     Snackbar.make(getView(), R.string.patient_favorite_add, Snackbar.LENGTH_SHORT).show();
-                    item.setIcon(R.drawable.ic_favorite_border_white_24dp);
+                    item.setIcon(R.drawable.ic_star_border_white_24dp);
 
                 } else {
                     Snackbar.make(getView(), R.string.patient_favorite_remove, Snackbar.LENGTH_SHORT).show();
-                    item.setIcon(R.drawable.ic_favorite_white_24dp);
+                    item.setIcon(R.drawable.ic_star_white_24dp);
                 }
 
         }

@@ -68,19 +68,5 @@ public class ReviewSingleScaleFragment extends Fragment {
         menu.clear();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_go_back:
-                /**
-                 * Go back to display the list of tests
-                 */
-                test.save();
-                getActivity().onBackPressed();
-        }
-        return true;
-
-    }
-
 
 }

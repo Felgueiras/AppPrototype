@@ -3,10 +3,12 @@ package com.example.rafael.appprototype.DataTypes.NonDB;
 
 import com.example.rafael.appprototype.DataTypes.DB.Question;
 
+import java.io.Serializable;
+
 /**
  * Created by rafael on 30-09-2016.
  */
-public class ChoiceNonDB {
+public class ChoiceNonDB implements Serializable{
     String guid;
     /**
      * Name of the choice.

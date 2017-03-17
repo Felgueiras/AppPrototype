@@ -272,4 +272,9 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="about_app">Aplicação desenvolvida no âmbito da Dissertação de Mestrado em Engenharia de Computadores
     e Telemática da Universidade de Aveiro do aluno Rafael Salgueiro Felgueiras Pinto.</string>
     <string name="cga_guide">Guia da AGG</string>
+    <string name="firstPublicEvaluation">Os resultados desta sessão não ficam guardados no sistema.
+    Caso queira criar perfis de pacientes, sessões e associá-las aos pacientes, pode registar-se na aplicação.
+    Quer registar-se agora?</string>
+    <string name="register_now">Registar</string>
+    <string name="register_later">Mais tarde</string>
 </resources>

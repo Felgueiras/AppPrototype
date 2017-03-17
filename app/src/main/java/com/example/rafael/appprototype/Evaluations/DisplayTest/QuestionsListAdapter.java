@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -194,7 +195,6 @@ public class QuestionsListAdapter extends BaseAdapter {
 
         // multiple categories
         if (testNonDB.isMultipleCategories()) {
-            // TODO replace here
             questionView = new QuestionMultipleCategoriesIndividualCategory(inflater,
                     testNonDB,
                     (Activity) context,
@@ -390,7 +390,7 @@ public class QuestionsListAdapter extends BaseAdapter {
      * @param questionIndex
      * @return
      */
-    private View rightWrong(QuestionNonDB currentQuestionNonDB, int questionIndex) {
+    private View rightWrong(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
         // question in DB
         Question questionInDB;
         String dummyID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
@@ -411,24 +411,54 @@ public class QuestionsListAdapter extends BaseAdapter {
          * Set View
          */
         LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View questionView = infalInflater.inflate(R.layout.content_question_right_wrong, null);
+        View questionView = infalInflater.inflate(R.layout.content_question_right_wrong_icons, null);
         TextView questionName = (TextView) questionView.findViewById(R.id.nameQuestion);
         questionName.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
 
-        RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
+        // right and wrong button
+        final ImageButton right = (ImageButton) questionView.findViewById(R.id.rightChoice);
+        final ImageButton wrong = (ImageButton) questionView.findViewById(R.id.wrongChoice);
 
         // if question is already answered
         if (questionInDB.isAnswered()) {
             ////system.out.println(questionInDB.toString());
             if (questionInDB.getSelectedRightWrong().equals("right")) {
-                radioGroup.check(R.id.rightChoice);
+                right.setImageResource(R.drawable.ic_check_box_black_24dp);
             } else {
-                radioGroup.check(R.id.wrongChoice);
+                wrong.setImageResource(R.drawable.close_box);
             }
         }
 
-        // detect when choice changed
-        radioGroup.setOnCheckedChangeListener(new RightWrongQuestionHandler(questionInDB, this, testNonDB, questionIndex));
+        final QuestionsListAdapter adapter = this;
+
+        final Question finalQuestionInDB = questionInDB;
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // detect when choice changed
+                if (v.getId() == R.id.rightChoice) {
+                    finalQuestionInDB.setSelectedRightWrong("right");
+                    right.setImageResource(R.drawable.ic_check_box_black_24dp);
+                    wrong.setImageResource(R.drawable.ic_close_black_24dp);
+                } else if (v.getId() == R.id.wrongChoice) {
+                    finalQuestionInDB.setSelectedRightWrong("wrong");
+                    right.setImageResource(R.drawable.ic_check_black_24dp);
+                    wrong.setImageResource(R.drawable.close_box);
+                } else {
+                    return;
+                }
+                finalQuestionInDB.setAnswered(true);
+                finalQuestionInDB.save();
+                /**
+                 * Signal that que Question was answered
+                 */
+                adapter.questionAnswered(questionIndex);
+            }
+        };
+
+        right.setOnClickListener(clickListener);
+        wrong.setOnClickListener(clickListener);
+
 
         return questionView;
     }
@@ -619,6 +649,13 @@ public class QuestionsListAdapter extends BaseAdapter {
     }
 
 
+    /**
+     * Multiple choice where option is selected from an AlertDialog.
+     *
+     * @param currentQuestionNonDB
+     * @param questionIndex
+     * @return
+     */
     private View multipleChoiceSelectFromDialog(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
 
         View questionView = inflater.inflate(R.layout.content_question_multiple_choice_alertdialog, null);

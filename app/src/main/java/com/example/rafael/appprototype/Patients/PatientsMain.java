@@ -20,6 +20,17 @@ import com.example.rafael.appprototype.R;
 public class PatientsMain extends Fragment {
 
 
+    private TabLayout tabLayout;
+
+    /**
+     * Tab icons.
+     */
+    private int[] tabIcons = {
+            R.drawable.ic_people_black_24dp,
+            R.drawable.ic_star_black_24dp,
+            R.drawable.ic_access_time_black_24dp,
+    };
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,10 +72,18 @@ public class PatientsMain extends Fragment {
         });
 
 
-        TabLayout tabLayout = (TabLayout) v.findViewById(R.id.tabs);
+        tabLayout = (TabLayout) v.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        setupTabIcons();
 
         return v;
+    }
+
+    private void setupTabIcons() {
+        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+//        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
     }
 
 
@@ -98,14 +117,14 @@ public class PatientsMain extends Fragment {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return getResources().getString(R.string.patients_all);
-                case 1:
-                    return getResources().getString(R.string.patients_favorites);
-                case 2:
-                    return getResources().getString(R.string.patients_recent);
-            }
+//            switch (position) {
+//                case 0:
+//                    return getResources().getString(R.string.patients_all);
+//                case 1:
+//                    return getResources().getString(R.string.patients_favorites);
+//                case 2:
+//                    return getResources().getString(R.string.patients_recent);
+//            }
             return null;
         }
     }

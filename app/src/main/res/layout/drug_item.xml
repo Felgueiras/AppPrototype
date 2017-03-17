@@ -25,7 +25,7 @@
             android:id="@+id/startCriteria"
             android:layout_width="@dimen/criteriaInfoSize"
             android:layout_height="@dimen/criteriaInfoSize"
-            android:background="@color/startCriteriaColor"
+            android:background="@color/startCriteriaColorFaded"
             android:clickable="false"
             android:layout_margin="2dp"
             android:visibility="gone" />
@@ -34,7 +34,7 @@
             android:id="@+id/stoppCriteria"
             android:layout_width="@dimen/criteriaInfoSize"
             android:layout_height="@dimen/criteriaInfoSize"
-            android:background="@color/stoppCriteriaColor"
+            android:background="@color/stoppCriteriaColorFaded"
             android:clickable="false"
             android:layout_margin="2dp"
             android:visibility="gone" />
@@ -43,7 +43,7 @@
             android:id="@+id/beersCriteria"
             android:layout_width="@dimen/criteriaInfoSize"
             android:layout_height="@dimen/criteriaInfoSize"
-            android:background="@color/beersCriteriaColor"
+            android:background="@color/beersCriteriaColorFaded"
             android:clickable="false"
             android:layout_margin="2dp"
             android:visibility="gone" />

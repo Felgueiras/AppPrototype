@@ -30,6 +30,9 @@
     <color name="button">#dd0000</color>
     <!--Criteria color-->
     <color name="startCriteriaColor">#00dd3b</color>
+    <color name="startCriteriaColorFaded">#009929</color>
     <color name="stoppCriteriaColor">#dd0004</color>
+    <color name="stoppCriteriaColorFaded">#990003</color>
     <color name="beersCriteriaColor">#001ddd</color>
+    <color name="beersCriteriaColorFaded">#001499</color>
 </resources>

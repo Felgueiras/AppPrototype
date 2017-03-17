@@ -63,6 +63,7 @@ public class PublicArea extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         // display home
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -281,7 +282,6 @@ public class PublicArea extends AppCompatActivity {
             endFragment.setArguments(args);
         }
         // add Exit transition
-        // TODO transitions are messing up with GraphView
         /*
         startFragment.setExitTransition(TransitionInflater.from(
                 this).inflateTransition(android.R.transition.fade));
@@ -291,6 +291,7 @@ public class PublicArea extends AppCompatActivity {
         */
         // Create new transaction and add to back stack
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
         transaction.replace(R.id.current_fragment, endFragment);
         if (!addToBackStackTag.equals(""))
             transaction.addToBackStack(addToBackStackTag);

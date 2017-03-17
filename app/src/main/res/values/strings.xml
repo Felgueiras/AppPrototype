@@ -200,5 +200,6 @@
     <string name="sessionResumeInformation">sessionResumeInformation</string>
     <string name="patientProgressType">patientProgressType</string>
     <string name="multipleChoiceType">multipleChoiceType</string>
+    <string name="font_fontFamily_medium">sans-serif</string>
 
 </resources>

@@ -5,26 +5,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
-import android.widget.Filter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
-import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
-import com.example.rafael.appprototype.Evaluations.DisplayTest.QuestionMultipleCategoriesIndividualCategory;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.QuestionsListAdapter;
 import com.example.rafael.appprototype.R;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDisplayQuestions.MyViewHolder> {
 
@@ -49,25 +39,27 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
      * Create a View
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private final RadioGroup radioGroup;
+        private final ImageButton right, wrong;
         public TextView questionTextView;
 
         public MyViewHolder(View view) {
             super(view);
             questionTextView = (TextView) view.findViewById(R.id.nameQuestion);
-            radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);
+            // right and wrong button
+            right = (ImageButton) view.findViewById(R.id.rightChoice);
+            wrong = (ImageButton) view.findViewById(R.id.wrongChoice);
         }
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_question_right_wrong_no_stub, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_question_right_wrong_icons, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int questionIndex) {
+    public void onBindViewHolder(final MyViewHolder holder, final int questionIndex) {
         QuestionCategory currentCategory = scaleNonDB.getQuestionsCategories().get(categoryIndex);
 
         // question not in DB
@@ -97,21 +89,21 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
         holder.questionTextView.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
         // detect when choice changed
 
-        holder.radioGroup.clearCheck();
-        holder.radioGroup.setOnCheckedChangeListener(new RightWrongQuestionHandler(questionInDB,
-                adapter,
-                categoryIndex,
-                questionIndex,
-                scaleNonDB));
         // if question is already answered
         if (questionInDB.isAnswered()) {
             ////system.out.println(questionInDB.toString());
             if (questionInDB.getSelectedRightWrong().equals("right")) {
-                holder.radioGroup.check(R.id.rightChoice);
+                holder.right.setImageResource(R.drawable.ic_check_box_black_24dp);
             } else {
-                holder.radioGroup.check(R.id.wrongChoice);
+                holder.wrong.setImageResource(R.drawable.close_box);
             }
         }
+
+        holder.right.setOnClickListener(new RightWrongQuestionHandler(questionInDB,adapter,
+                scaleNonDB,questionIdx, holder.right, holder.wrong));
+        holder.wrong.setOnClickListener(new RightWrongQuestionHandler(questionInDB,adapter,
+                scaleNonDB,questionIdx, holder.right, holder.wrong));
+
     }
 
 

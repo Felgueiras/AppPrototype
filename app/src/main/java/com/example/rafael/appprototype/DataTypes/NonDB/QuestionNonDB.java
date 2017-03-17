@@ -1,12 +1,13 @@
 package com.example.rafael.appprototype.DataTypes.NonDB;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by rafael on 30-09-2016.
  */
-public class QuestionNonDB {
+public class QuestionNonDB implements Serializable {
 
     /**
      * Is this question only for women?

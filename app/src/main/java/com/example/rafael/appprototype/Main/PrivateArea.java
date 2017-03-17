@@ -264,18 +264,20 @@ public class PrivateArea extends AppCompatActivity {
             endFragment.setArguments(args);
         }
         // add Exit transition
-        // TODO transitions are messing up with GraphView
-        /*
-        startFragment.setExitTransition(TransitionInflater.from(
-                this).inflateTransition(android.R.transition.fade));
-        // add Enter transition
-        endFragment.setEnterTransition(TransitionInflater.from(this).
-                inflateTransition(android.R.transition.fade));
-        */
+
+//        startFragment.setExitTransition(TransitionInflater.from(
+//                this).inflateTransition(android.R.transition.fade));
+//        // add Enter transition
+//        endFragment.setEnterTransition(TransitionInflater.from(this).
+//                inflateTransition(android.R.transition.fade));
+
         // Create new transaction and add to back stack
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         currentFragment = getFragmentManager().findFragmentById(R.id.current_fragment);
+//        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
         transaction.remove(currentFragment);
+//        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+//        transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
         transaction.replace(R.id.current_fragment, endFragment);
         if (!addToBackStackTag.equals(""))
             transaction.addToBackStack(addToBackStackTag);

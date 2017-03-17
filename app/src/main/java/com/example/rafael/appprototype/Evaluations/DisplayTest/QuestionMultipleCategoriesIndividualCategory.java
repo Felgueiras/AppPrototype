@@ -32,6 +32,8 @@ public class QuestionMultipleCategoriesIndividualCategory {
     private RecyclerView questionsRecyclerView;
     private TextView categoryTextView;
     private TextView instructions;
+    private ImageButton previous;
+    private ImageButton next;
 
     public QuestionMultipleCategoriesIndividualCategory(LayoutInflater inflater, GeriatricScaleNonDB testNonDB, Activity context, GeriatricScale test, QuestionsListAdapter adapter) {
         this.inflater = inflater;
@@ -55,8 +57,8 @@ public class QuestionMultipleCategoriesIndividualCategory {
         categoryTextView = (TextView) questionView.findViewById(R.id.category);
         instructions = (TextView) questionView.findViewById(R.id.instructions);
         // left and right arrows - switch category
-        ImageButton previous = (ImageButton) questionView.findViewById(R.id.previousCategory);
-        ImageButton next = (ImageButton) questionView.findViewById(R.id.nextCategory);
+        previous = (ImageButton) questionView.findViewById(R.id.previousCategory);
+        next = (ImageButton) questionView.findViewById(R.id.nextCategory);
         // fill the RecyclerView
         questionsRecyclerView = (RecyclerView) questionView.findViewById(R.id.questions);
 
@@ -74,7 +76,7 @@ public class QuestionMultipleCategoriesIndividualCategory {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (categoryIndex < scaleNonDB.getQuestionsCategories().size()-1) {
+                if (categoryIndex < scaleNonDB.getQuestionsCategories().size() - 1) {
                     categoryIndex++;
                     refreshRecycler();
                 }
@@ -106,9 +108,16 @@ public class QuestionMultipleCategoriesIndividualCategory {
         questionsRecyclerView.setAdapter(recyclerAdapter);
 
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
-                layoutManager.getOrientation());
-        questionsRecyclerView.addItemDecoration(dividerItemDecoration);
+        /**
+         * Hide previous/next icons
+         */
+        previous.setVisibility(View.VISIBLE);
+        next.setVisibility(View.VISIBLE);
+        if (categoryIndex == 0) {
+            previous.setVisibility(View.INVISIBLE);
+        }
+        if (categoryIndex == scaleNonDB.getQuestionsCategories().size() - 1) {
+            next.setVisibility(View.INVISIBLE);
+        }
     }
 }

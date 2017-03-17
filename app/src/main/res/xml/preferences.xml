@@ -23,14 +23,14 @@ aceder mais rapidamente à escala a executar"
         android:key="@string/sessionResumeInformation"
         android:summary="Selecione a informação a ver no resumo de uma sessão de AGG"
         android:title="Resumo de sessão" />
-    <ListPreference
-        android:defaultValue="1"
-        android:entries="@array/patientProgressTypes"
-        android:entryValues="@array/patientProgressIndex"
-        android:key="@string/patientProgressType"
-        android:summary="Escolha a forma como o progresso do paciente por escala
-é visualizado"
-        android:title="Progresso do Paciente" />
+    <!--<ListPreference-->
+        <!--android:defaultValue="1"-->
+        <!--android:entries="@array/patientProgressTypes"-->
+        <!--android:entryValues="@array/patientProgressIndex"-->
+        <!--android:key="@string/patientProgressType"-->
+        <!--android:summary="Escolha a forma como o progresso do paciente por escala-->
+<!--é visualizado"-->
+        <!--android:title="Progresso do Paciente" />-->
     <ListPreference
         android:defaultValue="1"
         android:entries="@array/multipleChoiceTypes"

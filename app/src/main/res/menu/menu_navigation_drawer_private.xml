@@ -12,7 +12,7 @@
             android:title="@string/tab_sessions" />
         <item
             android:id="@+id/prescription"
-            android:icon="@drawable/ic_pill"
+            android:icon="@drawable/pill"
             android:title="@string/tab_drug_prescription" />
 
     </group>
@@ -27,6 +27,10 @@
             android:id="@+id/help"
             android:icon="@drawable/ic_help_black_24dp"
             android:title="@string/help" />
+        <item
+            android:id="@+id/cga_guide"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/cga_guide" />
     </group>
 
 
