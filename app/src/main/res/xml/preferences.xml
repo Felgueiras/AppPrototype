@@ -17,7 +17,7 @@ aceder mais rapidamente à escala a executar"
     <!--aceder mais rapidamente à escala a executar"-->
     <!--android:title="Ícones de Escalas" />-->
     <ListPreference
-        android:defaultValue="1"
+        android:defaultValue="3"
         android:entries="@array/sessionResumeInfoNames"
         android:entryValues="@array/sessionResumeInfoIndex"
         android:key="@string/sessionResumeInformation"
