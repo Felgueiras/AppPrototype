@@ -1,18 +1,10 @@
 package com.example.rafael.appprototype;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryGrid;
-import com.example.rafael.appprototype.Main.FragmentTransitions;
 
 public class AboutFragment extends Fragment {
 

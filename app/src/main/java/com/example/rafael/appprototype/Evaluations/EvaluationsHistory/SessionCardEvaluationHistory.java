@@ -19,8 +19,9 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryGrid;
+import com.example.rafael.appprototype.Evaluations.EvaluationsAll;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
+import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.HelpersHandlers.SessionCardHelper;
@@ -30,7 +31,7 @@ import java.util.List;
 
 public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCardEvaluationHistory.MyViewHolder> {
 
-    private final EvaluationsHistoryGrid fragment;
+    private final EvaluationsAll fragment;
     private Activity context;
     /**
      * Data to be displayed.
@@ -62,7 +63,7 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
      * @param sessionsList
      * @param fragment
      */
-    public SessionCardEvaluationHistory(Activity context, List<Session> sessionsList, EvaluationsHistoryGrid fragment) {
+    public SessionCardEvaluationHistory(Activity context, List<Session> sessionsList, EvaluationsAll fragment) {
         this.context = context;
         this.sessionsList = sessionsList;
         this.fragment = fragment;
@@ -74,7 +75,7 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
       View that holds the current evaluation.
      */
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
-        String infoType = SP.getString(context.getResources().getString(R.string.sessionResumeInformation), "1");
+        String infoType = SP.getString(context.getResources().getString(R.string.sessionResumeInformation), "3");
         Log.d("Settings", infoType);
         View evaluationView = null;
         if (infoType.equals("2") || infoType.equals("1")) {
@@ -93,7 +94,7 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
         List<GeriatricScale> scalesFromSession = session.getScalesFromSession();
         Patient patient = session.getPatient();
         if (patient != null) {
-            holder.patientName.setText(patient.getName());
+            holder.patientName.setText(patient.getName()+" - " + DatesHandler.hour(session.getDate()));
             // loading album cover using Glide library
             //Glide.with(context).load(patient.getPicture()).into(holder.photo);
         }

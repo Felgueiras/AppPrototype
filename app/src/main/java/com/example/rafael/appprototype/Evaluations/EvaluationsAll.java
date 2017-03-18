@@ -29,7 +29,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class EvaluationsHistoryGrid extends Fragment {
+public class EvaluationsAll extends Fragment {
 
     private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
     private ListAdapter adapter;
@@ -146,9 +146,9 @@ public class EvaluationsHistoryGrid extends Fragment {
 
 
         private final GridView gridView;
-        private final EvaluationsHistoryGrid fragment;
+        private final EvaluationsAll fragment;
 
-        public DatePickerFragment(GridView gridView, EvaluationsHistoryGrid evaluationsHistoryGrid) {
+        public DatePickerFragment(GridView gridView, EvaluationsAll evaluationsHistoryGrid) {
             this.gridView = gridView;
             this.fragment = evaluationsHistoryGrid;
         }

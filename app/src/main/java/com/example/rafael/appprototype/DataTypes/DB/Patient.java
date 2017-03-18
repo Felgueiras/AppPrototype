@@ -1,6 +1,8 @@
 package com.example.rafael.appprototype.DataTypes.DB;
 
 
+import android.widget.EditText;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -9,8 +11,10 @@ import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by rafael on 15-09-2016.
@@ -49,7 +53,10 @@ public class Patient extends Model implements Serializable {
     @Expose
     @Column(name = "notes")
     private String notes;
-    private boolean firstSession;
+
+    @Expose
+    @Column(name = "processNumber")
+    private String processNumber;
 
     public Patient(String patientsName, int gender, int image) {
         super();
@@ -205,5 +212,30 @@ public class Patient extends Model implements Serializable {
         // get all sessions
         List<Session> sessions = getMany(Session.class, "patient");
         return sessions.size() == 1;
+    }
+
+    public int getAge() {
+        Calendar a = getCalendar(birthDate);
+        Calendar b = getCalendar(Calendar.getInstance().getTime());
+        int diff = b.get(Calendar.YEAR) - a.get(Calendar.YEAR);
+        if (a.get(Calendar.MONTH) > b.get(Calendar.MONTH) ||
+                (a.get(Calendar.MONTH) == b.get(Calendar.MONTH) && a.get(Calendar.DATE) > b.get(Calendar.DATE))) {
+            diff--;
+        }
+        return diff;
+    }
+
+    public static Calendar getCalendar(Date date) {
+        Calendar cal = Calendar.getInstance(Locale.UK);
+        cal.setTime(date);
+        return cal;
+    }
+
+    public void setProcessNumber(String processNumber) {
+        this.processNumber = processNumber;
+    }
+
+    public String getProcessNumber() {
+        return processNumber;
     }
 }

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryGrid;
+import com.example.rafael.appprototype.Evaluations.EvaluationsAll;
 import com.example.rafael.appprototype.R;
 
 import java.util.Date;
@@ -26,7 +26,7 @@ import java.util.List;
  * Show all the Evaluations for a single day.
  */
 public class ShowEvaluationsSingleDay extends BaseAdapter {
-    private final EvaluationsHistoryGrid fragment;
+    private final EvaluationsAll fragment;
     private final Date day;
     Activity context;
     LayoutInflater inflater;
@@ -34,7 +34,7 @@ public class ShowEvaluationsSingleDay extends BaseAdapter {
     private RecyclerView recyclerView;
     private SessionCardEvaluationHistory adapter;
 
-    public ShowEvaluationsSingleDay(Activity context, EvaluationsHistoryGrid evaluationsHistoryGrid, Date day) {
+    public ShowEvaluationsSingleDay(Activity context, EvaluationsAll evaluationsHistoryGrid, Date day) {
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.fragment = evaluationsHistoryGrid;

@@ -102,7 +102,7 @@ public class CGAPublic extends Fragment {
         else {
             // create a new session
             createNewSession();
-            addTestsToSession();
+            addScalesToSession();
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.select_patient_gender);
@@ -236,20 +236,20 @@ public class CGAPublic extends Fragment {
     /**
      * Add Tests to a Session
      */
-    private void addTestsToSession() {
+    private void addScalesToSession() {
         ArrayList<GeriatricScaleNonDB> testsNonDB = Scales.getAllScales();
         for (GeriatricScaleNonDB testNonDB : testsNonDB) {
-            GeriatricScale test = new GeriatricScale();
-            test.setGuid(session.getGuid() + "-" + testNonDB.getScaleName());
-            test.setTestName(testNonDB.getScaleName());
-            test.setShortName(testNonDB.getShortName());
-            test.setArea(testNonDB.getArea());
-            test.setSession(session);
-            test.setDescription(testNonDB.getDescription());
+            GeriatricScale scale = new GeriatricScale();
+            scale.setGuid(session.getGuid() + "-" + testNonDB.getScaleName());
+            scale.setTestName(testNonDB.getScaleName());
+            scale.setShortName(testNonDB.getShortName());
+            scale.setArea(testNonDB.getArea());
+            scale.setSession(session);
+            scale.setDescription(testNonDB.getDescription());
             if (testNonDB.isSingleQuestion())
-                test.setSingleQuestion(true);
-            test.setAlreadyOpened(false);
-            test.save();
+                scale.setSingleQuestion(true);
+            scale.setAlreadyOpened(false);
+            scale.save();
         }
     }
 

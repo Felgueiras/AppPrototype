@@ -59,7 +59,6 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
         /*
       Patient which has these NewEvaluationPrivate.
      */
-        Patient patient1 = patient;
         this.fragment = patientSessionsFragment;
     }
 
@@ -74,7 +73,7 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         Session session = sessions.get(position);
-        holder.date.setText(DatesHandler.dateToStringWithoutHour(session.getDate()));
+        holder.date.setText(DatesHandler.dateToStringWithHour(session.getDate()));
         List<GeriatricScale> sessionScales = sessions.get(position).getScalesFromSession();
 
         holder.testsList.setHasFixedSize(true);

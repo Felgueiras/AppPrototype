@@ -14,7 +14,7 @@ import android.widget.ImageView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryGrid;
+import com.example.rafael.appprototype.Evaluations.EvaluationsAll;
 import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
@@ -54,7 +54,7 @@ public class SessionCardHelper implements View.OnClickListener {
         /**
          * Inflate menu depending on the fragment.
          */
-        if (fragment instanceof EvaluationsHistoryGrid)
+        if (fragment instanceof EvaluationsAll)
             inflater.inflate(R.menu.menu_session_card_session_list, popup.getMenu());
         else
         {
@@ -92,8 +92,8 @@ public class SessionCardHelper implements View.OnClickListener {
                                     // refresh the adapter
                                     if (fragment instanceof PatientSessionsFragment)
                                         ((PatientSessionsFragment) fragment).removeSession(position);
-                                    else if (fragment instanceof EvaluationsHistoryGrid)
-                                        ((EvaluationsHistoryGrid) fragment).removeSession(position);
+                                    else if (fragment instanceof EvaluationsAll)
+                                        ((EvaluationsAll) fragment).removeSession(position);
                                 }
                             });
                     alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",

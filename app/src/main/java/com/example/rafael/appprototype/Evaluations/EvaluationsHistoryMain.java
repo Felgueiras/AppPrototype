@@ -54,7 +54,7 @@ public class EvaluationsHistoryMain extends Fragment {
             args.putString(EmptyStateFragment.MESSAGE, getResources().getString(R.string.no_sessions_history));
             fragment.setArguments(args);
         } else {
-            fragment = new EvaluationsHistoryGrid();
+            fragment = new EvaluationsAll();
         }
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.evaluation_history_frame_layout);
         if (currentFragment != null)

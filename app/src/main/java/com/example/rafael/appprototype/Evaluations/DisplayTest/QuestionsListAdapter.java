@@ -551,7 +551,7 @@ public class QuestionsListAdapter extends BaseAdapter {
 
         // show all or click and open AlertDialog to choose option
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
-        String multipleChoiceType = SP.getString(context.getResources().getString(R.string.multipleChoiceType), "1");
+        String multipleChoiceType = SP.getString(context.getResources().getString(R.string.multipleChoiceType), "2");
         Log.d("Multiple", multipleChoiceType);
         if (multipleChoiceType.equals("1")) {
             return multipleChoiceShowAllOptions(currentQuestionNonDB, position);
@@ -735,25 +735,20 @@ public class QuestionsListAdapter extends BaseAdapter {
             }
         }
 
-        // cancel button
-        builderSingle.setNegativeButton("cancel",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
         final Holder holder = new Holder();
         holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
         holder.question.setText(questionText);
 
+        // check if already answered
+        if (question.isAnswered()) {
+            holder.question.setBackgroundResource(R.color.question_answered);
+        }
 
         final Question finalQuestion = question;
         final QuestionsListAdapter adapter = this;
         builderSingle.setAdapter(arrayAdapter,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int selectedAnswer) {
-                        Log.d("Selected Item : ", arrayAdapter.getItem(selectedAnswer));
                         MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex);
                         multipleChoiceHandler.selectedFromAlertDialog(selectedAnswer);
                         holder.question.setBackgroundResource(R.color.question_answered);

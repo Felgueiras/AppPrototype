@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ViewPatients;
+package com.example.rafael.appprototype.Patients.Favorite;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -22,14 +22,14 @@ import java.util.ArrayList;
 /**
  * Created by rafael on 03-10-2016.
  */
-public class FavoritePatientsGrid extends BaseAdapter {
+public class FavoritePatientsSingleVersion2 extends BaseAdapter {
     /**
      * All the Patients
      */
     private ArrayList<Patient> patients;
     Activity context;
 
-    public FavoritePatientsGrid(Activity context, ArrayList<Patient> patients) {
+    public FavoritePatientsSingleVersion2(Activity context, ArrayList<Patient> patients) {
         this.context = context;
         this.patients = patients;
     }
@@ -40,12 +40,17 @@ public class FavoritePatientsGrid extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // each view is a Fragment layout that holds a Fragment with a Recycler View inside
-        View card = inflater.inflate(R.layout.patient_card_grid, null);
+        View card = inflater.inflate(R.layout.patient_card_grid_2, null);
 
-        ImageView icon = (ImageView) card.findViewById(R.id.patientIcon);
+//        ImageView icon = (ImageView) card.findViewById(R.id.patientIcon);
         final TextView name = (TextView) card.findViewById(R.id.patientName);
+        final TextView nameAbbreviation = (TextView) card.findViewById(R.id.patientNameAbbreviation);
+
+
+
 
         name.setText(patient.getName());
+        nameAbbreviation.setText(patient.getName().charAt(0)+"");
         // holder.type.setText(patient.getAge());
 
 
@@ -53,15 +58,15 @@ public class FavoritePatientsGrid extends BaseAdapter {
         //Glide.with(context).load(patient.getPicture()).into(holder.icon);
 
         // add on click listener for the icon
-        switch (patient.getGender())
-        {
-            case Constants.MALE:
-                icon.setImageResource(R.drawable.male);
-                break;
-            case Constants.FEMALE:
-                icon.setImageResource(R.drawable.female);
-                break;
-        }
+//        switch (patient.getGender())
+//        {
+//            case Constants.MALE:
+//                icon.setImageResource(R.drawable.male);
+//                break;
+//            case Constants.FEMALE:
+//                icon.setImageResource(R.drawable.female);
+//                break;
+//        }
 
 
         View.OnClickListener clickListener =  new View.OnClickListener() {
@@ -69,12 +74,8 @@ public class FavoritePatientsGrid extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                /**
-                 * Pick a patient to be associated with a Session.
-                 */
 
 
-                // TODO add shared elements for transitions
                 Fragment endFragment = new ViewSinglePatientInfo();
                     /*
                     endFragment.setSharedElementReturnTransition(TransitionInflater.from(
@@ -98,7 +99,8 @@ public class FavoritePatientsGrid extends BaseAdapter {
         };
 
         name.setOnClickListener(clickListener);
-        icon.setOnClickListener(clickListener);
+        nameAbbreviation.setOnClickListener(clickListener);
+//        icon.setOnClickListener(clickListener);
 
 
 

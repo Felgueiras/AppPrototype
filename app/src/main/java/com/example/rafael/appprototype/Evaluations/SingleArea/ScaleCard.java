@@ -183,7 +183,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
                 if (finalCurrentTest.getScaleName().equals(Constants.test_name_mini_nutritional_assessment_global)) {
                     // check if triagem is already answered
-                    Log.d("Nutritional", "Global pressed");
+
 
                     GeriatricScale triagem = session.getScaleByName(Constants.test_name_mini_nutritional_assessment_triagem);
                     if (!triagem.isCompleted()) {

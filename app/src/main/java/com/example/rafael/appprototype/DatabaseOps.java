@@ -131,7 +131,7 @@ public class DatabaseOps {
             // create patients
             Patient patient = new Patient();
             patient.setName(aPatientsMale);
-
+            patient.setProcessNumber(random.nextInt(1000)+"");
             patient.setBirthDate(DatesHandler.stringToDate("01-12-1920"));
             patient.setGuid("patient-" + aPatientsMale);
             patient.setAddress(addresses[random.nextInt(addresses.length)]);
@@ -147,6 +147,7 @@ public class DatabaseOps {
             // create patients
             Patient patient = new Patient();
             patient.setName(aPatientsFemale);
+            patient.setProcessNumber(random.nextInt(1000)+"");
             patient.setBirthDate(DatesHandler.stringToDate("01-12-1920"));
             patient.setGuid("patient-" + aPatientsFemale);
             patient.setAddress(addresses[random.nextInt(addresses.length)]);

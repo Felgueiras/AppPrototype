@@ -1,10 +1,14 @@
-- nutrition - global
-- favorites as grid (experience)
+- feedback patient eliminated
+- order by name (problem with Óscar)
 
+- list scroll (sessions list)
+- patients list scroll by first letter name
 - use images about areas to be more interesting (CGAAreas)
 - rever histórico de pacientes, mostrar o último em grande plano
-- list scroll (sessions list)
 - table with colours
+
+- app podia guardar coisas que normalmente os médicos guardam noutras apps, guardando os dados,
+  ficariam todos no mesmo ponto
 - folstein linguagem em várias categorias
 - guardar a última sessão, pra poder adicioná-la, ao criar uma nova sem paciente diz "a ultima vai ser descartada, sim não"
 
@@ -12,10 +16,10 @@
 - addTabLayout to app_bar_navigation_drawer
 - list position in questions list
 - list position in PatientProgress
-- refresh activity when changing sessings
-- FAB à frente da lista de sessões
 - search view destacada
 - physical examination
 - setup unlock pattern
 - store prescriptions for a patient?
 - multi-user
+- refresh activity when changing settings
+- replace ActiveAndroid for other

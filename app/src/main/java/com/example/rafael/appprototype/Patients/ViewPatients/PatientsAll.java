@@ -25,6 +25,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
 import com.example.rafael.appprototype.R;
+import com.futuremind.recyclerviewfastscroll.FastScroller;
 
 import java.util.ArrayList;
 
@@ -101,20 +102,22 @@ public class PatientsAll extends Fragment {
 
         // fill the RecyclerView
         patientsRecyclerView = (RecyclerView) view.findViewById(R.id.patients_recycler_view);
+        FastScroller fastScroller = (FastScroller) view.findViewById(R.id.fastscroll);
 
         // display card for each Patientndroid rec
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         patientsRecyclerView.setLayoutManager(mLayoutManager);
-        patientsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        patientsRecyclerView.setItemAnimator(new DefaultItemAnimator());
         adapter = new PatientCard(getActivity(), patients);
         patientsRecyclerView.setAdapter(adapter);
 
+        fastScroller.setRecyclerView(patientsRecyclerView);
 
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(),
-                layoutManager.getOrientation());
-        patientsRecyclerView.addItemDecoration(dividerItemDecoration);
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(),
+//                layoutManager.getOrientation());
+//        patientsRecyclerView.addItemDecoration(dividerItemDecoration);
 
 
         // FAB

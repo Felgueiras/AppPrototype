@@ -3,14 +3,19 @@ package com.example.rafael.appprototype.Patients.ViewPatients;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
@@ -18,10 +23,11 @@ import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.R;
+import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
 import java.util.ArrayList;
 
-public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> implements Filterable {
+public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> implements Filterable , SectionTitleProvider {
 
     private final ArrayList<Patient> filteredList;
     private Activity context;
@@ -38,11 +44,18 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
         return patientsFilter;
     }
 
+    @Override
+    public String getSectionTitle(int position) {
+        //this String will be shown in a bubble for specified position
+        Log.d("Fast","Called");
+        return "P";
+    }
+
     /**
      * Create a View
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private final LinearLayout card;
+        private final RelativeLayout card;
         public TextView name, age;
         public ImageView icon, overflow;
 
@@ -50,7 +63,8 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
             super(view);
             name = (TextView) view.findViewById(R.id.patientName);
             icon = (ImageView) view.findViewById(R.id.patientIcon);
-            card = (LinearLayout) view.findViewById(R.id.patientCard);
+            card = (RelativeLayout) view.findViewById(R.id.patientCard);
+//            overflow = (ImageView) view.findViewById(R.id.overflow);
         }
     }
 
@@ -125,26 +139,84 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
         holder.icon.setOnClickListener(clickListener);
 
 
-        /*
-        holder.overflow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPopupMenu(holder.overflow);
-            }
-        });
-        */
+//        holder.overflow.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showPopupMenu(holder.overflow, patient);
+//            }
+//        });
+
     }
 
     /**
      * Showing popup menu when tapping on 3 dots
      */
-    private void showPopupMenu(View view) {
-//        // inflate menu
-//        PopupMenu popup = new PopupMenu(context, view);
-//        MenuInflater inflater = popup.getMenuInflater();
-//        inflater.inflate(R.menu.menu_album, popup.getMenu());
-//        popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
-//        popup.show();
+    private void showPopupMenu(View view, Patient patient) {
+        // inflate menu
+        PopupMenu popup = new PopupMenu(context, view);
+        MenuInflater inflater = popup.getMenuInflater();
+        /**
+         * Inflate menu depending on the fragment.
+         */
+
+        inflater.inflate(R.menu.menu_patient_card, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(new MyMenuItemClickListener(view, patient));
+        popup.show();
+    }
+
+    class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
+
+        private final View view;
+        private final Patient patient;
+
+        public MyMenuItemClickListener(View view, Patient position) {
+            this.view = view;
+            this.patient = position;
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.evaluate_patient:
+                    AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+//                    alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
+                    alertDialog.setMessage("Deseja eliminar esta Sessão?");
+//                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    Snackbar.make(view, "Sessão eliminada.", Snackbar.LENGTH_SHORT).show();
+//                                    session.delete();
+//                                    // refresh the adapter
+//                                    if (fragment instanceof PatientSessionsFragment)
+//                                        ((PatientSessionsFragment) fragment).removeSession(patient);
+//                                    else if (fragment instanceof EvaluationsAll)
+//                                        ((EvaluationsAll) fragment).removeSession(patient);
+//                                }
+//                            });
+//                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    Snackbar.make(view, "Ação cancelada", Snackbar.LENGTH_SHORT).show();
+//
+//                                }
+//                            });
+                    alertDialog.show();
+                    return true;
+//                case R.id.session_go_patient_profile:
+//                    Fragment endFragment = new ViewSinglePatientInfo();
+//
+//                    Bundle args = new Bundle();
+//                    args.putSerializable(ViewSinglePatientInfo.PATIENT, session.getPatient());
+//                    ((PrivateArea) context).replaceFragmentSharedElements(endFragment,
+//                            args,
+//                            Constants.tag_view_patient_info_records_from_sessions_list,
+//                            null);
+//                    break;
+                default:
+            }
+            return false;
+        }
     }
 
 

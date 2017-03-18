@@ -108,23 +108,23 @@ public class ProgressScalesForAreaTable extends RecyclerView.Adapter<ProgressSca
                 /**
                  * View progress in detail.
                  */
-                table.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // Create new fragment and transaction
-                        Fragment newFragment = new ProgressDetail();
-                        // add arguments
-                        Bundle bundle = new Bundle();
-                        bundle.putString(ProgressDetail.SCALE, currentScale);
-                        bundle.putSerializable(ProgressDetail.PATIENT, patient);
-                        bundle.putSerializable(ProgressDetail.SCALE_INFO, scale);
-                        newFragment.setArguments(bundle);
-                        // setup the transaction
-                        FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
-                        transaction.replace(R.id.current_fragment, newFragment);
-                        transaction.addToBackStack(Constants.tag_progress_detail).commit();
-                    }
-                });
+//                table.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        // Create new fragment and transaction
+//                        Fragment newFragment = new ProgressDetail();
+//                        // add arguments
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString(ProgressDetail.SCALE, currentScale);
+//                        bundle.putSerializable(ProgressDetail.PATIENT, patient);
+//                        bundle.putSerializable(ProgressDetail.SCALE_INFO, scale);
+//                        newFragment.setArguments(bundle);
+//                        // setup the transaction
+//                        FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
+//                        transaction.replace(R.id.current_fragment, newFragment);
+//                        transaction.addToBackStack(Constants.tag_progress_detail).commit();
+//                    }
+//                });
             }
             // delete other text
             ViewManager parentView = (ViewManager) holder.testName.getParent();

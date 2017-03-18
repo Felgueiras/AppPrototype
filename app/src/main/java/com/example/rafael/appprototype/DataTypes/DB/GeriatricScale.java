@@ -346,7 +346,9 @@ public class GeriatricScale extends Model implements Serializable {
             // check if triagem is already answered
             Log.d("Nutritional", "Global pressed");
 
-            GeriatricScale triagem = new Session().getScaleByName(Constants.test_name_mini_nutritional_assessment_triagem);
+            ArrayList<GeriatricScale> allScales = GeriatricScale.getAllScales();
+
+            GeriatricScale triagem = session.getScaleByName(Constants.test_name_mini_nutritional_assessment_triagem);
             res += triagem.generateTestResult();
         }
         if (testName.equals(Constants.test_name_set_set)) {

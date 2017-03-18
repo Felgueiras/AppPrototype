@@ -25,15 +25,22 @@
             android:id="@+id/patientAge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
-            android:text="Patient age" />
+            android:textSize="@dimen/patient_profile_smartphone"
+            android:text="Birth date" />
 
         <TextView
             android:id="@+id/patientAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
+            android:textSize="@dimen/patient_profile_smartphone"
             android:text="Patient address" />
+
+        <TextView
+            android:id="@+id/processNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/patient_profile_smartphone"
+            android:text="Process number" />
 
         <Button
             android:id="@+id/patientEvolution"

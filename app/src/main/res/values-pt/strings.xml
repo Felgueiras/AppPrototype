@@ -277,4 +277,7 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     Quer registar-se agora?</string>
     <string name="register_now">Registar</string>
     <string name="register_later">Mais tarde</string>
+    <string name="evaluate_patient">Avaliar o paciente</string>
+    <string name="hospitalProcessNumber">Nº processo hospitalar</string>
+    <string name="create_patient_error_process_number">Precisa de fornecer um nº de processo hospitalar</string>
 </resources>

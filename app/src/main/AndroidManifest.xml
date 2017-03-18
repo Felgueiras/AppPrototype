@@ -29,22 +29,20 @@
             android:value="1" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="com.example.rafael.appprototype.DataTypes.DB.Patient,                                      com.example.rafael.appprototype.DataTypes.DB.FreeTextField,                          com.example.rafael.appprototype.DataTypes.DB.Session,             com.example.rafael.appprototype.DataTypes.DB.GeriatricScale,             com.example.rafael.appprototype.DataTypes.DB.Scoring,             com.example.rafael.appprototype.DataTypes.DB.Grading,             com.example.rafael.appprototype.DataTypes.DB.Question,             com.example.rafael.appprototype.DataTypes.DB.Choice" />
+            android:value="com.example.rafael.appprototype.DataTypes.DB.Patient,
+                           com.example.rafael.appprototype.DataTypes.DB.FreeTextField,
+                           com.example.rafael.appprototype.DataTypes.DB.Session,
+                           com.example.rafael.appprototype.DataTypes.DB.GeriatricScale,
+                           com.example.rafael.appprototype.DataTypes.DB.Scoring,
+                           com.example.rafael.appprototype.DataTypes.DB.Grading,
+                           com.example.rafael.appprototype.DataTypes.DB.Question,
+                           com.example.rafael.appprototype.DataTypes.DB.Choice" />
 
         <!-- Intro -->
         <activity
             android:name=".Introduction.MyIntro"
-            android:theme="@style/FullscreenTheme"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Tutorial.SearchableActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".Main.PublicArea"
             android:screenOrientation="portrait">

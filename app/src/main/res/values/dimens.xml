@@ -29,4 +29,5 @@
     <dimen name="search_view_inset">10dp</dimen>
     <dimen name="subText">15dp</dimen>
     <dimen name="tab_label">14sp</dimen>
+    <dimen name="patient_profile_smartphone">20sp</dimen>
 </resources>

@@ -7,126 +7,153 @@
     android:padding="10dp"
     tools:context=".Patients.NewPatient.CreatePatient">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/name"
-            style="@style/header1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nome" />
-
-        <EditText
-            android:id="@+id/patientName"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/name"
-            android:hint="          " />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/birthDate"
-            android:layout_below="@id/patientName"
-            style="@style/header1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Data de nascimento" />
-
-
-        <LinearLayout
-            android:layout_below="@+id/birthDate"
-            android:id="@+id/patient_birth_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/name"
+                style="@style/header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nome" />
 
             <EditText
-                android:id="@+id/birth_date_day"
-                android:hint="dia"
+                android:id="@+id/patientName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name"
+                android:hint="          " />
+
+            <TextView
+                android:id="@+id/birthDate"
+                style="@style/header1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"/>
+                android:layout_below="@id/patientName"
+                android:text="Data de nascimento" />
+
+
+            <LinearLayout
+                android:id="@+id/patient_birth_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/birthDate"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/birth_date_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="dia"
+                    android:inputType="number" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/" />
+
+                <EditText
+                    android:id="@+id/birth_date_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="mês"
+                    android:inputType="number" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/" />
+
+                <EditText
+                    android:id="@+id/birth_date_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="ano"
+                    android:inputType="number" />
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/patientPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/person" />
+
+
+            <!-- Gender-->
+            <TextView
+                android:id="@+id/gender"
+                style="@style/header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/patient_birth_date"
+                android:text="Género" />
+
+            <RadioGroup
+                android:id="@+id/myRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gender"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/maleButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/male"
+                    android:textAlignment="center" />
+
+                <RadioButton
+                    android:id="@+id/femaleButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/female"
+                    android:textAlignment="center" />
+            </RadioGroup>
+
+            <!-- address -->
+            <TextView
+                android:id="@+id/address"
+                style="@style/header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/myRadioGroup"
+                android:layout_marginTop="10dp"
+                android:text="@string/address" />
+
             <EditText
-                android:id="@+id/birth_date_month"
-                android:hint="mês"
+                android:id="@+id/addressText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/address"
+                android:hint="          " />
+
+            <!-- hospital process number -->
+            <TextView
+                android:id="@+id/processNumberText"
+                style="@style/header1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"/>
+                android:layout_below="@id/addressText"
+                android:layout_marginTop="10dp"
+                android:text="@string/hospitalProcessNumber" />
+
             <EditText
-                android:id="@+id/birth_date_year"
-                android:hint="ano"
-                android:layout_width="wrap_content"
+                android:id="@+id/processNumber"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"/>
-        </LinearLayout>
+                android:layout_below="@id/processNumberText"
+                android:hint="          "
+                android:inputType="number" />
+        </RelativeLayout>
 
+    </ScrollView>
 
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/patient_birth_date"
-            android:text="" />
-
-        <ImageView
-            android:id="@+id/patientPhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/person" />
-
-
-        <!-- Gender-->
-        <TextView
-            android:id="@+id/gender"
-            style="@style/header1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/date"
-            android:text="Género" />
-
-        <RadioGroup
-            android:id="@+id/myRadioGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/gender"
-            android:layout_toEndOf="@id/gender"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/maleButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/male"
-                android:textAlignment="center" />
-
-            <RadioButton
-                android:id="@+id/femaleButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/female"
-                android:textAlignment="center" />
-        </RadioGroup>
-
-        <!-- address -->
-        <TextView
-            android:id="@+id/address"
-            style="@style/header1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/myRadioGroup"
-            android:layout_marginTop="10dp"
-            android:text="@string/address" />
-
-        <EditText
-            android:id="@+id/addressText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/address"
-            android:hint="          " />
-
-
-    </RelativeLayout>
 
 </RelativeLayout>

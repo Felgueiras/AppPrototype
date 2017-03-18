@@ -35,6 +35,13 @@
             android:textSize="25dp"
             android:text="Patient address" />
 
+        <TextView
+            android:id="@+id/processNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:text="Process number" />
+
         <ImageView
             android:background="@color/album_title"
             android:id="@+id/patientPhoto"

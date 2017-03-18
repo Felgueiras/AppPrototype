@@ -31,8 +31,6 @@ public class ReviewSingleScaleFragment extends Fragment {
     private GeriatricScale test;
 
 
-
-
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {

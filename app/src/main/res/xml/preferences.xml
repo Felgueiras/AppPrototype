@@ -32,7 +32,7 @@ aceder mais rapidamente à escala a executar"
 <!--é visualizado"-->
         <!--android:title="Progresso do Paciente" />-->
     <ListPreference
-        android:defaultValue="1"
+        android:defaultValue="2"
         android:entries="@array/multipleChoiceTypes"
         android:entryValues="@array/multipleChoiceIndex"
         android:key="@string/multipleChoiceType"

@@ -34,6 +34,8 @@ import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSession
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
 import com.example.rafael.appprototype.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 /**
@@ -76,7 +78,7 @@ public class ViewSinglePatientInfo extends Fragment {
         // Set up the ViewPager with the sections adapter.
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.container);
         viewPager.setAdapter(mSectionsPagerAdapter);
-        viewPager.setCurrentItem(Constants.vpPatientsPage);
+        viewPager.setCurrentItem(0);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -111,11 +113,13 @@ public class ViewSinglePatientInfo extends Fragment {
         ImageView patientPhoto = (ImageView) view.findViewById(R.id.patientPhoto);
         Button patientProgress = (Button) view.findViewById(R.id.patientEvolution);
         Button erasePatient = (Button) view.findViewById(R.id.erasePatient);
+        TextView processNumber = (TextView) view.findViewById(R.id.processNumber);
 
         // set Patient infos
         //patientName.setText(patient.getName());
-        patientBirthDate.setText(DatesHandler.dateToStringWithoutHour(patient.getBirthDate()) + "");
-        patientAddress.setText(patient.getAddress());
+        patientBirthDate.setText(DatesHandler.dateToStringWithoutHour(patient.getBirthDate()) + " - " + patient.getAge()+" anos");
+        patientAddress.setText("Morada: " + patient.getAddress());
+        processNumber.setText("Processo nº " + patient.getProcessNumber());
         //patientPhoto.setImageResource(patient.getPicture());
         switch (patient.getGender()) {
             case Constants.MALE:
