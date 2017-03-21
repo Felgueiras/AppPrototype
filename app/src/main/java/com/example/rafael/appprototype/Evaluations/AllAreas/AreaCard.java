@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,7 +23,6 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivate;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublic;
-import com.example.rafael.appprototype.Prescription.Stopp.StoppDrugIssuesAdapter;
 import com.example.rafael.appprototype.R;
 
 import java.io.Serializable;
@@ -159,7 +157,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
                     if (patient != null)
                         bundle.putSerializable(CGAAreaPrivate.PATIENT, patient);
 
-                    bundle.putSerializable(CGAAreaPrivate.sessionObject, session);
+                    bundle.putSerializable(CGAAreaPrivate.SESSION, session);
                     bundle.putString(CGAAreaPrivate.CGA_AREA, selectedArea);
                     newFragment.setArguments(bundle);
                     // setup the transaction

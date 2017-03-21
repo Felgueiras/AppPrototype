@@ -72,8 +72,8 @@ public class Constants {
     public static final String tag_review_session_public = "tag_review_session_public";
     public static final String tag_review_session_from_patient_profile = "tag_review_session_from_patient_profile";
     public static final String tag_review_test = "tag_review_test";
-    public static String tag_display_single_area_public = "tag_display_single_area_public";
-    public static String tag_display_single_area_private = "tag_display_single_area_private";
+    public static final String tag_display_single_area_public = "tag_display_single_area_public";
+    public static final String tag_display_single_area_private = "tag_display_single_area_private";
     // drug prescription
     public static final String tag_view_drug_info = "tag_view_drug_info";
     public static final String tag_pick_patient = "tag_pick_patient";
@@ -85,7 +85,6 @@ public class Constants {
     public static final String fragment_show_patients = "showPatients";
     public static final String fragment_sessions = "sessions";
     public static final String fragment_drug_prescription = "drugPrescription";
-    public static boolean selectPatient = false;
     /**
      * Current Session ID.
      */
@@ -203,4 +202,5 @@ public class Constants {
     public static HashMap<String, Bundle> patientsSessionsBundle = new HashMap<>();
     public static Bundle sessionsListBundle;
     public static int sessionsGridViewIndex;
+    public static String create_session_permitted = "create_session_permitted";
 }

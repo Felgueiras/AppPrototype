@@ -1,7 +1,21 @@
+- review stack
+- button used to open popup menu bigger (tablet)
+- button to create new patient more visible (tablet)
+- select multiple sessions to erase (just for fun)
+- fluid session scroll
+- save list scroll (sessions list)
+- if session created from list of sessions, go back to lost of sessions after canceling
+
+
+- review patient progress
+- fix iputting birthdate issues
+- Columns for medical condition and risk inside Beers criteria should be separated
+- remove from favorites right from the favorites list
+
+- spelling mistakes?
 - feedback patient eliminated
 - order by name (problem with Óscar)
 
-- list scroll (sessions list)
 - patients list scroll by first letter name
 - use images about areas to be more interesting (CGAAreas)
 - rever histórico de pacientes, mostrar o último em grande plano

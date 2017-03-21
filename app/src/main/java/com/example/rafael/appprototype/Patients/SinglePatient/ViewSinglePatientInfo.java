@@ -27,6 +27,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.EmptyStateFragment;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
+import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Patients.Progress.ProgressMain;
 import com.example.rafael.appprototype.Patients.PatientsMain;
@@ -60,6 +61,8 @@ public class ViewSinglePatientInfo extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        SharedPreferencesHelper.unlockSessionCreation(getActivity());
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.patient_info_main, container, false);
         System.out.println("VIEW SINGLE PATIENT INFO");
@@ -263,9 +266,9 @@ public class ViewSinglePatientInfo extends Fragment {
     private void checkFavorite() {
         MenuItem favoriteItem = menu.findItem(R.id.favorite);
         if (patient.isFavorite())
-            favoriteItem.setIcon(R.drawable.ic_star_border_white_24dp);
-        else
             favoriteItem.setIcon(R.drawable.ic_star_white_24dp);
+        else
+            favoriteItem.setIcon(R.drawable.ic_star_border_black_24dp);
     }
 
     @Override
@@ -277,11 +280,11 @@ public class ViewSinglePatientInfo extends Fragment {
 
                 if (patient.isFavorite()) {
                     Snackbar.make(getView(), R.string.patient_favorite_add, Snackbar.LENGTH_SHORT).show();
-                    item.setIcon(R.drawable.ic_star_border_white_24dp);
+                    item.setIcon(R.drawable.ic_star_white_24dp);
 
                 } else {
                     Snackbar.make(getView(), R.string.patient_favorite_remove, Snackbar.LENGTH_SHORT).show();
-                    item.setIcon(R.drawable.ic_star_white_24dp);
+                    item.setIcon(R.drawable.ic_star_border_black_24dp);
                 }
 
         }

@@ -178,7 +178,7 @@ public class PublicArea extends AppCompatActivity {
         // add arguments
         Bundle bundle = new Bundle();
         bundle.putSerializable(ScaleFragment.testObject, selectedTest);
-        bundle.putSerializable(ScaleFragment.testDBobject, testDB);
+        bundle.putSerializable(ScaleFragment.SCALE, testDB);
         Patient patient = testDB.getSession().getPatient();
         if (patient != null)
             bundle.putSerializable(ScaleFragment.patient, patient);

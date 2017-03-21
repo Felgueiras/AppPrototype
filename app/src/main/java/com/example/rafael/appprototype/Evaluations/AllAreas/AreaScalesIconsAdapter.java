@@ -97,7 +97,7 @@ public class AreaScalesIconsAdapter extends RecyclerView.Adapter<AreaScalesIcons
                 // add arguments
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(scaleName));
-                bundle.putSerializable(ScaleFragment.testDBobject, currentScaleDB);
+                bundle.putSerializable(ScaleFragment.SCALE, currentScaleDB);
                 bundle.putSerializable(ScaleFragment.CGA_AREA, currentScaleDB.getArea());
                 bundle.putSerializable(ScaleFragment.patient, session.getPatient());
                 newFragment.setArguments(bundle);

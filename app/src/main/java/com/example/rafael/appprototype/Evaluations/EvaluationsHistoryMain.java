@@ -3,16 +3,20 @@ package com.example.rafael.appprototype.Evaluations;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.Constants;
+import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.EmptyStateFragment;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
+import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragment;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
 
@@ -37,7 +41,42 @@ public class EvaluationsHistoryMain extends Fragment {
             public void onClick(View view) {
                 // create a new Session - switch to CreatePatient Fragment
                 Bundle args = null;
-                FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), args, Constants.tag_create_session_no_patient);
+                // TODO select patient, create new patient or no patient
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(R.string.new_session_private);
+
+                //list of items
+                String[] items = new String[]{"Sem paciente", "Com paciente"};
+                builder.setSingleChoiceItems(items, -1,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // item selected logic
+                                if (which == 0) {
+                                    dialog.dismiss();
+                                    FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), null, Constants.tag_create_session_no_patient);
+                                } else {
+                                    // pick patient
+//                                    fragmentManager.popBackStack();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putBoolean(PickPatientFragment.PICK_BEFORE_SESSION, true);
+                                    FragmentTransitions.replaceFragment(getActivity(), new PickPatientFragment(), bundle, Constants.tag_create_session_no_patient);
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
+
+                String negativeText = getString(android.R.string.cancel);
+                builder.setNegativeButton(negativeText,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // negative button logic
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 

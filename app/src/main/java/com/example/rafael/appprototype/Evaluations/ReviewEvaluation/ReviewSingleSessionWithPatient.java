@@ -17,6 +17,7 @@ import android.widget.EditText;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewArea;
+import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.example.rafael.appprototype.R;
 
 
@@ -46,6 +47,8 @@ public class ReviewSingleSessionWithPatient extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        SharedPreferencesHelper.unlockSessionCreation(getActivity());
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_review_session, container, false);

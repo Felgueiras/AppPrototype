@@ -3,6 +3,7 @@ package com.example.rafael.appprototype.HelpersHandlers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
@@ -129,4 +130,24 @@ public class SharedPreferencesHelper {
         }
         return false;
     }
+
+    public static void lockSessionCreation(Activity context) {
+        // set the user as being logged in
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean(Constants.create_session_permitted, false).apply();
+    }
+
+    public static void unlockSessionCreation(Activity context) {
+        Log.d("Stack","unlocking");
+        // set the user as being logged in
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean(Constants.create_session_permitted, true).apply();
+    }
+
+    public static boolean isSessionCreationPermitted(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        return sharedPreferences.getBoolean(Constants.create_session_permitted, true);
+    }
+
+
 }

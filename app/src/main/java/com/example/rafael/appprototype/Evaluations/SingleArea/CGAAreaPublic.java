@@ -1,20 +1,29 @@
 package com.example.rafael.appprototype.Evaluations.SingleArea;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
+import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
+import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.example.rafael.appprototype.R;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
@@ -32,6 +41,7 @@ public class CGAAreaPublic extends Fragment {
     public static String sessionObject = "session";
 
     boolean resuming = false;
+    private Session session;
 
 
     @Override
@@ -43,7 +53,7 @@ public class CGAAreaPublic extends Fragment {
         patientForThisSession = (Patient) args.getSerializable(PATIENT);
 
         String area = args.getString(CGA_AREA);
-        Session session = (Session) args.getSerializable(sessionObject);
+        session = (Session) args.getSerializable(sessionObject);
         getActivity().setTitle(area);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);
@@ -89,45 +99,81 @@ public class CGAAreaPublic extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        inflater.inflate(R.menu.menu_area, menu);
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
+        inflater.inflate(R.menu.menu_cga_public, menu);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.action_info:
-//                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-//                alertDialog.setTitle(area);
-//                // add info about this area
-//                String area_text = null;
-//                switch (area) {
-//                    case Constants.cga_afective:
-//                        area_text = getActivity().getResources().getString(R.string.cga_afective);
-//                        break;
-//                    case Constants.cga_clinical:
-//                        area_text = Constants.clinical_evaluation_tips + "\n" + Constants.clinical_evaluation_what_to_do;
-//                        break;
-//                    case Constants.cga_cognitive:
-//                        area_text = getActivity().getResources().getString(R.string.cga_cognitive);
-//                        break;
-//                    case Constants.cga_functional:
-//                        area_text = getActivity().getResources().getString(R.string.cga_functional);
-//                        break;
-//                    case Constants.cga_nutritional:
-//                        area_text = getActivity().getResources().getString(R.string.cga_nutritional);
-//                        break;
-//                    case Constants.cga_social:
-//                        area_text = getActivity().getResources().getString(R.string.cga_social);
-//                        break;
-//                }
-//                alertDialog.setMessage(area_text);
-//                alertDialog.show();
-//        }
-//        return true;
-//
-//    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.session_finish:
+                finishSession();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    private void finishSession() {
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setTitle(getResources().getString(R.string.session_reset));
+        alertDialog.setMessage(getResources().getString(R.string.session_reset_question));
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // remove session
+                        session.eraseScalesNotCompleted();
+
+                        if (session.getScalesFromSession().size() == 0) {
+                            SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
+
+                            BackStackHandler.clearBackStack();
+                            FragmentManager fragmentManager = getFragmentManager();
+                            Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                            Fragment fragment = new CGAPublicInfo();
+                            fragmentManager.beginTransaction()
+                                    .remove(currentFragment)
+                                    .replace(R.id.current_fragment, fragment)
+                                    .commit();
+                        } else {
+                            Session sessionCopy = session;
+                            SharedPreferencesHelper.resetPublicSession(getActivity(), null);
+
+                            BackStackHandler.clearBackStack();
+
+                            FragmentManager fragmentManager = getFragmentManager();
+//                            fragmentManager.popBackStack();
+                            Bundle args = new Bundle();
+                            args.putSerializable(ReviewSingleSessionNoPatient.SESSION, sessionCopy);
+                            Fragment fragment = new ReviewSingleSessionNoPatient();
+                            fragment.setArguments(args);
+                            Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+//                            fragmentManager.popBackStack();
+                            fragmentManager.beginTransaction()
+                                    .remove(currentFragment)
+                                    .replace(R.id.current_fragment, fragment)
+//                                            .addToBackStack(Constants.tag_review_session_public)
+                                    .commit();
+                        }
+
+                        dialog.dismiss();
+
+                        // Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
+    }
+
 
 }
 

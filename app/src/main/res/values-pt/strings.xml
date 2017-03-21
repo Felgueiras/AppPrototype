@@ -280,4 +280,6 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="evaluate_patient">Avaliar o paciente</string>
     <string name="hospitalProcessNumber">Nº processo hospitalar</string>
     <string name="create_patient_error_process_number">Precisa de fornecer um nº de processo hospitalar</string>
+    <string name="new_session_private">Nova sessão</string>
+    <string name="scale_incomplete">Escala incompleta, deseja retroceder à mesma?</string>
 </resources>

@@ -15,11 +15,13 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
+import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.MyViewHolder> implements Filterable {
 
     private final ArrayList<Patient> filteredList;
+    private final boolean pickBeforeSession;
     private Activity context;
     /**
      * Data to be displayed.
@@ -58,15 +61,16 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
 
     /**
      * Constructor of the SessionCardEvaluationHistory
-     *
-     * @param context
+     *  @param context
      * @param patients
+     * @param pickBeforeSession
      */
-    public PatientCardPicker(Activity context, ArrayList<Patient> patients) {
+    public PatientCardPicker(Activity context, ArrayList<Patient> patients, boolean pickBeforeSession) {
         this.context = context;
         this.patients = patients;
         this.filteredList = new ArrayList<>();
         filteredList.addAll(patients);
+        this.pickBeforeSession = pickBeforeSession;
     }
 
     @Override
@@ -98,49 +102,60 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                 /**
                  * Pick a patient to be associated with a Session.
                  */
+                if(pickBeforeSession)
+                {
+                    /**
+                     * Go to new session with this patient.
+                     */
+                    Bundle args = new Bundle();
+                    args.putSerializable(CGAPrivate.PATIENT, patient);
+                    FragmentTransitions.replaceFragment(context, new CGAPrivate(), args, Constants.tag_create_session_with_patient);
+                }
+                else
+                {
+                    Snackbar.make(v, context.getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
+                    Log.d("Patient", "Selected patient");
+                    // add Patient to Session
+                    String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);
 
-                Constants.selectPatient = false;
-                Snackbar.make(v, context.getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
-                Log.d("Patient", "Selected patient");
-                // add Patient to Session
-                String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);
+                    // get session by ID
+                    Session session = Session.getSessionByID(sessionID);
+                    session.setPatient(patient);
+                    session.eraseScalesNotCompleted();
+                    session.save();
 
-                // get session by ID
-                Session session = Session.getSessionByID(sessionID);
-                session.setPatient(patient);
-                session.eraseScalesNotCompleted();
-                session.save();
+                    // reset current private session
+                    SharedPreferencesHelper.resetPrivateSession(context, "");
 
-                // reset current private session
-                SharedPreferencesHelper.resetPrivateSession(context, "");
-
-                FragmentManager fragmentManager = context.getFragmentManager();
-                Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-                fragmentManager.beginTransaction()
-                        .remove(currentFragment)
-                        .commit();
+                    FragmentManager fragmentManager = context.getFragmentManager();
+                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                    fragmentManager.beginTransaction()
+                            .remove(currentFragment)
+                            .commit();
 //                    fragmentManager.popBackStack();
-                BackStackHandler.clearBackStack();
+                    BackStackHandler.clearBackStack();
 //                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
 //                    fragmentManager.beginTransaction()
 //                            .remove(currentFragment)
 //                            .replace(R.id.current_fragment, new PatientsMain())
 //                            .commit();
-                /**
-                 * Review session created for patient.
-                 */
-                Bundle args = new Bundle();
-                args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
-                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
-                Fragment fragment = new ReviewSingleSessionWithPatient();
+                    /**
+                     * Review session created for patient.
+                     */
+                    Bundle args = new Bundle();
+                    args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
+                    args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+                    Fragment fragment = new ReviewSingleSessionWithPatient();
 
-                fragment.setArguments(args);
-                currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-                fragmentManager.beginTransaction()
-                        .remove(currentFragment)
-                        .replace(R.id.current_fragment, fragment)
-                        .addToBackStack(Constants.tag_review_session)
-                        .commit();
+                    // TODO go to new session with this patient
+                    fragment.setArguments(args);
+                    currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                    fragmentManager.beginTransaction()
+                            .remove(currentFragment)
+                            .replace(R.id.current_fragment, fragment)
+                            .addToBackStack(Constants.tag_review_session)
+                            .commit();
+                }
             }
         });
 

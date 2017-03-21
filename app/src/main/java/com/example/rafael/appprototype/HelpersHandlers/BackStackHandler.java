@@ -3,6 +3,7 @@ package com.example.rafael.appprototype.HelpersHandlers;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -71,11 +72,12 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
             Log.d("Stack", "handleBackButton (tag):" + tag);
             /**
-             * Only pop backstack if changing fragments/screens
+             * Only pop backstack if changing fragments/screens.
              */
             if (!tag.equals(Constants.tag_create_session_no_patient) &&
                     !tag.equals(Constants.tag_create_session_with_patient) &&
-                    !tag.equals(Constants.tag_cga_public)) {
+                    !tag.equals(Constants.tag_cga_public) &&
+                    !tag.equals(Constants.tag_display_session_scale)) {
                 fragmentManager.popBackStack();
             }
 
@@ -84,9 +86,15 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
              */
             if (tag.equals(Constants.tag_display_session_scale)) {
 
+                if (!((ScaleFragment) fr).checkComplete()) {
+                    return;
+                }
+                fragmentManager.popBackStack();
+
+
                 // get the arguments
                 Bundle arguments = fr.getArguments();
-                GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragment.testDBobject);
+                GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragment.SCALE);
                 assert scale != null;
                 scale.setAlreadyOpened(true);
                 scale.save();
@@ -95,7 +103,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
                 if (SharedPreferencesHelper.isLoggedIn(context)) {
                     args = new Bundle();
-                    args.putSerializable(CGAAreaPrivate.sessionObject, session);
+                    args.putSerializable(CGAAreaPrivate.SESSION, session);
                     args.putSerializable(CGAAreaPrivate.PATIENT, patient);
                     args.putSerializable(CGAAreaPrivate.CGA_AREA, arguments.getSerializable(ScaleFragment.CGA_AREA));
                     fragment = new CGAAreaPrivate();
@@ -112,11 +120,11 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 Bundle arguments = fr.getArguments();
                 /**
                  * bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(scaleName));
-                 bundle.putSerializable(ScaleFragment.testDBobject, currentScaleDB);
+                 bundle.putSerializable(ScaleFragment.SCALE, currentScaleDB);
                  bundle.putSerializable(ScaleFragment.CGA_AREA, currentScaleDB.getArea());
                  bundle.putSerializable(ScaleFragment.patient, session.getPatient());
                  */
-                GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragment.testDBobject);
+                GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragment.SCALE);
                 assert scale != null;
                 scale.setAlreadyOpened(true);
                 scale.save();
@@ -129,7 +137,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     fragment = new CGAPrivate();
                 } else {
                     args = new Bundle();
-//                    args.putSerializable(CGAAreaPublic.sessionObject, session);
+//                    args.putSerializable(CGAAreaPublic.SCALE, session);
 //                    args.putSerializable(CGAAreaPublic.PATIENT, patient);
 //                    args.putSerializable(CGAAreaPublic.CGA_AREA, arguments.getSerializable(ScaleFragment.CGA_AREA));
 
@@ -154,7 +162,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 fragment = new CGAPrivate();
                 //Session session = test.getSession();
                 Patient patient = (Patient) arguments.getSerializable(CGAAreaPrivate.PATIENT);
-                //args.putSerializable(CGAPrivate.sessionObject, session);
+                //args.putSerializable(CGAPrivate.SCALE, session);
                 args.putSerializable(CGAPrivate.PATIENT, patient);
             }
             /**
@@ -212,8 +220,11 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
              * Sessions history / review
              */
             else if (tag.equals(Constants.tag_review_session)) {
+                SharedPreferencesHelper.resetPrivateSession(context, "");
                 fragment = new EvaluationsHistoryMain();
             } else if (tag.equals(Constants.tag_review_session_from_patient_profile)) {
+
+                SharedPreferencesHelper.resetPrivateSession(context, "");
 
                 // get the arguments
                 Bundle arguments = fr.getArguments();
@@ -361,8 +372,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             fragmentManager.popBackStack();
             fragment = new PatientsMain();
 
-        } else if (tagCurrent.equals(Constants.tag_create_session_with_patient) ||
-                tagCurrent.equals(Constants.tag_display_single_area_private)) {
+        } else if (tagCurrent.equals(Constants.tag_create_session_with_patient)) {
             FragmentManager.BackStackEntry backEntryPrevious = fragmentManager.getBackStackEntryAt(index - 1);
 
             String tagPrevious = backEntryPrevious.getName();
@@ -390,8 +400,66 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
         } else if (tagCurrent.equals(Constants.tag_create_patient)) {
             fragmentManager.popBackStack();
             fragment = new PatientsMain();
+        } else if (tagCurrent.equals(Constants.tag_display_single_area_private)) {
+            /**
+             * Session saved when viewing an area - go to patient's profile.
+             */
+            // lock session creation
+            SharedPreferencesHelper.lockSessionCreation(context);
+            fragmentManager.popBackStack();
+            fragmentManager.popBackStack();
+            Bundle args = new Bundle();
+            Bundle arguments = fr.getArguments();
+            Session currentSession = (Session) arguments.getSerializable(CGAAreaPrivate.SESSION);
 
+            SharedPreferencesHelper.resetPrivateSession(context, "");
+
+            args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
+            args.putSerializable(ReviewSingleSessionWithPatient.SESSION, currentSession);
+            fragment = new ReviewSingleSessionWithPatient();
+
+            fragment.setArguments(args);
+
+            // Create new transaction and add to back stack
+            FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
+            Fragment currentFragment = context.getFragmentManager().findFragmentById(R.id.current_fragment);
+            transaction.remove(currentFragment);
+            transaction.replace(R.id.current_fragment, fragment);
+            transaction.addToBackStack(Constants.tag_review_session_from_patient_profile);
+            transaction.commit();
+            return;
+        } else if (tagCurrent.equals(Constants.tag_display_session_scale)) {
+            /**
+             * Session saved when viewing a scale - go to patient's profile.
+             */
+            // lock session creation
+            SharedPreferencesHelper.lockSessionCreation(context);
+            fragmentManager.popBackStack();
+            fragmentManager.popBackStack();
+            fragmentManager.popBackStack();
+
+            Bundle args = new Bundle();
+            Bundle arguments = fr.getArguments();
+            GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragment.SCALE);
+
+            SharedPreferencesHelper.resetPrivateSession(context, "");
+
+            args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
+            args.putSerializable(ReviewSingleSessionWithPatient.SESSION, scale.getSession());
+            fragment = new ReviewSingleSessionWithPatient();
+
+            fragment.setArguments(args);
+
+            // Create new transaction and add to back stack
+            FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
+            Fragment currentFragment = context.getFragmentManager().findFragmentById(R.id.current_fragment);
+            transaction.remove(currentFragment);
+            transaction.replace(R.id.current_fragment, fragment);
+            transaction.addToBackStack(Constants.tag_review_session_from_patient_profile);
+            transaction.commit();
+            return;
         }
+
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
         fragmentManager.beginTransaction()
                 .remove(currentFragment)

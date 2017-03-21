@@ -24,7 +24,9 @@ import java.util.ArrayList;
  */
 public class PickPatientFragment extends Fragment {
 
+    public static final String PICK_BEFORE_SESSION = "PICK_BEFORE_SESSION";
     private PatientCardPicker adapter;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,11 +75,16 @@ public class PickPatientFragment extends Fragment {
         // fill the RecyclerView
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
+
+        boolean pickBeforeSession = false;
+        if(getArguments() != null && getArguments().containsKey(PICK_BEFORE_SESSION))
+            pickBeforeSession = getArguments().getBoolean(PICK_BEFORE_SESSION, false);
+
         // create Layout
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        adapter = new PatientCardPicker(getActivity(), patients);
+        adapter = new PatientCardPicker(getActivity(), patients, pickBeforeSession);
         recyclerView.setAdapter(adapter);
 
 //        // FAB

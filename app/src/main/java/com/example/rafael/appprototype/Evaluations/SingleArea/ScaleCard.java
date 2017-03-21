@@ -6,7 +6,6 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -199,7 +198,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                 // add arguments
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(selectedTestName));
-                bundle.putSerializable(ScaleFragment.testDBobject, finalCurrentTest);
+                bundle.putSerializable(ScaleFragment.SCALE, finalCurrentTest);
                 bundle.putSerializable(ScaleFragment.CGA_AREA, area);
                 bundle.putSerializable(ScaleFragment.patient, session.getPatient());
                 newFragment.setArguments(bundle);

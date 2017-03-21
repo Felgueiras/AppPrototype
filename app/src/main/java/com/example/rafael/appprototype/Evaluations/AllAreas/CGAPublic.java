@@ -91,7 +91,7 @@ public class CGAPublic extends Fragment {
         /**
          * Resume an Evaluation.
          */
-        final String sessionID = sharedPreferences.getString(getResources().getString(R.string.saved_session_public), null);
+        final String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(getActivity());
         if (sessionID != null) {
             // get session by ID
             session = Session.getSessionByID(sessionID);
@@ -120,7 +120,7 @@ public class CGAPublic extends Fragment {
                                 Constants.SESSION_GENDER = Constants.FEMALE;
                         }
                     });
-            
+
 
             String positiveText = getString(android.R.string.ok);
             builder.setPositiveButton(positiveText,
