@@ -8,8 +8,6 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -38,7 +36,7 @@ public class PatientsAll extends Fragment {
     public static String selectPatient = "selectPatient";
     private final ViewPager viewPager;
     private final int page;
-    private PatientCard adapter;
+    private PatientCardPatientsList adapter;
     private RecyclerView patientsRecyclerView;
 
     public PatientsAll(ViewPager viewPager, int position) {
@@ -59,7 +57,6 @@ public class PatientsAll extends Fragment {
         if (viewPager.getCurrentItem() == page) {
             menu.clear();
             inflater.inflate(R.menu.menu_search, menu);
-
 
             SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
             SearchView searchView = (SearchView) menu.findItem(R.id.listsearch).getActionView();
@@ -108,7 +105,7 @@ public class PatientsAll extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         patientsRecyclerView.setLayoutManager(mLayoutManager);
 //        patientsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        adapter = new PatientCard(getActivity(), patients);
+        adapter = new PatientCardPatientsList(getActivity(), patients);
         patientsRecyclerView.setAdapter(adapter);
 
         fastScroller.setRecyclerView(patientsRecyclerView);

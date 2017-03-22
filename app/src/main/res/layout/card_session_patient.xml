@@ -16,12 +16,12 @@
         <ImageView
             android:id="@+id/overflow"
             android:layout_marginRight="5dp"
-            android:layout_width="@dimen/ic_album_overflow_width"
-            android:layout_height="@dimen/ic_album_overflow_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/ic_album_overflow_margin_top"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_dots" />
+            card_view:srcCompat="@drawable/ic_close_black_24dp" />
 
         <TextView
             android:id="@+id/recordDate"

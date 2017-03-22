@@ -305,7 +305,7 @@ public class CGAPrivate extends Fragment {
                 // display results in JSON
                 DatabaseOps.displayData(getActivity());
 
-                Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_LONG).show();
                 BackStackHandler.goToPreviousScreen();
                 break;
             case R.id.session_cancel:

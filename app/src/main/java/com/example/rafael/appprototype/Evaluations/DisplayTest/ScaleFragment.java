@@ -238,7 +238,7 @@ public class ScaleFragment extends Fragment {
                 // display results in JSON
                 DatabaseOps.displayData(getActivity());
 
-                Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_LONG).show();
                 BackStackHandler.goToPreviousScreen();
                 break;
             case R.id.session_cancel:
@@ -289,6 +289,7 @@ public class ScaleFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         // remove session
                         session.eraseScalesNotCompleted();
+                        Snackbar.make(getView(),"Sessão terminada",Snackbar.LENGTH_SHORT).show();
 
                         if (session.getScalesFromSession().size() == 0) {
                             SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());

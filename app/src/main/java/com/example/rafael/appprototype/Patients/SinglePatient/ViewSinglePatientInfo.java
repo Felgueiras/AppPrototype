@@ -117,12 +117,12 @@ public class ViewSinglePatientInfo extends Fragment {
         TextView patientAddress = (TextView) view.findViewById(R.id.patientAddress);
         ImageView patientPhoto = (ImageView) view.findViewById(R.id.patientPhoto);
         Button patientProgress = (Button) view.findViewById(R.id.patientEvolution);
-        Button erasePatient = (Button) view.findViewById(R.id.erasePatient);
+//        Button erasePatient = (Button) view.findViewById(R.id.erasePatient);
         TextView processNumber = (TextView) view.findViewById(R.id.processNumber);
 
         // set Patient infos
         //patientName.setText(patient.getName());
-        patientBirthDate.setText(DatesHandler.dateToStringWithoutHour(patient.getBirthDate()) + " - " + patient.getAge()+" anos");
+        patientBirthDate.setText(DatesHandler.dateToStringWithoutHour(patient.getBirthDate()) + " - " + patient.getAge() + " anos");
         patientAddress.setText("Morada: " + patient.getAddress());
         processNumber.setText("Processo nº " + patient.getProcessNumber());
         //patientPhoto.setImageResource(patient.getPicture());
@@ -165,44 +165,44 @@ public class ViewSinglePatientInfo extends Fragment {
         /**
          * Erase current patient.
          */
-        erasePatient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                alertDialog.setTitle(getResources().getString(R.string.patient_erase));
-                alertDialog.setMessage(getResources().getString(R.string.patient_erase_question));
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // remove sessions from patient
-                                ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
-                                for (Session session : sessionsFromPatient) {
-                                    session.delete();
-                                }
-                                patient.delete();
-                                dialog.dismiss();
-
-                                DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-                                Snackbar.make(layout, getResources().getString(R.string.patient_erase_snackbar), Snackbar.LENGTH_SHORT).show();
-
-                                BackStackHandler.clearBackStack();
-                                FragmentManager fragmentManager = getFragmentManager();
-                                Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-                                fragmentManager.beginTransaction()
-                                        .remove(currentFragment)
-                                        .replace(R.id.current_fragment, new PatientsMain())
-                                        .commit();
-                            }
-                        });
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
-            }
-        });
+//        erasePatient.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(final View view) {
+//                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+//                alertDialog.setTitle(getResources().getString(R.string.patient_erase));
+//                alertDialog.setMessage(getResources().getString(R.string.patient_erase_question));
+//                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                // remove sessions from patient
+//                                ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
+//                                for (Session session : sessionsFromPatient) {
+//                                    session.delete();
+//                                }
+//                                patient.delete();
+//                                dialog.dismiss();
+//
+//                                DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+//                                Snackbar.make(layout, getResources().getString(R.string.patient_erase_snackbar), Snackbar.LENGTH_SHORT).show();
+//
+//                                BackStackHandler.clearBackStack();
+//                                FragmentManager fragmentManager = getFragmentManager();
+//                                Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+//                                fragmentManager.beginTransaction()
+//                                        .remove(currentFragment)
+//                                        .replace(R.id.current_fragment, new PatientsMain())
+//                                        .commit();
+//                            }
+//                        });
+//                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        });
+//                alertDialog.show();
+//            }
+//        });
 
         return view;
     }
@@ -283,13 +283,49 @@ public class ViewSinglePatientInfo extends Fragment {
                 patient.save();
 
                 if (patient.isFavorite()) {
-                    Snackbar.make(getView(), R.string.patient_favorite_add, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(getView(), R.string.patient_favorite_add, Snackbar.LENGTH_LONG).show();
                     item.setIcon(R.drawable.ic_star_white_24dp);
 
                 } else {
-                    Snackbar.make(getView(), R.string.patient_favorite_remove, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(getView(), R.string.patient_favorite_remove, Snackbar.LENGTH_LONG).show();
                     item.setIcon(R.drawable.ic_star_border_black_24dp);
                 }
+                break;
+            case R.id.delete:
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                alertDialog.setTitle(getResources().getString(R.string.patient_erase));
+                alertDialog.setMessage(getResources().getString(R.string.patient_erase_question));
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // remove sessions from patient
+                                ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
+                                for (Session session : sessionsFromPatient) {
+                                    session.delete();
+                                }
+                                patient.delete();
+                                dialog.dismiss();
+
+                                DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+                                Snackbar.make(layout, getResources().getString(R.string.patient_erase_snackbar), Snackbar.LENGTH_SHORT).show();
+
+                                BackStackHandler.clearBackStack();
+                                FragmentManager fragmentManager = getFragmentManager();
+                                Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                                fragmentManager.beginTransaction()
+                                        .remove(currentFragment)
+                                        .replace(R.id.current_fragment, new PatientsMain())
+                                        .commit();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+                break;
 
         }
         return true;

@@ -28,7 +28,7 @@ import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
 import java.util.ArrayList;
 
-public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> implements Filterable, SectionTitleProvider {
+public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPatientsList.MyViewHolder> implements Filterable, SectionTitleProvider {
 
     private final ArrayList<Patient> filteredList;
     private Activity context;
@@ -75,7 +75,7 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
      * @param context
      * @param patients
      */
-    public PatientCard(Activity context, ArrayList<Patient> patients) {
+    public PatientCardPatientsList(Activity context, ArrayList<Patient> patients) {
         this.context = context;
         this.patients = patients;
         this.filteredList = new ArrayList<>();
@@ -138,6 +138,15 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
 
         holder.itemView.setOnClickListener(clickListener);
         holder.icon.setOnClickListener(clickListener);
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.d("LongClick","Open");
+                // TODO open alert dialog with options
+                return false;
+            }
+        });
 
 
 //        holder.overflow.setOnClickListener(new View.OnClickListener() {
@@ -230,11 +239,11 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
      * Class that allows for the Patients to be filtered by area.
      */
     private class PatientsFilter extends Filter {
-        private final PatientCard adapter;
+        private final PatientCardPatientsList adapter;
         private final ArrayList<Patient> originalList;
         private final ArrayList<Patient> filteredList;
 
-        public PatientsFilter(PatientCard adapter, ArrayList<Patient> patients) {
+        public PatientsFilter(PatientCardPatientsList adapter, ArrayList<Patient> patients) {
             super();
             this.adapter = adapter;
             this.originalList = new ArrayList<>();

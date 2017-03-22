@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -126,6 +127,8 @@ public class CGAAreaPublic extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         // remove session
                         session.eraseScalesNotCompleted();
+                        Snackbar.make(getView(), "Sessão terminada", Snackbar.LENGTH_SHORT).show();
+
                         SharedPreferencesHelper.lockSessionCreation(getActivity());
 
 

@@ -1,10 +1,28 @@
+- Go back automatically to the scales list when current scale is completed - P6
+- progress icon on top
+- Swipe between scale with multiple categories - P6
+- Swipe gestures to erase Session - P9
+- Long click - P9
+- Swiping Between Detail Views (patient's sessions)
+- If patient not registered, there could be a message about that
+- Clicked info icon instead of scale since it is the only one visual queue - P9
+- register button
+- Use a color code when displaying all the types of criteria associated to a single drug - P9
+- Icon to open pop-up menu not perceptible - P9
+
 - search view destacada
 - button to create new patient more visible (tablet)
-- register button
 - review stack
 - review patient progress
 
-- long click
+- info that session is saved
+- done button instead of arrow?
+- Saving icon is not fully perceptible - P9
+- Mistake user session (after registering) with evaluation session - P7
+- Quantitative result for a Session could be visible in the Session card inside the Patient’s profile - P9
+
+- Hamburger icon to open menu is not very intuitive for users lacking smartphone experience - P6
+
 - fluid session scroll
 - save list scroll (sessions list)
 - if session created from list of sessions, go back to lost of sessions after canceling

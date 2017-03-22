@@ -4,6 +4,12 @@
     tools:context=".Tutorial.Tabs">
     <!-- "Mark Favorite", should appear as action button if possible -->
     <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_delete_white_24dp"
+        android:title="@string/action_delete"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/favorite"
         android:icon="@drawable/ic_favorite_white_24dp"
         android:title="@string/action_favorite"

@@ -284,4 +284,6 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="scale_incomplete">Escala incompleta, deseja retroceder à mesma?</string>
     <string name="action_new_session">Nova sessão AGG</string>
     <string name="action_favorite_remove">Remover dos favoritos</string>
+    <string name="create_patient_error_invalid_birthDate">Data de nascimento inválida</string>
+    <string name="action_delete">remover</string>
 </resources>

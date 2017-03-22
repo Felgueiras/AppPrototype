@@ -64,17 +64,22 @@ public class CreatePatient extends Fragment {
                     Snackbar.make(getView(), R.string.create_patient_error_no_birthDate, Snackbar.LENGTH_SHORT).show();
                     break;
                 }
+                if (Integer.parseInt(dayText) > 31 || Integer.parseInt(monthText) > 12 ) {
+                    Snackbar.make(getView(), R.string.create_patient_error_invalid_birthDate, Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
                 Calendar c = Calendar.getInstance();
                 c.set(Integer.parseInt(yearText),
                         Integer.parseInt(monthText)-1,
                         Integer.parseInt(dayText));
                 Date selectedDate = c.getTime();
-                if (patientAddress.getText().length() == 0) {
-                    Snackbar.make(getView(), R.string.create_patient_error_address, Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
+
                 if (patientGender == null) {
                     Snackbar.make(getView(), R.string.create_patient_error_gender, Snackbar.LENGTH_SHORT).show();
+                    break;
+                }
+                if (patientAddress.getText().length() == 0) {
+                    Snackbar.make(getView(), R.string.create_patient_error_address, Snackbar.LENGTH_SHORT).show();
                     break;
                 }
 

@@ -1,7 +1,10 @@
 package com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +18,7 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.Evaluations.EvaluationsAll;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.SessionScalesAdapterRecycler;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
@@ -33,6 +37,7 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
      * Records from that patient
      */
     private ArrayList<Session> sessions;
+    private Session session;
 
     /**
      * Create a View
@@ -72,7 +77,7 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        Session session = sessions.get(position);
+        session = sessions.get(position);
         holder.date.setText(DatesHandler.dateToStringWithHour(session.getDate()));
         List<GeriatricScale> sessionScales = sessions.get(position).getScalesFromSession();
 
@@ -101,7 +106,32 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
         holder.view.setOnClickListener(cardSelected);
         adapter.setOnClickListener(cardSelected);
 
-        holder.overflow.setOnClickListener(new SessionCardHelper(holder.overflow, position, context, session, fragment));
+        holder.overflow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+//                    alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
+                alertDialog.setMessage("Deseja eliminar esta Sessão?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Snackbar.make(holder.view, "Sessão eliminada.", Snackbar.LENGTH_SHORT).show();
+                                session.delete();
+                                // refresh the adapter
+                                fragment.removeSession(position);
+
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Snackbar.make(holder.view, "Ação cancelada", Snackbar.LENGTH_SHORT).show();
+
+                            }
+                        });
+                alertDialog.show();
+            }
+        });
     }
 
 
