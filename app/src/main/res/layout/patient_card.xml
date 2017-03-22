@@ -29,19 +29,6 @@
         android:transitionName="@string/fragment_text_trans" />
 
 
-    <!--
-    <TextView
-        android:id="@+id/patientAge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/patientName"
-        android:paddingBottom="@dimen/songs_count_padding_bottom"
-        android:paddingLeft="@dimen/album_title_padding"
-        android:paddingRight="@dimen/album_title_padding"
-        android:textSize="@dimen/songs_count"
-        android:text="Patient age"/>
-        -->
-
     <!--<ImageView-->
         <!--android:id="@+id/overflow"-->
         <!--android:layout_width="@dimen/ic_album_overflow_width"-->

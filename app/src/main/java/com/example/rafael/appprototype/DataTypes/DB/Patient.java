@@ -7,11 +7,15 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
+import com.example.rafael.appprototype.HelpersHandlers.StringHelper;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -162,8 +166,19 @@ public class Patient extends Model implements Serializable {
      */
     public static ArrayList<Patient> getAllPatients() {
         List<Patient> list = new Select().from(Patient.class).orderBy("patientName ASC").execute();
+        // order by first name - exclude accents
+
         ArrayList<Patient> patients = new ArrayList<>();
         patients.addAll(list);
+
+
+        Collections.sort(patients, new Comparator<Patient>() {
+            public int compare(Patient o1, Patient o2) {
+                String first = StringHelper.removeAccents(o1.getName());
+                String second = StringHelper.removeAccents(o2.getName());
+                return first.compareTo(second);
+            }
+        });
         return patients;
     }
 

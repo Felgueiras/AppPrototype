@@ -85,6 +85,7 @@ public class CGAPublic extends Fragment {
 
         sharedPreferences = getActivity().getSharedPreferences(getResources().getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
 
+
         Log.d("Session", "Inside CGAPublic");
 
 
@@ -92,6 +93,8 @@ public class CGAPublic extends Fragment {
          * Resume an Evaluation.
          */
         final String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(getActivity());
+        boolean canCreateSessions = SharedPreferencesHelper.isSessionCreationPermitted(getActivity());
+
         if (sessionID != null) {
             // get session by ID
             session = Session.getSessionByID(sessionID);
@@ -100,43 +103,45 @@ public class CGAPublic extends Fragment {
          * Create a new one.
          */
         else {
-            // create a new session
-            createNewSession();
-            addScalesToSession();
+            if (canCreateSessions) {
+                // create a new session
+                createNewSession();
+                addScalesToSession();
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(R.string.select_patient_gender);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(R.string.select_patient_gender);
 
-            //list of items
-            String[] items = new String[]{"M", "F"};
-            builder.setSingleChoiceItems(items, 0,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // item selected logic
-                            if (which == 0)
-                                Constants.SESSION_GENDER = Constants.MALE;
-                            else
-                                Constants.SESSION_GENDER = Constants.FEMALE;
-                        }
-                    });
-
-
-            String positiveText = getString(android.R.string.ok);
-            builder.setPositiveButton(positiveText,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // positive button logic
-                            dialog.dismiss();
-                        }
-                    });
+                //list of items
+                String[] items = new String[]{"M", "F"};
+                builder.setSingleChoiceItems(items, 0,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // item selected logic
+                                if (which == 0)
+                                    Constants.SESSION_GENDER = Constants.MALE;
+                                else
+                                    Constants.SESSION_GENDER = Constants.FEMALE;
+                            }
+                        });
 
 
-            builder.setCancelable(false);
-            AlertDialog dialog = builder.create();
-            // display dialog
-            dialog.show();
+                String positiveText = getString(android.R.string.ok);
+                builder.setPositiveButton(positiveText,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // positive button logic
+                                dialog.dismiss();
+                            }
+                        });
+
+
+                builder.setCancelable(false);
+                AlertDialog dialog = builder.create();
+                // display dialog
+                dialog.show();
+            }
         }
 
 

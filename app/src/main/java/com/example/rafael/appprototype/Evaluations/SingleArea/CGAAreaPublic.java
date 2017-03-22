@@ -126,6 +126,8 @@ public class CGAAreaPublic extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         // remove session
                         session.eraseScalesNotCompleted();
+                        SharedPreferencesHelper.lockSessionCreation(getActivity());
+
 
                         if (session.getScalesFromSession().size() == 0) {
                             SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());

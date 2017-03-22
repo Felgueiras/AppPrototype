@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -551,7 +552,11 @@ public class QuestionsListAdapter extends BaseAdapter {
 
         // show all or click and open AlertDialog to choose option
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
+        // create Layout
         String multipleChoiceType = SP.getString(context.getResources().getString(R.string.multipleChoiceType), "2");
+        if (Constants.screenSize > Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+            multipleChoiceType = SP.getString(context.getResources().getString(R.string.multipleChoiceType), "1");
+        }
         Log.d("Multiple", multipleChoiceType);
         if (multipleChoiceType.equals("1")) {
             return multipleChoiceShowAllOptions(currentQuestionNonDB, position);

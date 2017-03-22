@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
@@ -165,7 +167,7 @@ public class ViewSinglePatientInfo extends Fragment {
          */
         erasePatient.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                 alertDialog.setTitle(getResources().getString(R.string.patient_erase));
                 alertDialog.setMessage(getResources().getString(R.string.patient_erase_question));
@@ -180,6 +182,9 @@ public class ViewSinglePatientInfo extends Fragment {
                                 patient.delete();
                                 dialog.dismiss();
 
+                                DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+                                Snackbar.make(layout, getResources().getString(R.string.patient_erase_snackbar), Snackbar.LENGTH_SHORT).show();
+
                                 BackStackHandler.clearBackStack();
                                 FragmentManager fragmentManager = getFragmentManager();
                                 Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
@@ -187,7 +192,6 @@ public class ViewSinglePatientInfo extends Fragment {
                                         .remove(currentFragment)
                                         .replace(R.id.current_fragment, new PatientsMain())
                                         .commit();
-                                Snackbar.make(getView(), getResources().getString(R.string.patient_erase_snackbar), Snackbar.LENGTH_SHORT).show();
                             }
                         });
                 alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),

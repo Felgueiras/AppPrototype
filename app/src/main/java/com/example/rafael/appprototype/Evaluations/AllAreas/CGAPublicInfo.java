@@ -14,6 +14,7 @@ import android.widget.Button;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
+import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
 
@@ -43,6 +44,8 @@ public class CGAPublicInfo extends Fragment {
         getActivity().setTitle(getResources().getString(R.string.cga));
 
         Log.d("Session", "Inside CGAPublicInfo");
+        SharedPreferencesHelper.unlockSessionCreation(getActivity());
+
 
 
         /**

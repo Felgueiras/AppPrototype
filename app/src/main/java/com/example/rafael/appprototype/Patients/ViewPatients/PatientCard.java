@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.HelpersHandlers.StringHelper;
 import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.R;
@@ -27,7 +28,7 @@ import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
 import java.util.ArrayList;
 
-public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> implements Filterable , SectionTitleProvider {
+public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> implements Filterable, SectionTitleProvider {
 
     private final ArrayList<Patient> filteredList;
     private Activity context;
@@ -47,7 +48,7 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
     @Override
     public String getSectionTitle(int position) {
         //this String will be shown in a bubble for specified position
-        Log.d("Fast","Called");
+        Log.d("Fast", "Called");
         return "P";
     }
 
@@ -189,9 +190,9 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
 //                                    session.delete();
 //                                    // refresh the adapter
 //                                    if (fragment instanceof PatientSessionsFragment)
-//                                        ((PatientSessionsFragment) fragment).removeSession(patient);
+//                                        ((PatientSessionsFragment) fragment).removePatientFromFavorites(patient);
 //                                    else if (fragment instanceof EvaluationsAll)
-//                                        ((EvaluationsAll) fragment).removeSession(patient);
+//                                        ((EvaluationsAll) fragment).removePatientFromFavorites(patient);
 //                                }
 //                            });
 //                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
@@ -239,7 +240,6 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
             this.originalList = new ArrayList<>();
             originalList.addAll(patients);
             this.filteredList = new ArrayList<>();
-
         }
 
         @Override
@@ -253,7 +253,8 @@ public class PatientCard extends RecyclerView.Adapter<PatientCard.MyViewHolder> 
                 final String filterPattern = constraint.toString().toLowerCase().trim();
 
                 for (final Patient patient : originalList) {
-                    if (patient.getName().toLowerCase().trim().contains(filterPattern)) {
+                    String patientNameNoAccents = StringHelper.removeAccents(patient.getName());
+                    if (patientNameNoAccents.toLowerCase().trim().contains(StringHelper.removeAccents(filterPattern))) {
                         filteredList.add(patient);
                     }
                 }

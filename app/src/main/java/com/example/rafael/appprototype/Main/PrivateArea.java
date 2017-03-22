@@ -34,7 +34,6 @@ import com.example.rafael.appprototype.HelpersHandlers.ToolbarHelper;
 public class PrivateArea extends AppCompatActivity {
 
 
-    SharedPreferences sharedPreferences;
     /**
      * Hold the current fragment before going to lock screen
      */

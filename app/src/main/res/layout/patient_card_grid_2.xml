@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/patientCard"
     android:layout_width="match_parent"
@@ -7,47 +7,40 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-
-    <!--<ImageView-->
-    <!--android:id="@+id/patientIcon"-->
-    <!--android:layout_width="50dp"-->
-    <!--android:layout_height="50dp"-->
-    <!--android:src="@drawable/male"-->
-    <!--android:clickable="true"-->
-    <!--android:scaleX="0.8"-->
-    <!--android:scaleY="0.8"-->
-    <!--android:scaleType="fitXY" />-->
-
-
-    <TextView
-        android:text="A"
-        android:id="@+id/patientNameAbbreviation"
+    <LinearLayout
+        android:id="@+id/something"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="80sp" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/patientNameAbbreviation"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="A"
+            android:textSize="80sp" />
+        <ImageView
+            android:id="@+id/overflow"
+            android:layout_width="@dimen/ic_album_overflow_width"
+            android:layout_height="@dimen/ic_album_overflow_height"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="@dimen/ic_album_overflow_margin_top"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_dots" />
+    </LinearLayout>
 
 
     <TextView
         android:id="@+id/patientName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/something"
         android:text="Patient name"
         android:textColor="@color/album_title"
         android:textSize="20sp"
         android:transitionName="@string/fragment_text_trans" />
 
 
-    <!--
-    <ImageView
-        android:id="@+id/overflow"
-        android:layout_width="@dimen/ic_album_overflow_width"
-        android:layout_height="@dimen/ic_album_overflow_height"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/ic_album_overflow_margin_top"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_dots" />
-        -->
-
-
-</LinearLayout>
+</RelativeLayout>

@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -22,54 +26,41 @@ import java.util.ArrayList;
 /**
  * Created by rafael on 03-10-2016.
  */
-public class FavoritePatientsSingleVersion2 extends BaseAdapter {
+public class FavoritePatientsSinglePatient2 extends BaseAdapter {
+    private final PatientsFavoriteFragment fragment;
     /**
      * All the Patients
      */
     private ArrayList<Patient> patients;
     Activity context;
 
-    public FavoritePatientsSingleVersion2(Activity context, ArrayList<Patient> patients) {
+    public FavoritePatientsSinglePatient2(Activity context, ArrayList<Patient> patients, PatientsFavoriteFragment patientsFavoriteFragment) {
         this.context = context;
         this.patients = patients;
+        this.fragment = patientsFavoriteFragment;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final Patient patient = patients.get(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        // each view is a Fragment layout that holds a Fragment with a Recycler View inside
         View card = inflater.inflate(R.layout.patient_card_grid_2, null);
 
-//        ImageView icon = (ImageView) card.findViewById(R.id.patientIcon);
         final TextView name = (TextView) card.findViewById(R.id.patientName);
         final TextView nameAbbreviation = (TextView) card.findViewById(R.id.patientNameAbbreviation);
-
-
+        final ImageView overflow = (ImageView) card.findViewById(R.id.overflow);
+        overflow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(overflow, position);
+            }
+        });
 
 
         name.setText(patient.getName());
-        nameAbbreviation.setText(patient.getName().charAt(0)+"");
-        // holder.type.setText(patient.getAge());
+        nameAbbreviation.setText(patient.getName().charAt(0) + "");
 
-
-        // loading album cover using Glide library
-        //Glide.with(context).load(patient.getPicture()).into(holder.icon);
-
-        // add on click listener for the icon
-//        switch (patient.getGender())
-//        {
-//            case Constants.MALE:
-//                icon.setImageResource(R.drawable.male);
-//                break;
-//            case Constants.FEMALE:
-//                icon.setImageResource(R.drawable.female);
-//                break;
-//        }
-
-
-        View.OnClickListener clickListener =  new View.OnClickListener() {
+        View.OnClickListener clickListener = new View.OnClickListener() {
             public String patientTransitionName;
 
             @Override
@@ -100,11 +91,48 @@ public class FavoritePatientsSingleVersion2 extends BaseAdapter {
 
         name.setOnClickListener(clickListener);
         nameAbbreviation.setOnClickListener(clickListener);
-//        icon.setOnClickListener(clickListener);
-
 
 
         return card;
+    }
+
+    private void showPopupMenu(View view, int position) {
+        // inflate menu
+        PopupMenu popup = new PopupMenu(context, view);
+        MenuInflater inflater = popup.getMenuInflater();
+        /**
+         * Inflate menu depending on the fragment.
+         */
+
+        inflater.inflate(R.menu.menu_patient_favorite, popup.getMenu());
+        popup.setOnMenuItemClickListener(new FavoritePatientClickListener(view, position));
+        popup.show();
+    }
+
+    class FavoritePatientClickListener implements PopupMenu.OnMenuItemClickListener {
+
+        private final View view;
+        private final int position;
+
+        public FavoritePatientClickListener(View view, int position) {
+            this.view = view;
+            this.position = position;
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.newSession:
+                    // TODO create session from favorites list
+                    Snackbar.make(view, "123", Snackbar.LENGTH_SHORT).show();
+                    break;
+                case R.id.removeFavorite:
+                    fragment.removePatientFromFavorites(position);
+                    break;
+                default:
+            }
+            return false;
+        }
     }
 
 

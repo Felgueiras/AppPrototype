@@ -66,19 +66,15 @@ public class CreatePatient extends Fragment {
                 }
                 Calendar c = Calendar.getInstance();
                 c.set(Integer.parseInt(yearText),
-                        Integer.parseInt(monthText) - 1,
+                        Integer.parseInt(monthText)-1,
                         Integer.parseInt(dayText));
                 Date selectedDate = c.getTime();
-                if (patientGender == null) {
-                    Snackbar.make(getView(), R.string.create_patient_error_gender, Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
                 if (patientAddress.getText().length() == 0) {
                     Snackbar.make(getView(), R.string.create_patient_error_address, Snackbar.LENGTH_SHORT).show();
                     break;
                 }
-                if (processNumber.getText().length() == 0) {
-                    Snackbar.make(getView(), R.string.create_patient_error_process_number, Snackbar.LENGTH_SHORT).show();
+                if (patientGender == null) {
+                    Snackbar.make(getView(), R.string.create_patient_error_gender, Snackbar.LENGTH_SHORT).show();
                     break;
                 }
 
@@ -88,10 +84,12 @@ public class CreatePatient extends Fragment {
                 patient.setBirthDate(selectedDate);
                 patient.setGuid("patient" + new Random().nextInt());
                 patient.setAddress(patientAddress.getText().toString());
-                if (patientGender.equals("male")) {
+                if (patientGender.equals("male"))
+                {
                     patient.setPicture(R.drawable.male);
                     patient.setGender(Constants.MALE);
-                } else {
+                }
+                else {
                     patient.setPicture(R.drawable.female);
                     patient.setGender(Constants.FEMALE);
                 }
@@ -174,6 +172,7 @@ public class CreatePatient extends Fragment {
 
         // hospital process number
         processNumber = (EditText) view.findViewById(R.id.processNumber);
+
 
 
         return view;

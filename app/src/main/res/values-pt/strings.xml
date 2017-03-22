@@ -282,4 +282,6 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="create_patient_error_process_number">Precisa de fornecer um nº de processo hospitalar</string>
     <string name="new_session_private">Nova sessão</string>
     <string name="scale_incomplete">Escala incompleta, deseja retroceder à mesma?</string>
+    <string name="action_new_session">Nova sessão AGG</string>
+    <string name="action_favorite_remove">Remover dos favoritos</string>
 </resources>

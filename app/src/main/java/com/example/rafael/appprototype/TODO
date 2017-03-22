@@ -1,40 +1,26 @@
-- review stack
-- button used to open popup menu bigger (tablet)
+- search view destacada
 - button to create new patient more visible (tablet)
-- select multiple sessions to erase (just for fun)
+- register button
+- review stack
+- review patient progress
+
+- long click
 - fluid session scroll
 - save list scroll (sessions list)
 - if session created from list of sessions, go back to lost of sessions after canceling
-- asass
-
-
-- review patient progress
-- fix iputting birthdate issues
 - Columns for medical condition and risk inside Beers criteria should be separated
-- remove from favorites right from the favorites list
 
-- spelling mistakes?
-- feedback patient eliminated
-- order by name (problem with Óscar)
-
-- patients list scroll by first letter name
 - use images about areas to be more interesting (CGAAreas)
 - rever histórico de pacientes, mostrar o último em grande plano
-- table with colours
 
-- app podia guardar coisas que normalmente os médicos guardam noutras apps, guardando os dados,
-  ficariam todos no mesmo ponto
 - folstein linguagem em várias categorias
 - guardar a última sessão, pra poder adicioná-la, ao criar uma nova sem paciente diz "a ultima vai ser descartada, sim não"
 
 - bibliography of scales
 - addTabLayout to app_bar_navigation_drawer
-- list position in questions list
-- list position in PatientProgress
-- search view destacada
+
 - physical examination
 - setup unlock pattern
-- store prescriptions for a patient?
 - multi-user
 - refresh activity when changing settings
-- replace ActiveAndroid for other
+- spelling mistakes?
