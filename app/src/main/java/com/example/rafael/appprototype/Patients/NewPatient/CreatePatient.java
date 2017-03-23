@@ -64,13 +64,13 @@ public class CreatePatient extends Fragment {
                     Snackbar.make(getView(), R.string.create_patient_error_no_birthDate, Snackbar.LENGTH_SHORT).show();
                     break;
                 }
-                if (Integer.parseInt(dayText) > 31 || Integer.parseInt(monthText) > 12 ) {
+                if (Integer.parseInt(dayText) > 31 || Integer.parseInt(monthText) > 12) {
                     Snackbar.make(getView(), R.string.create_patient_error_invalid_birthDate, Snackbar.LENGTH_SHORT).show();
                     break;
                 }
                 Calendar c = Calendar.getInstance();
                 c.set(Integer.parseInt(yearText),
-                        Integer.parseInt(monthText)-1,
+                        Integer.parseInt(monthText) - 1,
                         Integer.parseInt(dayText));
                 Date selectedDate = c.getTime();
 
@@ -89,12 +89,10 @@ public class CreatePatient extends Fragment {
                 patient.setBirthDate(selectedDate);
                 patient.setGuid("patient" + new Random().nextInt());
                 patient.setAddress(patientAddress.getText().toString());
-                if (patientGender.equals("male"))
-                {
+                if (patientGender.equals("male")) {
                     patient.setPicture(R.drawable.male);
                     patient.setGender(Constants.MALE);
-                }
-                else {
+                } else {
                     patient.setPicture(R.drawable.female);
                     patient.setGender(Constants.FEMALE);
                 }
@@ -134,7 +132,7 @@ public class CreatePatient extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.menu_create_patient, menu);
+//        inflater.inflate(R.menu.menu_create_patient, menu);
     }
 
 
@@ -178,6 +176,71 @@ public class CreatePatient extends Fragment {
         // hospital process number
         processNumber = (EditText) view.findViewById(R.id.processNumber);
 
+        Button savePatient = (Button) view.findViewById(R.id.savePatient);
+        savePatient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /**
+                 * Create patient.
+                 */
+
+                if (patientName.getText().length() == 0) {
+                    Snackbar.make(getView(), R.string.create_patient_error_name, Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+                // birth date validation
+                String dayText = day.getText().toString();
+                String monthText = month.getText().toString();
+                String yearText = year.getText().toString();
+                if (dayText.equals("") || monthText.equals("") || yearText.equals("")) {
+                    Snackbar.make(getView(), R.string.create_patient_error_no_birthDate, Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+                if (Integer.parseInt(dayText) > 31 || Integer.parseInt(monthText) > 12) {
+                    Snackbar.make(getView(), R.string.create_patient_error_invalid_birthDate, Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+                Calendar c = Calendar.getInstance();
+                c.set(Integer.parseInt(yearText),
+                        Integer.parseInt(monthText) - 1,
+                        Integer.parseInt(dayText));
+                Date selectedDate = c.getTime();
+
+                if (patientGender == null) {
+                    Snackbar.make(getView(), R.string.create_patient_error_gender, Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+                if (patientAddress.getText().length() == 0) {
+                    Snackbar.make(getView(), R.string.create_patient_error_address, Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (processNumber.getText().length() == 0) {
+                    Snackbar.make(getView(), R.string.create_patient_error_process_number, Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Patient patient = new Patient();
+                patient.setName(patientName.getText().toString());
+
+                patient.setBirthDate(selectedDate);
+                patient.setGuid("patient" + new Random().nextInt());
+                patient.setAddress(patientAddress.getText().toString());
+                if (patientGender.equals("male")) {
+                    patient.setPicture(R.drawable.male);
+                    patient.setGender(Constants.MALE);
+                } else {
+                    patient.setPicture(R.drawable.female);
+                    patient.setGender(Constants.FEMALE);
+                }
+                patient.setProcessNumber(processNumber.getText().toString());
+                patient.setFavorite(false);
+                patient.save();
+
+                Snackbar.make(getView(), R.string.create_patient_success, Snackbar.LENGTH_SHORT).show();
+                BackStackHandler.goToPreviousScreen();
+            }
+        });
 
 
         return view;
@@ -244,8 +307,8 @@ public class CreatePatient extends Fragment {
         }
         /*
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            Bitmap icon = (Bitmap) data.getExtras().get("data");
-            patientPhoto.setImageBitmap(icon);
+            Bitmap app_icon = (Bitmap) data.getExtras().get("data");
+            patientPhoto.setImageBitmap(app_icon);
         }
         */
 

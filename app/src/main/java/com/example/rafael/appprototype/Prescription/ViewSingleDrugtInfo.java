@@ -43,7 +43,6 @@ public class ViewSingleDrugtInfo extends Fragment {
             // get drug area
             drug = bundle.getString(DRUG);
         }
-        Log.d("Drug","Current drug-"+drug);
 
         // access Views
         getActivity().setTitle(drug);

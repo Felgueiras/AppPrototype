@@ -123,11 +123,11 @@ public class ScaleFragment extends Fragment {
                 /**
                  * Create session.
                  */
-                RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.newSessionLayout);
+                View viewForSnackbar = getActivity().findViewById(R.id.scale_progress);
 
                 // no test selected
                 if (session.getScalesFromSession().size() == 0) {
-                    Snackbar.make(layout, getResources().getString(R.string.you_must_select_test), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(viewForSnackbar, getResources().getString(R.string.you_must_select_test), Snackbar.LENGTH_SHORT).show();
                     break;
                 }
 
@@ -139,7 +139,7 @@ public class ScaleFragment extends Fragment {
                         numTestsCompleted++;
                 }
                 if (numTestsCompleted == 0) {
-                    Snackbar.make(layout, getResources().getString(R.string.complete_one_scale_atleast), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(viewForSnackbar, getResources().getString(R.string.complete_one_scale_atleast), Snackbar.LENGTH_SHORT).show();
                     break;
                 }
 
@@ -156,7 +156,7 @@ public class ScaleFragment extends Fragment {
                                      * Open the fragment to pick an already existing Patient.
                                      */
                                     FragmentManager fragmentManager = getFragmentManager();
-//                                    fragmentManager.popBackStack();
+                                    fragmentManager.popBackStack();
                                     Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
                                     fragmentManager.beginTransaction()
                                             .remove(currentFragment)
@@ -238,7 +238,10 @@ public class ScaleFragment extends Fragment {
                 // display results in JSON
                 DatabaseOps.displayData(getActivity());
 
-                Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_LONG).show();
+                SharedPreferencesHelper.lockSessionCreation(getActivity());
+
+
+                Snackbar.make(viewForSnackbar, getResources().getString(R.string.session_created), Snackbar.LENGTH_LONG).show();
                 BackStackHandler.goToPreviousScreen();
                 break;
             case R.id.session_cancel:
@@ -251,7 +254,6 @@ public class ScaleFragment extends Fragment {
 
     public void cancelSession() {
         Log.d("Stack","Cancel");
-        SharedPreferencesHelper.lockSessionCreation(getActivity());
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         alertDialog.setTitle(getResources().getString(R.string.session_discard));
         alertDialog.setMessage(getResources().getString(R.string.session_discard_question));
@@ -259,6 +261,8 @@ public class ScaleFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // remove session
+                        SharedPreferencesHelper.lockSessionCreation(getActivity());
+
                         Patient p = session.getPatient();
                         // how many sessions this patient have
                         FragmentManager fragmentManager = getFragmentManager();
@@ -287,6 +291,8 @@ public class ScaleFragment extends Fragment {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferencesHelper.lockSessionCreation(getActivity());
+
                         // remove session
                         session.eraseScalesNotCompleted();
                         Snackbar.make(getView(),"Sessão terminada",Snackbar.LENGTH_SHORT).show();
@@ -304,6 +310,7 @@ public class ScaleFragment extends Fragment {
                                     .commit();
                         } else {
                             Session sessionCopy = session;
+                            SharedPreferencesHelper.lockSessionCreation(getActivity());
                             SharedPreferencesHelper.resetPublicSession(getActivity(), null);
 
                             BackStackHandler.clearBackStack();

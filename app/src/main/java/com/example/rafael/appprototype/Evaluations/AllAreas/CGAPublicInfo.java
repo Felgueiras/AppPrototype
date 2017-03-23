@@ -44,8 +44,6 @@ public class CGAPublicInfo extends Fragment {
         getActivity().setTitle(getResources().getString(R.string.cga));
 
         Log.d("Session", "Inside CGAPublicInfo");
-        SharedPreferencesHelper.unlockSessionCreation(getActivity());
-
 
 
         /**
@@ -55,7 +53,8 @@ public class CGAPublicInfo extends Fragment {
         startSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Session", "Clicked!");
+                Log.d("Session", "Clicked in CGAPublicInfo!");
+                SharedPreferencesHelper.unlockSessionCreation(getActivity());
                 FragmentTransitions.replaceFragment(getActivity(), new CGAPublic(), null, Constants.tag_cga_public);
             }
         });

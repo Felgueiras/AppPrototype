@@ -34,7 +34,7 @@
             android:layout_gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:src="@drawable/icon" />
+            android:src="@drawable/app_icon" />
     </LinearLayout>
 
     <TextView

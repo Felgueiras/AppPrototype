@@ -30,7 +30,7 @@ import java.util.ArrayList;
 /**
  * Display the list of Patients to view them or select one of them.
  */
-public class PatientsAll extends Fragment {
+public class                                                          PatientsAll extends Fragment {
 
     private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
     public static String selectPatient = "selectPatient";

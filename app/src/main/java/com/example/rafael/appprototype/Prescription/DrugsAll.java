@@ -23,6 +23,7 @@ import com.example.rafael.appprototype.DataTypes.Criteria.Beers.BeersCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.StartCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.StoppCriteria;
 import com.example.rafael.appprototype.R;
+import com.futuremind.recyclerviewfastscroll.FastScroller;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +33,7 @@ import java.util.Set;
 /**
  * Search a drug by its area.
  */
-public class SearchAllDrugs extends Fragment {
+public class DrugsAll extends Fragment {
 
     // List view
     private RecyclerView drugsRecyclerView;
@@ -97,11 +98,14 @@ public class SearchAllDrugs extends Fragment {
         // sort list
         Collections.sort(allDrugs);
 
+        FastScroller fastScroller = (FastScroller) view.findViewById(R.id.fastscroll);
+
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         drugsRecyclerView.setLayoutManager(mLayoutManager);
         adapter = new DrugListItem(getActivity(), allDrugs);
 
         drugsRecyclerView.setAdapter(adapter);
+        fastScroller.setRecyclerView(drugsRecyclerView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(),

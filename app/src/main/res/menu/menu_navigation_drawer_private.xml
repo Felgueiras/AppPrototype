@@ -12,7 +12,7 @@
             android:title="@string/tab_sessions" />
         <item
             android:id="@+id/prescription"
-            android:icon="@drawable/pill"
+            android:icon="@drawable/pill_black"
             android:title="@string/tab_drug_prescription" />
 
     </group>

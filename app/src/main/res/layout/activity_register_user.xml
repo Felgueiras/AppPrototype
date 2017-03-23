@@ -13,11 +13,13 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
-        <ImageView android:src="@drawable/icon"
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="72dp"
-            android:layout_marginBottom="24dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_height="180dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/app_icon"/>
 
         <!--  Name Label -->
         <android.support.design.widget.TextInputLayout

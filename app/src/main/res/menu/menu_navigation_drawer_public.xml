@@ -8,7 +8,7 @@
             android:title="@string/cga" />
         <item
             android:id="@+id/prescription"
-            android:icon="@drawable/pill"
+            android:icon="@drawable/pill_black"
             android:title="@string/tab_drug_prescription" />
     </group>
 
@@ -44,12 +44,12 @@
                 android:icon="@drawable/ic_settings_black_24dp"
                 android:title="Definições" />
             <item
-                android:id="@+id/login"
+                android:id="@+id/access_personal_area"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"
-                android:title="@string/action_log_in" />
+                android:title="@string/personal_area" />
             <!--<item-->
             <!--android:id="@+id/options"-->
-            <!--android:icon="@drawable/ic_exit_to_app_black_24dp"-->
+            <!--android:app_icon="@drawable/ic_exit_to_app_black_24dp"-->
             <!--android:title="@string/action_options" />-->
         </menu>
     </item>

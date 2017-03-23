@@ -214,7 +214,8 @@ serviços e intervenções, que respondam aos seus problemas,
     </string>
     <string name="intro_welcome_message">Bem-vindo ao DoctorAid</string>
     <string name="intro_brief_description">Esta aplicação permite-lhe aplicar a Avaliação Geriátrica Global.</string>
-    <string name="intro_patients">Avalie os seus pacientes e acompanhe o seu progresso.</string>
+    <string name="intro_patients">Ao registar-se na aplicação pode gerir os seus pacientes,
+        avalià-los e acompanhar o seu progresso.</string>
     <string name="intro_prescription">Consulte critérios que o ajudarão a prescrever o medicamento mais
         apropriado para os seus pacientes.</string>
     <string name="feedbacktitle">Feedback</string>
@@ -286,4 +287,13 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="action_favorite_remove">Remover dos favoritos</string>
     <string name="create_patient_error_invalid_birthDate">Data de nascimento inválida</string>
     <string name="action_delete">remover</string>
+    <string name="personal_area">Área pessoal</string>
+    <string name="login_not_registered">Não está registado? Clique aqui para se registar.</string>
+    <string name="criteria_start">Criterios Start</string>
+    <string name="criteria_stopp">Critérios Stopp</string>
+    <string name="criteria_beers">Critérios de Beers</string>
+    <string name="session_erase">Eliminar sessão</string>
+    <string name="session_erase_question">Deseja eliminar esta sessão?</string>
+    <string name="session_erase_snackbar">Sessão eliminada.</string>
+    <string name="picked_patient_session_created">Paciente associado à sesssão e sessão criada.</string>
 </resources>

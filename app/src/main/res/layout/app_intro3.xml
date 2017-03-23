@@ -35,7 +35,7 @@
             android:layout_gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            app:srcCompat="@drawable/pill" />
+            app:srcCompat="@drawable/pill_white" />
     </LinearLayout>
 
     <TextView

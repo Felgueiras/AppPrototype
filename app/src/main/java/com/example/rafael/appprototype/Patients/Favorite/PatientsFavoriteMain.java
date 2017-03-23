@@ -36,7 +36,6 @@ public class PatientsFavoriteMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // TODO display favorites individually with grid
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_grid_favorites, container, false);
         getActivity().setTitle(getResources().getString(R.string.tab_my_patients));

@@ -160,6 +160,14 @@
                 android:layout_below="@id/processNumberText"
                 android:hint="          "
                 android:inputType="number" />
+
+            <Button
+                android:layout_marginTop="15dp"
+                android:id="@+id/savePatient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/processNumber"
+                android:text="Guardar" />
         </RelativeLayout>
 
     </ScrollView>

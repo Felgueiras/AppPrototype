@@ -23,7 +23,7 @@ import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
 import com.example.rafael.appprototype.Help_Feedback.SendFeedback;
-import com.example.rafael.appprototype.LoginRegister.LoginFragment;
+import com.example.rafael.appprototype.PersonalAreaAccess.LoginFragment;
 import com.example.rafael.appprototype.Settings;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
@@ -65,7 +65,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
 
         Fragment endFragment = null;
 
-        if (id == R.id.login) {
+        if (id == R.id.access_personal_area) {
             // check if there is any on-going session
             String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(context);
             if (sessionID != null) {

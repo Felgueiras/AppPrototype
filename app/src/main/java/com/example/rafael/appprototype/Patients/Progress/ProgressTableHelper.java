@@ -113,7 +113,6 @@ public class ProgressTableHelper {
             dummy.setText(currentGrade);
             dummy.setLayoutParams(new TableRow.LayoutParams(1));
             row.addView(dummy);
-            // TODO start from here
             for (GeriatricScale scaleInstance : scaleInstances) {
                 TextView dateTextView = new TextView(context);
                 dateTextView.setBackgroundResource(background);

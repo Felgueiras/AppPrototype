@@ -102,7 +102,6 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
             @Override
             public void onClick(View view) {
 
-                // TODO add shared elements for transitions
                 Fragment endFragment = new ViewSinglePatientInfo();
 //                    patientTransitionName = holder.questionTextView.getTransitionName();
                 Bundle args = new Bundle();

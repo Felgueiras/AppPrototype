@@ -17,6 +17,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.EmptyStateFragment;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragment;
+import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
 
@@ -40,7 +41,6 @@ public class EvaluationsHistoryMain extends Fragment {
             @Override
             public void onClick(View view) {
                 // create a new Session - switch to CreatePatient Fragment
-                Bundle args = null;
                 // TODO select patient, create new patient or no patient
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(R.string.new_session_private);
@@ -52,6 +52,7 @@ public class EvaluationsHistoryMain extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // item selected logic
+                                SharedPreferencesHelper.unlockSessionCreation(getActivity());
                                 if (which == 0) {
                                     dialog.dismiss();
                                     FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), null, Constants.tag_create_session_no_patient);

@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.LoginRegister;
+package com.example.rafael.appprototype.PersonalAreaAccess;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -54,23 +54,23 @@ public class LoginFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.menu_login, menu);
+//        inflater.inflate(R.menu.menu_login, menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.register:
-                /**
-                 * Register the user and associate it with the app.
-                 */
-                Intent intent = new Intent(getActivity(), RegisterUser.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                getActivity().finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.register:
+//                /**
+//                 * Register the user and associate it with the app.
+//                 */
+//                Intent intent = new Intent(getActivity(), RegisterUser.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
+//                getActivity().finish();
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,7 +98,7 @@ public class LoginFragment extends Fragment {
                 @Override
                 public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                     if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                        attemptLogin(email,mPasswordView.getText().toString());
+                        attemptLogin(email, mPasswordView.getText().toString());
                         return true;
                     }
                     return false;
@@ -109,7 +109,7 @@ public class LoginFragment extends Fragment {
             mEmailSignInButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    attemptLogin(email,mPasswordView.getText().toString());
+                    attemptLogin(email, mPasswordView.getText().toString());
                 }
             });
 
@@ -139,7 +139,7 @@ public class LoginFragment extends Fragment {
                 @Override
                 public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                     if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                        attemptLogin(mEmailView.getText().toString(),mPasswordView.getText().toString());
+                        attemptLogin(mEmailView.getText().toString(), mPasswordView.getText().toString());
                         return true;
                     }
                     return false;
@@ -150,12 +150,28 @@ public class LoginFragment extends Fragment {
             mEmailSignInButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    attemptLogin(mEmailView.getText().toString(),mPasswordView.getText().toString());
+                    attemptLogin(mEmailView.getText().toString(), mPasswordView.getText().toString());
                 }
             });
 
             mLoginFormView = view.findViewById(R.id.login_form);
             mProgressView = view.findViewById(R.id.login_progress);
+
+
+            TextView registertext = (TextView) view.findViewById(R.id.register_text);
+            registertext.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    /**
+                     * Go to register screen.
+                     */
+                    Intent intent = new Intent(getActivity(), RegisterUser.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            });
+
         }
 
 
@@ -174,7 +190,7 @@ public class LoginFragment extends Fragment {
         }
 
         // Reset errors.
-        if(mEmailView!=null)
+        if (mEmailView != null)
             mEmailView.setError(null);
         mPasswordView.setError(null);
 

@@ -133,6 +133,8 @@ public class SharedPreferencesHelper {
 
     public static void lockSessionCreation(Activity context) {
         // set the user as being logged in
+        Log.d("Stack","locking");
+
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(Constants.create_session_permitted, false).apply();
     }

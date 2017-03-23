@@ -33,7 +33,7 @@
             android:scaleType="fitCenter"
             android:scaleX="0.8"
             android:scaleY="0.8"
-            android:src="@drawable/icon" />
+            android:src="@drawable/app_icon" />
 
         <!-- Email -->
         <android.support.design.widget.TextInputLayout
@@ -75,5 +75,12 @@
             android:layout_marginTop="16dp"
             android:text="@string/action_log_in"
             android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:gravity="center"
+            android:text="@string/login_not_registered"/>
     </LinearLayout>
 </LinearLayout>

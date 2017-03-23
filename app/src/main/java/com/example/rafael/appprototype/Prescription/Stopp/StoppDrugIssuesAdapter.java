@@ -46,7 +46,7 @@ public class StoppDrugIssuesAdapter extends RecyclerView.Adapter<StoppDrugIssues
 
     @Override
     public StoppDrugIssuesAdapter.DrugIssue onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = inflater.inflate(R.layout.drug_issue, parent, false);
+        View itemView = inflater.inflate(R.layout.stopp_drug_issue, parent, false);
         return new StoppDrugIssuesAdapter.DrugIssue(itemView);
     }
 

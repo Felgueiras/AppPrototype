@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.LoginRegister;
+package com.example.rafael.appprototype.PersonalAreaAccess;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

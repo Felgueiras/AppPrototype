@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -113,8 +114,8 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                 }
                 else
                 {
-                    Snackbar.make(v, context.getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
-                    Log.d("Patient", "Selected patient");
+                    DrawerLayout layout = (DrawerLayout) context.findViewById(R.id.drawer_layout);
+                    Snackbar.make(layout, context.getString(R.string.picked_patient_session_created), Snackbar.LENGTH_SHORT).show();
                     // add Patient to Session
                     String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);
 

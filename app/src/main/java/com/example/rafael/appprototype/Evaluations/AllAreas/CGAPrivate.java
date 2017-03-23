@@ -161,6 +161,7 @@ public class CGAPrivate extends Fragment {
                     dialog.show();
                 }
 
+
             }
         }
 
@@ -291,6 +292,7 @@ public class CGAPrivate extends Fragment {
                             break;
                         }
                     }
+                    // TODO first session for a patient
 //                    if (!allAreasEvaluated) {
 //                        Snackbar.make(layout, getResources().getString(R.string.first_session_evaluate_all_areas), Snackbar.LENGTH_SHORT).show();
 //                        return;
@@ -366,7 +368,7 @@ public class CGAPrivate extends Fragment {
      * Generate a new SESSION_ID.
      */
     private void createNewSession() {
-        Log.d("CGAprivate", "Creating new session");
+        Log.d("Stack", "Creating new session");
         Calendar c = Calendar.getInstance();
         Date time = c.getTime();
         String sessionID = time.toString();

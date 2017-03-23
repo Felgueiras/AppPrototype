@@ -36,10 +36,7 @@ import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 
 public class PublicArea extends AppCompatActivity {
 
-    /**
-     * Hold the current fragment before going to lock screen
-     */
-    private Fragment currentFragment;
+
     /**
      * Current context.
      */

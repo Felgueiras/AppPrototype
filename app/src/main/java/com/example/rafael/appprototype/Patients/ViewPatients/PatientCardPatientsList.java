@@ -48,8 +48,8 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
     @Override
     public String getSectionTitle(int position) {
         //this String will be shown in a bubble for specified position
-        Log.d("Fast", "Called");
-        return "P";
+        // get the initial of the patient
+        return patients.get(position).getName().charAt(0)+"";
     }
 
     /**
@@ -122,7 +122,6 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
                  */
 
 
-                // TODO add shared elements for transitions
                 Fragment endFragment = new ViewSinglePatientInfo();
 
 
@@ -143,7 +142,7 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
             @Override
             public boolean onLongClick(View v) {
                 Log.d("LongClick","Open");
-                // TODO open alert dialog with options
+                // TODO use long click?
                 return false;
             }
         });

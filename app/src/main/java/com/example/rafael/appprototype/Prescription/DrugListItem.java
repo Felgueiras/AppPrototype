@@ -19,10 +19,11 @@ import com.example.rafael.appprototype.DataTypes.Criteria.StartCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.StoppCriteria;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
+import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
 import java.util.ArrayList;
 
-public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder> implements Filterable {
+public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder> implements Filterable, SectionTitleProvider {
 
     private final ArrayList<String> filteredList;
     private Activity context;
@@ -40,6 +41,11 @@ public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder
         if (patientsFilter == null)
             patientsFilter = new DrugsFilter(this, drugs);
         return patientsFilter;
+    }
+
+    @Override
+    public String getSectionTitle(int position) {
+        return drugs.get(position).charAt(0) + "";
     }
 
     /**
@@ -103,14 +109,13 @@ public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder
         // start
         if (startCriteriaDrugs.contains(currentDrug)) {
             holder.startButton.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             holder.startButton.setVisibility(View.GONE);
         }
         // stopp
         if (stoppCriteriaDrugs.contains(currentDrug)) {
             holder.stoppButton.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             holder.stoppButton.setVisibility(View.GONE);
         }
         /**
@@ -118,7 +123,7 @@ public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder
          */
         if (beersCriteriaDrugs.contains(currentDrug)) {
             holder.beersButton.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             holder.beersButton.setVisibility(View.GONE);
         }
 

@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -63,7 +62,6 @@ public class ViewSinglePatientInfo extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        SharedPreferencesHelper.unlockSessionCreation(getActivity());
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.patient_info_main, container, false);
@@ -136,19 +134,7 @@ public class ViewSinglePatientInfo extends Fragment {
         }
 
 
-        /**
-         * Setup FABS
-         */
-        FloatingActionButton fabAddSession = (FloatingActionButton) view.findViewById(R.id.patient_createSession);
-        fabAddSession.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle args = new Bundle();
-                args.putSerializable(CGAPrivate.PATIENT, patient);
-                FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), args, Constants.tag_create_session_with_patient);
-                getActivity().setTitle(getResources().getString(R.string.cga));
-            }
-        });
+
 
         // view patient evolution
         patientProgress.setOnClickListener(new View.OnClickListener() {
@@ -220,9 +206,10 @@ public class ViewSinglePatientInfo extends Fragment {
                 ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
                 Fragment fragment;
                 if (sessionsFromPatient.isEmpty()) {
-                    fragment = new EmptyStateFragment();
+                    fragment = new PatientSessionsEmpty();
                     Bundle args = new Bundle();
-                    args.putString(EmptyStateFragment.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
+                    args.putSerializable(PatientSessionsEmpty.PATIENT, patient);
+                    args.putString(PatientSessionsEmpty.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
                     fragment.setArguments(args);
                 } else {
                     fragment = new PatientSessionsFragment();

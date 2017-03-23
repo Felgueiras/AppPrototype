@@ -99,7 +99,10 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
             public void onClick(View v) {
                 Bundle args = new Bundle();
                 args.putSerializable(ReviewSingleSessionWithPatient.SESSION, sessions.get(position));
-                FragmentTransitions.replaceFragment(context, new ReviewSingleSessionWithPatient(), args, Constants.tag_review_session_from_patient_profile);
+                FragmentTransitions.replaceFragment(context,
+                        new ReviewSingleSessionWithPatient(),
+                        args,
+                        Constants.tag_review_session_from_patient_profile);
             }
         };
         // add on click listener for the Session

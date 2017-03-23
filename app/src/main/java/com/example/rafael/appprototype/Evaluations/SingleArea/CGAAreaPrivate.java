@@ -50,8 +50,6 @@ public class CGAAreaPrivate extends Fragment {
     boolean resuming = false;
 
 
-    private FloatingActionButton discardFAB;
-    private FloatingActionButton saveFAB;
     private Session session;
 
     @Override

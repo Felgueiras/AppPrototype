@@ -200,6 +200,15 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
 
             AreaScalesIconsAdapter adapter = new AreaScalesIconsAdapter(context, scalesFromArea, session);
             holder.scalesIcons.setAdapter(adapter);
+        } else {
+            /**
+             * Show completed scales for this area.
+             */
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+            holder.scalesIcons.setLayoutManager(layoutManager);
+
+            AreaScalesAlreadyCompleted adapter = new AreaScalesAlreadyCompleted(context, scalesFromArea, session);
+            holder.scalesIcons.setAdapter(adapter);
         }
 
     }

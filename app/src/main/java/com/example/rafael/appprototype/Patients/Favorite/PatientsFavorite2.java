@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Created by rafael on 03-10-2016.
  */
-public class FavoritePatientsSinglePatient2 extends BaseAdapter {
+public class PatientsFavorite2 extends BaseAdapter {
     private final PatientsFavoriteFragment fragment;
     /**
      * All the Patients
@@ -34,7 +34,7 @@ public class FavoritePatientsSinglePatient2 extends BaseAdapter {
     private ArrayList<Patient> patients;
     Activity context;
 
-    public FavoritePatientsSinglePatient2(Activity context, ArrayList<Patient> patients, PatientsFavoriteFragment patientsFavoriteFragment) {
+    public PatientsFavorite2(Activity context, ArrayList<Patient> patients, PatientsFavoriteFragment patientsFavoriteFragment) {
         this.context = context;
         this.patients = patients;
         this.fragment = patientsFavoriteFragment;

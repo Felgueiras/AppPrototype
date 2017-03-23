@@ -76,7 +76,6 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
      */
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
         String infoType = SP.getString(context.getResources().getString(R.string.sessionResumeInformation), "3");
-        Log.d("Settings", infoType);
         View evaluationView = null;
         if (infoType.equals("2") || infoType.equals("1")) {
             evaluationView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_session_history_patient_scale, parent, false);
@@ -121,13 +120,9 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
 
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
         String infoType = SP.getString(context.getResources().getString(R.string.sessionResumeInformation), "3");
-        Log.d("Settings", infoType);
         if (infoType.equals("2")) {
             /**
              * Patient questionTextView + scale.
-             */
-            /**
-             * Setup list.
              */
             holder.testsForDayRecycler.setHasFixedSize(true);
 
