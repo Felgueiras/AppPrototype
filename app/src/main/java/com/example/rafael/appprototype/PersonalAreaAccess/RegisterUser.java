@@ -28,10 +28,10 @@ public class RegisterUser extends AppCompatActivity {
     EditText _emailText;
     @InjectView(R.id.input_password)
     EditText _passwordText;
+    @InjectView(R.id.input_password_second)
+    EditText _reenterPasswordText;
     @InjectView(R.id.btn_signup)
     Button _signupButton;
-//    @InjectView(R.id.link_login)
-//    TextView _loginLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +73,7 @@ public class RegisterUser extends AppCompatActivity {
         final String name = _nameText.getText().toString();
         final String email = _emailText.getText().toString();
         final String password = _passwordText.getText().toString();
+        final String passwordSecond = _reenterPasswordText.getText().toString();
 
 
         new android.os.Handler().postDelayed(
@@ -109,7 +110,7 @@ public class RegisterUser extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Registo falhou", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
@@ -120,26 +121,38 @@ public class RegisterUser extends AppCompatActivity {
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
+        String passwordSecond = _reenterPasswordText.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
-            _nameText.setError("at least 3 characters");
+            _nameText.setError("Deve ter pelo menos 3 caracteres");
             valid = false;
         } else {
             _nameText.setError(null);
         }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError("Introduza um email válido (ex: manuel_fernandes@gmail.com )");
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError("Deve ter entre 4 a 10 carateres alfanuméricos");
             valid = false;
         } else {
             _passwordText.setError(null);
+        }
+
+        // validate the "second password"
+        if (passwordSecond.isEmpty() || passwordSecond.length() < 4 || passwordSecond.length() > 10) {
+            _reenterPasswordText.setError("Deve ter entre 4 a 10 carateres alfanuméricos");
+            valid = false;
+        } else if (!passwordSecond.equals(password)) {
+            _reenterPasswordText.setError("As palavras passe não são iguais");
+            valid = false;
+        } else {
+            _reenterPasswordText.setError(null);
         }
 
         return valid;

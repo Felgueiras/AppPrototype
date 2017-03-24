@@ -1,11 +1,15 @@
-- When associating patient to session, clicked patient icon but only patient’s name was responsive
+- There should be a title like “New CGA session - Patient name” - P11
+- search view destacada em lista de medicamentos
 - Patient’s notes can be mistaken with session’s notes - P10
-- The favorite area for a patient is not all of it responding to touch
-- if first session for patient, inform it to doctor
-
-- search view destacada
-- review patient progress
 - Clicked info icon instead of scale since it is the only one visual queue - P9
+- The popup with information about a scale or a CGA area should have a button to close it or be closed when clicking on it
+- There should be a message like “do you wish to save or not?” instead of clicking on the save button and saving automatically - P11
+
+- review patient progress
+- When a scale is filled up and going back to view all the scales for an area, the size of the card representing the scale increases in size to show more information related
+ to the sclale; this can be a little confusing, try to maintain the same size - P11
+
+- if first session for patient, inform it to doctor
 - dar mais destaque a progress
 - review stack
 - folstein linguagem em várias categorias
@@ -16,6 +20,5 @@
 
 TABLET:
 - Register text fields should not occupy the whole width of the screen, the person may think he or she has to input much information
-- When entered email is invalid, show example of a valid one - P10
 
 

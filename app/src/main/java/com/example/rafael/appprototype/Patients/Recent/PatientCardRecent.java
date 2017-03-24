@@ -83,7 +83,7 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
         {
             holder.name.setText(patient.getName());
             // loading album cover using Glide library
-            //Glide.with(context).load(patientView.getPicture()).into(holder.photo);
+            //Glide.with(context).load(patientView.getPicture()).into(holder.icon);
             switch (patient.getGender()) {
                 case Constants.MALE:
                     holder.icon.setImageResource(R.drawable.male);

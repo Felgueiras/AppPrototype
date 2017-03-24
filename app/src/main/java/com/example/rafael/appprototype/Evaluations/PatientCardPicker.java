@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
@@ -50,13 +50,15 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
      * Create a View
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, age;
-        public ImageView photo, overflow;
+        private RelativeLayout card;
+        public TextView name;
+        public ImageView icon, overflow;
 
         public MyViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.patientName);
-            photo = (ImageView) view.findViewById(R.id.patientPhoto);
+            icon = (ImageView) view.findViewById(R.id.patientIcon);
+            card = (RelativeLayout) view.findViewById(R.id.patientCard);
         }
     }
 
@@ -94,8 +96,7 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
 
         // add on click listener for the icon
 
-
-        holder.name.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener clickListener = new View.OnClickListener() {
             public String patientTransitionName;
 
             @Override
@@ -158,7 +159,11 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                             .commit();
                 }
             }
-        });
+        };
+
+        holder.card.setOnClickListener(clickListener);
+        holder.name.setOnClickListener(clickListener);
+        holder.icon.setOnClickListener(clickListener);
 
 
         /*

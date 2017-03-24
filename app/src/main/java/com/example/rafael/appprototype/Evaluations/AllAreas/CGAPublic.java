@@ -196,8 +196,8 @@ public class CGAPublic extends Fragment {
         /*
                                     Constants.pickingPatient = true;
                                     Bundle args = new Bundle();
-                                    args.putBoolean(PatientsAll.selectPatient, true);
-                                    FragmentTransitions.replaceFragment(getActivity(), new PatientsAll(), args,
+                                    args.putBoolean(PatientsList.selectPatient, true);
+                                    FragmentTransitions.replaceFragment(getActivity(), new PatientsList(), args,
                                             Constants.fragment_show_patients);
                                     dialog.dismiss();
                                     Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();

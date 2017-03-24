@@ -248,7 +248,8 @@ public class PrivateArea extends AppCompatActivity {
      * @param addToBackStackTag
      * @param textView
      */
-    public void replaceFragmentSharedElements(Fragment endFragment, Bundle args, String addToBackStackTag, TextView textView) {
+    public void replaceFragmentSharedElements(Fragment endFragment, Bundle args, String addToBackStackTag,
+                                              TextView textView) {
 
 
         ToolbarHelper.showBackButton(this);

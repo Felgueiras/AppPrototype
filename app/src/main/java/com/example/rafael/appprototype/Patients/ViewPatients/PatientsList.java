@@ -30,7 +30,7 @@ import java.util.ArrayList;
 /**
  * Display the list of Patients to view them or select one of them.
  */
-public class                                                          PatientsAll extends Fragment {
+public class PatientsList extends Fragment {
 
     private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
     public static String selectPatient = "selectPatient";
@@ -39,7 +39,7 @@ public class                                                          PatientsAl
     private PatientCardPatientsList adapter;
     private RecyclerView patientsRecyclerView;
 
-    public PatientsAll(ViewPager viewPager, int position) {
+    public PatientsList(ViewPager viewPager, int position) {
         this.viewPager = viewPager;
         this.page = position;
     }

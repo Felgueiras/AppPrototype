@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Patients.Favorite.PatientsFavoriteMain;
-import com.example.rafael.appprototype.Patients.ViewPatients.PatientsAll;
 import com.example.rafael.appprototype.Patients.Recent.PatientsRecent;
+import com.example.rafael.appprototype.Patients.ViewPatients.FloatingSearch.PatientsListPersistentSearch;
 import com.example.rafael.appprototype.R;
 
 
@@ -99,7 +99,7 @@ public class PatientsMain extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new PatientsAll(viewPager, position);
+                return new PatientsListPersistentSearch(viewPager, position);
             } else if (position == 1) {
                 return new PatientsFavoriteMain();
             } else if (position == 2) {
