@@ -1,8 +1,9 @@
-- Swipe between scale with multiple categories - P6
 - buttons on the bottom
 - After registering go to the Login menu and not to the list of patients - P11
+- Swipe between scale with multiple categories - P6
 - Add patient from the navigation menu
 - Going back from session should be considering as finishing and saving the session, not cancelling it
+- Patient’s notes can be mistaken with session’s notes - P10
 
 - Use a color code when displaying all the types of criteria associated to a single drug - P9
 - Icon to open pop-up menu not perceptible - P9

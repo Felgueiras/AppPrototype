@@ -23,7 +23,7 @@ import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivateBottomButtons;
 import com.example.rafael.appprototype.LockScreen.LockScreenActivity;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
@@ -93,7 +93,7 @@ public class PrivateArea extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             FragmentManager fragmentManager = getFragmentManager();
                             fragmentManager.beginTransaction()
-                                    .replace(R.id.current_fragment, new CGAPrivate())
+                                    .replace(R.id.current_fragment, new CGAPrivateBottomButtons())
                                     .commit();
                         }
                     });

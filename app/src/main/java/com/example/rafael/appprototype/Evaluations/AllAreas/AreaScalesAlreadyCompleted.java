@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
@@ -19,7 +18,7 @@ import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.Scales;
-import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragment;
+import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragmentBottomButtons;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
@@ -90,13 +89,13 @@ public class AreaScalesAlreadyCompleted extends RecyclerView.Adapter<AreaScalesA
                 }
 
                 // Create new fragment and transaction
-                Fragment newFragment = new ScaleFragment();
+                Fragment newFragment = new ScaleFragmentBottomButtons();
                 // add arguments
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(scaleName));
-                bundle.putSerializable(ScaleFragment.SCALE, currentScaleDB);
-                bundle.putSerializable(ScaleFragment.CGA_AREA, currentScaleDB.getArea());
-                bundle.putSerializable(ScaleFragment.patient, session.getPatient());
+                bundle.putSerializable(ScaleFragmentBottomButtons.testObject, Scales.getScaleByName(scaleName));
+                bundle.putSerializable(ScaleFragmentBottomButtons.SCALE, currentScaleDB);
+                bundle.putSerializable(ScaleFragmentBottomButtons.CGA_AREA, currentScaleDB.getArea());
+                bundle.putSerializable(ScaleFragmentBottomButtons.patient, session.getPatient());
                 newFragment.setArguments(bundle);
                 // setup the transaction
                 FragmentTransaction transaction = context.getFragmentManager().beginTransaction();

@@ -1,9 +1,7 @@
 package com.example.rafael.appprototype.Evaluations.AllAreas;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -19,32 +17,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.example.rafael.appprototype.DatabaseOps;
-import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
+import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.Scales;
+import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
-import com.example.rafael.appprototype.Evaluations.PickPatientFragment;
-import com.example.rafael.appprototype.Patients.PatientsMain;
-import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.HelpersHandlers.SessionHelper;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
-import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Create a new private CGA.
  */
-public class CGAPrivate extends Fragment {
+public class CGAPrivateOriginal extends Fragment {
 
     public static final String PATIENT = "patient";
     public static String GENDER = "gender";
@@ -56,9 +48,6 @@ public class CGAPrivate extends Fragment {
     Patient patient;
 
     boolean resuming = false;
-
-    public static FloatingActionButton discardFAB;
-    private static FloatingActionButton saveFAB;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -188,127 +177,8 @@ public class CGAPrivate extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.session_save:
-                /**
-                 * Create session.
-                 */
                 RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.newSessionLayout);
-
-                // no test selected
-                if (session.getScalesFromSession().size() == 0) {
-                    Snackbar.make(layout, getResources().getString(R.string.you_must_select_test), Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
-
-                // check how many tests were completed
-                int numTestsCompleted = 0;
-                List<GeriatricScale> testsFromSession = session.getScalesFromSession();
-                for (GeriatricScale test : testsFromSession) {
-                    if (test.isCompleted())
-                        numTestsCompleted++;
-                }
-                if (numTestsCompleted == 0) {
-                    Snackbar.make(layout, getResources().getString(R.string.complete_one_scale_atleast), Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
-
-                // check if there is an added patient or not
-                // no patient selected
-                if (patient == null) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                    //alertDialog.setTitle("Criar paciente");
-                    alertDialog.setMessage("Deseja adicionar paciente a esta sessão?");
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    /**
-                                     * Open the fragment to pick an already existing Patient.
-                                     */
-                                    FragmentManager fragmentManager = getFragmentManager();
-//                                    fragmentManager.popBackStack();
-                                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-                                    fragmentManager.beginTransaction()
-                                            .remove(currentFragment)
-                                            .replace(R.id.current_fragment, new PickPatientFragment())
-                                            .commit();
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // reset this Session
-                                    FragmentManager fragmentManager = getFragmentManager();
-//                                    fragmentManager.popBackStack();
-                                    BackStackHandler.clearBackStack();
-                                    session.eraseScalesNotCompleted();
-                                    Session sessionCopy = session;
-                                    SharedPreferencesHelper.resetPrivateSession(getActivity(), "");
-                                    SharedPreferencesHelper.resetPrivateSession(getActivity(), session.getGuid());
-                                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-                                    fragmentManager.beginTransaction()
-                                            .remove(currentFragment)
-                                            .replace(R.id.current_fragment, new PatientsMain())
-                                            .commit();
-
-//                                    /**
-//                                     * Review session created for patient.
-//                                     */
-//                                    Bundle args = new Bundle();
-//                                    args.putSerializable(ReviewSingleSessionNoPatient.SCALE, sessionCopy);
-//                                    Fragment fragment = new ReviewSingleSessionNoPatient();
-//                                    fragment.setArguments(args);
-//                                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-//                                    fragmentManager.beginTransaction()
-//                                            .remove(currentFragment)
-//                                            .replace(R.id.current_fragment, fragment)
-//                                            .addToBackStack(Constants.tag_review_session)
-//                                            .commit();
-
-                                    dialog.dismiss();
-//                                    Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
-                                }
-                            });
-                    alertDialog.show();
-                    break;
-                }
-
-                /**
-                 * If first session, all areas must be evaluated.
-                 */
-                if (patient.isFirstSession()) {
-                    // check all areas are evaluated -> at least one test completed
-                    boolean allAreasEvaluated = true;
-                    for (String currentArea : Constants.cga_areas) {
-                        ArrayList<GeriatricScale> scalesFromArea = session.getScalesFromArea(currentArea);
-                        boolean oneScaleEvaluated = false;
-                        for (GeriatricScale currentScale : scalesFromArea) {
-                            if (currentScale.isCompleted()) {
-                                oneScaleEvaluated = true;
-                                break;
-                            }
-                        }
-                        if (!oneScaleEvaluated) {
-                            allAreasEvaluated = false;
-                            break;
-                        }
-                    }
-                    // TODO first session for a patient
-//                    if (!allAreasEvaluated) {
-//                        Snackbar.make(layout, getResources().getString(R.string.first_session_evaluate_all_areas), Snackbar.LENGTH_SHORT).show();
-//                        return;
-//                    }
-                }
-
-                /**
-                 * Erase scales that weren't completed.
-                 */
-                session.eraseScalesNotCompleted();
-
-                // display results in JSON
-                DatabaseOps.displayData(getActivity());
-
-                Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_LONG).show();
-                BackStackHandler.goToPreviousScreen();
+                SessionHelper.saveSession(getActivity(),session,patient, getView(), layout, 1);
                 break;
             case R.id.session_cancel:
                 discardSession();

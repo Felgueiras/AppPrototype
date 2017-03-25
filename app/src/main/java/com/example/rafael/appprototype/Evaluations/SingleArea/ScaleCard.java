@@ -19,7 +19,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.Scales;
-import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragment;
+import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragmentBottomButtons;
 import com.example.rafael.appprototype.R;
 
 import java.io.Serializable;
@@ -194,13 +194,13 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                 String selectedTestName = finalCurrentTest.getScaleName();
 
                 // Create new fragment and transaction
-                Fragment newFragment = new ScaleFragment();
+                Fragment newFragment = new ScaleFragmentBottomButtons();
                 // add arguments
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(selectedTestName));
-                bundle.putSerializable(ScaleFragment.SCALE, finalCurrentTest);
-                bundle.putSerializable(ScaleFragment.CGA_AREA, area);
-                bundle.putSerializable(ScaleFragment.patient, session.getPatient());
+                bundle.putSerializable(ScaleFragmentBottomButtons.testObject, Scales.getScaleByName(selectedTestName));
+                bundle.putSerializable(ScaleFragmentBottomButtons.SCALE, finalCurrentTest);
+                bundle.putSerializable(ScaleFragmentBottomButtons.CGA_AREA, area);
+                bundle.putSerializable(ScaleFragmentBottomButtons.patient, session.getPatient());
                 newFragment.setArguments(bundle);
                 // setup the transaction
                 FragmentTransaction transaction = context.getFragmentManager().beginTransaction();

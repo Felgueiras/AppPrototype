@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivateBottomButtons;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
@@ -66,9 +66,9 @@ public class PatientSessionsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                args.putSerializable(CGAPrivate.PATIENT, patient);
+                args.putSerializable(CGAPrivateBottomButtons.PATIENT, patient);
                 SharedPreferencesHelper.unlockSessionCreation(getActivity());
-                FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), args, Constants.tag_create_session_with_patient);
+                FragmentTransitions.replaceFragment(getActivity(), new CGAPrivateBottomButtons(), args, Constants.tag_create_session_with_patient);
                 getActivity().setTitle(getResources().getString(R.string.cga));
             }
         });

@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivateBottomButtons;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
@@ -27,7 +27,7 @@ public class PatientSessionsEmpty extends Fragment {
     // Inflate the view for the fragment based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.display_empty_state, container, false);
+        View view = inflater.inflate(R.layout.display_empty_state_fab, container, false);
 
         Bundle bundle = getArguments();
         String messageToDisplay = bundle.getString(MESSAGE, "Empty state");
@@ -41,9 +41,9 @@ public class PatientSessionsEmpty extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                args.putSerializable(CGAPrivate.PATIENT, patient);
+                args.putSerializable(CGAPrivateBottomButtons.PATIENT, patient);
                 SharedPreferencesHelper.unlockSessionCreation(getActivity());
-                FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), args, Constants.tag_create_session_with_patient);
+                FragmentTransitions.replaceFragment(getActivity(), new CGAPrivateBottomButtons(), args, Constants.tag_create_session_with_patient);
                 getActivity().setTitle(getResources().getString(R.string.cga));
             }
         });

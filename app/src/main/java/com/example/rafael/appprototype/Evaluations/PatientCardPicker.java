@@ -3,9 +3,11 @@ package com.example.rafael.appprototype.Evaluations;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivateBottomButtons;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
@@ -64,7 +66,8 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
 
     /**
      * Constructor of the SessionCardEvaluationHistory
-     *  @param context
+     *
+     * @param context
      * @param patients
      * @param pickBeforeSession
      */
@@ -101,63 +104,74 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
 
             @Override
             public void onClick(View v) {
-                /**
-                 * Pick a patient to be associated with a Session.
-                 */
-                if(pickBeforeSession)
-                {
-                    /**
-                     * Go to new session with this patient.
-                     */
-                    Bundle args = new Bundle();
-                    args.putSerializable(CGAPrivate.PATIENT, patient);
-                    FragmentTransitions.replaceFragment(context, new CGAPrivate(), args, Constants.tag_create_session_with_patient);
-                }
-                else
-                {
-                    DrawerLayout layout = (DrawerLayout) context.findViewById(R.id.drawer_layout);
-                    Snackbar.make(layout, context.getString(R.string.picked_patient_session_created), Snackbar.LENGTH_SHORT).show();
-                    // add Patient to Session
-                    String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);
+                // prompt if really want to save it
+                AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+//            alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
+                alertDialog.setMessage("Deseja mesmo associar o paciente " + patient.getName() + " à sessão?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (pickBeforeSession) {
+                                    /**
+                                     * Go to new session with this patient.
+                                     */
+                                    Bundle args = new Bundle();
+                                    args.putSerializable(CGAPrivateBottomButtons.PATIENT, patient);
+                                    FragmentTransitions.replaceFragment(context, new CGAPrivateBottomButtons(), args, Constants.tag_create_session_with_patient);
+                                } else {
+                                    DrawerLayout layout = (DrawerLayout) context.findViewById(R.id.drawer_layout);
+                                    Snackbar.make(layout, context.getString(R.string.picked_patient_session_created), Snackbar.LENGTH_SHORT).show();
+                                    // add Patient to Session
+                                    String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);
 
-                    // get session by ID
-                    Session session = Session.getSessionByID(sessionID);
-                    session.setPatient(patient);
-                    session.eraseScalesNotCompleted();
-                    session.save();
+                                    // get session by ID
+                                    Session session = Session.getSessionByID(sessionID);
+                                    session.setPatient(patient);
+                                    session.eraseScalesNotCompleted();
+                                    session.save();
 
-                    // reset current private session
-                    SharedPreferencesHelper.resetPrivateSession(context, "");
+                                    // reset current private session
+                                    SharedPreferencesHelper.resetPrivateSession(context, "");
 
-                    FragmentManager fragmentManager = context.getFragmentManager();
-                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-                    fragmentManager.beginTransaction()
-                            .remove(currentFragment)
-                            .commit();
+                                    FragmentManager fragmentManager = context.getFragmentManager();
+                                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                                    fragmentManager.beginTransaction()
+                                            .remove(currentFragment)
+                                            .commit();
 //                    fragmentManager.popBackStack();
-                    BackStackHandler.clearBackStack();
+                                    BackStackHandler.clearBackStack();
 //                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
 //                    fragmentManager.beginTransaction()
 //                            .remove(currentFragment)
 //                            .replace(R.id.current_fragment, new PatientsMain())
 //                            .commit();
-                    /**
-                     * Review session created for patient.
-                     */
-                    Bundle args = new Bundle();
-                    args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
-                    args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
-                    Fragment fragment = new ReviewSingleSessionWithPatient();
+                                    /**
+                                     * Review session created for patient.
+                                     */
+                                    Bundle args = new Bundle();
+                                    args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
+                                    args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+                                    Fragment fragment = new ReviewSingleSessionWithPatient();
 
-                    // TODO go to new session with this patient
-                    fragment.setArguments(args);
-                    currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-                    fragmentManager.beginTransaction()
-                            .remove(currentFragment)
-                            .replace(R.id.current_fragment, fragment)
-                            .addToBackStack(Constants.tag_review_session)
-                            .commit();
-                }
+                                    // TODO go to new session with this patient
+                                    fragment.setArguments(args);
+                                    currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                                    fragmentManager.beginTransaction()
+                                            .remove(currentFragment)
+                                            .replace(R.id.current_fragment, fragment)
+                                            .addToBackStack(Constants.tag_review_session)
+                                            .commit();
+                                }
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
             }
         };
 

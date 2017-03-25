@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
@@ -28,7 +29,6 @@ import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,16 +39,12 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Create a new public CGA.
  */
-public class CGAPublic extends Fragment {
-
-    public static String GENDER = "gender";
+public class CGAPublicBottomButtons extends Fragment {
 
     private Session session;
 
     boolean resuming = false;
 
-    public static FloatingActionButton resetFAB;
-    private static FloatingActionButton saveFAB;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -61,7 +57,7 @@ public class CGAPublic extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.menu_cga_public, menu);
+//        inflater.inflate(R.menu.menu_cga_public, menu);
     }
 
     @Override
@@ -81,13 +77,13 @@ public class CGAPublic extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View myInflatedView = inflater.inflate(R.layout.content_new_session_public, container, false);
+        View myInflatedView = inflater.inflate(R.layout.content_new_session_public_bottom_buttons, container, false);
         getActivity().setTitle(getResources().getString(R.string.cga_public));
 
         sharedPreferences = getActivity().getSharedPreferences(getResources().getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
 
 
-        Log.d("Session", "Inside CGAPublic");
+        Log.d("Session", "Inside CGAPublicBottomButtons");
 
 
         /**
@@ -148,6 +144,15 @@ public class CGAPublic extends Fragment {
 
         RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.area_scales_recycler_view);
         AreaCard adapter = new AreaCard(getActivity(), session, resuming, Constants.SESSION_GENDER);
+
+        Button finishSession = (Button) myInflatedView.findViewById(R.id.session_finish);
+        finishSession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishSession();
+            }
+        });
+
 
         // create Layout
         int numbercolumns = 1;
@@ -294,7 +299,7 @@ public class CGAPublic extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         // remove session
                         session.eraseScalesNotCompleted();
-                        Snackbar.make(getView(),"Sessão terminada",Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(getView(), "Sessão terminada", Snackbar.LENGTH_SHORT).show();
 
                         if (session.getScalesFromSession().size() == 0) {
                             SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());

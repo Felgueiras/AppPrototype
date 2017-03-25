@@ -55,7 +55,7 @@ public class CGAPublicInfo extends Fragment {
             public void onClick(View view) {
                 Log.d("Session", "Clicked in CGAPublicInfo!");
                 SharedPreferencesHelper.unlockSessionCreation(getActivity());
-                FragmentTransitions.replaceFragment(getActivity(), new CGAPublic(), null, Constants.tag_cga_public);
+                FragmentTransitions.replaceFragment(getActivity(), new CGAPublicBottomButtons(), null, Constants.tag_cga_public);
             }
         });
 

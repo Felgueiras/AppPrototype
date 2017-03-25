@@ -3,6 +3,7 @@ package com.example.rafael.appprototype.Evaluations.AllAreas;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,7 +23,7 @@ import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivate;
-import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublic;
+import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublicBottomButtons;
 import com.example.rafael.appprototype.R;
 
 import java.io.Serializable;
@@ -112,7 +113,12 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
         holder.infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                AlertDialog alertDialog = new AlertDialog.Builder(context)
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        }).create();
                 alertDialog.setTitle(area);
                 // add info about this area
                 String area_text = null;
@@ -167,16 +173,16 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
                     transaction.replace(R.id.current_fragment, newFragment);
                     transaction.addToBackStack(Constants.tag_display_single_area_private).commit();
                 } else {
-                    Fragment newFragment = new CGAAreaPublic();
+                    Fragment newFragment = new CGAAreaPublicBottomButtons();
                     // add arguments
                     Bundle bundle = new Bundle();
 
                     Patient patient = session.getPatient();
                     if (patient != null)
-                        bundle.putSerializable(CGAAreaPublic.PATIENT, patient);
+                        bundle.putSerializable(CGAAreaPublicBottomButtons.PATIENT, patient);
 
-                    bundle.putSerializable(CGAAreaPublic.sessionObject, session);
-                    bundle.putString(CGAAreaPublic.CGA_AREA, selectedArea);
+                    bundle.putSerializable(CGAAreaPublicBottomButtons.sessionObject, session);
+                    bundle.putString(CGAAreaPublicBottomButtons.CGA_AREA, selectedArea);
                     newFragment.setArguments(bundle);
                     // setup the transaction
                     FragmentTransaction transaction = context.getFragmentManager().beginTransaction();

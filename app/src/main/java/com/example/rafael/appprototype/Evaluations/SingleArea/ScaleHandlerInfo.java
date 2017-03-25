@@ -1,6 +1,7 @@
 package com.example.rafael.appprototype.Evaluations.SingleArea;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +55,11 @@ public class ScaleHandlerInfo implements View.OnClickListener {
         GeriatricScaleNonDB test = Scales.getScaleByName(currentScale.getScaleName());
         fillTableScaleScoring(test, table);
 
-        AlertDialog alertDialog = dialogBuilder.create();
+        AlertDialog alertDialog = dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        }).create();
         alertDialog.setTitle(currentScale.getScaleName());
         alertDialog.show();
     }

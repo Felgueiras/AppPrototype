@@ -15,21 +15,21 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivateBottomButtons;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicBottomButtons;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
+import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragmentBottomButtons;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivate;
-import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublic;
+import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublicBottomButtons;
 import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
 import com.example.rafael.appprototype.Patients.Progress.ProgressDetail;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
 import com.example.rafael.appprototype.Patients.Progress.ProgressMain;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewSingleScaleFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
-import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragment;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.R;
 
@@ -86,7 +86,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
              */
             if (tag.equals(Constants.tag_display_session_scale)) {
 
-                if (!((ScaleFragment) fr).checkComplete()) {
+                if (!((ScaleFragmentBottomButtons) fr).checkComplete()) {
                     return;
                 }
                 fragmentManager.popBackStack();
@@ -94,54 +94,54 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
                 // get the arguments
                 Bundle arguments = fr.getArguments();
-                GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragment.SCALE);
+                GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragmentBottomButtons.SCALE);
                 assert scale != null;
                 scale.setAlreadyOpened(true);
                 scale.save();
                 Session session = scale.getSession();
-                Patient patient = (Patient) arguments.getSerializable(ScaleFragment.patient);
+                Patient patient = (Patient) arguments.getSerializable(ScaleFragmentBottomButtons.patient);
 
                 if (SharedPreferencesHelper.isLoggedIn(context)) {
                     args = new Bundle();
                     args.putSerializable(CGAAreaPrivate.SESSION, session);
                     args.putSerializable(CGAAreaPrivate.PATIENT, patient);
-                    args.putSerializable(CGAAreaPrivate.CGA_AREA, arguments.getSerializable(ScaleFragment.CGA_AREA));
+                    args.putSerializable(CGAAreaPrivate.CGA_AREA, arguments.getSerializable(ScaleFragmentBottomButtons.CGA_AREA));
                     fragment = new CGAAreaPrivate();
                 } else {
                     args = new Bundle();
-                    args.putSerializable(CGAAreaPublic.sessionObject, session);
-                    args.putSerializable(CGAAreaPublic.PATIENT, patient);
-                    args.putSerializable(CGAAreaPublic.CGA_AREA, arguments.getSerializable(ScaleFragment.CGA_AREA));
+                    args.putSerializable(CGAAreaPublicBottomButtons.sessionObject, session);
+                    args.putSerializable(CGAAreaPublicBottomButtons.PATIENT, patient);
+                    args.putSerializable(CGAAreaPublicBottomButtons.CGA_AREA, arguments.getSerializable(ScaleFragmentBottomButtons.CGA_AREA));
 
-                    fragment = new CGAAreaPublic();
+                    fragment = new CGAAreaPublicBottomButtons();
                 }
             } else if (tag.equals(Constants.tag_display_session_scale_shortcut)) {
                 // get the arguments
                 Bundle arguments = fr.getArguments();
                 /**
-                 * bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(scaleName));
-                 bundle.putSerializable(ScaleFragment.SCALE, currentScaleDB);
-                 bundle.putSerializable(ScaleFragment.CGA_AREA, currentScaleDB.getArea());
-                 bundle.putSerializable(ScaleFragment.patient, session.getPatient());
+                 * bundle.putSerializable(ScaleFragmentBottomButtons.testObject, Scales.getScaleByName(scaleName));
+                 bundle.putSerializable(ScaleFragmentBottomButtons.SCALE, currentScaleDB);
+                 bundle.putSerializable(ScaleFragmentBottomButtons.CGA_AREA, currentScaleDB.getArea());
+                 bundle.putSerializable(ScaleFragmentBottomButtons.patient, session.getPatient());
                  */
-                GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragment.SCALE);
+                GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragmentBottomButtons.SCALE);
                 assert scale != null;
                 scale.setAlreadyOpened(true);
                 scale.save();
                 Session session = scale.getSession();
-                Patient patient = (Patient) arguments.getSerializable(ScaleFragment.patient);
+                Patient patient = (Patient) arguments.getSerializable(ScaleFragmentBottomButtons.patient);
 
                 if (SharedPreferencesHelper.isLoggedIn(context)) {
                     args = new Bundle();
-                    args.putSerializable(CGAPrivate.PATIENT, patient);
-                    fragment = new CGAPrivate();
+                    args.putSerializable(CGAPrivateBottomButtons.PATIENT, patient);
+                    fragment = new CGAPrivateBottomButtons();
                 } else {
                     args = new Bundle();
-//                    args.putSerializable(CGAAreaPublic.SCALE, session);
-//                    args.putSerializable(CGAAreaPublic.PATIENT, patient);
-//                    args.putSerializable(CGAAreaPublic.CGA_AREA, arguments.getSerializable(ScaleFragment.CGA_AREA));
+//                    args.putSerializable(CGAAreaPublicBottomButtons.SCALE, session);
+//                    args.putSerializable(CGAAreaPublicBottomButtons.PATIENT, patient);
+//                    args.putSerializable(CGAAreaPublicBottomButtons.CGA_AREA, arguments.getSerializable(ScaleFragmentBottomButtons.CGA_AREA));
 
-                    fragment = new CGAPublic();
+                    fragment = new CGAPublicBottomButtons();
                 }
             }
             /**
@@ -150,7 +150,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
              */
             else if (tag.equals(Constants.tag_display_single_area_public)) {
                 args = new Bundle();
-                fragment = new CGAPublic();
+                fragment = new CGAPublicBottomButtons();
                 fragment.setArguments(args);
             } else if (tag.equals(Constants.tag_display_single_area_private)) {
 
@@ -159,11 +159,11 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
                 args = new Bundle();
 
-                fragment = new CGAPrivate();
+                fragment = new CGAPrivateBottomButtons();
                 //Session session = test.getSession();
                 Patient patient = (Patient) arguments.getSerializable(CGAAreaPrivate.PATIENT);
-                //args.putSerializable(CGAPrivate.SCALE, session);
-                args.putSerializable(CGAPrivate.PATIENT, patient);
+                //args.putSerializable(CGAPrivateBottomButtons.SCALE, session);
+                args.putSerializable(CGAPrivateBottomButtons.PATIENT, patient);
             }
             /**
              * Patient progress global -> patient profile
@@ -199,15 +199,15 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 fragment = new DrugPrescriptionMain();
             } else if (tag.equals(Constants.tag_create_session_no_patient)) {
                 Log.d("Stack", "pressed back in new session");
-                ((CGAPrivate) fr).discardSession();
+                ((CGAPrivateBottomButtons) fr).discardSession();
                 return;
             } else if (tag.equals(Constants.tag_create_session_with_patient)) {
                 Log.d("Stack", "pressed back in new session with patient");
-                ((CGAPrivate) fr).discardSession();
+                ((CGAPrivateBottomButtons) fr).discardSession();
                 return;
             } else if (tag.equals(Constants.tag_cga_public)) {
                 Log.d("Stack", "pressed back in new session (public)");
-                ((CGAPublic) fr).finishSession();
+                ((CGAPublicBottomButtons) fr).finishSession();
                 return;
             } else if (tag.equals(Constants.tag_review_session_public)) {
                 Log.d("Stack", "Reviewing session (public area)");
@@ -440,7 +440,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
             Bundle args = new Bundle();
             Bundle arguments = fr.getArguments();
-            GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragment.SCALE);
+            GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragmentBottomButtons.SCALE);
 
             SharedPreferencesHelper.resetPrivateSession(context, "");
 

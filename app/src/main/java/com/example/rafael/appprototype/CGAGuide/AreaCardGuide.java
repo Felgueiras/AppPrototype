@@ -3,33 +3,18 @@ package com.example.rafael.appprototype.CGAGuide;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewManager;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
-import com.example.rafael.appprototype.DataTypes.DB.Patient;
-import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.Evaluations.AllAreas.AreaScalesIconsAdapter;
-import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivate;
-import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublic;
 import com.example.rafael.appprototype.R;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-
-import static android.content.Context.MODE_PRIVATE;
 
 
 /**

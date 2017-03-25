@@ -21,14 +21,14 @@ import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.DatabaseOps;
+import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragmentBottomButtons;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicBottomButtons;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
-import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragment;
 import com.example.rafael.appprototype.Introduction.MyIntro;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.R;
@@ -171,14 +171,14 @@ public class PublicArea extends AppCompatActivity {
      */
     public void displaySessionTest(GeriatricScaleNonDB selectedTest, GeriatricScale testDB) {
         // Create new fragment and transaction
-        Fragment newFragment = new ScaleFragment();
+        Fragment newFragment = new ScaleFragmentBottomButtons();
         // add arguments
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ScaleFragment.testObject, selectedTest);
-        bundle.putSerializable(ScaleFragment.SCALE, testDB);
+        bundle.putSerializable(ScaleFragmentBottomButtons.testObject, selectedTest);
+        bundle.putSerializable(ScaleFragmentBottomButtons.SCALE, testDB);
         Patient patient = testDB.getSession().getPatient();
         if (patient != null)
-            bundle.putSerializable(ScaleFragment.patient, patient);
+            bundle.putSerializable(ScaleFragmentBottomButtons.patient, patient);
         newFragment.setArguments(bundle);
         // setup the transaction
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -316,7 +316,7 @@ public class PublicArea extends AppCompatActivity {
                             Constants.SESSION_ID = sessionID;
                             FragmentManager fragmentManager = getFragmentManager();
                             fragmentManager.beginTransaction()
-                                    .replace(R.id.current_fragment, new CGAPublic())
+                                    .replace(R.id.current_fragment, new CGAPublicBottomButtons())
                                     .commit();
                         }
                     });

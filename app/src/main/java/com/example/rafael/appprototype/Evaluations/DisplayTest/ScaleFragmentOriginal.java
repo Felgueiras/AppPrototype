@@ -17,29 +17,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
-import com.example.rafael.appprototype.Evaluations.PickPatientFragment;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
+import com.example.rafael.appprototype.HelpersHandlers.SessionHelper;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
-import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Display a list of Questions for a single Test.
  */
-public class ScaleFragment extends Fragment {
+public class ScaleFragmentOriginal extends Fragment {
 
     /**
      * String identifier for the Test.
@@ -120,129 +114,8 @@ public class ScaleFragment extends Fragment {
              * Private.
              */
             case R.id.session_save:
-                /**
-                 * Create session.
-                 */
                 View viewForSnackbar = getActivity().findViewById(R.id.scale_progress);
-
-                // no test selected
-                if (session.getScalesFromSession().size() == 0) {
-                    Snackbar.make(viewForSnackbar, getResources().getString(R.string.you_must_select_test), Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
-
-                // check how many tests were completed
-                int numTestsCompleted = 0;
-                List<GeriatricScale> testsFromSession = session.getScalesFromSession();
-                for (GeriatricScale test : testsFromSession) {
-                    if (test.isCompleted())
-                        numTestsCompleted++;
-                }
-                if (numTestsCompleted == 0) {
-                    Snackbar.make(viewForSnackbar, getResources().getString(R.string.complete_one_scale_atleast), Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
-
-                // check if there is an added patient or not
-                // no patient selected
-                if (session.getPatient() == null) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                    //alertDialog.setTitle("Criar paciente");
-                    alertDialog.setMessage("Deseja adicionar paciente a esta sessão?");
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    /**
-                                     * Open the fragment to pick an already existing Patient.
-                                     */
-                                    FragmentManager fragmentManager = getFragmentManager();
-                                    fragmentManager.popBackStack();
-                                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-                                    fragmentManager.beginTransaction()
-                                            .remove(currentFragment)
-                                            .replace(R.id.current_fragment, new PickPatientFragment())
-                                            .commit();
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // reset this Session
-                                    FragmentManager fragmentManager = getFragmentManager();
-//                                    fragmentManager.popBackStack();
-                                    BackStackHandler.clearBackStack();
-                                    session.eraseScalesNotCompleted();
-                                    Session sessionCopy = session;
-                                    SharedPreferencesHelper.resetPrivateSession(getActivity(), "");
-                                    SharedPreferencesHelper.resetPrivateSession(getActivity(), session.getGuid());
-                                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-                                    fragmentManager.beginTransaction()
-                                            .remove(currentFragment)
-                                            .replace(R.id.current_fragment, new PatientsMain())
-                                            .commit();
-
-//                                    /**
-//                                     * Review session created for patient.
-//                                     */
-//                                    Bundle args = new Bundle();
-//                                    args.putSerializable(ReviewSingleSessionNoPatient.SCALE, sessionCopy);
-//                                    Fragment fragment = new ReviewSingleSessionNoPatient();
-//                                    fragment.setArguments(args);
-//                                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-//                                    fragmentManager.beginTransaction()
-//                                            .remove(currentFragment)
-//                                            .replace(R.id.current_fragment, fragment)
-//                                            .addToBackStack(Constants.tag_review_session)
-//                                            .commit();
-
-                                    dialog.dismiss();
-//                                    Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
-                                }
-                            });
-                    alertDialog.show();
-                    break;
-                }
-
-                /**
-                 * If first session, all areas must be evaluated.
-                 */
-                if (session.getPatient().isFirstSession()) {
-                    // check all areas are evaluated -> at least one test completed
-                    boolean allAreasEvaluated = true;
-                    for (String currentArea : Constants.cga_areas) {
-                        ArrayList<GeriatricScale> scalesFromArea = session.getScalesFromArea(currentArea);
-                        boolean oneScaleEvaluated = false;
-                        for (GeriatricScale currentScale : scalesFromArea) {
-                            if (currentScale.isCompleted()) {
-                                oneScaleEvaluated = true;
-                                break;
-                            }
-                        }
-                        if (!oneScaleEvaluated) {
-                            allAreasEvaluated = false;
-                            break;
-                        }
-                    }
-//                    if (!allAreasEvaluated) {
-//                        Snackbar.make(layout, getResources().getString(R.string.first_session_evaluate_all_areas), Snackbar.LENGTH_SHORT).show();
-//                        return;
-//                    }
-                }
-
-                /**
-                 * Erase scales that weren't completed.
-                 */
-                session.eraseScalesNotCompleted();
-
-                // display results in JSON
-                DatabaseOps.displayData(getActivity());
-
-                SharedPreferencesHelper.lockSessionCreation(getActivity());
-
-
-                Snackbar.make(viewForSnackbar, getResources().getString(R.string.session_created), Snackbar.LENGTH_LONG).show();
-                BackStackHandler.goToPreviousScreen();
+                SessionHelper.saveSession(getActivity(),session,session.getPatient(), viewForSnackbar, viewForSnackbar,3);
                 break;
             case R.id.session_cancel:
                 cancelSession();

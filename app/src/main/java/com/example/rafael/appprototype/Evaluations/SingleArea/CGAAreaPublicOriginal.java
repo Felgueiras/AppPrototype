@@ -18,18 +18,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
+import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.example.rafael.appprototype.R;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 
 
-public class CGAAreaPublic extends Fragment {
+public class CGAAreaPublicOriginal extends Fragment {
 
     /**
      * Patient for this Session

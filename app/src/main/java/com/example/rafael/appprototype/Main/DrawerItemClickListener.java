@@ -15,11 +15,11 @@ import android.view.MenuItem;
 
 import com.example.rafael.appprototype.AboutFragment;
 import com.example.rafael.appprototype.CGAGuide.CGAGuide;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicBottomButtons;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivateBottomButtons;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
 import com.example.rafael.appprototype.Help_Feedback.SendFeedback;
@@ -79,7 +79,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
              */
             String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(context);
             if (sessionID != null)
-                endFragment = new CGAPublic();
+                endFragment = new CGAPublicBottomButtons();
             else
                 endFragment = new CGAPublicInfo();
         } else if (id == R.id.prescription) {
@@ -87,7 +87,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         } else if (id == R.id.patients) {
             String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);
             if (sessionID != null)
-                endFragment = new CGAPrivate();
+                endFragment = new CGAPrivateBottomButtons();
             else
                 endFragment = new PatientsMain();
         } else if (id == R.id.sendFeedback) {
