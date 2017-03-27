@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.Scales;
-import com.example.rafael.appprototype.Evaluations.SingleArea.ScaleHandlerInfo;
+import com.example.rafael.appprototype.Evaluations.SingleArea.ScaleInfoHelper;
 import com.example.rafael.appprototype.R;
 
 import java.io.Serializable;
@@ -78,7 +78,7 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
         holder.scaleInfo.setText(currentScale.getDescription());
 
         // scale scoring
-        new ScaleHandlerInfo(context).fillTableScaleScoring(
+        new ScaleInfoHelper(context).fillTableScaleScoring(
                 currentScale,
                 holder.scaleScoring
         );

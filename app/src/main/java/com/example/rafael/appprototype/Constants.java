@@ -12,6 +12,9 @@ public class Constants {
     public static final int MALE = 0;
     public static final int FEMALE = 1;
     public static final int BOTH = 2;
+    public static final String SCALE = "SCALE";
+    public static final String AREA = "AREA";
+    public static final String ALL_AREAS = "ALL_AREAS";
     public static int SESSION_GENDER;
 
     public static String patient = "patientObject";
@@ -48,6 +51,7 @@ public class Constants {
      */
     public static final String tag_view_patient_info_records = "tag_view_patient_info_records";
     public static final String tag_create_patient = "tag_create_patient";
+    public static final String tag_create_session_from_favorites = "tag_create_session_from_favorites";
     public static final String tag_patient_progress = "tag_patient_progress";
     public static final String tag_progress_detail = "tag_progress_detail";
     public static final String tag_help_topic = "tag_help_topic";
@@ -68,7 +72,7 @@ public class Constants {
     public static final String tag_display_session_scale = "tag_display_session_scale";
     // review Evaluation
     public static final String tag_view_sessions_history = "tag_view_sessions_history";
-    public static final String tag_review_session = "tag_review_session";
+    public static final String tag_review_session_from_sessions_list = "tag_review_session_from_sessions_list";
     public static final String tag_review_session_public = "tag_review_session_public";
     public static final String tag_review_session_from_patient_profile = "tag_review_session_from_patient_profile";
     public static final String tag_review_test = "tag_review_test";
@@ -203,4 +207,5 @@ public class Constants {
     public static Bundle sessionsListBundle;
     public static int sessionsGridViewIndex;
     public static String create_session_permitted = "create_session_permitted";
+    public static final String tag_create_session_with_patient_from_session = "tag_create_session_with_patient_from_session";
 }

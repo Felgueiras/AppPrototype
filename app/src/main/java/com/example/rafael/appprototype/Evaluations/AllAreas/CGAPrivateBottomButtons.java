@@ -40,11 +40,8 @@ import java.util.Date;
 public class CGAPrivateBottomButtons extends Fragment {
 
     public static final String PATIENT = "patient";
-    public static String GENDER = "gender";
-
 
     private Session session;
-
 
     Patient patient;
 
@@ -60,7 +57,6 @@ public class CGAPrivateBottomButtons extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-//        inflater.inflate(R.menu.menu_cga_private_patient, menu);
     }
 
     @Override
@@ -74,10 +70,10 @@ public class CGAPrivateBottomButtons extends Fragment {
         View view;
         if (patient != null) {
             view = inflater.inflate(R.layout.content_new_session_private_bottom_buttons, container, false);
-            getActivity().setTitle(patient.getName() + " - " + getResources().getString(R.string.cga));
+            getActivity().setTitle("Nova AGG - " + patient.getName());
         } else {
-            view = inflater.inflate(R.layout.content_new_session_private_no_patient, container, false);
-            getActivity().setTitle(getResources().getString(R.string.cga));
+            view = inflater.inflate(R.layout.content_new_session_private_no_patient_bottom_buttons, container, false);
+            getActivity().setTitle("Nova AGG");
         }
 
         Log.d("Stack", "Inside cga private");
@@ -199,7 +195,7 @@ public class CGAPrivateBottomButtons extends Fragment {
                 SessionHelper.saveSession(getActivity(), session, patient, getView(), layout, 1);
                 break;
             case R.id.session_cancel:
-                discardSession();
+                SessionHelper.cancelSession(getActivity(),session,getView(),Constants.ALL_AREAS);
                 break;
 
         }

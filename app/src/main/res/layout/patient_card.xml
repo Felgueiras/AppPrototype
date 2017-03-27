@@ -6,9 +6,18 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
+    <TextView
+        android:id="@+id/initialLetter"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/patient_initial_size"
+        android:padding="10dp"
+        android:visibility="invisible"
+        android:text="A"/>
 
     <ImageView
         android:id="@+id/patientIcon"
+        android:layout_toRightOf="@+id/initialLetter"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:clickable="true"

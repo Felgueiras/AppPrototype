@@ -104,7 +104,7 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
                 Log.d("Review", "Clicked");
                 Bundle args = new Bundle();
                 args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
-                FragmentTransitions.replaceFragment(context, new ReviewSingleSessionWithPatient(), args, Constants.tag_review_session);
+                FragmentTransitions.replaceFragment(context, new ReviewSingleSessionWithPatient(), args, Constants.tag_review_session_from_sessions_list);
             }
         };
 

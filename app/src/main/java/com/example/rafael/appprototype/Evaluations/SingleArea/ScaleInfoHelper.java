@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Created by felgueiras on 18/02/2017.
  */
 
-public class ScaleHandlerInfo implements View.OnClickListener {
+public class ScaleInfoHelper implements View.OnClickListener {
 
 
     private Activity context;
@@ -29,12 +29,12 @@ public class ScaleHandlerInfo implements View.OnClickListener {
     private int background = R.drawable.cell_shape;
     private int paddingValue = 5;
 
-    public ScaleHandlerInfo(Activity context, GeriatricScale currentScale) {
+    public ScaleInfoHelper(Activity context, GeriatricScale currentScale) {
         this.context = context;
         this.currentScale = currentScale;
     }
 
-    public ScaleHandlerInfo(Activity context) {
+    public ScaleInfoHelper(Activity context) {
         this.context = context;
     }
 

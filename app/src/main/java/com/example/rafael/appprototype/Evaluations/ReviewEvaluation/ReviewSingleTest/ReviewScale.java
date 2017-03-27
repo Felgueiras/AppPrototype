@@ -24,7 +24,7 @@ import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.Scales;
 import com.example.rafael.appprototype.Evaluations.SingleArea.ScaleCard;
-import com.example.rafael.appprototype.Evaluations.SingleArea.ScaleHandlerInfo;
+import com.example.rafael.appprototype.Evaluations.SingleArea.ScaleInfoHelper;
 import com.example.rafael.appprototype.Evaluations.SingleArea.ScaleHandlerNotes;
 import com.example.rafael.appprototype.R;
 
@@ -199,7 +199,7 @@ public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder>
             }
         });
 
-        holder.description.setOnClickListener(new ScaleHandlerInfo(context, currentScale));
+        holder.description.setOnClickListener(new ScaleInfoHelper(context, currentScale));
     }
 
     /**

@@ -110,7 +110,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
         final GeriatricScale finalCurrentTest = currentScale;
 
-        holder.description.setOnClickListener(new ScaleHandlerInfo(context, currentScale));
+        holder.description.setOnClickListener(new ScaleInfoHelper(context, currentScale));
 
         // Test was already opened
         if (currentScale.isAlreadyOpened()) {
@@ -149,16 +149,16 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
             // still incomplete
             else {
                 holder.result_qualitative.setText(testCompletionSelectedIncomplete);
-                parentView.removeView(holder.result_quantitative);
-                parentView.removeView(holder.addNotesButton);
-                parentView.removeView(holder.notes);
+//                parentView.removeView(holder.result_quantitative);
+//                parentView.removeView(holder.addNotesButton);
+//                parentView.removeView(holder.notes);
             }
 
         } else {
-            parentView.removeView(holder.result_qualitative);
-            parentView.removeView(holder.result_quantitative);
-            parentView.removeView(holder.addNotesButton);
-            parentView.removeView(holder.notes);
+//            parentView.removeView(holder.result_qualitative);
+//            parentView.removeView(holder.result_quantitative);
+//            parentView.removeView(holder.addNotesButton);
+//            parentView.removeView(holder.notes);
         }
 
 

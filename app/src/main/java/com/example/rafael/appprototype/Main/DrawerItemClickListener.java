@@ -144,7 +144,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             // empty back stack
             BackStackHandler.clearBackStack();
             fragmentManager.beginTransaction()
-                    .replace(R.id.current_fragment, endFragment)
+                    .replace(R.id.current_fragment, endFragment, "initial_tag")
                     .commit();
         }
 

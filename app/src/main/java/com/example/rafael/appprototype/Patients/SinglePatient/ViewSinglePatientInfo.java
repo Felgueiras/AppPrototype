@@ -20,14 +20,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
-import com.example.rafael.appprototype.Patients.Progress.ProgressMain;
 import com.example.rafael.appprototype.Patients.PatientsMain;
+import com.example.rafael.appprototype.Patients.Progress.ProgressMain;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientNotesFragment;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
 import com.example.rafael.appprototype.R;
@@ -68,6 +68,8 @@ public class ViewSinglePatientInfo extends Fragment {
             //view.findViewById(R.id.patientName).setTransitionName(transText);
             //system.out.println("lol 2");
         }
+
+
 
         PatientSectionsPagerAdapter mSectionsPagerAdapter = new PatientSectionsPagerAdapter(getChildFragmentManager());
 

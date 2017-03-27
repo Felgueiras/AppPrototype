@@ -23,6 +23,7 @@ import android.widget.EditText;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewArea;
@@ -71,22 +72,38 @@ public class ReviewSingleSessionWithPatient extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // erase session
+                                FragmentManager fragmentManager = getActivity().getFragmentManager();
+                                int index = fragmentManager.getBackStackEntryCount() - 1;
+                                FragmentManager.BackStackEntry backEntry = fragmentManager.getBackStackEntryAt(index);
+                                String tag = backEntry.getName();
+
+                                fragmentManager.popBackStack();
                                 Patient patient = session.getPatient();
-                                session.delete();
                                 dialog.dismiss();
 
                                 DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
                                 Snackbar.make(layout, getResources().getString(R.string.session_erase_snackbar), Snackbar.LENGTH_SHORT).show();
 
-//                                BackStackHandler.goToPreviousScreen();
+                                Fragment fragment = null;
+                                if (tag.equals(Constants.tag_review_session_from_sessions_list)) {
+                                    // go back to sessions list
+                                    fragment = new EvaluationsHistoryMain();
+                                } else if (tag.equals(Constants.tag_review_session_from_patient_profile)) {
+                                    // go back to patient profile
+                                    Bundle args = new Bundle();
+                                    args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
+                                    fragment = new ViewSinglePatientInfo();
+                                    fragment.setArguments(args);
+                                }
 
-//                                BackStackHandler.clearBackStack();
-                                Bundle args = new Bundle();
-                                args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
-                                FragmentTransitions.replaceFragment(getActivity(),
-                                        new ViewSinglePatientInfo(),
-                                        args,
-                                        Constants.tag_view_patient_info_records);
+
+                                Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                                fragmentManager.beginTransaction()
+                                        .remove(currentFragment)
+                                        .replace(R.id.current_fragment, fragment)
+                                        .commit();
+
+                                session.delete();
                             }
                         });
                 alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
@@ -114,6 +131,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
         Bundle args = getArguments();
         // get Session and Patient
         session = (Session) args.getSerializable(SESSION);
+
         if (session.getPatient() != null) {
             getActivity().setTitle(session.getPatient().getName() + " - " + DatesHandler.dateToStringWithoutHour(session.getDate()));
         } else {

@@ -500,7 +500,7 @@ public class Scales {
         // BANHO
         QuestionNonDB banho = new QuestionNonDB("Banho", false);
         ArrayList<ChoiceNonDB> ChoiceNonDBs = new ArrayList<>();
-        ChoiceNonDBs.add(new ChoiceNonDB("Dependente", "necessita de ajuda para lavar mai que uma parte do corpo", 0));
+        ChoiceNonDBs.add(new ChoiceNonDB("Dependente", "necessita de ajuda para lavar mais que uma parte do corpo", 0));
         ChoiceNonDBs.add(new ChoiceNonDB("Independente", "necessita de ajuda apenas para lavar uma parte do corpo", 1));
         banho.setChoices(ChoiceNonDBs);
         testeDeKatz.addQuestion(banho);

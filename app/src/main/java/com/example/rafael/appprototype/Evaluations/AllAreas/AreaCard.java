@@ -22,7 +22,7 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
-import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivate;
+import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivateBottomButtons;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublicBottomButtons;
 import com.example.rafael.appprototype.R;
 
@@ -156,15 +156,15 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
                 SharedPreferences sharedPreferences = context.getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
                 boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
                 if (alreadyLogged) {
-                    Fragment newFragment = new CGAAreaPrivate();
+                    Fragment newFragment = new CGAAreaPrivateBottomButtons();
                     // add arguments
                     Bundle bundle = new Bundle();
                     Patient patient = session.getPatient();
                     if (patient != null)
-                        bundle.putSerializable(CGAAreaPrivate.PATIENT, patient);
+                        bundle.putSerializable(CGAAreaPrivateBottomButtons.PATIENT, patient);
 
-                    bundle.putSerializable(CGAAreaPrivate.SESSION, session);
-                    bundle.putString(CGAAreaPrivate.CGA_AREA, selectedArea);
+                    bundle.putSerializable(CGAAreaPrivateBottomButtons.SESSION, session);
+                    bundle.putString(CGAAreaPrivateBottomButtons.CGA_AREA, selectedArea);
                     newFragment.setArguments(bundle);
                     // setup the transaction
                     FragmentTransaction transaction = context.getFragmentManager().beginTransaction();

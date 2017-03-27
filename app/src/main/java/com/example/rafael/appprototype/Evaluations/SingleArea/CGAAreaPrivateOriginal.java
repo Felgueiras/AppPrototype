@@ -20,23 +20,15 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
-import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
-import com.example.rafael.appprototype.DatabaseOps;
-import com.example.rafael.appprototype.Evaluations.PickPatientFragment;
+import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.HelpersHandlers.SessionHelper;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
-import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
-import com.getbase.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
-public class CGAAreaPrivate extends Fragment {
+public class CGAAreaPrivateOriginal extends Fragment {
 
     /**
      * Patient for this Session

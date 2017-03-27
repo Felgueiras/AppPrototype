@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivateBottomButtons;
+import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
+import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.R;
@@ -26,7 +29,7 @@ import java.util.ArrayList;
 /**
  * Created by rafael on 03-10-2016.
  */
-public class PatientsFavorite2 extends BaseAdapter {
+public class PatientCardFavorite extends BaseAdapter {
     private final PatientsFavoriteFragment fragment;
     /**
      * All the Patients
@@ -34,7 +37,7 @@ public class PatientsFavorite2 extends BaseAdapter {
     private ArrayList<Patient> patients;
     Activity context;
 
-    public PatientsFavorite2(Activity context, ArrayList<Patient> patients, PatientsFavoriteFragment patientsFavoriteFragment) {
+    public PatientCardFavorite(Activity context, ArrayList<Patient> patients, PatientsFavoriteFragment patientsFavoriteFragment) {
         this.context = context;
         this.patients = patients;
         this.fragment = patientsFavoriteFragment;
@@ -123,8 +126,11 @@ public class PatientsFavorite2 extends BaseAdapter {
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.newSession:
-                    // TODO create session from favorites list
-                    Snackbar.make(view, "123", Snackbar.LENGTH_SHORT).show();
+                    Bundle args = new Bundle();
+                    args.putSerializable(CGAPrivateBottomButtons.PATIENT, patients.get(position));
+                    SharedPreferencesHelper.unlockSessionCreation(context);
+                    FragmentTransitions.replaceFragment(context, new CGAPrivateBottomButtons(), args, Constants.tag_create_session_from_favorites);
+                    context.setTitle(context.getResources().getString(R.string.cga));
                     break;
                 case R.id.removeFavorite:
                     fragment.removePatientFromFavorites(position);

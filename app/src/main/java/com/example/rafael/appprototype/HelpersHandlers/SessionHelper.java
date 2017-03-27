@@ -29,19 +29,17 @@ import java.util.List;
 public class SessionHelper {
 
     public static void saveSession(final Activity context, final Session session, Patient patient, final View view, View layout, int i) {
-        Log.d("Session","Saving " + i);
+        Log.d("Session", "Saving " + i);
         /**
          * Create session.
          */
 
         // no test selected
         if (session.getScalesFromSession().size() == 0) {
-            Log.d("Session","size");
+            Log.d("Session", "size");
             Snackbar.make(layout, context.getResources().getString(R.string.you_must_select_test), Snackbar.LENGTH_SHORT).show();
             return;
         }
-
-        Log.d("Session","size2");
 
 
         // check how many tests were completed
@@ -86,9 +84,7 @@ public class SessionHelper {
 //                                    fragmentManager.popBackStack();
                             BackStackHandler.clearBackStack();
                             session.eraseScalesNotCompleted();
-                            Session sessionCopy = session;
-                            SharedPreferencesHelper.resetPrivateSession(context, "");
-                            SharedPreferencesHelper.resetPrivateSession(context, session.getGuid());
+
                             Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
                             fragmentManager.beginTransaction()
                                     .remove(currentFragment)
@@ -106,7 +102,7 @@ public class SessionHelper {
 //                                    fragmentManager.beginTransaction()
 //                                            .remove(currentFragment)
 //                                            .replace(R.id.current_fragment, fragment)
-//                                            .addToBackStack(Constants.tag_review_session)
+//                                            .addToBackStack(Constants.tag_review_session_from_sessions_list)
 //                                            .commit();
 
                             dialog.dismiss();
@@ -143,33 +139,70 @@ public class SessionHelper {
 //                        return;
 //                    }
 
-            Log.d("Session", "Showing dialog");
-            // prompt if really want to save it
-            AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-//            alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
-            alertDialog.setMessage("Deseja mesmo guardar a Sessão que tinha em curso?");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            /**
-                             * Erase scales that weren't completed.
-                             */
-                            session.eraseScalesNotCompleted();
-
-                            // display results in JSON
-                            DatabaseOps.displayData(context);
-
-                            Snackbar.make(view, context.getResources().getString(R.string.session_created), Snackbar.LENGTH_LONG).show();
-                            BackStackHandler.goToPreviousScreen();
-                        }
-                    });
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
         }
+        Log.d("Session", "Showing dialog");
+        // prompt if really want to save it
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+//            alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
+        alertDialog.setMessage("Deseja mesmo guardar a Sessão que tinha em curso?");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        /**
+                         * Erase scales that weren't completed.
+                         */
+                        session.eraseScalesNotCompleted();
+
+                        // display results in JSON
+                        DatabaseOps.displayData(context);
+
+                        Snackbar.make(view, context.getResources().getString(R.string.session_created), Snackbar.LENGTH_LONG).show();
+                        BackStackHandler.goToPreviousScreen();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
+    }
+
+
+    public static void cancelSession(final Activity context, final Session session, final View view, final String place) {
+        Log.d("Stack", "Cancel");
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle(context.getResources().getString(R.string.session_discard));
+        alertDialog.setMessage(context.getResources().getString(R.string.session_discard_question));
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, context.getResources().getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // remove session
+                        SharedPreferencesHelper.lockSessionCreation(context);
+
+                        Patient p = session.getPatient();
+                        // how many sessions this patient have
+                        FragmentManager fragmentManager = context.getFragmentManager();
+                        if (place.equals(Constants.SCALE)) {
+                            fragmentManager.popBackStack();
+                            fragmentManager.popBackStack();
+                        } else if (place.equals(Constants.AREA)) {
+                            fragmentManager.popBackStack();
+                        }
+                        SharedPreferencesHelper.resetPrivateSession(context, session.getGuid());
+                        BackStackHandler.discardSession(p);
+                        dialog.dismiss();
+                        Snackbar.make(view, context.getResources().getString(R.string.session_discarded), Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, context.getResources().getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 }

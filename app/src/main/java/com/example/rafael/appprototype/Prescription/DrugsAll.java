@@ -11,6 +11,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +27,7 @@ import com.example.rafael.appprototype.R;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -50,7 +52,8 @@ public class DrugsAll extends Fragment {
      * Start criteria.
      */
     private ArrayList<StartCriteria> startGeneral;
-    private Parcelable state;
+
+    String key;
 
 
     @Override
@@ -63,8 +66,26 @@ public class DrugsAll extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("key", key);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            // Restore last state
+            key = savedInstanceState.getString("key");
+        } else {
+            key = "" + Calendar.getInstance().getTimeInMillis();
+        }
+        Log.d("Orientation", this.getResources().getConfiguration().orientation+"");
+
+
+        Log.d("Key",key);
+
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.search_drugs, container, false);
 

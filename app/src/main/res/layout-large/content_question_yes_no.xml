@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="20dp">
     <!-- Text of the question-->
     <TextView
         android:paddingLeft="5dp"
@@ -26,6 +27,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/yesChoice"
+            style="@style/tablet_text1"
             android:text="@string/yes"
             />
 
@@ -34,6 +36,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/noChoice"
+            style="@style/tablet_text1"
             android:text="@string/no"
             />
 

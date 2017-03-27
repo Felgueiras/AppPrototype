@@ -1,5 +1,6 @@
 package com.example.rafael.appprototype.Main;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -46,12 +47,18 @@ public class PublicArea extends AppCompatActivity {
      */
     private SharedPreferences sharedPreferences;
 
+    BackStackHandler handler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("Lock", "onCreate");
+        Log.d("Orientation", this.getResources().getConfiguration().orientation + "");
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer_public);
+
 
         /**
          * Views/layout.
@@ -91,15 +98,14 @@ public class PublicArea extends AppCompatActivity {
         context = this;
 
         // access SharedPreferences
-        Log.d("Preferences",getString(R.string.sharedPreferencesTag));
+        Log.d("Preferences", getString(R.string.sharedPreferencesTag));
         sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
 
         // is there an ongoing public session?
         isTherePublicSession();
 
         // get screen size
-        Constants.screenSize = getResources().getConfiguration().screenLayout &
-                Configuration.SCREENLAYOUT_SIZE_MASK;
+        Constants.screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
 
 
         boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
@@ -110,6 +116,8 @@ public class PublicArea extends AppCompatActivity {
             finish();
             return;
         }
+
+        // not logged in
 
         //  Declare a new thread to do a preference check
         final SharedPreferences finalSharedPreferences = sharedPreferences;
@@ -139,9 +147,6 @@ public class PublicArea extends AppCompatActivity {
         // set public area of the app
         Constants.area = Constants.area_public;
 
-        // set handler for the Fragment stack
-        BackStackHandler handler = new BackStackHandler(getFragmentManager(), this);
-        getFragmentManager().addOnBackStackChangedListener(handler);
 
         // set sample fragment
         Fragment fragment = null;
@@ -156,34 +161,34 @@ public class PublicArea extends AppCompatActivity {
                 setTitle(getResources().getString(R.string.tab_drug_prescription));
                 break;
         }
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.current_fragment, fragment)
-                .commit();
+        if (savedInstanceState == null) {
+            // set handler for the Fragment stack
+            handler = new BackStackHandler(getFragmentManager(), this);
+            getFragmentManager().addOnBackStackChangedListener(handler);
+
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.current_fragment, fragment, "initial_tag")
+                    .commit();
+
+        } else {
+            Log.d("Orientation", "Saved instance state not null");
+            fragment = getFragmentManager().findFragmentByTag("initial_tag");
+//            handler =
+            handler = (BackStackHandler) savedInstanceState.getSerializable("backStackHandler");
+            Log.d("Key", handler.getFragmentManager().getBackStackEntryCount() + "");
+            handler.onBackStackChanged();
+        }
+
+
     }
 
-
-    /**
-     * Display a single Test for the doctor
-     *
-     * @param selectedTest Test that was selected from a Session
-     * @param testDB       holder for the Test Card view
-     */
-    public void displaySessionTest(GeriatricScaleNonDB selectedTest, GeriatricScale testDB) {
-        // Create new fragment and transaction
-        Fragment newFragment = new ScaleFragmentBottomButtons();
-        // add arguments
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(ScaleFragmentBottomButtons.testObject, selectedTest);
-        bundle.putSerializable(ScaleFragmentBottomButtons.SCALE, testDB);
-        Patient patient = testDB.getSession().getPatient();
-        if (patient != null)
-            bundle.putSerializable(ScaleFragmentBottomButtons.patient, patient);
-        newFragment.setArguments(bundle);
-        // setup the transaction
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.current_fragment, newFragment);
-        transaction.addToBackStack(Constants.tag_display_session_scale).commit();
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("key", "12345");
+        // save fragment manager
+        outState.putSerializable("backStackHandler", handler);
     }
 
 
@@ -191,13 +196,6 @@ public class PublicArea extends AppCompatActivity {
     public void onBackPressed() {
         FragmentManager fragmentManager = getFragmentManager();
         BackStackHandler.handleBackButton(fragmentManager);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-
     }
 
 
@@ -300,7 +298,6 @@ public class PublicArea extends AppCompatActivity {
         transaction.commit();
 
     }
-
 
 
     public void isTherePublicSession() {

@@ -42,7 +42,7 @@ public class PatientsFavoriteFragment extends Fragment {
         GridView gridView = (GridView) view.findViewById(R.id.patients_grid);
         favoritePatients = Patient.getFavoritePatients();
 
-        adapter = new PatientsFavorite2(getActivity(), favoritePatients, this);
+        adapter = new PatientCardFavorite(getActivity(), favoritePatients, this);
         gridView.setAdapter(adapter);
 
         return view;

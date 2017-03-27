@@ -21,9 +21,10 @@ import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragmentBottomButtons;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
-import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivate;
+import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivateBottomButtons;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublicBottomButtons;
 import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
+import com.example.rafael.appprototype.Main.PrivateArea;
 import com.example.rafael.appprototype.Patients.Progress.ProgressDetail;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Patients.Progress.ProgressMain;
@@ -33,16 +34,22 @@ import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.R;
 
+import java.io.Serializable;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by rafael on 09-10-2016.
  */
-public class BackStackHandler implements FragmentManager.OnBackStackChangedListener {
+public class BackStackHandler implements FragmentManager.OnBackStackChangedListener, Serializable {
 
     private static Activity context = null;
     static FragmentManager fragmentManager;
     private static SharedPreferences sharedPreferences;
+
+    public FragmentManager getFragmentManager() {
+        return fragmentManager;
+    }
 
     /**
      * Constructor for the BackStackHandler class
@@ -59,13 +66,11 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
     public static void handleBackButton(FragmentManager fragmentManager) {
         Fragment fragment = null;
         Bundle args = null;
+        Fragment fr = fragmentManager.findFragmentById(R.id.current_fragment);
+
         if (fragmentManager.getBackStackEntryCount() > 0) {
-            // get fragment on top of stack
-            String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
-//            Fragment currentFragment = fragmentManager.findFragmentByTag(fragmentTag);
 
 
-            Fragment fr = fragmentManager.findFragmentById(R.id.current_fragment);
             int index = fragmentManager.getBackStackEntryCount() - 1;
             FragmentManager.BackStackEntry backEntry = fragmentManager.getBackStackEntryAt(index);
             String tag = backEntry.getName();
@@ -84,176 +89,200 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             /**
              * Viewing a scale.
              */
-            if (tag.equals(Constants.tag_display_session_scale)) {
+            switch (tag) {
+                case Constants.tag_display_session_scale: {
 
-                if (!((ScaleFragmentBottomButtons) fr).checkComplete()) {
-                    return;
+                    if (!((ScaleFragmentBottomButtons) fr).checkComplete()) {
+                        return;
+                    }
+                    fragmentManager.popBackStack();
+
+
+                    // get the arguments
+                    Bundle arguments = fr.getArguments();
+                    GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragmentBottomButtons.SCALE);
+                    assert scale != null;
+                    scale.setAlreadyOpened(true);
+                    scale.save();
+                    Session session = scale.getSession();
+                    Patient patient = (Patient) arguments.getSerializable(ScaleFragmentBottomButtons.patient);
+
+                    if (SharedPreferencesHelper.isLoggedIn(context)) {
+                        args = new Bundle();
+                        args.putSerializable(CGAAreaPrivateBottomButtons.SESSION, session);
+                        args.putSerializable(CGAAreaPrivateBottomButtons.PATIENT, patient);
+                        args.putSerializable(CGAAreaPrivateBottomButtons.CGA_AREA, arguments.getSerializable(ScaleFragmentBottomButtons.CGA_AREA));
+                        fragment = new CGAAreaPrivateBottomButtons();
+                    } else {
+                        args = new Bundle();
+                        args.putSerializable(CGAAreaPublicBottomButtons.sessionObject, session);
+                        args.putSerializable(CGAAreaPublicBottomButtons.PATIENT, patient);
+                        args.putSerializable(CGAAreaPublicBottomButtons.CGA_AREA, arguments.getSerializable(ScaleFragmentBottomButtons.CGA_AREA));
+
+                        fragment = new CGAAreaPublicBottomButtons();
+                    }
+                    break;
                 }
-                fragmentManager.popBackStack();
+                case Constants.tag_display_session_scale_shortcut: {
+                    // get the arguments
+                    Bundle arguments = fr.getArguments();
+                    /**
+                     * bundle.putSerializable(ScaleFragmentBottomButtons.testObject, Scales.getScaleByName(scaleName));
+                     bundle.putSerializable(ScaleFragmentBottomButtons.SCALE, currentScaleDB);
+                     bundle.putSerializable(ScaleFragmentBottomButtons.CGA_AREA, currentScaleDB.getArea());
+                     bundle.putSerializable(ScaleFragmentBottomButtons.patient, session.getPatient());
+                     */
+                    GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragmentBottomButtons.SCALE);
+                    assert scale != null;
+                    scale.setAlreadyOpened(true);
+                    scale.save();
+                    Session session = scale.getSession();
+                    Patient patient = (Patient) arguments.getSerializable(ScaleFragmentBottomButtons.patient);
 
-
-                // get the arguments
-                Bundle arguments = fr.getArguments();
-                GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragmentBottomButtons.SCALE);
-                assert scale != null;
-                scale.setAlreadyOpened(true);
-                scale.save();
-                Session session = scale.getSession();
-                Patient patient = (Patient) arguments.getSerializable(ScaleFragmentBottomButtons.patient);
-
-                if (SharedPreferencesHelper.isLoggedIn(context)) {
-                    args = new Bundle();
-                    args.putSerializable(CGAAreaPrivate.SESSION, session);
-                    args.putSerializable(CGAAreaPrivate.PATIENT, patient);
-                    args.putSerializable(CGAAreaPrivate.CGA_AREA, arguments.getSerializable(ScaleFragmentBottomButtons.CGA_AREA));
-                    fragment = new CGAAreaPrivate();
-                } else {
-                    args = new Bundle();
-                    args.putSerializable(CGAAreaPublicBottomButtons.sessionObject, session);
-                    args.putSerializable(CGAAreaPublicBottomButtons.PATIENT, patient);
-                    args.putSerializable(CGAAreaPublicBottomButtons.CGA_AREA, arguments.getSerializable(ScaleFragmentBottomButtons.CGA_AREA));
-
-                    fragment = new CGAAreaPublicBottomButtons();
-                }
-            } else if (tag.equals(Constants.tag_display_session_scale_shortcut)) {
-                // get the arguments
-                Bundle arguments = fr.getArguments();
-                /**
-                 * bundle.putSerializable(ScaleFragmentBottomButtons.testObject, Scales.getScaleByName(scaleName));
-                 bundle.putSerializable(ScaleFragmentBottomButtons.SCALE, currentScaleDB);
-                 bundle.putSerializable(ScaleFragmentBottomButtons.CGA_AREA, currentScaleDB.getArea());
-                 bundle.putSerializable(ScaleFragmentBottomButtons.patient, session.getPatient());
-                 */
-                GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragmentBottomButtons.SCALE);
-                assert scale != null;
-                scale.setAlreadyOpened(true);
-                scale.save();
-                Session session = scale.getSession();
-                Patient patient = (Patient) arguments.getSerializable(ScaleFragmentBottomButtons.patient);
-
-                if (SharedPreferencesHelper.isLoggedIn(context)) {
-                    args = new Bundle();
-                    args.putSerializable(CGAPrivateBottomButtons.PATIENT, patient);
-                    fragment = new CGAPrivateBottomButtons();
-                } else {
-                    args = new Bundle();
+                    if (SharedPreferencesHelper.isLoggedIn(context)) {
+                        args = new Bundle();
+                        args.putSerializable(CGAPrivateBottomButtons.PATIENT, patient);
+                        fragment = new CGAPrivateBottomButtons();
+                    } else {
+                        args = new Bundle();
 //                    args.putSerializable(CGAAreaPublicBottomButtons.SCALE, session);
 //                    args.putSerializable(CGAAreaPublicBottomButtons.PATIENT, patient);
 //                    args.putSerializable(CGAAreaPublicBottomButtons.CGA_AREA, arguments.getSerializable(ScaleFragmentBottomButtons.CGA_AREA));
 
+                        fragment = new CGAPublicBottomButtons();
+                    }
+                    break;
+                }
+                /**
+                 *
+                 * Viewing single area (public).
+                 */
+                case Constants.tag_display_single_area_public:
+                    args = new Bundle();
                     fragment = new CGAPublicBottomButtons();
+                    fragment.setArguments(args);
+                    break;
+                case Constants.tag_display_single_area_private: {
+
+                    // get the arguments
+                    Bundle arguments = fr.getArguments();
+
+                    args = new Bundle();
+
+                    fragment = new CGAPrivateBottomButtons();
+                    //Session session = test.getSession();
+                    Patient patient = (Patient) arguments.getSerializable(CGAAreaPrivateBottomButtons.PATIENT);
+                    //args.putSerializable(CGAPrivateBottomButtons.SCALE, session);
+                    args.putSerializable(CGAPrivateBottomButtons.PATIENT, patient);
+                    break;
                 }
-            }
-            /**
-             *
-             * Viewing single area (public).
-             */
-            else if (tag.equals(Constants.tag_display_single_area_public)) {
-                args = new Bundle();
-                fragment = new CGAPublicBottomButtons();
-                fragment.setArguments(args);
-            } else if (tag.equals(Constants.tag_display_single_area_private)) {
+                /**
+                 * Patient progress global -> patient profile
+                 */
+                case Constants.tag_patient_progress: {
 
-                // get the arguments
-                Bundle arguments = fr.getArguments();
+                    // get the arguments
+                    Bundle arguments = fr.getArguments();
 
-                args = new Bundle();
+                    args = new Bundle();
+                    fragment = new ViewSinglePatientInfo();
 
-                fragment = new CGAPrivateBottomButtons();
-                //Session session = test.getSession();
-                Patient patient = (Patient) arguments.getSerializable(CGAAreaPrivate.PATIENT);
-                //args.putSerializable(CGAPrivateBottomButtons.SCALE, session);
-                args.putSerializable(CGAPrivateBottomButtons.PATIENT, patient);
-            }
-            /**
-             * Patient progress global -> patient profile
-             */
-            else if (tag.equals(Constants.tag_patient_progress)) {
+                    Patient patient = (Patient) arguments.getSerializable(ProgressMain.PATIENT);
+                    args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
 
-                // get the arguments
-                Bundle arguments = fr.getArguments();
-
-                args = new Bundle();
-                fragment = new ViewSinglePatientInfo();
-
-                Patient patient = (Patient) arguments.getSerializable(ProgressMain.PATIENT);
-                args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
-
-            }
-            /**
-             * Patient progress detail -> Progress global.
-             */
-            else if (tag.equals(Constants.tag_progress_detail)) {
-                args = new Bundle();
-                fragment = new ProgressMain();
-                // get the arguments
-                Bundle arguments = fr.getArguments();
-                Patient patient = (Patient) arguments.getSerializable(ProgressDetail.PATIENT);
-                args.putSerializable(ProgressMain.PATIENT, patient);
-
-            } else if (tag.equals(Constants.tag_view_patient_info_records)) {
-                fragment = new PatientsMain();
-            } else if (tag.equals(Constants.tag_view_patient_info_records_from_sessions_list)) {
-                fragment = new EvaluationsHistoryMain();
-            } else if (tag.equals(Constants.tag_view_drug_info)) {
-                fragment = new DrugPrescriptionMain();
-            } else if (tag.equals(Constants.tag_create_session_no_patient)) {
-                Log.d("Stack", "pressed back in new session");
-                ((CGAPrivateBottomButtons) fr).discardSession();
-                return;
-            } else if (tag.equals(Constants.tag_create_session_with_patient)) {
-                Log.d("Stack", "pressed back in new session with patient");
-                ((CGAPrivateBottomButtons) fr).discardSession();
-                return;
-            } else if (tag.equals(Constants.tag_cga_public)) {
-                Log.d("Stack", "pressed back in new session (public)");
-                ((CGAPublicBottomButtons) fr).finishSession();
-                return;
-            } else if (tag.equals(Constants.tag_review_session_public)) {
-                Log.d("Stack", "Reviewing session (public area)");
-                fragment = new CGAPublicInfo();
-            } else if (tag.equals(Constants.tag_help_topic)) {
-                args = new Bundle();
-                fragment = new HelpTopics();
-            }
-            /**
-             * Sessions history / review
-             */
-            else if (tag.equals(Constants.tag_review_session)) {
-                SharedPreferencesHelper.resetPrivateSession(context, "");
-                fragment = new EvaluationsHistoryMain();
-            } else if (tag.equals(Constants.tag_review_session_from_patient_profile)) {
-
-                SharedPreferencesHelper.resetPrivateSession(context, "");
-
-                // get the arguments
-                Bundle arguments = fr.getArguments();
-                Session session = (Session) arguments.getSerializable(ReviewSingleSessionWithPatient.SESSION);
-                Patient patient = session.getPatient();
-                args = new Bundle();
-                args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
-                fragment = new ViewSinglePatientInfo();
-                fragment.setArguments(args);
-            } else if (tag.equals(Constants.tag_review_test)) {
-                // get the arguments
-                Bundle arguments = fr.getArguments();
-                GeriatricScale test = (GeriatricScale) arguments.getSerializable(ReviewSingleScaleFragment.testDBobject);
-                Session session = test.getSession();
-
-                args = new Bundle();
-                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
-                fragment = new ReviewSingleSessionWithPatient();
-                if (session.getPatient() == null) {
-                    fragment = new ReviewSingleSessionNoPatient();
+                    break;
                 }
-            } else if (tag.equals(Constants.tag_create_patient)) {
-                fragment = new PatientsMain();
+                /**
+                 * Patient progress detail -> Progress global.
+                 */
+                case Constants.tag_progress_detail: {
+                    args = new Bundle();
+                    fragment = new ProgressMain();
+                    // get the arguments
+                    Bundle arguments = fr.getArguments();
+                    Patient patient = (Patient) arguments.getSerializable(ProgressDetail.PATIENT);
+                    args.putSerializable(ProgressMain.PATIENT, patient);
+
+                    break;
+                }
+                case Constants.tag_view_patient_info_records:
+                    fragment = new PatientsMain();
+                    break;
+                case Constants.tag_view_patient_info_records_from_sessions_list:
+                    fragment = new EvaluationsHistoryMain();
+                    break;
+                case Constants.tag_view_drug_info:
+                    fragment = new DrugPrescriptionMain();
+                    break;
+                case Constants.tag_create_session_no_patient:
+                    Log.d("Stack", "pressed back in new session");
+                    ((CGAPrivateBottomButtons) fr).discardSession();
+                    return;
+                case Constants.tag_create_session_with_patient:
+                    Log.d("Stack", "pressed back in new session with patient");
+                    ((CGAPrivateBottomButtons) fr).discardSession();
+                    return;
+                case Constants.tag_cga_public:
+                    Log.d("Stack", "pressed back in new session (public)");
+                    ((CGAPublicBottomButtons) fr).finishSession();
+                    return;
+                case Constants.tag_review_session_public:
+                    Log.d("Stack", "Reviewing session (public area)");
+                    fragment = new CGAPublicInfo();
+                    break;
+                case Constants.tag_help_topic:
+                    args = new Bundle();
+                    fragment = new HelpTopics();
+                    break;
+                /**
+                 * Sessions history / review
+                 */
+                case Constants.tag_review_session_from_sessions_list:
+                    SharedPreferencesHelper.resetPrivateSession(context, "");
+                    fragment = new EvaluationsHistoryMain();
+                    break;
+                case Constants.tag_review_session_from_patient_profile: {
+
+                    SharedPreferencesHelper.resetPrivateSession(context, "");
+
+                    // get the arguments
+                    Bundle arguments = fr.getArguments();
+                    Session session = (Session) arguments.getSerializable(ReviewSingleSessionWithPatient.SESSION);
+                    Patient patient = session.getPatient();
+                    args = new Bundle();
+                    args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
+                    fragment = new ViewSinglePatientInfo();
+                    fragment.setArguments(args);
+                    break;
+                }
+                case Constants.tag_review_test: {
+                    // get the arguments
+                    Bundle arguments = fr.getArguments();
+                    GeriatricScale test = (GeriatricScale) arguments.getSerializable(ReviewSingleScaleFragment.testDBobject);
+                    Session session = test.getSession();
+
+                    args = new Bundle();
+                    args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+                    fragment = new ReviewSingleSessionWithPatient();
+                    if (session.getPatient() == null) {
+                        fragment = new ReviewSingleSessionNoPatient();
+                    }
+                    break;
+                }
+                case Constants.tag_create_patient:
+                    fragment = new PatientsMain();
+                    break;
+                /**
+                 * CGA Guide.
+                 */
+                case Constants.tag_guide_area:
+                    fragment = new CGAGuide();
+                    break;
             }
-            /**
-             * CGA Guide.
-             */
-            else if (tag.equals(Constants.tag_guide_area)) {
-                fragment = new CGAGuide();
+
+            if (fragment.isAdded()) {
+                Log.d("Stack", "already added");
+                return; //or return false/true, based on where you are calling from
             }
 
             if (fragment.getArguments() == null) {
@@ -317,27 +346,36 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
      */
     public static void discardSession(Patient patient) {
         Log.d("Session", "Discarding session for patient " + patient);
+        // check if initial tag is create session no patient
+        int index = fragmentManager.getBackStackEntryCount() - 1;
+        FragmentManager.BackStackEntry backEntryCurrent = fragmentManager.getBackStackEntryAt(index);
+        String tagCurrent = backEntryCurrent.getName();
+
+        Log.d("Stack", "Discarding session tag:" + tagCurrent);
+
         fragmentManager.popBackStack();
         Bundle args = new Bundle();
-//        Fragment fr = fragmentManager.findFragmentById(R.id.current_fragment);
 
         Constants.discard_session = false;
         SharedPreferencesHelper.resetPrivateSession(context, "");
 
-        Fragment fragment;
-        if (patient != null) {
-            /**
-             * Session with patient.
-             */
-            fragment = new ViewSinglePatientInfo();
-            args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
-            fragment.setArguments(args);
+        Fragment fragment = null;
+        switch (tagCurrent) {
+            case Constants.tag_create_session_with_patient:
+                // created session with patient
+                fragment = new ViewSinglePatientInfo();
+                args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
+                fragment.setArguments(args);
+                break;
+            case Constants.tag_create_session_no_patient:
+            case Constants.tag_create_session_with_patient_from_session:
+                // created a Session with no patient -> go back to sessions screen
+                fragment = new EvaluationsHistoryMain();
+                break;
+            case Constants.tag_create_session_from_favorites:
+                fragment = new PatientsMain();
 
-        } else {
-            /**
-             * Session with no patient.
-             */
-            fragment = new PatientsMain();
+                break;
         }
 
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
@@ -377,8 +415,36 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
             String tagPrevious = backEntryPrevious.getName();
             Log.d("Stack", "Previous tag:" + tagPrevious);
-            if (tagPrevious.equals(Constants.tag_view_patient_info_records) ||
-                    tagPrevious.equals(Constants.tag_view_patient_info_records_from_sessions_list)) {
+            if (tagPrevious.equals(Constants.tag_view_patient_info_records)) {
+                /**
+                 * Session saved when viewing a scale - go to patient's profile.
+                 */
+                // lock session creation
+                SharedPreferencesHelper.lockSessionCreation(context);
+                fragmentManager.popBackStack();
+
+                Bundle args = new Bundle();
+                Session session = Session.getSessionByID(SharedPreferencesHelper.isThereOngoingPrivateSession(context));
+                SharedPreferencesHelper.resetPrivateSession(context, "");
+
+                SharedPreferencesHelper.resetPrivateSession(context, "");
+
+                args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
+                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+                fragment = new ReviewSingleSessionWithPatient();
+
+                fragment.setArguments(args);
+
+                // Create new transaction and add to back stack
+                FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
+                Fragment currentFragment = context.getFragmentManager().findFragmentById(R.id.current_fragment);
+                transaction.remove(currentFragment);
+                transaction.replace(R.id.current_fragment, fragment);
+                transaction.addToBackStack(Constants.tag_review_session_from_patient_profile);
+                transaction.commit();
+                return;
+
+            } else if (tagPrevious.equals(Constants.tag_view_patient_info_records_from_sessions_list)) {
 
                 fragmentManager.popBackStack();
                 Bundle args = new Bundle();
@@ -410,7 +476,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             fragmentManager.popBackStack();
             Bundle args = new Bundle();
             Bundle arguments = fr.getArguments();
-            Session currentSession = (Session) arguments.getSerializable(CGAAreaPrivate.SESSION);
+            Session currentSession = (Session) arguments.getSerializable(CGAAreaPrivateBottomButtons.SESSION);
 
             SharedPreferencesHelper.resetPrivateSession(context, "");
 
@@ -438,12 +504,34 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             fragmentManager.popBackStack();
             fragmentManager.popBackStack();
 
+
             Bundle args = new Bundle();
             Bundle arguments = fr.getArguments();
             GeriatricScale scale = (GeriatricScale) arguments.getSerializable(ScaleFragmentBottomButtons.SCALE);
+            Patient patient = scale.getSession().getPatient();
+            boolean containsFavorite = checkBackStackContainsTag(Constants.tag_create_session_from_favorites);
+            if (containsFavorite) {
+
+
+                args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
+                fragment = new ViewSinglePatientInfo();
+                fragment.setArguments(args);
+
+                // Create new transaction and add to back stack
+                FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
+                Fragment currentFragment = context.getFragmentManager().findFragmentById(R.id.current_fragment);
+                transaction.remove(currentFragment);
+                transaction.replace(R.id.current_fragment, fragment);
+                transaction.addToBackStack(Constants.tag_view_patient_info_records);
+                transaction.commit();
+
+
+            }
+
 
             SharedPreferencesHelper.resetPrivateSession(context, "");
 
+            args = new Bundle();
             args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
             args.putSerializable(ReviewSingleSessionWithPatient.SESSION, scale.getSession());
             fragment = new ReviewSingleSessionWithPatient();
@@ -465,6 +553,17 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 .remove(currentFragment)
                 .replace(R.id.current_fragment, fragment)
                 .commit();
+    }
+
+    private static boolean checkBackStackContainsTag(String tag) {
+        FragmentManager fragmentManager = context.getFragmentManager();
+        for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+            FragmentManager.BackStackEntry backEntryCurrent = fragmentManager.getBackStackEntryAt(i);
+            String tagCurrent = backEntryCurrent.getName();
+            if (tagCurrent.equals(tag))
+                return true;
+        }
+        return false;
     }
 
     public static void clearBackStack() {

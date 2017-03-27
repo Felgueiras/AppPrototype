@@ -127,19 +127,22 @@ public class PrivateArea extends AppCompatActivity {
 
         // set sample fragment
         Fragment fragment = null;
-        String defaultFragment = Constants.fragment_show_patients;
+        String defaultFragment = Constants.fragment_sessions;
         switch (defaultFragment) {
             case Constants.fragment_show_patients:
                 fragment = new PatientsMain();
+                navigationView.getMenu().getItem(0).setChecked(true);
                 setTitle(getResources().getString(R.string.tab_my_patients));
+                break;
+            case Constants.fragment_sessions:
+                navigationView.getMenu().getItem(1).setChecked(true);
+                fragment = new EvaluationsHistoryMain();
+                setTitle(getResources().getString(R.string.tab_sessions));
                 break;
             case Constants.fragment_drug_prescription:
                 fragment = new DrugPrescriptionMain();
+                navigationView.getMenu().getItem(2).setChecked(true);
                 setTitle(getResources().getString(R.string.tab_drug_prescription));
-                break;
-            case Constants.fragment_sessions:
-                fragment = new EvaluationsHistoryMain();
-                setTitle(getResources().getString(R.string.tab_sessions));
                 break;
 
         }

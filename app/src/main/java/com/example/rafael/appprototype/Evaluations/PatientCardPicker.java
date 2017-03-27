@@ -25,6 +25,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
+import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 
@@ -113,11 +114,22 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                             public void onClick(DialogInterface dialog, int which) {
                                 if (pickBeforeSession) {
                                     /**
+                                     * Go to patient's profile
+                                     */
+                                    context.getFragmentManager().popBackStack();
+                                    Bundle args = new Bundle();
+//                                    args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
+//                                    FragmentTransitions.replaceFragment(context, new ViewSinglePatientInfo(),
+//                                            args,
+//                                            Constants.tag_view_patient_info_records);
+                                    /**
                                      * Go to new session with this patient.
                                      */
-                                    Bundle args = new Bundle();
+                                    args = new Bundle();
                                     args.putSerializable(CGAPrivateBottomButtons.PATIENT, patient);
-                                    FragmentTransitions.replaceFragment(context, new CGAPrivateBottomButtons(), args, Constants.tag_create_session_with_patient);
+                                    FragmentTransitions.replaceFragment(context, new CGAPrivateBottomButtons(),
+                                            args,
+                                            Constants.tag_create_session_with_patient_from_session);
                                 } else {
                                     DrawerLayout layout = (DrawerLayout) context.findViewById(R.id.drawer_layout);
                                     Snackbar.make(layout, context.getString(R.string.picked_patient_session_created), Snackbar.LENGTH_SHORT).show();
@@ -159,7 +171,7 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                                     fragmentManager.beginTransaction()
                                             .remove(currentFragment)
                                             .replace(R.id.current_fragment, fragment)
-                                            .addToBackStack(Constants.tag_review_session)
+                                            .addToBackStack(Constants.tag_review_session_from_sessions_list)
                                             .commit();
                                 }
                                 dialog.dismiss();

@@ -56,7 +56,6 @@ public class EvaluationsAll extends Fragment {
          * On scroll, hide FAB.
          */
 
-
         return view;
     }
 
@@ -124,6 +123,7 @@ public class EvaluationsAll extends Fragment {
 //        super.onSaveInstanceState(outState);
 //        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, patientsRecyclerView.getLayoutManager().onSaveInstanceState());
 //    }
+
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);

@@ -12,7 +12,8 @@
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
         android:text="Medicamento"
-        android:transitionName="@string/fragment_text_trans" />
+        android:textSize="18sp"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"

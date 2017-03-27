@@ -110,7 +110,7 @@ public class RegisterUser extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Registo falhou", Toast.LENGTH_LONG).show();
+//        Toast.makeText(getBaseContext(), "Registo falhou", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }

@@ -44,7 +44,6 @@
                     android:paddingLeft="@dimen/album_title_padding"
                     android:paddingRight="@dimen/album_title_padding"
                     android:paddingTop="5dp"
-                    android:text="Result"
                     android:textSize="@dimen/test_type" />
 
                 <TextView

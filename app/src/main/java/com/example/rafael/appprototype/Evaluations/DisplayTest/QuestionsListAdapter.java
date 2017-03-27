@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -55,7 +56,7 @@ public class QuestionsListAdapter extends BaseAdapter {
     /**
      * Current Context
      */
-    private final Context context;
+    private final Activity context;
     /**
      * Test
      */
@@ -167,7 +168,8 @@ public class QuestionsListAdapter extends BaseAdapter {
 
         if (positionsFilled.size() == nq) {
             if (!scale.isCompleted()) {
-                Snackbar.make(questionView, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
+                DrawerLayout layout = (DrawerLayout) context.findViewById(R.id.drawer_layout);
+                Snackbar.make(layout, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
             }
 
             // write that to DB
@@ -522,7 +524,7 @@ public class QuestionsListAdapter extends BaseAdapter {
      * @param i
      * @return
      */
-    private RadioButton addRadioButton(Choice choice, RadioGroup radioGroup, int i) {
+    private RadioButton addRadioButton(Choice choice, RadioGroup radioGroup, int i, Activity context) {
         RadioButton newRadioButton = new RadioButton(context);
         if (choice.getName().equals("") || choice.getName() == null) {
             newRadioButton.setText(choice.getDescription());
@@ -533,6 +535,7 @@ public class QuestionsListAdapter extends BaseAdapter {
                 newRadioButton.setText(choice.getDescription());
         }
 
+        newRadioButton.setTextAppearance(context,R.style.tablet_text2);
         LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
                 RadioGroup.LayoutParams.WRAP_CONTENT,
                 RadioGroup.LayoutParams.WRAP_CONTENT);
@@ -604,7 +607,7 @@ public class QuestionsListAdapter extends BaseAdapter {
                 }
 
                 // create RadioButton for that choice
-                addRadioButton(choice, radioGroup, i);
+                addRadioButton(choice, radioGroup, i, context);
             }
 
         } else {
@@ -617,7 +620,7 @@ public class QuestionsListAdapter extends BaseAdapter {
                 Choice choice = question.getChoicesForQuestion().get(i);
 
                 // create RadioButton for that choice
-                addRadioButton(choice, radioGroup, i);
+                addRadioButton(choice, radioGroup, i, context);
             }
         }
 

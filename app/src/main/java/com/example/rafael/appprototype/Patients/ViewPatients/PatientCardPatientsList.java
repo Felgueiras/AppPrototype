@@ -49,7 +49,7 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
     public String getSectionTitle(int position) {
         //this String will be shown in a bubble for specified position
         // get the initial of the patient
-        return patients.get(position).getName().charAt(0)+"";
+        return patients.get(position).getName().charAt(0) + "";
     }
 
     /**
@@ -57,12 +57,13 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private final RelativeLayout card;
-        public TextView name, age;
+        public TextView name, initial;
         public ImageView icon, overflow;
 
         public MyViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.patientName);
+            initial = (TextView) view.findViewById(R.id.initialLetter);
             icon = (ImageView) view.findViewById(R.id.patientIcon);
             card = (RelativeLayout) view.findViewById(R.id.patientCard);
 //            overflow = (ImageView) view.findViewById(R.id.overflow);
@@ -94,7 +95,23 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
         final Patient patient = filteredList.get(position);
 
         holder.name.setText(patient.getName());
-        // holder.type.setText(patient.getAge());
+
+        // check if is first patient with this initial
+        char patientInitial = patient.getName().charAt(0);
+        boolean showInitial = false;
+        if (position == 0) {
+            showInitial = true;
+        } else {
+            char previousPatientInitial = filteredList.get(position - 1).getName().charAt(0);
+            if (patientInitial != previousPatientInitial)
+                showInitial = true;
+        }
+        if (showInitial) {
+            holder.initial.setVisibility(View.VISIBLE);
+            holder.initial.setText(patientInitial + "");
+        } else {
+            holder.initial.setVisibility(View.INVISIBLE);
+        }
 
 
         // loading album cover using Glide library
@@ -141,7 +158,7 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Log.d("LongClick","Open");
+                Log.d("LongClick", "Open");
                 // TODO use long click?
                 return false;
             }
