@@ -176,9 +176,9 @@ public class CGAPublicOriginal extends Fragment {
                     return;
                 }
 
-                // check if there is an added patient or not
-                // no patient selected
-                if (patient == null) {
+                // check if there is an added PATIENT or not
+                // no PATIENT selected
+                if (PATIENT == null) {
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                     //alertDialog.setTitle("Criar paciente");
                     alertDialog.setMessage("Deseja adicionar paciente a esta sessão?");

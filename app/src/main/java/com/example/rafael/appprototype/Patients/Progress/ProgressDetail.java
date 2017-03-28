@@ -40,7 +40,7 @@ public class ProgressDetail extends Fragment {
 
         ArrayList<GeriatricScale> scaleInstances = GeriatricScale.getScaleInstancesForPatient(patient.getSessionsFromPatient(), scale);
 
-        GraphViewHelper.buildGraph(graphView, scaleInstances, scaleInfo, getActivity());
+        GraphViewHelper.buildGraph(graphView, scaleInstances, scaleInfo, getActivity(), patient);
 
         return view;
     }

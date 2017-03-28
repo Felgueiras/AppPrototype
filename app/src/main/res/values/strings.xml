@@ -201,5 +201,7 @@
     <string name="patientProgressType">patientProgressType</string>
     <string name="multipleChoiceType">multipleChoiceType</string>
     <string name="font_fontFamily_medium">sans-serif</string>
+    <string name="title_activity_wheel_picker">WheelPickerActivity</string>
+    <string name="title_activity_custom_view_pager">CustomViewPagerActivity</string>
 
 </resources>

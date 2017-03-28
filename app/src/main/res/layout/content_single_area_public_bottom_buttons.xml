@@ -36,18 +36,8 @@
 
     </ScrollView>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <Button
-            android:id="@+id/session_finish"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Terminar" />
-
-
-    </RelativeLayout>
+    <include
+        android:id="@+id/finishButton"
+        layout="@layout/bottom_buttons_finish" />
 
 </RelativeLayout>

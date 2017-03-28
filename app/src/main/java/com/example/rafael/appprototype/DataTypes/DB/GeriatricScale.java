@@ -397,7 +397,7 @@ public class GeriatricScale extends Model implements Serializable {
     }
 
     /**
-     * Get the scale instances from a patient's sessions.
+     * Get the scale instances from a PATIENT's sessions.
      *
      * @param patientSessions
      * @param scaleName

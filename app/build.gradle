@@ -26,7 +26,6 @@ dependencies {
     compile 'com.google.gms:google-services:3.0.0'
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support:design:25.3.0'
-//    compile 'com.squareup.okhttp3:okhttp:3.0.1'
     compile 'junit:junit:4.12'
     compile 'com.android.support:support-v4:25.3.0'
     compile 'com.google.code.gson:gson:2.8.0'
@@ -45,8 +44,11 @@ dependencies {
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.github.arimorty:floatingsearchview:2.0.3'
     compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
+    compile 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
     testCompile 'junit:junit:4.12'
 }
+
+
 
 
 

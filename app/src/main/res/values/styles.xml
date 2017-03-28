@@ -37,9 +37,11 @@
         <item name="android:textSize">20dp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
     <style name="help_topic">
         <item name="android:textSize">18dp</item>
     </style>
+
     <style name="header2">
         <item name="android:textSize">15dp</item>
         <item name="android:textStyle">bold</item>
@@ -48,8 +50,13 @@
     <style name="text1">
         <item name="android:textSize">15dp</item>
     </style>
+
     <style name="text2">
         <item name="android:textSize">17dp</item>
+    </style>
+
+    <style name="question_text">
+        <item name="android:textSize">17sp</item>
     </style>
 
     <style name="tablet_text1">

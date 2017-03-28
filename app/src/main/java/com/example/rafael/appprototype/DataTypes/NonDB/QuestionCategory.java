@@ -1,12 +1,13 @@
 package com.example.rafael.appprototype.DataTypes.NonDB;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by rafael on 30-09-2016.
  */
-public class QuestionCategory {
+public class QuestionCategory implements Serializable{
 
 
     String category;
@@ -37,6 +38,7 @@ public class QuestionCategory {
     public QuestionCategory(String category) {
         this.category = category;
         this.questions = new ArrayList<>();
+        this.description ="";
     }
 
 

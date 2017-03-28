@@ -318,7 +318,7 @@ public class PatientsListPersistentSearch extends Fragment {
         Bundle arguments = getArguments();
         if (arguments != null) {
             if (arguments.getBoolean(selectPatient, false)) {
-                Log.d("Patient", "Going to select patient");
+                Log.d("Patient", "Going to select PATIENT");
 //                Constants.selectPatient = true;
             }
         }

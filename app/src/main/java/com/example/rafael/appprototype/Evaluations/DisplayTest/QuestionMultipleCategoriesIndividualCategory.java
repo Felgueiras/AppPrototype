@@ -2,7 +2,6 @@ package com.example.rafael.appprototype.Evaluations.DisplayTest;
 
 import android.app.Activity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,6 +33,7 @@ public class QuestionMultipleCategoriesIndividualCategory {
     private TextView instructions;
     private ImageButton previous;
     private ImageButton next;
+    private TextView categoryNumber;
 
     public QuestionMultipleCategoriesIndividualCategory(LayoutInflater inflater, GeriatricScaleNonDB testNonDB, Activity context, GeriatricScale test, QuestionsListAdapter adapter) {
         this.inflater = inflater;
@@ -51,10 +51,12 @@ public class QuestionMultipleCategoriesIndividualCategory {
     public View getView() {
         View questionView = inflater.inflate(R.layout.questions_multiple_categories_individual, null);
 
+
         /**
          * Access views.
          */
         categoryTextView = (TextView) questionView.findViewById(R.id.category);
+        categoryNumber = (TextView) questionView.findViewById(R.id.categoryNumber);
         instructions = (TextView) questionView.findViewById(R.id.instructions);
         // left and right arrows - switch category
         previous = (ImageButton) questionView.findViewById(R.id.previousCategory);
@@ -68,7 +70,7 @@ public class QuestionMultipleCategoriesIndividualCategory {
             public void onClick(View v) {
                 if (categoryIndex > 0) {
                     categoryIndex--;
-                    refreshRecycler();
+                    refreshLayout();
                 }
             }
         });
@@ -78,21 +80,22 @@ public class QuestionMultipleCategoriesIndividualCategory {
             public void onClick(View v) {
                 if (categoryIndex < scaleNonDB.getQuestionsCategories().size() - 1) {
                     categoryIndex++;
-                    refreshRecycler();
+                    refreshLayout();
                 }
             }
         });
 
 
-        refreshRecycler();
+        refreshLayout();
 
         return questionView;
     }
 
-    private void refreshRecycler() {
+    private void refreshLayout() {
 //        recyclerAdapter.notifyDataSetChanged();
         QuestionCategory currentCategory = scaleNonDB.getQuestionsCategories().get(categoryIndex);
         categoryTextView.setText(currentCategory.getName());
+        categoryNumber.setText((categoryIndex+1)+"/"+scaleNonDB.getQuestionsCategories().size());
         String categoryInfo = currentCategory.getDescription();
         // display category info
         if (categoryInfo != null) {

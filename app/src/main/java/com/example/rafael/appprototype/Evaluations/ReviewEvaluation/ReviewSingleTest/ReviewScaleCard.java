@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * Create the Card for each of the Tests of a Session
  */
-public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
+public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
     /**
      * Session for the Tests.
@@ -67,7 +67,7 @@ public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder>
      * @param area
      * @param comparePrevious
      */
-    public ReviewScale(Activity context, Session session, String area, boolean comparePrevious) {
+    public ReviewScaleCard(Activity context, Session session, String area, boolean comparePrevious) {
         this.context = context;
         this.session = session;
         this.patient = session.getPatient();
@@ -187,10 +187,10 @@ public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder>
             @Override
             public void onClick(View v) {
                 // Create new fragment and transaction
-                Fragment newFragment = new ReviewSingleScaleFragment();
+                Fragment newFragment = new ReviewSingleViewScale();
                 // add arguments
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(ReviewSingleScaleFragment.testDBobject, currentScale);
+                bundle.putSerializable(ReviewSingleViewScale.SCALE, currentScale);
                 newFragment.setArguments(bundle);
                 // setup the transaction
                 FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
@@ -257,7 +257,7 @@ public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder>
                             patient.getGender());
                     System.out.println(index1 + "-" + index2);
                     if (index2 > index1) {
-                        // patient got worse
+                        // PATIENT got worse
                         System.out.println("WORSE");
                         ViewStub stubInfo = ((ViewStub) holder.itemView.findViewById(R.id.area_info_stub)); // get the reference of ViewStub
                         if (stubInfo != null) {
@@ -279,7 +279,7 @@ public class ReviewScale extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder>
                         }
 
                     } else if (index1 > index2) {
-                        // patient got better
+                        // PATIENT got better
                         //holder.patientProgress.setText(R.string.evolution_positive);
                     } else {
                         //holder.patientProgress.setText(R.string.evolution_neutral);

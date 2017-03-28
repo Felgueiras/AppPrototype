@@ -32,7 +32,7 @@ public class CGAAreaPublicOriginal extends Fragment {
     /**
      * Patient for this Session
      */
-    public static String PATIENT = "patient";
+    public static String PATIENT = "PATIENT";
     public static String CGA_AREA = "area";
 
     Patient patientForThisSession;
@@ -59,7 +59,7 @@ public class CGAAreaPublicOriginal extends Fragment {
         ScaleCard adapter;
         RecyclerView.Adapter finalAdapter = null;
 
-        // read patient for this session
+        // read PATIENT for this session
         if (patientForThisSession != null) {
             adapter = new ScaleCard(getActivity(), session, resuming, patientForThisSession.getGender(), area);
         } else {

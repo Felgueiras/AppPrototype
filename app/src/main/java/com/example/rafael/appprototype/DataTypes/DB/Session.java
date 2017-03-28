@@ -4,6 +4,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
+import com.activeandroid.util.Log;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.google.gson.annotations.Expose;
 
@@ -11,6 +12,8 @@ import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -30,7 +33,7 @@ public class Session extends Model implements Serializable {
     String guid;
 
     @Expose
-    @Column(name = "patient", onDelete = Column.ForeignKeyAction.CASCADE)
+    @Column(name = "PATIENT", onDelete = Column.ForeignKeyAction.CASCADE)
     Patient patient;
 
     @Expose
@@ -103,12 +106,10 @@ public class Session extends Model implements Serializable {
     public Date getDateWithoutHour() {
         // create a copy of the date with hour and minute set to 0
 
-
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(date.getTime());
         return DatesHandler.createCustomDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
                 0, 0);
-
     }
 
     public void setDate(Date date) {
@@ -197,6 +198,7 @@ public class Session extends Model implements Serializable {
     }
 
 
+    // TODO get in order
     public static ArrayList<Date> getDifferentSessionDates() {
         List<Session> dates = new Select()
                 .distinct()
@@ -211,6 +213,18 @@ public class Session extends Model implements Serializable {
         }
         ArrayList<Date> differentDates = new ArrayList<>();
         differentDates.addAll(days);
+        // order by date (descending)
+        Collections.sort(differentDates, new Comparator<Date>() {
+            @Override
+            public int compare(Date first, Date second) {
+                if (first.after(second)) {
+                    return -1;
+                } else if (first.before(second)) {
+                    return 1;
+                } else
+                    return 0;
+            }
+        });
         return differentDates;
     }
 

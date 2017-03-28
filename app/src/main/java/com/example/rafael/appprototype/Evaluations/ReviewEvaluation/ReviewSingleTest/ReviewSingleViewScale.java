@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -19,11 +18,11 @@ import com.example.rafael.appprototype.R;
 /**
  * Display a list of Questions for a single Test.
  */
-public class ReviewSingleScaleFragment extends Fragment {
+public class ReviewSingleViewScale extends Fragment {
 
 
-    public static String patient = "patient";
-    public static String testDBobject = "testDBObject";
+    public static String PATIENT = "PATIENT";
+    public static String SCALE = "SCALE";
     Session session;
     /**
      * GeriatricScale which will be written to the DB.
@@ -38,7 +37,7 @@ public class ReviewSingleScaleFragment extends Fragment {
         setHasOptionsMenu(true);
 
         Bundle bundle = getArguments();
-        test = (GeriatricScale) bundle.getSerializable(testDBobject);
+        test = (GeriatricScale) bundle.getSerializable(SCALE);
         session = test.getSession();
 
         // set the title
@@ -55,7 +54,7 @@ public class ReviewSingleScaleFragment extends Fragment {
         QuestionsListAdapter adapter = new QuestionsListAdapter(
                 this.getActivity(),
                 Scales.getScaleByName(test.getScaleName()),
-                test, null);
+                test, null, getChildFragmentManager());
         testQuestions.setAdapter(adapter);
         return view;
     }

@@ -39,7 +39,7 @@ public class EvaluationsHistoryMain extends Fragment {
             @Override
             public void onClick(View view) {
                 // create a new Session - switch to CreatePatient Fragment
-                // TODO select patient, create new patient or no patient
+                // TODO select PATIENT, create new PATIENT or no PATIENT
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(R.string.new_session_private);
 
@@ -55,7 +55,7 @@ public class EvaluationsHistoryMain extends Fragment {
                                     dialog.dismiss();
                                     FragmentTransitions.replaceFragment(getActivity(), new CGAPrivateBottomButtons(), null, Constants.tag_create_session_no_patient);
                                 } else {
-                                    // pick patient
+                                    // pick PATIENT
 //                                    fragmentManager.popBackStack();
                                     Bundle bundle = new Bundle();
                                     bundle.putBoolean(PickPatientFragment.PICK_BEFORE_SESSION, true);

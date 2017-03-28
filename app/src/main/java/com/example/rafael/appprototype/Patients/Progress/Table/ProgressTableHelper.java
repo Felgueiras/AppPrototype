@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.Progress;
+package com.example.rafael.appprototype.Patients.Progress.Table;
 
 import android.content.Context;
 import android.view.Gravity;

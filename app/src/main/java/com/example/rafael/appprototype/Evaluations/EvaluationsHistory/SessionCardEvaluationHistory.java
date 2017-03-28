@@ -95,7 +95,7 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
         if (patient != null) {
             holder.patientName.setText(patient.getName()+" - " + DatesHandler.hour(session.getDate()));
             // loading album cover using Glide library
-            //Glide.with(context).load(patient.getPicture()).into(holder.icon);
+            //Glide.with(context).load(PATIENT.getPicture()).into(holder.icon);
         }
 
         View.OnClickListener clickListener = new View.OnClickListener() {

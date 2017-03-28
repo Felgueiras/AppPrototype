@@ -48,7 +48,7 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
     @Override
     public String getSectionTitle(int position) {
         //this String will be shown in a bubble for specified position
-        // get the initial of the patient
+        // get the initial of the PATIENT
         return patients.get(position).getName().charAt(0) + "";
     }
 
@@ -96,7 +96,7 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
 
         holder.name.setText(patient.getName());
 
-        // check if is first patient with this initial
+        // check if is first PATIENT with this initial
         char patientInitial = patient.getName().charAt(0);
         boolean showInitial = false;
         if (position == 0) {
@@ -115,7 +115,7 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
 
 
         // loading album cover using Glide library
-        //Glide.with(context).load(patient.getPicture()).into(holder.icon);
+        //Glide.with(context).load(PATIENT.getPicture()).into(holder.icon);
 
         // add on click listener for the icon
 
@@ -135,7 +135,7 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
             @Override
             public void onClick(View v) {
                 /**
-                 * Pick a patient to be associated with a Session.
+                 * Pick a PATIENT to be associated with a Session.
                  */
 
 
@@ -168,7 +168,7 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
 //        holder.overflow.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                showPopupMenu(holder.overflow, patient);
+//                showPopupMenu(holder.overflow, PATIENT);
 //            }
 //        });
 
@@ -215,9 +215,9 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
 //                                    session.delete();
 //                                    // refresh the adapter
 //                                    if (fragment instanceof PatientSessionsFragment)
-//                                        ((PatientSessionsFragment) fragment).removePatientFromFavorites(patient);
+//                                        ((PatientSessionsFragment) fragment).removePatientFromFavorites(PATIENT);
 //                                    else if (fragment instanceof EvaluationsAll)
-//                                        ((EvaluationsAll) fragment).removePatientFromFavorites(patient);
+//                                        ((EvaluationsAll) fragment).removePatientFromFavorites(PATIENT);
 //                                }
 //                            });
 //                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",

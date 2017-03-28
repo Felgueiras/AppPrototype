@@ -54,8 +54,8 @@ public class SessionHelper {
             return;
         }
 
-        // check if there is an added patient or not
-        // no patient selected
+        // check if there is an added PATIENT or not
+        // no PATIENT selected
         if (patient == null) {
             AlertDialog alertDialog = new AlertDialog.Builder(context).create();
             //alertDialog.setTitle("Criar paciente");
@@ -92,7 +92,7 @@ public class SessionHelper {
                                     .commit();
 
 //                                    /**
-//                                     * Review session created for patient.
+//                                     * Review session created for PATIENT.
 //                                     */
 //                                    Bundle args = new Bundle();
 //                                    args.putSerializable(ReviewSingleSessionNoPatient.SCALE, sessionCopy);
@@ -133,7 +133,7 @@ public class SessionHelper {
                     break;
                 }
             }
-            // TODO first session for a patient
+            // TODO first session for a PATIENT
 //                    if (!allAreasEvaluated) {
 //                        Snackbar.make(layout, getResources().getString(R.string.first_session_evaluate_all_areas), Snackbar.LENGTH_SHORT).show();
 //                        return;
@@ -183,7 +183,7 @@ public class SessionHelper {
                         SharedPreferencesHelper.lockSessionCreation(context);
 
                         Patient p = session.getPatient();
-                        // how many sessions this patient have
+                        // how many sessions this PATIENT have
                         FragmentManager fragmentManager = context.getFragmentManager();
                         if (place.equals(Constants.SCALE)) {
                             fragmentManager.popBackStack();

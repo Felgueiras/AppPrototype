@@ -2,19 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-
-    <!--Stub for holding graph and test area-->
-    <!--
-    <ViewStub
-        android:id="@+id/graph_stub"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inflatedId="@+id/inflatedview"
-        android:layout="@layout/stub_graph_view"
-        />
-        -->
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/testName"
@@ -29,15 +18,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inflatedId="@+id/inflatedview"
-        android:layout="@layout/stub_table"
-        />
+        android:layout="@layout/stub_table" />
 
     <TextView
         android:id="@+id/scale_not_evaluated"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Escala não foi aplicada"
-        android:layout_margin="10dp"/>
+        android:layout_margin="10dp"
+        android:text="Escala não foi aplicada" />
 
 </LinearLayout>

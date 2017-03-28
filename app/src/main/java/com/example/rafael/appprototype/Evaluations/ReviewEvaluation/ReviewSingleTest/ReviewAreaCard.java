@@ -20,7 +20,7 @@ import com.example.rafael.appprototype.R;
 /**
  * Create the Card for each of the Tests of a Session
  */
-public class ReviewArea extends RecyclerView.Adapter<ReviewArea.TestCardHolder> {
+public class ReviewAreaCard extends RecyclerView.Adapter<ReviewAreaCard.TestCardHolder> {
 
     /**
      * Session for the Tests.
@@ -44,7 +44,7 @@ public class ReviewArea extends RecyclerView.Adapter<ReviewArea.TestCardHolder> 
      * @param session
      * @param comparePreviousSession
      */
-    public ReviewArea(Activity context, Session session, boolean comparePreviousSession) {
+    public ReviewAreaCard(Activity context, Session session, boolean comparePreviousSession) {
         this.context = context;
         this.session = session;
         /*
@@ -116,7 +116,7 @@ public class ReviewArea extends RecyclerView.Adapter<ReviewArea.TestCardHolder> 
              * Show info about evaluations for every area.
              */
             holder.area.setText(area);
-            ReviewScale adapter = new ReviewScale(context, session, Constants.cga_areas[position], comparePrevious);
+            ReviewScaleCard adapter = new ReviewScaleCard(context, session, Constants.cga_areas[position], comparePrevious);
             int numbercolumns = 1;
             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, numbercolumns);
             holder.scales.setLayoutManager(mLayoutManager);

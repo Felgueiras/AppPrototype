@@ -1,9 +1,6 @@
-package com.example.rafael.appprototype.Patients.Progress;
+package com.example.rafael.appprototype.Patients.Progress.Table;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +10,6 @@ import android.view.ViewStub;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
@@ -116,7 +112,7 @@ public class ProgressScalesForAreaTable extends RecyclerView.Adapter<ProgressSca
 //                        // add arguments
 //                        Bundle bundle = new Bundle();
 //                        bundle.putString(ProgressDetail.SCALE, currentScale);
-//                        bundle.putSerializable(ProgressDetail.PATIENT, patient);
+//                        bundle.putSerializable(ProgressDetail.PATIENT, PATIENT);
 //                        bundle.putSerializable(ProgressDetail.SCALE_INFO, scale);
 //                        newFragment.setArguments(bundle);
 //                        // setup the transaction

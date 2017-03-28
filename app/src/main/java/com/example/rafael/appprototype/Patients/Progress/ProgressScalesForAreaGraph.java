@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,28 +105,37 @@ public class ProgressScalesForAreaGraph extends RecyclerView.Adapter<ProgressSca
                 View inflated = graphViewStub.inflate();
                 GraphView graph = (GraphView) inflated.findViewById(R.id.graph_view);
 
-                GraphViewHelper.buildGraph(graph, scaleInstances, scaleInfo, context);
+                // create labels for graph
+                RecyclerView labels = (RecyclerView) inflated.findViewById(R.id.scoringLabels);
+                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, 1);
+                labels.setLayoutManager(mLayoutManager);
+                labels.setItemAnimator(new DefaultItemAnimator());
+                ScaleLegendAdapter adapter = new ScaleLegendAdapter(patient,Scales.getScaleByName(scaleInstances.get(0).getScaleName()));
+                labels.setAdapter(adapter);
+
+                // create graphview
+                GraphViewHelper.buildGraph(graph, scaleInstances, scaleInfo, context, patient);
 
                 /**
                  * View progress in detail.
                  */
-                graph.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // Create new fragment and transaction
-                        Fragment newFragment = new ProgressDetail();
-                        // add arguments
-                        Bundle bundle = new Bundle();
-                        bundle.putString(ProgressDetail.SCALE, currentScale);
-                        bundle.putSerializable(ProgressDetail.PATIENT, patient);
-                        bundle.putSerializable(ProgressDetail.SCALE_INFO, scaleInfo);
-                        newFragment.setArguments(bundle);
-                        // setup the transaction
-                        FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
-                        transaction.replace(R.id.current_fragment, newFragment);
-                        transaction.addToBackStack(Constants.tag_progress_detail).commit();
-                    }
-                });
+//                graph.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        // Create new fragment and transaction
+//                        Fragment newFragment = new ProgressDetail();
+//                        // add arguments
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString(ProgressDetail.SCALE, currentScale);
+//                        bundle.putSerializable(ProgressDetail.PATIENT, PATIENT);
+//                        bundle.putSerializable(ProgressDetail.SCALE_INFO, scaleInfo);
+//                        newFragment.setArguments(bundle);
+//                        // setup the transaction
+//                        FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
+//                        transaction.replace(R.id.current_fragment, newFragment);
+//                        transaction.addToBackStack(Constants.tag_progress_detail).commit();
+//                    }
+//                });
             }
             // delete other text
             ViewManager parentView = (ViewManager) holder.testName.getParent();

@@ -268,7 +268,7 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="patients_recent">Recentes</string>
     <string name="app_close">Fechar aplicação</string>
     <string name="app_close_question">Deseja fechar a aplicação?</string>
-    <string name="cga_public">Sessão AGG Pública</string>
+    <string name="cga_public">Sessão AGG</string>
     <string name="about">Informações</string>
     <string name="about_app">Aplicação desenvolvida no âmbito da Dissertação de Mestrado em Engenharia de Computadores
     e Telemática da Universidade de Aveiro do aluno Rafael Salgueiro Felgueiras Pinto.</string>
@@ -282,7 +282,10 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="hospitalProcessNumber">Nº processo hospitalar</string>
     <string name="create_patient_error_process_number">Precisa de fornecer um nº de processo hospitalar</string>
     <string name="new_session_private">Nova sessão</string>
-    <string name="scale_incomplete">Escala incompleta, deseja retroceder à mesma?</string>
+    <!--Incomplete scale-->
+    <string name="scale_incomplete">Escala incompleta, continuar a preencher a escala?</string>
+    <string name="scale_incomplete_continue_filling_scale">Continuar</string>
+
     <string name="action_new_session">Nova sessão AGG</string>
     <string name="action_favorite_remove">Remover dos favoritos</string>
     <string name="create_patient_error_invalid_birthDate">Data de nascimento inválida</string>
@@ -296,4 +299,5 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="session_erase_question">Deseja eliminar esta sessão?</string>
     <string name="session_erase_snackbar">Sessão eliminada.</string>
     <string name="picked_patient_session_created">Paciente associado à sesssão e sessão criada.</string>
+    <string name="scale_incomplete_leave_scale">sair da escala</string>
 </resources>

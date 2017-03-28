@@ -34,7 +34,7 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
     private final PatientSessionsFragment fragment;
     private Activity context;
     /**
-     * Records from that patient
+     * Records from that PATIENT
      */
     private ArrayList<Session> sessions;
     private Session session;
@@ -92,13 +92,13 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
                 layoutManager.getOrientation());
         holder.testsList.addItemDecoration(dividerItemDecoration);
-
+        final Session currentSession = sessions.get(position);
 
         View.OnClickListener cardSelected = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle args = new Bundle();
-                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, sessions.get(position));
+                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, currentSession);
                 FragmentTransitions.replaceFragment(context,
                         new ReviewSingleSessionWithPatient(),
                         args,
@@ -109,17 +109,19 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
         holder.view.setOnClickListener(cardSelected);
         adapter.setOnClickListener(cardSelected);
 
+
+
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog alertDialog = new AlertDialog.Builder(context).create();
 //                    alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
-                alertDialog.setMessage("Deseja eliminar esta Sessão?");
+                alertDialog.setMessage("Deseja eliminar esta Sessão? " + currentSession.getDate());
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Snackbar.make(holder.view, "Sessão eliminada.", Snackbar.LENGTH_SHORT).show();
-                                session.delete();
+                                currentSession.delete();
                                 // refresh the adapter
                                 fragment.removeSession(position);
 

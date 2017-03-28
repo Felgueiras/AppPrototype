@@ -52,32 +52,8 @@
 
     <!--</com.getbase.floatingactionbutton.FloatingActionsMenu>-->
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/session_cancel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Cancelar" />
-
-            <Button
-                android:id="@+id/session_save"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Guardar" />
-        </LinearLayout>
-
-
-    </RelativeLayout>
+    <include
+        android:id="@+id/cancelSaveButtons"
+        layout="@layout/bottom_buttons_cancel_save" />
 
 </RelativeLayout>

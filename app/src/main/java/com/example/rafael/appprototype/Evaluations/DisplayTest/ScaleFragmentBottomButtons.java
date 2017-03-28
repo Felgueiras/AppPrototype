@@ -40,7 +40,7 @@ public class ScaleFragmentBottomButtons extends Fragment {
      */
     public static final String testObject = "scaleNonDB";
 
-    public static String patient = "patient";
+    public static String patient = "PATIENT";
     public static String SCALE = "testDBObject";
     public static String CGA_AREA;
     Session session;
@@ -120,7 +120,7 @@ public class ScaleFragmentBottomButtons extends Fragment {
         ListView testQuestions = (ListView) view.findViewById(R.id.testQuestions);
         ProgressBar progress = (ProgressBar) view.findViewById(R.id.scale_progress);
         // create the adapter
-        QuestionsListAdapter adapter = new QuestionsListAdapter(this.getActivity(), scaleNonDB, scaleDB, progress);
+        QuestionsListAdapter adapter = new QuestionsListAdapter(this.getActivity(), scaleNonDB, scaleDB, progress, getChildFragmentManager());
         testQuestions.setAdapter(adapter);
 
 
@@ -132,8 +132,6 @@ public class ScaleFragmentBottomButtons extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
     }
-
-
 
 
     private void finishSession() {
@@ -213,8 +211,19 @@ public class ScaleFragmentBottomButtons extends Fragment {
 //            builder.setTitle(R.string.select_patient_gender);
             builder.setMessage(R.string.scale_incomplete);
 
-            String positiveText = getString(android.R.string.yes);
+            String positiveText = getString(R.string.scale_incomplete_continue_filling_scale);
             builder.setPositiveButton(positiveText,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // positive button logic
+                            proceed = false;
+                            dialog.dismiss();
+                        }
+                    });
+
+            String negativeText = getString(R.string.scale_incomplete_leave_scale);
+            builder.setNegativeButton(negativeText,
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -222,17 +231,7 @@ public class ScaleFragmentBottomButtons extends Fragment {
                             dialog.dismiss();
                             proceed = true;
                             getActivity().onBackPressed();
-                        }
-                    });
 
-            String negativeText = getString(android.R.string.no);
-            builder.setNegativeButton(negativeText,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // positive button logic
-                            proceed = false;
-                            dialog.dismiss();
                         }
                     });
 

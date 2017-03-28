@@ -175,7 +175,7 @@ public class StoppCriteria {
         // 4
         pr = new PrescriptionStopp("First generation antihistamines");
         issue = new Issue("",
-                "(sedative, may impair sensorium). Stop if patient has fallen in past 3 months");
+                "(sedative, may impair sensorium). Stop if PATIENT has fallen in past 3 months");
         pr.addIssue(issue);
         respiratorySystem.addPrescription(pr);
         stoppGeneral.add(respiratorySystem);
@@ -293,7 +293,7 @@ public class StoppCriteria {
                 "may worsen heart failure"));
         pr.addIssue(new Issue("Vasodilator drugs known to cause hypotension in those with persistent " +
                 "postural hypotension i.e. recurrent > 20mmHg drop in systolic blood pressure",
-                "risk of syncope, falls). Stop if patient has fallen in past 3 months"));
+                "risk of syncope, falls). Stop if PATIENT has fallen in past 3 months"));
         cardiovascularSystem.addPrescription(pr);
         // 6
         pr = new PrescriptionStopp("Aspirin");

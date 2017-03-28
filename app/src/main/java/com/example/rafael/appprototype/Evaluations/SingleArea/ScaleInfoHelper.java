@@ -55,7 +55,7 @@ public class ScaleInfoHelper implements View.OnClickListener {
         GeriatricScaleNonDB test = Scales.getScaleByName(currentScale.getScaleName());
         fillTableScaleScoring(test, table);
 
-        AlertDialog alertDialog = dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        AlertDialog alertDialog = dialogBuilder.setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
             }

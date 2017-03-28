@@ -39,7 +39,7 @@ import java.util.Date;
  */
 public class CGAPrivateBottomButtons extends Fragment {
 
-    public static final String PATIENT = "patient";
+    public static final String PATIENT = "PATIENT";
 
     private Session session;
 
@@ -91,7 +91,7 @@ public class CGAPrivateBottomButtons extends Fragment {
             patient = session.getPatient();
             // create a new Fragment to hold info about the Patient
             if (patient != null) {
-                // set the patient for this session
+                // set the PATIENT for this session
                 session.setPatient(patient);
                 session.save();
             }

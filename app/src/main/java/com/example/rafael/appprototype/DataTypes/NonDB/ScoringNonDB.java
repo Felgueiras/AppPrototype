@@ -1,5 +1,6 @@
 package com.example.rafael.appprototype.DataTypes.NonDB;
 
+import com.activeandroid.util.Log;
 import com.example.rafael.appprototype.Constants;
 
 import java.util.ArrayList;
@@ -125,24 +126,28 @@ public class ScoringNonDB {
     }
 
     public int getGradingIndex(double testResult, int gender) {
-        int match = 0;
+        Log.d("Gender", gender + "");
         ArrayList<GradingNonDB> toConsider = null;
-        if (gender == Constants.MALE)
-            toConsider = valuesMen;
-        else if (gender == Constants.FEMALE)
-            toConsider = valuesWomen;
-        else
+        if (differentMenWomen) {
+            if (gender == Constants.MALE)
+                toConsider = valuesMen;
+            else if (gender == Constants.FEMALE)
+                toConsider = valuesWomen;
+        } else {
             toConsider = valuesBoth;
-        for (GradingNonDB grading : toConsider) {
-            // check the grading for the result we have
-            if (grading.containsScore(testResult)) {
-                match = toConsider.indexOf(grading);
-                break;
-            }
         }
 
-        return match;
+
+        for (int i = 0; i < toConsider.size(); i++) {
+            GradingNonDB grading = toConsider.get(i);
+            // check the grading for the result we have
+            if (grading.containsScore(testResult)) {
+                return i;
+            }
+        }
+        return -1;
     }
+
 
     public void setScoringMen(int min, int max) {
         this.minMen = min;

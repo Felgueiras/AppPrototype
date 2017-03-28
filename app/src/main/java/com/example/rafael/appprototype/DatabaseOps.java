@@ -133,7 +133,7 @@ public class DatabaseOps {
             patient.setName(aPatientsMale);
             patient.setProcessNumber(random.nextInt(1000)+"");
             patient.setBirthDate(DatesHandler.stringToDate("01-12-1920"));
-            patient.setGuid("patient-" + aPatientsMale);
+            patient.setGuid("PATIENT-" + aPatientsMale);
             patient.setAddress(addresses[random.nextInt(addresses.length)]);
             patient.setPicture(R.drawable.male);
             patient.setGender(Constants.MALE);
@@ -149,7 +149,7 @@ public class DatabaseOps {
             patient.setName(aPatientsFemale);
             patient.setProcessNumber(random.nextInt(1000)+"");
             patient.setBirthDate(DatesHandler.stringToDate("01-12-1920"));
-            patient.setGuid("patient-" + aPatientsFemale);
+            patient.setGuid("PATIENT-" + aPatientsFemale);
             patient.setAddress(addresses[random.nextInt(addresses.length)]);
             patient.setPicture(R.drawable.female);
             patient.setGender(Constants.FEMALE);
@@ -284,7 +284,7 @@ public class DatabaseOps {
                 new TypeToken<ArrayList<Session>>() {
                 }.getType());
         for (Session session : sessions) {
-            // save patient from that session
+            // save PATIENT from that session
             session.getPatient().save();
             for (GeriatricScale scale : session.getScalesFromSession()) {
                 scale.save();

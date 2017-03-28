@@ -86,7 +86,7 @@ public class StartCriteria {
                 "Antihypertensive therapy where systolic blood pressure consistently >160 mmHg.");
         criterion.addPrescription(prescriptionStart);
         prescriptionStart = new PrescriptionStart("Statin",
-                "Statin therapy with a documented history of coronary, cerebral or peripheral vascular disease, where the patient’s functional status remains" +
+                "Statin therapy with a documented history of coronary, cerebral or peripheral vascular disease, where the PATIENT’s functional status remains" +
                         " independent for activities of daily living and life expectancy is > 5 years");
         criterion.addPrescription(prescriptionStart);
         prescriptionStart = new PrescriptionStart("Angiotensin Converting Enzyme (ACE) inhibitor",

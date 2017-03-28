@@ -46,11 +46,11 @@ public class FavoritePatientsSingle extends BaseAdapter {
         final TextView name = (TextView) card.findViewById(R.id.patientName);
 
         name.setText(patient.getName());
-        // holder.type.setText(patient.getAge());
+        // holder.type.setText(PATIENT.getAge());
 
 
         // loading album cover using Glide library
-        //Glide.with(context).load(patient.getPicture()).into(holder.icon);
+        //Glide.with(context).load(PATIENT.getPicture()).into(holder.icon);
 
         // add on click listener for the icon
         switch (patient.getGender())

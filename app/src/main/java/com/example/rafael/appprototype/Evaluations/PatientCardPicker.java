@@ -92,11 +92,11 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
         final Patient patient = filteredList.get(position);
 
         holder.name.setText(patient.getName());
-        // holder.type.setText(patient.getAge());
+        // holder.type.setText(PATIENT.getAge());
 
 
         // loading album cover using Glide library
-        //Glide.with(context).load(patient.getPicture()).into(holder.icon);
+        //Glide.with(context).load(PATIENT.getPicture()).into(holder.icon);
 
         // add on click listener for the icon
 
@@ -114,16 +114,16 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                             public void onClick(DialogInterface dialog, int which) {
                                 if (pickBeforeSession) {
                                     /**
-                                     * Go to patient's profile
+                                     * Go to PATIENT's profile
                                      */
                                     context.getFragmentManager().popBackStack();
                                     Bundle args = new Bundle();
-//                                    args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
+//                                    args.putSerializable(ViewSinglePatientInfo.PATIENT, PATIENT);
 //                                    FragmentTransitions.replaceFragment(context, new ViewSinglePatientInfo(),
 //                                            args,
 //                                            Constants.tag_view_patient_info_records);
                                     /**
-                                     * Go to new session with this patient.
+                                     * Go to new session with this PATIENT.
                                      */
                                     args = new Bundle();
                                     args.putSerializable(CGAPrivateBottomButtons.PATIENT, patient);
@@ -158,14 +158,14 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
 //                            .replace(R.id.current_fragment, new PatientsMain())
 //                            .commit();
                                     /**
-                                     * Review session created for patient.
+                                     * Review session created for PATIENT.
                                      */
                                     Bundle args = new Bundle();
                                     args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
                                     args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
                                     Fragment fragment = new ReviewSingleSessionWithPatient();
 
-                                    // TODO go to new session with this patient
+                                    // TODO go to new session with this PATIENT
                                     fragment.setArguments(args);
                                     currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
                                     fragmentManager.beginTransaction()

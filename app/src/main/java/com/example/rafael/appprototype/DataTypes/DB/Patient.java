@@ -195,14 +195,14 @@ public class Patient extends Model implements Serializable {
     }
 
     /**
-     * Get records from patient
+     * Get records from PATIENT
      *
      * @return
      */
     public ArrayList<Session> getSessionsFromPatient() {
         List<Session> recordsList = new Select()
                 .from(Session.class)
-                .where("patient = ?", this.getId())
+                .where("PATIENT = ?", this.getId())
                 .orderBy("date DESC")
                 .execute();
         ArrayList<Session> sessions = new ArrayList<>();
@@ -225,7 +225,7 @@ public class Patient extends Model implements Serializable {
 
     public boolean isFirstSession() {
         // get all sessions
-        List<Session> sessions = getMany(Session.class, "patient");
+        List<Session> sessions = getMany(Session.class, "PATIENT");
         return sessions.size() == 1;
     }
 

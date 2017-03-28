@@ -318,7 +318,7 @@ public class BeersCriteria {
         entry = new TherapeuticCategoryEntry("Antipsychotics, first- (conventional) and second-" +
                 "(atypical) generation (see online for full list)");
         recommendationInfo = new RecommendationInfo("Avoid use for behavioral problems of dementia unless" +
-                "non-pharmacologic options have failed and patient is" +
+                "non-pharmacologic options have failed and PATIENT is" +
                 "threat to self or others",
                 "Increased risk of cerebrovascular accident (stroke) and mortality in" +
                         "persons with dementia.");
@@ -580,7 +580,7 @@ public class BeersCriteria {
         // entry 5
         entry = new TherapeuticCategoryEntry("Non-COX-selective NSAIDs, oral");
         recommendationInfo = new RecommendationInfo("Avoid chronic use unless other alternatives are not effective" +
-                "and patient can take gastroprotective agent (protonpump" +
+                "and PATIENT can take gastroprotective agent (protonpump" +
                 "inhibitor or misoprostol).",
                 "Increases risk of GI bleeding/peptic ulcer disease in high-risk" +
                         "groups, including those ≥75 years old or taking oral or parenteral" +
@@ -779,7 +779,7 @@ public class BeersCriteria {
                 "Avoid due to adverse CNS effects. " +
                         "Avoid antipsychotics for behavioral problems of " +
                         "dementia unless non-pharmacologic options have " +
-                        "failed and patient is a threat to themselves or others. " +
+                        "failed and PATIENT is a threat to themselves or others. " +
                         "Antipsychotics are associated with an increased risk " +
                         "of cerebrovascular accident (stroke) and mortality in " +
                         "persons with dementia.");
@@ -923,7 +923,7 @@ public class BeersCriteria {
                 "duodenal " +
                 "ulcers");
         recommendationInfo = new RecommendationInfo("Avoid unless other alternatives are not effective " +
-                "and patient can take gastroprotective " +
+                "and PATIENT can take gastroprotective " +
                 "agent (proton-pump inhibitor or misoprostol).",
                 "May exacerbate existing ulcers or cause new/additional " +
                         "ulcers.");
@@ -1100,7 +1100,7 @@ public class BeersCriteria {
     }
 
     /**
-     * Return the Beers criteria beersGeneral for a certain drug patientName.
+     * Return the Beers criteria beersGeneral for a certain drug label.
      *
      * @param selectedDrug
      * @return

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
@@ -40,6 +41,7 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private final ImageButton right, wrong;
+        private final ImageView questionImage;
         public TextView questionTextView;
 
         public MyViewHolder(View view) {
@@ -48,6 +50,7 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
             // right and wrong button
             right = (ImageButton) view.findViewById(R.id.rightChoice);
             wrong = (ImageButton) view.findViewById(R.id.wrongChoice);
+            questionImage = (ImageView) view.findViewById(R.id.questionImage);
         }
     }
 
@@ -87,6 +90,11 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
          * Set View
          */
         holder.questionTextView.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
+
+        if (currentQuestionNonDB.getImage() != 0) {
+            holder.questionImage.setImageResource(currentQuestionNonDB.getImage());
+            holder.questionImage.setVisibility(View.VISIBLE);
+        }
         // detect when choice changed
 
         // if question is already answered
@@ -99,10 +107,11 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
             }
         }
 
-        holder.right.setOnClickListener(new RightWrongQuestionHandler(questionInDB,adapter,
-                scaleNonDB,questionIdx, holder.right, holder.wrong));
-        holder.wrong.setOnClickListener(new RightWrongQuestionHandler(questionInDB,adapter,
-                scaleNonDB,questionIdx, holder.right, holder.wrong));
+
+        holder.right.setOnClickListener(new RightWrongQuestionHandler(questionInDB, adapter,
+                scaleNonDB, questionIdx, holder.right, holder.wrong));
+        holder.wrong.setOnClickListener(new RightWrongQuestionHandler(questionInDB, adapter,
+                scaleNonDB, questionIdx, holder.right, holder.wrong));
 
     }
 

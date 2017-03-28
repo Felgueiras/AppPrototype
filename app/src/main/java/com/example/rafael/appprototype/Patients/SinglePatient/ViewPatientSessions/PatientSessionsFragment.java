@@ -78,7 +78,7 @@ public class PatientSessionsFragment extends Fragment {
 
 
     /**
-     * Erase a session from the patient.
+     * Erase a session from the PATIENT.
      *
      * @param index Session index
      */

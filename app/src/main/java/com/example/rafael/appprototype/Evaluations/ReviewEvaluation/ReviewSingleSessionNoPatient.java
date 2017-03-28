@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewArea;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewAreaCard;
 import com.example.rafael.appprototype.PersonalAreaAccess.RegisterUser;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.R;
@@ -103,7 +103,7 @@ public class ReviewSingleSessionNoPatient extends Fragment {
          * Show info about evaluations for every area.
          */
         RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.area_scales_recycler_view);
-        ReviewArea adapter = new ReviewArea(getActivity(), session, comparePreviousSession);
+        ReviewAreaCard adapter = new ReviewAreaCard(getActivity(), session, comparePreviousSession);
         int numbercolumns = 1;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);

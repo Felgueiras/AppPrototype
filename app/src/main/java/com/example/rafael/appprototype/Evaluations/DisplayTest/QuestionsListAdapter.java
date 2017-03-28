@@ -1,12 +1,14 @@
 package com.example.rafael.appprototype.Evaluations.DisplayTest;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -16,7 +18,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -36,18 +37,19 @@ import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
+import com.example.rafael.appprototype.Evaluations.DisplayTest.QuestionCategoriesViewPager.QuestionMultipleCategoriesViewPager;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.SingleQuestion.MultipleChoiceHandler;
-import com.example.rafael.appprototype.Evaluations.DisplayTest.SingleQuestion.RightWrongQuestionHandler;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.SingleQuestion.YesNoQuestionHandler;
 import com.example.rafael.appprototype.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
  * Create the layout of the Questions
  */
-public class QuestionsListAdapter extends BaseAdapter {
+public class QuestionsListAdapter extends BaseAdapter implements Serializable {
     /**
      * Questions for a Test
      */
@@ -63,11 +65,16 @@ public class QuestionsListAdapter extends BaseAdapter {
     private final GeriatricScale scale;
     private final GeriatricScaleNonDB testNonDB;
     private final ProgressBar progressBar;
+    private final FragmentManager childFragmentManager;
     /**
      * HasSet that will hold the numbers of the Questions that were already answered.
      */
     private HashSet<Integer> positionsFilled = new HashSet<>();
+    private ViewPager viewPagerAux;
 
+    public FragmentManager getChildFragmentManager() {
+        return childFragmentManager;
+    }
 
     int numquestions;
     private View questionView;
@@ -75,17 +82,18 @@ public class QuestionsListAdapter extends BaseAdapter {
 
     /**
      * Display all Questions for a GeriatricScale
-     *
-     * @param context  current Context
+     *  @param context  current Context
      * @param test     GeriatricScale that is being filled up
      * @param progress
+     * @param childFragmentManager
      */
-    public QuestionsListAdapter(Activity context, GeriatricScaleNonDB testNonDb, GeriatricScale test, ProgressBar progress) {
+    public QuestionsListAdapter(Activity context, GeriatricScaleNonDB testNonDb, GeriatricScale test, ProgressBar progress, FragmentManager childFragmentManager) {
         this.context = context;
         this.questions = testNonDb.getQuestions();
         this.scale = test;
         this.testNonDB = testNonDb;
         this.progressBar = progress;
+        this.childFragmentManager = childFragmentManager;
 
 
         numquestions = questions.size();
@@ -178,6 +186,14 @@ public class QuestionsListAdapter extends BaseAdapter {
         }
     }
 
+    public void setViewPagerAux(ViewPager viewPagerAux) {
+        this.viewPagerAux = viewPagerAux;
+    }
+
+    public ViewPager getViewPagerAux() {
+        return viewPagerAux;
+    }
+
     public class Holder {
         TextView question;
         ListView choicesList;
@@ -198,9 +214,9 @@ public class QuestionsListAdapter extends BaseAdapter {
 
         // multiple categories
         if (testNonDB.isMultipleCategories()) {
-            questionView = new QuestionMultipleCategoriesIndividualCategory(inflater,
+            questionView = new QuestionMultipleCategoriesViewPager(inflater,
                     testNonDB,
-                    (Activity) context,
+                    context,
                     scale,
                     this).getView();
             return questionView;
@@ -535,7 +551,7 @@ public class QuestionsListAdapter extends BaseAdapter {
                 newRadioButton.setText(choice.getDescription());
         }
 
-        newRadioButton.setTextAppearance(context,R.style.tablet_text2);
+        newRadioButton.setTextAppearance(context, R.style.tablet_text2);
         LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
                 RadioGroup.LayoutParams.WRAP_CONTENT,
                 RadioGroup.LayoutParams.WRAP_CONTENT);
@@ -765,19 +781,18 @@ public class QuestionsListAdapter extends BaseAdapter {
                 });
 
 
-        final Question finalQuestion1 = question;
         holder.question.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // check if already answered
                 int selectedIdx = -1;
-                if (finalQuestion1.isAnswered()) {
+                if (finalQuestion.isAnswered()) {
 
                     holder.question.setBackgroundResource(R.color.question_answered);
                     // set the selected option
-                    String selectedChoice = finalQuestion1.getSelectedChoice();
+                    String selectedChoice = finalQuestion.getSelectedChoice();
                     //system.out.println("sel choice is " + selectedChoice);
-                    ArrayList<Choice> choices = finalQuestion1.getChoicesForQuestion();
+                    ArrayList<Choice> choices = finalQuestion.getChoicesForQuestion();
                     for (int i = 0; i < choices.size(); i++) {
                         if (choices.get(i).getName().equals(selectedChoice)) {
                             selectedIdx = i;

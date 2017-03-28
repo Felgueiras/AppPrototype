@@ -49,7 +49,7 @@ public class PatientsFavoriteFragment extends Fragment {
     }
 
     /**
-     * Remove a patient from the favorites.
+     * Remove a PATIENT from the favorites.
      * @param index
      */
     public void removePatientFromFavorites(int index) {

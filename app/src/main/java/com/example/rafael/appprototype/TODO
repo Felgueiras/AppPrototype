@@ -1,5 +1,10 @@
-- Clicked info icon instead of scale since it is the only one visual queue - P9
-- create session for patient in sessions list
+- all questions from category filled -> go next category
+- no final de criar sessão perguntar se quer criar um paciente novo
+- view scales when clicking in scale in progress
+- escalas com mt texto aparece ... e ao clicar a pessoa ve o texto todo
+- usar elementos gráficos na tabela de progresso
+- na lista de drugs usar mais simbolos baseados na forma
+
 - ícone de info dentro de escala
 - multisuer
 
@@ -8,10 +13,5 @@
 - review patient progress - make it easier to see progress
 - if first session for patient, inform it to doctor
 - dar mais destaque a progress
-- folstein linguagem em várias categorias
 - rever histórico de pacientes, mostrar o último em grande plano
-- spelling mistakes
 - bibliography of scales
-
-TABLET:
-- Register text fields should not occupy the whole width of the screen, the person may think he or she has to input much information

@@ -49,7 +49,7 @@ public class CreatePatient extends Fragment {
         switch (item.getItemId()) {
             case R.id.new_patient_save:
                 /**
-                 * Create patient.
+                 * Create PATIENT.
                  */
 
                 if (patientName.getText().length() == 0) {
@@ -87,7 +87,7 @@ public class CreatePatient extends Fragment {
                 patient.setName(patientName.getText().toString());
 
                 patient.setBirthDate(selectedDate);
-                patient.setGuid("patient" + new Random().nextInt());
+                patient.setGuid("PATIENT" + new Random().nextInt());
                 patient.setAddress(patientAddress.getText().toString());
                 if (patientGender.equals("male")) {
                     patient.setPicture(R.drawable.male);
@@ -181,7 +181,7 @@ public class CreatePatient extends Fragment {
             @Override
             public void onClick(View v) {
                 /**
-                 * Create patient.
+                 * Create PATIENT.
                  */
 
                 if (patientName.getText().length() == 0) {
@@ -224,7 +224,7 @@ public class CreatePatient extends Fragment {
                 patient.setName(patientName.getText().toString());
 
                 patient.setBirthDate(selectedDate);
-                patient.setGuid("patient" + new Random().nextInt());
+                patient.setGuid("PATIENT" + new Random().nextInt());
                 patient.setAddress(patientAddress.getText().toString());
                 if (patientGender.equals("male")) {
                     patient.setPicture(R.drawable.male);

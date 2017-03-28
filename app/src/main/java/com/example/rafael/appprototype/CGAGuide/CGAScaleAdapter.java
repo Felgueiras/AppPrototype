@@ -111,7 +111,7 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
 //                bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(selectedTestName));
 //                bundle.putSerializable(ScaleFragment.SCALE, finalCurrentTest);
 //                bundle.putSerializable(ScaleFragment.CGA_AREA, area);
-//                bundle.putSerializable(ScaleFragment.patient, session.getPatient());
+//                bundle.putSerializable(ScaleFragment.PATIENT, session.getPatient());
 //                newFragment.setArguments(bundle);
 //                // setup the transaction
 //                FragmentTransaction transaction = context.getFragmentManager().beginTransaction();

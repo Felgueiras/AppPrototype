@@ -11,14 +11,14 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
 
 
-public class ProgressMain extends Fragment {
+public class ProgressMainOriginal extends Fragment {
 
     public static final String PATIENT = "PATIENT";
     private Patient patient;

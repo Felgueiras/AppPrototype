@@ -8,6 +8,7 @@ import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.ScoringNonDB;
+import com.example.rafael.appprototype.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -274,7 +275,7 @@ public class Scales {
         hamiltonScale.addQuestion(question);
 
         // 17
-        question = new QuestionNonDB("Insight (Insight must be interpreted in terms of patient’s\n" +
+        question = new QuestionNonDB("Insight (Insight must be interpreted in terms of PATIENT’s\n" +
                 "understanding and background.)", false);
         choices = new ArrayList<>();
         choices.add(new ChoiceNonDB("No loss", 0));
@@ -321,7 +322,7 @@ public class Scales {
         // 21
         question = new QuestionNonDB("OBSESSIONAL SYMPTOMS\n" +
                 "(Obsessive thoughts and compulsions against\n" +
-                "which the patient struggles)", false);
+                "which the PATIENT struggles)", false);
         choices = new ArrayList<>();
         choices.add(new ChoiceNonDB("Absent", 0));
         choices.add(new ChoiceNonDB("Mild", 1));
@@ -562,7 +563,7 @@ public class Scales {
                         "caregivers of dementia patients. It can be completed by caregivers themselves or as part of an\n" +
                         "interview. \n" +
                         "• Caregivers are asked to respond to a series of 22 questions about the impact of the" +
-                        "patient’s disabilities on their life; \n" +
+                        "PATIENT’s disabilities on their life; \n" +
                         "• For each item, caregivers are to indicate how often they felt that" +
                         "way (never, rarely, sometimes, quite frequently, or nearly always).");
         zaritBurdenInterview.setShortName("Burden Interview");
@@ -1056,9 +1057,9 @@ public class Scales {
                         "constructiva, la ejecución motora, la atención, la comprensión" +
                         "y el conocimiento numérico\n" +
                         "• Procedimento: \n" +
-                        "Step 1: Give patient a sheet of paper with a large (relative to the size of handwritten\n" +
+                        "Step 1: Give PATIENT a sheet of paper with a large (relative to the size of handwritten\n" +
                         "numbers) predrawn circle on it. Indicate the top of the page.\n" +
-                        "Step 2: Instruct patient to draw numbers in the circle to make the circle look like the face\n" +
+                        "Step 2: Instruct PATIENT to draw numbers in the circle to make the circle look like the face\n" +
                         "of a clock and then draw the hands of the clock to read \"10 after 11.\" \n" +
                         "•  Higher scores reflect a greater number of errors and more impairment. A score of ≥3 represents\n" +
                         "a cognitive deficit, while a score of 1 or 2 is considered normal. ");
@@ -1700,6 +1701,8 @@ public class Scales {
         question = new QuestionNonDB("Em que andar estamos?");
         question.setRightWrong(true);
         category.addQuestion(question);
+
+
         mentalState.addQuestionCategory(category);
 
 
@@ -1766,18 +1769,31 @@ public class Scales {
         mentalState.addQuestionCategory(category);
 
 
-        // Linguagem
-        category = new QuestionCategory("Linguagem");
-        category.setDescription("");
+        // Linguagem a
+        category = new QuestionCategory("Linguagem a");
+        category.setDescription("“Como se chama isto? Mostrar os objectos:");
         // 21
         question = new QuestionNonDB("Relógio", 0, 1);
+        question.setImage(R.drawable.folstein_watch);
         category.addQuestion(question);
         // 23
         question = new QuestionNonDB("Lápis", 1, 0);
+        question.setImage(R.drawable.folstein_pencil);
         category.addQuestion(question);
+        mentalState.addQuestionCategory(category);
+
+        // Linguagem b
+        category = new QuestionCategory("Linguagem b");
+        category.setDescription("Repita a frase que eu vou dizer: O RATO ROEU A ROLHA");
         // 24
-        question = new QuestionNonDB("Repita a frase que eu vou dizer: O RATO ROEU A ROLHA", 0, 1);
+        question = new QuestionNonDB("Repetiu bem a frase", 0, 1);
         category.addQuestion(question);
+        mentalState.addQuestionCategory(category);
+
+        // Linguagem c
+        category = new QuestionCategory("Linguagem c");
+        category.setDescription("Quando eu lhe der esta folha de papel, pegue nela com a mão direita, dobre-a ao meio e ponha sobre a mesa”; dar\n" +
+                "a folha segurando com as duas mãos.");
         // 25
         question = new QuestionNonDB("Pega com a mão direita", 0, 1);
         category.addQuestion(question);
@@ -1787,19 +1803,34 @@ public class Scales {
         // 27
         question = new QuestionNonDB("Coloca onde deve", 0, 1);
         category.addQuestion(question);
+        mentalState.addQuestionCategory(category);
+
+        // Linguagem d
+        category = new QuestionCategory("Linguagem d");
+        category.setDescription("Leia o que está neste cartão e faça o que lá diz”. Mostrar um cartão com a frase bem legível, “FECHE OS OLHOS”;\n" +
+                "sendo analfabeto lê-se a frase.");
         // 28
         question = new QuestionNonDB("Feche os olhos", 0, 1);
         category.addQuestion(question);
+        mentalState.addQuestionCategory(category);
+
+
+        // Linguagem e
+        category = new QuestionCategory("Linguagem e");
+        category.setDescription("“Escreva uma frase inteira aqui”. Deve ter sujeito e verbo e fazer sentido; os erros gramaticais não prejudicam a\n" +
+                "pontuação.");
         // 29
-        question = new QuestionNonDB("“Escreva uma frase inteira aqui”", 0, 1);
+        question = new QuestionNonDB("Escreveu uma frase inteira", 0, 1);
         category.addQuestion(question);
         mentalState.addQuestionCategory(category);
 
         // Capacidade construtiva
         category = new QuestionCategory("Capacidade construtiva");
+        category.setDescription("Deve copiar um desenho. Dois pentágonos parcialmente sobrepostos; cada um deve ficar com 5 lados, dois dos quais\n" +
+                "intersectados. Não valorizar tremor ou rotação");
         // 30
-        question = new QuestionNonDB("Deve copiar um desenho. Dois pentágonos parcialmente sobrepostos; cada um deve ficar com 5 lados, dois dos quais\n" +
-                "intersectados. Não valorizar tremor ou rotação", 0, 1);
+        question = new QuestionNonDB("Copiou bem o desenho", 0, 1);
+        question.setImage(R.drawable.folstein_pentagons);
         category.addQuestion(question);
         mentalState.addQuestionCategory(category);
 

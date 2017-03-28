@@ -24,16 +24,10 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
-import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewArea;
-import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
-import com.example.rafael.appprototype.Main.FragmentTransitions;
-import com.example.rafael.appprototype.Patients.PatientsMain;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewAreaCard;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.R;
-
-import java.util.ArrayList;
 
 
 public class ReviewSingleSessionWithPatient extends Fragment {
@@ -89,7 +83,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
                                     // go back to sessions list
                                     fragment = new EvaluationsHistoryMain();
                                 } else if (tag.equals(Constants.tag_review_session_from_patient_profile)) {
-                                    // go back to patient profile
+                                    // go back to PATIENT profile
                                     Bundle args = new Bundle();
                                     args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
                                     fragment = new ViewSinglePatientInfo();
@@ -170,7 +164,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
          * Show info about evaluations for every area.
          */
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);
-        ReviewArea adapter = new ReviewArea(getActivity(), session, comparePreviousSession);
+        ReviewAreaCard adapter = new ReviewAreaCard(getActivity(), session, comparePreviousSession);
         int numbercolumns = 1;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);

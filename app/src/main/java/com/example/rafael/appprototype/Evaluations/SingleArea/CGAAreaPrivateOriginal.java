@@ -33,7 +33,7 @@ public class CGAAreaPrivateOriginal extends Fragment {
     /**
      * Patient for this Session
      */
-    public static String PATIENT = "patient";
+    public static String PATIENT = "PATIENT";
     public static String CGA_AREA = "area";
 
     Patient patientForThisSession;
@@ -77,7 +77,7 @@ public class CGAAreaPrivateOriginal extends Fragment {
         ScaleCard adapter;
         RecyclerView.Adapter finalAdapter = null;
 
-        // read patient for this session
+        // read PATIENT for this session
         if (patientForThisSession != null) {
             adapter = new ScaleCard(getActivity(), session, resuming, patientForThisSession.getGender(), area);
         } else {
@@ -136,7 +136,7 @@ public class CGAAreaPrivateOriginal extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         // remove session
                         Patient p = session.getPatient();
-                        // how many sessions this patient have
+                        // how many sessions this PATIENT have
                         FragmentManager fragmentManager = getFragmentManager();
                         fragmentManager.popBackStack();
                         SharedPreferencesHelper.resetPrivateSession(getActivity(), session.getGuid());

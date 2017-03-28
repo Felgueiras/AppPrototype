@@ -27,7 +27,7 @@ import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Patients.PatientsMain;
-import com.example.rafael.appprototype.Patients.Progress.ProgressMain;
+import com.example.rafael.appprototype.Patients.Progress.ProgressMainViewPager;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientNotesFragment;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
 import com.example.rafael.appprototype.R;
@@ -39,7 +39,7 @@ import java.util.ArrayList;
  */
 public class ViewSinglePatientInfo extends Fragment {
 
-    public static final String PATIENT = "patient";
+    public static final String PATIENT = "PATIENT";
     /**
      * Patient to be displayed
      */
@@ -65,7 +65,7 @@ public class ViewSinglePatientInfo extends Fragment {
         if (bundle != null) {
             String actionTitle = bundle.getString("ACTION");
             String transText = bundle.getString("TRANS_TEXT");
-            //view.findViewById(R.id.patientName).setTransitionName(transText);
+            //view.findViewById(R.id.label).setTransitionName(transText);
             //system.out.println("lol 2");
         }
 
@@ -99,14 +99,14 @@ public class ViewSinglePatientInfo extends Fragment {
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        // get patient
+        // get PATIENT
         patient = (Patient) bundle.getSerializable(PATIENT);
-//        ((PrivateArea)getActivity()).changeTitle(patient.getName());
+//        ((PrivateArea)getActivity()).changeTitle(PATIENT.getName());
 
         getActivity().setTitle(patient.getName());
 
         // access Views
-        //TextView patientName = (TextView) view.findViewById(R.id.patientName);
+        //TextView label = (TextView) view.findViewById(R.id.label);
         TextView patientBirthDate = (TextView) view.findViewById(R.id.patientAge);
         TextView patientAddress = (TextView) view.findViewById(R.id.patientAddress);
         ImageView patientPhoto = (ImageView) view.findViewById(R.id.patientPhoto);
@@ -115,11 +115,11 @@ public class ViewSinglePatientInfo extends Fragment {
         TextView processNumber = (TextView) view.findViewById(R.id.processNumber);
 
         // set Patient infos
-        //patientName.setText(patient.getName());
+        //label.setText(PATIENT.getName());
         patientBirthDate.setText(DatesHandler.dateToStringWithoutHour(patient.getBirthDate()) + " - " + patient.getAge() + " anos");
         patientAddress.setText("Morada: " + patient.getAddress());
         processNumber.setText("Processo nº " + patient.getProcessNumber());
-        //patientPhoto.setImageResource(patient.getPicture());
+        //patientPhoto.setImageResource(PATIENT.getPicture());
         switch (patient.getGender()) {
             case Constants.MALE:
                 patientPhoto.setImageResource(R.drawable.male);
@@ -132,20 +132,20 @@ public class ViewSinglePatientInfo extends Fragment {
 
 
 
-        // view patient evolution
+        // view PATIENT evolution
         patientProgress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("EVOLUTION");
-                Fragment fragment = new ProgressMain();
+                Fragment fragment = new ProgressMainViewPager();
                 Bundle args = new Bundle();
-                args.putSerializable(ProgressMain.PATIENT, patient);
-                FragmentTransitions.replaceFragment(getActivity(), new ProgressMain(), args, Constants.tag_patient_progress);
+                args.putSerializable(ProgressMainViewPager.PATIENT, patient);
+                FragmentTransitions.replaceFragment(getActivity(), new ProgressMainViewPager(), args, Constants.tag_patient_progress);
             }
         });
 
         /**
-         * Erase current patient.
+         * Erase current PATIENT.
          */
 //        erasePatient.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -156,12 +156,12 @@ public class ViewSinglePatientInfo extends Fragment {
 //                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
 //                        new DialogInterface.OnClickListener() {
 //                            public void onClick(DialogInterface dialog, int which) {
-//                                // remove sessions from patient
-//                                ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
+//                                // remove sessions from PATIENT
+//                                ArrayList<Session> sessionsFromPatient = PATIENT.getSessionsFromPatient();
 //                                for (Session session : sessionsFromPatient) {
 //                                    session.delete();
 //                                }
-//                                patient.delete();
+//                                PATIENT.delete();
 //                                dialog.dismiss();
 //
 //                                DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
@@ -198,7 +198,7 @@ public class ViewSinglePatientInfo extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                // get list of Records from this patient
+                // get list of Records from this PATIENT
                 ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
                 Fragment fragment;
                 if (sessionsFromPatient.isEmpty()) {
@@ -281,7 +281,7 @@ public class ViewSinglePatientInfo extends Fragment {
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                // remove sessions from patient
+                                // remove sessions from PATIENT
                                 ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
                                 for (Session session : sessionsFromPatient) {
                                     session.delete();

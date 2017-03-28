@@ -127,7 +127,7 @@ public class PrivateArea extends AppCompatActivity {
 
         // set sample fragment
         Fragment fragment = null;
-        String defaultFragment = Constants.fragment_sessions;
+        String defaultFragment = Constants.fragment_show_patients;
         switch (defaultFragment) {
             case Constants.fragment_show_patients:
                 fragment = new PatientsMain();

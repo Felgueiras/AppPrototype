@@ -208,4 +208,6 @@ public class Constants {
     public static int sessionsGridViewIndex;
     public static String create_session_permitted = "create_session_permitted";
     public static final String tag_create_session_with_patient_from_session = "tag_create_session_with_patient_from_session";
+    public static final String tag_review_scale_from_progress = "tag_review_scale_from_progress";
+    public static int progressPage = 0;
 }
