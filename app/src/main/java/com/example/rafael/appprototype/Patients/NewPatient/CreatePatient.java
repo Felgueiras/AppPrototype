@@ -1,9 +1,11 @@
 package com.example.rafael.appprototype.Patients.NewPatient;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,11 +16,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
+import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivateBottomButtons;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
+import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
 
 import java.util.Calendar;
@@ -26,6 +32,14 @@ import java.util.Date;
 import java.util.Random;
 
 public class CreatePatient extends Fragment {
+
+    public static final String CREATE_PATIENT_TYPE = "CREATE_PATIENT_TYPE";
+    // create patient before session starts
+    public static final int CREATE_BEFORE_SESSION = 0;
+    // create patient after session ends
+    public static final int CREATE_AFTER_SESSION = 1;
+    // create patient in patients list
+    public static final int CREATE_PATIENTS_LIST = 2;
 
     RadioGroup radioGroup;
     private Bitmap bitmap;
@@ -35,6 +49,7 @@ public class CreatePatient extends Fragment {
     private String patientGender = null;
     private EditText patientAddress;
     private EditText processNumber;
+    private int createType;
 
 
     @Override
@@ -139,6 +154,11 @@ public class CreatePatient extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        createType = CREATE_PATIENTS_LIST;
+        if (getArguments() != null && getArguments().containsKey(CREATE_PATIENT_TYPE))
+            createType = getArguments().getInt(CREATE_PATIENT_TYPE);
+
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.create_patient, container, false);
         getActivity().setTitle(getResources().getString(R.string.new_patient));
@@ -238,7 +258,71 @@ public class CreatePatient extends Fragment {
                 patient.save();
 
                 Snackbar.make(getView(), R.string.create_patient_success, Snackbar.LENGTH_SHORT).show();
-                BackStackHandler.goToPreviousScreen();
+                if (createType == CREATE_PATIENTS_LIST) {
+                    BackStackHandler.goToPreviousScreen();
+                } else if (createType == CREATE_BEFORE_SESSION) {
+                    getActivity().getFragmentManager().popBackStack();
+                    getActivity().getFragmentManager().popBackStack();
+                    Bundle args = new Bundle();
+                    /**
+                     * Go to new session with this PATIENT.
+                     */
+                    args = new Bundle();
+                    args.putSerializable(CGAPrivateBottomButtons.PATIENT, patient);
+                    FragmentTransitions.replaceFragment(getActivity(), new CGAPrivateBottomButtons(),
+                            args,
+                            Constants.tag_create_session_with_patient_from_session);
+                } else if (createType == CREATE_AFTER_SESSION) {
+                    getActivity().getFragmentManager().popBackStack();
+                    getActivity().getFragmentManager().popBackStack();
+                    Bundle args = new Bundle();
+                    args.putSerializable(CGAPrivateBottomButtons.PATIENT, patient);
+                    FragmentTransitions.replaceFragment(getActivity(), new CGAPrivateBottomButtons(),
+                            args,
+                            Constants.tag_create_session_with_patient_from_session);
+
+//                    DrawerLayout layout = (DrawerLayout) context.findViewById(R.id.drawer_layout);
+//                    Snackbar.make(layout, context.getString(R.string.picked_patient_session_created), Snackbar.LENGTH_SHORT).show();
+                    // add Patient to Session
+                    String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(getActivity());
+
+                    // get session by ID
+                    Session session = Session.getSessionByID(sessionID);
+                    session.setPatient(patient);
+                    session.eraseScalesNotCompleted();
+                    session.save();
+
+                    // reset current private session
+                    SharedPreferencesHelper.resetPrivateSession(getActivity(), "");
+
+                    FragmentManager fragmentManager = getActivity().getFragmentManager();
+                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                    fragmentManager.beginTransaction()
+                            .remove(currentFragment)
+                            .commit();
+//                    fragmentManager.popBackStack();
+                    BackStackHandler.clearBackStack();
+//                    Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+//                    fragmentManager.beginTransaction()
+//                            .remove(currentFragment)
+//                            .replace(R.id.current_fragment, new PatientsMain())
+//                            .commit();
+                    /**
+                     * Review session created for PATIENT.
+                     */
+                    args = new Bundle();
+                    args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
+                    args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+                    Fragment fragment = new ReviewSingleSessionWithPatient();
+
+                    fragment.setArguments(args);
+                    currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                    fragmentManager.beginTransaction()
+                            .remove(currentFragment)
+                            .replace(R.id.current_fragment, fragment)
+                            .addToBackStack(Constants.tag_review_session_from_sessions_list)
+                            .commit();
+                }
             }
         });
 

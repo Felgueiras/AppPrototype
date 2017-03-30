@@ -1,6 +1,9 @@
 package com.example.rafael.appprototype.CGAGuide;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.Scales;
 import com.example.rafael.appprototype.Evaluations.SingleArea.ScaleInfoHelper;
@@ -71,8 +75,8 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
     public void onBindViewHolder(final ScaleCardHolder holder, int position) {
 
 
-        String scaleName = testsForArea.get(position).getScaleName();
-        GeriatricScaleNonDB currentScale = Scales.getScaleByName(scaleName);
+        final String scaleName = testsForArea.get(position).getScaleName();
+        final GeriatricScaleNonDB currentScale = Scales.getScaleByName(scaleName);
         holder.name.setText(testsForArea.get(position).getShortName());
 
         holder.scaleInfo.setText(currentScale.getDescription());
@@ -87,38 +91,23 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
         /**
          * For when the Test is selected.
          */
-//        holder.view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                if (finalCurrentTest.getScaleName().equals(Constants.test_name_mini_nutritional_assessment_global)) {
-//                    // check if triagem is already answered
-//                    Log.d("Nutritional", "Global pressed");
-//
-//                    GeriatricScale triagem = session.getScaleByName(Constants.test_name_mini_nutritional_assessment_triagem);
-//                    if (!triagem.isCompleted()) {
-//                        Snackbar.make(holder.view, "Precisa primeiro de completar a triagem", Snackbar.LENGTH_SHORT).show();
-//                        return;
-//                    }
-//                }
-//
-//                String selectedTestName = finalCurrentTest.getScaleName();
-//
-//                // Create new fragment and transaction
-//                Fragment newFragment = new ScaleFragment();
-//                // add arguments
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(selectedTestName));
-//                bundle.putSerializable(ScaleFragment.SCALE, finalCurrentTest);
-//                bundle.putSerializable(ScaleFragment.CGA_AREA, area);
-//                bundle.putSerializable(ScaleFragment.PATIENT, session.getPatient());
-//                newFragment.setArguments(bundle);
-//                // setup the transaction
-//                FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
-//                transaction.replace(R.id.current_fragment, newFragment);
-//                transaction.addToBackStack(Constants.tag_display_session_scale).commit();
-//            }
-//        });
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // view the CGA guide for the scale
+
+                // Create new fragment and transaction
+                Fragment newFragment = new CGAGuideScale();
+                // add arguments
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(CGAGuideScale.SCALE, currentScale);
+                newFragment.setArguments(bundle);
+                // setup the transaction
+                FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
+                transaction.replace(R.id.current_fragment, newFragment);
+                transaction.addToBackStack(Constants.tag_guide_scale).commit();
+            }
+        });
 
     }
 

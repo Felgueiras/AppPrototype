@@ -1,5 +1,6 @@
 package com.example.rafael.appprototype.Evaluations.DisplayTest.SingleQuestion;
 
+import android.view.View;
 import android.widget.RadioGroup;
 
 import com.example.rafael.appprototype.DataTypes.DB.Question;
@@ -16,12 +17,14 @@ public class YesNoQuestionHandler implements RadioGroup.OnCheckedChangeListener 
     private final Question question;
     private final QuestionsListAdapter adapter;
     private final int position;
+    private final View questionView;
 
 
-    public YesNoQuestionHandler(Question question, QuestionsListAdapter adapter, int position) {
+    public YesNoQuestionHandler(Question question, QuestionsListAdapter adapter, int position, View holder) {
         this.question = question;
         this.adapter = adapter;
         this.position = position;
+        this.questionView = holder;
     }
 
 
@@ -36,6 +39,7 @@ public class YesNoQuestionHandler implements RadioGroup.OnCheckedChangeListener 
             question.setSelectedYesNoChoice("no");
         }
         question.setAnswered(true);
+        questionView.setBackgroundResource(R.color.question_answered);
         question.save();
         /**
          * Signal that que Question was answered

@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -31,17 +32,22 @@ import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.example.rafael.appprototype.HelpersHandlers.ToolbarHelper;
 
-public class PrivateArea extends AppCompatActivity {
+public class PrivateAreaActivity extends AppCompatActivity {
 
 
     /**
      * Hold the current fragment before going to lock screen
      */
     private Fragment currentFragment;
+    private NavigationView navigationView;
+
+    public NavigationView getNavigationView() {
+        return navigationView;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("Inside PrivateArea");
+        System.out.println("Inside PrivateAreaActivity");
         Constants.area = Constants.area_private;
         super.onCreate(savedInstanceState);
         ActiveAndroid.initialize(getApplication());
@@ -64,7 +70,7 @@ public class PrivateArea extends AppCompatActivity {
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         Constants.toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new DrawerItemClickListener(this, getFragmentManager(), drawer));
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -127,21 +133,26 @@ public class PrivateArea extends AppCompatActivity {
 
         // set sample fragment
         Fragment fragment = null;
-        String defaultFragment = Constants.fragment_show_patients;
+        String defaultFragment = Constants.fragment_main_private;
         switch (defaultFragment) {
+            case Constants.fragment_main_private:
+                fragment = new PrivateAreaMainFragment();
+                navigationView.getMenu().getItem(Constants.menu_positions_home_page).setChecked(true);
+                setTitle(getResources().getString(R.string.tab_personal_area));
+                break;
             case Constants.fragment_show_patients:
                 fragment = new PatientsMain();
-                navigationView.getMenu().getItem(0).setChecked(true);
+                navigationView.getMenu().getItem(Constants.menu_positions_patients).setChecked(true);
                 setTitle(getResources().getString(R.string.tab_my_patients));
                 break;
             case Constants.fragment_sessions:
-                navigationView.getMenu().getItem(1).setChecked(true);
+                navigationView.getMenu().getItem(Constants.menu_positions_sessions).setChecked(true);
                 fragment = new EvaluationsHistoryMain();
                 setTitle(getResources().getString(R.string.tab_sessions));
                 break;
             case Constants.fragment_drug_prescription:
                 fragment = new DrugPrescriptionMain();
-                navigationView.getMenu().getItem(2).setChecked(true);
+                navigationView.getMenu().getItem(Constants.menu_positions_prescription).setChecked(true);
                 setTitle(getResources().getString(R.string.tab_drug_prescription));
                 break;
 
@@ -185,7 +196,7 @@ public class PrivateArea extends AppCompatActivity {
 //                .replace(R.id.current_fragment, fragment)
 //                .commit();
 
-        Intent intent = new Intent(PrivateArea.this, LockScreenActivity.class);
+        Intent intent = new Intent(PrivateAreaActivity.this, LockScreenActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();

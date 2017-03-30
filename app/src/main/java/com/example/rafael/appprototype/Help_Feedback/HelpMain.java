@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.example.rafael.appprototype.R;
 
 
-public class HelpTopics extends Fragment {
+public class HelpMain extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

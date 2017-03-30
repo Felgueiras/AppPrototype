@@ -30,7 +30,6 @@
                 android:clipToPadding="false"
                 android:scrollbars="none" />
 
-
         </RelativeLayout>
 
 

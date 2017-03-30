@@ -7,19 +7,8 @@
     <ListView
         android:id="@+id/testQuestions"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1" />
-
-
-    <ProgressBar
-        android:id="@+id/scale_progress"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <include
-        android:id="@+id/cancelSaveButtons"
-        layout="@layout/bottom_buttons_cancel_save" />
 
 
 </LinearLayout>

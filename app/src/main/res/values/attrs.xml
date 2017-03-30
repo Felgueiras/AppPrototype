@@ -6,4 +6,13 @@
             <enum name="vertical" value="1" />
         </attr>
     </declare-styleable>
+    <declare-styleable name="SideSpinner">
+        <attr name="values" format="reference" />
+    </declare-styleable>
+    <!--Custom button-->
+    <declare-styleable name="MainPageCustomButton">
+        <attr name="pageName" format="string" />
+        <attr name="pageIcon" format="reference" />
+    </declare-styleable>
+
 </resources>

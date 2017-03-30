@@ -13,7 +13,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -24,7 +23,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.Main.PrivateArea;
+import com.example.rafael.appprototype.Main.PrivateAreaActivity;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 
@@ -323,7 +322,7 @@ public class LoginFragment extends Fragment {
                     }
                 }
 
-                Intent intent = new Intent(getActivity(), PrivateArea.class);
+                Intent intent = new Intent(getActivity(), PrivateAreaActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 getActivity().finish();

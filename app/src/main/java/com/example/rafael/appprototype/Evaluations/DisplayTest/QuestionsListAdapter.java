@@ -82,8 +82,9 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 
     /**
      * Display all Questions for a GeriatricScale
-     *  @param context  current Context
-     * @param test     GeriatricScale that is being filled up
+     *
+     * @param context              current Context
+     * @param test                 GeriatricScale that is being filled up
      * @param progress
      * @param childFragmentManager
      */
@@ -114,7 +115,6 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         /*
       Yes if scale already opened, no otherwise
      */
-        boolean testAlreadyOpened = test.isAlreadyOpened();
         inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -195,7 +195,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
     }
 
     public class Holder {
-        TextView question;
+        public TextView question;
         ListView choicesList;
     }
 
@@ -510,24 +510,30 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                     RadioGroup.LayoutParams.WRAP_CONTENT);
 
             radioGroup.addView(newRadioButton, i, layoutParams);
-            if (scale.isCompleted())
-                if (scale.getAnswer().equals(grade))
-                    newRadioButton.setChecked(true);
+            if (scale != null) {
+                if (scale.isCompleted())
+                    if (scale.getAnswer().equals(grade))
+                        newRadioButton.setChecked(true);
+            }
+
         }
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int radioButtonIndex) {
-                radioButtonIndex = (radioButtonIndex - 1) % gradings.size();
-                questionAnswered(0);
-                // get grade
-                GradingNonDB grading = gradings.get(radioButtonIndex);
-                scale.setAlreadyOpened(true);
-                scale.setAnswer(grading.getGrade());
-                scale.setCompleted(true);
-                scale.save();
-            }
-        });
+        if (scale != null) {
+            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup radioGroup, int radioButtonIndex) {
+                    radioButtonIndex = (radioButtonIndex - 1) % gradings.size();
+                    questionAnswered(0);
+                    // get grade
+                    GradingNonDB grading = gradings.get(radioButtonIndex);
+                    scale.setAlreadyOpened(true);
+                    scale.setAnswer(grading.getGrade());
+                    scale.setCompleted(true);
+                    scale.save();
+                }
+            });
+        }
+
 
         return questionView;
     }
@@ -696,64 +702,85 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                 android.R.layout.select_dialog_singlechoice);
 
         // check if is already in DB
-        String questionID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
-        Question question = Question.getQuestionByID(questionID);
-        if (question == null) {
-            // create question and add to DB
-            question = new Question();
-            question.setDescription(currentQuestionNonDB.getDescription());
-            question.setGuid(questionID);
-            question.setScale(scale);
-            question.setYesOrNo(false);
-            question.save();
 
-            // create Choices and add to DB
+        Question question = null;
+        if (scale != null) {
+            String questionID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
+            question = Question.getQuestionByID(questionID);
+            if (question == null) {
+                // create question and add to DB
+                question = new Question();
+                question.setDescription(currentQuestionNonDB.getDescription());
+                question.setGuid(questionID);
+                question.setScale(scale);
+                question.setYesOrNo(false);
+                question.save();
+
+                // create Choices and add to DB
+                ArrayList<ChoiceNonDB> choicesNonDB = currentQuestionNonDB.getChoices();
+
+                for (int i = 0; i < choicesNonDB.size(); i++) {
+                    ChoiceNonDB currentChoice = choicesNonDB.get(i);
+                    Choice choice = new Choice();
+                    String choiceID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription() + "-" + currentChoice.getDescription();
+                    // check if already in DB
+                    if (Choice.getChoiceByID(choiceID) == null) {
+                        choice.setGuid(choiceID);
+                        choice.setQuestion(question);
+                        if (currentChoice.getName() != null)
+                            choice.setName(currentChoice.getName());
+                        choice.setDescription(currentChoice.getDescription());
+                        choice.setScore(currentChoice.getScore());
+                        choice.save();
+                    }
+
+                    if (choice.getName().equals("") || choice.getName() == null) {
+                        arrayAdapter.add(choice.getDescription());
+                    } else {
+                        if (!choice.getName().equals(choice.getDescription())) {
+                            arrayAdapter.add(choice.getName() + " - " + choice.getDescription());
+                        } else {
+                            arrayAdapter.add(choice.getDescription());
+                        }
+                    }
+                }
+
+            } else {
+                /**
+                 * Question in DB,
+                 */
+                // get Question from DB
+                question = scale.getQuestionsFromScale().get(questionIndex);
+                // create Radio Group from the info in DB
+
+                for (int i = 0; i < question.getChoicesForQuestion().size(); i++) {
+                    Choice choice = question.getChoicesForQuestion().get(i);
+
+                    if (choice.getName().equals("") || choice.getName() == null) {
+                        arrayAdapter.add(choice.getDescription());
+                    } else {
+                        if (!choice.getName().equals(choice.getDescription())) {
+                            arrayAdapter.add(choice.getName() + " - " + choice.getDescription());
+                        } else {
+                            arrayAdapter.add(choice.getDescription());
+                        }
+                    }
+                }
+            }
+        } else {
             ArrayList<ChoiceNonDB> choicesNonDB = currentQuestionNonDB.getChoices();
 
             for (int i = 0; i < choicesNonDB.size(); i++) {
                 ChoiceNonDB currentChoice = choicesNonDB.get(i);
-                Choice choice = new Choice();
-                String choiceID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription() + "-" + currentChoice.getDescription();
-                // check if already in DB
-                if (Choice.getChoiceByID(choiceID) == null) {
-                    choice.setGuid(choiceID);
-                    choice.setQuestion(question);
-                    if (currentChoice.getName() != null)
-                        choice.setName(currentChoice.getName());
-                    choice.setDescription(currentChoice.getDescription());
-                    choice.setScore(currentChoice.getScore());
-                    choice.save();
-                }
 
-                if (choice.getName().equals("") || choice.getName() == null) {
-                    arrayAdapter.add(choice.getDescription());
+
+                if (currentChoice.getName().equals("") || currentChoice.getName() == null) {
+                    arrayAdapter.add(currentChoice.getDescription());
                 } else {
-                    if (!choice.getName().equals(choice.getDescription())) {
-                        arrayAdapter.add(choice.getName() + " - " + choice.getDescription());
+                    if (!currentChoice.getName().equals(currentChoice.getDescription())) {
+                        arrayAdapter.add(currentChoice.getName() + " - " + currentChoice.getDescription());
                     } else {
-                        arrayAdapter.add(choice.getDescription());
-                    }
-                }
-            }
-
-        } else {
-            /**
-             * Question in DB,
-             */
-            // get Question from DB
-            question = scale.getQuestionsFromScale().get(questionIndex);
-            // create Radio Group from the info in DB
-
-            for (int i = 0; i < question.getChoicesForQuestion().size(); i++) {
-                Choice choice = question.getChoicesForQuestion().get(i);
-
-                if (choice.getName().equals("") || choice.getName() == null) {
-                    arrayAdapter.add(choice.getDescription());
-                } else {
-                    if (!choice.getName().equals(choice.getDescription())) {
-                        arrayAdapter.add(choice.getName() + " - " + choice.getDescription());
-                    } else {
-                        arrayAdapter.add(choice.getDescription());
+                        arrayAdapter.add(currentChoice.getDescription());
                     }
                 }
             }
@@ -764,21 +791,32 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         holder.question.setText(questionText);
 
         // check if already answered
-        if (question.isAnswered()) {
+        if (question != null && question.isAnswered()) {
             holder.question.setBackgroundResource(R.color.question_answered);
         }
 
         final Question finalQuestion = question;
         final QuestionsListAdapter adapter = this;
-        builderSingle.setAdapter(arrayAdapter,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int selectedAnswer) {
-                        MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex);
-                        multipleChoiceHandler.selectedFromAlertDialog(selectedAnswer);
-                        holder.question.setBackgroundResource(R.color.question_answered);
-                        dialog.dismiss();
-                    }
-                });
+        if (question != null) {
+            builderSingle.setAdapter(arrayAdapter,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int selectedAnswer) {
+                            MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex);
+                            multipleChoiceHandler.selectedFromAlertDialog(selectedAnswer);
+                            holder.question.setBackgroundResource(R.color.question_answered);
+                            dialog.dismiss();
+                        }
+                    });
+
+        } else {
+            builderSingle.setAdapter(arrayAdapter,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int selectedAnswer) {
+                            MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex);
+                            dialog.dismiss();
+                        }
+                    });
+        }
 
 
         holder.question.setOnClickListener(new View.OnClickListener() {
@@ -786,7 +824,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             public void onClick(View v) {
                 // check if already answered
                 int selectedIdx = -1;
-                if (finalQuestion.isAnswered()) {
+                if (finalQuestion != null && finalQuestion.isAnswered()) {
 
                     holder.question.setBackgroundResource(R.color.question_answered);
                     // set the selected option
@@ -803,9 +841,12 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int selectedAnswer) {
-                                MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex);
-                                multipleChoiceHandler.selectedFromAlertDialog(selectedAnswer);
-                                holder.question.setBackgroundResource(R.color.question_answered);
+                                if (finalQuestion != null) {
+                                    MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex);
+                                    multipleChoiceHandler.selectedFromAlertDialog(selectedAnswer);
+                                    holder.question.setBackgroundResource(R.color.question_answered);
+
+                                }
                                 dialog.dismiss();
                             }
                         });
@@ -813,26 +854,29 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             }
         });
 
+
         return questionView;
     }
 
 
     private View yesNo(QuestionNonDB currentQuestionNonDB, int position) {
         // question in DB
-        Question question;
-        String dummyID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
-        question = Question.getQuestionByID(dummyID);
-        if (question == null) {
-            // create question and add to DB
-            question = new Question();
-            question.setGuid(dummyID);
-            question.setDescription(currentQuestionNonDB.getDescription());
-            question.setScale(scale);
-            question.setYesOrNo(true);
-            question.setRightWrong(false);
-            question.setYesValue(currentQuestionNonDB.getYesScore());
-            question.setNoValue(currentQuestionNonDB.getNoScore());
-            question.save();
+        Question question = null;
+        if (scale != null) {
+            String dummyID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
+            question = Question.getQuestionByID(dummyID);
+            if (question == null) {
+                // create question and add to DB
+                question = new Question();
+                question.setGuid(dummyID);
+                question.setDescription(currentQuestionNonDB.getDescription());
+                question.setScale(scale);
+                question.setYesOrNo(true);
+                question.setRightWrong(false);
+                question.setYesValue(currentQuestionNonDB.getYesScore());
+                question.setNoValue(currentQuestionNonDB.getNoScore());
+                question.save();
+            }
         }
 
 
@@ -849,7 +893,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         /**
          * Question already answered.
          */
-        if (question.isAnswered()) {
+        if (question != null && question.isAnswered()) {
+            questionView.setBackgroundResource(R.color.question_answered);
             if (question.getSelectedYesNoChoice().equals("yes")) {
                 radioGroup.check(R.id.yesChoice);
             } else {
@@ -857,7 +902,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             }
         }
 
-        radioGroup.setOnCheckedChangeListener(new YesNoQuestionHandler(question, this, position));
+        if (question != null)
+            radioGroup.setOnCheckedChangeListener(new YesNoQuestionHandler(question, this, position, questionView));
         return questionView;
     }
 

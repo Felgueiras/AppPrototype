@@ -50,13 +50,8 @@ public class CGAGuideArea extends Fragment {
         if (!area.equals(Constants.cga_clinical)) {
             recyclerView.setAdapter(adapter);
         }
-//        else {
-//            recyclerView.setAdapter(new ClinicalEvaluation(getActivity(),
-//                    session,
-//                    resuming,
-//                    Constants.SESSION_GENDER,
-//                    area));
-//        }
+
+
 
         return view;
     }

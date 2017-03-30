@@ -46,7 +46,7 @@ public class ProgressMainViewPager extends Fragment {
         sessionsFromPatient = patient.getSessionsFromPatient();
 //        ProgressAreas adapter = new ProgressAreas(getActivity(), sessionsFromPatient, PATIENT);
 
-        getActivity().setTitle(getResources().getString(R.string.progress));
+        getActivity().setTitle(patient.getName() +" - " + getResources().getString(R.string.progress));
 
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.container);
         MyPageAdapter pageAdapter = new MyPageAdapter(getChildFragmentManager());

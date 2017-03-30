@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
-import com.example.rafael.appprototype.Evaluations.DisplayTest.SingleQuestion.CategoryDisplayQuestions;
+import com.example.rafael.appprototype.Evaluations.DisplayTest.QuestionCategoriesViewPager.CategoryDisplayQuestions;
 import com.example.rafael.appprototype.R;
 
 /**
@@ -107,7 +107,7 @@ public class QuestionMultipleCategoriesIndividualCategory {
         questionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         final CategoryDisplayQuestions recyclerAdapter = new CategoryDisplayQuestions(context,
-                scaleNonDB, categoryIndex, scaleDB, adapter);
+                scaleNonDB, categoryIndex, scaleDB, adapter, categoryTextView);
         questionsRecyclerView.setAdapter(recyclerAdapter);
 
 

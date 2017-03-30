@@ -176,14 +176,18 @@ public class Constants {
     public static final String help_topic_functionalities = "Funcionalidades";
     public static final String help_topic_personal_area = "Área pessoal";
     public static final String help_topic_patients = "Pacientes";
+    public static final String help_topic_sessions = "Sessões";
     public static final String help_topic_prescriptions = "Prescrições";
+    public static final String help_topic_cga_guide = "Guia da AGG";
 
     public static String[] help_topics = new String[]{
             help_topic_cga,
             help_topic_functionalities,
             help_topic_personal_area,
             help_topic_patients,
-            help_topic_prescriptions
+            help_topic_sessions,
+            help_topic_prescriptions,
+            help_topic_cga_guide
     };
 
 
@@ -210,4 +214,20 @@ public class Constants {
     public static final String tag_create_session_with_patient_from_session = "tag_create_session_with_patient_from_session";
     public static final String tag_review_scale_from_progress = "tag_review_scale_from_progress";
     public static int progressPage = 0;
+    public static final String tag_create_session_pick_patient_start = "tag_create_session_pick_patient_start";
+    public static final String tag_create_patient_session_start = "tag_create_patient_session_start";
+    public static final String tag_guide_scale = "tag_guide_scale";
+    public static final String fragment_main_private = "fragment_main_private";
+    public static final String tag_home_page_selected_page = "tag_home_page_selected_page";
+    /**
+     * Positions for the navigation drawer.
+     */
+    public static int menu_positions_home_page = 0;
+    public static int menu_positions_patients = 1;
+    public static int menu_positions_sessions = 2;
+    public static int menu_positions_prescription = 3;
+    public static int menu_positions_help = 5;
+    public static int menu_positions_cga_guide = 6;
+    public static int menu_positions_settings = 7;
+    ;
 }

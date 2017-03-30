@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:mainpagecustombutton="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/app_icon" />
+
+    <!--Patients-->
+    <Button
+        android:layout_margin="5dp"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/patients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/my_patients"
+        android:drawableTop="@drawable/ic_people_white_24dp"/>
+
+    <!--Sessions-->
+    <Button
+        android:layout_margin="5dp"
+
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/sessions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/tab_sessions"
+        android:drawableTop="@drawable/ic_assignment_white_24dp"/>
+
+
+    <!--Prescription-->
+    <Button
+        android:layout_margin="5dp"
+
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/prescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/tab_drug_prescription"
+        android:drawableTop="@drawable/pill_white"/>
+
+
+    <!--Help-->
+    <Button
+        android:layout_margin="5dp"
+
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/help"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/help"
+        android:drawableTop="@drawable/ic_help_white_24dp"/>
+
+
+    <!--CGA Guide-->
+    <Button
+        android:layout_margin="5dp"
+
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/cga_guide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/cga_guide"
+        android:drawableTop="@drawable/ic_search_white_24dp"/>
+
+
+    <!--Settings-->
+    <Button
+        android:layout_margin="5dp"
+
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/settings"
+        android:drawableTop="@drawable/ic_settings_white_24dp"/>
+
+
+</LinearLayout>

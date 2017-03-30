@@ -113,15 +113,8 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 if (pickBeforeSession) {
-                                    /**
-                                     * Go to PATIENT's profile
-                                     */
                                     context.getFragmentManager().popBackStack();
                                     Bundle args = new Bundle();
-//                                    args.putSerializable(ViewSinglePatientInfo.PATIENT, PATIENT);
-//                                    FragmentTransitions.replaceFragment(context, new ViewSinglePatientInfo(),
-//                                            args,
-//                                            Constants.tag_view_patient_info_records);
                                     /**
                                      * Go to new session with this PATIENT.
                                      */
@@ -130,6 +123,7 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                                     FragmentTransitions.replaceFragment(context, new CGAPrivateBottomButtons(),
                                             args,
                                             Constants.tag_create_session_with_patient_from_session);
+//                                            Constants.tag_create_session_with_patient);
                                 } else {
                                     DrawerLayout layout = (DrawerLayout) context.findViewById(R.id.drawer_layout);
                                     Snackbar.make(layout, context.getString(R.string.picked_patient_session_created), Snackbar.LENGTH_SHORT).show();
@@ -165,7 +159,6 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                                     args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
                                     Fragment fragment = new ReviewSingleSessionWithPatient();
 
-                                    // TODO go to new session with this PATIENT
                                     fragment.setArguments(args);
                                     currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
                                     fragmentManager.beginTransaction()

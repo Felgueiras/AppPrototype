@@ -8,11 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
-import com.example.rafael.appprototype.Main.PrivateArea;
+import com.example.rafael.appprototype.Main.PrivateAreaActivity;
 import com.example.rafael.appprototype.R;
 
 import butterknife.ButterKnife;
@@ -95,7 +94,7 @@ public class RegisterUser extends AppCompatActivity {
                         // Register user to the app
                         SharedPreferencesHelper.registerUser(getBaseContext(), name, email, password);
                         SharedPreferencesHelper.login(getBaseContext());
-                        Intent intent = new Intent(getBaseContext(), PrivateArea.class);
+                        Intent intent = new Intent(getBaseContext(), PrivateAreaActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }

@@ -15,7 +15,7 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
-import com.example.rafael.appprototype.Main.PrivateArea;
+import com.example.rafael.appprototype.Main.PrivateAreaActivity;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.R;
 
@@ -108,7 +108,7 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
 //                args.putString("ACTION", holder.questionTextView.getText().toString());
 //                args.putString("TRANS_TEXT", patientTransitionName);
                 args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
-                ((PrivateArea) context).replaceFragmentSharedElements(endFragment, args, Constants.tag_view_patient_info_records,
+                ((PrivateAreaActivity) context).replaceFragmentSharedElements(endFragment, args, Constants.tag_view_patient_info_records,
                         holder.name);
             }
         };

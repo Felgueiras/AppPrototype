@@ -204,4 +204,12 @@
     <string name="title_activity_wheel_picker">WheelPickerActivity</string>
     <string name="title_activity_custom_view_pager">CustomViewPagerActivity</string>
 
+    <string-array name="vegetable_array">
+        <item>Cucumber</item>
+        <item>Potato</item>
+        <item>Tomato</item>
+        <item>Onion</item>
+        <item>Squash</item>
+    </string-array>
+
 </resources>

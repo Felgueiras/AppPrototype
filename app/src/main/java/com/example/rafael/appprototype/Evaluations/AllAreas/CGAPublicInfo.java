@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
+import com.example.rafael.appprototype.Help_Feedback.HelpMain;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
@@ -68,7 +68,7 @@ public class CGAPublicInfo extends Fragment {
             @Override
             public void onClick(View view) {
 
-                HelpTopics endFragment = new HelpTopics();
+                HelpMain endFragment = new HelpMain();
                 BackStackHandler.clearBackStack();
                 FragmentManager fragmentManager = getActivity().getFragmentManager();
                 fragmentManager.beginTransaction()

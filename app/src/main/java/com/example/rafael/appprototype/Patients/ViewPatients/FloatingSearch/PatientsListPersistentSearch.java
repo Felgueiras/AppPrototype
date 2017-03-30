@@ -1,8 +1,6 @@
 package com.example.rafael.appprototype.Patients.ViewPatients.FloatingSearch;
 
 import android.app.Fragment;
-import android.app.SearchManager;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -12,7 +10,6 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,7 +27,7 @@ import com.arlib.floatingsearchview.util.Util;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
-import com.example.rafael.appprototype.Main.PrivateArea;
+import com.example.rafael.appprototype.Main.PrivateAreaActivity;
 import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.Patients.ViewPatients.PatientCardPatientsList;
@@ -164,7 +161,7 @@ public class PatientsListPersistentSearch extends Fragment {
 //                args.putString("ACTION", holder.questionTextView.getText().toString());
 //                args.putString("TRANS_TEXT", patientTransitionName);
                 args.putSerializable(ViewSinglePatientInfo.PATIENT, colorSuggestion.getPatient());
-                ((PrivateArea) getActivity()).replaceFragmentSharedElements(endFragment, args,
+                ((PrivateAreaActivity) getActivity()).replaceFragmentSharedElements(endFragment, args,
                         Constants.tag_view_patient_info_records,
                         null);
 

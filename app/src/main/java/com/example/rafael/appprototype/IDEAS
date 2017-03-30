@@ -1,8 +1,7 @@
-- search view destacada em lista de medicamentos
-- Swipe between scale with multiple categories - P6
-- Patient’s notes can be mistaken with session’s notes - P10
-- Hamburger icon to open menu is not very intuitive for users lacking smartphone experience - P6
+- pinch to zoom (change view in sessions)
 - pause and resume session
+- search view destacada em lista de medicamentos
+- Patient’s notes can be mistaken with session’s notes - P10
 - nova forma de preencher questoes como scroll com thumb
 
 
@@ -14,12 +13,9 @@ Doctor feedback:
 - Add patient from the navigation menu
 - After registering go to the Login menu and not to the list of patients - P11
 
-
 - physical examination
 - multi-user
-- button to create new patient more visible (tablet)
 - use images about areas to be more interesting (CGAAreas)
-- addTabLayout to app_bar_navigation_drawer
 - refresh activity when changing settings
 - setup unlock pattern
 - guardar a última sessão, pra poder adicioná-la, ao criar uma nova sem paciente diz "a ultima vai ser descartada, sim não"

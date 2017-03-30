@@ -18,7 +18,6 @@ import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.QuestionsListAdapter;
-import com.example.rafael.appprototype.Evaluations.DisplayTest.SingleQuestion.CategoryDisplayQuestions;
 import com.example.rafael.appprototype.R;
 
 /**
@@ -117,7 +116,7 @@ public class QuestionCategoryFragment extends Fragment {
         questionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         final CategoryDisplayQuestions recyclerAdapter = new CategoryDisplayQuestions(getActivity(),
-                scaleNonDB, categoryIndex, scaleDB, adapter);
+                scaleNonDB, categoryIndex, scaleDB, adapter,categoryTextView);
         questionsRecyclerView.setAdapter(recyclerAdapter);
 
         // TODo last question is not visible!

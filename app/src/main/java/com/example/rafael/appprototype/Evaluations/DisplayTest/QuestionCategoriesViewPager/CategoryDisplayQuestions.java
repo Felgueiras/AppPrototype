@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Evaluations.DisplayTest.SingleQuestion;
+package com.example.rafael.appprototype.Evaluations.DisplayTest.QuestionCategoriesViewPager;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +15,7 @@ import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.QuestionsListAdapter;
+import com.example.rafael.appprototype.Evaluations.DisplayTest.SingleQuestion.RightWrongQuestionHandler;
 import com.example.rafael.appprototype.R;
 
 public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDisplayQuestions.MyViewHolder> {
@@ -23,17 +24,19 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
     private final int categoryIndex;
     private final GeriatricScale scaleDB;
     private final QuestionsListAdapter adapter;
+    private final TextView categoryTextView;
     private Activity context;
 
 
     public CategoryDisplayQuestions(Activity context,
                                     GeriatricScaleNonDB testNonDB, int categoryIndex, GeriatricScale test,
-                                    QuestionsListAdapter adapter) {
+                                    QuestionsListAdapter adapter, TextView categoryTextView) {
         this.context = context;
         this.scaleNonDB = testNonDB;
         this.categoryIndex = categoryIndex;
         this.scaleDB = test;
         this.adapter = adapter;
+        this.categoryTextView = categoryTextView;
     }
 
     /**
@@ -68,21 +71,23 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
         // question not in DB
         QuestionNonDB currentQuestionNonDB = currentCategory.getQuestions().get(questionIndex);
         // question in DB
-        Question questionInDB;
+        Question questionInDB = null;
         int questionIdx = QuestionCategory.getQuestionIndex(categoryIndex,
                 questionIndex,
                 scaleNonDB);
-        String dummyID = scaleDB.getGuid() + "-" + questionIdx;
-        questionInDB = Question.getQuestionByID(dummyID);
-        if (questionInDB == null) {
-            questionInDB = new Question();
-            // create question and add to DB
-            questionInDB.setGuid(dummyID);
-            questionInDB.setDescription(currentQuestionNonDB.getDescription());
-            questionInDB.setScale(scaleDB);
-            questionInDB.setYesOrNo(false);
-            questionInDB.setRightWrong(true);
-            questionInDB.save();
+        if (scaleDB != null) {
+            String dummyID = scaleDB.getGuid() + "-" + questionIdx;
+            questionInDB = Question.getQuestionByID(dummyID);
+            if (questionInDB == null) {
+                questionInDB = new Question();
+                // create question and add to DB
+                questionInDB.setGuid(dummyID);
+                questionInDB.setDescription(currentQuestionNonDB.getDescription());
+                questionInDB.setScale(scaleDB);
+                questionInDB.setYesOrNo(false);
+                questionInDB.setRightWrong(true);
+                questionInDB.save();
+            }
         }
 
 
@@ -98,7 +103,7 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
         // detect when choice changed
 
         // if question is already answered
-        if (questionInDB.isAnswered()) {
+        if (questionInDB != null && questionInDB.isAnswered()) {
             ////system.out.println(questionInDB.toString());
             if (questionInDB.getSelectedRightWrong().equals("right")) {
                 holder.right.setImageResource(R.drawable.ic_check_box_black_24dp);
@@ -108,10 +113,14 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
         }
 
 
-        holder.right.setOnClickListener(new RightWrongQuestionHandler(questionInDB, adapter,
-                scaleNonDB, questionIdx, holder.right, holder.wrong));
-        holder.wrong.setOnClickListener(new RightWrongQuestionHandler(questionInDB, adapter,
-                scaleNonDB, questionIdx, holder.right, holder.wrong));
+        if (scaleDB != null) {
+            holder.right.setOnClickListener(new RightWrongQuestionHandler(questionInDB, adapter,
+                    scaleNonDB, questionIdx, holder.right, holder.wrong, categoryTextView, currentCategory));
+            holder.wrong.setOnClickListener(new RightWrongQuestionHandler(questionInDB, adapter,
+                    scaleNonDB, questionIdx, holder.right, holder.wrong, categoryTextView,
+                    currentCategory));
+        }
+
 
     }
 

@@ -14,14 +14,13 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.rafael.appprototype.AboutFragment;
-import com.example.rafael.appprototype.CGAGuide.CGAGuide;
+import com.example.rafael.appprototype.CGAGuide.CGAGuideMain;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicBottomButtons;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
-import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivateBottomButtons;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
-import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
+import com.example.rafael.appprototype.Help_Feedback.HelpMain;
 import com.example.rafael.appprototype.Help_Feedback.SendFeedback;
 import com.example.rafael.appprototype.PersonalAreaAccess.LoginFragment;
 import com.example.rafael.appprototype.Settings;
@@ -29,6 +28,7 @@ import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
+import com.example.rafael.appprototype.TransferDB;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -92,14 +92,18 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
                 endFragment = new PatientsMain();
         } else if (id == R.id.sendFeedback) {
             endFragment = new SendFeedback();
+        } else if (id == R.id.mainArea) {
+            endFragment = new PrivateAreaMainFragment();
         } else if (id == R.id.help) {
-            endFragment = new HelpTopics();
+            endFragment = new HelpMain();
         } else if (id == R.id.sessions) {
             endFragment = new EvaluationsHistoryMain();
         } else if (id == R.id.about) {
             endFragment = new AboutFragment();
         } else if (id == R.id.cga_guide) {
-            endFragment = new CGAGuide();
+            endFragment = new CGAGuideMain();
+        } else if (id == R.id.transfer_db) {
+            endFragment = new TransferDB();
         } else if (id == R.id.settings) {
             Intent i = new Intent(context, Settings.class);
             context.startActivity(i);
@@ -142,7 +146,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
 //                    inflateTransition(android.R.transition.fade));
 
             // empty back stack
-            BackStackHandler.clearBackStack();
+//            BackStackHandler.clearBackStack();
             fragmentManager.beginTransaction()
                     .replace(R.id.current_fragment, endFragment, "initial_tag")
                     .commit();

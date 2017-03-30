@@ -20,7 +20,7 @@ import java.io.Serializable;
 /**
  * Create the Card for each of the Tests available
  */
-public class AreaCardGuide extends RecyclerView.Adapter<AreaCardGuide.CGACardHolder> {
+public class CGAGuideAreaAdapter extends RecyclerView.Adapter<CGAGuideAreaAdapter.CGACardHolder> {
 
 
     private Activity context;
@@ -50,7 +50,7 @@ public class AreaCardGuide extends RecyclerView.Adapter<AreaCardGuide.CGACardHol
      *
      * @param context current Context
      */
-    public AreaCardGuide(Activity context) {
+    public CGAGuideAreaAdapter(Activity context) {
         this.context = context;
     }
 

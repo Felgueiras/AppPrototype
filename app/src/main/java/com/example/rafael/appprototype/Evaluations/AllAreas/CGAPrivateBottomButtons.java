@@ -76,8 +76,6 @@ public class CGAPrivateBottomButtons extends Fragment {
             getActivity().setTitle("Nova AGG");
         }
 
-        Log.d("Stack", "Inside cga private");
-
 
         String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(getActivity());
         boolean canCreateSessions = SharedPreferencesHelper.isSessionCreationPermitted(getActivity());
@@ -148,6 +146,7 @@ public class CGAPrivateBottomButtons extends Fragment {
                 }
 
 
+                SharedPreferencesHelper.lockSessionCreation(getActivity());
             }
         }
 

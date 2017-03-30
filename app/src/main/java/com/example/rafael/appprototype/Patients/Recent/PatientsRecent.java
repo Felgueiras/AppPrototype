@@ -50,7 +50,7 @@ public class PatientsRecent extends Fragment {
         // fill the GridView
         GridView gridView = (GridView) view.findViewById(R.id.patients_grid_view);
 
-        PatientsByDayAdapter adapter = new PatientsByDayAdapter(getActivity(), this);
+        PatientsRecentDayAdapter adapter = new PatientsRecentDayAdapter(getActivity(), this);
         gridView.setAdapter(adapter);
 
         return view;

@@ -4,9 +4,11 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
-        android:name="com.activeandroid.app.Application"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/app_icon"
@@ -36,27 +38,23 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".LockScreen.LockScreenActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Main.PrivateArea"
+            android:name=".Main.PrivateAreaActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Settings"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity android:name=".PersonalAreaAccess.RegisterUser" />
-
         <activity
             android:name=".VerticalViewPager.CustomViewPagerActivity"
             android:label="@string/title_activity_custom_view_pager"
-            android:theme="@style/AppTheme">
-
-        </activity>
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

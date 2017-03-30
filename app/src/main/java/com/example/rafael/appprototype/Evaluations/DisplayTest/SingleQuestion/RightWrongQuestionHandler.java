@@ -4,10 +4,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.example.rafael.appprototype.DataTypes.DB.Question;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.QuestionCategory;
+import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.QuestionsListAdapter;
 import com.example.rafael.appprototype.R;
 
@@ -23,16 +25,20 @@ public class RightWrongQuestionHandler implements View.OnClickListener {
     private final GeriatricScaleNonDB testNonDB;
     private final ImageButton right;
     private final ImageButton wrong;
+    private final TextView categoryText;
+    private final QuestionCategory currentCategory;
     private int index = 0;
 
     public RightWrongQuestionHandler(Question question, QuestionsListAdapter adapter, GeriatricScaleNonDB testNonDB,
-                                     int index, ImageButton right, ImageButton wrong) {
+                                     int index, ImageButton right, ImageButton wrong, TextView categoryTextView, QuestionCategory currentCategory) {
         this.question = question;
         this.adapter = adapter;
         this.testNonDB = testNonDB;
         this.index = index;
         this.right = right;
         this.wrong = wrong;
+        this.categoryText = categoryTextView;
+        this.currentCategory = currentCategory;
     }
 
 
@@ -54,5 +60,13 @@ public class RightWrongQuestionHandler implements View.OnClickListener {
          * Signal that que Question was answered
          */
         adapter.questionAnswered(index);
+
+        if (categoryText != null) {
+            // check if all questions from category were answered
+            boolean allAnswered = true;
+            for(QuestionNonDB question : currentCategory.getQuestions()){
+
+            }
+        }
     }
 }

@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.EvaluationsAll;
-import com.example.rafael.appprototype.Main.PrivateArea;
+import com.example.rafael.appprototype.Main.PrivateAreaActivity;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.R;
@@ -110,7 +110,7 @@ public class SessionCardHelper implements View.OnClickListener {
 
                     Bundle args = new Bundle();
                     args.putSerializable(ViewSinglePatientInfo.PATIENT, session.getPatient());
-                    ((PrivateArea) context).replaceFragmentSharedElements(endFragment,
+                    ((PrivateAreaActivity) context).replaceFragmentSharedElements(endFragment,
                             args,
                             Constants.tag_view_patient_info_records_from_sessions_list,
                             null);

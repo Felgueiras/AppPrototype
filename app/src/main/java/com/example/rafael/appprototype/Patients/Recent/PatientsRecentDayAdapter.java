@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Show all the Patients for a single day.
  */
-public class PatientsByDayAdapter extends BaseAdapter {
+public class PatientsRecentDayAdapter extends BaseAdapter {
     private final PatientsRecent fragment;
     Activity context;
     LayoutInflater inflater;
@@ -34,7 +34,7 @@ public class PatientsByDayAdapter extends BaseAdapter {
     private RecyclerView recyclerView;
     private PatientCardRecent adapter;
 
-    public PatientsByDayAdapter(Activity context, PatientsRecent evaluationsHistoryGrid) {
+    public PatientsRecentDayAdapter(Activity context, PatientsRecent evaluationsHistoryGrid) {
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.fragment = evaluationsHistoryGrid;

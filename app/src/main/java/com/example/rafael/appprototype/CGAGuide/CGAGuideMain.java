@@ -11,11 +11,9 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.Evaluations.AllAreas.AreaCard;
 import com.example.rafael.appprototype.R;
 
-public class CGAGuide extends Fragment {
+public class CGAGuideMain extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +36,7 @@ public class CGAGuide extends Fragment {
         getActivity().setTitle(getResources().getString(R.string.cga_guide));
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.areas_recycler_view);
-        AreaCardGuide adapter = new AreaCardGuide(getActivity());
+        CGAGuideAreaAdapter adapter = new CGAGuideAreaAdapter(getActivity());
 
         // create Layout
         int numbercolumns = 1;

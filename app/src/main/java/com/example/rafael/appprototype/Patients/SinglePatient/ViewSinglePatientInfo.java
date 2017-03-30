@@ -101,7 +101,7 @@ public class ViewSinglePatientInfo extends Fragment {
 
         // get PATIENT
         patient = (Patient) bundle.getSerializable(PATIENT);
-//        ((PrivateArea)getActivity()).changeTitle(PATIENT.getName());
+//        ((PrivateAreaActivity)getActivity()).changeTitle(PATIENT.getName());
 
         getActivity().setTitle(patient.getName());
 

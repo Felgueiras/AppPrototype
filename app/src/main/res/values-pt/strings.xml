@@ -28,7 +28,7 @@
     <string name="no">Não</string>
     <string name="yes">Sim</string>
     <string name="finish_session">Terminar a sessão</string>
-    <string name="test_incomplete">Teste incompleto</string>
+    <string name="test_incomplete">Escala incompleta</string>
     <string name="test_not_selected">Teste não selecionado</string>
     <string name="test_result">Resultado</string>
     <string name="patient_sessions">Sessões do paciente</string>
@@ -300,4 +300,8 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="session_erase_snackbar">Sessão eliminada.</string>
     <string name="picked_patient_session_created">Paciente associado à sesssão e sessão criada.</string>
     <string name="scale_incomplete_leave_scale">sair da escala</string>
+    <string name="tab_personal_area">Página Principal</string>
+    <string name="settings">Definições</string>
+    <string name="help_sessions_description">Em Sessões pode consultar as suas sessões, agrupadas por dia. Poderá aceder ao seu conteúdo e criar novas sessões de AGG.</string>
+    <string name="help_cga_guide_description">O guia da AGG faz uma apresentação sobre as diferentes áreas abordadas pela AGG. Dentro de cada área poderá aceder às correspondentes escalas, os resultados possíveis e ver que questões fazem parte da escala.</string>
 </resources>

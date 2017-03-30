@@ -12,7 +12,7 @@
             android:title="@string/tab_drug_prescription" />
     </group>
 
-    <!--HelpTopics & Feedback-->
+    <!--HelpMain & Feedback-->
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/sendFeedback"
@@ -32,7 +32,6 @@
 
 
 
-
     <item android:title="@string/actions_account">
         <menu>
             <item
@@ -47,6 +46,10 @@
                 android:id="@+id/access_personal_area"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"
                 android:title="@string/personal_area" />
+            <item
+                android:id="@+id/transfer_db"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
+                android:title="DB ops" />
             <!--<item-->
             <!--android:id="@+id/options"-->
             <!--android:app_icon="@drawable/ic_exit_to_app_black_24dp"-->

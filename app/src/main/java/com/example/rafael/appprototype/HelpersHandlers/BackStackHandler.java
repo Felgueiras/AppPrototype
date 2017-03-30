@@ -10,11 +10,14 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
-import com.example.rafael.appprototype.CGAGuide.CGAGuide;
+import com.example.rafael.appprototype.CGAGuide.CGAGuideMain;
+import com.example.rafael.appprototype.CGAGuide.CGAGuideArea;
+import com.example.rafael.appprototype.CGAGuide.CGAGuideScale;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivateBottomButtons;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicBottomButtons;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
@@ -23,7 +26,8 @@ import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPrivateBottomButtons;
 import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublicBottomButtons;
-import com.example.rafael.appprototype.Help_Feedback.HelpTopics;
+import com.example.rafael.appprototype.Help_Feedback.HelpMain;
+import com.example.rafael.appprototype.Main.PrivateAreaMainFragment;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Patients.Progress.ProgressMainViewPager;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
@@ -202,6 +206,9 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     args.putSerializable(ProgressMainViewPager.PATIENT, patient);
                     break;
                 }
+                case Constants.tag_home_page_selected_page:
+                    fragment = new PrivateAreaMainFragment();
+                    break;
                 case Constants.tag_view_patient_info_records:
                     fragment = new PatientsMain();
                     break;
@@ -210,6 +217,10 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     break;
                 case Constants.tag_view_drug_info:
                     fragment = new DrugPrescriptionMain();
+                    break;
+                case Constants.tag_create_session_pick_patient_start:
+                    // go back to sessions list
+                    fragment = new EvaluationsHistoryMain();
                     break;
                 case Constants.tag_create_session_no_patient:
                     Log.d("Stack", "pressed back in new session");
@@ -229,7 +240,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     break;
                 case Constants.tag_help_topic:
                     args = new Bundle();
-                    fragment = new HelpTopics();
+                    fragment = new HelpMain();
                     break;
                 /**
                  * Sessions history / review
@@ -252,8 +263,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     fragment.setArguments(args);
                     break;
                 }
-                case Constants.tag_review_test:
-                {
+                case Constants.tag_review_test: {
                     // get the arguments
                     Bundle arguments = fr.getArguments();
                     GeriatricScale test = (GeriatricScale) arguments.getSerializable(ReviewSingleViewScale.SCALE);
@@ -274,7 +284,16 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                  * CGA Guide.
                  */
                 case Constants.tag_guide_area:
-                    fragment = new CGAGuide();
+                    fragment = new CGAGuideMain();
+                    break;
+                case Constants.tag_guide_scale:
+                    Bundle arguments = fr.getArguments();
+                    GeriatricScaleNonDB scale = (GeriatricScaleNonDB) arguments.getSerializable(CGAGuideScale.SCALE);
+                     fragment = new CGAGuideArea();
+                    // add arguments
+                    Bundle bundle = new Bundle();
+                    bundle.putString(CGAGuideArea.CGA_AREA, scale.getArea());
+                    fragment.setArguments(bundle);
                     break;
             }
 
@@ -463,6 +482,11 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 fragment.setArguments(args);
             }
 
+
+        } else if (tagCurrent.equals(Constants.tag_create_session_with_patient_from_session)) {
+            // TODO review session
+            fragmentManager.popBackStack();
+            fragment = new EvaluationsHistoryMain();
         } else if (tagCurrent.equals(Constants.tag_create_patient)) {
             fragmentManager.popBackStack();
             fragment = new PatientsMain();

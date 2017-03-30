@@ -9,7 +9,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.activeandroid.ActiveAndroid;
-import com.example.rafael.appprototype.Main.PrivateArea;
+import com.example.rafael.appprototype.Main.PrivateAreaActivity;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 
@@ -41,7 +41,7 @@ public class LockScreenActivity extends AppCompatActivity {
                     passwordEditText.clearFocus();
                     SharedPreferencesHelper.setLockStatus(getApplicationContext(),false);
 
-                    Intent intent = new Intent(LockScreenActivity.this, PrivateArea.class);
+                    Intent intent = new Intent(LockScreenActivity.this, PrivateAreaActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();

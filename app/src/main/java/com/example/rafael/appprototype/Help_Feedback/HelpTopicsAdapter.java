@@ -23,8 +23,6 @@ public class HelpTopicsAdapter extends BaseAdapter {
     public HelpTopicsAdapter(Activity context) {
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-
     }
 
 

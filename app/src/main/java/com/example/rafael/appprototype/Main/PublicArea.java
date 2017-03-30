@@ -1,6 +1,5 @@
 package com.example.rafael.appprototype.Main;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -22,12 +21,8 @@ import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.DatabaseOps;
-import com.example.rafael.appprototype.Evaluations.DisplayTest.ScaleFragmentBottomButtons;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
-import com.example.rafael.appprototype.DataTypes.DB.Patient;
-import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicBottomButtons;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Introduction.MyIntro;
@@ -78,6 +73,10 @@ public class PublicArea extends AppCompatActivity {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new DrawerItemClickListener(this, getFragmentManager(), drawer));
+        navigationView.getMenu().getItem(0).setChecked(true);
+
+
+
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +109,7 @@ public class PublicArea extends AppCompatActivity {
 
         boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
         if (alreadyLogged) {
-            Intent intent = new Intent(PublicArea.this, PrivateArea.class);
+            Intent intent = new Intent(PublicArea.this, PrivateAreaActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
