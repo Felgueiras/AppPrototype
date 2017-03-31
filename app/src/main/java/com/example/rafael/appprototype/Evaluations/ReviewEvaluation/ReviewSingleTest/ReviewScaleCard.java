@@ -187,10 +187,10 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
             @Override
             public void onClick(View v) {
                 // Create new fragment and transaction
-                Fragment newFragment = new ReviewSingleViewScale();
+                Fragment newFragment = new ReviewScaleFragment();
                 // add arguments
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(ReviewSingleViewScale.SCALE, currentScale);
+                bundle.putSerializable(ReviewScaleFragment.SCALE, currentScale);
                 newFragment.setArguments(bundle);
                 // setup the transaction
                 FragmentTransaction transaction = context.getFragmentManager().beginTransaction();

@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Show all the Evaluations for a single day.
  */
-public class ShowEvaluationsSingleDay extends BaseAdapter {
+public class SessionsSingleDay extends BaseAdapter {
     private final EvaluationsAll fragment;
     private final Date day;
     Activity context;
@@ -34,7 +34,7 @@ public class ShowEvaluationsSingleDay extends BaseAdapter {
     private RecyclerView recyclerView;
     private SessionCardEvaluationHistory adapter;
 
-    public ShowEvaluationsSingleDay(Activity context, EvaluationsAll evaluationsHistoryGrid, Date day) {
+    public SessionsSingleDay(Activity context, EvaluationsAll evaluationsHistoryGrid, Date day) {
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.fragment = evaluationsHistoryGrid;

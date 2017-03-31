@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
@@ -41,7 +42,7 @@ public class ShowEvaluationsAllDays extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View singleDayInfo = inflater.inflate(R.layout.content_sessions_history, null);
-        TextView dateTextView = (TextView) singleDayInfo.findViewById(R.id.dateText);
+        Button dateTextView = (Button) singleDayInfo.findViewById(R.id.dateText);
 
         // get the date
         Date currentDate = Session.getDifferentSessionDates().get(position);

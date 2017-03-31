@@ -5,24 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/calendar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:padding="10dp"
-        app:srcCompat="@drawable/calendar_colorful" />
-
-
-    <TextView
+    <Button
         android:id="@+id/dateText"
-        android:layout_width="wrap_content"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/calendar"
-        android:clipToPadding="false"
-        android:padding="10dp"
-        android:text="Day"
-        android:textSize="25dp" />
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
+        android:textSize="@dimen/test_name"
+        android:drawableLeft="@drawable/calendar_white"
+        android:text="@string/my_patients" />
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_sessions_day"

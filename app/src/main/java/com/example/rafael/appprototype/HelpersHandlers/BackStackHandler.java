@@ -31,7 +31,7 @@ import com.example.rafael.appprototype.Main.PrivateAreaMainFragment;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.Patients.Progress.ProgressMainViewPager;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewSingleViewScale;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewScaleFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.R;
@@ -202,7 +202,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     fragment = new ProgressMainViewPager();
                     // get the arguments
                     Bundle arguments = fr.getArguments();
-                    Patient patient = (Patient) arguments.getSerializable(ReviewSingleViewScale.PATIENT);
+                    Patient patient = (Patient) arguments.getSerializable(ReviewScaleFragment.PATIENT);
                     args.putSerializable(ProgressMainViewPager.PATIENT, patient);
                     break;
                 }
@@ -266,7 +266,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 case Constants.tag_review_test: {
                     // get the arguments
                     Bundle arguments = fr.getArguments();
-                    GeriatricScale test = (GeriatricScale) arguments.getSerializable(ReviewSingleViewScale.SCALE);
+                    GeriatricScale test = (GeriatricScale) arguments.getSerializable(ReviewScaleFragment.SCALE);
                     Session session = test.getSession();
 
                     args = new Bundle();

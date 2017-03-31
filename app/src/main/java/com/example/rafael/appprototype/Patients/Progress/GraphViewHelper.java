@@ -12,7 +12,7 @@ import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.example.rafael.appprototype.DataTypes.NonDB.GradingNonDB;
 import com.example.rafael.appprototype.DataTypes.Scales;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewSingleViewScale;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewScaleFragment;
 import com.example.rafael.appprototype.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.ValueDependentColor;
@@ -116,11 +116,11 @@ public class GraphViewHelper {
 
                 // view the results for the selected session
                 // Create new fragment and transaction
-                Fragment newFragment = new ReviewSingleViewScale();
+                Fragment newFragment = new ReviewScaleFragment();
                 // add arguments
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(ReviewSingleViewScale.SCALE, selectedScale);
-                bundle.putSerializable(ReviewSingleViewScale.PATIENT, patient);
+                bundle.putSerializable(ReviewScaleFragment.SCALE, selectedScale);
+                bundle.putSerializable(ReviewScaleFragment.PATIENT, patient);
                 newFragment.setArguments(bundle);
                 // setup the transaction
                 FragmentTransaction transaction = context.getFragmentManager().beginTransaction();

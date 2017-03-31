@@ -53,6 +53,7 @@
             android:src="@drawable/female" />
 
         <Button
+            style="@style/Widget.AppCompat.Button.Colored"
             android:padding="10dp"
             android:id="@+id/patientEvolution"
             android:layout_width="match_parent"

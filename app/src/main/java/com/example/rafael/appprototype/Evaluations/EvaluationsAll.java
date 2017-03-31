@@ -21,7 +21,7 @@ import android.widget.ListAdapter;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowEvaluationsAllDays;
-import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.ShowEvaluationsSingleDay;
+import com.example.rafael.appprototype.Evaluations.EvaluationsHistory.SessionsSingleDay;
 import com.example.rafael.appprototype.R;
 
 import java.text.SimpleDateFormat;
@@ -178,7 +178,7 @@ public class EvaluationsAll extends Fragment {
             /**
              * Filter by date.
              */
-            ListAdapter adapter = new ShowEvaluationsSingleDay(getActivity(), fragment, c.getTime());
+            ListAdapter adapter = new SessionsSingleDay(getActivity(), fragment, c.getTime());
             gridView.setAdapter(adapter);
 
 //                sessionsFromPatient.remove(index);

@@ -15,10 +15,8 @@ import com.example.rafael.appprototype.DataTypes.Scales;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.QuestionsListAdapter;
 import com.example.rafael.appprototype.R;
 
-/**
- * Display a list of Questions for a single Test.
- */
-public class ReviewSingleViewScale extends Fragment {
+
+public class ReviewScaleFragment extends Fragment {
 
 
     public static String PATIENT = "PATIENT";
@@ -47,7 +45,7 @@ public class ReviewSingleViewScale extends Fragment {
     // Inflate the view for the fragment based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.content_display_single_test, container, false);
+        View view = inflater.inflate(R.layout.review_scale, container, false);
         // populate the ListView
         ListView testQuestions = (ListView) view.findViewById(R.id.testQuestions);
         // create the adapter

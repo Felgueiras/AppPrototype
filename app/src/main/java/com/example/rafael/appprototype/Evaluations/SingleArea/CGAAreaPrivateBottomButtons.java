@@ -100,7 +100,7 @@ public class CGAAreaPrivateBottomButtons extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.newSessionLayout);
+                View layout =  getActivity().findViewById(R.id.newSessionLayout);
                 SessionHelper.saveSession(getActivity(),session,session.getPatient(), getView(), layout,2);
             }
         });
