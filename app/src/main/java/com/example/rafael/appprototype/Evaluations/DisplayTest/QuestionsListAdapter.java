@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -39,7 +40,6 @@ import com.example.rafael.appprototype.DataTypes.NonDB.QuestionNonDB;
 import com.example.rafael.appprototype.DataTypes.DB.Question;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.QuestionCategoriesViewPager.QuestionMultipleCategoriesViewPager;
 import com.example.rafael.appprototype.Evaluations.DisplayTest.SingleQuestion.MultipleChoiceHandler;
-import com.example.rafael.appprototype.Evaluations.DisplayTest.SingleQuestion.YesNoQuestionHandler;
 import com.example.rafael.appprototype.R;
 
 import java.io.Serializable;
@@ -66,6 +66,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
     private final GeriatricScaleNonDB testNonDB;
     private final ProgressBar progressBar;
     private final FragmentManager childFragmentManager;
+    private final ListView listView;
     /**
      * HasSet that will hold the numbers of the Questions that were already answered.
      */
@@ -87,14 +88,16 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
      * @param test                 GeriatricScale that is being filled up
      * @param progress
      * @param childFragmentManager
+     * @param listView
      */
-    public QuestionsListAdapter(Activity context, GeriatricScaleNonDB testNonDb, GeriatricScale test, ProgressBar progress, FragmentManager childFragmentManager) {
+    public QuestionsListAdapter(Activity context, GeriatricScaleNonDB testNonDb, GeriatricScale test, ProgressBar progress, FragmentManager childFragmentManager, ListView listView) {
         this.context = context;
         this.questions = testNonDb.getQuestions();
         this.scale = test;
         this.testNonDB = testNonDb;
         this.progressBar = progress;
         this.childFragmentManager = childFragmentManager;
+        this.listView = listView;
 
 
         numquestions = questions.size();
@@ -472,6 +475,9 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                  * Signal that que Question was answered
                  */
                 adapter.questionAnswered(questionIndex);
+
+                listView.smoothScrollToPosition(questionIndex+1);
+
             }
         };
 
@@ -647,7 +653,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         }
 
 
-        radioGroup.setOnCheckedChangeListener(new MultipleChoiceHandler(question, this, position));
+        radioGroup.setOnCheckedChangeListener(new MultipleChoiceHandler(question, this, position, listView));
 
         if (question.isAnswered()) {
             //system.out.println("answered");
@@ -801,7 +807,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             builderSingle.setAdapter(arrayAdapter,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int selectedAnswer) {
-                            MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex);
+                            MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex, listView);
                             multipleChoiceHandler.selectedFromAlertDialog(selectedAnswer);
                             holder.question.setBackgroundResource(R.color.question_answered);
                             dialog.dismiss();
@@ -812,7 +818,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             builderSingle.setAdapter(arrayAdapter,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int selectedAnswer) {
-                            MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex);
+                            MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex, listView);
                             dialog.dismiss();
                         }
                     });
@@ -842,7 +848,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                             @Override
                             public void onClick(DialogInterface dialog, int selectedAnswer) {
                                 if (finalQuestion != null) {
-                                    MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex);
+                                    MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex, listView);
                                     multipleChoiceHandler.selectedFromAlertDialog(selectedAnswer);
                                     holder.question.setBackgroundResource(R.color.question_answered);
 
@@ -859,7 +865,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
     }
 
 
-    private View yesNo(QuestionNonDB currentQuestionNonDB, int position) {
+    private View yesNo(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
         // question in DB
         Question question = null;
         if (scale != null) {
@@ -886,24 +892,59 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         View questionView = inflater.inflate(R.layout.content_question_yes_no, null);
         Holder holder = new Holder();
         holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
-        holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
+        holder.question.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
         // detect when choice changed
-        RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
+//        RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
+
+
+        // yes and no buttons
+        final Button yes = (Button) questionView.findViewById(R.id.rightChoice);
+        final Button no = (Button) questionView.findViewById(R.id.wrongChoice);
 
         /**
          * Question already answered.
          */
         if (question != null && question.isAnswered()) {
-            questionView.setBackgroundResource(R.color.question_answered);
+//            questionView.setBackgroundResource(R.color.question_answered);
             if (question.getSelectedYesNoChoice().equals("yes")) {
-                radioGroup.check(R.id.yesChoice);
+                yes.setBackgroundColor(context.getResources().getColor(R.color.yes_light));
             } else {
-                radioGroup.check(R.id.noChoice);
+                no.setBackgroundColor(context.getResources().getColor(R.color.no_light));
             }
         }
 
-        if (question != null)
-            radioGroup.setOnCheckedChangeListener(new YesNoQuestionHandler(question, this, position, questionView));
+        final Question finalQuestion = question;
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // detect when choice changed
+                if (v.getId() == R.id.rightChoice) {
+                    finalQuestion.setSelectedYesNoChoice("yes");
+                    yes.setBackgroundResource(R.color.yes_light);
+                    no.setBackgroundResource(android.R.drawable.btn_default);
+                } else if (v.getId() == R.id.wrongChoice) {
+                    finalQuestion.setSelectedYesNoChoice("no");
+                    yes.setBackgroundResource(android.R.drawable.btn_default);
+                    no.setBackgroundResource(R.color.no_light);
+                } else {
+                    return;
+                }
+                finalQuestion.setAnswered(true);
+                finalQuestion.save();
+                /**
+                 * Signal that que Question was answered
+                 */
+                questionAnswered(questionIndex);
+                /**
+                 * Scroll to next position.
+                 */
+                listView.smoothScrollToPosition(questionIndex+1);
+            }
+        };
+
+        yes.setOnClickListener(clickListener);
+        no.setOnClickListener(clickListener);
+
         return questionView;
     }
 

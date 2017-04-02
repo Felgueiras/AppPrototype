@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
@@ -31,6 +32,7 @@ public class CGAGuideAreaAdapter extends RecyclerView.Adapter<CGAGuideAreaAdapte
      */
     public class CGACardHolder extends RecyclerView.ViewHolder implements Serializable {
         private final RecyclerView scalesIcons;
+        private final ImageView areaIcon;
         public TextView name, type, areaInfo;
         public View view;
         public EditText notes;
@@ -38,9 +40,9 @@ public class CGAGuideAreaAdapter extends RecyclerView.Adapter<CGAGuideAreaAdapte
         public CGACardHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.cga_area);
-            //type = (TextView) view.findViewById(R.id.testType);
             areaInfo = (TextView) view.findViewById(R.id.area_info);
             scalesIcons = (RecyclerView) view.findViewById(R.id.area_scales);
+            areaIcon = (ImageView) view.findViewById(R.id.area_icon);
             this.view = view;
         }
     }
@@ -66,6 +68,20 @@ public class CGAGuideAreaAdapter extends RecyclerView.Adapter<CGAGuideAreaAdapte
 
         final String area = Constants.cga_areas[position];
         holder.name.setText(area);
+        switch (area) {
+            case Constants.cga_mental:
+                holder.areaIcon.setImageResource(R.drawable.ic_mental);
+                break;
+            case Constants.cga_functional:
+                holder.areaIcon.setImageResource(R.drawable.ic_functional);
+                break;
+            case Constants.cga_nutritional:
+                holder.areaIcon.setImageResource(R.drawable.ic_nutritional_black);
+                break;
+            case Constants.cga_social:
+                holder.areaIcon.setImageResource(R.drawable.ic_people_black_24dp);
+                break;
+        }
 
 
         // add info about this area
@@ -99,10 +115,10 @@ public class CGAGuideAreaAdapter extends RecyclerView.Adapter<CGAGuideAreaAdapte
 
                 String selectedArea = (String) holder.name.getText();
 
-                Fragment newFragment = new CGAGuideArea();
+                Fragment newFragment = new CGAGuideAreaFragment();
                 // add arguments
                 Bundle bundle = new Bundle();
-                bundle.putString(CGAGuideArea.CGA_AREA, selectedArea);
+                bundle.putString(CGAGuideAreaFragment.CGA_AREA, selectedArea);
                 newFragment.setArguments(bundle);
                 // setup the transaction
                 FragmentTransaction transaction = context.getFragmentManager().beginTransaction();

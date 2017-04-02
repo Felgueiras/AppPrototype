@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ViewPatients.FloatingSearch;
+package com.example.rafael.appprototype.Patients.AllPatients.FloatingSearch;
 
 import android.app.Fragment;
 import android.graphics.Color;
@@ -30,7 +30,7 @@ import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Main.PrivateAreaActivity;
 import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
-import com.example.rafael.appprototype.Patients.ViewPatients.PatientCardPatientsList;
+import com.example.rafael.appprototype.Patients.AllPatients.PatientCardPatientsList;
 import com.example.rafael.appprototype.R;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 

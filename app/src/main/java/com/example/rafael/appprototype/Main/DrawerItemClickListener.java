@@ -102,9 +102,11 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             endFragment = new AboutFragment();
         } else if (id == R.id.cga_guide) {
             endFragment = new CGAGuideMain();
-        } else if (id == R.id.transfer_db) {
-            endFragment = new TransferDB();
-        } else if (id == R.id.settings) {
+        }
+//        else if (id == R.id.transfer_db) {
+//            endFragment = new TransferDB();
+//        }
+        else if (id == R.id.settings) {
             Intent i = new Intent(context, Settings.class);
             context.startActivity(i);
             return true;

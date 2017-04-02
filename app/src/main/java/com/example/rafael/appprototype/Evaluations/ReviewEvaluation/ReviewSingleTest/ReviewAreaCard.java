@@ -115,7 +115,7 @@ public class ReviewAreaCard extends RecyclerView.Adapter<ReviewAreaCard.TestCard
             /**
              * Show info about evaluations for every area.
              */
-            holder.area.setText(area);
+//            holder.area.setText(area);
             ReviewScaleCard adapter = new ReviewScaleCard(context, session, Constants.cga_areas[position], comparePrevious);
             int numbercolumns = 1;
             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, numbercolumns);

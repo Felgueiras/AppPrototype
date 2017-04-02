@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.Progress;
+package com.example.rafael.appprototype.Patients.Progress.ViewPager;
 
 import android.app.Fragment;
 import android.content.SharedPreferences;
@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
+import com.example.rafael.appprototype.Patients.Progress.ProgressScalesForAreaGraph;
 import com.example.rafael.appprototype.Patients.Progress.Table.ProgressScalesForAreaTable;
 import com.example.rafael.appprototype.R;
 
@@ -55,10 +56,10 @@ public class ProgressAreaScalesFragment extends Fragment {
 
         View testCard = inflater.inflate(R.layout.content_progress_area, null);
 
-        TextView areatextView = (TextView) testCard.findViewById(R.id.area);
+//        TextView areatextView = (TextView) testCard.findViewById(R.id.area);
         RecyclerView scales = (RecyclerView) testCard.findViewById(R.id.area_scales);
 
-        areatextView.setText(area);
+//        areatextView.setText(area);
 
         /**
          * Show info about evaluations for every area.

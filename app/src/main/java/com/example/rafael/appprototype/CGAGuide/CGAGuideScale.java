@@ -2,9 +2,6 @@ package com.example.rafael.appprototype.CGAGuide;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,7 +46,7 @@ public class CGAGuideScale extends Fragment {
         ListView scaleQuestions = (ListView) view.findViewById(testQuestions);
         
         // create fake session so doctor can fill out the questions
-        QuestionsListAdapter adapter = new QuestionsListAdapter(this.getActivity(), scaleNonDB, null, null, getChildFragmentManager());
+        QuestionsListAdapter adapter = new QuestionsListAdapter(this.getActivity(), scaleNonDB, null, null, getChildFragmentManager(), scaleQuestions);
         scaleQuestions.setAdapter(adapter);
 
 

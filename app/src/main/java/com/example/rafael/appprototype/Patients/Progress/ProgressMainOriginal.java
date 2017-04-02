@@ -40,7 +40,7 @@ public class ProgressMainOriginal extends Fragment {
         View view = inflater.inflate(R.layout.patient_info_sessions, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.patientSessions);
         ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
-        ProgressAreas adapter = new ProgressAreas(getActivity(), sessionsFromPatient, patient);
+        ProgressAreasAdapter adapter = new ProgressAreasAdapter(getActivity(), sessionsFromPatient, patient);
 
         getActivity().setTitle(getResources().getString(R.string.progress));
 

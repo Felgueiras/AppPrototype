@@ -94,7 +94,7 @@ public class EvaluationsAll extends Fragment {
         gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int newState) {
-                Log.d("Scroll", newState+"");
+                Log.d("Scroll", newState + "");
             }
 
             @Override
@@ -103,26 +103,6 @@ public class EvaluationsAll extends Fragment {
             }
         });
     }
-
-    /**
-     * This is a method for Fragment.
-     * You can do the same in onCreate or onRestoreInstanceState
-     */
-//    @Override
-//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-//        super.onViewStateRestored(savedInstanceState);
-//
-//        if (savedInstanceState != null) {
-//            Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
-//            gridView..onRestoreInstanceState(savedRecyclerLayoutState);
-//        }
-//    }
-//
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, patientsRecyclerView.getLayoutManager().onSaveInstanceState());
-//    }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
@@ -137,7 +117,6 @@ public class EvaluationsAll extends Fragment {
     public void onPause() {
         super.onPause();
         Constants.sessionsGridViewIndex = gridView.getFirstVisiblePosition();
-        Log.d("Grid", Constants.sessionsGridViewIndex + "");
     }
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {

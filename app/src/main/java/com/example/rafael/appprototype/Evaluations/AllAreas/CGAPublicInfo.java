@@ -43,9 +43,6 @@ public class CGAPublicInfo extends Fragment {
         View view = inflater.inflate(R.layout.cga_public_info, container, false);
         getActivity().setTitle(getResources().getString(R.string.cga));
 
-        Log.d("Session", "Inside CGAPublicInfo");
-
-
         /**
          * Start a session.
          */
@@ -68,12 +65,7 @@ public class CGAPublicInfo extends Fragment {
             @Override
             public void onClick(View view) {
 
-                HelpMain endFragment = new HelpMain();
-                BackStackHandler.clearBackStack();
-                FragmentManager fragmentManager = getActivity().getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.current_fragment, endFragment)
-                        .commit();
+                FragmentTransitions.replaceFragment(getActivity(), new HelpMain(), null, Constants.more_info_clicked);
             }
         });
         return view;

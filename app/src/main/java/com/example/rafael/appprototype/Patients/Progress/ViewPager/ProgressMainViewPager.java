@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.Progress;
+package com.example.rafael.appprototype.Patients.Progress.ViewPager;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -44,7 +44,7 @@ public class ProgressMainViewPager extends Fragment {
         View view = inflater.inflate(R.layout.view_pager, container, false);
 
         sessionsFromPatient = patient.getSessionsFromPatient();
-//        ProgressAreas adapter = new ProgressAreas(getActivity(), sessionsFromPatient, PATIENT);
+//        ProgressAreasAdapter adapter = new ProgressAreasAdapter(getActivity(), sessionsFromPatient, PATIENT);
 
         getActivity().setTitle(patient.getName() +" - " + getResources().getString(R.string.progress));
 

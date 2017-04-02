@@ -117,7 +117,8 @@ public class Constants {
             cga_mental,
 //            cga_clinical,
             cga_functional,
-            cga_nutritional, cga_social};
+            cga_nutritional,
+            cga_social};
 
     /**
      * Clinical evaluation guidelines.
@@ -229,5 +230,6 @@ public class Constants {
     public static int menu_positions_help = 5;
     public static int menu_positions_cga_guide = 6;
     public static int menu_positions_settings = 7;
+    public static final String more_info_clicked = "more_info_clicked";
     ;
 }

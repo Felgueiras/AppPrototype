@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ViewPatients.FloatingSearch;
+package com.example.rafael.appprototype.Patients.AllPatients.FloatingSearch;
 
 /**
  * Copyright (C) 2015 Ari C.

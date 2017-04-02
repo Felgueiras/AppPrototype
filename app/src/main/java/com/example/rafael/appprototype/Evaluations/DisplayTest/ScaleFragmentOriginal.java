@@ -82,7 +82,7 @@ public class ScaleFragmentOriginal extends Fragment {
         ListView testQuestions = (ListView) view.findViewById(R.id.testQuestions);
         ProgressBar progress = (ProgressBar) view.findViewById(R.id.scale_progress);
         // create the adapter
-        QuestionsListAdapter adapter = new QuestionsListAdapter(this.getActivity(), scaleNonDB, scaleDB, progress, getChildFragmentManager());
+        QuestionsListAdapter adapter = new QuestionsListAdapter(this.getActivity(), scaleNonDB, scaleDB, progress, getChildFragmentManager(), testQuestions);
         testQuestions.setAdapter(adapter);
         return view;
     }

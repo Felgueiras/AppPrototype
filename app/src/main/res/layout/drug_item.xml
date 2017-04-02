@@ -28,7 +28,7 @@
             android:id="@+id/startCriteria"
             android:layout_width="@dimen/criteriaInfoSize"
             android:layout_height="@dimen/criteriaInfoSize"
-            android:background="@color/startCriteriaColorFaded"
+            android:background="@drawable/criteria_start"
             android:clickable="false"
             android:layout_margin="2dp"
             android:visibility="visible" />
@@ -37,9 +37,10 @@
             android:id="@+id/stoppCriteria"
             android:layout_width="@dimen/criteriaInfoSize"
             android:layout_height="@dimen/criteriaInfoSize"
-            android:background="@color/stoppCriteriaColorFaded"
+            android:background="@drawable/criteria_stopp"
             android:clickable="false"
             android:layout_margin="2dp"
+            android:rotation="180"
             android:visibility="visible" />
 
         <Button

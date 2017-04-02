@@ -2,6 +2,7 @@ package com.example.rafael.appprototype.Evaluations.DisplayTest.SingleQuestion;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -16,13 +17,15 @@ public class MultipleChoiceHandler implements RadioGroup.OnCheckedChangeListener
     private static LayoutInflater inflater = null;
     private final Question question;
     private final QuestionsListAdapter adapter;
+    private final ListView listView;
     private int position;
 
 
-    public MultipleChoiceHandler(Question question, QuestionsListAdapter adapter, int position) {
+    public MultipleChoiceHandler(Question question, QuestionsListAdapter adapter, int position, ListView listView) {
         this.question = question;
         this.adapter = adapter;
         this.position = position;
+        this.listView = listView;
     }
 
 
@@ -47,6 +50,9 @@ public class MultipleChoiceHandler implements RadioGroup.OnCheckedChangeListener
          * Signal that que Question was answered
          */
         adapter.questionAnswered(position);
+
+        listView.smoothScrollToPosition(position+1);
+
     }
 
 

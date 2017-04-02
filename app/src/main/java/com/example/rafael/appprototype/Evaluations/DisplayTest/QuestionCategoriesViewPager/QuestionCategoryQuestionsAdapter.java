@@ -23,7 +23,7 @@ import com.example.rafael.appprototype.R;
 /**
  * Created by felgueiras on 27/03/2017.
  */
-public class QuestionCategoryFragment extends Fragment {
+public class QuestionCategoryQuestionsAdapter extends Fragment {
     public static final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
     public static final String SCALE_DB = "SCALE_DB";
     public static final String SCALE_NON_DB = "SCALE_NON_DB";
@@ -39,11 +39,11 @@ public class QuestionCategoryFragment extends Fragment {
     private RecyclerView questionsRecyclerView;
     QuestionsListAdapter adapter;
 
-    public static final QuestionCategoryFragment newInstance(int categoryIndex,
-                                                             GeriatricScaleNonDB scaleNonDB,
-                                                             GeriatricScale scaleDB,
-                                                             QuestionsListAdapter adapter, ViewPager viewPager) {
-        QuestionCategoryFragment f = new QuestionCategoryFragment();
+    public static final QuestionCategoryQuestionsAdapter newInstance(int categoryIndex,
+                                                                     GeriatricScaleNonDB scaleNonDB,
+                                                                     GeriatricScale scaleDB,
+                                                                     QuestionsListAdapter adapter, ViewPager viewPager) {
+        QuestionCategoryQuestionsAdapter f = new QuestionCategoryQuestionsAdapter();
         Bundle bdl = new Bundle(1);
         bdl.putInt(EXTRA_MESSAGE, categoryIndex);
         bdl.putSerializable(SCALE_DB, scaleDB);
@@ -118,9 +118,6 @@ public class QuestionCategoryFragment extends Fragment {
         final CategoryDisplayQuestions recyclerAdapter = new CategoryDisplayQuestions(getActivity(),
                 scaleNonDB, categoryIndex, scaleDB, adapter,categoryTextView);
         questionsRecyclerView.setAdapter(recyclerAdapter);
-
-        // TODo last question is not visible!
-
 
         /**
          * Hide previous/next icons

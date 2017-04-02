@@ -292,7 +292,7 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="action_delete">remover</string>
     <string name="personal_area">Área pessoal</string>
     <string name="login_not_registered">Não está registado? Clique aqui para se registar.</string>
-    <string name="criteria_start">Criterios Start</string>
+    <string name="criteria_start">Critérios Start</string>
     <string name="criteria_stopp">Critérios Stopp</string>
     <string name="criteria_beers">Critérios de Beers</string>
     <string name="session_erase">Eliminar sessão</string>
@@ -304,4 +304,8 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="settings">Definições</string>
     <string name="help_sessions_description">Em Sessões pode consultar as suas sessões, agrupadas por dia. Poderá aceder ao seu conteúdo e criar novas sessões de AGG.</string>
     <string name="help_cga_guide_description">O guia da AGG faz uma apresentação sobre as diferentes áreas abordadas pela AGG. Dentro de cada área poderá aceder às correspondentes escalas, os resultados possíveis e ver que questões fazem parte da escala.</string>
+    <string name="cga_mental_name">Estado Mental</string>
+    <string name="cga_functional_name">Estado Funcional</string>
+    <string name="cga_nutritional_name">Estado Nutricional</string>
+    <string name="cga_social_name">Situação Social</string>
 </resources>

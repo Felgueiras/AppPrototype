@@ -35,7 +35,7 @@ import java.util.Set;
 /**
  * Search a drug by its area.
  */
-public class DrugsAll extends Fragment {
+public class PrescriptionAllDrugs extends Fragment {
 
     // List view
     private RecyclerView drugsRecyclerView;

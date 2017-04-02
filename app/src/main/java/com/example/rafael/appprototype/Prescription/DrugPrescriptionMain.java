@@ -98,7 +98,7 @@ public class DrugPrescriptionMain extends Fragment {
     }
 
     public void setupViewPager(ViewPager viewPager, SectionsPagerAdapter adapter) {
-        adapter.addFragment(new DrugsAll(), null);
+        adapter.addFragment(new PrescriptionAllDrugs(), null);
         adapter.addFragment(new StartCriteriaFragment(), getResources().getString(R.string.drugs_start));
         adapter.addFragment(new StoppCriteriaFragment(), getResources().getString(R.string.drugs_stopp));
         adapter.addFragment(new BeersCriteriaFragment(), getResources().getString(R.string.drugs_beers));

@@ -7,12 +7,12 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/area"
-        android:text="Area"
-        style="@style/header1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <!--<TextView-->
+        <!--android:id="@+id/area"-->
+        <!--android:text="Area"-->
+        <!--style="@style/header1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
 
     <!--Tests for that session-->
     <android.support.v7.widget.RecyclerView

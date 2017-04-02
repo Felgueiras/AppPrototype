@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.ViewManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
@@ -51,6 +52,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
     public class CGACardHolder extends RecyclerView.ViewHolder implements Serializable {
         private final ImageButton infoButton;
         private final RecyclerView scalesIcons;
+        private final ImageView areaIcon;
         public TextView name, type, cgaCompletion;
         public View view;
         public EditText notes;
@@ -60,6 +62,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
             name = (TextView) view.findViewById(R.id.cga_area);
             //type = (TextView) view.findViewById(R.id.testType);
             infoButton = (ImageButton) view.findViewById(R.id.area_info);
+            areaIcon = (ImageView) view.findViewById(R.id.area_icon);
             cgaCompletion = (TextView) view.findViewById(R.id.cga_completion);
             scalesIcons = (RecyclerView) view.findViewById(R.id.area_scales);
             //addNotesButton = (EditText) view.findViewById(R.id.testNotes);
@@ -92,6 +95,20 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
         final String area = Constants.cga_areas[position];
 
         holder.name.setText(area);
+        switch (area) {
+            case Constants.cga_mental:
+                holder.areaIcon.setImageResource(R.drawable.ic_mental);
+                break;
+            case Constants.cga_functional:
+                holder.areaIcon.setImageResource(R.drawable.ic_functional);
+                break;
+            case Constants.cga_nutritional:
+                holder.areaIcon.setImageResource(R.drawable.ic_nutritional_black);
+                break;
+            case Constants.cga_social:
+                holder.areaIcon.setImageResource(R.drawable.ic_people_black_24dp);
+                break;
+        }
         /**
          * Check if all scales were completed.
          */

@@ -13,6 +13,7 @@
         android:textSize="@dimen/patient_initial_size"
         android:padding="10dp"
         android:visibility="invisible"
+        android:textColor="@color/colorPrimaryDark"
         android:text="A"/>
 
     <ImageView

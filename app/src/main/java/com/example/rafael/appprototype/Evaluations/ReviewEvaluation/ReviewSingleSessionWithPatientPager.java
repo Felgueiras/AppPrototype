@@ -5,32 +5,31 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ViewPager.ReviewAreaFragment;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewAreaCard;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.R;
 
+import java.util.ArrayList;
 
-public class ReviewSingleSessionWithPatient extends Fragment {
+
+public class ReviewSingleSessionWithPatientPager extends Fragment {
 
     public static String COMPARE_PREVIOUS;
     /**
@@ -41,6 +40,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
      * String that identifies the Session to be passed as argument.
      */
     public static String SESSION = "session";
+    private TabLayout tabLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -121,7 +121,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
 //        SharedPreferencesHelper.unlockSessionCreation(getActivity());
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.content_review_session, container, false);
+        View view = inflater.inflate(R.layout.view_pager, container, false);
         Bundle args = getArguments();
         // get Session and Patient
         session = (Session) args.getSerializable(SESSION);
@@ -136,42 +136,97 @@ public class ReviewSingleSessionWithPatient extends Fragment {
         //comparePreviousSession = args.getBoolean(COMPARE_PREVIOUS);
         boolean comparePreviousSession = true;
 
-        EditText sessionNotes = (EditText) view.findViewById(R.id.session_notes);
-        // if question is already answered
-        if (session.getNotes() != null)
-            if (!session.getNotes().equals("")) sessionNotes.setText(session.getNotes());
+//        EditText sessionNotes = (EditText) view.findViewById(R.id.session_notes);
+//        // if question is already answered
+//        if (session.getNotes() != null)
+//            if (!session.getNotes().equals("")) sessionNotes.setText(session.getNotes());
 
 
-        sessionNotes.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+//        sessionNotes.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                session.setNotes(charSequence.toString());
+//                session.save();
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//
+//            }
+//        });
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                session.setNotes(charSequence.toString());
-                session.save();
-            }
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
+//        /**
+//         * Show info about evaluations for every area.
+//         */
+//        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);
+//        ReviewAreaCard adapter = new ReviewAreaCard(getActivity(), session, comparePreviousSession);
+//        int numbercolumns = 1;
+//        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
+//        recyclerView.setLayoutManager(mLayoutManager);
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        recyclerView.setAdapter(adapter);
 
         /**
-         * Show info about evaluations for every area.
+         * Setup view pager.
          */
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);
-        ReviewAreaCard adapter = new ReviewAreaCard(getActivity(), session, comparePreviousSession);
-        int numbercolumns = 1;
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.container);
+        MyPageAdapter pageAdapter = new MyPageAdapter(getChildFragmentManager());
+        setupViewPager(viewPager, pageAdapter);
+        viewPager.setAdapter(pageAdapter);
+        viewPager.setCurrentItem(Constants.progressPage);
+
+        /**
+         * Setup tabs.
+         */
+        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
+
 
         return view;
+    }
+
+    public void setupViewPager(ViewPager viewPager, MyPageAdapter adapter) {
+        for (int i = 0; i < Constants.cga_areas.length; i++) {
+            // sessions for this area
+            adapter.addFragment(ReviewAreaFragment.newInstance(Constants.cga_areas[i],
+                    session), getActivity().getResources().getString(R.string.drugs_beers));
+        }
+        viewPager.setAdapter(adapter);
+    }
+
+    private class MyPageAdapter extends FragmentPagerAdapter {
+        private ArrayList<Fragment> mFragmentList = new ArrayList<>();
+        private ArrayList<String> mFragmentTitleList = new ArrayList<>();
+
+        MyPageAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return this.mFragmentList.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return Constants.cga_areas[position];
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
     }
 
 }

@@ -11,7 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.example.rafael.appprototype.CGAGuide.CGAGuideMain;
-import com.example.rafael.appprototype.CGAGuide.CGAGuideArea;
+import com.example.rafael.appprototype.CGAGuide.CGAGuideAreaFragment;
 import com.example.rafael.appprototype.CGAGuide.CGAGuideScale;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
@@ -29,8 +29,8 @@ import com.example.rafael.appprototype.Evaluations.SingleArea.CGAAreaPublicBotto
 import com.example.rafael.appprototype.Help_Feedback.HelpMain;
 import com.example.rafael.appprototype.Main.PrivateAreaMainFragment;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
-import com.example.rafael.appprototype.Patients.Progress.ProgressMainViewPager;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
+import com.example.rafael.appprototype.Patients.Progress.ViewPager.ProgressMainViewPager;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ViewPager.ReviewSingleSessionWithPatientBottomButtons;
 import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewScaleFragment;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
@@ -255,7 +255,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
                     // get the arguments
                     Bundle arguments = fr.getArguments();
-                    Session session = (Session) arguments.getSerializable(ReviewSingleSessionWithPatient.SESSION);
+                    Session session = (Session) arguments.getSerializable(ReviewSingleSessionWithPatientBottomButtons.SESSION);
                     Patient patient = session.getPatient();
                     args = new Bundle();
                     args.putSerializable(ViewSinglePatientInfo.PATIENT, patient);
@@ -270,8 +270,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     Session session = test.getSession();
 
                     args = new Bundle();
-                    args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
-                    fragment = new ReviewSingleSessionWithPatient();
+                    args.putSerializable(ReviewSingleSessionWithPatientBottomButtons.SESSION, session);
+                    fragment = new ReviewSingleSessionWithPatientBottomButtons();
                     if (session.getPatient() == null) {
                         fragment = new ReviewSingleSessionNoPatient();
                     }
@@ -286,13 +286,16 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 case Constants.tag_guide_area:
                     fragment = new CGAGuideMain();
                     break;
+                case Constants.more_info_clicked:
+                    fragment = new CGAPublicInfo();
+                    break;
                 case Constants.tag_guide_scale:
                     Bundle arguments = fr.getArguments();
                     GeriatricScaleNonDB scale = (GeriatricScaleNonDB) arguments.getSerializable(CGAGuideScale.SCALE);
-                     fragment = new CGAGuideArea();
+                     fragment = new CGAGuideAreaFragment();
                     // add arguments
                     Bundle bundle = new Bundle();
-                    bundle.putString(CGAGuideArea.CGA_AREA, scale.getArea());
+                    bundle.putString(CGAGuideAreaFragment.CGA_AREA, scale.getArea());
                     fragment.setArguments(bundle);
                     break;
             }
@@ -448,9 +451,9 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
                 SharedPreferencesHelper.resetPrivateSession(context, "");
 
-                args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
-                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
-                fragment = new ReviewSingleSessionWithPatient();
+                args.putBoolean(ReviewSingleSessionWithPatientBottomButtons.COMPARE_PREVIOUS, true);
+                args.putSerializable(ReviewSingleSessionWithPatientBottomButtons.SESSION, session);
+                fragment = new ReviewSingleSessionWithPatientBottomButtons();
 
                 fragment.setArguments(args);
 
@@ -475,9 +478,9 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 Session session = Session.getSessionByID(sessionID);
                 sharedPreferences.edit().putString(context.getString(R.string.saved_session_private), null).apply();
 
-                args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
-                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
-                fragment = new ReviewSingleSessionWithPatient();
+                args.putBoolean(ReviewSingleSessionWithPatientBottomButtons.COMPARE_PREVIOUS, true);
+                args.putSerializable(ReviewSingleSessionWithPatientBottomButtons.SESSION, session);
+                fragment = new ReviewSingleSessionWithPatientBottomButtons();
 
                 fragment.setArguments(args);
             }
@@ -504,9 +507,9 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
             SharedPreferencesHelper.resetPrivateSession(context, "");
 
-            args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
-            args.putSerializable(ReviewSingleSessionWithPatient.SESSION, currentSession);
-            fragment = new ReviewSingleSessionWithPatient();
+            args.putBoolean(ReviewSingleSessionWithPatientBottomButtons.COMPARE_PREVIOUS, true);
+            args.putSerializable(ReviewSingleSessionWithPatientBottomButtons.SESSION, currentSession);
+            fragment = new ReviewSingleSessionWithPatientBottomButtons();
 
             fragment.setArguments(args);
 
@@ -556,9 +559,9 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             SharedPreferencesHelper.resetPrivateSession(context, "");
 
             args = new Bundle();
-            args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
-            args.putSerializable(ReviewSingleSessionWithPatient.SESSION, scale.getSession());
-            fragment = new ReviewSingleSessionWithPatient();
+            args.putBoolean(ReviewSingleSessionWithPatientBottomButtons.COMPARE_PREVIOUS, true);
+            args.putSerializable(ReviewSingleSessionWithPatientBottomButtons.SESSION, scale.getSession());
+            fragment = new ReviewSingleSessionWithPatientBottomButtons();
 
             fragment.setArguments(args);
 

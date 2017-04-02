@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ViewPatients.FloatingSearch;
+package com.example.rafael.appprototype.Patients.AllPatients.FloatingSearch;
 
 import android.os.Parcel;
 

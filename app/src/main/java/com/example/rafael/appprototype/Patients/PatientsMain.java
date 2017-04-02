@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Patients.Favorite.PatientsFavoriteMain;
 import com.example.rafael.appprototype.Patients.Recent.PatientsRecent;
-import com.example.rafael.appprototype.Patients.ViewPatients.FloatingSearch.PatientsListPersistentSearch;
+import com.example.rafael.appprototype.Patients.AllPatients.FloatingSearch.PatientsListPersistentSearch;
 import com.example.rafael.appprototype.R;
 
 

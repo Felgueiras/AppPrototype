@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/cga_mental"
+        android:icon="@drawable/ic_mental"
+        android:title="@string/cga_mental_name"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/cga_functional"
+        android:icon="@drawable/ic_functional"
+        android:title="@string/cga_functional_name"
+        app:showAsAction="always"
+         />
+    <item
+        android:id="@+id/cga_nutritional"
+        android:icon="@drawable/ic_nutritional_white"
+        android:title="@string/cga_nutritional_name"
+        app:showAsAction="always"
+         />
+    <item
+        android:id="@+id/cga_social"
+        android:icon="@drawable/ic_people_white_24dp"
+        android:title="@string/cga_social_name"
+        app:showAsAction="always"
+         />
+</menu>

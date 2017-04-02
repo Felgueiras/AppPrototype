@@ -20,7 +20,7 @@ import com.example.rafael.appprototype.Evaluations.SingleArea.ScaleCard;
 import com.example.rafael.appprototype.R;
 
 
-public class CGAGuideArea extends Fragment {
+public class CGAGuideAreaFragment extends Fragment {
 
 
     public static String CGA_AREA = "area";

@@ -1,17 +1,7 @@
-- area pessoal onde pode mudar password e unlock pattern
-- arranjar tabela de score
-- na lista de drugs usar mais simbolos baseados na forma
-- maneira alterbativa questoes sim nao
+- use bottom navigation in progress?
+- mostrar no calendário quais as datas que têm sessões
+- guardar qual a área vista ao rever uma sessão
 
-- all questions from category filled -> go next category
-- escalas com mt texto aparece ... e ao clicar a pessoa ve o texto todo
-- usar elementos gráficos na tabela de progresso
-- na lista de drugs usar mais simbolos baseados na forma
-
-- multisuer
-- save list scroll (sessions list)
-- review patient progress - make it easier to see progress
+- save list scroll (sessions list)AQ
 - if first session for patient, inform it to doctor
-- dar mais destaque a progress
-- rever histórico de pacientes, mostrar o último em grande plano
 - bibliography of scales

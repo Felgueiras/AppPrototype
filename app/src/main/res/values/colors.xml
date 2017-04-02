@@ -35,4 +35,9 @@
     <color name="stoppCriteriaColorFaded">#990003</color>
     <color name="beersCriteriaColor">#001ddd</color>
     <color name="beersCriteriaColorFaded">#001499</color>
+    <!--yes / no-->
+    <color name="yes_strong">#0d9900</color>
+    <color name="no_strong">#990000</color>
+    <color name="yes_light">#b6feb1</color>
+    <color name="no_light">#ffb8b8</color>
 </resources>

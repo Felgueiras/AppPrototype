@@ -24,7 +24,7 @@ import java.util.ArrayList;
 /**
  * Create the Card for each of the Tests of a Session
  */
-public class ProgressAreas extends RecyclerView.Adapter<ProgressAreas.TestCardHolder> {
+public class ProgressAreasAdapter extends RecyclerView.Adapter<ProgressAreasAdapter.TestCardHolder> {
 
 
     /**
@@ -38,7 +38,7 @@ public class ProgressAreas extends RecyclerView.Adapter<ProgressAreas.TestCardHo
     private Activity context;
 
 
-    public ProgressAreas(Activity context, ArrayList<Session> patientSessions, Patient patient) {
+    public ProgressAreasAdapter(Activity context, ArrayList<Session> patientSessions, Patient patient) {
         this.context = context;
         this.patient = patient;
         this.patientSessions = patientSessions;
@@ -58,7 +58,7 @@ public class ProgressAreas extends RecyclerView.Adapter<ProgressAreas.TestCardHo
          */
         public TestCardHolder(View view) {
             super(view);
-            area = (TextView) view.findViewById(R.id.area);
+//            area = (TextView) view.findViewById(R.id.area);
             scales = (RecyclerView) view.findViewById(R.id.area_scales);
         }
     }
@@ -86,7 +86,7 @@ public class ProgressAreas extends RecyclerView.Adapter<ProgressAreas.TestCardHo
      */
     @Override
     public void onBindViewHolder(final TestCardHolder holder, int position) {
-        holder.area.setText(Constants.cga_areas[position]);
+//        holder.area.setText(Constants.cga_areas[position]);
 
         /**
          * Show info about evaluations for every area.

@@ -23,9 +23,8 @@ import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ViewPager.ReviewSingleSessionWithPatientBottomButtons;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
-import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 
@@ -155,9 +154,9 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                                      * Review session created for PATIENT.
                                      */
                                     Bundle args = new Bundle();
-                                    args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
-                                    args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
-                                    Fragment fragment = new ReviewSingleSessionWithPatient();
+                                    args.putBoolean(ReviewSingleSessionWithPatientBottomButtons.COMPARE_PREVIOUS, true);
+                                    args.putSerializable(ReviewSingleSessionWithPatientBottomButtons.SESSION, session);
+                                    Fragment fragment = new ReviewSingleSessionWithPatientBottomButtons();
 
                                     fragment.setArguments(args);
                                     currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);

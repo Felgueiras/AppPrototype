@@ -66,13 +66,13 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int questionIndex) {
-        QuestionCategory currentCategory = scaleNonDB.getQuestionsCategories().get(categoryIndex);
+        final QuestionCategory currentCategory = scaleNonDB.getQuestionsCategories().get(categoryIndex);
 
         // question not in DB
         QuestionNonDB currentQuestionNonDB = currentCategory.getQuestions().get(questionIndex);
         // question in DB
         Question questionInDB = null;
-        int questionIdx = QuestionCategory.getQuestionIndex(categoryIndex,
+        final int questionIdx = QuestionCategory.getQuestionIndex(categoryIndex,
                 questionIndex,
                 scaleNonDB);
         if (scaleDB != null) {
@@ -89,6 +89,9 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
                 questionInDB.save();
             }
         }
+
+        // check if all questions were answered
+        signalAllQuestionsAnswered();
 
 
         /**
@@ -114,14 +117,65 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
 
 
         if (scaleDB != null) {
-            holder.right.setOnClickListener(new RightWrongQuestionHandler(questionInDB, adapter,
-                    scaleNonDB, questionIdx, holder.right, holder.wrong, categoryTextView, currentCategory));
-            holder.wrong.setOnClickListener(new RightWrongQuestionHandler(questionInDB, adapter,
-                    scaleNonDB, questionIdx, holder.right, holder.wrong, categoryTextView,
-                    currentCategory));
+//            holder.right.setOnClickListener(new RightWrongQuestionHandler(questionInDB, adapter,
+//                    scaleNonDB, questionIdx, holder.right, holder.wrong, categoryTextView, currentCategory));
+//            holder.wrong.setOnClickListener(new RightWrongQuestionHandler(questionInDB, adapter,
+//                    scaleNonDB, questionIdx, holder.right, holder.wrong, categoryTextView,
+//                    currentCategory));
+
+            final Question finalQuestionInDB = questionInDB;
+            final Question finalQuestionInDB1 = questionInDB;
+            holder.right.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // signal this question was answered
+                    finalQuestionInDB1.setAnswered(true);
+                    finalQuestionInDB1.save();
+                    // check if question was answered
+                    signalAllQuestionsAnswered();
+
+                    new RightWrongQuestionHandler(finalQuestionInDB, adapter,
+                            scaleNonDB, questionIdx, holder.right, holder.wrong, categoryTextView, currentCategory).onClick(v);
+                }
+            });
+            holder.wrong.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // signal this question was answered
+
+                    finalQuestionInDB1.setAnswered(true);
+                    finalQuestionInDB1.save();
+                    // check if question was answered
+                    signalAllQuestionsAnswered();
+                    new RightWrongQuestionHandler(finalQuestionInDB, adapter,
+                            scaleNonDB, questionIdx, holder.right, holder.wrong, categoryTextView, currentCategory).onClick(v);
+                }
+            });
         }
 
 
+    }
+
+    public void signalAllQuestionsAnswered() {
+        if (allQuestionsFromCategoryAnswered()) {
+            categoryTextView.setBackgroundResource(R.color.question_answered);
+        }
+    }
+
+    public boolean allQuestionsFromCategoryAnswered() {
+        int numQuestionsAnswered = 0;
+        int numQuestionsTotal = scaleNonDB.getQuestionsCategories().get(categoryIndex).getQuestions().size();
+        for (int i = 0; i < numQuestionsTotal; i++) {
+
+            int qIdx = QuestionCategory.getQuestionIndex(categoryIndex,
+                    i,
+                    scaleNonDB);
+            String dummyID = scaleDB.getGuid() + "-" + qIdx;
+            Question questionInDB = Question.getQuestionByID(dummyID);
+            if (questionInDB != null && questionInDB.isAnswered()) numQuestionsAnswered++;
+
+        }
+        return numQuestionsAnswered == numQuestionsTotal;
     }
 
 

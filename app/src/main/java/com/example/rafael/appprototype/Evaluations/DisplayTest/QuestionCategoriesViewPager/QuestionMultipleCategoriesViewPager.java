@@ -62,7 +62,7 @@ public class QuestionMultipleCategoriesViewPager {
 
     public void setupViewPager(ViewPager viewPager, MyPageAdapter adapter) {
         for (int i = 0; i < scaleNonDB.getQuestionsCategories().size(); i++) {
-            adapter.addFragment(QuestionCategoryFragment.newInstance(i, scaleNonDB, scaleDB,
+            adapter.addFragment(QuestionCategoryQuestionsAdapter.newInstance(i, scaleNonDB, scaleDB,
                     questionsListAdapter,
                     viewPager));
         }

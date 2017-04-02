@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.ViewPatients.FloatingSearch;
+package com.example.rafael.appprototype.Patients.AllPatients.FloatingSearch;
 
 /**
  * Copyright (C) 2015 Ari C.
@@ -21,14 +21,8 @@ import android.widget.Filter;
 
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.HelpersHandlers.StringHelper;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
