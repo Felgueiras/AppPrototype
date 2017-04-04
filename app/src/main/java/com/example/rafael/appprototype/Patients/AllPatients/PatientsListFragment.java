@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.AllPatients.FloatingSearch;
+package com.example.rafael.appprototype.Patients.AllPatients;
 
 import android.app.Fragment;
 import android.graphics.Color;
@@ -28,6 +28,8 @@ import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Main.PrivateAreaActivity;
+import com.example.rafael.appprototype.Patients.AllPatients.FloatingSearch.DataHelper;
+import com.example.rafael.appprototype.Patients.AllPatients.FloatingSearch.PersonSuggestion;
 import com.example.rafael.appprototype.Patients.NewPatient.CreatePatient;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewSinglePatientInfo;
 import com.example.rafael.appprototype.Patients.AllPatients.PatientCardPatientsList;
@@ -40,12 +42,10 @@ import java.util.List;
 /**
  * Display the list of Patients to view them or select one of them.
  */
-public class PatientsListPersistentSearch extends Fragment {
+public class PatientsListFragment extends Fragment {
 
     private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
     public static String selectPatient = "selectPatient";
-    private final ViewPager viewPager;
-    private final int page;
     private PatientCardPatientsList adapter;
     private RecyclerView mSearchResultsList;
     private FloatingSearchView mSearchView;
@@ -60,11 +60,6 @@ public class PatientsListPersistentSearch extends Fragment {
 
     private String mLastQuery = "";
 
-
-    public PatientsListPersistentSearch(ViewPager viewPager, int position) {
-        this.viewPager = viewPager;
-        this.page = position;
-    }
 
 
     @Override

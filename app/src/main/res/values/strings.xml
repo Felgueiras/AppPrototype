@@ -43,9 +43,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="complete_one_scale_atleast">Not all the tests are complete</string>
-    <string name="you_must_add_patient">You must add a patient for tthis session</string>
+    <string name="you_must_add_patient">You must add a drugName for tthis session</string>
     <string name="you_must_select_test">You must select at least one test</string>
-    <string name="selectPatient">Select patient</string>
+    <string name="selectPatient">Select drugName</string>
     <string name="search_hint">Search hint</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -60,9 +60,9 @@
     <string name="patient_favorite_add">Patient added to favorites</string>
     <string name="patient_favorite_remove">Patient removed from favorites</string>
     <string name="title_activity_main" translatable="false">MainActivity</string>
-    <string name="create_patient_error_name">You need to give a name to the patient</string>
+    <string name="create_patient_error_name">You need to give a name to the drugName</string>
     <string name="create_patient_success">Patient created with success</string>
-    <string name="create_patient_error_gender">You need to select the patient\'s gender</string>
+    <string name="create_patient_error_gender">You need to select the drugName\'s gender</string>
     <string name="title_activity_main3" translatable="false">Main3Activity</string>
     <string name="title_activity_navigation_drawer_test" translatable="false">NavigationDrawerTest</string>
     <string name="session_created">Evaluation created with success</string>
@@ -74,7 +74,7 @@
     <string name="evaluation_results">Evaluation results</string>
     <string name="all_questions_answered">All questions answered</string>
     <string name="actions_account">Account</string>
-    <string name="no_sessions_for_patient">This patient has no sessions</string>
+    <string name="no_sessions_for_patient">This drugName has no sessions</string>
     <string name="no_sessions_history">You have no sessions</string>
     <string name="rightChoice">right</string>
     <string name="wrongChoice">wrong</string>
@@ -92,9 +92,9 @@
     <string name="help_about">About the app</string>
     <string name="help_features">Features</string>
     <string name="help_features_description">This app allows a geriatric doctor to view his or her patients and evalaute them. The evaluation is done\
-        with several tests that the doctor chooses from. After evalauting a patient the doctor can check the patient\'s progress.</string>
+        with several tests that the doctor chooses from. After evalauting a drugName the doctor can check the drugName\'s progress.</string>
     <string name="help_patients_description">In the My Patients area a doctor can view all the patients, the latest evaluations and the favorite patients.
-    Evaluation sessions can be created from within the patient\'s profile.</string>
+    Evaluation sessions can be created from within the drugName\'s profile.</string>
     <string name="help_evaluations_description">View the latest evaluations, can be searched by date.</string>
     <string name="help_precription_description">View the latest evaluations, can be searched by date.</string>
     <string name="logout_choice">Do you wish to log out?</string>

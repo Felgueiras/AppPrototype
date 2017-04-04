@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivateBottomButtons;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Main.PrivateAreaActivity;
@@ -126,9 +126,9 @@ public class PatientCardFavorite extends BaseAdapter {
             switch (menuItem.getItemId()) {
                 case R.id.newSession:
                     Bundle args = new Bundle();
-                    args.putSerializable(CGAPrivateBottomButtons.PATIENT, patients.get(position));
+                    args.putSerializable(CGAPrivate.PATIENT, patients.get(position));
                     SharedPreferencesHelper.unlockSessionCreation(context);
-                    FragmentTransitions.replaceFragment(context, new CGAPrivateBottomButtons(), args, Constants.tag_create_session_from_favorites);
+                    FragmentTransitions.replaceFragment(context, new CGAPrivate(), args, Constants.tag_create_session_from_favorites);
                     context.setTitle(context.getResources().getString(R.string.cga));
                     break;
                 case R.id.removeFavorite:

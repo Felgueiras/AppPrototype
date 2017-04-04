@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/drugs_all"
+        android:icon="@drawable/pill_white"
+        android:title="@string/drugs_all"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/drugs_start"
+        android:icon="@drawable/ic_functional"
+        android:title="@string/drugs_start"
+        app:showAsAction="always"
+         />
+    <item
+        android:id="@+id/drugs_stopp"
+        android:icon="@drawable/ic_nutritional_white"
+        android:title="@string/drugs_stopp"
+        app:showAsAction="always"
+         />
+    <item
+        android:id="@+id/drugs_beers"
+        android:icon="@drawable/ic_people_white_24dp"
+        android:title="@string/drugs_beers"
+        app:showAsAction="always"
+         />
+</menu>

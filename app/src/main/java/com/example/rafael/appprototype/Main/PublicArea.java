@@ -23,7 +23,7 @@ import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.DatabaseOps;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicBottomButtons;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Introduction.MyIntro;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
@@ -312,7 +312,7 @@ public class PublicArea extends AppCompatActivity {
                             Constants.SESSION_ID = sessionID;
                             FragmentManager fragmentManager = getFragmentManager();
                             fragmentManager.beginTransaction()
-                                    .replace(R.id.current_fragment, new CGAPublicBottomButtons())
+                                    .replace(R.id.current_fragment, new CGAPublic())
                                     .commit();
                         }
                     });

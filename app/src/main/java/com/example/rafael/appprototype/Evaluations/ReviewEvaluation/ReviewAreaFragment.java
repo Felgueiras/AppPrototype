@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ViewPager;
+package com.example.rafael.appprototype.Evaluations.ReviewEvaluation;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -8,9 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewManager;
 
-import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.Scales;

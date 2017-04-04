@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Prescription;
+package com.example.rafael.appprototype.Prescription.AllDrugs;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -18,6 +18,7 @@ import com.example.rafael.appprototype.DataTypes.Criteria.Beers.BeersCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.StartCriteria;
 import com.example.rafael.appprototype.DataTypes.Criteria.StoppCriteria;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
+import com.example.rafael.appprototype.Prescription.ViewSingleDrugtInfo;
 import com.example.rafael.appprototype.R;
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 

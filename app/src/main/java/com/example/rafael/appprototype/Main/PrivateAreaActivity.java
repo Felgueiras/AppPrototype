@@ -7,7 +7,6 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -24,7 +23,7 @@ import com.activeandroid.ActiveAndroid;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivateBottomButtons;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.LockScreen.LockScreenActivity;
 import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
@@ -49,6 +48,7 @@ public class PrivateAreaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         System.out.println("Inside PrivateAreaActivity");
         Constants.area = Constants.area_private;
+//        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         super.onCreate(savedInstanceState);
         ActiveAndroid.initialize(getApplication());
         setContentView(R.layout.navigation_drawer_private);
@@ -99,7 +99,7 @@ public class PrivateAreaActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             FragmentManager fragmentManager = getFragmentManager();
                             fragmentManager.beginTransaction()
-                                    .replace(R.id.current_fragment, new CGAPrivateBottomButtons())
+                                    .replace(R.id.current_fragment, new CGAPrivate())
                                     .commit();
                         }
                     });

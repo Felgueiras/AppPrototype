@@ -3,6 +3,7 @@ package com.example.rafael.appprototype;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -231,5 +232,5 @@ public class Constants {
     public static int menu_positions_cga_guide = 6;
     public static int menu_positions_settings = 7;
     public static final String more_info_clicked = "more_info_clicked";
-    ;
+    public static ArrayList<String> allDrugs = new ArrayList<>();
 }

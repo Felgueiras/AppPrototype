@@ -15,19 +15,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
-import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.NonDB.GeriatricScaleNonDB;
+import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.Scales;
-import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.HelpersHandlers.SessionHelper;
-import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.example.rafael.appprototype.R;
+import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,14 +37,11 @@ import java.util.Date;
 /**
  * Create a new private CGA.
  */
-public class CGAPrivateOriginal extends Fragment {
+public class CGAPrivate extends Fragment {
 
     public static final String PATIENT = "PATIENT";
-    public static String GENDER = "gender";
-
 
     private Session session;
-
 
     Patient patient;
 
@@ -59,7 +57,6 @@ public class CGAPrivateOriginal extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.menu_cga_private_patient, menu);
     }
 
     @Override
@@ -72,14 +69,12 @@ public class CGAPrivateOriginal extends Fragment {
         // Inflate the layout for this fragment
         View view;
         if (patient != null) {
-            view = inflater.inflate(R.layout.content_new_session_private, container, false);
-            getActivity().setTitle(patient.getName() + " - " + getResources().getString(R.string.cga));
+            view = inflater.inflate(R.layout.content_new_session_private_bottom_buttons, container, false);
+            getActivity().setTitle("Nova AGG - " + patient.getName());
         } else {
-            view = inflater.inflate(R.layout.content_new_session_private_no_patient, container, false);
-            getActivity().setTitle(getResources().getString(R.string.cga));
+            view = inflater.inflate(R.layout.content_new_session_private_no_patient_bottom_buttons, container, false);
+            getActivity().setTitle("Nova AGG");
         }
-
-        Log.d("Stack", "Inside cga private");
 
 
         String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(getActivity());
@@ -151,6 +146,7 @@ public class CGAPrivateOriginal extends Fragment {
                 }
 
 
+                SharedPreferencesHelper.lockSessionCreation(getActivity());
             }
         }
 
@@ -168,6 +164,23 @@ public class CGAPrivateOriginal extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
+        Button saveButton = (Button) view.findViewById(R.id.session_save);
+        Button cancelButton = (Button) view.findViewById(R.id.session_cancel);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.newSessionLayout);
+                SessionHelper.saveSession(getActivity(), session, patient, getView(), layout, 1);
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                discardSession();
+            }
+        });
+
+
         return view;
     }
 
@@ -178,10 +191,10 @@ public class CGAPrivateOriginal extends Fragment {
         switch (item.getItemId()) {
             case R.id.session_save:
                 RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.newSessionLayout);
-                SessionHelper.saveSession(getActivity(),session,patient, getView(), layout, 1);
+                SessionHelper.saveSession(getActivity(), session, patient, getView(), layout, 1);
                 break;
             case R.id.session_cancel:
-                discardSession();
+                SessionHelper.cancelSession(getActivity(), session, getView(), Constants.ALL_AREAS);
                 break;
 
         }

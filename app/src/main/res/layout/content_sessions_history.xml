@@ -13,7 +13,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="5dp"
         android:textSize="@dimen/test_name"
-        android:drawableLeft="@drawable/calendar_white"
         android:text="@string/my_patients" />
 
 

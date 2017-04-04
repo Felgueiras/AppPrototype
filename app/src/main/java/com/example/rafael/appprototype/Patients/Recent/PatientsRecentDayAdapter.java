@@ -49,6 +49,8 @@ public class PatientsRecentDayAdapter extends BaseAdapter {
         dateTextView.setText(DatesHandler.dateToStringWithoutHour(currentDate));
         // get NewEvaluationPrivate for that date
         sessionsFromDate = Session.getSessionsFromDate(currentDate);
+        dateTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.calendar_white, 0, 0, 0);
+
 
         // fill the RecyclerView
         recyclerView = (RecyclerView) singleDayInfo.findViewById(R.id.recycler_view_sessions_day);

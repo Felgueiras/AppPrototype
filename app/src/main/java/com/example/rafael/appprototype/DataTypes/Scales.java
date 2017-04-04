@@ -1144,7 +1144,7 @@ public class Scales {
                 "necessária para suportar o peso do corpo ou para manter " +
                 "o equilíbrio ou a coordenação"));
         gradings.add(new GradingNonDB("Marcha ineficaz", 0, "O idoso não é capaz de caminhar, caminha apenas em " +
-                "barras paralelas ou requer ajuda física ou supervisã"));
+                "barras paralelas ou requer ajuda física ou supervisão"));
         // add Gradings to Scoring
         marchaScoring.setValuesBoth(gradings);
         // add Scoring to Test

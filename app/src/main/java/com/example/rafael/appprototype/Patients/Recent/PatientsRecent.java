@@ -17,13 +17,6 @@ import com.example.rafael.appprototype.R;
  */
 public class PatientsRecent extends Fragment {
 
-    private final ViewPager viewPager;
-    private final int page;
-
-    public PatientsRecent(ViewPager viewPager, int position) {
-        this.viewPager = viewPager;
-        this.page = position;
-    }
 
 
     @Override
@@ -35,9 +28,7 @@ public class PatientsRecent extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        if (viewPager.getCurrentItem() == page) {
-            menu.clear();
-        }
+        menu.clear();
     }
 
     @Override

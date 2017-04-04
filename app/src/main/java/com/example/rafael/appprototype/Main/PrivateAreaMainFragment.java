@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -110,22 +111,21 @@ public class PrivateAreaMainFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         View view = inflater.inflate(R.layout.private_area_main_page, container, false);
         ButterKnife.inject(this, view);
 
-//        // Initializes the side spinner from code.
-//        SideSpinner fruitsSpinner;
-//        fruitsSpinner = (SideSpinner) view.findViewById(R.id.sidespinner_fruits);
-//
-//        CharSequence fruitList[] = {"Apple",
-//                "Orange",
-//                "Pear",
-//                "Grapes"};
-//        fruitsSpinner.setValues(fruitList);
-//        fruitsSpinner.setSelectedIndex(1);
+        /**
+         * Set the image drawables - this had to be done to avoid errors in lower API versions.
+         */
+        patients.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_people_white_24dp);
+        sessions.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_assignment_white_24dp);
+        prescriptions.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.pill_white);
+        help.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_help_white_24dp);
+        cgaGuide.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_search_white_24dp);
+        settings.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_settings_white_24dp);
 
 
-//
         patients.setOnClickListener(clickListener);
         sessions.setOnClickListener(clickListener);
         prescriptions.setOnClickListener(clickListener);

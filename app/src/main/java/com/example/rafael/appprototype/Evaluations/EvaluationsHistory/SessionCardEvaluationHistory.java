@@ -20,7 +20,7 @@ import com.example.rafael.appprototype.DataTypes.DB.GeriatricScale;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.Evaluations.EvaluationsAll;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ViewPager.ReviewSingleSessionWithPatientBottomButtons;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
@@ -103,8 +103,8 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
             public void onClick(View view) {
                 Log.d("Review", "Clicked");
                 Bundle args = new Bundle();
-                args.putSerializable(ReviewSingleSessionWithPatientBottomButtons.SESSION, session);
-                FragmentTransitions.replaceFragment(context, new ReviewSingleSessionWithPatientBottomButtons(), args, Constants.tag_review_session_from_sessions_list);
+                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+                FragmentTransitions.replaceFragment(context, new ReviewSingleSessionWithPatient(), args, Constants.tag_review_session_from_sessions_list);
             }
         };
 

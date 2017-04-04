@@ -233,7 +233,7 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
 //                    Fragment endFragment = new ViewSinglePatientInfo();
 //
 //                    Bundle args = new Bundle();
-//                    args.putSerializable(ViewSinglePatientInfo.PATIENT, session.getPatient());
+//                    args.putSerializable(ViewSinglePatientInfo.PATIENT, session.getDrugName());
 //                    ((PrivateAreaActivity) context).replaceFragmentSharedElements(endFragment,
 //                            args,
 //                            Constants.tag_view_patient_info_records_from_sessions_list,

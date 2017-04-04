@@ -1,25 +1,9 @@
-package com.example.rafael.appprototype.Patients.AllPatients.FloatingSearch;
-
-/**
- * Copyright (C) 2015 Ari C.
- * <p/>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+package com.example.rafael.appprototype.Prescription.AllDrugs;
 
 import android.content.Context;
 import android.widget.Filter;
 
-import com.example.rafael.appprototype.DataTypes.DB.Patient;
+import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.HelpersHandlers.StringHelper;
 
 import java.util.ArrayList;
@@ -27,22 +11,22 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class DataHelper {
+public class DataHelperDrugs {
 
 
-    private static List<PersonSuggestion> sPatientSuggestions = createSuggestions();
+    private static List<DrugSuggestion> drugSuggestions = createSuggestions();
 
-    private static List<PersonSuggestion> createSuggestions() {
-        ArrayList<PersonSuggestion> suggestions = new ArrayList<>();
-        for (Patient patient : Patient.getAllPatients()) {
-            suggestions.add(new PersonSuggestion(patient));
+    private static List<DrugSuggestion> createSuggestions() {
+        ArrayList<DrugSuggestion> suggestions = new ArrayList<>();
+        for (String drug : Constants.allDrugs) {
+            suggestions.add(new DrugSuggestion(drug));
         }
         return suggestions;
     }
 
 
     public interface OnFindSuggestionsListener {
-        void onResults(List<PersonSuggestion> results);
+        void onResults(List<DrugSuggestion> results);
     }
 
     /**
@@ -52,17 +36,15 @@ public class DataHelper {
      * @param count
      * @return
      */
-    public static List<PersonSuggestion> getHistory(Context context, int count) {
+    public static List<DrugSuggestion> getHistory(Context context, int count) {
 
         // TODo get those with history
-        List<PersonSuggestion> suggestionList = new ArrayList<>();
-        PersonSuggestion personSuggestion;
-        for (int i = 0; i < sPatientSuggestions.size(); i++) {
-            personSuggestion = sPatientSuggestions.get(i);
-//            personSuggestion.setIsHistory(true);
-//            suggestionList.add(personSuggestion);
-            if (personSuggestion.getIsHistory()) {
-                suggestionList.add(personSuggestion);
+        List<DrugSuggestion> suggestionList = new ArrayList<>();
+        DrugSuggestion drugSuggestion;
+        for (int i = 0; i < drugSuggestions.size(); i++) {
+            drugSuggestion = drugSuggestions.get(i);
+            if (drugSuggestion.getIsHistory()) {
+                suggestionList.add(drugSuggestion);
             }
             if (suggestionList.size() == count) {
                 break;
@@ -75,7 +57,7 @@ public class DataHelper {
      * reset the suggestion history.
      */
     public static void resetSuggestionsHistory() {
-        for (PersonSuggestion personSuggestion : sPatientSuggestions) {
+        for (DrugSuggestion personSuggestion : drugSuggestions) {
             personSuggestion.setIsHistory(false);
         }
     }
@@ -93,11 +75,11 @@ public class DataHelper {
                     e.printStackTrace();
                 }
 
-                DataHelper.resetSuggestionsHistory();
-                List<PersonSuggestion> suggestionList = new ArrayList<>();
+                DataHelperDrugs.resetSuggestionsHistory();
+                List<DrugSuggestion> suggestionList = new ArrayList<>();
                 if (!(constraint == null || constraint.length() == 0)) {
 
-                    for (PersonSuggestion suggestion : sPatientSuggestions) {
+                    for (DrugSuggestion suggestion : drugSuggestions) {
                         // remove accents
                         String first = StringHelper.removeAccents(suggestion.getBody().toUpperCase());
                         String second = StringHelper.removeAccents(constraint.toString().toUpperCase());
@@ -112,9 +94,9 @@ public class DataHelper {
                 }
 
                 FilterResults results = new FilterResults();
-                Collections.sort(suggestionList, new Comparator<PersonSuggestion>() {
+                Collections.sort(suggestionList, new Comparator<DrugSuggestion>() {
                     @Override
-                    public int compare(PersonSuggestion lhs, PersonSuggestion rhs) {
+                    public int compare(DrugSuggestion lhs, DrugSuggestion rhs) {
                         return lhs.getIsHistory() ? -1 : 0;
                     }
                 });
@@ -128,7 +110,7 @@ public class DataHelper {
             protected void publishResults(CharSequence constraint, FilterResults results) {
 
                 if (listener != null) {
-                    listener.onResults((List<PersonSuggestion>) results.values);
+                    listener.onResults((List<DrugSuggestion>) results.values);
                 }
             }
         }.filter(query);

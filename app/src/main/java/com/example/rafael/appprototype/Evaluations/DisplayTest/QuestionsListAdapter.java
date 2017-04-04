@@ -476,7 +476,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                  */
                 adapter.questionAnswered(questionIndex);
 
-                listView.smoothScrollToPosition(questionIndex+1);
+                listView.smoothScrollToPosition(questionIndex + 1);
 
             }
         };
@@ -918,27 +918,30 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             @Override
             public void onClick(View v) {
                 // detect when choice changed
-                if (v.getId() == R.id.rightChoice) {
-                    finalQuestion.setSelectedYesNoChoice("yes");
-                    yes.setBackgroundResource(R.color.yes_light);
-                    no.setBackgroundResource(android.R.drawable.btn_default);
-                } else if (v.getId() == R.id.wrongChoice) {
-                    finalQuestion.setSelectedYesNoChoice("no");
-                    yes.setBackgroundResource(android.R.drawable.btn_default);
-                    no.setBackgroundResource(R.color.no_light);
-                } else {
-                    return;
+                if (finalQuestion != null) {
+                    if (v.getId() == R.id.rightChoice) {
+                        finalQuestion.setSelectedYesNoChoice("yes");
+                        yes.setBackgroundResource(R.color.yes_light);
+                        no.setBackgroundResource(android.R.drawable.btn_default);
+                    } else if (v.getId() == R.id.wrongChoice) {
+                        finalQuestion.setSelectedYesNoChoice("no");
+                        yes.setBackgroundResource(android.R.drawable.btn_default);
+                        no.setBackgroundResource(R.color.no_light);
+                    } else {
+                        return;
+                    }
+                    finalQuestion.setAnswered(true);
+                    finalQuestion.save();
+                    /**
+                     * Signal that que Question was answered
+                     */
+                    questionAnswered(questionIndex);
+                    /**
+                     * Scroll to next position.
+                     */
+                    listView.smoothScrollToPosition(questionIndex + 1);
                 }
-                finalQuestion.setAnswered(true);
-                finalQuestion.save();
-                /**
-                 * Signal that que Question was answered
-                 */
-                questionAnswered(questionIndex);
-                /**
-                 * Scroll to next position.
-                 */
-                listView.smoothScrollToPosition(questionIndex+1);
+
             }
         };
 

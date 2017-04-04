@@ -1,7 +1,7 @@
-- use bottom navigation in progress?
-- mostrar no calendário quais as datas que têm sessões
+- bottom navigation icons in prescription
+- save position in bottom navigation
 - guardar qual a área vista ao rever uma sessão
 
-- save list scroll (sessions list)AQ
-- if first session for patient, inform it to doctor
+- save list scroll (sessions list)
+- if first session for drugName, inform it to doctor
 - bibliography of scales

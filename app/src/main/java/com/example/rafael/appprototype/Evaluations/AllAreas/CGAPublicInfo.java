@@ -1,7 +1,6 @@
 package com.example.rafael.appprototype.Evaluations.AllAreas;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.widget.Button;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.Help_Feedback.HelpMain;
-import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
@@ -52,7 +50,7 @@ public class CGAPublicInfo extends Fragment {
             public void onClick(View view) {
                 Log.d("Session", "Clicked in CGAPublicInfo!");
                 SharedPreferencesHelper.unlockSessionCreation(getActivity());
-                FragmentTransitions.replaceFragment(getActivity(), new CGAPublicBottomButtons(), null, Constants.tag_cga_public);
+                FragmentTransitions.replaceFragment(getActivity(), new CGAPublic(), null, Constants.tag_cga_public);
             }
         });
 

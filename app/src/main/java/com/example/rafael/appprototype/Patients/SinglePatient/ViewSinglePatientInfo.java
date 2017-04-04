@@ -27,7 +27,7 @@ import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.HelpersHandlers.DatesHandler;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.Patients.PatientsMain;
-import com.example.rafael.appprototype.Patients.Progress.ViewPager.ProgressMainViewPager;
+import com.example.rafael.appprototype.Patients.Progress.ProgressMain;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientNotesFragment;
 import com.example.rafael.appprototype.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
 import com.example.rafael.appprototype.R;
@@ -137,10 +137,10 @@ public class ViewSinglePatientInfo extends Fragment {
             @Override
             public void onClick(View view) {
                 System.out.println("EVOLUTION");
-                Fragment fragment = new ProgressMainViewPager();
+                Fragment fragment = new ProgressMain();
                 Bundle args = new Bundle();
-                args.putSerializable(ProgressMainViewPager.PATIENT, patient);
-                FragmentTransitions.replaceFragment(getActivity(), new ProgressMainViewPager(), args, Constants.tag_patient_progress);
+                args.putSerializable(ProgressMain.PATIENT, patient);
+                FragmentTransitions.replaceFragment(getActivity(), new ProgressMain(), args, Constants.tag_patient_progress);
             }
         });
 

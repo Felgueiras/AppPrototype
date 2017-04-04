@@ -18,12 +18,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivateBottomButtons;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.HelpersHandlers.BackStackHandler;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ViewPager.ReviewSingleSessionWithPatientBottomButtons;
+import com.example.rafael.appprototype.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
@@ -118,8 +118,8 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                                      * Go to new session with this PATIENT.
                                      */
                                     args = new Bundle();
-                                    args.putSerializable(CGAPrivateBottomButtons.PATIENT, patient);
-                                    FragmentTransitions.replaceFragment(context, new CGAPrivateBottomButtons(),
+                                    args.putSerializable(CGAPrivate.PATIENT, patient);
+                                    FragmentTransitions.replaceFragment(context, new CGAPrivate(),
                                             args,
                                             Constants.tag_create_session_with_patient_from_session);
 //                                            Constants.tag_create_session_with_patient);
@@ -154,9 +154,9 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                                      * Review session created for PATIENT.
                                      */
                                     Bundle args = new Bundle();
-                                    args.putBoolean(ReviewSingleSessionWithPatientBottomButtons.COMPARE_PREVIOUS, true);
-                                    args.putSerializable(ReviewSingleSessionWithPatientBottomButtons.SESSION, session);
-                                    Fragment fragment = new ReviewSingleSessionWithPatientBottomButtons();
+                                    args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
+                                    args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+                                    Fragment fragment = new ReviewSingleSessionWithPatient();
 
                                     fragment.setArguments(args);
                                     currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);

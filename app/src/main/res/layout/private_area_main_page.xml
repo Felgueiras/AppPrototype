@@ -25,8 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/my_patients"
-        android:drawableTop="@drawable/ic_people_white_24dp"/>
+        android:text="@string/my_patients"/>
 
     <!--Sessions-->
     <Button
@@ -37,8 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/tab_sessions"
-        android:drawableTop="@drawable/ic_assignment_white_24dp"/>
+        android:text="@string/tab_sessions"/>
 
 
     <!--Prescription-->
@@ -50,8 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/tab_drug_prescription"
-        android:drawableTop="@drawable/pill_white"/>
+        android:text="@string/tab_drug_prescription"/>
 
 
     <!--Help-->
@@ -63,8 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/help"
-        android:drawableTop="@drawable/ic_help_white_24dp"/>
+        android:text="@string/help"/>
 
 
     <!--CGA Guide-->
@@ -76,8 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/cga_guide"
-        android:drawableTop="@drawable/ic_search_white_24dp"/>
+        android:text="@string/cga_guide"/>
 
 
     <!--Settings-->
@@ -89,8 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/settings"
-        android:drawableTop="@drawable/ic_settings_white_24dp"/>
+        android:text="@string/settings"/>
 
 
 </LinearLayout>

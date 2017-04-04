@@ -1,4 +1,4 @@
-package com.example.rafael.appprototype.Patients.Progress.ViewPager;
+package com.example.rafael.appprototype.Patients.Progress;
 
 import android.app.Fragment;
 import android.content.SharedPreferences;
@@ -11,12 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Patient;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
-import com.example.rafael.appprototype.Patients.Progress.ProgressScalesForAreaGraph;
 import com.example.rafael.appprototype.Patients.Progress.Table.ProgressScalesForAreaTable;
 import com.example.rafael.appprototype.R;
 

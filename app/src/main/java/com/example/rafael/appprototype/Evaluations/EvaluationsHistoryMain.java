@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.example.rafael.appprototype.Constants;
 import com.example.rafael.appprototype.DataTypes.DB.Session;
 import com.example.rafael.appprototype.EmptyStateFragment;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivateBottomButtons;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
 import com.example.rafael.appprototype.Main.FragmentTransitions;
 import com.example.rafael.appprototype.R;
@@ -52,7 +52,7 @@ public class EvaluationsHistoryMain extends Fragment {
                                 SharedPreferencesHelper.unlockSessionCreation(getActivity());
                                 if (which == 0) {
                                     dialog.dismiss();
-                                    FragmentTransitions.replaceFragment(getActivity(), new CGAPrivateBottomButtons(), null,
+                                    FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), null,
                                             Constants.tag_create_session_no_patient);
                                 } else {
                                     // pick PATIENT

@@ -113,7 +113,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
         holder.description.setOnClickListener(new ScaleInfoHelper(context, currentScale));
 
         // Test was already opened
-        if (currentScale.isAlreadyOpened()) {
+        if (currentScale!= null && currentScale.isAlreadyOpened()) {
             float selected = 1f;
             holder.view.setAlpha(selected);
             // already complete

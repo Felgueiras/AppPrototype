@@ -15,10 +15,10 @@ import android.view.MenuItem;
 
 import com.example.rafael.appprototype.AboutFragment;
 import com.example.rafael.appprototype.CGAGuide.CGAGuideMain;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicBottomButtons;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublic;
 import com.example.rafael.appprototype.Evaluations.EvaluationsHistoryMain;
 import com.example.rafael.appprototype.Constants;
-import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivateBottomButtons;
+import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPrivate;
 import com.example.rafael.appprototype.Evaluations.AllAreas.CGAPublicInfo;
 import com.example.rafael.appprototype.Help_Feedback.HelpMain;
 import com.example.rafael.appprototype.Help_Feedback.SendFeedback;
@@ -28,7 +28,6 @@ import com.example.rafael.appprototype.Patients.PatientsMain;
 import com.example.rafael.appprototype.Prescription.DrugPrescriptionMain;
 import com.example.rafael.appprototype.R;
 import com.example.rafael.appprototype.HelpersHandlers.SharedPreferencesHelper;
-import com.example.rafael.appprototype.TransferDB;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -79,7 +78,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
              */
             String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(context);
             if (sessionID != null)
-                endFragment = new CGAPublicBottomButtons();
+                endFragment = new CGAPublic();
             else
                 endFragment = new CGAPublicInfo();
         } else if (id == R.id.prescription) {
@@ -87,7 +86,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         } else if (id == R.id.patients) {
             String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);
             if (sessionID != null)
-                endFragment = new CGAPrivateBottomButtons();
+                endFragment = new CGAPrivate();
             else
                 endFragment = new PatientsMain();
         } else if (id == R.id.sendFeedback) {
