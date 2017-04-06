@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.rafael.appprototype">
+    package="com.felgueiras.apps.geriatric_helper">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
-        android:name=".MyApplication"
+        android:name="com.felgueiras.apps.geriatric_helper.MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/app_icon"
@@ -23,15 +21,22 @@
             android:value="1" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="com.example.rafael.appprototype.DataTypes.DB.Patient,                            com.example.rafael.appprototype.DataTypes.DB.FreeTextField,                            com.example.rafael.appprototype.DataTypes.DB.Session,                            com.example.rafael.appprototype.DataTypes.DB.GeriatricScale,                            com.example.rafael.appprototype.DataTypes.DB.Scoring,                            com.example.rafael.appprototype.DataTypes.DB.Grading,                            com.example.rafael.appprototype.DataTypes.DB.Question,                            com.example.rafael.appprototype.DataTypes.DB.Choice" />
+            android:value="com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient,  
+                                      com.felgueiras.apps.geriatric_helper.DataTypes.DB.FreeTextField, 
+                                                              com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session,    
+              com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale,    
+         com.felgueiras.apps.geriatric_helper.DataTypes.DB.Scoring,         
+        com.felgueiras.apps.geriatric_helper.DataTypes.DB.Grading,     
+            com.felgueiras.apps.geriatric_helper.DataTypes.DB.Question,     
+            com.felgueiras.apps.geriatric_helper.DataTypes.DB.Choice" />
 
         <!-- Intro -->
         <activity
-            android:name=".Introduction.MyIntro"
+            android:name="com.felgueiras.apps.geriatric_helper.Introduction.MyIntro"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" />
         <activity
-            android:name=".Main.PublicArea"
+            android:name="com.felgueiras.apps.geriatric_helper.Main.PublicArea"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,19 +45,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LockScreen.LockScreenActivity"
+            android:name="com.felgueiras.apps.geriatric_helper.LockScreen.LockScreenActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Main.PrivateAreaActivity"
+            android:name="com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Settings"
+            android:name="com.felgueiras.apps.geriatric_helper.Settings"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
-        <activity android:name=".PersonalAreaAccess.RegisterUser" />
+        <activity android:name="com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.RegisterUser" />
         <activity
-            android:name=".VerticalViewPager.CustomViewPagerActivity"
+            android:name="com.felgueiras.apps.geriatric_helper.VerticalViewPager.CustomViewPagerActivity"
             android:label="@string/title_activity_custom_view_pager"
             android:theme="@style/AppTheme"></activity>
     </application>

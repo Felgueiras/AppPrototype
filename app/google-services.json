@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:25193509344:android:1e1885a41bf82e64",
         "android_client_info": {
-          "package_name": "com.example.rafael.appprototype"
+          "package_name": "com.felgueiras.apps.geriatric_helper"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "25193509344-1s5rolbugobrurg6986kkdbpk4lmaj5g.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.rafael.appprototype",
+            "package_name": "com.felgueiras.apps.geriatric_helper",
             "certificate_hash": "9C9B0EA1CBBD840AE82821C10B4AA513A5FD4F8B"
           }
         },

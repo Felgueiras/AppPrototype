@@ -9,19 +9,19 @@
         />
     <item
         android:id="@+id/drugs_start"
-        android:icon="@drawable/ic_functional"
+        android:icon="@drawable/criteria_start"
         android:title="@string/drugs_start"
         app:showAsAction="always"
          />
     <item
         android:id="@+id/drugs_stopp"
-        android:icon="@drawable/ic_nutritional_white"
+        android:icon="@drawable/criteria_stopp"
         android:title="@string/drugs_stopp"
         app:showAsAction="always"
          />
     <item
         android:id="@+id/drugs_beers"
-        android:icon="@drawable/ic_people_white_24dp"
+        android:icon="@drawable/criteria_beers"
         android:title="@string/drugs_beers"
         app:showAsAction="always"
          />

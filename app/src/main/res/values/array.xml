@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!--Session resume info-->
     <string-array name="sessionResumeInfoNames">
         <item>Nome do paciente</item>

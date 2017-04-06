@@ -1,215 +1,383 @@
 <resources>
-    <string name="app_name">AppPrototype</string>
-    <string name="title_activity_login">Sign in</string>
 
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale" translatable="false">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="hint_search">Search now</string>
-    <string name="male">M</string>
-    <string name="female">F</string>
-    <string name="action_log_in">Log in</string>
-    <string name="create_new_record">Create new Record</string>
-    <string name="previous_records">Previous sessions</string>
-    <string name="title_activity_tabs">Tabs</string>
-    <string name="action_settings">Settings</string>
     <string name="section_format" translatable="false">Hello World from section: %1$d</string>
-    <string name="date_of_birth">Date of birth</string>
-    <string name="action_add_favourite">Add to Favourites</string>
-    <string name="action_play_next">Play Next</string>
-    <string name="patients_history">Patients history</string>
-    <string name="sessions">Evaluations</string>
-    <string name="my_patients">My patients</string>
-    <string name="tab_patients_history">Patients history</string>
-    <string name="cga">Evaluations</string>
-    <string name="tab_my_patients">My patients</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="finish_session">Finish session</string>
-    <string name="test_not_selected">Test not selected</string>
-    <string name="test_incomplete">Test is incomplete</string>
-    <string name="test_result">Test result</string>
-    <string name="patient_sessions">Patient sessions</string>
+
     <string name="title_activity_main2" translatable="false">Main2Activity</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="complete_one_scale_atleast">Not all the tests are complete</string>
-    <string name="you_must_add_patient">You must add a drugName for tthis session</string>
-    <string name="you_must_select_test">You must select at least one test</string>
-    <string name="selectPatient">Select drugName</string>
-    <string name="search_hint">Search hint</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="drug_prescription">Drug prescription</string>
-    <string name="tab_drug_prescription">Drug prescription</string>
-    <string name="search_drugs">Search drugs..</string>
-    <string name="selected_drugs">Selected drugs:</string>
-    <string name="stoppCriteriaDisclaimer">Search the name of a drug and view the Stopp criterias associated with it</string>
-    <string name="startCriteriaDisclaimer">First select the organ system and then view the Start criteria for the related drugs</string>
-    <string name="beersCriteriaDisclaimer">Search the name of a drug and view the Beers criterias associated with it</string>
-    <string name="action_favorite">favorite</string>
-    <string name="patient_favorite_add">Patient added to favorites</string>
-    <string name="patient_favorite_remove">Patient removed from favorites</string>
+    <string name="startCriteriaDisclaimer" translatable="false">First select the organ system and then view the Start criteria for the related drugs</string>
+
     <string name="title_activity_main" translatable="false">MainActivity</string>
-    <string name="create_patient_error_name">You need to give a name to the drugName</string>
-    <string name="create_patient_success">Patient created with success</string>
-    <string name="create_patient_error_gender">You need to select the drugName\'s gender</string>
     <string name="title_activity_main3" translatable="false">Main3Activity</string>
     <string name="title_activity_navigation_drawer_test" translatable="false">NavigationDrawerTest</string>
-    <string name="session_created">Evaluation created with success</string>
-    <string name="drugSearchDisclaimer">Search by the name of a drug</string>
-    <string name="session_save">Save</string>
-    <string name="session_discard">Discard</string>
-    <string name="session_discard_question">Do you want to discard the current session?</string>
-    <string name="add_session">Add a session</string>
-    <string name="evaluation_results">Evaluation results</string>
-    <string name="all_questions_answered">All questions answered</string>
-    <string name="actions_account">Account</string>
-    <string name="no_sessions_for_patient">This drugName has no sessions</string>
-    <string name="no_sessions_history">You have no sessions</string>
-    <string name="rightChoice">right</string>
-    <string name="wrongChoice">wrong</string>
-    <string name="search_result">Search result</string>
-    <string name="menu_search" translatable="false">Menu search</string>
+
     <string name="fragment_text_trans" translatable="false">fragment_text_transition</string>
-    <string name="no_start_criteria">No Start criteria</string>
-    <string name="no_stopp_criteria">No Stopp criteria</string>
-    <string name="no_beers_criteria">No Beers criteria</string>
-    <string name="send_feedback">Send feedback</string>
-    <string name="help">Help</string>
-    <string name="select_patient_gender">Select patient\'s gender</string>
-    <string name="no_favorite_patients">You have no favorite patients</string>
-    <string name="new_patient_discard">Do you wish to cancel?</string>
-    <string name="help_about">About the app</string>
-    <string name="help_features">Features</string>
-    <string name="help_features_description">This app allows a geriatric doctor to view his or her patients and evalaute them. The evaluation is done\
-        with several tests that the doctor chooses from. After evalauting a drugName the doctor can check the drugName\'s progress.</string>
-    <string name="help_patients_description">In the My Patients area a doctor can view all the patients, the latest evaluations and the favorite patients.
-    Evaluation sessions can be created from within the drugName\'s profile.</string>
-    <string name="help_evaluations_description">View the latest evaluations, can be searched by date.</string>
-    <string name="help_precription_description">View the latest evaluations, can be searched by date.</string>
-    <string name="logout_choice">Do you wish to log out?</string>
-    <string name="patients_all">All</string>
-    <string name="patients_sessions">Sessions</string>
-    <string name="patients_favorites">Favorites</string>
-    <string name="evaluations_disclaimer">To create a new Evaluation, press the plus button.</string>
-    <string name="beers_recommendation">Recommendation:</string>
-    <string name="beers_rationale">Rationale:</string>
-    <string name="beers_quality_evidence">Quality of evidence:</string>
-    <string name="beers_strength_recommendation">Strength of recommendation:</string>
-    <string name="drugs_all">All</string>
+
     <string name="drugs_stopp" translatable="false">Stopp</string>
     <string name="drugs_start" translatable="false">Start</string>
-    <string name="drugs_beers" translatable="false">Beers</string>
-    <string name="session_reset">Reset</string>
-    <string name="session_reset_question">Do you wish to reset this session?</string>
-    <string name="evaluations">Evaluations</string>
-    <string name="consult_progress">Evolution</string>
-    <string name="action_info">Info</string>
-    <string name="app_intro">App intro</string>
-    <string name="app_intro_skip">Skip</string>
-    <string name="intro_welcome_message">Welcome to Prototype</string>
-    <string name="intro_brief_description">Amazing android app with cool features.</string>
-    <string name="info_procedure_patient_worse" />
-    <string name="sharedPreferencesTag">com.mycompany.myAppName</string>
-    <string name="saved_session_public">SESSION_PUBLIC</string>
-    <string name="saved_session_private">SESSION_PRIVATE</string>
-    <string name="title_activity_settings">Settings</string>
+    <string name="sharedPreferencesTag" translatable="false">com.mycompany.myAppName</string>
+    <string name="saved_session_public" translatable="false">SESSION_PUBLIC</string>
+    <string name="saved_session_private" translatable="false">SESSION_PRIVATE</string>
+    <string name="title_activity_settings" translatable="false">Settings</string>
 
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
+    <string name="pref_header_general" translatable="false">General</string>
 
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
+    <string name="pref_title_social_recommendations" translatable="false">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations" translatable="false">Recommendations for people to contact
         based on your message history
     </string>
 
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
+    <string name="pref_title_display_name" translatable="false">Display name</string>
+    <string name="pref_default_display_name" translatable="false">John Smith</string>
 
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
+    <string name="pref_title_add_friends_to_messages" translatable="false">Add friends to messages</string>
+
 
     <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
+    <string name="pref_header_data_sync" translatable="false">Data &amp; sync</string>
 
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
-    </string-array>
+    <string name="pref_title_sync_frequency" translatable="false">Sync frequency</string>
 
-    <string-array name="list_preference_entries">
-        <item>Entry 1</item>
-        <item>Entry 2</item>
-        <item>Entry 3</item>
-    </string-array>
 
-    <string-array name="list_preference_entry_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
-    <string-array name="multi_select_list_preference_default_value" />
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
+    <string name="pref_title_system_sync_settings" translatable="false">System sync settings</string>
 
     <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
+    <string name="pref_header_notifications" translatable="false">Notifications</string>
 
-    <string name="pref_title_new_message_notifications">New message notifications</string>
+    <string name="pref_title_new_message_notifications" translatable="false">New message notifications</string>
 
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
+    <string name="pref_title_ringtone" translatable="false">Ringtone</string>
+    <string name="pref_ringtone_silent" translatable="false">Silent</string>
 
-    <string name="pref_title_vibrate">Vibrate</string>
-    <string name="areaCardShowScalesIcon">areaCardShowScalesIcon</string>
-    <string name="sessionResumeInformation">sessionResumeInformation</string>
-    <string name="patientProgressType">patientProgressType</string>
-    <string name="multipleChoiceType">multipleChoiceType</string>
-    <string name="font_fontFamily_medium">sans-serif</string>
-    <string name="title_activity_wheel_picker">WheelPickerActivity</string>
-    <string name="title_activity_custom_view_pager">CustomViewPagerActivity</string>
+    <string name="pref_title_vibrate" translatable="false">Vibrate</string>
+    <string name="areaCardShowScalesIcon" translatable="false">areaCardShowScalesIcon</string>
+    <string name="sessionResumeInformation" translatable="false">sessionResumeInformation</string>
+    <string name="patientProgressType" translatable="false">patientProgressType</string>
+    <string name="multipleChoiceType" translatable="false">multipleChoiceType</string>
+    <string name="title_activity_wheel_picker" translatable="false">WheelPickerActivity</string>
+    <string name="title_activity_custom_view_pager" translatable="false">CustomViewPagerActivity</string>
 
-    <string-array name="vegetable_array">
-        <item>Cucumber</item>
-        <item>Potato</item>
-        <item>Tomato</item>
-        <item>Onion</item>
-        <item>Squash</item>
-    </string-array>
+    <string name="action_info" translatable="false">Info</string>
+    <string name="app_intro" translatable="false">App intro</string>
+    <string name="app_intro_skip" translatable="false">Skip</string>
+    <string name="permission_rationale" translatable="false">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+
+    <string name="app_name">GeriatricHelper</string>
+    <string name="male">M</string>
+    <string name="hint_search">Pesquisar</string>
+    <string name="female">F</string>
+    <string name="error_invalid_password">A palavra-passe é muito curta</string>
+    <string name="error_invalid_email">O endereço de e-mail é inválido</string>
+    <string name="error_incorrect_password">A palavra-passe está incorreta</string>
+    <string name="error_field_required">Este campo é obrigatório</string>
+    <string name="action_sign_in_short">Log in</string>
+    <string name="action_log_in">Log in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Palavra-passe</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="create_new_record">Criar novo registo</string>
+    <string name="previous_records">Registos anteriores</string>
+    <string name="date_of_birth">Data de nascimento</string>
+    <string name="action_settings">Definições</string>
+    <string name="title_activity_tabs">Separadores</string>
+    <string name="action_add_favourite">Adicionar aos favoritos</string>
+    <string name="patients_history">Histórico de pacientes</string>
+    <string name="sessions">AGG</string>
+    <string name="my_patients">Pacientes</string>
+    <string name="tab_my_patients">Pacientes</string>
+    <string name="cga">AGG</string>
+    <string name="tab_patients_history">Histórico de pacientes</string>
+    <string name="no">Não</string>
+    <string name="yes">Sim</string>
+    <string name="finish_session">Terminar a sessão</string>
+    <string name="test_incomplete">Escala incompleta</string>
+    <string name="test_not_selected">Teste não selecionado</string>
+    <string name="test_result">Resultado</string>
+    <string name="patient_sessions">Sessões do paciente</string>
+    <string name="action_play_next">Reproduzir o próximo</string>
+    <string name="navigation_drawer_close">Fechar navigation drawer</string>
+    <string name="navigation_drawer_open">Abrir navigation drawer</string>
+    <string name="complete_one_scale_atleast">Precisa de preencher pelo menos uma escala</string>
+    <string name="you_must_add_patient">Tem de selecionar um paciente para esta sessão</string>
+    <string name="you_must_select_test">Tem de selecionar pelo menos um teste</string>
+    <string name="selectPatient">Selecione um paciente</string>
+    <string name="drug_prescription">Prescrição</string>
+    <string name="hello_blank_fragment">Procure medicamentos…</string>
+    <string name="search_drugs">Escreva nome de medicamento…</string>
+    <string name="tab_drug_prescription">Prescrição</string>
+    <string name="stoppCriteriaDisclaimer">Pesquise pelo nome de um composto ativo ou medicamento e veja os critérios Stopp associados</string>
+    <string name="beersCriteriaDisclaimer">Pesquise pelo nome de um composto ativo ou medicamento e veja os critérios Beers associados</string>
+    <string name="patient_favorite_add">Paciente adicionado aos favoritos</string>
+    <string name="patient_favorite_remove">Paciente removido dos favoritos</string>
+    <string name="create_patient_error_gender">Precisa de selecionar o género do paciente</string>
+    <string name="create_patient_error_name">Precisa de escrever o nome do paciente</string>
+    <string name="action_favorite">favorito</string>
+    <string name="search_hint">Dica de pesquisa</string>
+    <string name="selected_drugs">Medicamentos selecionados:</string>
+    <string name="create_patient_success">Paciente criado com sucesso</string>
+    <string name="session_created">Sessão criada com sucesso</string>
+    <string name="drugSearchDisclaimer">Search by the name of a drug</string>
+    <string name="session_discard">Cancelar</string>
+    <string name="session_save">Guardar</string>
+    <string name="session_discard_question">Deseja cancelar a sessão atual?</string>
+    <string name="evaluation_results">Resultados da sessão</string>
+    <string name="all_questions_answered">Todas as questões respondidas</string>
+    <string name="actions_account">Conta</string>
+    <string name="add_session">Adicionar uma sessão</string>
+    <string name="no_sessions_for_patient">Paciente ainda não foi avaliado</string>
+    <string name="no_sessions_history">Não avaliou ainda nenhum paciente</string>
+    <string name="help">Ajuda</string>
+    <string name="new_patient_discard">Deseja cancelar?</string>
+    <string name="no_beers_criteria">Não há critérios de Beers associados</string>
+    <string name="no_favorite_patients">Não definiu pacientes favoritos</string>
+    <string name="no_start_criteria">Não há critérios Start associados</string>
+    <string name="no_stopp_criteria">Não há critérios Stopp associados</string>
+    <string name="rightChoice">certo</string>
+    <string name="search_result">Resultados da procura</string>
+    <string name="select_patient_gender">Selecione o género do paciente</string>
+    <string name="send_feedback">Enviar comentários</string>
+    <string name="wrongChoice">errado</string>
+    <string name="beers_quality_evidence">Qualidade de evidências:</string>
+    <string name="beers_rationale">Rationale:</string>
+    <string name="beers_recommendation">Recomendação:</string>
+    <string name="beers_strength_recommendation">Força de recomendação:</string>
+    <string name="drugs_all">Todas</string>
+    <string name="evaluations_disclaimer">Para criar uma nova Sessão, pressione o botão +</string>
+    <string name="help_about">Sobre a aplicação</string>
+    <string name="help_evaluations_description">Ver as últimas avaliações, pode pesquisar por data.</string>
+    <string name="help_features">Funcionalidades</string>
+    <string name="logout_choice">Deseja fazer o log out?</string>
+    <string name="patients_sessions">Sessões</string>
+    <string name="patients_favorites">Favoritos</string>
+    <string name="patients_all">Todos</string>
+    <string name="menu_search">Procurar</string>
+    <string name="help_precription_description">
+        Há certos compostos químicos presentes em medicamentos que devem ou não ser prescritos aos pacientes geriátricos.
+        De modo a auxiliar os profissionais de saúde a escolher o medicamento mais indicado para um paciente,
+        encontram-se compilados os critérios Start, Stopp e de Beers.
+
+        Os critérios Start encontram-se organizados por sistema (urogenital, gastrointestinal, etc) e indicam em que situações
+        clínicas certos compostos químicos devem ser prescritos. Os critérios Stopp e de Beers estão organizados da mesma forma
+        e indicam quais os compostos a evitar dependendo do historial clínico. QE refere-se a "quality of evidence" e SR é
+        "strength of recommendation".
+    </string>
+    <string name="help_features_description">
+        Esta aplicação permite realizar a AGG e acompanhar a evolução de um paciente, caso o utilizador
+        esteja autenticado no sistema. Tem como objetivo auxiliar os profissionais de saúde a aplicar este método e
+        fornecer-lhes auxílio enquanto realizam o ACG.\n\n
+        Para avaliar um paciente na área pública clique em "Criar Sessão", selecione o género do paciente (o resultado
+        de certas escalas depende do género) e depois selecione a escala que pretende avaliar. Estas encontram-se agrupadas por
+        áreas. Preencha somente as escalas que achar adequadas, não necessita de preencher todas à partida.
+        Quando quiser terminar a sessão volte ao ecrã onde estão todas as áreas, prima o botão "+" e selecione terminar.
+        </string>
+    <string name="help_patients_description">
+        Em Pacientes, na sua área pessoal, pode ver os seus pacientes, as últimas avaliações e os pacientes favoritos.
+        As sessões podem ser criadas a partir do perfil do paciente.</string>
+
+    <!--CGA areas disclaimers-->
+    <string name="cga_cognitive">Fatores relacionados com o estado cognitivo do paciente, nomeadamente
+    orientação, memória, cálculo, pensamento abstracto, linguagem, etc.\n
+    A la hora de explorar la esfera cognitiva, debemos
+interrogar acerca de:\n
+— Nivel de escolarización, profesión.\n
+— Presencia de factores de riesgo cardiovascular
+(hipertensión, diabetes, fibrilación auricular).\n
+— Historia familiar de demencia.\n
+— Antecedentes psiquiátricos.\n
+— Consumo de fármacos y tóxicos.\n
+— Motivo de consulta, forma de inicio y evolución
+de los síntomas.\n
+— Orientación.\n
+— Quejas de deterioro de memoria.\n
+— Problemas en reconocimiento de familiares y
+amigos.\n
+        — Lenguaje.\n
+— Capacidad de abstracción/juicio.\n
+— Trastornos de conducta (en buena medida determinan
+la calidad de vida del paciente y la de sus
+familiares y/o cuidadores): delirios, agitación psicomotriz,
+alucinaciones, ritmo vigilia-sueño, hipersexualidad,
+vagabundeo, auto/heteroagresividad
+física y/o verbal.
+    </string>
+    <string name="cga_afective">Estado emocional do paciente, humor, tristeza e depressão.
+    A la hora de explorar la esfera afectiva, debemos interrogar acerca de:\n
+— Estado anímico.\n
+— Labilidad emocional.\n
+— Anergia/hipoergia.\n
+— Anhedonia/hipohedonia.\n
+— Trastorno del apetito.\n
+— Trastorno del sueño.\n
+— Signos de ansiedad.\n
+— Ideación de muerte.\n
+— Ideación o tentativas autolíticas.\n
+— Quejas somáticas.\n
+    </string>
+    <string name="cga_social">A avaliação social é complexa pela quantidade/diversidade de fatores que envolve
+    (idoso, família, comunidade e redes sociais). Tem por base o suporte social, condições habitacionais,
+    localização dos recursos necessários, disponibilidade de transportes e recursos financeiros.</string>
+    <string name="cga_nutritional">Detetar a presença ou risco de malnutrição sem recurso a parâmetros
+    analíticos</string>
+    <string name="cga_mental">Composto por avaliação Cognitiva e Afetiva. A Cognitiva relaciona-se com o estado cognitivo do paciente, nomeadamente
+    orientação, memória, cálculo, pensamento abstracto, linguagem, etc. A Afetiva é afecta ao estado emocional do paciente, humor, tristeza e depressão.</string>
+    <string name="cga_functional">Tem como objetivo determinar o grau de independência do paciente.
+    Aborda as atividades da vida diária, dividindo-as em básicas (ABVD - independência para o auto-cuidado) e
+    instrumentais (AIVD - independência para viver sozinho).
+    </string>
+    <string name="session_reset">Terminar</string>
+    <string name="session_reset_question">Deseja terminar esta sessão?</string>
+    <string name="evaluations">Sessões</string>
+    <string name="consult_progress">Consultar progresso</string>
+    <string name="progress">Progresso</string>
+    <string name="help_cga">Avaliação Geriátrica Global</string>
+    <string name="help_cga_description">
+        A Avaliação Geriátrica Global (AGG) é uma avaliação multidimensional e interdisciplinar do idoso:\n
+• Capacidade funcional e física;\n
+• Estado cognitivo e afetivo;\n
+• Estado nutricional;\n
+• Situação social;\n
+        A AGG é feita através do uso de escalas, as quais permitem uma avaliação objetiva e sistemática
+        e medir a evolução do paciente.\n\n
+
+Os seu objetivos são:\n
+        • estabelecer e coordenar planos de cuidados,
+serviços e intervenções, que respondam aos seus problemas,
+às suas necessidades e incapacidades;\n
+    • diagnóstico preciso e completo;\n
+• Adequar e orientar medidas assistenciais;\n
+• Planear estratégias de compensação de défices, reabilitação e prevenção;\n
+• Prever um prognóstico mais fiável;\n
+• Diminuir o risco iatrogénico;\n
+• Facilitar prevenção e acompanhamento;\n
+• Melhorar a qualidade de vida e a autonomia;\n
+• Atrasar odeclínio funcional e a institucionalização;\n
+
+        \n\n A AGG é composta por:\n
+    1.Av. Clínica: Exame clínico; ECD;\n
+2.Av. Física:Capacidade física; Marcha e equilíbrio; Nutrição;\n
+3.Av. Mental:Cognitiva; Afetiva;\n
+4.Av. Funcional: Autonomia; Independência;\n
+5.Av. Social: Família; Recursoseconómicos; Rede social.
+
+        \n\n
+    Na primeira sessão de avaliação do paciente a AGG é completa, ou seja, todas as esferas devem ser avaliadas.
+    </string>
+    <string name="new_patient">Novo paciente</string>
+    <string name="address">Morada</string>
+    <string name="create_patient_error_address">Precisa de fornecer uma morada</string>
+    <string name="create_patient_error_birthDate">Precisa de fornecer a data de nascimento</string>
+    <string name="info_prescription">
+        Aqui pode consultar todos os compostos químicos associados a medicamentos prescritos a pacientes
+        geriátricos. Os compostos estão também agrupados pelos critérios Start, Stopp e de Beers.
+        \n\n
+        Para consultar os critérios Start e Stopp selecione primeiro o sistema em causa. Os critérios Beers
+        estão organizados por sistema/categoria terapêutica ou doença/síndrome.
+    </string>
+    <string name="intro_welcome_message">Bem-vindo ao GeriatricHelper</string>
+    <string name="intro_brief_description">Esta aplicação permite-lhe aplicar a Avaliação Geriátrica Global.</string>
+    <string name="intro_patients">Ao registar-se na aplicação pode gerir os seus pacientes,
+        avalià-los e acompanhar o seu progresso.</string>
+    <string name="intro_prescription">Consulte critérios que o ajudarão a prescrever o medicamento mais
+        apropriado para os seus pacientes.</string>
+    <string name="feedbacktitle">Feedback</string>
+    <string name="feedback_name_error">Precisa de indicar um nome</string>
+    <string name="feedback_email_error">Precisa de indicar o seu endereço de email</string>
+    <string name="feedback_message_error">Precisa de escrever um comentário de feedback</string>
+    <string name="feedback_sent">Feedback enviado com sucesso.</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra lectus ut mauris lacinia facilisis. Vestibulum non nisl porta, convallis velit eu, sodales ante. Aenean faucibus a velit sed eleifend. In quis efficitur tellus. Aliquam ut odio nisi. Cras nibh felis, mattis vel lobortis in, aliquet id libero. Phasellus volutpat tincidunt elit, ac sodales orci dictum nec. Cras non facilisis odio. Sed elementum metus leo, eget tincidunt lorem viverra ac. Donec leo tellus, dignissim nec elit quis, venenatis scelerisque nulla. In at nisi risus. Proin non lacinia purus. Quisque semper fringilla placerat.
+
+Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante ut purus pellentesque faucibus a et velit. Sed gravida volutpat purus id luctus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a dignissim nisl, non venenatis mauris. Suspendisse ut orci ex. Curabitur maximus vehicula diam, at interdum turpis tempus quis. Morbi accumsan pulvinar ultricies. Vestibulum dapibus sem ut libero sollicitudin, a faucibus ex pretium. Nunc nec lobortis nulla. Curabitur pellentesque leo viverra volutpat pretium. Aenean facilisis blandit tellus, ullamcorper blandit urna efficitur quis. Nunc a lectus dolor.</string>
+    <string name="evolution_negative">Paciente piorou</string>
+    <string name="evolution_positive">Paciente melhorou</string>
+    <string name="evolution_neutral">Paciente permanece igual</string>
+    <string name="info_procedure_patient_worse">
+        Caso o paciente tenha aumentado a sua dependência:\n
+        1. Pesquisar a causa de maior dependência (patologia de novo? agravamento da patologia de base?);\n
+        2. Avaliação da esfera social: quem é o cuidador? qual a disponibilidade do cuidador?
+        que recursos sociais necessita? precisa de avaliação por assistente social?\n
+        3. Intervenção nos estilos de vida / farmacológica se necessário.\n
+        4. Encurtamento do período de reavaliação.
+    </string>
+    <string name="scale_notes">Notas</string>
+    <string name="notes">Notas</string>
+    <string name="help_personal_area">
+        Caso queira criar uma sessão e associá-la a um seu paciente pode fazê-lo na sua área pessoa.
+        Para tal, faça login com as suas credenciais. Na sua área pessoal pode igualmente criar novos pacientes
+        e acompanhar o seu progresso.
+    </string>
+    <string name="first_session_evaluate_all_areas">Primeira sessão do paciente, precisa de avaliar todas as áreas</string>
+    <string name="erase_patient">Eliminar paciente</string>
+    <string name="patient_erase">Eliminar paciente</string>
+    <string name="patient_erase_question">Deseja eliminar este paciente?</string>
+    <string name="patient_erase_snackbar">Paciente eliminado.</string>
+    <string name="numerical_question_overflow">O valor que introduziu não é permitido.</string>
+    <string name="session_discarded">Sessão descartada.</string>
+    <string name="pick_patient">Selecione o paciente</string>
+    <string name="session_finish">Terminar</string>
+    <string name="action_options">Opções</string>
+    <string name="action_register">Registar</string>
+    <string name="register_disclaimer">Ao registar-se vai poder criar perfis de pacientes e associar-lhes sessões de ACG.
+    Será mais fácil acompanhar o seu progresso pois poderá consultar consultas anteriores. Deste modo, a confidencialidade
+    dos dados também se encontra assegurada.</string>
+    <string name="username">username</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="create_account">Registar</string>
+    <string name="tab_sessions">Sessões</string>
+    <string name="new_patient_save">GUARDAR</string>
+    <string name="create_patient_error_no_birthDate">Precisa de fornecer uma data de nascimento</string>
+    <string name="patients_recent">Recentes</string>
+    <string name="app_close">Deseja fechar a aplicação?</string>
+    <string name="app_close_question">Deseja fechar a aplicação?</string>
+    <string name="cga_public">Sessão AGG</string>
+    <string name="about">Informações</string>
+    <string name="about_app">Aplicação desenvolvida no âmbito da Dissertação de Mestrado em Engenharia de Computadores
+    e Telemática da Universidade de Aveiro do aluno Rafael Salgueiro Felgueiras Pinto.</string>
+    <string name="cga_guide">Guia da AGG</string>
+    <string name="firstPublicEvaluation">Os resultados desta sessão não ficam guardados no sistema.
+    Caso queira criar perfis de pacientes, sessões e associá-las aos pacientes, pode registar-se na aplicação.
+    Quer registar-se agora?</string>
+    <string name="register_now">Registar</string>
+    <string name="register_later">Mais tarde</string>
+    <string name="evaluate_patient">Avaliar o paciente</string>
+    <string name="hospitalProcessNumber">Nº processo hospitalar</string>
+    <string name="create_patient_error_process_number">Precisa de fornecer um nº de processo hospitalar</string>
+    <string name="new_session_private">Nova sessão</string>
+    <!--Incomplete scale-->
+    <string name="scale_incomplete">Escala incompleta, continuar a preencher a escala?</string>
+    <string name="scale_incomplete_continue_filling_scale">Continuar</string>
+
+    <string name="action_new_session">Nova sessão AGG</string>
+    <string name="action_favorite_remove">Remover dos favoritos</string>
+    <string name="create_patient_error_invalid_birthDate">Data de nascimento inválida</string>
+    <string name="action_delete">remover</string>
+    <string name="personal_area">Área pessoal</string>
+    <string name="login_not_registered">Não está registado? Clique aqui para se registar.</string>
+    <string name="criteria_start">Critérios Start</string>
+    <string name="criteria_stopp">Critérios Stopp</string>
+    <string name="criteria_beers">Critérios de Beers</string>
+    <string name="session_erase">Eliminar sessão</string>
+    <string name="session_erase_question">Deseja eliminar esta sessão?</string>
+    <string name="session_erase_snackbar">Sessão eliminada.</string>
+    <string name="picked_patient_session_created">Paciente associado à sesssão e sessão criada.</string>
+    <string name="scale_incomplete_leave_scale">sair da escala</string>
+    <string name="tab_personal_area">Página Principal</string>
+    <string name="settings">Definições</string>
+    <string name="help_sessions_description">Em Sessões pode consultar as suas sessões, agrupadas por dia. Poderá aceder ao seu conteúdo e criar novas sessões de AGG.</string>
+    <string name="help_cga_guide_description">O guia da AGG faz uma apresentação sobre as diferentes áreas abordadas pela AGG. Dentro de cada área poderá aceder às correspondentes escalas, os resultados possíveis e ver que questões fazem parte da escala.</string>
+    <string name="cga_mental_name">Estado Mental</string>
+    <string name="cga_functional_name">Estado Funcional</string>
+    <string name="cga_nutritional_name">Estado Nutricional</string>
+    <string name="cga_social_name">Situação Social</string>
+    <string name="drugs_beers">Beers</string>
+
 
 </resources>
+
+
