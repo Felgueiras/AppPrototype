@@ -133,11 +133,11 @@ public class SessionHelper {
                     break;
                 }
             }
-            // TODO first session for a PATIENT
-//                    if (!allAreasEvaluated) {
-//                        Snackbar.make(layout, getResources().getString(R.string.first_session_evaluate_all_areas), Snackbar.LENGTH_SHORT).show();
-//                        return;
-//                    }
+////             TODO first session for a PATIENT
+//            if (!allAreasEvaluated) {
+//                Snackbar.make(layout, context.getResources().getString(R.string.first_session_evaluate_all_areas), Snackbar.LENGTH_SHORT).show();
+//                return;
+//            }
 
         }
         promptDialogReallyWishToSaveSession(session, context, view);
