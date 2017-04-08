@@ -15,8 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
@@ -33,17 +33,17 @@ public class PatientCardFavorite extends BaseAdapter {
     /**
      * All the Patients
      */
-    private ArrayList<Patient> patients;
+    private ArrayList<PatientFirebase> patients;
     Activity context;
 
-    public PatientCardFavorite(Activity context, ArrayList<Patient> patients, PatientsFavoriteFragment patientsFavoriteFragment) {
+    public PatientCardFavorite(Activity context, ArrayList<PatientFirebase> patients, PatientsFavoriteFragment patientsFavoriteFragment) {
         this.context = context;
         this.patients = patients;
         this.fragment = patientsFavoriteFragment;
     }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final Patient patient = patients.get(position);
+        final PatientFirebase patient = patients.get(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View card = inflater.inflate(R.layout.patient_card_grid_2, null);

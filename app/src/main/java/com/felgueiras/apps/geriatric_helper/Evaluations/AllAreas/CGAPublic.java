@@ -143,7 +143,7 @@ public class CGAPublic extends Fragment {
 
 
         RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.area_scales_recycler_view);
-        AreaCard adapter = new AreaCard(getActivity(), session, resuming, Constants.SESSION_GENDER);
+//        AreaCard adapter = new AreaCard(getActivity(), session, resuming, Constants.SESSION_GENDER);
 
         Button finishSession = (Button) myInflatedView.findViewById(R.id.session_finish);
         finishSession.setOnClickListener(new View.OnClickListener() {
@@ -159,7 +159,7 @@ public class CGAPublic extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+//        recyclerView.setAdapter(adapter);
 
         /*
         saveFAB = (FloatingActionButton) myInflatedView.findViewById(R.id.session_save);
@@ -230,7 +230,7 @@ public class CGAPublic extends Fragment {
                 List<GeriatricScale> finalTests = session.getScalesFromSession();
                 for (GeriatricScale test : finalTests) {
                     if (!test.isCompleted()) {
-                        test.setSession(null);
+                        test.setSessionID(null);
                         test.delete();
                     }
                 }

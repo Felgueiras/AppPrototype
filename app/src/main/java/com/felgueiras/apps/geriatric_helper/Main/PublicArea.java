@@ -30,6 +30,7 @@ import com.felgueiras.apps.geriatric_helper.Introduction.MyIntro;
 import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMain;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class PublicArea extends AppCompatActivity {
 
@@ -55,6 +56,15 @@ public class PublicArea extends AppCompatActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer_public);
+
+        //Get Firebase auth instance
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        // user already logged in
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(this, PrivateAreaActivity.class));
+            finish();
+        }
 
 
         /**
@@ -138,7 +148,7 @@ public class PublicArea extends AppCompatActivity {
                     e.putBoolean("firstStart", false);
                     e.apply();
                     // insert dummy data in the app
-                    DatabaseOps.insertDummyData();
+//                    DatabaseOps.insertDummyData();
                 }
             }
         });

@@ -13,6 +13,7 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -29,12 +30,12 @@ public class ScaleInfoHelper implements View.OnClickListener {
     private int background = R.drawable.cell_shape;
     private int paddingValue = 5;
 
-    public ScaleInfoHelper(Activity context, GeriatricScale currentScale) {
+    public ScaleInfoHelper(Activity context, GeriatricScaleNonDB currentScale) {
         this.context = context;
         this.currentScale = currentScale;
     }
 
-    public ScaleInfoHelper(Activity context) {
+    public ScaleInfoHelper(Activity context, GeriatricScaleFirebase currentScale) {
         this.context = context;
     }
 

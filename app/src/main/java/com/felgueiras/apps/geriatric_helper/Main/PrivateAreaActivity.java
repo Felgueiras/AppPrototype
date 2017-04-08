@@ -21,19 +21,18 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
-import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsHistoryMain;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
+import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsHistoryMain;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.ToolbarHelper;
 import com.felgueiras.apps.geriatric_helper.LockScreen.LockScreenActivity;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMain;
 import com.felgueiras.apps.geriatric_helper.R;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.ToolbarHelper;
 
 public class PrivateAreaActivity extends AppCompatActivity {
-
 
     /**
      * Hold the current fragment before going to lock screen
@@ -47,7 +46,6 @@ public class PrivateAreaActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("Inside PrivateAreaActivity");
         Constants.area = Constants.area_private;
 
         // support vector drawables on lower API
@@ -58,6 +56,8 @@ public class PrivateAreaActivity extends AppCompatActivity {
         setContentView(R.layout.navigation_drawer_private);
 
         final Activity context = this;
+
+
 
         /**
          * Views/layout.
@@ -184,7 +184,7 @@ public class PrivateAreaActivity extends AppCompatActivity {
             // show lockscreen
             Log.d("Lock", "onResume - showing lock screen");
             // store current fragment
-            showLockScreen();
+//            showLockScreen();
         } else {
             Log.d("Lock", "onResume - not locked");
         }

@@ -21,12 +21,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.Patients.Progress.ProgressFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.ViewPatientSessions.PatientNotesFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
@@ -43,7 +43,7 @@ public class PatientProfileFragment extends Fragment {
     /**
      * Patient to be displayed
      */
-    private Patient patient;
+    private PatientFirebase patient;
 
     private Menu menu;
 
@@ -73,27 +73,8 @@ public class PatientProfileFragment extends Fragment {
         }
 
 
-//
-//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                ////system.out.println(position);
-//                Constants.vpPatientsPage = position;
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
-
-
         // get PATIENT
-        patient = (Patient) bundle.getSerializable(PATIENT);
+        patient = (PatientFirebase) bundle.getSerializable(PATIENT);
 //        ((PrivateAreaActivity)getActivity()).changeTitle(PATIENT.getName());
 
         getActivity().setTitle(patient.getName());
@@ -151,7 +132,9 @@ public class PatientProfileFragment extends Fragment {
         if (currentFragment != null)
             transaction.remove(currentFragment);
 
-        ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
+
+        ArrayList<SessionFirebase> sessionsFromPatient = FirebaseHelper.getSessionsFromPatient(patient);
+
         if (sessionsFromPatient.isEmpty()) {
             defaultFragment = new PatientSessionsEmpty();
             Bundle args = new Bundle();
@@ -226,7 +209,7 @@ public class PatientProfileFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.favorite:
                 patient.setFavorite(!patient.isFavorite());
-                patient.save();
+                FirebaseHelper.firebaseTablePatients.child(patient.getKey()).child("favorite").setValue(patient.isFavorite());
 
                 if (patient.isFavorite()) {
                     Snackbar.make(getView(), R.string.patient_favorite_add, Snackbar.LENGTH_LONG).show();
@@ -245,11 +228,11 @@ public class PatientProfileFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // remove sessions from PATIENT
-                                ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
-                                for (Session session : sessionsFromPatient) {
-                                    session.delete();
-                                }
-                                patient.delete();
+//                                ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
+//                                for (Session session : sessionsFromPatient) {
+//                                    session.delete();
+//                                }
+//                                patient.delete();
                                 dialog.dismiss();
 
                                 DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);

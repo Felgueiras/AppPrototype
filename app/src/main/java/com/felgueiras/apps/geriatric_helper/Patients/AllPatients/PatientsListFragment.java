@@ -24,7 +24,8 @@ import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.arlib.floatingsearchview.util.Util;
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
 import com.felgueiras.apps.geriatric_helper.Patients.AllPatients.FloatingSearch.DataHelper;
@@ -49,6 +50,8 @@ public class PatientsListFragment extends Fragment {
     private FloatingSearchView mSearchView;
     private String TAG = "Search";
     private PatientCardPatientsList mSearchResultsAdapter;
+    ArrayList<PatientFirebase> patients = new ArrayList<PatientFirebase>();
+
 
     private boolean mIsDarkSearchTheme = false;
 
@@ -57,7 +60,6 @@ public class PatientsListFragment extends Fragment {
 
 
     private String mLastQuery = "";
-
 
 
     @Override
@@ -289,10 +291,11 @@ public class PatientsListFragment extends Fragment {
     }
 
     private void setupResultsList() {
-        mSearchResultsAdapter = new PatientCardPatientsList(getActivity(), Patient.getAllPatients());
+        mSearchResultsAdapter = new PatientCardPatientsList(getActivity(), FirebaseHelper.getPatients());
         mSearchResultsList.setAdapter(mSearchResultsAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -302,7 +305,7 @@ public class PatientsListFragment extends Fragment {
         View view = inflater.inflate(R.layout.content_patients_list_persistent_search, container, false);
 
         // get the patients
-        ArrayList<Patient> patients = Patient.getAllPatients();
+//        ArrayList<PatientFirebase> patients = Patient.getAllPatients();
 
         // read arguments
         Bundle arguments = getArguments();

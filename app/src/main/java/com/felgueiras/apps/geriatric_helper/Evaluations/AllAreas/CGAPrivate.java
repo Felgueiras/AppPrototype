@@ -12,21 +12,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 
@@ -41,9 +38,9 @@ public class CGAPrivate extends Fragment {
 
     public static final String PATIENT = "PATIENT";
 
-    private Session session;
+    private SessionFirebase session;
 
-    Patient patient;
+    PatientFirebase patient;
 
     boolean resuming = false;
 
@@ -64,7 +61,7 @@ public class CGAPrivate extends Fragment {
 
         Bundle args = getArguments();
         if (args != null)
-            patient = (Patient) args.getSerializable(PATIENT);
+            patient = (PatientFirebase) args.getSerializable(PATIENT);
 
         // Inflate the layout for this fragment
         View view;
@@ -85,13 +82,13 @@ public class CGAPrivate extends Fragment {
 
         if (sessionID != null) {
             // get session by ID
-            session = Session.getSessionByID(sessionID);
-            patient = session.getPatient();
+            session = FirebaseHelper.getSessionByID(sessionID);
+            patient = FirebaseHelper.getPatientFromSession(session);
             // create a new Fragment to hold info about the Patient
             if (patient != null) {
                 // set the PATIENT for this session
-                session.setPatient(patient);
-                session.save();
+                session.setPatientID(patient.getGuid());
+                FirebaseHelper.firebaseTableSessions.child(session.getKey()).child("patientID").setValue(patient.getGuid());
             }
         }
         /**
@@ -166,13 +163,13 @@ public class CGAPrivate extends Fragment {
 
         Button saveButton = (Button) view.findViewById(R.id.session_save);
         Button cancelButton = (Button) view.findViewById(R.id.session_cancel);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.newSessionLayout);
-                SessionHelper.saveSession(getActivity(), session, patient, getView(), layout, 1);
-            }
-        });
+//        saveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.newSessionLayout);
+//                SessionHelper.saveSession(getActivity(), session, patient, getView(), layout, 1);
+//            }
+//        });
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,23 +182,6 @@ public class CGAPrivate extends Fragment {
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.session_save:
-                RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.newSessionLayout);
-                SessionHelper.saveSession(getActivity(), session, patient, getView(), layout, 1);
-                break;
-            case R.id.session_cancel:
-                SessionHelper.cancelSession(getActivity(), session, getView(), Constants.ALL_AREAS);
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
-
-    }
-
 
     public void discardSession() {
 
@@ -213,7 +193,8 @@ public class CGAPrivate extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         // remove session
                         SharedPreferencesHelper.resetPrivateSession(getActivity(), session.getGuid());
-                        BackStackHandler.discardSession(session.getPatient());
+                        // TODO
+//                        BackStackHandler.discardSession(session.getPatient());
                         dialog.dismiss();
                         Snackbar.make(getView(), getResources().getString(R.string.session_discarded), Snackbar.LENGTH_SHORT).show();
                     }
@@ -238,7 +219,8 @@ public class CGAPrivate extends Fragment {
             test.setTestName(testNonDB.getScaleName());
             test.setArea(testNonDB.getArea());
             test.setShortName(testNonDB.getShortName());
-            test.setSession(session);
+            // TODO
+//            test.setSessionID(session);
             test.setDescription(testNonDB.getDescription());
             if (testNonDB.isSingleQuestion())
                 test.setSingleQuestion(true);
@@ -256,9 +238,9 @@ public class CGAPrivate extends Fragment {
         Date time = c.getTime();
         String sessionID = time.toString();
         // save to dabatase
-        session = new Session();
+        session = new SessionFirebase();
         session.setGuid(sessionID);
-        session.setPatient(patient);
+        session.setPatientID(patient.getGuid());
 
 
         // set date
@@ -269,12 +251,15 @@ public class CGAPrivate extends Fragment {
         int hour = now.get(Calendar.HOUR_OF_DAY);
         int minute = now.get(Calendar.MINUTE);
         session.setDate(DatesHandler.createCustomDate(year, month, day, hour, minute));
-        //system.out.println("Session date is " + session.getDate());
-        session.save();
+
+        String sID = FirebaseHelper.firebaseTableSessions.push().getKey();
+        FirebaseHelper.firebaseTableSessions.child(sID).setValue(session);
 
         // save the ID
         SharedPreferencesHelper.setPrivateSession(getActivity(), sessionID);
     }
+
+
 
 
 }

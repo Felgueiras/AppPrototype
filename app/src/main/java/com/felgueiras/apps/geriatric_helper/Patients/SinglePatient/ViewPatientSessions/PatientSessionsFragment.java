@@ -13,9 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -27,8 +27,8 @@ public class PatientSessionsFragment extends Fragment {
 
     public static final String PATIENT = "PATIENT";
     private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
-    private Patient patient;
-    private ArrayList<Session> sessionsFromPatient;
+    private PatientFirebase patient;
+    private ArrayList<SessionFirebase> sessionsFromPatient;
     private RecyclerView recyclerView;
     private SessionCardPatientProfile adapter;
 
@@ -39,7 +39,7 @@ public class PatientSessionsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         Bundle bundle = getArguments();
-        patient = (Patient) bundle.getSerializable(PATIENT);
+        patient = (PatientFirebase) bundle.getSerializable(PATIENT);
     }
 
 
@@ -48,8 +48,8 @@ public class PatientSessionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.patient_info_sessions, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.patientSessions);
-        sessionsFromPatient = patient.getSessionsFromPatient();
-        adapter = new SessionCardPatientProfile(getActivity(), sessionsFromPatient, patient, this);
+//        sessionsFromPatient = patient.getSessionsIDS();
+//        adapter = new SessionCardPatientProfile(getActivity(), sessionsFromPatient, patient, this);
 
         // create Layout
         int numbercolumns = 1;

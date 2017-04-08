@@ -1,8 +1,6 @@
 package com.felgueiras.apps.geriatric_helper.DataTypes.NonDB;
 
 
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -14,41 +12,41 @@ public class GeriatricScaleNonDB implements Serializable {
     /**
      * Name of the test
      */
-    String testName;
+    private String testName;
     /**
      * Type of test
      */
-    String area;
+    private String area;
     /**
      * Subcategory if applied
      */
-    String subCategory;
+    private String subCategory;
     /**
      * Textual field of the procedure.
      */
-    String description;
+    private String description;
     /**
      * Scoring definition, min and man score and categories of scores.
      */
-    ScoringNonDB scoring;
+    private ScoringNonDB scoring;
     /**
      * Numerical result of the GeriatricScale
      */
-    int result;
+    private int result;
     /**
      * Time it takes to be completed.
      */
-    int time;
+    private int time;
     /**
      * Short area for display purposes.
      */
-    String shortName;
+    private String shortName;
 
 
-    boolean singleQuestion;
-    boolean multipleChoice;
+    private boolean singleQuestion;
+    private boolean multipleChoice;
 
-    ArrayList<QuestionNonDB> questions = new ArrayList<>();
+    private ArrayList<QuestionNonDB> questions = new ArrayList<>();
     private ArrayList<QuestionCategory> questionsCategories;
     private boolean multipleCategories;
     private String iconName;

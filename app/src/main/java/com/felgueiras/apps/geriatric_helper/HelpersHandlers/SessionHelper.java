@@ -16,6 +16,8 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.DatabaseOps;
 import com.felgueiras.apps.geriatric_helper.Evaluations.PickPatientFragment;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.R;
 
@@ -28,7 +30,7 @@ import java.util.List;
 
 public class SessionHelper {
 
-    public static void saveSession(final Activity context, final Session session, Patient patient, final View view, View layout, int i) {
+    public static void saveSession(final Activity context, final SessionFirebase session, PatientFirebase patient, final View view, View layout, int i) {
         Log.d("Session", "Saving " + i);
         /**
          * Create session.
@@ -158,7 +160,7 @@ public class SessionHelper {
                         session.eraseScalesNotCompleted();
 
                         // display results in JSON
-//                        DatabaseOps.displayData(context);
+//                        DatabaseOps.getScalesInJson(context);
 
                         Snackbar.make(view, context.getResources().getString(R.string.session_created), Snackbar.LENGTH_LONG).show();
                         BackStackHandler.goToPreviousScreen();
@@ -174,7 +176,7 @@ public class SessionHelper {
     }
 
 
-    public static void cancelSession(final Activity context, final Session session, final View view, final String place) {
+    public static void cancelSession(final Activity context, final SessionFirebase session, final View view, final String place) {
         Log.d("Stack", "Cancel");
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle(context.getResources().getString(R.string.session_discard));

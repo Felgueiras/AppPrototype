@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,10 +14,11 @@ import android.widget.Button;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.ScaleFragment;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -32,16 +32,15 @@ public class AreaScalesIconsAdapter extends RecyclerView.Adapter<AreaScalesIcons
      */
     private final ArrayList<GeriatricScale> scales;
     private static LayoutInflater inflater = null;
-    private final Session session;
+    private final SessionFirebase session;
     private final Activity context;
 
     /**
      * Display all Questions for a GeriatricScale
-     *
-     * @param scales  ArrayList of Questions
+     *  @param scales  ArrayList of Questions
      * @param session
      */
-    public AreaScalesIconsAdapter(Activity context, ArrayList<GeriatricScale> scales, Session session) {
+    public AreaScalesIconsAdapter(Activity context, ArrayList<GeriatricScale> scales, SessionFirebase session) {
         this.scales = scales;
         this.session = session;
         this.context = context;
@@ -85,11 +84,12 @@ public class AreaScalesIconsAdapter extends RecyclerView.Adapter<AreaScalesIcons
                     // check if triagem is already answered
                     Log.d("Nutritional", "Global pressed");
 
-                    GeriatricScale triagem = session.getScaleByName(Constants.test_name_mini_nutritional_assessment_triagem);
-                    if (!triagem.isCompleted()) {
-                        Snackbar.make(holder.scaleIcon, "Precisa primeiro de completar a triagem", Snackbar.LENGTH_SHORT).show();
-                        return;
-                    }
+                    // TODo
+//                    GeriatricScale triagem = session.getScaleByName(Constants.test_name_mini_nutritional_assessment_triagem);
+//                    if (!triagem.isCompleted()) {
+//                        Snackbar.make(holder.scaleIcon, "Precisa primeiro de completar a triagem", Snackbar.LENGTH_SHORT).show();
+//                        return;
+//                    }
                 }
 
                 // Create new fragment and transaction
@@ -99,7 +99,7 @@ public class AreaScalesIconsAdapter extends RecyclerView.Adapter<AreaScalesIcons
                 bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(scaleName));
                 bundle.putSerializable(ScaleFragment.SCALE, currentScaleDB);
                 bundle.putSerializable(ScaleFragment.CGA_AREA, currentScaleDB.getArea());
-                bundle.putSerializable(ScaleFragment.patient, session.getPatient());
+                bundle.putSerializable(ScaleFragment.patient, FirebaseHelper.getPatientFromSession(session));
                 newFragment.setArguments(bundle);
                 // setup the transaction
                 FragmentTransaction transaction = context.getFragmentManager().beginTransaction();

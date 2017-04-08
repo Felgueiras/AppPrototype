@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -31,7 +31,7 @@ public class PatientSessionsEmpty extends Fragment {
 
         Bundle bundle = getArguments();
         String messageToDisplay = bundle.getString(MESSAGE, "Empty state");
-        final Patient patient = (Patient) bundle.getSerializable(PATIENT);
+        final PatientFirebase patient = (PatientFirebase) bundle.getSerializable(PATIENT);
         TextView emptyStateTextView = (TextView) view.findViewById(R.id.emptyStateText);
         emptyStateTextView.setText(messageToDisplay);
 

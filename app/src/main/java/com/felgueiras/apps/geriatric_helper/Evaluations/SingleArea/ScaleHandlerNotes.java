@@ -10,6 +10,7 @@ import android.view.ViewManager;
 import android.widget.EditText;
 
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 /**
@@ -22,7 +23,7 @@ public class ScaleHandlerNotes implements View.OnClickListener {
     private ScaleCard.ScaleCardHolder holder;
     private ViewManager parentView;
 
-    public ScaleHandlerNotes(Activity context, GeriatricScale finalCurrentTest, ScaleCard.ScaleCardHolder holder, ViewManager parentView) {
+    public ScaleHandlerNotes(Activity context, GeriatricScaleFirebase finalCurrentTest, ScaleCard.ScaleCardHolder holder, ViewManager parentView) {
         this.context = context;
         this.finalCurrentTest = finalCurrentTest;
         this.holder = holder;

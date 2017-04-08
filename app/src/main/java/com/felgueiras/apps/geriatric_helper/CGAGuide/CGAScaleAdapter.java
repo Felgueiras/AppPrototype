@@ -82,7 +82,7 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
         holder.scaleInfo.setText(currentScale.getDescription());
 
         // scale scoring
-        new ScaleInfoHelper(context).fillTableScaleScoring(
+        new ScaleInfoHelper(context,currentScale).fillTableScaleScoring(
                 currentScale,
                 holder.scaleScoring
         );

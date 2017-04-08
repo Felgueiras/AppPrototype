@@ -1,7 +1,6 @@
 package com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -17,11 +16,9 @@ import android.widget.ProgressBar;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPublicInfo;
-import com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -39,7 +36,7 @@ public class ScaleFragment extends Fragment {
     public static String patient = "PATIENT";
     public static String SCALE = "testDBObject";
     public static String CGA_AREA;
-    Session session;
+    SessionFirebase session;
 
 
     /**
@@ -64,7 +61,7 @@ public class ScaleFragment extends Fragment {
         Bundle bundle = getArguments();
         scaleNonDB = (GeriatricScaleNonDB) bundle.getSerializable(testObject);
         scaleDB = (GeriatricScale) bundle.getSerializable(SCALE);
-        session = scaleDB.getSession();
+//        session = scaleDB.getSessionID();
 
         // set the title
         getActivity().setTitle(scaleNonDB.getShortName());
@@ -100,7 +97,7 @@ public class ScaleFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     View viewForSnackbar = getActivity().findViewById(R.id.scale_progress);
-                    SessionHelper.saveSession(getActivity(), session, session.getPatient(), viewForSnackbar, viewForSnackbar, 3);
+                    SessionHelper.saveSession(getActivity(), session, FirebaseHelper.getPatientFromSession(session), viewForSnackbar, viewForSnackbar, 3);
                 }
             });
             cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -140,41 +137,43 @@ public class ScaleFragment extends Fragment {
                         SharedPreferencesHelper.lockSessionCreation(getActivity());
 
                         // remove session
-                        session.eraseScalesNotCompleted();
+                        // TODO
+//                        session.eraseScalesNotCompleted();
                         Snackbar.make(getView(), "Sessão terminada", Snackbar.LENGTH_SHORT).show();
 
-                        if (session.getScalesFromSession().size() == 0) {
-                            SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
-
-                            BackStackHandler.clearBackStack();
-                            FragmentManager fragmentManager = getFragmentManager();
-                            Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-                            Fragment fragment = new CGAPublicInfo();
-                            fragmentManager.beginTransaction()
-                                    .remove(currentFragment)
-                                    .replace(R.id.current_fragment, fragment)
-                                    .commit();
-                        } else {
-                            Session sessionCopy = session;
-                            SharedPreferencesHelper.lockSessionCreation(getActivity());
-                            SharedPreferencesHelper.resetPublicSession(getActivity(), null);
-
-                            BackStackHandler.clearBackStack();
-
-                            FragmentManager fragmentManager = BackStackHandler.getFragmentManager();
-//                            fragmentManager.popBackStack();
-                            Bundle args = new Bundle();
-                            args.putSerializable(ReviewSingleSessionNoPatient.SESSION, sessionCopy);
-                            Fragment fragment = new ReviewSingleSessionNoPatient();
-                            fragment.setArguments(args);
-                            Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-//                            fragmentManager.popBackStack();
-                            fragmentManager.beginTransaction()
-                                    .remove(currentFragment)
-                                    .replace(R.id.current_fragment, fragment)
-//                                            .addToBackStack(Constants.tag_review_session_public)
-                                    .commit();
-                        }
+                        // TODO
+//                        if (session.getScalesFromSession().size() == 0) {
+//                            SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
+//
+//                            BackStackHandler.clearBackStack();
+//                            FragmentManager fragmentManager = getFragmentManager();
+//                            Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+//                            Fragment fragment = new CGAPublicInfo();
+//                            fragmentManager.beginTransaction()
+//                                    .remove(currentFragment)
+//                                    .replace(R.id.current_fragment, fragment)
+//                                    .commit();
+//                        } else {
+//                            Session sessionCopy = session;
+//                            SharedPreferencesHelper.lockSessionCreation(getActivity());
+//                            SharedPreferencesHelper.resetPublicSession(getActivity(), null);
+//
+//                            BackStackHandler.clearBackStack();
+//
+//                            FragmentManager fragmentManager = BackStackHandler.getFragmentManager();
+////                            fragmentManager.popBackStack();
+//                            Bundle args = new Bundle();
+//                            args.putSerializable(ReviewSingleSessionNoPatient.SESSION, sessionCopy);
+//                            Fragment fragment = new ReviewSingleSessionNoPatient();
+//                            fragment.setArguments(args);
+//                            Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+////                            fragmentManager.popBackStack();
+//                            fragmentManager.beginTransaction()
+//                                    .remove(currentFragment)
+//                                    .replace(R.id.current_fragment, fragment)
+////                                            .addToBackStack(Constants.tag_review_session_public)
+//                                    .commit();
+//                        }
 
                         dialog.dismiss();
 

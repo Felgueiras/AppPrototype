@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,16 +20,16 @@ import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.Evaluations.SingleArea.CGAAreaPrivate;
 import com.felgueiras.apps.geriatric_helper.Evaluations.SingleArea.CGAAreaPublic;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -41,7 +40,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
     /**
      * ID for this Session
      */
-    private final Session session;
+    private final SessionFirebase session;
 
     private Activity context;
 
@@ -72,12 +71,12 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
 
     /**
      * Constructor of the SessionCardEvaluationHistory
-     *
      * @param context       current Context
+     * @param session
      * @param resuming      true if we are resuming a Session
      * @param patientGender
      */
-    public AreaCard(Activity context, Session session, boolean resuming, int patientGender) {
+    public AreaCard(Activity context, SessionFirebase session, boolean resuming, int patientGender) {
         this.context = context;
         this.session = session;
     }
@@ -112,20 +111,22 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
         /**
          * Check if all scales were completed.
          */
-        ArrayList<GeriatricScale> scalesFromArea = session.getScalesFromArea(area);
-        boolean allCompleted = true;
-        for (GeriatricScale scale : scalesFromArea) {
-            if (!scale.isCompleted()) {
-                allCompleted = false;
-                break;
-            }
-        }
-        if (!allCompleted) {
-            ViewManager parentView = (ViewManager) holder.cgaCompletion.getParent();
-            parentView.removeView(holder.cgaCompletion);
-        } else {
-            holder.cgaCompletion.setText("Todas as escalas foram preenchidas");
-        }
+        // TODO
+//        ArrayList<GeriatricScale> scalesFromArea = session.getScalesFromArea(area);
+        ArrayList<GeriatricScale> scalesFromArea = new ArrayList<>();
+//        boolean allCompleted = true;
+//        for (GeriatricScale scale : scalesFromArea) {
+//            if (!scale.isCompleted()) {
+//                allCompleted = false;
+//                break;
+//            }
+//        }
+//        if (!allCompleted) {
+//            ViewManager parentView = (ViewManager) holder.cgaCompletion.getParent();
+//            parentView.removeView(holder.cgaCompletion);
+//        } else {
+//            holder.cgaCompletion.setText("Todas as escalas foram preenchidas");
+//        }
 
         holder.infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,13 +171,14 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
 
                 String selectedArea = (String) holder.name.getText();
                 // Create new fragment and transaction
-                SharedPreferences sharedPreferences = context.getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
-                boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
-                if (alreadyLogged) {
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+
+                // user already logged in
+                if (auth.getCurrentUser() != null) {
                     Fragment newFragment = new CGAAreaPrivate();
                     // add arguments
                     Bundle bundle = new Bundle();
-                    Patient patient = session.getPatient();
+                    PatientFirebase patient = FirebaseHelper.getPatientFromSession(session);
                     if (patient != null)
                         bundle.putSerializable(CGAAreaPrivate.PATIENT, patient);
 
@@ -194,7 +196,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
                     // add arguments
                     Bundle bundle = new Bundle();
 
-                    Patient patient = session.getPatient();
+                    PatientFirebase patient = FirebaseHelper.getPatientFromSession(session);
                     if (patient != null)
                         bundle.putSerializable(CGAAreaPublic.PATIENT, patient);
 

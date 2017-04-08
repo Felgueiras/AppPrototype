@@ -173,7 +173,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     args = new Bundle();
 
                     nextFragment = new CGAPrivate();
-                    //Session session = test.getSession();
+                    //Session session = test.getSessionID();
                     Patient patient = (Patient) arguments.getSerializable(CGAAreaPrivate.PATIENT);
                     //args.putSerializable(CGAPrivateBottomButtons.SCALE, session);
                     args.putSerializable(CGAPrivate.PATIENT, patient);

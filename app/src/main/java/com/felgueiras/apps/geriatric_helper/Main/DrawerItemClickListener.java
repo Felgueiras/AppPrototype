@@ -22,12 +22,13 @@ import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.Help_Feedback.HelpMain;
 import com.felgueiras.apps.geriatric_helper.Help_Feedback.SendFeedback;
-import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.LoginFragment;
+import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.LoginFragmentFirebase;
 import com.felgueiras.apps.geriatric_helper.Settings;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMain;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
+import com.google.firebase.auth.FirebaseAuth;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -70,7 +71,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             if (sessionID != null) {
                 SharedPreferencesHelper.resetPublicSession(context, sessionID);
             }
-            endFragment = new LoginFragment();
+            endFragment = new LoginFragmentFirebase();
 
         } else if (id == R.id.cga_public) {
             /**
@@ -112,6 +113,8 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         }
 
         if (id == R.id.logout) {
+            final FirebaseAuth auth = FirebaseAuth.getInstance();
+
             // Insert the fragment by replacing any existing fragment
             Log.d("Logout", "Going to logout...");
             AlertDialog alertDialog = new AlertDialog.Builder(context).create();
@@ -120,10 +123,8 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, context.getResources().getString(R.string.yes),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            // erase backstack?
-                            SharedPreferences sharedPreferences = context.getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
-                            sharedPreferences.edit().putBoolean(Constants.logged_in, false).apply();
-
+                            //sign out method
+                            auth.signOut();
                             Intent intent = new Intent(context, PublicArea.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             context.startActivity(intent);

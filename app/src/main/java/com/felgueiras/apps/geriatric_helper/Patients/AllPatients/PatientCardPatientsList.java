@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.StringHelper;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
 import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.PatientProfileFragment;
@@ -30,12 +31,12 @@ import java.util.ArrayList;
 
 public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPatientsList.MyViewHolder> implements Filterable, SectionTitleProvider {
 
-    private final ArrayList<Patient> filteredList;
+    private final ArrayList<PatientFirebase> filteredList;
     private Activity context;
     /**
      * Data to be displayed.
      */
-    private ArrayList<Patient> patients;
+    private ArrayList<PatientFirebase> patients;
     private PatientsFilter patientsFilter;
 
     @Override
@@ -76,7 +77,7 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
      * @param context
      * @param patients
      */
-    public PatientCardPatientsList(Activity context, ArrayList<Patient> patients) {
+    public PatientCardPatientsList(Activity context, ArrayList<PatientFirebase> patients) {
         this.context = context;
         this.patients = patients;
         this.filteredList = new ArrayList<>();
@@ -92,7 +93,7 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        final Patient patient = filteredList.get(position);
+        final PatientFirebase patient = filteredList.get(position);
 
         holder.name.setText(patient.getName());
 
@@ -256,10 +257,10 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
      */
     private class PatientsFilter extends Filter {
         private final PatientCardPatientsList adapter;
-        private final ArrayList<Patient> originalList;
-        private final ArrayList<Patient> filteredList;
+        private final ArrayList<PatientFirebase> originalList;
+        private final ArrayList<PatientFirebase> filteredList;
 
-        public PatientsFilter(PatientCardPatientsList adapter, ArrayList<Patient> patients) {
+        public PatientsFilter(PatientCardPatientsList adapter, ArrayList<PatientFirebase> patients) {
             super();
             this.adapter = adapter;
             this.originalList = new ArrayList<>();
@@ -277,7 +278,7 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
             } else {
                 final String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (final Patient patient : originalList) {
+                for (final PatientFirebase patient : originalList) {
                     String patientNameNoAccents = StringHelper.removeAccents(patient.getName());
                     if (patientNameNoAccents.toLowerCase().trim().contains(StringHelper.removeAccents(filterPattern))) {
                         filteredList.add(patient);
@@ -292,7 +293,7 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             adapter.filteredList.clear();
-            adapter.filteredList.addAll((ArrayList<Patient>) filterResults.values);
+            adapter.filteredList.addAll((ArrayList<PatientFirebase>) filterResults.values);
             adapter.notifyDataSetChanged();
         }
     }

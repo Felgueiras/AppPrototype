@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,11 +16,11 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -58,95 +57,9 @@ public class CreatePatient extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.new_patient_save:
-                /**
-                 * Create PATIENT.
-                 */
-
-                if (patientName.getText().length() == 0) {
-                    Snackbar.make(getView(), R.string.create_patient_error_name, Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
-                // birth date validation
-                String dayText = day.getText().toString();
-                String monthText = month.getText().toString();
-                String yearText = year.getText().toString();
-                if (dayText.equals("") || monthText.equals("") || yearText.equals("")) {
-                    Snackbar.make(getView(), R.string.create_patient_error_no_birthDate, Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
-                if (Integer.parseInt(dayText) > 31 || Integer.parseInt(monthText) > 12) {
-                    Snackbar.make(getView(), R.string.create_patient_error_invalid_birthDate, Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
-                Calendar c = Calendar.getInstance();
-                c.set(Integer.parseInt(yearText),
-                        Integer.parseInt(monthText) - 1,
-                        Integer.parseInt(dayText));
-                Date selectedDate = c.getTime();
-
-                if (patientGender == null) {
-                    Snackbar.make(getView(), R.string.create_patient_error_gender, Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
-                if (patientAddress.getText().length() == 0) {
-                    Snackbar.make(getView(), R.string.create_patient_error_address, Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
-
-                Patient patient = new Patient();
-                patient.setName(patientName.getText().toString());
-
-                patient.setBirthDate(selectedDate);
-                patient.setGuid("PATIENT" + new Random().nextInt());
-                patient.setAddress(patientAddress.getText().toString());
-                if (patientGender.equals("male")) {
-                    patient.setPicture(R.drawable.male);
-                    patient.setGender(Constants.MALE);
-                } else {
-                    patient.setPicture(R.drawable.female);
-                    patient.setGender(Constants.FEMALE);
-                }
-                patient.setProcessNumber(processNumber.getText().toString());
-                patient.setFavorite(false);
-                patient.save();
-
-                Snackbar.make(getView(), R.string.create_patient_success, Snackbar.LENGTH_SHORT).show();
-                BackStackHandler.goToPreviousScreen();
-                break;
-//            switch (cancel):
-//            //                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-////                //alertDialog.setTitle(getResources().getString(R.string.session_discard));
-////                alertDialog.setMessage(getResources().getString(R.string.new_patient_discard));
-////                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
-////                        new DialogInterface.OnClickListener() {
-////                            public void onClick(DialogInterface dialog, int which) {
-////                                BackStackHandler.goToPreviousScreen();
-////                            }
-////                        });
-////                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
-////                        new DialogInterface.OnClickListener() {
-////                            public void onClick(DialogInterface dialog, int which) {
-////                                dialog.dismiss();
-////                            }
-////                        });
-////                alertDialog.show();
-//            break;
-
-
-        }
-        return super.onOptionsItemSelected(item);
-
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-//        inflater.inflate(R.menu.menu_create_patient, menu);
     }
 
 
@@ -239,7 +152,7 @@ public class CreatePatient extends Fragment {
                     return;
                 }
 
-                Patient patient = new Patient();
+                PatientFirebase patient = new PatientFirebase();
                 patient.setName(patientName.getText().toString());
 
                 patient.setBirthDate(selectedDate);
@@ -253,8 +166,11 @@ public class CreatePatient extends Fragment {
                     patient.setGender(Constants.FEMALE);
                 }
                 patient.setProcessNumber(processNumber.getText().toString());
+
                 patient.setFavorite(false);
-                patient.save();
+
+                String patientID = FirebaseHelper.firebaseTablePatients.push().getKey();
+                FirebaseHelper.firebaseTablePatients.child(patientID).setValue(patient);
 
                 Snackbar.make(getView(), R.string.create_patient_success, Snackbar.LENGTH_SHORT).show();
                 if (createType == CREATE_PATIENTS_LIST) {
@@ -286,10 +202,10 @@ public class CreatePatient extends Fragment {
                     String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(getActivity());
 
                     // get session by ID
-                    Session session = Session.getSessionByID(sessionID);
-                    session.setPatient(patient);
-                    session.eraseScalesNotCompleted();
-                    session.save();
+//                    Session session = Session.getSessionByID(sessionID);
+//                    session.setPatient(patient);
+//                    session.eraseScalesNotCompleted();
+//                    session.save();
 
                     // reset current private session
                     SharedPreferencesHelper.resetPrivateSession(getActivity(), "");
@@ -311,7 +227,7 @@ public class CreatePatient extends Fragment {
                      */
                     args = new Bundle();
                     args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
-                    args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+//                    args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
                     Fragment fragment = new ReviewSingleSessionWithPatient();
 
                     fragment.setArguments(args);

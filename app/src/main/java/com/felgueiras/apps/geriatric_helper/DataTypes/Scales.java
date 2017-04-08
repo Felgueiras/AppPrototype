@@ -8,6 +8,7 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionCategory;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.ScoringNonDB;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -2027,7 +2028,7 @@ public class Scales {
      * @param gender
      * @return
      */
-    public static GradingNonDB getGradingForScale(GeriatricScale test, int gender) {
+    public static GradingNonDB getGradingForScale(GeriatricScaleFirebase test, int gender) {
 
         double testResult = test.generateTestResult();
         ScoringNonDB scoring = getScaleByName(test.getScaleName()).getScoring();
@@ -2108,7 +2109,7 @@ public class Scales {
         tests.add(barthelIndex());
         //tests.add(shortPortableMentalStatus());
         tests.add(clockDrawing());
-//        tests.add(setScale());
+//        tests.add(setScaleID());
         // tests.add(hamiltonDepressionScale());
         tests.add(tinettiScale());
 //        tests.add(advancedDailyLifeActivities());

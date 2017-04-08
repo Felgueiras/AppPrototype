@@ -10,14 +10,20 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.EmptyStateFragment;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class PatientsFavoriteMain extends Fragment {
 
+
+    private FragmentManager fragmentManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +35,7 @@ public class PatientsFavoriteMain extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        Log.d("Menu","Favorite");
+        Log.d("Menu", "Favorite");
     }
 
     @Override
@@ -43,20 +49,24 @@ public class PatientsFavoriteMain extends Fragment {
         return view;
     }
 
+
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
 
         // get the patients - filter to display only favorites
-        ArrayList<Patient> patients = Patient.getFavoritePatients();
-        System.out.println("Empty? " + patients.isEmpty());
-        FragmentManager fragmentManager = getChildFragmentManager();
+        ArrayList<PatientFirebase> favoritePatients = FirebaseHelper.getFavoritePatients();
+        System.out.println("Empty? " + favoritePatients.isEmpty());
 
-        if (patients.isEmpty()) {
+        fragmentManager = getChildFragmentManager();
+
+        // update views
+        if (favoritePatients.isEmpty()) {
 
             Fragment fragment = new EmptyStateFragment();
             Bundle args = new Bundle();
-            args.putString(EmptyStateFragment.MESSAGE, getResources().getString(R.string.no_favorite_patients));
+            args.putString(EmptyStateFragment.MESSAGE, getActivity().getResources().getString(R.string.no_favorite_patients));
             fragment.setArguments(args);
             fragmentManager.beginTransaction()
                     .replace(R.id.favorite_patients_frame_layout, fragment)
@@ -71,5 +81,6 @@ public class PatientsFavoriteMain extends Fragment {
         }
 
     }
+
 }
 

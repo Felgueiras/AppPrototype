@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 
@@ -28,14 +28,14 @@ public class CGAAreaPrivate extends Fragment {
     public static String PATIENT = "PATIENT";
     public static String CGA_AREA = "area";
 
-    Patient patientForThisSession;
+    PatientFirebase patientForThisSession;
 
     public static String SESSION = "session";
 
     boolean resuming = false;
 
 
-    private Session session;
+    private SessionFirebase session;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,10 +56,10 @@ public class CGAAreaPrivate extends Fragment {
         View view = inflater.inflate(R.layout.content_single_area_private_bottom_buttons, container, false);
         // check the Constants
         Bundle args = getArguments();
-        patientForThisSession = (Patient) args.getSerializable(PATIENT);
+        patientForThisSession = (PatientFirebase) args.getSerializable(PATIENT);
 
         String area = args.getString(CGA_AREA);
-        session = (Session) args.getSerializable(SESSION);
+        session = (SessionFirebase) args.getSerializable(SESSION);
         getActivity().setTitle(area);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);
@@ -85,13 +85,14 @@ public class CGAAreaPrivate extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         if (area != Constants.cga_clinical) {
             recyclerView.setAdapter(finalAdapter);
-        } else {
-            recyclerView.setAdapter(new ClinicalEvaluation(getActivity(),
-                    session,
-                    resuming,
-                    Constants.SESSION_GENDER,
-                    area));
         }
+//        else {
+//            recyclerView.setAdapter(new ClinicalEvaluation(getActivity(),
+//                    session,
+//                    resuming,
+//                    Constants.SESSION_GENDER,
+//                    area));
+//        }
 
 
         Button saveButton = (Button) view.findViewById(R.id.session_save);
@@ -100,7 +101,7 @@ public class CGAAreaPrivate extends Fragment {
             @Override
             public void onClick(View v) {
                 View layout =  getActivity().findViewById(R.id.newSessionLayout);
-                SessionHelper.saveSession(getActivity(),session,session.getPatient(), getView(), layout,2);
+                SessionHelper.saveSession(getActivity(),session,patientForThisSession, getView(), layout,2);
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {
