@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.internal.ForegroundLinearLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -19,10 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
+import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsHistoryMain;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.PatientProfileFragment;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -36,7 +40,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
     /**
      * Session object
      */
-    private Session session;
+    private SessionFirebase session;
     /**
      * String that identifies the Session to be passed as argument.
      */
@@ -53,10 +57,10 @@ public class ReviewSingleSessionWithPatient extends Fragment {
         View view = inflater.inflate(R.layout.bottom_navigation_review_areas, container, false);
         Bundle args = getArguments();
         // get Session and Patient
-        session = (Session) args.getSerializable(SESSION);
+        session = (SessionFirebase) args.getSerializable(SESSION);
 
-        if (session.getPatient() != null) {
-            getActivity().setTitle(session.getPatient().getName() + " - " + DatesHandler.dateToStringWithoutHour(session.getDate()));
+        if (FirebaseHelper.getPatientFromSession(session) != null) {
+            getActivity().setTitle(FirebaseHelper.getPatientFromSession(session).getName() + " - " + DatesHandler.dateToStringWithoutHour(session.getDate()));
         } else {
             getActivity().setTitle(DatesHandler.dateToStringWithoutHour(session.getDate()));
         }
@@ -72,18 +76,23 @@ public class ReviewSingleSessionWithPatient extends Fragment {
 
         int defaultIndex = -1;
 
+        // check if this session contains scales from this area
+        ArrayList<GeriatricScaleFirebase> scalesFromSession = FirebaseHelper.getScalesFromSession(session);
         for (int i = 0; i < Constants.cga_areas.length; i++) {
+            // current area
             String currentArea = Constants.cga_areas[i];
-            if (Scales.getTestsForArea(session.getScalesFromSession(), currentArea).size() == 0) {
-                // disable
-                menuNav.getItem(i).setEnabled(false);
-            } else {
-                if (defaultIndex == -1) {
-                    defaultIndex = i;
-                    menuNav.getItem(i).setChecked(true);
-
+            // disable area
+            menuNav.getItem(i).setEnabled(false);
+            for (GeriatricScaleFirebase scale : scalesFromSession) {
+                if (scale.getArea().equals(currentArea)) {
+                    menuNav.getItem(i).setEnabled(true);
+                    if (defaultIndex == -1) {
+                        defaultIndex = i;
+                        menuNav.getItem(i).setChecked(true);
+                    }
                 }
             }
+
         }
         /**
          * Default fragment.
@@ -177,7 +186,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
                                 String tag = backEntry.getName();
 
                                 fragmentManager.popBackStack();
-                                Patient patient = session.getPatient();
+                                PatientFirebase patient = FirebaseHelper.getPatientFromSession(session);
                                 dialog.dismiss();
 
                                 DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
@@ -202,7 +211,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
 //                                        .replace(R.id.current_fragment, fragment)
 //                                        .commit();
 
-                                session.delete();
+                                FirebaseHelper.deleteSession(session);
                             }
                         });
                 alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),

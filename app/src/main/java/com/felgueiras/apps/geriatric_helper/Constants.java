@@ -3,6 +3,9 @@ package com.felgueiras.apps.geriatric_helper;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -235,4 +238,7 @@ public class Constants {
     public static ArrayList<String> allDrugs = new ArrayList<>();
     public static int bottomNavigationPatientProgress;
     public static int bottomNavigationReviewSession;
+    public static String tag_add_prescription_to_patient = "tag_add_prescription_to_patient";
+    public static FirebaseDatabase firebaseInstance;
+    public static GeriatricScaleFirebase photoScale;
 }

@@ -32,7 +32,7 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
     private final String area;
 
     private Activity context;
-    private ArrayList<GeriatricScaleNonDB> testsForArea;
+    private ArrayList<GeriatricScaleNonDB> scalesForArea;
 
     /**
      * Create a View
@@ -75,9 +75,9 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
     public void onBindViewHolder(final ScaleCardHolder holder, int position) {
 
 
-        final String scaleName = testsForArea.get(position).getScaleName();
+        final String scaleName = scalesForArea.get(position).getScaleName();
         final GeriatricScaleNonDB currentScale = Scales.getScaleByName(scaleName);
-        holder.name.setText(testsForArea.get(position).getShortName());
+        holder.name.setText(scalesForArea.get(position).getShortName());
 
         holder.scaleInfo.setText(currentScale.getDescription());
 
@@ -115,8 +115,8 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
     @Override
     public int getItemCount() {
         // get the number of tests that exist for this area
-        testsForArea = Scales.getTestsForArea(area);
-        return testsForArea.size();
+        scalesForArea = Scales.getTestsForArea(area);
+        return scalesForArea.size();
     }
 
 }

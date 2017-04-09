@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Tutorial.Tabs">
+
+    <item
+        android:id="@+id/action_take_photo"
+        android:icon="@drawable/ic_photo_camera_white_24dp"
+        android:title="@string/action_take_photo"
+        app:showAsAction="ifRoom"/>
+</menu>

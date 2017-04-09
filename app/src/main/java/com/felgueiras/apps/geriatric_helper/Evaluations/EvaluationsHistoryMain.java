@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.EmptyStateFragment;
 import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -88,7 +88,7 @@ public class EvaluationsHistoryMain extends Fragment {
         /**
          * Setup fragment for FrameLayout.
          */
-        if (Session.getAllSessions().isEmpty()) {
+        if (FirebaseHelper.getSessions().isEmpty()) {
             fragment = new EmptyStateFragment();
             Bundle args = new Bundle();
             args.putString(EmptyStateFragment.MESSAGE, getResources().getString(R.string.no_sessions_history));

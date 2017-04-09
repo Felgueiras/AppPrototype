@@ -16,10 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -34,7 +35,7 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
     /**
      * Data to be displayed.
      */
-    private List<Session> sessionsList;
+    private List<SessionFirebase> sessionsList;
 
     /**
      * Create a View
@@ -56,10 +57,11 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
 
     /**
      * Constructor of the SessionCardEvaluationHistory
-     *  @param context
+     *
+     * @param context
      * @param sessionsList
      */
-    public SessionCardEvaluationHistory(Activity context, List<Session> sessionsList) {
+    public SessionCardEvaluationHistory(Activity context, List<SessionFirebase> sessionsList) {
         this.context = context;
         this.sessionsList = sessionsList;
     }
@@ -84,11 +86,11 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         // get the current Session and tests from that Session
-        final Session session = sessionsList.get(position);
-        List<GeriatricScale> scalesFromSession = session.getScalesFromSession();
-        Patient patient = session.getPatient();
+        final SessionFirebase session = sessionsList.get(position);
+        List<GeriatricScaleFirebase> scalesFromSession = FirebaseHelper.getScalesFromSession(session);
+        PatientFirebase patient = FirebaseHelper.getPatientFromSession(session);
         if (patient != null) {
-            holder.patientName.setText(patient.getName()+" - " + DatesHandler.hour(session.getDate()));
+            holder.patientName.setText(patient.getName() + " - " + DatesHandler.hour(session.getDate()));
             // loading album cover using Glide library
             //Glide.with(context).load(PATIENT.getPicture()).into(holder.icon);
         }

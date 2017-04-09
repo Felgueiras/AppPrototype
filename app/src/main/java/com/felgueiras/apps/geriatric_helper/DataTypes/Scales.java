@@ -9,6 +9,7 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionCategory;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.ScoringNonDB;
 import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -1122,6 +1123,7 @@ public class Scales {
                         "• Tempo de aplicação: 3-5 minutos.");
         marcha.setShortName("Marcha");
         marcha.setIconName("M");
+        marcha.setContainsPhoto(true);
 
         marcha.setSingleQuestion(true);
         // create Scoring
@@ -2024,14 +2026,14 @@ public class Scales {
     /**
      * Get Scoring for a test.
      *
-     * @param test
+     * @param scale
      * @param gender
      * @return
      */
-    public static GradingNonDB getGradingForScale(GeriatricScaleFirebase test, int gender) {
+    public static GradingNonDB getGradingForScale(GeriatricScaleFirebase scale, int gender) {
 
-        double testResult = test.generateTestResult();
-        ScoringNonDB scoring = getScaleByName(test.getScaleName()).getScoring();
+        double testResult = FirebaseHelper.generateScaleResult(scale);
+        ScoringNonDB scoring = getScaleByName(scale.getScaleName()).getScoring();
         GradingNonDB match;
         // check if it's different for men and women
         if (scoring == null)
@@ -2048,11 +2050,11 @@ public class Scales {
         return match;
     }
 
-    public static int getGradingIndex(GeriatricScale test, int gender) {
+    public static int getGradingIndex(GeriatricScaleFirebase scale, int gender) {
 
 
-        double testResult = test.generateTestResult();
-        ScoringNonDB scoring = getScaleByName(test.getScaleName()).getScoring();
+        double testResult = FirebaseHelper.generateScaleResult(scale);
+        ScoringNonDB scoring = getScaleByName(scale.getScaleName()).getScoring();
         int match;
         // check if it's different for men and women
         if (scoring.isDifferentMenWomen()) {
@@ -2068,7 +2070,7 @@ public class Scales {
         return match;
     }
 
-    public static GradingNonDB getGradingForTestWithoutGenerating(GeriatricScale test, int gender) {
+    public static GradingNonDB getGradingForTestWithoutGenerating(GeriatricScaleFirebase test, int gender) {
         double testResult = test.getResult();
         ScoringNonDB scoring = getScaleByName(test.getScaleName()).getScoring();
         GradingNonDB match;
@@ -2132,15 +2134,7 @@ public class Scales {
         return testsForArea;
     }
 
-    public static ArrayList<GeriatricScale> getTestsForArea(List<GeriatricScale> scales, String area) {
-        ArrayList<GeriatricScale> testsForArea = new ArrayList<>();
-        for (GeriatricScale test : scales) {
-            if (Scales.getScaleByName(test.getScaleName()).getArea().equals(area)) {
-                testsForArea.add(test);
-            }
-        }
-        return testsForArea;
-    }
+
 
 
 }

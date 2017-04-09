@@ -1,11 +1,10 @@
 package com.felgueiras.apps.geriatric_helper.Firebase;
 
 
-
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by rafael on 30-09-2016.
@@ -63,6 +62,11 @@ public class QuestionFirebase implements Serializable {
     @Expose
     private String textAnswer;
 
+    @Expose
+    private ArrayList<String> choicesIDs = new ArrayList<>();
+
+    String key;
+
     /**
      * Create a new Question
      *
@@ -98,8 +102,6 @@ public class QuestionFirebase implements Serializable {
 //        questions.addAll(questionsList);
 //        return questions;
 //    }
-
-
     public String getDescription() {
         return description;
     }
@@ -195,8 +197,9 @@ public class QuestionFirebase implements Serializable {
 
     /**
      * Get a Question by its ID
+     * <p>
+     * //     * @param questionID ID of the Question
      *
-//     * @param questionID ID of the Question
      * @return Question with that ID value
      */
 //    public static QuestionFirebase getQuestionByID(String questionID) {
@@ -205,7 +208,6 @@ public class QuestionFirebase implements Serializable {
 //                .where("guid = ?", questionID)
 //                .executeSingle();
 //    }
-
     @Override
     public String toString() {
         String str = "";
@@ -258,6 +260,28 @@ public class QuestionFirebase implements Serializable {
 
     public String getTextAnswer() {
         return textAnswer;
+    }
+
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public ArrayList<String> getChoicesIDs() {
+        return choicesIDs;
+    }
+
+    public void setChoicesIDs(ArrayList<String> choicesIDs) {
+        this.choicesIDs = choicesIDs;
+    }
+
+    public void addChoiceID(String choiceID) {
+        choicesIDs.add(choiceID);
+        FirebaseHelper.updateQuestion(this);
     }
 }
 

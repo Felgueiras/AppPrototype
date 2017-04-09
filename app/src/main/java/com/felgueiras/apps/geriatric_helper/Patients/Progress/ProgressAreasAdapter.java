@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
-import com.felgueiras.apps.geriatric_helper.Patients.Progress.Table.ProgressScalesForAreaTable;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -104,16 +103,16 @@ public class ProgressAreasAdapter extends RecyclerView.Adapter<ProgressAreasAdap
             holder.scales.setItemAnimator(new DefaultItemAnimator());
             holder.scales.setAdapter(adapter);
         } else if (progressType.equals("1")) {
-            ProgressScalesForAreaTable adapter = new ProgressScalesForAreaTable(context, patientSessions, Constants.cga_areas[position], patient);
-            // display the different scales to choose from this area
-            int numbercolumns = 1;
-            if (Constants.screenSize > Configuration.SCREENLAYOUT_SIZE_NORMAL) {
-                numbercolumns = 2;
-            }
-            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, numbercolumns);
-            holder.scales.setLayoutManager(mLayoutManager);
-            holder.scales.setItemAnimator(new DefaultItemAnimator());
-            holder.scales.setAdapter(adapter);
+//            ProgressScalesForAreaTable adapter = new ProgressScalesForAreaTable(context, patientSessions, Constants.cga_areas[position], patient);
+//            // display the different scales to choose from this area
+//            int numbercolumns = 1;
+//            if (Constants.screenSize > Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+//                numbercolumns = 2;
+//            }
+//            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, numbercolumns);
+//            holder.scales.setLayoutManager(mLayoutManager);
+//            holder.scales.setItemAnimator(new DefaultItemAnimator());
+//            holder.scales.setAdapter(adapter);
         }
 
     }

@@ -1,5 +1,13 @@
 - save position in bottom navigation
 - delete patient
+- load screen while fetching all data from Firebase
+- add sessionID to patient when creating session
+- enable/disable areas when reviewing scale
+- offline DB
+- allow for international app version
+- replace GUID by KEY (Firebase)
+- save photos on a scale
+- erase questions and choices when erasing from scale card (patient profile)
 
 - guardar qual a área vista ao rever uma sessão
 - save list scroll (sessionsIDS list)

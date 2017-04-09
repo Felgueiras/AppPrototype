@@ -13,5 +13,11 @@
         android:title="@string/notes"
         app:showAsAction="always"
          />
+    <item
+        android:id="@+id/patient_prescriptions"
+        android:icon="@drawable/pill_white"
+        android:title="@string/drug_prescription"
+        app:showAsAction="always"
+        />
 
 </menu>

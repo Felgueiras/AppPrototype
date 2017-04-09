@@ -41,9 +41,11 @@ public class PatientFirebase implements Serializable {
     @Expose
     private ArrayList<String> sessionsIDS = new ArrayList<>();
 
+    @Expose
+    private ArrayList<String> prescriptionsIDS = new ArrayList<>();
+
 
     private String key;
-
 
 
     public PatientFirebase(String patientsName, int gender, int image) {
@@ -192,7 +194,6 @@ public class PatientFirebase implements Serializable {
 //        sessionsIDS.addAll(recordsList);
 //        return sessionsIDS;
 //    }
-
     @Override
     public String toString() {
         return name + " - " + birthDate;
@@ -243,5 +244,27 @@ public class PatientFirebase implements Serializable {
 
     public void setSessionsIDS(ArrayList<String> sessionsIDS) {
         this.sessionsIDS = sessionsIDS;
+    }
+
+
+    public void addSession(String sessionID) {
+        sessionsIDS.add(sessionID);
+        // update patient
+        FirebaseHelper.updatePatient(this);
+    }
+
+    public ArrayList<String> getPrescriptionsIDS() {
+        return prescriptionsIDS;
+    }
+
+    public void setPrescriptionsIDS(ArrayList<String> prescriptionsIDS) {
+        this.prescriptionsIDS = prescriptionsIDS;
+    }
+
+
+    public void addPrescription(String prescription) {
+        prescriptionsIDS.add(prescription);
+        // update patient
+        FirebaseHelper.updatePatient(this);
     }
 }

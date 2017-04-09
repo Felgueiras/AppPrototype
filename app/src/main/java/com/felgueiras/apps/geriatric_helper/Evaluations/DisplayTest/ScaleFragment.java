@@ -2,12 +2,15 @@ package com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest;
 
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,13 +18,18 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
-import com.felgueiras.apps.geriatric_helper.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
+import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
+import com.felgueiras.apps.geriatric_helper.PhotoVideoHandling;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.felgueiras.apps.geriatric_helper.TakePhotoActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Display a list of Questions for a single Test.
@@ -46,7 +54,7 @@ public class ScaleFragment extends Fragment {
     /**
      * GeriatricScale which will be written to the DB.
      */
-    private GeriatricScale scaleDB;
+    private GeriatricScaleFirebase scale;
     private boolean proceed;
 
 
@@ -60,8 +68,8 @@ public class ScaleFragment extends Fragment {
         // get the list of tests
         Bundle bundle = getArguments();
         scaleNonDB = (GeriatricScaleNonDB) bundle.getSerializable(testObject);
-        scaleDB = (GeriatricScale) bundle.getSerializable(SCALE);
-//        session = scaleDB.getSessionID();
+        scale = (GeriatricScaleFirebase) bundle.getSerializable(SCALE);
+//        session = scale.getSessionID();
 
         // set the title
         getActivity().setTitle(scaleNonDB.getShortName());
@@ -71,7 +79,11 @@ public class ScaleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view;
-        if (!SharedPreferencesHelper.isLoggedIn(getActivity())) {
+        //Get Firebase auth instance
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        // user already logged in
+        if (auth.getCurrentUser() == null) {
             /**
              * Public area.
              */
@@ -113,18 +125,14 @@ public class ScaleFragment extends Fragment {
         ListView testQuestions = (ListView) view.findViewById(R.id.testQuestions);
         ProgressBar progress = (ProgressBar) view.findViewById(R.id.scale_progress);
         // create the adapter
-        QuestionsListAdapter adapter = new QuestionsListAdapter(this.getActivity(), scaleNonDB, scaleDB, progress, getChildFragmentManager(), testQuestions);
+        QuestionsListAdapter adapter = new QuestionsListAdapter(this.getActivity(), scaleNonDB, scale, progress, getChildFragmentManager(), testQuestions);
         testQuestions.setAdapter(adapter);
 
 
         return view;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-    }
+
 
 
     private void finishPublicSession() {
@@ -197,7 +205,7 @@ public class ScaleFragment extends Fragment {
     public boolean checkComplete() {
         if (proceed)
             return true;
-        if (!scaleDB.isCompleted()) {
+        if (!scale.isCompleted()) {
             /**
              * Scale is incomplete - inform user.
              */
@@ -238,5 +246,31 @@ public class ScaleFragment extends Fragment {
             proceed = true;
         }
         return proceed;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        // if this test allows to take photo, inflate another menu
+        if (scale.isContainsPhoto()) {
+            inflater.inflate(R.menu.menu_scale_photo, menu);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_take_photo:
+                Intent intent = new Intent(getActivity(), TakePhotoActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable(TakePhotoActivity.SCALE, scale);
+//                intent.putExtras(bundle);
+
+                Constants.photoScale = scale;
+                startActivity(intent);
+                break;
+        }
+        return true;
     }
 }

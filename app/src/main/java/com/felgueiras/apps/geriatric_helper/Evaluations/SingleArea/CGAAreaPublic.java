@@ -61,13 +61,14 @@ public class CGAAreaPublic extends Fragment {
         RecyclerView.Adapter finalAdapter = null;
 
         // read PATIENT for this session
-        if (patientForThisSession != null) {
-            adapter = new ScaleCard(getActivity(), session, resuming, patientForThisSession.getGender(), area);
-        } else {
-            // new evaluation created for no Patient
-            adapter = new ScaleCard(getActivity(), session, resuming, Constants.SESSION_GENDER, area);
-        }
-        finalAdapter = adapter;
+        // TODO
+//        if (patientForThisSession != null) {
+//            adapter = new ScaleCard(getActivity(), session, resuming, patientForThisSession.getGender(), area);
+//        } else {
+//             new evaluation created for no Patient
+//            adapter = new ScaleCard(getActivity(), session, resuming, Constants.SESSION_GENDER, area);
+//        }
+//        finalAdapter = adapter;
 
         // display the different scales to choose from this area
         int numbercolumns = 1;

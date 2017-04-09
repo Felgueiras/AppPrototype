@@ -9,9 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.QuestionsListAdapter;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -25,12 +25,12 @@ public class QuestionMultipleCategoriesViewPager {
     private final LayoutInflater inflater;
     private final GeriatricScaleNonDB scaleNonDB;
     private final Activity context;
-    GeriatricScale scaleDB;
+    GeriatricScaleFirebase scaleDB;
     private final QuestionsListAdapter questionsListAdapter;
     private TabLayout tabLayout;
 
 
-    public QuestionMultipleCategoriesViewPager(LayoutInflater inflater, GeriatricScaleNonDB testNonDB, Activity context, GeriatricScale test, QuestionsListAdapter adapter) {
+    public QuestionMultipleCategoriesViewPager(LayoutInflater inflater, GeriatricScaleNonDB testNonDB, Activity context, GeriatricScaleFirebase test, QuestionsListAdapter adapter) {
         this.inflater = inflater;
         this.scaleNonDB = testNonDB;
         this.context = context;

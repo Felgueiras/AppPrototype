@@ -17,15 +17,17 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Evaluations.SingleArea.ScaleCard;
 import com.felgueiras.apps.geriatric_helper.Evaluations.SingleArea.ScaleInfoHelper;
 import com.felgueiras.apps.geriatric_helper.Evaluations.SingleArea.ScaleHandlerNotes;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -42,11 +44,11 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
     /**
      * Session for the Tests.
      */
-    private final Session session;
+    private final SessionFirebase session;
     /**
      * Patient for this Session
      */
-    private final Patient patient;
+    private final PatientFirebase patient;
     private final String area;
     private final boolean comparePrevious;
     /**
@@ -56,21 +58,20 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
     /**
      * Name of Test being displayed.
      */
-    private ArrayList<GeriatricScale> scalesForArea;
+    private ArrayList<GeriatricScaleFirebase> scalesForArea;
 
 
     /**
      * Default constructor for the RV adapter.
-     *
      * @param context
      * @param session
      * @param area
      * @param comparePrevious
      */
-    public ReviewScaleCard(Activity context, Session session, String area, boolean comparePrevious) {
+    public ReviewScaleCard(Activity context, SessionFirebase session, String area, boolean comparePrevious) {
         this.context = context;
         this.session = session;
-        this.patient = session.getPatient();
+        this.patient = FirebaseHelper.getPatientFromSession(session);
         this.area = area;
         this.comparePrevious = comparePrevious;
         System.out.println("Reviewing scales for " + area);
@@ -101,29 +102,24 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
     public void onBindViewHolder(final ScaleCard.ScaleCardHolder holder, int position) {
 
         // get current test
-        final GeriatricScale currentScale = scalesForArea.get(position);
+        final GeriatricScaleFirebase currentScale = scalesForArea.get(position);
 
         // access a given Test from the DB
         holder.name.setText(currentScale.getShortName());
 
         // display Scoring to the user
         GradingNonDB match;
-        if(patient!=null)
-        {
+        if (patient != null) {
             match = Scales.getGradingForScale(
                     currentScale,
                     patient.getGender());
+        } else {
+            match = Scales.getGradingForScale(currentScale, Constants.SESSION_GENDER);
         }
-        else
-        {
-            match = Scales.getGradingForScale(
-                    currentScale,
-                    Constants.SESSION_GENDER);
-        }
-        if(match!=null)
+        if (match != null)
             holder.result_qualitative.setText(match.getGrade());
 
-        if (comparePrevious && patient!=null) {
+        if (comparePrevious && patient != null) {
             comparePreviousSessions(currentScale, holder);
         }
 
@@ -173,7 +169,8 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 currentScale.setNotes(charSequence.toString());
-                currentScale.save();
+
+                FirebaseHelper.updateScale(currentScale);
             }
 
             @Override
@@ -199,7 +196,9 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
             }
         });
 
-        holder.description.setOnClickListener(new ScaleInfoHelper(context, currentScale));
+
+
+        holder.description.setOnClickListener(new ScaleInfoHelper(context, Scales.getScaleByName(currentScale.getScaleName())));
     }
 
     /**
@@ -208,21 +207,22 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
      * @param currentScale
      * @param holder
      */
-    private void comparePreviousSessions(GeriatricScale currentScale, ScaleCard.ScaleCardHolder holder) {
+    private void comparePreviousSessions(GeriatricScaleFirebase currentScale, ScaleCard.ScaleCardHolder holder) {
         double currentScaleResult = currentScale.getResult();
         // access this test from previous session that had this test
         String scaleName = currentScale.getScaleName();
-        Session currentSession = currentScale.getSession();
+        SessionFirebase currentSession = FirebaseHelper.getSessionByID(currentScale.getSessionID());
 
         // get all the instances of that Scale for this Patient
-        ArrayList<GeriatricScale> scaleInstances = new ArrayList<>();
+        ArrayList<GeriatricScaleFirebase> scaleInstances = new ArrayList<>();
 
-        ArrayList<Session> patientSessions = patient.getSessionsFromPatient();
+        ArrayList<SessionFirebase> patientSessions = FirebaseHelper.getSessionsFromPatient(patient);
+        ;
         //patientSessions.remove(currentSession);
 
         // sort by date ascending
-        Collections.sort(patientSessions, new Comparator<Session>() {
-            public int compare(Session o1, Session o2) {
+        Collections.sort(patientSessions, new Comparator<SessionFirebase>() {
+            public int compare(SessionFirebase o1, SessionFirebase o2) {
                 return o1.getDate().compareTo(o2.getDate());
             }
         });
@@ -234,9 +234,9 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
 
         // get instances for that test
         for (int i = sessionIndex - 1; i >= 0; i--) {
-            Session previousSession = patientSessions.get(i);
-            List<GeriatricScale> scalesfromSession = previousSession.getScalesFromSession();
-            for (GeriatricScale previousScale : scalesfromSession) {
+            SessionFirebase previousSession = patientSessions.get(i);
+            List<GeriatricScaleFirebase> scalesfromSession = FirebaseHelper.getScalesFromSession(previousSession);
+            for (GeriatricScaleFirebase previousScale : scalesfromSession) {
                 if (previousScale.getScaleName().equals(scaleName)) {
                     scaleInstances.add(previousScale);
                     System.out.println("FOUND match");
@@ -295,9 +295,9 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
     @Override
     public int getItemCount() {
 
-        List<GeriatricScale> allScales = session.getScalesFromSession();
+        List<GeriatricScaleFirebase> sessionScales = FirebaseHelper.getScalesFromSession(session);
         // get scales for this area
-        scalesForArea = Scales.getTestsForArea(allScales, area);
+        scalesForArea =  FirebaseHelper.getScalesForArea(sessionScales, area);
         return scalesForArea.size();
     }
 

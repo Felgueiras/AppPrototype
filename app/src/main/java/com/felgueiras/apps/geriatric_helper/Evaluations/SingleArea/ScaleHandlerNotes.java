@@ -10,6 +10,7 @@ import android.view.ViewManager;
 import android.widget.EditText;
 
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
@@ -19,7 +20,7 @@ import com.felgueiras.apps.geriatric_helper.R;
 
 public class ScaleHandlerNotes implements View.OnClickListener {
     private Context context;
-    private GeriatricScale finalCurrentTest;
+    private GeriatricScaleFirebase finalCurrentTest;
     private ScaleCard.ScaleCardHolder holder;
     private ViewManager parentView;
 
@@ -52,7 +53,7 @@ public class ScaleHandlerNotes implements View.OnClickListener {
                             public void onClick(DialogInterface dialog, int id) {
                                 // get user input and save it as a note for the scale
                                 finalCurrentTest.setNotes(userInput.getText().toString());
-                                finalCurrentTest.save();
+                                FirebaseHelper.updateScale(finalCurrentTest);
                                 parentView.removeView(holder.addNotesButton);
                                 holder.notes.setText(finalCurrentTest.getNotes());
                             }

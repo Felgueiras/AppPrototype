@@ -46,6 +46,9 @@ public class GeriatricScaleNonDB implements Serializable {
     private boolean singleQuestion;
     private boolean multipleChoice;
 
+
+    private boolean containsPhoto;
+
     private ArrayList<QuestionNonDB> questions = new ArrayList<>();
     private ArrayList<QuestionCategory> questionsCategories;
     private boolean multipleCategories;
@@ -228,5 +231,14 @@ public class GeriatricScaleNonDB implements Serializable {
 
     public void setIconName(String iconName) {
         this.iconName = iconName;
+    }
+
+
+    public boolean isContainsPhoto() {
+        return containsPhoto;
+    }
+
+    public void setContainsPhoto(boolean containsPhoto) {
+        this.containsPhoto = containsPhoto;
     }
 }

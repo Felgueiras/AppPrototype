@@ -23,10 +23,11 @@ import android.widget.TextView;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
-import com.felgueiras.apps.geriatric_helper.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientPrescriptions.PatientPrescriptionsFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.Progress.ProgressFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.ViewPatientSessions.PatientNotesFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
@@ -62,7 +63,6 @@ public class PatientProfileFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.bottom_navigation_patient_profile, container, false);
-        System.out.println("VIEW SINGLE PATIENT INFO");
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -167,6 +167,12 @@ public class PatientProfileFragment extends Fragment {
                                 args.putSerializable(PatientNotesFragment.PATIENT, patient);
                                 fragment.setArguments(args);
                                 break;
+                            case R.id.patient_prescriptions:
+                                fragment = new PatientPrescriptionsFragment();
+                                args = new Bundle();
+                                args.putSerializable(PatientPrescriptionsFragment.PATIENT, patient);
+                                fragment.setArguments(args);
+                                break;
                         }
 
                         FragmentManager fragmentManager = getChildFragmentManager();
@@ -209,7 +215,7 @@ public class PatientProfileFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.favorite:
                 patient.setFavorite(!patient.isFavorite());
-                FirebaseHelper.firebaseTablePatients.child(patient.getKey()).child("favorite").setValue(patient.isFavorite());
+                FirebaseHelper.updatePatient(patient);
 
                 if (patient.isFavorite()) {
                     Snackbar.make(getView(), R.string.patient_favorite_add, Snackbar.LENGTH_LONG).show();
@@ -228,11 +234,7 @@ public class PatientProfileFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // remove sessions from PATIENT
-//                                ArrayList<Session> sessionsFromPatient = patient.getSessionsFromPatient();
-//                                for (Session session : sessionsFromPatient) {
-//                                    session.delete();
-//                                }
-//                                patient.delete();
+                                FirebaseHelper.deletePatient(patient);
                                 dialog.dismiss();
 
                                 DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
@@ -258,7 +260,6 @@ public class PatientProfileFragment extends Fragment {
 
         }
         return true;
-
     }
 
 

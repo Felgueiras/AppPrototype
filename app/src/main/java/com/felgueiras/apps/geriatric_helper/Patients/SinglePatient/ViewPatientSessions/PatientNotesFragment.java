@@ -9,14 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 
 public class PatientNotesFragment extends Fragment {
 
     public static final String PATIENT = "PATIENT";
-    private Patient patient;
+    private PatientFirebase patient;
 
     // Store instance variables based on arguments passed
     @Override
@@ -25,7 +26,7 @@ public class PatientNotesFragment extends Fragment {
         setHasOptionsMenu(true);
 
         Bundle bundle = getArguments();
-        patient = (Patient) bundle.getSerializable(PATIENT);
+        patient = (PatientFirebase) bundle.getSerializable(PATIENT);
     }
 
 
@@ -48,7 +49,8 @@ public class PatientNotesFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 patient.setNotes(charSequence.toString());
-                patient.save();
+
+                FirebaseHelper.updatePatient(patient);
 
             }
 

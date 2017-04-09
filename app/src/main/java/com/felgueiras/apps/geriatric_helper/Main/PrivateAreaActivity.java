@@ -24,6 +24,7 @@ import com.activeandroid.ActiveAndroid;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsHistoryMain;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.ToolbarHelper;
@@ -112,6 +113,7 @@ public class PrivateAreaActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             // erase the sessionID
                             SharedPreferencesHelper.resetPrivateSession(context, sessionID);
+                            FirebaseHelper.deleteSession(FirebaseHelper.getSessionByID(sessionID));
                         }
                     });
             alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {

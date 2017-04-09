@@ -178,7 +178,7 @@ public class SessionFirebase implements Serializable {
     /**
      * Get a Session by its sessionIDString
      *
-     * @param sessionID ID of the Session to be retrieved
+//     * @param sessionID ID of the Session to be retrieved
      * @return
      */
 //    public static SessionFirebase getSessionByID(String sessionID) {
@@ -261,5 +261,11 @@ public class SessionFirebase implements Serializable {
 
     public void setScalesIDS(ArrayList<String> scalesIDS) {
         this.scalesIDS = scalesIDS;
+    }
+
+    public void addScaleID(String scaleID)
+    {
+        scalesIDS.add(scaleID);
+        FirebaseHelper.updateSession(this);
     }
 }

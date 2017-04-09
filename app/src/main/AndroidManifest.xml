@@ -5,15 +5,26 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
-        android:name="com.felgueiras.apps.geriatric_helper.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.android.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
         <meta-data
             android:name="AA_DB_NAME"
             android:value="patients.db" />
@@ -22,22 +33,15 @@
             android:value="1" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient,  
-                                      com.felgueiras.apps.geriatric_helper.DataTypes.DB.FreeTextField, 
-                                                              com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session,    
-              com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale,    
-         com.felgueiras.apps.geriatric_helper.DataTypes.DB.Scoring,         
-        com.felgueiras.apps.geriatric_helper.DataTypes.DB.Grading,     
-            com.felgueiras.apps.geriatric_helper.DataTypes.DB.Question,     
-            com.felgueiras.apps.geriatric_helper.DataTypes.DB.Choice" />
+            android:value="com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient,                                         com.felgueiras.apps.geriatric_helper.DataTypes.DB.FreeTextField,                                                                com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session,                   com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale,              com.felgueiras.apps.geriatric_helper.DataTypes.DB.Scoring,                  com.felgueiras.apps.geriatric_helper.DataTypes.DB.Grading,                  com.felgueiras.apps.geriatric_helper.DataTypes.DB.Question,                  com.felgueiras.apps.geriatric_helper.DataTypes.DB.Choice" />
 
         <!-- Intro -->
         <activity
-            android:name="com.felgueiras.apps.geriatric_helper.Introduction.MyIntro"
+            android:name=".Introduction.MyIntro"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" />
         <activity
-            android:name="com.felgueiras.apps.geriatric_helper.Main.PublicArea"
+            android:name=".Main.PublicArea"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,21 +50,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.felgueiras.apps.geriatric_helper.LockScreen.LockScreenActivity"
+            android:name=".LockScreen.LockScreenActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity"
+            android:name=".Main.PrivateAreaActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.felgueiras.apps.geriatric_helper.Settings"
+            android:name=".Settings"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
-        <activity android:name="com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.RegisterUser" />
+        <activity android:name=".PersonalAreaAccess.RegisterUser" />
         <activity
-            android:name="com.felgueiras.apps.geriatric_helper.VerticalViewPager.CustomViewPagerActivity"
+            android:name=".VerticalViewPager.CustomViewPagerActivity"
             android:label="@string/title_activity_custom_view_pager"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".TakePhotoActivity">
+
+
+        </activity>
     </application>
 
 </manifest>

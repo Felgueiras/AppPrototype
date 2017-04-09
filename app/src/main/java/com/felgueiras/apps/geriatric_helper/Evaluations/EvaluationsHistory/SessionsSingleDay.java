@@ -13,7 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.R;
 
@@ -28,14 +28,15 @@ public class SessionsSingleDay extends BaseAdapter {
     private final Date day;
     Activity context;
     LayoutInflater inflater;
-    private List<Session> sessionsFromDate;
+    private List<SessionFirebase> sessionsFromDate;
     private RecyclerView recyclerView;
     private SessionCardEvaluationHistory adapter;
 
     public SessionsSingleDay(Activity context, Date day) {
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        sessionsFromDate = Session.getSessionsFromDate(day);
+        // TODO
+//        sessionsFromDate = Session.getSessionsFromDate(day);
         this.day = day;
     }
 

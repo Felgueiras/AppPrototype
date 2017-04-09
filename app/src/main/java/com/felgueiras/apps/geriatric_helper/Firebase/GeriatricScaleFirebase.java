@@ -1,21 +1,13 @@
 package com.felgueiras.apps.geriatric_helper.Firebase;
 
 
-import android.util.Log;
+import android.graphics.Bitmap;
 
-
-import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Choice;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Question;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
-import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
-import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.ScoringNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by rafael on 15-09-2016.
@@ -82,7 +74,17 @@ public class GeriatricScaleFirebase implements Serializable {
     boolean alreadyOpened;
 
     @Expose
+    boolean containsPhoto;
+
+    Bitmap photo;
+
+
+    @Expose
     String answer;
+
+
+    @Expose
+    String photoPath;
 
     @Expose
     ArrayList<String> questionsIDs = new ArrayList<>();
@@ -143,6 +145,7 @@ public class GeriatricScaleFirebase implements Serializable {
         this.testName = testName;
         this.subCategory = subCategory;
         this.description = description;
+        this.containsPhoto = false;
     }
 
     public GeriatricScaleFirebase() {
@@ -418,5 +421,33 @@ public class GeriatricScaleFirebase implements Serializable {
 
     public String getAnswer() {
         return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public boolean isContainsPhoto() {
+        return containsPhoto;
+    }
+
+    public void setContainsPhoto(boolean containsPhoto) {
+        this.containsPhoto = containsPhoto;
+    }
+
+    public Bitmap getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Bitmap photo) {
+        this.photo = photo;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 }

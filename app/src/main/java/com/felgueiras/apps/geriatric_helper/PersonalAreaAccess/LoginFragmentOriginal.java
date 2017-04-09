@@ -313,7 +313,6 @@ public class LoginFragmentOriginal extends Fragment {
             showProgress(false);
 
             if (success) {
-                SharedPreferencesHelper.login(getActivity());
 
                 // erase all sessions without pacients just to avoid errors
                 for (Session sess : Session.getAllSessions()) {

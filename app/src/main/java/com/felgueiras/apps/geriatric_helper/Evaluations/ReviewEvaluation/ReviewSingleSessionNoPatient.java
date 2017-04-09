@@ -103,12 +103,14 @@ public class ReviewSingleSessionNoPatient extends Fragment {
          * Show info about evaluations for every area.
          */
         RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.area_scales_recycler_view);
-        ReviewAreaCard adapter = new ReviewAreaCard(getActivity(), session, comparePreviousSession);
-        int numbercolumns = 1;
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+        // TODO
+
+//        ReviewAreaCard adapter = new ReviewAreaCard(getActivity(), session, comparePreviousSession);
+//        int numbercolumns = 1;
+//        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
+//        recyclerView.setLayoutManager(mLayoutManager);
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        recyclerView.setAdapter(adapter);
 
         // close session FAB
         FloatingActionButton closeFAB = (FloatingActionButton) myInflatedView.findViewById(R.id.close_session);

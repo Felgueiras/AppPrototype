@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class SessionScalesAdapterRecyclerIcons extends RecyclerView.Adapter<Sess
     /**
      * Questions for a Test
      */
-    private final List<GeriatricScale> sessionScales;
+    private final List<GeriatricScaleFirebase> sessionScales;
     private final Context context;
     private View.OnClickListener onClickListener;
 
@@ -54,7 +54,7 @@ public class SessionScalesAdapterRecyclerIcons extends RecyclerView.Adapter<Sess
      *
      * @param tests ArrayList of Questions
      */
-    public SessionScalesAdapterRecyclerIcons(Context context, List<GeriatricScale> tests) {
+    public SessionScalesAdapterRecyclerIcons(Context context, List<GeriatricScaleFirebase> tests) {
         this.sessionScales = tests;
         this.context = context;
     }
@@ -70,7 +70,7 @@ public class SessionScalesAdapterRecyclerIcons extends RecyclerView.Adapter<Sess
     public void onBindViewHolder(SessionScalesAdapterRecyclerIcons.MyViewHolder holder, int position) {
 
         // get values
-        GeriatricScale scale = sessionScales.get(position);
+        GeriatricScaleFirebase scale = sessionScales.get(position);
         String name = Scales.getShortName(scale.getScaleName());
         // update views
         holder.testName.setText(name);

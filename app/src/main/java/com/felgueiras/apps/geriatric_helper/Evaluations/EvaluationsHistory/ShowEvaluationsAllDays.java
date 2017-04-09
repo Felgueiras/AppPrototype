@@ -13,8 +13,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsAll;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.R;
 
@@ -29,7 +30,7 @@ public class ShowEvaluationsAllDays extends BaseAdapter {
     private final EvaluationsAll fragment;
     Activity context;
     LayoutInflater inflater;
-    private List<Session> sessionsFromDate;
+    private List<SessionFirebase> sessionsFromDate;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter<SessionCardEvaluationHistory.MyViewHolder> adapter;
 
@@ -44,10 +45,9 @@ public class ShowEvaluationsAllDays extends BaseAdapter {
         Button dateTextView = (Button) singleDayInfo.findViewById(R.id.dateText);
 
         // get the date
-        Date currentDate = Session.getDifferentSessionDates().get(position);
+        Date currentDate = FirebaseHelper.getDifferentSessionDates().get(position);
         dateTextView.setText(DatesHandler.dateToStringWithoutHour(currentDate));
-        // get NewEvaluationPrivate for that date
-        sessionsFromDate = Session.getSessionsFromDate(currentDate);
+        sessionsFromDate = FirebaseHelper.getSessionsFromDate(currentDate);
 
         // fill the RecyclerView
         recyclerView = (RecyclerView) singleDayInfo.findViewById(R.id.recycler_view_sessions_day);
@@ -83,7 +83,7 @@ public class ShowEvaluationsAllDays extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return Session.getDifferentSessionDates().size();
+        return FirebaseHelper.getDifferentSessionDates().size();
     }
 
     @Override

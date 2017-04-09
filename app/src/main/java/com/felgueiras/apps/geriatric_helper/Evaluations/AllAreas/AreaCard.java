@@ -24,7 +24,7 @@ import com.felgueiras.apps.geriatric_helper.Evaluations.SingleArea.CGAAreaPrivat
 import com.felgueiras.apps.geriatric_helper.Evaluations.SingleArea.CGAAreaPublic;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
-import com.felgueiras.apps.geriatric_helper.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.google.firebase.auth.FirebaseAuth;
 

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
@@ -48,8 +49,8 @@ public class PatientSessionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.patient_info_sessions, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.patientSessions);
-//        sessionsFromPatient = patient.getSessionsIDS();
-//        adapter = new SessionCardPatientProfile(getActivity(), sessionsFromPatient, patient, this);
+        sessionsFromPatient = FirebaseHelper.getSessionsFromPatient(patient);
+        adapter = new SessionCardPatientProfile(getActivity(), sessionsFromPatient, patient, this);
 
         // create Layout
         int numbercolumns = 1;

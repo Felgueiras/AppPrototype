@@ -3,6 +3,8 @@ package com.felgueiras.apps.geriatric_helper;
 
 
 import android.app.Application;
+import android.os.Build;
+import android.os.StrictMode;
 
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;

@@ -11,9 +11,10 @@ import android.view.ViewManager;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 
@@ -25,7 +26,7 @@ public class ReviewAreaCard extends RecyclerView.Adapter<ReviewAreaCard.TestCard
     /**
      * Session for the Tests.
      */
-    private final Session session;
+    private final SessionFirebase session;
     private final boolean comparePrevious;
     /**
      * Context.
@@ -44,13 +45,13 @@ public class ReviewAreaCard extends RecyclerView.Adapter<ReviewAreaCard.TestCard
      * @param session
      * @param comparePreviousSession
      */
-    public ReviewAreaCard(Activity context, Session session, boolean comparePreviousSession) {
+    public ReviewAreaCard(Activity context, SessionFirebase session, boolean comparePreviousSession) {
         this.context = context;
         this.session = session;
         /*
       Patient for this Session
      */
-        Patient patient = session.getPatient();
+        PatientFirebase patient = FirebaseHelper.getPatientFromSession(session);
         this.comparePrevious = comparePreviousSession;
     }
 
@@ -105,7 +106,7 @@ public class ReviewAreaCard extends RecyclerView.Adapter<ReviewAreaCard.TestCard
         String area = Constants.cga_areas[position];
 
         // check if the session had any scale from this area
-        if (Scales.getTestsForArea(session.getScalesFromSession(), area).size() == 0) {
+        if (Scales.getTestsForArea(area).size() == 0) {
             ViewManager parentView = (ViewManager) holder.area.getParent();
             if (parentView != null) {
                 parentView.removeView(holder.area);

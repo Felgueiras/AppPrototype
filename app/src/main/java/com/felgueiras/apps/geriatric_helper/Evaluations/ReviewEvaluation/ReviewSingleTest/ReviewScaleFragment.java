@@ -9,10 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.QuestionsListAdapter;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 
@@ -21,11 +22,11 @@ public class ReviewScaleFragment extends Fragment {
 
     public static String PATIENT = "PATIENT";
     public static String SCALE = "SCALE";
-    Session session;
+    SessionFirebase session;
     /**
      * GeriatricScale which will be written to the DB.
      */
-    private GeriatricScale test;
+    private GeriatricScaleFirebase scale;
 
 
     // Store instance variables based on arguments passed
@@ -35,11 +36,11 @@ public class ReviewScaleFragment extends Fragment {
         setHasOptionsMenu(true);
 
         Bundle bundle = getArguments();
-        test = (GeriatricScale) bundle.getSerializable(SCALE);
-        session = test.getSession();
+        scale = (GeriatricScaleFirebase) bundle.getSerializable(SCALE);
+        session = FirebaseHelper.getSessionFromScale(scale);
 
         // set the title
-        getActivity().setTitle(test.getShortName());
+        getActivity().setTitle(scale.getShortName());
     }
 
     // Inflate the view for the fragment based on layout XML
@@ -51,8 +52,8 @@ public class ReviewScaleFragment extends Fragment {
         // create the adapter
         QuestionsListAdapter adapter = new QuestionsListAdapter(
                 this.getActivity(),
-                Scales.getScaleByName(test.getScaleName()),
-                test, null, getChildFragmentManager(), testQuestions);
+                Scales.getScaleByName(scale.getScaleName()),
+                scale, null, getChildFragmentManager(), testQuestions);
         testQuestions.setAdapter(adapter);
         return view;
     }

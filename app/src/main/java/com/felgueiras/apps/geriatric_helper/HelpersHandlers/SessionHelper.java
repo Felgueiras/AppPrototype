@@ -11,17 +11,14 @@ import android.util.Log;
 import android.view.View;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
-import com.felgueiras.apps.geriatric_helper.DatabaseOps;
 import com.felgueiras.apps.geriatric_helper.Evaluations.PickPatientFragment;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,13 +28,12 @@ import java.util.List;
 public class SessionHelper {
 
     public static void saveSession(final Activity context, final SessionFirebase session, PatientFirebase patient, final View view, View layout, int i) {
-        Log.d("Session", "Saving " + i);
         /**
          * Create session.
          */
 
         // no test selected
-        if (session.getScalesFromSession().size() == 0) {
+        if (FirebaseHelper.getScalesFromSession(session).size() == 0) {
             Log.d("Session", "size");
             Snackbar.make(layout, context.getResources().getString(R.string.you_must_select_test), Snackbar.LENGTH_SHORT).show();
             return;
@@ -46,8 +42,8 @@ public class SessionHelper {
 
         // check how many tests were completed
         int numTestsCompleted = 0;
-        List<GeriatricScale> testsFromSession = session.getScalesFromSession();
-        for (GeriatricScale test : testsFromSession) {
+        List<GeriatricScaleFirebase> testsFromSession = FirebaseHelper.getScalesFromSession(session);
+        for (GeriatricScaleFirebase test : testsFromSession) {
             if (test.isCompleted())
                 numTestsCompleted++;
         }
@@ -85,7 +81,7 @@ public class SessionHelper {
                             FragmentManager fragmentManager = context.getFragmentManager();
 //                                    fragmentManager.popBackStack();
                             BackStackHandler.clearBackStack();
-                            session.eraseScalesNotCompleted();
+                            FirebaseHelper.eraseScalesNotCompleted(session);
 
                             Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
                             fragmentManager.beginTransaction()
@@ -118,35 +114,34 @@ public class SessionHelper {
         /**
          * If first session, all areas must be evaluated.
          */
-        if (patient.isFirstSession()) {
-            // check all areas are evaluated -> at least one test completed
-            boolean allAreasEvaluated = true;
-            for (String currentArea : Constants.cga_areas) {
-                ArrayList<GeriatricScale> scalesFromArea = session.getScalesFromArea(currentArea);
-                boolean oneScaleEvaluated = false;
-                for (GeriatricScale currentScale : scalesFromArea) {
-                    if (currentScale.isCompleted()) {
-                        oneScaleEvaluated = true;
-                        break;
-                    }
-                }
-                if (!oneScaleEvaluated) {
-                    allAreasEvaluated = false;
-                    break;
-                }
-            }
-////             TODO first session for a PATIENT
-//            if (!allAreasEvaluated) {
-//                Snackbar.make(layout, context.getResources().getString(R.string.first_session_evaluate_all_areas), Snackbar.LENGTH_SHORT).show();
-//                return;
+//        if (patient.isFirstSession()) {
+//            // check all areas are evaluated -> at least one test completed
+//            boolean allAreasEvaluated = true;
+//            for (String currentArea : Constants.cga_areas) {
+//                ArrayList<GeriatricScale> scalesFromArea = session.getScalesFromArea(currentArea);
+//                boolean oneScaleEvaluated = false;
+//                for (GeriatricScale currentScale : scalesFromArea) {
+//                    if (currentScale.isCompleted()) {
+//                        oneScaleEvaluated = true;
+//                        break;
+//                    }
+//                }
+//                if (!oneScaleEvaluated) {
+//                    allAreasEvaluated = false;
+//                    break;
+//                }
 //            }
-
-        }
+////            if (!allAreasEvaluated) {
+////                Snackbar.make(layout, context.getResources().getString(R.string.first_session_evaluate_all_areas), Snackbar.LENGTH_SHORT).show();
+////                return;
+////            }
+//
+//        }
         promptDialogReallyWishToSaveSession(session, context, view);
 
     }
 
-    private static void promptDialogReallyWishToSaveSession(final Session session, final Context context, final View view) {
+    private static void promptDialogReallyWishToSaveSession(final SessionFirebase session, final Context context, final View view) {
         // prompt if really want to save it
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
 //            alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
@@ -157,10 +152,7 @@ public class SessionHelper {
                         /**
                          * Erase scales that weren't completed.
                          */
-                        session.eraseScalesNotCompleted();
-
-                        // display results in JSON
-//                        DatabaseOps.getScalesInJson(context);
+                        FirebaseHelper.eraseScalesNotCompleted(session);
 
                         Snackbar.make(view, context.getResources().getString(R.string.session_created), Snackbar.LENGTH_LONG).show();
                         BackStackHandler.goToPreviousScreen();
@@ -187,7 +179,7 @@ public class SessionHelper {
                         // remove session
                         SharedPreferencesHelper.lockSessionCreation(context);
 
-                        Patient p = session.getPatient();
+//                        PatientFirebase p = FirebaseHelper.getPatientFromSession(session);
                         // how many sessions this PATIENT have
                         FragmentManager fragmentManager = context.getFragmentManager();
                         if (place.equals(Constants.SCALE)) {
@@ -196,8 +188,8 @@ public class SessionHelper {
                         } else if (place.equals(Constants.AREA)) {
                             fragmentManager.popBackStack();
                         }
-                        SharedPreferencesHelper.resetPrivateSession(context, session.getGuid());
-                        BackStackHandler.discardSession(p);
+                        SharedPreferencesHelper.resetPrivateSession(context, "");
+                        BackStackHandler.discardSession(session);
                         dialog.dismiss();
                         Snackbar.make(view, context.getResources().getString(R.string.session_discarded), Snackbar.LENGTH_SHORT).show();
                     }

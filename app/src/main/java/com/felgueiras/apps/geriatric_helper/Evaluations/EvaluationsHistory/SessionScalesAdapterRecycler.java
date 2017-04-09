@@ -13,6 +13,7 @@ import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
     /**
      * Questions for a Test
      */
-    private final List<GeriatricScale> sessionScales;
+    private final List<GeriatricScaleFirebase> sessionScales;
     private View testView;
     private View.OnClickListener onClickListener;
 
@@ -56,9 +57,8 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
      *
      * @param tests ArrayList of Questions
      */
-    public SessionScalesAdapterRecycler(Context context, List<GeriatricScale> tests) {
+    public SessionScalesAdapterRecycler(Context context, List<GeriatricScaleFirebase> tests) {
         this.sessionScales = tests;
-        Context context1 = context;
     }
 
 
@@ -73,7 +73,7 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
     public void onBindViewHolder(SessionScalesAdapterRecycler.MyViewHolder holder, int position) {
 
         // get values
-        GeriatricScale scale = sessionScales.get(position);
+        GeriatricScaleFirebase scale = sessionScales.get(position);
         String name = Scales.getShortName(scale.getScaleName());
         GradingNonDB grading = Scales.getGradingForTestWithoutGenerating(scale, Constants.SESSION_GENDER);
         // update views

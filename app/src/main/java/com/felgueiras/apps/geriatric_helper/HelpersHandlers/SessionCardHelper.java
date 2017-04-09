@@ -13,9 +13,10 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsAll;
 import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsHistoryMain;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
 import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.PatientProfileFragment;
@@ -28,11 +29,11 @@ import com.felgueiras.apps.geriatric_helper.R;
 public class SessionCardHelper implements View.OnClickListener {
     private final int position;
     private final Activity context;
-    private final Session session;
+    private final SessionFirebase session;
     private final Fragment fragment;
     private final ImageView overflow;
 
-    public SessionCardHelper(ImageView overflow, int position, Activity context, Session session) {
+    public SessionCardHelper(ImageView overflow, int position, Activity context, SessionFirebase session) {
         this.overflow = overflow;
         this.position = position;
         this.context = context;
@@ -89,7 +90,7 @@ public class SessionCardHelper implements View.OnClickListener {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Snackbar.make(view, "Sessão eliminada.", Snackbar.LENGTH_SHORT).show();
-                                    session.delete();
+                                    FirebaseHelper.deleteSession(session);
                                     // refresh the adapter
                                     if (fragment instanceof PatientSessionsFragment)
                                         ((PatientSessionsFragment) fragment).removeSession(position);
@@ -112,7 +113,7 @@ public class SessionCardHelper implements View.OnClickListener {
                     Fragment endFragment = new PatientProfileFragment();
 
                     Bundle args = new Bundle();
-                    args.putSerializable(PatientProfileFragment.PATIENT, session.getPatient());
+                    args.putSerializable(PatientProfileFragment.PATIENT, FirebaseHelper.getPatientFromSession(session));
                     ((PrivateAreaActivity) context).replaceFragmentSharedElements(endFragment,
                             args,
                             Constants.tag_view_patient_info_records_from_sessions_list,

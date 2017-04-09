@@ -12,8 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
 import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.PatientProfileFragment;
@@ -30,7 +31,7 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
     /**
      * Data to be displayed.
      */
-    private List<Session> sessionsList;
+    private List<SessionFirebase> sessionsList;
     /**
      * View that holds the current evaluation.
      */
@@ -55,15 +56,13 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
 
     /**
      * Constructor of the SessionCardEvaluationHistory
-     *
-     * @param context
+     *  @param context
      * @param sessionsList
      * @param fragment
      */
-    public PatientCardRecent(Activity context, List<Session> sessionsList, PatientsRecent fragment) {
+    public PatientCardRecent(Activity context, List<SessionFirebase> sessionsList, PatientsRecent fragment) {
         this.context = context;
         this.sessionsList = sessionsList;
-        PatientsRecent fragment1 = fragment;
 
     }
 
@@ -76,9 +75,9 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         // get the current Session and tests from that Session
-        final Session session = sessionsList.get(position);
+        final SessionFirebase session = sessionsList.get(position);
 //        List<GeriatricScale> scalesFromSession = session.getScalesFromSession();
-        final Patient patient = session.getPatient();
+        final PatientFirebase patient = FirebaseHelper.getPatientFromSession(session);
         if(patient!=null)
         {
             holder.name.setText(patient.getName());

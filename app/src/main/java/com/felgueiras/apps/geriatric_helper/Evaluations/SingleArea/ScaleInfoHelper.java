@@ -26,16 +26,17 @@ public class ScaleInfoHelper implements View.OnClickListener {
 
 
     private Activity context;
-    private GeriatricScale currentScale;
+    private GeriatricScaleNonDB currentScale;
     private int background = R.drawable.cell_shape;
     private int paddingValue = 5;
+
 
     public ScaleInfoHelper(Activity context, GeriatricScaleNonDB currentScale) {
         this.context = context;
         this.currentScale = currentScale;
     }
 
-    public ScaleInfoHelper(Activity context, GeriatricScaleFirebase currentScale) {
+    public ScaleInfoHelper(Activity context) {
         this.context = context;
     }
 

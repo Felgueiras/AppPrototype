@@ -19,10 +19,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
@@ -41,7 +42,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class CGAPublic extends Fragment {
 
-    private Session session;
+    private SessionFirebase session;
 
     boolean resuming = false;
 
@@ -94,7 +95,7 @@ public class CGAPublic extends Fragment {
 
         if (sessionID != null) {
             // get session by ID
-            session = Session.getSessionByID(sessionID);
+            session = FirebaseHelper.getSessionByID(sessionID);
         }
         /**
          * Create a new one.
@@ -250,17 +251,20 @@ public class CGAPublic extends Fragment {
     private void addScalesToSession() {
         ArrayList<GeriatricScaleNonDB> testsNonDB = Scales.getAllScales();
         for (GeriatricScaleNonDB testNonDB : testsNonDB) {
-            GeriatricScale scale = new GeriatricScale();
+            GeriatricScaleFirebase scale = new GeriatricScaleFirebase();
             scale.setGuid(session.getGuid() + "-" + testNonDB.getScaleName());
             scale.setTestName(testNonDB.getScaleName());
             scale.setShortName(testNonDB.getShortName());
             scale.setArea(testNonDB.getArea());
-            scale.setSession(session);
+            scale.setSessionID(session.getGuid());
             scale.setDescription(testNonDB.getDescription());
             if (testNonDB.isSingleQuestion())
                 scale.setSingleQuestion(true);
+            if(testNonDB.getScaleName().equals(Constants.test_name_marchaHolden))
+                scale.setContainsPhoto(true);
             scale.setAlreadyOpened(false);
-            scale.save();
+
+            FirebaseHelper.saveScale(scale);
         }
     }
 
@@ -272,7 +276,7 @@ public class CGAPublic extends Fragment {
         Date time = c.getTime();
         String sessionID = time.toString();
         // save to dabatase
-        session = new Session();
+        session = new SessionFirebase();
         session.setGuid(sessionID);
 
         // set date
@@ -284,7 +288,8 @@ public class CGAPublic extends Fragment {
         int minute = now.get(Calendar.MINUTE);
         session.setDate(DatesHandler.createCustomDate(year, month, day, hour, minute));
         //system.out.println("Session date is " + session.getDate());
-        session.save();
+        FirebaseHelper.saveSession(session);
+
 
         // save the ID
         sharedPreferences.edit().putString(getString(R.string.saved_session_public), sessionID).apply();
@@ -298,10 +303,10 @@ public class CGAPublic extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // remove session
-                        session.eraseScalesNotCompleted();
+                        FirebaseHelper.eraseScalesNotCompleted(session);
                         Snackbar.make(getView(), "Sessão terminada", Snackbar.LENGTH_SHORT).show();
 
-                        if (session.getScalesFromSession().size() == 0) {
+                        if (FirebaseHelper.getScalesFromSession(session).size() == 0) {
                             SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
 
                             BackStackHandler.clearBackStack();
@@ -313,7 +318,7 @@ public class CGAPublic extends Fragment {
                                     .replace(R.id.current_fragment, fragment)
                                     .commit();
                         } else {
-                            Session sessionCopy = session;
+                            SessionFirebase sessionCopy = session;
                             SharedPreferencesHelper.resetPublicSession(getActivity(), null);
 
 //                                    BackStackHandler.clearBackStack();

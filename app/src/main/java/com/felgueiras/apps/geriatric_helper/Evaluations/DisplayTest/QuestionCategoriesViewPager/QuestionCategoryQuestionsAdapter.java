@@ -18,6 +18,7 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionCategory;
 import com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.QuestionsListAdapter;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 /**
@@ -41,7 +42,7 @@ public class QuestionCategoryQuestionsAdapter extends Fragment {
 
     public static final QuestionCategoryQuestionsAdapter newInstance(int categoryIndex,
                                                                      GeriatricScaleNonDB scaleNonDB,
-                                                                     GeriatricScale scaleDB,
+                                                                     GeriatricScaleFirebase scaleDB,
                                                                      QuestionsListAdapter adapter, ViewPager viewPager) {
         QuestionCategoryQuestionsAdapter f = new QuestionCategoryQuestionsAdapter();
         Bundle bdl = new Bundle(1);

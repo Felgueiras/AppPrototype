@@ -379,6 +379,12 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="btn_forgot_password">Esqueceu password</string>
     <string name="minimum_password">Pelo menos 6 chars</string>
     <string name="auth_failed">Falhou</string>
+    <string name="add_prescription">Nova Prescrição</string>
+    <string name="add_prescription_error_name">Precisa de fornecer um nome para a prescrição</string>
+    <string name="add_prescription_success">Prescrição criada com sucesso</string>
+    <string name="action_take_photo">Fotografia</string>
+    <string name="clock_drawing_photo">Deve tirar uma fotografia do relógio desenhado pelo paciente</string>
+    <string name="take_photo">Tirar fotografia</string>
 
 
 </resources>

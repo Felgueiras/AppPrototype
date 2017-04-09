@@ -31,15 +31,16 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Choice;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.ChoiceNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionNonDB;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Question;
 import com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.QuestionCategoriesViewPager.QuestionMultipleCategoriesViewPager;
 import com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.SingleQuestion.MultipleChoiceHandler;
+import com.felgueiras.apps.geriatric_helper.Firebase.ChoiceFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.QuestionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.io.Serializable;
@@ -62,7 +63,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
     /**
      * Test
      */
-    private final GeriatricScale scale;
+    private final GeriatricScaleFirebase scale;
     private final GeriatricScaleNonDB testNonDB;
     private final ProgressBar progressBar;
     private final FragmentManager childFragmentManager;
@@ -90,7 +91,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
      * @param childFragmentManager
      * @param listView
      */
-    public QuestionsListAdapter(Activity context, GeriatricScaleNonDB testNonDb, GeriatricScale test, ProgressBar progress, FragmentManager childFragmentManager, ListView listView) {
+    public QuestionsListAdapter(Activity context, GeriatricScaleNonDB testNonDb, GeriatricScaleFirebase test, ProgressBar progress, FragmentManager childFragmentManager, ListView listView) {
         this.context = context;
         this.questions = testNonDb.getQuestions();
         this.scale = test;
@@ -105,8 +106,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             progressBar.setMax(numquestions);
             int numAnswered = 0;
             // check how many questions were answered
-            ArrayList<Question> questions = test.getQuestionsFromScale();
-            for (Question question : questions) {
+            ArrayList<QuestionFirebase> questions = FirebaseHelper.getQuestionsFromScale(scale);
+            for (QuestionFirebase question : questions) {
                 if (question.isAnswered()) {
                     numAnswered++;
                     positionsFilled.add(questions.indexOf(question));
@@ -185,7 +186,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 
             // write that to DB
             scale.setCompleted(true);
-            scale.save();
+
+            FirebaseHelper.updateScale(scale);
         }
     }
 
@@ -271,20 +273,20 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
      */
     private View multipleTextInput(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
         // question in DB
-        Question questionInDB;
+        QuestionFirebase questionInDB;
         String dummyID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
-        questionInDB = Question.getQuestionByID(dummyID);
+        questionInDB = FirebaseHelper.getQuestionByID(dummyID);
         if (questionInDB == null) {
             // create question and add to DB
-            questionInDB = new Question();
+            questionInDB = new QuestionFirebase();
             questionInDB.setGuid(dummyID);
             questionInDB.setDescription(currentQuestionNonDB.getDescription());
-            questionInDB.setScale(scale);
+            questionInDB.setScaleID(scale.getGuid());
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(false);
             questionInDB.setNumerical(false);
             questionInDB.setMultipleTextInput(true);
-            questionInDB.save();
+            FirebaseHelper.saveQuestion(questionInDB);
         }
 
         /**
@@ -303,7 +305,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         }
 
         // detect when answer changes changed
-        final Question finalQuestionInDB = questionInDB;
+        final QuestionFirebase finalQuestionInDB = questionInDB;
         answer.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -314,7 +316,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 finalQuestionInDB.setTextAnswer(charSequence.toString());
                 finalQuestionInDB.setAnswered(true);
-                finalQuestionInDB.save();
+                FirebaseHelper.saveQuestion(finalQuestionInDB);
 
                 questionAnswered(questionIndex);
             }
@@ -338,19 +340,19 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
      */
     private View numericalQuestion(final QuestionNonDB questionNonDB, final int questionIndex) {
         // question in DB
-        Question questionInDB;
+        QuestionFirebase questionInDB;
         String dummyID = scale.getGuid() + "-" + questionNonDB.getDescription();
-        questionInDB = Question.getQuestionByID(dummyID);
+        questionInDB = FirebaseHelper.getQuestionByID(dummyID);
         if (questionInDB == null) {
             // create question and add to DB
-            questionInDB = new Question();
+            questionInDB = new QuestionFirebase();
             questionInDB.setGuid(dummyID);
             questionInDB.setDescription(questionNonDB.getDescription());
-            questionInDB.setScale(scale);
+            questionInDB.setScaleID(scale.getGuid());
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(false);
             questionInDB.setNumerical(true);
-            questionInDB.save();
+            FirebaseHelper.saveQuestion(questionInDB);
         }
 
         /**
@@ -369,7 +371,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         }
 
         // detect when answer changes changed
-        final Question finalQuestionInDB = questionInDB;
+        final QuestionFirebase finalQuestionInDB = questionInDB;
         answer.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -383,7 +385,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                     answerNumber = Integer.parseInt(charSequence.toString());
                     finalQuestionInDB.setAnswerNumber(answerNumber);
                     finalQuestionInDB.setAnswered(true);
-                    finalQuestionInDB.save();
+                    FirebaseHelper.saveQuestion(finalQuestionInDB);
                 }
 
 
@@ -414,18 +416,19 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
      */
     private View rightWrong(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
         // question in DB
-        Question questionInDB;
+        QuestionFirebase questionInDB;
         String dummyID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
-        questionInDB = Question.getQuestionByID(dummyID);
+        questionInDB = FirebaseHelper.getQuestionByID(dummyID);
         if (questionInDB == null) {
             // create question and add to DB
-            questionInDB = new Question();
+            questionInDB = new QuestionFirebase();
             questionInDB.setGuid(dummyID);
             questionInDB.setDescription(currentQuestionNonDB.getDescription());
-            questionInDB.setScale(scale);
+            questionInDB.setScaleID(scale.getGuid());
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(true);
-            questionInDB.save();
+            FirebaseHelper.saveQuestion(questionInDB);
+
         }
 
 
@@ -453,7 +456,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 
         final QuestionsListAdapter adapter = this;
 
-        final Question finalQuestionInDB = questionInDB;
+        final QuestionFirebase finalQuestionInDB = questionInDB;
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -470,7 +473,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                     return;
                 }
                 finalQuestionInDB.setAnswered(true);
-                finalQuestionInDB.save();
+                FirebaseHelper.saveQuestion(finalQuestionInDB);
+
                 /**
                  * Signal that que Question was answered
                  */
@@ -535,7 +539,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                     scale.setAlreadyOpened(true);
                     scale.setAnswer(grading.getGrade());
                     scale.setCompleted(true);
-                    scale.save();
+
+                    FirebaseHelper.updateScale(scale);
                 }
             });
         }
@@ -552,7 +557,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
      * @param i
      * @return
      */
-    private RadioButton addRadioButton(Choice choice, RadioGroup radioGroup, int i, Activity context) {
+    private RadioButton addRadioButton(ChoiceFirebase choice, RadioGroup radioGroup, int i, Activity context) {
         RadioButton newRadioButton = new RadioButton(context);
         if (choice.getName().equals("") || choice.getName() == null) {
             newRadioButton.setText(choice.getDescription());
@@ -605,15 +610,16 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         RadioGroup radioGroup;
         // check if is already in DB
         String questionID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
-        Question question = Question.getQuestionByID(questionID);
+        QuestionFirebase question = FirebaseHelper.getQuestionByID(questionID);
         if (question == null) {
             // create question and add to DB
-            question = new Question();
+            question = new QuestionFirebase();
             question.setDescription(currentQuestionNonDB.getDescription());
             question.setGuid(questionID);
-            question.setScale(scale);
+            question.setScaleID(scale.getGuid());
             question.setYesOrNo(false);
-            question.save();
+            FirebaseHelper.saveQuestion(question);
+
 
             // create Choices and add to DB
             ArrayList<ChoiceNonDB> choicesNonDB = currentQuestionNonDB.getChoices();
@@ -621,17 +627,18 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 
             for (int i = 0; i < choicesNonDB.size(); i++) {
                 ChoiceNonDB currentChoice = choicesNonDB.get(i);
-                Choice choice = new Choice();
+                ChoiceFirebase choice = new ChoiceFirebase();
                 String choiceID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription() + "-" + currentChoice.getDescription();
                 // check if already in DB
-                if (Choice.getChoiceByID(choiceID) == null) {
+                if (FirebaseHelper.getChoiceByID(choiceID) == null) {
                     choice.setGuid(choiceID);
-                    choice.setQuestion(question);
+                    choice.setQuestionID(question.getGuid());
                     if (currentChoice.getName() != null)
                         choice.setName(currentChoice.getName());
                     choice.setDescription(currentChoice.getDescription());
                     choice.setScore(currentChoice.getScore());
-                    choice.save();
+
+                    FirebaseHelper.saveChoice(choice);
                 }
 
                 // create RadioButton for that choice
@@ -640,12 +647,12 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 
         } else {
             // get Question from DB
-            question = scale.getQuestionsFromScale().get(position);
+            question = FirebaseHelper.getQuestionsFromScale(scale).get(position);
             // create Radio Group from the info in DB
             radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
 
-            for (int i = 0; i < question.getChoicesForQuestion().size(); i++) {
-                Choice choice = question.getChoicesForQuestion().get(i);
+            for (int i = 0; i < FirebaseHelper.getChoicesForQuestion(question).size(); i++) {
+                ChoiceFirebase choice = FirebaseHelper.getChoicesForQuestion(question).get(i);
 
                 // create RadioButton for that choice
                 addRadioButton(choice, radioGroup, i, context);
@@ -663,7 +670,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             // set the selected option
             String selectedChoice = question.getSelectedChoice();
             //system.out.println("sel choice is " + selectedChoice);
-            ArrayList<Choice> choices = question.getChoicesForQuestion();
+            ArrayList<ChoiceFirebase> choices = FirebaseHelper.getChoicesForQuestion(question);
             int selectedIdx = -1;
             for (int i = 0; i < choices.size(); i++) {
                 if (choices.get(i).getName().equals(selectedChoice)) {
@@ -709,35 +716,39 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 
         // check if is already in DB
 
-        Question question = null;
+        QuestionFirebase question = null;
         if (scale != null) {
             String questionID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
-            question = Question.getQuestionByID(questionID);
+            question = FirebaseHelper.getQuestionByID(questionID);
             if (question == null) {
                 // create question and add to DB
-                question = new Question();
+                question = new QuestionFirebase();
                 question.setDescription(currentQuestionNonDB.getDescription());
                 question.setGuid(questionID);
-                question.setScale(scale);
+                question.setScaleID(scale.getGuid());
                 question.setYesOrNo(false);
-                question.save();
+
+                FirebaseHelper.saveQuestion(question);
 
                 // create Choices and add to DB
                 ArrayList<ChoiceNonDB> choicesNonDB = currentQuestionNonDB.getChoices();
 
                 for (int i = 0; i < choicesNonDB.size(); i++) {
                     ChoiceNonDB currentChoice = choicesNonDB.get(i);
-                    Choice choice = new Choice();
+                    ChoiceFirebase choice = new ChoiceFirebase();
                     String choiceID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription() + "-" + currentChoice.getDescription();
                     // check if already in DB
-                    if (Choice.getChoiceByID(choiceID) == null) {
+                    if (FirebaseHelper.getChoiceByID(choiceID) == null) {
                         choice.setGuid(choiceID);
-                        choice.setQuestion(question);
+                        choice.setQuestionID(question.getGuid());
                         if (currentChoice.getName() != null)
                             choice.setName(currentChoice.getName());
                         choice.setDescription(currentChoice.getDescription());
                         choice.setScore(currentChoice.getScore());
-                        choice.save();
+                        FirebaseHelper.saveChoice(choice);
+                        question.addChoiceID(choiceID);
+
+
                     }
 
                     if (choice.getName().equals("") || choice.getName() == null) {
@@ -751,16 +762,17 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                     }
                 }
 
+
             } else {
                 /**
                  * Question in DB,
                  */
                 // get Question from DB
-                question = scale.getQuestionsFromScale().get(questionIndex);
+                question = FirebaseHelper.getQuestionsFromScale(scale).get(questionIndex);
                 // create Radio Group from the info in DB
 
-                for (int i = 0; i < question.getChoicesForQuestion().size(); i++) {
-                    Choice choice = question.getChoicesForQuestion().get(i);
+                for (int i = 0; i < FirebaseHelper.getChoicesForQuestion(question).size(); i++) {
+                    ChoiceFirebase choice = FirebaseHelper.getChoicesForQuestion(question).get(i);
 
                     if (choice.getName().equals("") || choice.getName() == null) {
                         arrayAdapter.add(choice.getDescription());
@@ -801,7 +813,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             holder.question.setBackgroundResource(R.color.question_answered);
         }
 
-        final Question finalQuestion = question;
+        final QuestionFirebase finalQuestion = question;
         final QuestionsListAdapter adapter = this;
         if (question != null) {
             builderSingle.setAdapter(arrayAdapter,
@@ -836,7 +848,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                     // set the selected option
                     String selectedChoice = finalQuestion.getSelectedChoice();
                     //system.out.println("sel choice is " + selectedChoice);
-                    ArrayList<Choice> choices = finalQuestion.getChoicesForQuestion();
+                    ArrayList<ChoiceFirebase> choices = FirebaseHelper.getChoicesForQuestion(finalQuestion);
                     for (int i = 0; i < choices.size(); i++) {
                         if (choices.get(i).getName().equals(selectedChoice)) {
                             selectedIdx = i;
@@ -867,21 +879,22 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 
     private View yesNo(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
         // question in DB
-        Question question = null;
+        QuestionFirebase question = null;
         if (scale != null) {
             String dummyID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
-            question = Question.getQuestionByID(dummyID);
+            question = FirebaseHelper.getQuestionByID(dummyID);
             if (question == null) {
                 // create question and add to DB
-                question = new Question();
+                question = new QuestionFirebase();
                 question.setGuid(dummyID);
                 question.setDescription(currentQuestionNonDB.getDescription());
-                question.setScale(scale);
+                question.setScaleID(scale.getGuid());
                 question.setYesOrNo(true);
                 question.setRightWrong(false);
                 question.setYesValue(currentQuestionNonDB.getYesScore());
                 question.setNoValue(currentQuestionNonDB.getNoScore());
-                question.save();
+
+                FirebaseHelper.saveQuestion(question);
             }
         }
 
@@ -913,7 +926,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             }
         }
 
-        final Question finalQuestion = question;
+        final QuestionFirebase finalQuestion = question;
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -931,7 +944,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                         return;
                     }
                     finalQuestion.setAnswered(true);
-                    finalQuestion.save();
+                    FirebaseHelper.updateQuestion(finalQuestion);
+
                     /**
                      * Signal that que Question was answered
                      */

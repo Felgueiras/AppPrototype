@@ -15,7 +15,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.R;
 
@@ -30,7 +31,7 @@ public class PatientsRecentDayAdapter extends BaseAdapter {
     private final PatientsRecent fragment;
     Activity context;
     LayoutInflater inflater;
-    private List<Session> sessionsFromDate;
+    private List<SessionFirebase> sessionsFromDate;
     private RecyclerView recyclerView;
     private PatientCardRecent adapter;
 
@@ -45,10 +46,9 @@ public class PatientsRecentDayAdapter extends BaseAdapter {
         TextView dateTextView = (TextView) singleDayInfo.findViewById(R.id.dateText);
 
         // get the date
-        Date currentDate = Session.getDifferentSessionDates().get(position);
+        Date currentDate = FirebaseHelper.getDifferentSessionDates().get(position);
         dateTextView.setText(DatesHandler.dateToStringWithoutHour(currentDate));
-        // get NewEvaluationPrivate for that date
-        sessionsFromDate = Session.getSessionsFromDate(currentDate);
+        sessionsFromDate = FirebaseHelper.getSessionsFromDate(currentDate);
         dateTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.calendar_white, 0, 0, 0);
 
 
@@ -88,7 +88,9 @@ public class PatientsRecentDayAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return Session.getDifferentSessionDates().size();
+
+
+        return FirebaseHelper.getDifferentSessionDates().size();
     }
 
     @Override
