@@ -115,7 +115,7 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
     @Override
     public int getItemCount() {
         // get the number of tests that exist for this area
-        scalesForArea = Scales.getTestsForArea(area);
+        scalesForArea = Scales.getScalesForArea(area);
         return scalesForArea.size();
     }
 

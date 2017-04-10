@@ -17,7 +17,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
@@ -74,7 +73,6 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
         this.patient = FirebaseHelper.getPatientFromSession(session);
         this.area = area;
         this.comparePrevious = comparePrevious;
-        System.out.println("Reviewing scales for " + area);
     }
 
 
@@ -106,6 +104,12 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
 
         // access a given Test from the DB
         holder.name.setText(currentScale.getShortName());
+
+        // display subcategory for functional area scales
+        if (area.equals(Constants.cga_functional)) {
+            holder.subCategory.setVisibility(View.VISIBLE);
+            holder.subCategory.setText(currentScale.getSubCategory());
+        }
 
         // display Scoring to the user
         GradingNonDB match;

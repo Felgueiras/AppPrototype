@@ -540,6 +540,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                     scale.setAnswer(grading.getGrade());
                     scale.setCompleted(true);
 
+
                     FirebaseHelper.updateScale(scale);
                 }
             });
@@ -638,7 +639,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                     choice.setDescription(currentChoice.getDescription());
                     choice.setScore(currentChoice.getScore());
 
-                    FirebaseHelper.saveChoice(choice);
+                    FirebaseHelper.createChoice(choice);
                 }
 
                 // create RadioButton for that choice
@@ -745,7 +746,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                             choice.setName(currentChoice.getName());
                         choice.setDescription(currentChoice.getDescription());
                         choice.setScore(currentChoice.getScore());
-                        FirebaseHelper.saveChoice(choice);
+                        FirebaseHelper.createChoice(choice);
                         question.addChoiceID(choiceID);
 
 

@@ -22,6 +22,7 @@ import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
     public static class ScaleCardHolder extends RecyclerView.ViewHolder implements Serializable {
         public final TextView result_quantitative;
         public final TextView notes;
+        public final TextView subCategory;
         public TextView name;
         public ImageButton description;
         public TextView result_qualitative;
@@ -62,6 +64,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
         public ScaleCardHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.testName);
+            subCategory = (TextView) view.findViewById(R.id.testSubCategory);
             description = (ImageButton) view.findViewById(R.id.scale_info);
             result_qualitative = (TextView) view.findViewById(R.id.result_qualitative);
             result_quantitative = (TextView) view.findViewById(R.id.result_quantitative);
@@ -74,7 +77,8 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
     /**
      * Constructor of the SessionCardEvaluationHistory
-     *  @param context       current Context
+     *
+     * @param context       current Context
      * @param session
      * @param reviewing     true if we are reviewing a Session
      * @param patientGender
@@ -97,24 +101,31 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
     @Override
     public void onBindViewHolder(final ScaleCardHolder holder, int position) {
         // get constants
+        // TODO display subcategory for functional area
         ViewManager parentView = (ViewManager) holder.result_qualitative.getParent();
+        // get scale nonDB
+        GeriatricScaleNonDB scaleNonDB = testsForArea.get(position);
 
-        String testCompletionNotSelected = context.getResources().getString(R.string.test_not_selected);
+        GeriatricScaleFirebase currentScale = FirebaseHelper.getScaleFromSession(session, scaleNonDB.getScaleName());
+
+//        String testCompletionNotSelected = context.getResources().getString(R.string.test_not_selected);
         String testCompletionSelectedIncomplete = context.getResources().getString(R.string.test_incomplete);
 
-        String scaleName = testsForArea.get(position).getScaleName();
 
-        // access a given Test from the DB
-        GeriatricScaleFirebase currentScale = FirebaseHelper.getScaleFromSession(session,scaleName);
+        holder.name.setText(scaleNonDB.getShortName());
 
-        holder.name.setText(testsForArea.get(position).getShortName());
+        // display subcategory for functional area scales
+        if (area.equals(Constants.cga_functional)) {
+            holder.subCategory.setVisibility(View.VISIBLE);
+            holder.subCategory.setText(scaleNonDB.getSubCategory());
+        }
 
         final GeriatricScaleFirebase finalCurrentTest = currentScale;
 
         holder.description.setOnClickListener(new ScaleInfoHelper(context, Scales.getScaleByName(currentScale.getScaleName())));
 
         // Test was already opened
-        if (currentScale!= null && currentScale.isAlreadyOpened()) {
+        if (currentScale != null && currentScale.isAlreadyOpened()) {
             float selected = 1f;
             holder.view.setAlpha(selected);
             // already complete
@@ -140,10 +151,8 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                             quantitative += "-" + testNonDB.getScoring().getMaxMen() + ")";
                         }
                     }
-                }
-                else
-                {
-                    quantitative ="";
+                } else {
+                    quantitative = "";
                 }
                 holder.result_quantitative.setText(quantitative);
             }
@@ -163,7 +172,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
         }
 
 
-        if (currentScale!=null && currentScale.hasNotes()) {
+        if (currentScale != null && currentScale.hasNotes()) {
             parentView.removeView(holder.addNotesButton);
             holder.notes.setText(currentScale.getNotes());
         } else {
@@ -184,13 +193,9 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                 if (finalCurrentTest.getScaleName().equals(Constants.test_name_mini_nutritional_assessment_global)) {
                     // check if triagem is already answered
 
-
                     GeriatricScaleFirebase triagem = FirebaseHelper.getScaleFromSession(session,
                             Constants.test_name_mini_nutritional_assessment_triagem);
-                    if (!triagem.isCompleted()) {
-                        Snackbar.make(holder.view, "Precisa primeiro de completar a triagem", Snackbar.LENGTH_SHORT).show();
-                        return;
-                    }
+
                 }
 
                 String selectedTestName = finalCurrentTest.getScaleName();
@@ -240,7 +245,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
     @Override
     public int getItemCount() {
         // get the number of tests that exist for this area
-        testsForArea = Scales.getTestsForArea(area);
+        testsForArea = Scales.getScalesForArea(area);
         return testsForArea.size();
     }
 

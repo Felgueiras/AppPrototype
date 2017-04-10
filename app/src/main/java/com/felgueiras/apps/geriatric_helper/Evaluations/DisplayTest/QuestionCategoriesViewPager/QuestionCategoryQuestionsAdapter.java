@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionCategory;
 import com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.QuestionsListAdapter;
@@ -30,7 +29,7 @@ public class QuestionCategoryQuestionsAdapter extends Fragment {
     public static final String SCALE_NON_DB = "SCALE_NON_DB";
     public static final String ADAPTER = "ADAPTER";
     private GeriatricScaleNonDB scaleNonDB;
-    private GeriatricScale scaleDB;
+    private GeriatricScaleFirebase scaleDB;
     private int categoryIndex;
     private TextView categoryTextView;
     private TextView categoryNumber;
@@ -62,7 +61,7 @@ public class QuestionCategoryQuestionsAdapter extends Fragment {
 
         categoryIndex = getArguments().getInt(EXTRA_MESSAGE);
         scaleNonDB = (GeriatricScaleNonDB) getArguments().getSerializable(SCALE_NON_DB);
-        scaleDB = (GeriatricScale) getArguments().getSerializable(SCALE_DB);
+        scaleDB = (GeriatricScaleFirebase) getArguments().getSerializable(SCALE_DB);
         adapter = (QuestionsListAdapter) getArguments().getSerializable(ADAPTER);
 
         View questionView = inflater.inflate(R.layout.questions_multiple_categories_individual, null);

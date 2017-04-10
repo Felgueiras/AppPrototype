@@ -19,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.StringHelper;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
@@ -178,7 +177,7 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
     /**
      * Showing popup menu when tapping on 3 dots
      */
-    private void showPopupMenu(View view, Patient patient) {
+    private void showPopupMenu(View view, PatientFirebase patient) {
         // inflate menu
         PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
@@ -195,9 +194,9 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
     class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
 
         private final View view;
-        private final Patient patient;
+        private final PatientFirebase patient;
 
-        public MyMenuItemClickListener(View view, Patient position) {
+        public MyMenuItemClickListener(View view, PatientFirebase position) {
             this.view = view;
             this.patient = position;
         }

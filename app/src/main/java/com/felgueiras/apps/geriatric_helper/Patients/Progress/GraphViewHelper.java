@@ -7,12 +7,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewScaleFragment;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.ValueDependentColor;
@@ -40,8 +41,8 @@ public class GraphViewHelper {
      * @param context
      * @param patient
      */
-    public static void buildProgressGraph(GraphView graph, final ArrayList<GeriatricScale> scaleInstances,
-                                          final GeriatricScaleNonDB scaleInfo, final Activity context, final Patient patient) {
+    public static void buildProgressGraph(GraphView graph, final ArrayList<GeriatricScaleFirebase> scaleInstances,
+                                          final GeriatricScaleNonDB scaleInfo, final Activity context, final PatientFirebase patient) {
 
         // set date label formatter
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.UK);
@@ -58,12 +59,12 @@ public class GraphViewHelper {
         int current = 0;
         // y axis - score
         ArrayList<Double> yAxis = new ArrayList<>();
-        for (GeriatricScale t : scaleInstances) {
-            Date date = t.getSession().getDate();
+        for (GeriatricScaleFirebase scale : scaleInstances) {
+            Date date = FirebaseHelper.getSessionFromScale(scale).getDate();
             xAxisDate.add(date);
 //            xAxisString.add(date.toString());
             xAxisDouble.add(current++);
-            yAxis.add(t.getResult());
+            yAxis.add(scale.getResult());
         }
 
 
@@ -107,7 +108,7 @@ public class GraphViewHelper {
                 // check the x -> index
                 int index = (int) dataPoint.getX();
                 Date currentDate = xAxisDate.get(index);
-                GeriatricScale selectedScale = scaleInstances.get(index);
+                GeriatricScaleFirebase selectedScale = scaleInstances.get(index);
 
 
                 // view the results for the selected session
@@ -153,7 +154,7 @@ public class GraphViewHelper {
 
     }
 
-    public static int findColorForScore(String scaleName, double score, Patient patient) {
+    public static int findColorForScore(String scaleName, double score, PatientFirebase patient) {
 
         GeriatricScaleNonDB scaleNonDB = Scales.getScaleByName(scaleName);
 
@@ -178,7 +179,7 @@ public class GraphViewHelper {
         return Color.rgb(0, (int) green, 0);
     }
 
-    public static int findColorForGrade(String scaleName, GradingNonDB grade, Patient patient, ArrayList<GradingNonDB> toConsider) {
+    public static int findColorForGrade(String scaleName, GradingNonDB grade, PatientFirebase patient, ArrayList<GradingNonDB> toConsider) {
 
         GeriatricScaleNonDB scaleNonDB = Scales.getScaleByName(scaleName);
 

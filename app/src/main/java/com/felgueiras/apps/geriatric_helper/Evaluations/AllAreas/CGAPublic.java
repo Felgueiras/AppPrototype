@@ -95,7 +95,7 @@ public class CGAPublic extends Fragment {
 
         if (sessionID != null) {
             // get session by ID
-            session = FirebaseHelper.getSessionByID(sessionID);
+            session = Constants.publicSession;
         }
         /**
          * Create a new one.
@@ -144,7 +144,7 @@ public class CGAPublic extends Fragment {
 
 
         RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.area_scales_recycler_view);
-//        AreaCard adapter = new AreaCard(getActivity(), session, resuming, Constants.SESSION_GENDER);
+        AreaCard adapter = new AreaCard(getActivity(), session, resuming, Constants.SESSION_GENDER);
 
         Button finishSession = (Button) myInflatedView.findViewById(R.id.session_finish);
         finishSession.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +160,7 @@ public class CGAPublic extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
 
         /*
         saveFAB = (FloatingActionButton) myInflatedView.findViewById(R.id.session_save);
@@ -256,6 +256,7 @@ public class CGAPublic extends Fragment {
             scale.setTestName(testNonDB.getScaleName());
             scale.setShortName(testNonDB.getShortName());
             scale.setArea(testNonDB.getArea());
+            scale.setSubCategory(testNonDB.getSubCategory());
             scale.setSessionID(session.getGuid());
             scale.setDescription(testNonDB.getDescription());
             if (testNonDB.isSingleQuestion())
@@ -264,7 +265,7 @@ public class CGAPublic extends Fragment {
                 scale.setContainsPhoto(true);
             scale.setAlreadyOpened(false);
 
-            FirebaseHelper.saveScale(scale);
+            Constants.publicScales.add(scale);
         }
     }
 
@@ -272,6 +273,10 @@ public class CGAPublic extends Fragment {
      * Generate a new Session.
      */
     private void createNewSession() {
+
+        // clear public data
+        Constants.publicScales.clear();
+
         Calendar c = Calendar.getInstance();
         Date time = c.getTime();
         String sessionID = time.toString();
@@ -288,11 +293,14 @@ public class CGAPublic extends Fragment {
         int minute = now.get(Calendar.MINUTE);
         session.setDate(DatesHandler.createCustomDate(year, month, day, hour, minute));
         //system.out.println("Session date is " + session.getDate());
-        FirebaseHelper.saveSession(session);
+//        FirebaseHelper.createSession(session);
 
 
         // save the ID
         sharedPreferences.edit().putString(getString(R.string.saved_session_public), sessionID).apply();
+
+        // save in constants
+        Constants.publicSession = session;
     }
 
     public void finishSession() {

@@ -13,8 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -31,10 +32,10 @@ public class ProgressAreaScalesFragment extends Fragment {
     /**
      * Patient for this Session
      */
-    private Patient patient;
+    private PatientFirebase patient;
 
 
-    public static Fragment newInstance(String area, Patient patient) {
+    public static Fragment newInstance(String area, PatientFirebase patient) {
         ProgressAreaScalesFragment f = new ProgressAreaScalesFragment();
         Bundle bdl = new Bundle(1);
         bdl.putSerializable(PATIENT, patient);
@@ -49,7 +50,7 @@ public class ProgressAreaScalesFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         String area = getArguments().getString(AREA);
-        Patient patient = (Patient) getArguments().getSerializable(PATIENT);
+        PatientFirebase patient = (PatientFirebase) getArguments().getSerializable(PATIENT);
 
         View testCard = inflater.inflate(R.layout.content_progress_area, null);
 
@@ -63,7 +64,7 @@ public class ProgressAreaScalesFragment extends Fragment {
          */
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String progressType = SP.getString(getActivity().getResources().getString(R.string.patientProgressType), "2");
-        ArrayList<Session> patientSessions = patient.getSessionsFromPatient();
+        ArrayList<SessionFirebase> patientSessions = FirebaseHelper.getSessionsFromPatient(patient);
         if (progressType.equals("2")) {
             ProgressScalesForAreaGraph adapter = new ProgressScalesForAreaGraph(getActivity(), patientSessions, area, patient);
             int numbercolumns = 1;

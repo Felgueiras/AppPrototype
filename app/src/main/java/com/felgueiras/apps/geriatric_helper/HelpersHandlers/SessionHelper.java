@@ -190,6 +190,8 @@ public class SessionHelper {
                         }
                         SharedPreferencesHelper.resetPrivateSession(context, "");
                         BackStackHandler.discardSession(session);
+
+                        FirebaseHelper.getSessions().remove(session);
                         dialog.dismiss();
                         Snackbar.make(view, context.getResources().getString(R.string.session_discarded), Snackbar.LENGTH_SHORT).show();
                     }

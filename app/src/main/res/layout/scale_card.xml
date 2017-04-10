@@ -35,6 +35,18 @@
                     android:textColor="@color/album_title"
                     android:textSize="@dimen/test_name" />
 
+                <TextView
+                    android:id="@+id/testSubCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/album_title_padding"
+                    android:paddingRight="@dimen/album_title_padding"
+                    android:paddingTop="@dimen/album_title_padding"
+                    android:text="SubCategory"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="@dimen/subcategory_name"
+                    android:visibility="gone"/>
+
 
                 <TextView
                     android:id="@+id/result_qualitative"

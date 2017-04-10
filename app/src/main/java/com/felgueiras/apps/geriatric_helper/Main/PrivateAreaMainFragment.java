@@ -46,7 +46,6 @@ import butterknife.InjectView;
 public class PrivateAreaMainFragment extends Fragment {
 
 
-    private static Gson gson;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -121,35 +120,7 @@ public class PrivateAreaMainFragment extends Fragment {
     ImageView mImageView;
 
 
-    public static void getScalesInJson(Context context) {
 
-
-        ArrayList<GeriatricScaleNonDB> scales = Scales.getAllScales();
-        for (int i = 0; i < scales.size(); i++) {
-            String jsonArray = gson.toJson(scales.get(i));
-
-            String fileName = scales.get(i).getShortName() + ".json";
-            // upload file
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageReference = storage.
-                    getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
-                    .child("scales/" + fileName);
-
-            UploadTask uploadTask = storageReference.putBytes(jsonArray.getBytes());
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                }
-            });
-
-        }
-
-
-    }
 
 
     @Override
@@ -160,9 +131,7 @@ public class PrivateAreaMainFragment extends Fragment {
         navigationView.getMenu().getItem(Constants.menu_positions_home_page).setChecked(true);
         getActivity().setTitle(getResources().getString(R.string.tab_personal_area));
 
-        GsonBuilder builder = new GsonBuilder();
-        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
-        gson = builder.create();
+
 
 
         // Inflate the layout for this fragment
@@ -173,6 +142,7 @@ public class PrivateAreaMainFragment extends Fragment {
         /**
          * Fetch Firebase data.
          */
+        // TODO put in launch screen
         FirebaseHelper.initializeFirebase();
 
         /**

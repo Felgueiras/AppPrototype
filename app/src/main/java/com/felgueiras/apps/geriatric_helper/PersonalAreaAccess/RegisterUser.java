@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
@@ -42,7 +43,9 @@ public class RegisterUser extends AppCompatActivity {
 
 
     private EditText inputEmail, inputPassword;
-    private Button btnSignIn, btnSignUp, btnResetPassword;
+    private TextView btnSignIn;
+    private Button btnSignUp;
+    private Button btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
 
@@ -54,7 +57,7 @@ public class RegisterUser extends AppCompatActivity {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        btnSignIn = (Button) findViewById(R.id.sign_in_button);
+        btnSignIn = (TextView) findViewById(R.id.sign_in_button);
         btnSignUp = (Button) findViewById(R.id.sign_up_button);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);

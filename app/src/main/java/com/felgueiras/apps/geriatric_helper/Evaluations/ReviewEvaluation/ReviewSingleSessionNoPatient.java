@@ -3,27 +3,31 @@ package com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
-import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPublicInfo;
-import com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewAreaCard;
-import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.RegisterUser;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
-import com.felgueiras.apps.geriatric_helper.R;
+import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
+import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.RegisterUser;
+import com.felgueiras.apps.geriatric_helper.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ReviewSingleSessionNoPatient extends Fragment {
@@ -31,7 +35,7 @@ public class ReviewSingleSessionNoPatient extends Fragment {
     /**
      * Session object
      */
-    private Session session;
+    private SessionFirebase session;
     /**
      * String that identifies the Session to be passed as argument.
      */
@@ -53,10 +57,10 @@ public class ReviewSingleSessionNoPatient extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View myInflatedView = inflater.inflate(R.layout.content_review_session_no_patient, container, false);
+        View view = inflater.inflate(R.layout.bottom_navigation_review_areas, container, false);
         Bundle args = getArguments();
         // get Session and Patient
-        session = (Session) args.getSerializable(SESSION);
+        session = (SessionFirebase) args.getSerializable(SESSION);
 
         getActivity().setTitle("Resultados da Sessão");
 
@@ -95,48 +99,122 @@ public class ReviewSingleSessionNoPatient extends Fragment {
         }
 
 
-        // check if we have to compare to the previous session
-        //comparePreviousSession = args.getBoolean(COMPARE_PREVIOUS);
-        boolean comparePreviousSession = true;
-
         /**
-         * Show info about evaluations for every area.
+         * Setup bottom navigation.
          */
-        RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.area_scales_recycler_view);
-        // TODO
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) view.findViewById(R.id.bottom_navigation);
 
-//        ReviewAreaCard adapter = new ReviewAreaCard(getActivity(), session, comparePreviousSession);
-//        int numbercolumns = 1;
-//        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
-//        recyclerView.setLayoutManager(mLayoutManager);
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        recyclerView.setAdapter(adapter);
+        // disable areas that don't have any scale
+        Menu menuNav = bottomNavigationView.getMenu();
+
+        int defaultIndex = -1;
+
+        // check if this session contains scales from this area
+        ArrayList<GeriatricScaleFirebase> scalesFromSession = FirebaseHelper.getScalesFromSession(session);
+        for (int i = 0; i < Constants.cga_areas.length; i++) {
+            // current area
+            String currentArea = Constants.cga_areas[i];
+            // disable area
+            menuNav.getItem(i).setEnabled(false);
+            for (GeriatricScaleFirebase scale : scalesFromSession) {
+                if (scale.getArea().equals(currentArea)) {
+                    menuNav.getItem(i).setEnabled(true);
+                    if (defaultIndex == -1) {
+                        defaultIndex = i;
+                        menuNav.getItem(i).setChecked(true);
+                    }
+                }
+            }
+
+        }
+        /**
+         * Default fragment.
+         */
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.frame_layout_cga_area);
+        if (currentFragment != null)
+            transaction.remove(currentFragment);
+
+        bottomNavigationView.getMenu().getItem(defaultIndex).setChecked(true);
+        final ArrayList<Fragment> fragments = new ArrayList<>();
+        fragments.add(ReviewAreaFragment.newInstance(Constants.cga_mental, session));
+        fragments.add(ReviewAreaFragment.newInstance(Constants.cga_functional, session));
+        fragments.add(ReviewAreaFragment.newInstance(Constants.cga_nutritional, session));
+        fragments.add(ReviewAreaFragment.newInstance(Constants.cga_social, session));
+
+        Constants.bottomNavigationReviewSession = defaultIndex;
+        transaction.replace(R.id.frame_layout_cga_area, fragments.get(defaultIndex));
+        transaction.commit();
+
+
+        final Map<Integer, Integer> fragmentMapping = new HashMap<>();
+        fragmentMapping.put(R.id.cga_mental, 0);
+        fragmentMapping.put(R.id.cga_functional, 1);
+        fragmentMapping.put(R.id.cga_nutritional, 2);
+        fragmentMapping.put(R.id.cga_social, 3);
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        Fragment fragment = null;
+
+                        Integer selectedIndex = fragmentMapping.get(item.getItemId());
+
+                        if (Constants.bottomNavigationReviewSession != selectedIndex) {
+                            Constants.bottomNavigationReviewSession = selectedIndex;
+                            fragment = fragments.get(selectedIndex);
+                        } else {
+                            return true;
+                        }
+
+
+                        FragmentManager fragmentManager = getChildFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+                        Fragment currentFragment = fragmentManager.findFragmentById(R.id.frame_layout_cga_area);
+                        if (currentFragment != null)
+                            transaction.remove(currentFragment);
+                        transaction.replace(R.id.frame_layout_cga_area, fragment);
+                        transaction.commit();
+
+                        return true;
+                    }
+                });
+
+
+
+
+
 
         // close session FAB
-        FloatingActionButton closeFAB = (FloatingActionButton) myInflatedView.findViewById(R.id.close_session);
-        closeFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.popBackStack();
-                Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-                // check if logged in
-                Fragment fragment;
-                if (SharedPreferencesHelper.isLoggedIn(getActivity())) {
-                    SharedPreferencesHelper.resetPrivateSession(getActivity(), session.getGuid());
-                    fragment = new PatientsMain();
-                } else {
-                    SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
-                    fragment = new CGAPublicInfo();
-                }
-                fragmentManager.beginTransaction()
-                        .remove(currentFragment)
-                        .replace(R.id.current_fragment, fragment)
-                        .commit();
-            }
-        });
+//        FloatingActionButton closeFAB = (FloatingActionButton) myInflatedView.findViewById(R.id.close_session);
+//        closeFAB.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                FragmentManager fragmentManager = getFragmentManager();
+//                fragmentManager.popBackStack();
+//                Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+//                // check if logged in
+//                Fragment fragment;
+//                if (SharedPreferencesHelper.isLoggedIn(getActivity())) {
+//                    SharedPreferencesHelper.resetPrivateSession(getActivity(), session.getGuid());
+//                    fragment = new PatientsMain();
+//                } else {
+//                    SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
+//                    fragment = new CGAPublicInfo();
+//                }
+//                fragmentManager.beginTransaction()
+//                        .remove(currentFragment)
+//                        .replace(R.id.current_fragment, fragment)
+//                        .commit();
+//            }
+//        });
 
-        return myInflatedView;
+        return view;
     }
 
 }

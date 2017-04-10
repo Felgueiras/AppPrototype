@@ -3,31 +3,16 @@ package com.felgueiras.apps.geriatric_helper.Patients.AllPatients.FloatingSearch
 import android.os.Parcel;
 
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 
-/**
- * Copyright (C) 2015 Ari C.
- * <p/>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 public class PersonSuggestion implements SearchSuggestion {
 
-    private Patient patient;
+    private PatientFirebase patient;
     private String mColorName;
     private boolean mIsHistory = false;
 
-    public PersonSuggestion(Patient suggestion) {
+    public PersonSuggestion(PatientFirebase suggestion) {
 //        this.mColorName = suggestion.toLowerCase();
         this.patient = suggestion;
         this.mColorName = suggestion.getName();
@@ -39,11 +24,11 @@ public class PersonSuggestion implements SearchSuggestion {
     }
 
 
-    public Patient getPatient() {
+    public PatientFirebase getPatient() {
         return patient;
     }
 
-    public void setPatient(Patient patient) {
+    public void setPatient(PatientFirebase patient) {
         this.patient = patient;
     }
 

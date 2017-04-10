@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.felgueiras.apps.geriatric_helper.Main.PublicArea;
+import com.felgueiras.apps.geriatric_helper.Main.PublicAreaActivity;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.github.paolorotolo.appintro.AppIntro;
 
@@ -36,7 +36,7 @@ public class MyIntro extends AppIntro {
         // Do buildTable here when users click or tap on Skip button.
         Toast.makeText(getApplicationContext(),
                 getString(R.string.app_intro_skip), Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(getApplicationContext(), PublicArea.class);
+        Intent i = new Intent(getApplicationContext(), PublicAreaActivity.class);
         startActivity(i);
     }
 

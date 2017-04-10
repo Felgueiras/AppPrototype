@@ -1,20 +1,24 @@
 package com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleTest;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.QuestionsListAdapter;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.felgueiras.apps.geriatric_helper.TakePhotoActivity;
 
 
 public class ReviewScaleFragment extends Fragment {
@@ -62,6 +66,26 @@ public class ReviewScaleFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
+        // if this test allows to take photo, inflate another menu
+        if (scale.isContainsPhoto()) {
+            inflater.inflate(R.menu.menu_scale_photo, menu);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_take_photo:
+                Intent intent = new Intent(getActivity(), TakePhotoActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable(TakePhotoActivity.SCALE, scale);
+//                intent.putExtras(bundle);
+
+                Constants.photoScale = scale;
+                startActivity(intent);
+                break;
+        }
+        return true;
     }
 
 

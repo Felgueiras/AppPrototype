@@ -19,9 +19,10 @@ import android.widget.GridView;
 import android.widget.ListAdapter;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsHistory.ShowEvaluationsAllDays;
 import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsHistory.SessionsSingleDay;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.io.Serializable;
@@ -153,7 +154,7 @@ public class EvaluationsAll extends Fragment implements Serializable {
             String formattedDate = sdf.format(c.getTime());
 
             // get Sessions from that date
-            List<Session> sessionsFromDate = Session.getSessionsFromDate(c.getTime());
+            List<SessionFirebase> sessionsFromDate = FirebaseHelper.getSessionsFromDate(c.getTime());
             Log.d("Date", sessionsFromDate.size() + "");
             /**
              * Filter by date.

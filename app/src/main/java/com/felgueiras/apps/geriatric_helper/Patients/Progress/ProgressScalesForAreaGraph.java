@@ -1,6 +1,9 @@
 package com.felgueiras.apps.geriatric_helper.Patients.Progress;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,11 +14,13 @@ import android.view.ViewManager;
 import android.view.ViewStub;
 import android.widget.TextView;
 
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
+import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.jjoe64.graphview.GraphView;
 
@@ -29,8 +34,8 @@ public class ProgressScalesForAreaGraph extends RecyclerView.Adapter<ProgressSca
      * Patient which has these NewEvaluationPrivate.
      */
     private final String area;
-    private final ArrayList<Session> patientSessions;
-    private final Patient patient;
+    private final ArrayList<SessionFirebase> patientSessions;
+    private final PatientFirebase patient;
     private Activity context;
 
     /**
@@ -53,12 +58,12 @@ public class ProgressScalesForAreaGraph extends RecyclerView.Adapter<ProgressSca
 
     /**
      * Constructor of the SessionCardEvaluationHistory
-     *
-     * @param context
+     *  @param context
      * @param sessions
      * @param area
+     * @param patient
      */
-    public ProgressScalesForAreaGraph(Activity context, ArrayList<Session> sessions, String area, Patient patient) {
+    public ProgressScalesForAreaGraph(Activity context, ArrayList<SessionFirebase> sessions, String area, PatientFirebase patient) {
         this.context = context;
         this.area = area;
         this.patientSessions = sessions;
@@ -78,14 +83,14 @@ public class ProgressScalesForAreaGraph extends RecyclerView.Adapter<ProgressSca
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         // get the scales from all sessions for this area
-        ArrayList<GeriatricScaleNonDB> testsForArea = Scales.getTestsForArea(area);
+        ArrayList<GeriatricScaleNonDB> testsForArea = Scales.getScalesForArea(area);
 
         // current test
         final GeriatricScaleNonDB scaleInfo = testsForArea.get(position);
         final String currentScale = testsForArea.get(position).getScaleName();
 
         // get all the instances of that Test for this Patient
-        ArrayList<GeriatricScale> scaleInstances = GeriatricScale.getScaleInstancesForPatient(patientSessions, currentScale);
+        ArrayList<GeriatricScaleFirebase> scaleInstances =    FirebaseHelper.getScaleInstancesForPatient(patientSessions, currentScale);
 
         // set test area in the gui
         holder.testName.setText(currentScale);
@@ -123,7 +128,7 @@ public class ProgressScalesForAreaGraph extends RecyclerView.Adapter<ProgressSca
 //                        // add arguments
 //                        Bundle bundle = new Bundle();
 //                        bundle.putString(ProgressDetail.SCALE, currentScale);
-//                        bundle.putSerializable(ProgressDetail.PATIENT, PATIENT);
+//                        bundle.putSerializable(ProgressDetail.PATIENT, patient);
 //                        bundle.putSerializable(ProgressDetail.SCALE_INFO, scaleInfo);
 //                        newFragment.setArguments(bundle);
 //                        // setup the transaction
@@ -143,6 +148,6 @@ public class ProgressScalesForAreaGraph extends RecyclerView.Adapter<ProgressSca
     @Override
     public int getItemCount() {
         // get all scales from this area
-        return Scales.getTestsForArea(area).size();
+        return Scales.getScalesForArea(area).size();
     }
 }

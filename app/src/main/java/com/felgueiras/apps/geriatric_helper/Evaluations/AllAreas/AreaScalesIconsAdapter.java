@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.ScaleFragment;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -30,17 +30,17 @@ public class AreaScalesIconsAdapter extends RecyclerView.Adapter<AreaScalesIcons
     /**
      * Questions for a Test
      */
-    private final ArrayList<GeriatricScale> scales;
+    private final ArrayList<GeriatricScaleFirebase> scales;
     private static LayoutInflater inflater = null;
     private final SessionFirebase session;
     private final Activity context;
 
     /**
      * Display all Questions for a GeriatricScale
-     *  @param scales  ArrayList of Questions
+     * @param scales  ArrayList of Questions
      * @param session
      */
-    public AreaScalesIconsAdapter(Activity context, ArrayList<GeriatricScale> scales, SessionFirebase session) {
+    public AreaScalesIconsAdapter(Activity context, ArrayList<GeriatricScaleFirebase> scales, SessionFirebase session) {
         this.scales = scales;
         this.session = session;
         this.context = context;
@@ -65,7 +65,7 @@ public class AreaScalesIconsAdapter extends RecyclerView.Adapter<AreaScalesIcons
 
     @Override
     public void onBindViewHolder(final ScaleIconHolder holder, int position) {
-        final GeriatricScale currentScaleDB = scales.get(position);
+        final GeriatricScaleFirebase currentScaleDB = scales.get(position);
         final String scaleName = currentScaleDB.getScaleName();
         GeriatricScaleNonDB currentScaleNonDB = Scales.getScaleByName(scaleName);
 

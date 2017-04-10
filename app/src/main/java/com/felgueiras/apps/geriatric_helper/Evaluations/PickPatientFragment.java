@@ -16,7 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.Patients.NewPatient.CreatePatient;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -75,7 +76,7 @@ public class PickPatientFragment extends Fragment {
         getActivity().setTitle(getResources().getString(R.string.pick_patient));
 
         // get the patients
-        ArrayList<Patient> patients = Patient.getAllPatients();
+        ArrayList<PatientFirebase> patients = FirebaseHelper.getPatients();
 
         // fill the RecyclerView
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);

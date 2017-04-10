@@ -1,8 +1,6 @@
 package com.felgueiras.apps.geriatric_helper.Patients.PatientPrescriptions;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
@@ -12,26 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioGroup;
 
-import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
-import com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
-import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
-
-import static com.felgueiras.apps.geriatric_helper.Patients.NewPatient.CreatePatient.CREATE_PATIENT_TYPE;
-import static com.felgueiras.apps.geriatric_helper.R.id.patientAddress;
 
 public class CreatePrescription extends Fragment {
 
@@ -94,7 +83,7 @@ public class CreatePrescription extends Fragment {
                 patient.addPrescription(prescription.getGuid());
 
                 // save Prescription
-                FirebaseHelper.savePrescription(prescription);
+                FirebaseHelper.createPrescription(prescription);
 
                 Snackbar.make(getView(), R.string.add_prescription_success, Snackbar.LENGTH_SHORT).show();
 

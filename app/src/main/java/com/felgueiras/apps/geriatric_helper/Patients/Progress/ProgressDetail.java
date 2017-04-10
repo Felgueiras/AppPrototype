@@ -6,9 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.jjoe64.graphview.GraphView;
 
@@ -32,13 +33,14 @@ public class ProgressDetail extends Fragment {
 
         Bundle arguments = getArguments();
         String scale = arguments.getString(SCALE);
-        Patient patient = (Patient) arguments.getSerializable(PATIENT);
+        PatientFirebase patient = (PatientFirebase) arguments.getSerializable(PATIENT);
         GeriatricScaleNonDB scaleInfo = (GeriatricScaleNonDB) arguments.getSerializable(SCALE_INFO);
 
         getActivity().setTitle(scaleInfo.getScaleName());
         GraphView graphView = (GraphView) view.findViewById(R.id.graph_view);
 
-        ArrayList<GeriatricScale> scaleInstances = GeriatricScale.getScaleInstancesForPatient(patient.getSessionsFromPatient(), scale);
+        ArrayList<GeriatricScaleFirebase> scaleInstances =
+                FirebaseHelper.getScaleInstancesForPatient(FirebaseHelper.getSessionsFromPatient(patient), scale);
 
         GraphViewHelper.buildProgressGraph(graphView, scaleInstances, scaleInfo, getActivity(), patient);
 

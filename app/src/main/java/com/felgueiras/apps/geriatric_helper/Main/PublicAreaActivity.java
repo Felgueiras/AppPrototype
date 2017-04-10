@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -18,10 +19,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
-import com.felgueiras.apps.geriatric_helper.DatabaseOps;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPublic;
@@ -32,13 +34,13 @@ import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class PublicArea extends AppCompatActivity {
+public class PublicAreaActivity extends AppCompatActivity {
 
 
     /**
      * Current context.
      */
-    private PublicArea context;
+    private PublicAreaActivity context;
     /**
      * SharedPreferences.
      */
@@ -49,17 +51,15 @@ public class PublicArea extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("Lock", "onCreate");
-        Log.d("Orientation", this.getResources().getConfiguration().orientation + "");
 
         // support vector drawables on lower API
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer_public);
 
+
         //Get Firebase auth instance
         FirebaseAuth auth = FirebaseAuth.getInstance();
-
         // user already logged in
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(this, PrivateAreaActivity.class));
@@ -121,7 +121,7 @@ public class PublicArea extends AppCompatActivity {
 
         boolean alreadyLogged = sharedPreferences.getBoolean(Constants.logged_in, false);
         if (alreadyLogged) {
-            Intent intent = new Intent(PublicArea.this, PrivateAreaActivity.class);
+            Intent intent = new Intent(PublicAreaActivity.this, PrivateAreaActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
@@ -140,7 +140,7 @@ public class PublicArea extends AppCompatActivity {
                 //  If the activity has never started before...
                 if (isFirstStart) {
                     //  Launch app intro
-                    Intent i = new Intent(PublicArea.this, MyIntro.class);
+                    Intent i = new Intent(PublicAreaActivity.this, MyIntro.class);
                     startActivity(i);
                     //  Make a new preferences editor
                     SharedPreferences.Editor e = finalSharedPreferences.edit();

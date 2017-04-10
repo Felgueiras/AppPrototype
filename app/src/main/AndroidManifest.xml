@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -18,13 +19,14 @@
         android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.example.android.fileprovider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/provider_paths" />
         </provider>
+
         <meta-data
             android:name="AA_DB_NAME"
             android:value="patients.db" />
@@ -41,14 +43,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" />
         <activity
-            android:name=".Main.PublicArea"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".Main.PublicAreaActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".LockScreen.LockScreenActivity"
             android:hardwareAccelerated="true"
@@ -65,9 +61,16 @@
             android:name=".VerticalViewPager.CustomViewPagerActivity"
             android:label="@string/title_activity_custom_view_pager"
             android:theme="@style/AppTheme" />
-        <activity android:name=".TakePhotoActivity">
+        <activity android:name=".TakePhotoActivity" />
+        <activity android:name=".PDFCreation.CreatePDF">
 
+        </activity>
+        <activity android:name=".Main.LaunchScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

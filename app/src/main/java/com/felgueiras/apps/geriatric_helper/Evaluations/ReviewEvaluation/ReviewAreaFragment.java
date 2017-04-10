@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewScaleCard;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -56,7 +55,7 @@ public class ReviewAreaFragment extends Fragment {
 //        String area = Constants.cga_areas[position];
 
         // check if the session had any scale from this area
-        if (Scales.getTestsForArea(area).size() == 0) {
+        if (Scales.getScalesForArea(area).size() == 0) {
 //            ViewManager parentView = (ViewManager) holder.area.getParent();
 //            if (parentView != null) {
 //                parentView.removeView(holder.area);
@@ -66,7 +65,6 @@ public class ReviewAreaFragment extends Fragment {
             /**
              * Show info about evaluations for every area.
              */
-//            holder.area.setText(area);
             ReviewScaleCard adapter = new ReviewScaleCard(getActivity(), session, area, true);
             int numbercolumns = 1;
             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);

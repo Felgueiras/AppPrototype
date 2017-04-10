@@ -39,6 +39,30 @@ public class SharedPreferencesHelper {
         sharedPreferences.edit().putString(context.getString(R.string.saved_session_public), null).apply();
     }
 
+
+    /**
+     * Persiste scales version.
+     *
+     * @param context
+     * @param scalesVersion
+     */
+    public static void setScalesVersion(Context context, int scalesVersion) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        sharedPreferences.edit().putInt(context.getString(R.string.scalesVersion), scalesVersion).apply();
+    }
+
+
+    /**
+     * Get the current scales version.
+     *
+     * @param context
+     * @return
+     */
+    public static int getScalesVersion(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        return sharedPreferences.getInt(context.getString(R.string.scalesVersion), 0);
+    }
+
     public static void setPrivateSession(Activity context, String sessionID) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         sharedPreferences.edit().putString(context.getString(R.string.saved_session_private), sessionID).apply();
@@ -66,7 +90,6 @@ public class SharedPreferencesHelper {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         return sharedPreferences.getBoolean(Constants.logged_in, false);
     }
-
 
 
     public static String getUserName(Context context) {
@@ -114,14 +137,14 @@ public class SharedPreferencesHelper {
 
     public static void lockSessionCreation(Activity context) {
         // set the user as being logged in
-        Log.d("Stack","locking");
+        Log.d("Stack", "locking");
 
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(Constants.create_session_permitted, false).apply();
     }
 
     public static void unlockSessionCreation(Activity context) {
-        Log.d("Stack","unlocking");
+        Log.d("Stack", "unlocking");
         // set the user as being logged in
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(Constants.create_session_permitted, true).apply();

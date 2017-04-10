@@ -6,7 +6,6 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.internal.ForegroundLinearLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -20,18 +19,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsHistoryMain;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.PdfHelper;
 import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.PatientProfileFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ReviewSingleSessionWithPatient extends Fragment {
@@ -111,8 +111,17 @@ public class ReviewSingleSessionWithPatient extends Fragment {
         fragments.add(ReviewAreaFragment.newInstance(Constants.cga_nutritional, session));
         fragments.add(ReviewAreaFragment.newInstance(Constants.cga_social, session));
 
+        Constants.bottomNavigationReviewSession = defaultIndex;
         transaction.replace(R.id.frame_layout_cga_area, fragments.get(defaultIndex));
         transaction.commit();
+
+
+        final Map<Integer, Integer> fragmentMapping = new HashMap<>();
+        fragmentMapping.put(R.id.cga_mental, 0);
+        fragmentMapping.put(R.id.cga_functional, 1);
+        fragmentMapping.put(R.id.cga_nutritional, 2);
+        fragmentMapping.put(R.id.cga_social, 3);
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -120,24 +129,15 @@ public class ReviewSingleSessionWithPatient extends Fragment {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         Fragment fragment = null;
 
-                        switch (item.getItemId()) {
-                            case R.id.cga_mental:
-                                Constants.bottomNavigationReviewSession = 0;
-                                fragment = fragments.get(0);
-                                break;
-                            case R.id.cga_functional:
-                                Constants.bottomNavigationReviewSession = 1;
-                                fragment = fragments.get(1);
-                                break;
-                            case R.id.cga_nutritional:
-                                Constants.bottomNavigationReviewSession = 2;
-                                fragment = fragments.get(2);
-                                break;
-                            case R.id.cga_social:
-                                Constants.bottomNavigationReviewSession = 3;
-                                fragment = fragments.get(3);
-                                break;
+                        Integer selectedIndex = fragmentMapping.get(item.getItemId());
+
+                        if (Constants.bottomNavigationReviewSession != selectedIndex) {
+                            Constants.bottomNavigationReviewSession = selectedIndex;
+                            fragment = fragments.get(selectedIndex);
+                        } else {
+                            return true;
                         }
+
 
                         FragmentManager fragmentManager = getChildFragmentManager();
                         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -147,7 +147,6 @@ public class ReviewSingleSessionWithPatient extends Fragment {
                             transaction.remove(currentFragment);
                         transaction.replace(R.id.frame_layout_cga_area, fragment);
                         transaction.commit();
-
 
                         return true;
                     }
@@ -221,6 +220,10 @@ public class ReviewSingleSessionWithPatient extends Fragment {
                             }
                         });
                 alertDialog.show();
+                break;
+            case R.id.createPDF:
+                // create a PDF of the session for printing
+                PdfHelper.createSessionPdf(getActivity(),session);
                 break;
 
         }

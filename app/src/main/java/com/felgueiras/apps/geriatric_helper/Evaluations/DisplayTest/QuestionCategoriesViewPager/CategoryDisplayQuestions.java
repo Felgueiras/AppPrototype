@@ -1,6 +1,8 @@
 package com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.QuestionCategoriesViewPager;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,27 +11,30 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Question;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionCategory;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionNonDB;
 import com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.QuestionsListAdapter;
 import com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.SingleQuestion.RightWrongQuestionHandler;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.QuestionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDisplayQuestions.MyViewHolder> {
 
     private final GeriatricScaleNonDB scaleNonDB;
     private final int categoryIndex;
-    private final GeriatricScale scaleDB;
+    private final GeriatricScaleFirebase scaleDB;
     private final QuestionsListAdapter adapter;
     private final TextView categoryTextView;
     private Activity context;
 
 
     public CategoryDisplayQuestions(Activity context,
-                                    GeriatricScaleNonDB testNonDB, int categoryIndex, GeriatricScale test,
+                                    GeriatricScaleNonDB testNonDB, int categoryIndex, GeriatricScaleFirebase test,
                                     QuestionsListAdapter adapter, TextView categoryTextView) {
         this.context = context;
         this.scaleNonDB = testNonDB;
@@ -69,24 +74,25 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
         final QuestionCategory currentCategory = scaleNonDB.getQuestionsCategories().get(categoryIndex);
 
         // question not in DB
-        QuestionNonDB currentQuestionNonDB = currentCategory.getQuestions().get(questionIndex);
+        final QuestionNonDB currentQuestionNonDB = currentCategory.getQuestions().get(questionIndex);
         // question in DB
-        Question questionInDB = null;
+        QuestionFirebase questionInDB = null;
         final int questionIdx = QuestionCategory.getQuestionIndex(categoryIndex,
                 questionIndex,
                 scaleNonDB);
         if (scaleDB != null) {
             String dummyID = scaleDB.getGuid() + "-" + questionIdx;
-            questionInDB = Question.getQuestionByID(dummyID);
+            questionInDB = FirebaseHelper.getQuestionByID(dummyID);
             if (questionInDB == null) {
-                questionInDB = new Question();
+                questionInDB = new QuestionFirebase();
                 // create question and add to DB
                 questionInDB.setGuid(dummyID);
                 questionInDB.setDescription(currentQuestionNonDB.getDescription());
-                questionInDB.setScale(scaleDB);
+                questionInDB.setScaleID(scaleDB.getGuid());
                 questionInDB.setYesOrNo(false);
                 questionInDB.setRightWrong(true);
-                questionInDB.save();
+                FirebaseHelper.saveQuestion(questionInDB);
+
             }
         }
 
@@ -100,8 +106,33 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
         holder.questionTextView.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
 
         if (currentQuestionNonDB.getImage() != 0) {
-            holder.questionImage.setImageResource(currentQuestionNonDB.getImage());
+//            holder.questionImage.setImageResource(currentQuestionNonDB.getImage());
             holder.questionImage.setVisibility(View.VISIBLE);
+
+            // display image in full screen when clicking it
+            holder.questionImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder imageDialog = new AlertDialog.Builder(context);
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+                    View layout = inflater.inflate(R.layout.custom_fullimage_dialog, null);
+                    ImageView image = (ImageView) layout.findViewById(R.id.fullimage);
+                    image.setImageResource(currentQuestionNonDB.getImage());
+                    imageDialog.setView(layout);
+                    imageDialog.setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+
+                    });
+
+
+                    imageDialog.create();
+                    imageDialog.show();
+                }
+            });
         }
         // detect when choice changed
 
@@ -123,19 +154,20 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
 //                    scaleNonDB, questionIdx, holder.right, holder.wrong, categoryTextView,
 //                    currentCategory));
 
-            final Question finalQuestionInDB = questionInDB;
-            final Question finalQuestionInDB1 = questionInDB;
+            final QuestionFirebase finalQuestionInDB = questionInDB;
             holder.right.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // signal this question was answered
-                    finalQuestionInDB1.setAnswered(true);
-                    finalQuestionInDB1.save();
+                    finalQuestionInDB.setAnswered(true);
+
+                    FirebaseHelper.updateQuestion(finalQuestionInDB);
                     // check if question was answered
                     signalAllQuestionsAnswered();
 
                     new RightWrongQuestionHandler(finalQuestionInDB, adapter,
-                            scaleNonDB, questionIdx, holder.right, holder.wrong, categoryTextView, currentCategory).onClick(v);
+                            scaleNonDB, questionIdx, holder.right,
+                            holder.wrong, categoryTextView, currentCategory).onClick(v);
                 }
             });
             holder.wrong.setOnClickListener(new View.OnClickListener() {
@@ -143,8 +175,9 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
                 public void onClick(View v) {
                     // signal this question was answered
 
-                    finalQuestionInDB1.setAnswered(true);
-                    finalQuestionInDB1.save();
+                    finalQuestionInDB.setAnswered(true);
+                    FirebaseHelper.updateQuestion(finalQuestionInDB);
+
                     // check if question was answered
                     signalAllQuestionsAnswered();
                     new RightWrongQuestionHandler(finalQuestionInDB, adapter,
@@ -171,7 +204,7 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
                     i,
                     scaleNonDB);
             String dummyID = scaleDB.getGuid() + "-" + qIdx;
-            Question questionInDB = Question.getQuestionByID(dummyID);
+            QuestionFirebase questionInDB = FirebaseHelper.getQuestionByID(dummyID);
             if (questionInDB != null && questionInDB.isAnswered()) numQuestionsAnswered++;
 
         }

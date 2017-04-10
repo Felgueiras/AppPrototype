@@ -20,6 +20,21 @@ import java.util.List;
  */
 public class Scales {
 
+    public static String[] scalesNames = {
+            Constants.test_name_barthel_index,
+            Constants.test_name_clock_drawing,
+            Constants.test_name_escalaDepressaoYesavage,
+            Constants.test_name_escalaLawtonBrody,
+            Constants.test_name_marchaHolden,
+            Constants.test_name_mini_mental_state,
+            Constants.test_name_mini_nutritional_assessment_global,
+            Constants.test_name_mini_nutritional_assessment_triagem,
+            Constants.test_name_valoracionSocioFamiliar,
+            Constants.test_name_tinetti,
+            Constants.test_name_testeDeKatz,
+            Constants.test_name_recursos_sociales,
+    };
+
     /**
      * Get infos about 'escala de resursos sociales de la OARS'
      */
@@ -703,7 +718,7 @@ public class Scales {
      */
     public static GeriatricScaleNonDB barthelIndex() {
         GeriatricScaleNonDB barthelIndex = new GeriatricScaleNonDB(Constants.test_name_barthel_index,
-                Constants.cga_functional, "Atividades básicas da vida diária",
+                Constants.cga_functional, "Atividades bBásicas da vida diária",
                 "• Es la escala más internacionalmente" +
                         "conocida para la valoración funcional de" +
                         "pacientes con enfermedad cerebrovascular aguda.\n" +
@@ -1096,7 +1111,7 @@ public class Scales {
                 "described in scoring of 4 ", 5, "See examples for scoring of 4 "));
         gradings.add(new GradingNonDB("No reasonable representation of a clock ", 6, "a) No attempt at all\n" +
                 "b) No semblance of a clock at all\n" +
-                "c) Writes a word or questionTextView "));
+                "c) Writes a word or name "));
         // add Gradings to Scoring
         clockDrawingScoring.setValuesBoth(gradings);
         // add Scoring to Test
@@ -1975,42 +1990,47 @@ public class Scales {
      * @return
      */
     public static GeriatricScaleNonDB getScaleByName(String scaleName) {
-        switch (scaleName) {
-            case Constants.test_name_testeDeKatz:
-                return escalaDeKatz();
-            case Constants.test_name_escalaDepressaoYesavage:
-                return escalaDepressaoYesavage();
-            case Constants.test_name_marchaHolden:
-                return marchaHolden();
-            case Constants.test_name_escalaLawtonBrody:
-                return escalaLawtonBrody();
-            case Constants.test_name_mini_mental_state:
-                return mentalStateFolstein();
-            case Constants.test_name_mini_nutritional_assessment_triagem:
-                return miniNutritionalAssessmentTriagem();
-            case Constants.test_name_mini_nutritional_assessment_global:
-                return miniNutritionalAssessmentGlobal();
-            case Constants.test_name_recursos_sociales:
-                return recursosSociales();
-            case Constants.test_name_valoracionSocioFamiliar:
-                return valoracionSocioFamiliarGijon();
-            case Constants.test_name_burden_interview:
-                return zaritBurdenInterview();
-            case Constants.test_name_barthel_index:
-                return barthelIndex();
-            case Constants.test_name_short_portable_mental_status:
-                return shortPortableMentalStatus();
-            case Constants.test_name_clock_drawing:
-                return clockDrawing();
-            case Constants.test_name_set_set:
-                return setTest();
-            case Constants.test_name_hamilton:
-                return hamiltonDepressionScale();
-            case Constants.test_name_tinetti:
-                return tinettiScale();
-            case Constants.set_name_advancedDailyLifeActivities:
-                return advancedDailyLifeActivities();
+        // TODO get from the scales array
+        for (GeriatricScaleNonDB scale : scales) {
+            if (scale.getScaleName().equals(scaleName))
+                return scale;
         }
+//        switch (scaleName) {
+//            case Constants.test_name_testeDeKatz:
+//                return escalaDeKatz();
+//            case Constants.test_name_escalaDepressaoYesavage:
+//                return escalaDepressaoYesavage();
+//            case Constants.test_name_marchaHolden:
+//                return marchaHolden();
+//            case Constants.test_name_escalaLawtonBrody:
+//                return escalaLawtonBrody();
+//            case Constants.test_name_mini_mental_state:
+//                return mentalStateFolstein();
+//            case Constants.test_name_mini_nutritional_assessment_triagem:
+//                return miniNutritionalAssessmentTriagem();
+//            case Constants.test_name_mini_nutritional_assessment_global:
+//                return miniNutritionalAssessmentGlobal();
+//            case Constants.test_name_recursos_sociales:
+//                return recursosSociales();
+//            case Constants.test_name_valoracionSocioFamiliar:
+//                return valoracionSocioFamiliarGijon();
+//            case Constants.test_name_burden_interview:
+//                return zaritBurdenInterview();
+//            case Constants.test_name_barthel_index:
+//                return barthelIndex();
+//            case Constants.test_name_short_portable_mental_status:
+//                return shortPortableMentalStatus();
+//            case Constants.test_name_clock_drawing:
+//                return clockDrawing();
+//            case Constants.test_name_set_set:
+//                return setTest();
+//            case Constants.test_name_hamilton:
+//                return hamiltonDepressionScale();
+//            case Constants.test_name_tinetti:
+//                return tinettiScale();
+//            case Constants.set_name_advancedDailyLifeActivities:
+//                return advancedDailyLifeActivities();
+//        }
         return null;
     }
 
@@ -2091,31 +2111,39 @@ public class Scales {
         return match;
     }
 
+
+    /**
+     * Available scales - area set up dinamically at startup.
+     */
+    public static ArrayList<GeriatricScaleNonDB> scales = new ArrayList<>();
+
+
     /**
      * Get all tests definitions.
      *
      * @return
      */
     public static ArrayList<GeriatricScaleNonDB> getAllScales() {
-        ArrayList<GeriatricScaleNonDB> tests = new ArrayList<>();
-        tests.add(escalaDeKatz());
-        tests.add(escalaDepressaoYesavage());
-        tests.add(escalaLawtonBrody());
-        tests.add(marchaHolden());
-        tests.add(mentalStateFolstein());
-        tests.add(miniNutritionalAssessmentTriagem());
-        tests.add(miniNutritionalAssessmentGlobal());
-        tests.add(recursosSociales());
-        tests.add(valoracionSocioFamiliarGijon());
-//        tests.add(zaritBurdenInterview());
-        tests.add(barthelIndex());
-        //tests.add(shortPortableMentalStatus());
-        tests.add(clockDrawing());
-//        tests.add(setScaleID());
-        // tests.add(hamiltonDepressionScale());
-        tests.add(tinettiScale());
-//        tests.add(advancedDailyLifeActivities());
-        return tests;
+//        // TODO replace by dinamically loading available scales
+//        ArrayList<GeriatricScaleNonDB> tests = new ArrayList<>();
+//        tests.add(escalaDeKatz());
+//        tests.add(escalaDepressaoYesavage());
+//        tests.add(escalaLawtonBrody());
+//        tests.add(marchaHolden());
+//        tests.add(mentalStateFolstein());
+//        tests.add(miniNutritionalAssessmentTriagem());
+//        tests.add(miniNutritionalAssessmentGlobal());
+//        tests.add(recursosSociales());
+//        tests.add(valoracionSocioFamiliarGijon());
+////        tests.add(zaritBurdenInterview());
+//        tests.add(barthelIndex());
+//        //tests.add(shortPortableMentalStatus());
+//        tests.add(clockDrawing());
+////        tests.add(setScaleID());
+//        // tests.add(hamiltonDepressionScale());
+//        tests.add(tinettiScale());
+////        tests.add(advancedDailyLifeActivities());
+        return scales;
     }
 
     /**
@@ -2124,7 +2152,7 @@ public class Scales {
      * @param area
      * @return
      */
-    public static ArrayList<GeriatricScaleNonDB> getTestsForArea(String area) {
+    public static ArrayList<GeriatricScaleNonDB> getScalesForArea(String area) {
         ArrayList<GeriatricScaleNonDB> testsForArea = new ArrayList<>();
         for (GeriatricScaleNonDB test : getAllScales()) {
             if (test.getArea().equals(area)) {
@@ -2133,8 +2161,6 @@ public class Scales {
         }
         return testsForArea;
     }
-
-
 
 
 }

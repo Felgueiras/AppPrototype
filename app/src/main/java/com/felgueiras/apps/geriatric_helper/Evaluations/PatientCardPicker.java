@@ -19,10 +19,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -32,13 +33,13 @@ import java.util.ArrayList;
 
 public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.MyViewHolder> implements Filterable {
 
-    private final ArrayList<Patient> filteredList;
+    private final ArrayList<PatientFirebase> filteredList;
     private final boolean pickBeforeSession;
     private Activity context;
     /**
      * Data to be displayed.
      */
-    private ArrayList<Patient> patients;
+    private ArrayList<PatientFirebase> patients;
     private PatientsFilter patientsFilter;
 
     @Override
@@ -66,12 +67,11 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
 
     /**
      * Constructor of the SessionCardEvaluationHistory
-     *
-     * @param context
+     *  @param context
      * @param patients
      * @param pickBeforeSession
      */
-    public PatientCardPicker(Activity context, ArrayList<Patient> patients, boolean pickBeforeSession) {
+    public PatientCardPicker(Activity context, ArrayList<PatientFirebase> patients, boolean pickBeforeSession) {
         this.context = context;
         this.patients = patients;
         this.filteredList = new ArrayList<>();
@@ -88,7 +88,7 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        final Patient patient = filteredList.get(position);
+        final PatientFirebase patient = filteredList.get(position);
 
         holder.name.setText(patient.getName());
         // holder.type.setText(PATIENT.getAge());
@@ -130,10 +130,11 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                                     String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);
 
                                     // get session by ID
-                                    Session session = Session.getSessionByID(sessionID);
-                                    session.setPatient(patient);
-                                    session.eraseScalesNotCompleted();
-                                    session.save();
+                                    SessionFirebase session = FirebaseHelper.getSessionByID(sessionID);
+                                    session.setPatientID(patient.getGuid());
+                                    FirebaseHelper.eraseScalesNotCompleted(session);
+
+                                    FirebaseHelper.updateSession(session);
 
                                     // reset current private session
                                     SharedPreferencesHelper.resetPrivateSession(context, "");
@@ -217,10 +218,10 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
      */
     private class PatientsFilter extends Filter {
         private final PatientCardPicker adapter;
-        private final ArrayList<Patient> originalList;
-        private final ArrayList<Patient> filteredList;
+        private final ArrayList<PatientFirebase> originalList;
+        private final ArrayList<PatientFirebase> filteredList;
 
-        public PatientsFilter(PatientCardPicker adapter, ArrayList<Patient> patients) {
+        public PatientsFilter(PatientCardPicker adapter, ArrayList<PatientFirebase> patients) {
             super();
             this.adapter = adapter;
             this.originalList = new ArrayList<>();
@@ -239,7 +240,7 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
             } else {
                 final String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (final Patient patient : originalList) {
+                for (final PatientFirebase patient : originalList) {
                     if (patient.getName().toLowerCase().trim().contains(filterPattern)) {
                         filteredList.add(patient);
                     }
@@ -253,7 +254,7 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             adapter.filteredList.clear();
-            adapter.filteredList.addAll((ArrayList<Patient>) filterResults.values);
+            adapter.filteredList.addAll((ArrayList<PatientFirebase>) filterResults.values);
             adapter.notifyDataSetChanged();
         }
     }

@@ -1,6 +1,7 @@
 package com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas;
 
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Help_Feedback.HelpMain;
@@ -23,6 +25,8 @@ import com.felgueiras.apps.geriatric_helper.R;
 public class CGAPublicInfo extends Fragment {
 
 
+    private View view;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +39,14 @@ public class CGAPublicInfo extends Fragment {
         menu.clear();
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.cga_public_info, container, false);
+        view = inflater.inflate(R.layout.cga_public_info, container, false);
         getActivity().setTitle(getResources().getString(R.string.cga));
+
+
 
         /**
          * Start a session.

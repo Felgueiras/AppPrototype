@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class ProgressFragment extends Fragment {
 
     public static final String PATIENT = "PATIENT";
-    private Patient patient;
+    private PatientFirebase patient;
 
     // Store instance variables based on arguments passed
     @Override
@@ -32,7 +32,7 @@ public class ProgressFragment extends Fragment {
         setHasOptionsMenu(true);
 
         Bundle bundle = getArguments();
-        patient = (Patient) bundle.getSerializable(PATIENT);
+        patient = (PatientFirebase) bundle.getSerializable(PATIENT);
     }
 
 

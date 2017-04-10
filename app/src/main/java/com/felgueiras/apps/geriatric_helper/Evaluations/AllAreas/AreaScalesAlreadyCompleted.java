@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.ScaleFragment;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -30,18 +30,18 @@ public class AreaScalesAlreadyCompleted extends RecyclerView.Adapter<AreaScalesA
     /**
      * Questions for a Test
      */
-    private final ArrayList<GeriatricScale> scales;
+    private final ArrayList<GeriatricScaleFirebase> scales;
     private static LayoutInflater inflater = null;
     private final SessionFirebase session;
     private final Activity context;
-    private ArrayList<GeriatricScale> completedScales;
+    private ArrayList<GeriatricScaleFirebase> completedScales;
 
     /**
      * Display all Questions for a GeriatricScale
      *  @param scales  ArrayList of Questions
      * @param session
      */
-    public AreaScalesAlreadyCompleted(Activity context, ArrayList<GeriatricScale> scales, SessionFirebase session) {
+    public AreaScalesAlreadyCompleted(Activity context, ArrayList<GeriatricScaleFirebase> scales, SessionFirebase session) {
         this.scales = scales;
         this.session = session;
         this.context = context;
@@ -66,7 +66,7 @@ public class AreaScalesAlreadyCompleted extends RecyclerView.Adapter<AreaScalesA
 
     @Override
     public void onBindViewHolder(final ScaleIconHolder holder, int position) {
-        final GeriatricScale currentScaleDB = completedScales.get(position);
+        final GeriatricScaleFirebase currentScaleDB = completedScales.get(position);
         final String scaleName = currentScaleDB.getScaleName();
         GeriatricScaleNonDB currentScaleNonDB = Scales.getScaleByName(scaleName);
 
@@ -115,7 +115,7 @@ public class AreaScalesAlreadyCompleted extends RecyclerView.Adapter<AreaScalesA
     public int getItemCount() {
         // only completed scales
         completedScales = new ArrayList<>();
-        for (GeriatricScale scale : scales) {
+        for (GeriatricScaleFirebase scale : scales) {
             if (scale.isCompleted()) {
                 completedScales.add(scale);
             }

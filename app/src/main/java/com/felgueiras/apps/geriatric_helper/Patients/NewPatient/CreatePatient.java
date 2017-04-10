@@ -170,12 +170,14 @@ public class CreatePatient extends Fragment {
                 patient.setFavorite(false);
 
                 // save Patient
-                FirebaseHelper.savePatient(patient);
+                FirebaseHelper.createPatient(patient);
+
+                FirebaseHelper.getPatients().add(patient);
 
 
                 Snackbar.make(getView(), R.string.create_patient_success, Snackbar.LENGTH_SHORT).show();
                 if (createType == CREATE_PATIENTS_LIST) {
-                    BackStackHandler.goToPreviousScreen();
+                    BackStackHandler.getFragmentManager().popBackStack();
                 } else if (createType == CREATE_BEFORE_SESSION) {
                     getActivity().getFragmentManager().popBackStack();
                     getActivity().getFragmentManager().popBackStack();

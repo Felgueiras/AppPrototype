@@ -19,10 +19,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -36,12 +37,12 @@ public class CGAAreaPublic extends Fragment {
     public static String PATIENT = "PATIENT";
     public static String CGA_AREA = "area";
 
-    Patient patientForThisSession;
+    PatientFirebase patientForThisSession;
 
     public static String sessionObject = "session";
 
     boolean resuming = false;
-    private Session session;
+    private SessionFirebase session;
 
 
     @Override
@@ -50,25 +51,17 @@ public class CGAAreaPublic extends Fragment {
         View view = inflater.inflate(R.layout.content_single_area_public_bottom_buttons, container, false);
         // check the Constants
         Bundle args = getArguments();
-        patientForThisSession = (Patient) args.getSerializable(PATIENT);
+        patientForThisSession = (PatientFirebase) args.getSerializable(PATIENT);
 
         String area = args.getString(CGA_AREA);
-        session = (Session) args.getSerializable(sessionObject);
+        session = (SessionFirebase) args.getSerializable(sessionObject);
         getActivity().setTitle(area);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);
         ScaleCard adapter;
         RecyclerView.Adapter finalAdapter = null;
-
-        // read PATIENT for this session
-        // TODO
-//        if (patientForThisSession != null) {
-//            adapter = new ScaleCard(getActivity(), session, resuming, patientForThisSession.getGender(), area);
-//        } else {
-//             new evaluation created for no Patient
-//            adapter = new ScaleCard(getActivity(), session, resuming, Constants.SESSION_GENDER, area);
-//        }
-//        finalAdapter = adapter;
+        adapter = new ScaleCard(getActivity(), session, resuming, Constants.SESSION_GENDER, area);
+        finalAdapter = adapter;
 
         // display the different scales to choose from this area
         int numbercolumns = 1;
@@ -78,15 +71,8 @@ public class CGAAreaPublic extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        if (area != Constants.cga_clinical) {
-            recyclerView.setAdapter(finalAdapter);
-        } else {
-            recyclerView.setAdapter(new ClinicalEvaluation(getActivity(),
-                    session,
-                    resuming,
-                    Constants.SESSION_GENDER,
-                    area));
-        }
+        recyclerView.setAdapter(finalAdapter);
+
 
         Button finishSession = (Button) view.findViewById(R.id.session_finish);
         finishSession.setOnClickListener(new View.OnClickListener() {
@@ -134,13 +120,12 @@ public class CGAAreaPublic extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // remove session
-                        session.eraseScalesNotCompleted();
+                        FirebaseHelper.eraseScalesNotCompleted(session);
                         Snackbar.make(getView(), "Sessão terminada", Snackbar.LENGTH_SHORT).show();
 
                         SharedPreferencesHelper.lockSessionCreation(getActivity());
 
-
-                        if (session.getScalesFromSession().size() == 0) {
+                        if (FirebaseHelper.getScalesFromSession(session).size() == 0) {
                             SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
 
                             BackStackHandler.clearBackStack();
@@ -152,7 +137,7 @@ public class CGAAreaPublic extends Fragment {
                                     .replace(R.id.current_fragment, fragment)
                                     .commit();
                         } else {
-                            Session sessionCopy = session;
+                            SessionFirebase sessionCopy = session;
                             SharedPreferencesHelper.resetPublicSession(getActivity(), null);
 
                             BackStackHandler.clearBackStack();

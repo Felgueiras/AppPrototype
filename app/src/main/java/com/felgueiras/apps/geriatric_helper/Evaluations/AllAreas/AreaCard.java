@@ -19,9 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.felgueiras.apps.geriatric_helper.Evaluations.SingleArea.CGAAreaPrivate;
 import com.felgueiras.apps.geriatric_helper.Evaluations.SingleArea.CGAAreaPublic;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
@@ -113,7 +113,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
          */
         // TODO
 //        ArrayList<GeriatricScale> scalesFromArea = session.getScalesFromArea(area);
-        ArrayList<GeriatricScale> scalesFromArea = new ArrayList<>();
+        ArrayList<GeriatricScaleFirebase> scalesFromArea = new ArrayList<>();
 //        boolean allCompleted = true;
 //        for (GeriatricScale scale : scalesFromArea) {
 //            if (!scale.isCompleted()) {

@@ -376,7 +376,7 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="cga_nutritional_name">Estado Nutricional</string>
     <string name="cga_social_name">Situação Social</string>
     <string name="drugs_beers">Beers</string>
-    <string name="btn_forgot_password">Esqueceu password</string>
+    <string name="btn_forgot_password">Esqueceu-se da password?</string>
     <string name="minimum_password">Pelo menos 6 chars</string>
     <string name="auth_failed">Falhou</string>
     <string name="add_prescription">Nova Prescrição</string>
@@ -385,6 +385,11 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="action_take_photo">Fotografia</string>
     <string name="clock_drawing_photo">Deve tirar uma fotografia do relógio desenhado pelo paciente</string>
     <string name="take_photo">Tirar fotografia</string>
+    <string name="label_email">Email</string>
+    <string name="label_preview">Preview</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="scalesVersion">scalesVersion</string>
+    <string name="action_create_pdf">Criar PDF</string>
 
 
 </resources>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 
 import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -241,4 +242,11 @@ public class Constants {
     public static String tag_add_prescription_to_patient = "tag_add_prescription_to_patient";
     public static FirebaseDatabase firebaseInstance;
     public static GeriatricScaleFirebase photoScale;
+    public static ArrayList<GeriatricScaleFirebase> publicScales = new ArrayList<>();
+
+    /**
+     * Hold the current public session.
+     */
+    public static SessionFirebase publicSession;
+    public static int testNumber;
 }

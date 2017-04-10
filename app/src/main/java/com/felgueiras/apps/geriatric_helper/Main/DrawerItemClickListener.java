@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,7 +16,6 @@ import com.felgueiras.apps.geriatric_helper.AboutFragment;
 import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideMain;
 import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPublic;
 import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsHistoryMain;
-import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.Help_Feedback.HelpMain;
@@ -29,8 +27,6 @@ import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMain;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.google.firebase.auth.FirebaseAuth;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Handle the selection of an item from the NaviagtionDrawer
@@ -125,7 +121,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
                         public void onClick(DialogInterface dialog, int which) {
                             //sign out method
                             auth.signOut();
-                            Intent intent = new Intent(context, PublicArea.class);
+                            Intent intent = new Intent(context, PublicAreaActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             context.startActivity(intent);
                             context.finish();

@@ -4,11 +4,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Question;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionCategory;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionNonDB;
 import com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.QuestionsListAdapter;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.QuestionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 /**
@@ -18,7 +19,7 @@ public class RightWrongQuestionHandler implements View.OnClickListener {
     /**
      * Question
      */
-    private final Question question;
+    private final QuestionFirebase question;
     private final QuestionsListAdapter adapter;
     private final GeriatricScaleNonDB testNonDB;
     private final ImageButton right;
@@ -27,7 +28,7 @@ public class RightWrongQuestionHandler implements View.OnClickListener {
     private final QuestionCategory currentCategory;
     private int index = 0;
 
-    public RightWrongQuestionHandler(Question question, QuestionsListAdapter adapter, GeriatricScaleNonDB testNonDB,
+    public RightWrongQuestionHandler(QuestionFirebase question, QuestionsListAdapter adapter, GeriatricScaleNonDB testNonDB,
                                      int index, ImageButton right, ImageButton wrong, TextView categoryTextView, QuestionCategory currentCategory) {
         this.question = question;
         this.adapter = adapter;
@@ -53,7 +54,8 @@ public class RightWrongQuestionHandler implements View.OnClickListener {
             wrong.setImageResource(R.drawable.close_box);
         }
         question.setAnswered(true);
-        question.save();
+
+        FirebaseHelper.updateQuestion(question);
         /**
          * Signal that que Question was answered
          */

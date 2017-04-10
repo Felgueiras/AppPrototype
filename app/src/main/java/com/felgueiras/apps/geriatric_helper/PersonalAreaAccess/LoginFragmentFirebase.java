@@ -10,25 +10,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
 import com.felgueiras.apps.geriatric_helper.R;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -385,12 +380,12 @@ public class LoginFragmentFirebase extends Fragment {
 
             if (success) {
 
-                // erase all sessions without pacients just to avoid errors
-                for (Session sess : Session.getAllSessions()) {
-                    if (sess.getPatient() == null) {
-                        sess.delete();
-                    }
-                }
+//                // erase all sessions without pacients just to avoid errors
+//                for (SessionFirebase sess : FirebaseHelper.getAllSessions()) {
+//                    if (sess.getPatient() == null) {
+//                        sess.delete();
+//                    }
+//                }
 
                 Intent intent = new Intent(getActivity(), PrivateAreaActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -1,21 +1,23 @@
 package com.felgueiras.apps.geriatric_helper.Firebase;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.activeandroid.query.Select;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.ScoringNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -40,6 +43,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -50,40 +54,47 @@ import java.util.Random;
 
 public class FirebaseHelper {
 
+    private static final String PUBLIC = "/public";
     private static FirebaseDatabase mFirebaseInstance = null;
 
     /**
      * Firebase realtime database URL.
      */
     private static final String firebaseURL = "gs://appprototype-bdd27.appspot.com";
+
     /**
      * Patients table name.
      */
-    private static final String PATIENTS = "patients";
+    private static String PATIENTS;
 
     /**
      * Sessions table name.
      */
-    private static final String SESSIONS = "sessions";
+    private static String SESSIONS;
     /**
      * Scales table name.
      */
-    private static final String SCALES = "scales";
+    private static String SCALES;
 
     /**
      * Questions table name.
      */
-    private static final String QUESTIONS = "questions";
+    private static String QUESTIONS;
 
     /**
      * Choices table name.
      */
-    private static final String CHOICES = "choices";
+    private static String CHOICES;
     /**
      * Prescriptions table name.
      */
-    private static final String PRESCRIPTIONS = "prescriptions";
+    private static String PRESCRIPTIONS;
 
+
+    /**
+     * Firebase  public part of the database.
+     */
+    private static DatabaseReference firebaseTablePublic;
 
     /**
      * Firebase - patients table.
@@ -139,6 +150,7 @@ public class FirebaseHelper {
      * Prescriptions.
      */
     private static ArrayList<PrescriptionFirebase> prescriptions = new ArrayList<>();
+    public static boolean canLeaveLaunchScreen = false;
 
     public static void createPatient() {
 
@@ -271,6 +283,8 @@ public class FirebaseHelper {
      * @return
      */
     public static void fetchPatients() {
+
+//        FirebaseHelper.firebaseTablePatients.orderByChild("name").addValueEventListener(new ValueEventListener() {
         FirebaseHelper.firebaseTablePatients.orderByChild("name").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -286,6 +300,41 @@ public class FirebaseHelper {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
+            }
+        });
+    }
+
+    public static void initializeAndCheckVersions(final Context context) {
+        if (Constants.firebaseInstance == null) {
+            // allow offline persistence
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            mFirebaseInstance = FirebaseDatabase.getInstance();
+            Constants.firebaseInstance = mFirebaseInstance;
+        } else {
+            mFirebaseInstance = Constants.firebaseInstance;
+        }
+
+        firebaseTablePublic = mFirebaseInstance.getReference(FirebaseHelper.PUBLIC);
+
+        FirebaseHelper.firebaseTablePublic.child("scalesVersion").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int firScalesVersion = dataSnapshot.getValue(Integer.class);
+                Log.d("ScalesVersion", firScalesVersion + "");
+                // get version from shared preferences
+                int sharedPrefScalesVersion = SharedPreferencesHelper.getScalesVersion(context);
+                if (sharedPrefScalesVersion != firScalesVersion) {
+                    Log.d("ScalesVersion", "Updating scalesVersion to " + firScalesVersion);
+                    SharedPreferencesHelper.setScalesVersion(context, firScalesVersion);
+                } else {
+                    // same version - no need to donwload
+                    canLeaveLaunchScreen = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("ScalesVersion", "Error");
             }
         });
     }
@@ -403,35 +452,83 @@ public class FirebaseHelper {
     }
 
 
-    public static void readScaleFromFirebase(String scaleName) {
+    static int scalesTotal = 12;
+    static int scalesCurrent = 0;
 
+    public static int getScalesTotal() {
+        return scalesTotal;
+    }
+
+    public static void setScalesTotal(int scalesTotal) {
+        FirebaseHelper.scalesTotal = scalesTotal;
+    }
+
+    public static int getScalesCurrent() {
+        return scalesCurrent;
+    }
+
+    public static void setScalesCurrent(int scalesCurrent) {
+        FirebaseHelper.scalesCurrent = scalesCurrent;
+    }
+
+    /**
+     * Download all scales.
+     */
+    public static void downloadScales() {
+
+        // get system language
+        final String displayLanguage = Locale.getDefault().getLanguage().toUpperCase();
+
+
+        // download scales from that language
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
         final Gson gson = builder.create();
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl(firebaseURL).child("scales/" + scaleName + ".json");
+        // clear the scales
+        Scales.scales.clear();
+        scalesCurrent = 0;
 
-        try {
-            final File localFile = File.createTempFile("scale", "json");
-            storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+        for (int i = 0; i < scalesNames.length; i++) {
+            final String scaleName = scalesNames[i];
+//            final String scaleLanguage = scalesLanguages[i];
+            String fileName = scaleName + "-" + displayLanguage + ".json";
 
-                    try {
-                        GeriatricScaleNonDB scaleNonDB = gson.fromJson(new FileReader(localFile), GeriatricScaleNonDB.class);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+
+            StorageReference storageRef = storage.getReferenceFromUrl(firebaseURL).child("scales/" + fileName);
+
+            try {
+                final File localFile = File.createTempFile("scale", "json");
+                storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        try {
+                            GeriatricScaleNonDB scaleNonDB = gson.fromJson(new FileReader(localFile), GeriatricScaleNonDB.class);
+                            Scales.scales.add(scaleNonDB);
+                            scalesCurrent++;
+                            if (scalesCurrent == scalesTotal)
+                                canLeaveLaunchScreen = true;
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        if (exception instanceof com.google.firebase.storage.StorageException) {
+                            // scale was not found for that language
+                            Log.d("Download", "Scale " + scaleName + " does not exist for " + displayLanguage + " language");
+                        }
+                        scalesCurrent++;
+                        if (scalesCurrent == scalesTotal)
+                            canLeaveLaunchScreen = true;
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
 
+            }
         }
     }
 
@@ -519,6 +616,13 @@ public class FirebaseHelper {
      */
     @Nullable
     public static PatientFirebase getPatientFromSession(SessionFirebase session) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() == null) {
+            return null;
+        }
+        if (session.getPatientID() == null) {
+            return null;
+        }
         for (PatientFirebase patient : patients) {
             if (patient.getGuid().equals(session.getPatientID()))
                 return patient;
@@ -644,27 +748,46 @@ public class FirebaseHelper {
      * @return
      */
     public static GeriatricScaleFirebase getScaleFromSession(SessionFirebase session, String scaleName) {
-        ArrayList<String> scalesIDS = session.getScalesIDS();
-        // get scales with those IDS
 
-        for (GeriatricScaleFirebase scale : scales) {
-            if (scalesIDS.contains(scale.getGuid()) && scale.getScaleName().equals(scaleName))
-                return scale;
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            ArrayList<String> scalesIDS = session.getScalesIDS();
+            // get scales with those IDS
+
+            for (GeriatricScaleFirebase scale : scales) {
+                if (scalesIDS.contains(scale.getGuid()) && scale.getScaleName().equals(scaleName))
+                    return scale;
+            }
+            return null;
+        } else {
+            // public session
+            for (GeriatricScaleFirebase scale : Constants.publicScales) {
+                if (scale.getScaleName().equals(scaleName)) {
+                    return scale;
+                }
+            }
         }
-        return null;
 
+        return null;
     }
 
     public static ArrayList<GeriatricScaleFirebase> getScalesFromSession(SessionFirebase session) {
-        ArrayList<String> scalesIDS = session.getScalesIDS();
-        ArrayList<GeriatricScaleFirebase> scalesForSession = new ArrayList<>();
-        // get scales with those IDS
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
 
-        for (GeriatricScaleFirebase scale : scales) {
-            if (scalesIDS.contains(scale.getGuid()))
-                scalesForSession.add(scale);
+            ArrayList<String> scalesIDS = session.getScalesIDS();
+            ArrayList<GeriatricScaleFirebase> scalesForSession = new ArrayList<>();
+            // get scales with those IDS
+
+            for (GeriatricScaleFirebase scale : scales) {
+                if (scalesIDS.contains(scale.getGuid()))
+                    scalesForSession.add(scale);
+            }
+            return scalesForSession;
+
+        } else {
+            return Constants.publicScales;
         }
-        return scalesForSession;
 
     }
 
@@ -817,7 +940,7 @@ public class FirebaseHelper {
         scale.setResult(res);
 
         // update scale result
-        FirebaseHelper.firebaseTableScales.child(scale.getKey()).child("result").setValue(res);
+        updateScale(scale);
 
         return res;
     }
@@ -827,14 +950,14 @@ public class FirebaseHelper {
      *
      * @param patient
      */
-    public static void savePatient(PatientFirebase patient) {
+    public static void createPatient(PatientFirebase patient) {
         String patientID = FirebaseHelper.firebaseTablePatients.push().getKey();
         patient.setKey(patientID);
         FirebaseHelper.firebaseTablePatients.child(patientID).setValue(patient);
     }
 
 
-    public static void savePrescription(PrescriptionFirebase prescription) {
+    public static void createPrescription(PrescriptionFirebase prescription) {
         String prescriptionID = FirebaseHelper.firebaseTablePrescriptions.push().getKey();
         prescription.setKey(prescriptionID);
         FirebaseHelper.firebaseTablePrescriptions.child(prescriptionID).setValue(prescription);
@@ -845,7 +968,7 @@ public class FirebaseHelper {
      *
      * @param session
      */
-    public static void saveSession(SessionFirebase session) {
+    public static void createSession(SessionFirebase session) {
         String sessionID = FirebaseHelper.firebaseTableSessions.push().getKey();
         session.setKey(sessionID);
         FirebaseHelper.firebaseTableSessions.child(sessionID).setValue(session);
@@ -857,9 +980,12 @@ public class FirebaseHelper {
      * @param question
      */
     public static void saveQuestion(QuestionFirebase question) {
-        String questionID = FirebaseHelper.firebaseTableQuestions.push().getKey();
-        question.setKey(questionID);
-        FirebaseHelper.firebaseTableQuestions.child(questionID).setValue(question);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            String questionID = FirebaseHelper.firebaseTableQuestions.push().getKey();
+            question.setKey(questionID);
+            FirebaseHelper.firebaseTableQuestions.child(questionID).setValue(question);
+        }
     }
 
     /**
@@ -867,23 +993,26 @@ public class FirebaseHelper {
      *
      * @param choice
      */
-    public static void saveChoice(ChoiceFirebase choice) {
-        // add to questions
+    public static void createChoice(ChoiceFirebase choice) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            // add to questions
 //        QuestionFirebase question = getQuestionByID(choice.getQuestionID());
 //        question.getChoicesIDs().add(choice.getGuid());
 //        updateQuestion(question);
 
-        // add to table
-        String choiceID = FirebaseHelper.firebaseTableChoices.push().getKey();
-        FirebaseHelper.firebaseTableChoices.child(choiceID).setValue(choice);
+            // add to table
+            String choiceID = FirebaseHelper.firebaseTableChoices.push().getKey();
+            FirebaseHelper.firebaseTableChoices.child(choiceID).setValue(choice);
+        }
     }
 
     /**
-     * Save a Scale.
+     * Create a Scale.
      *
      * @param scale
      */
-    public static void saveScale(GeriatricScaleFirebase scale) {
+    public static void createScale(GeriatricScaleFirebase scale) {
         String scaleID = FirebaseHelper.firebaseTableScales.push().getKey();
         FirebaseHelper.firebaseTableScales.child(scaleID).setValue(scale);
     }
@@ -894,11 +1023,18 @@ public class FirebaseHelper {
      * @param currentScale
      */
     public static void updateScale(GeriatricScaleFirebase currentScale) {
-        FirebaseHelper.firebaseTableScales.child(currentScale.getKey()).setValue(currentScale);
+        // check if logged in
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            FirebaseHelper.firebaseTableScales.child(currentScale.getKey()).setValue(currentScale);
+        }
     }
 
     public static void updateQuestion(QuestionFirebase question) {
-        FirebaseHelper.firebaseTableQuestions.child(question.getKey()).setValue(question);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            FirebaseHelper.firebaseTableQuestions.child(question.getKey()).setValue(question);
+        }
     }
 
     public static void updatePatient(PatientFirebase patient) {
@@ -906,7 +1042,7 @@ public class FirebaseHelper {
     }
 
     public static void updateSession(SessionFirebase session) {
-        if(session!=null)
+        if (session != null)
             FirebaseHelper.firebaseTableSessions.child(session.getKey()).setValue(session);
     }
 
@@ -923,10 +1059,12 @@ public class FirebaseHelper {
     public static void deleteSession(SessionFirebase session) {
 
         sessions.remove(session);
-        // remove session from patient's sessions list
+        // remove session from patient's sessions list (if patient not null)
         PatientFirebase patient = FirebaseHelper.getPatientFromSession(session);
-        patient.getSessionsIDS().remove(session.getGuid());
-        updatePatient(patient);
+        if (patient != null) {
+            patient.getSessionsIDS().remove(session.getGuid());
+            updatePatient(patient);
+        }
 
         // delete scales
         ArrayList<GeriatricScaleFirebase> scales = getScalesFromSession(session);
@@ -960,11 +1098,25 @@ public class FirebaseHelper {
      * @param session
      */
     public static void eraseScalesNotCompleted(SessionFirebase session) {
-        List<GeriatricScaleFirebase> scales = getScalesFromSession(session);
-        for (GeriatricScaleFirebase scale : scales) {
-            if (!scale.isCompleted()) {
-                deleteScale(scale);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            // logged in - erase from Firebase
+            List<GeriatricScaleFirebase> scales = getScalesFromSession(session);
+            for (GeriatricScaleFirebase scale : scales) {
+                if (!scale.isCompleted()) {
+                    deleteScale(scale);
+                }
             }
+        } else {
+            // TODO erase from public session
+            // not logged in - erase from Constants
+            ArrayList<GeriatricScaleFirebase> completedScales = new ArrayList<>();
+            for (GeriatricScaleFirebase scale : Constants.publicScales) {
+                if (scale.isCompleted()) {
+                    completedScales.add(scale);
+                }
+            }
+            Constants.publicScales = completedScales;
         }
     }
 
@@ -1025,15 +1177,15 @@ public class FirebaseHelper {
             write operations might fail due to security rules.
          */
 
+        // set patients
+        String userArea = "users/" + FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        if (Constants.firebaseInstance == null) {
-            // allow offline persistence
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-            mFirebaseInstance = FirebaseDatabase.getInstance();
-            Constants.firebaseInstance = mFirebaseInstance;
-        } else {
-            mFirebaseInstance = Constants.firebaseInstance;
-        }
+        PATIENTS = userArea + "/patients";
+        SESSIONS = userArea + "/sessions";
+        SCALES = userArea + "/scales";
+        QUESTIONS = userArea + "/questions";
+        PRESCRIPTIONS = userArea + "/prescriptions";
+        CHOICES = userArea + "/choices";
 
 
         firebaseTablePatients = mFirebaseInstance.getReference(FirebaseHelper.PATIENTS);
@@ -1134,5 +1286,95 @@ public class FirebaseHelper {
 //                .where("date > ? and date < ?", firstDay.getTime(), secondDay.getTime())
 //                .orderBy("guid ASC")
 //                .execute();
+    }
+
+    private static Gson gson;
+
+
+    static String languageSpanish = "ES";
+    static String languageEnglish = "EN";
+    static String languagePortuguese = "PT";
+
+    static String[] scalesNames = {
+            Constants.test_name_barthel_index,
+            Constants.test_name_clock_drawing,
+            Constants.test_name_escalaDepressaoYesavage,
+            Constants.test_name_escalaLawtonBrody,
+            Constants.test_name_marchaHolden,
+            Constants.test_name_mini_mental_state,
+            Constants.test_name_mini_nutritional_assessment_global,
+            Constants.test_name_mini_nutritional_assessment_triagem,
+            Constants.test_name_valoracionSocioFamiliar,
+            Constants.test_name_tinetti,
+            Constants.test_name_testeDeKatz,
+            Constants.test_name_recursos_sociales,
+    };
+
+    static String[] scalesLanguages = {
+            languageSpanish,
+            languageEnglish,
+            languagePortuguese,
+            languagePortuguese,
+            languagePortuguese,
+            languagePortuguese,
+            languagePortuguese,
+            languagePortuguese,
+            languageSpanish,
+            languagePortuguese,
+            languagePortuguese,
+            languageSpanish
+    };
+
+    public static ArrayList<GeriatricScaleFirebase> getScaleInstancesForPatient(ArrayList<SessionFirebase> patientSessions, String scaleName) {
+        ArrayList<GeriatricScaleFirebase> scaleInstances = new ArrayList<>();
+        // get instances for that test
+        for (SessionFirebase currentSession : patientSessions) {
+            List<GeriatricScaleFirebase> scalesFromSession = FirebaseHelper.getScalesFromSession(currentSession);
+            for (GeriatricScaleFirebase currentScale : scalesFromSession) {
+                if (currentScale.getScaleName().equals(scaleName)) {
+                    scaleInstances.add(currentScale);
+                }
+            }
+        }
+        return scaleInstances;
+    }
+
+    /**
+     * JSON handling.
+     */
+    public static void uploadScales() {
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
+        gson = builder.create();
+
+
+        for (int i = 0; i < scalesNames.length; i++) {
+            // scale name
+            String scaleName = scalesNames[i];
+            String scaleLanguage = scalesLanguages[i];
+            String jsonArray = gson.toJson(Scales.getScaleByName(scaleName));
+
+            String fileName = scaleName + "-" + scaleLanguage + ".json";
+            // upload file
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageReference = storage.
+                    getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                    .child("scales/" + fileName);
+
+            UploadTask uploadTask = storageReference.putBytes(jsonArray.getBytes());
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                }
+            });
+
+        }
+
+
     }
 }

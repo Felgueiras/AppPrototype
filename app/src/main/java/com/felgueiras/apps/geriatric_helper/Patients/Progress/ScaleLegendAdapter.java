@@ -9,10 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -21,16 +21,16 @@ import java.util.List;
 
 public class ScaleLegendAdapter extends RecyclerView.Adapter<ScaleLegendAdapter.MyViewHolder> {
 
-    private Patient patient;
+    private PatientFirebase patient;
     private GeriatricScaleNonDB scale;
     private Activity context;
     ArrayList<GradingNonDB> toConsider = new ArrayList<>();
     /**
      * Data to be displayed.
      */
-    private List<Session> sessionsList;
+    private List<SessionFirebase> sessionsList;
 
-    public ScaleLegendAdapter(Patient patient, GeriatricScaleNonDB scaleByName) {
+    public ScaleLegendAdapter(PatientFirebase patient, GeriatricScaleNonDB scaleByName) {
         this.patient = patient;
         this.scale = scaleByName;
     }

@@ -185,7 +185,6 @@ public class CGAPrivate extends Fragment {
     }
 
 
-
     public void discardSession() {
 
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
@@ -222,14 +221,15 @@ public class CGAPrivate extends Fragment {
             test.setArea(testNonDB.getArea());
             test.setShortName(testNonDB.getShortName());
             test.setSessionID(session.getGuid());
+            test.setSubCategory(testNonDB.getSubCategory());
             test.setDescription(testNonDB.getDescription());
             if (testNonDB.isSingleQuestion())
                 test.setSingleQuestion(true);
             test.setAlreadyOpened(false);
-            if(testNonDB.getScaleName().equals(Constants.test_name_marchaHolden))
+            if (testNonDB.getScaleName().equals(Constants.test_name_marchaHolden))
                 test.setContainsPhoto(true);
             session.addScaleID(test.getGuid());
-            FirebaseHelper.saveScale(test);
+            FirebaseHelper.createScale(test);
         }
     }
 
@@ -243,10 +243,12 @@ public class CGAPrivate extends Fragment {
         // save to dabatase
         session = new SessionFirebase();
         session.setGuid(sessionID);
-        session.setPatientID(patient.getGuid());
+        if (patient != null) {
+            session.setPatientID(patient.getGuid());
 
-        // add session to patient
-        patient.addSession(session.getGuid());
+            // add session to patient
+            patient.addSession(session.getGuid());
+        }
 
 
         // set date
@@ -259,13 +261,11 @@ public class CGAPrivate extends Fragment {
         session.setDate(DatesHandler.createCustomDate(year, month, day, hour, minute));
 
         // save Session
-        FirebaseHelper.saveSession(session);
+        FirebaseHelper.createSession(session);
 
         // save the ID
         SharedPreferencesHelper.setPrivateSession(getActivity(), sessionID);
     }
-
-
 
 
 }

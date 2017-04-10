@@ -13,6 +13,7 @@
     Display tests buttons
     -->
     <dimen name="test_name">22dp</dimen>
+    <dimen name="subcategory_name">18dp</dimen>
     <dimen name="test_type">22dp</dimen>
 
     <dimen name="patient_name_size">25dp</dimen>
@@ -31,5 +32,5 @@
     <dimen name="subText">15dp</dimen>
     <dimen name="tab_label">14sp</dimen>
     <dimen name="patient_profile_smartphone">20sp</dimen>
-    <dimen name="logo_w_h">50dp</dimen>
+    <dimen name="logo_w_h">100dp</dimen>
 </resources>
