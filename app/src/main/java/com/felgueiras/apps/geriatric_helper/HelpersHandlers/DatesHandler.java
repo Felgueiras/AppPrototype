@@ -112,4 +112,19 @@ public class DatesHandler {
 
         return cal.getTime();
     }
+
+    /**
+     * Get date (not including hour and minutes).
+     *
+     * @return
+     * @param date
+     */
+    public static Date getDateWithoutHour(long date) {
+        // create a copy of the date with hour and minute set to 0
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(date);
+        return DatesHandler.createCustomDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
+                0, 0);
+    }
 }

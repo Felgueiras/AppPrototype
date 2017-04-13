@@ -2,6 +2,7 @@ package com.felgueiras.apps.geriatric_helper.Patients.Favorite;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,10 +46,10 @@ public class PatientsFavoriteFragment extends Fragment {
          Grid view that will hold info about the Patients
          **/
         gridView = (GridView) view.findViewById(R.id.patients_grid);
-//        favoritePatients = PatientFirebase.getFavoritePatients();
 
-        adapter = new PatientCardFavorite(getActivity(), retrieveFavoritePatients(), this);
-        gridView.setAdapter(adapter);
+        retrieveFavoritePatients();
+//        adapter = new PatientCardFavorite(getActivity(), retrieveFavoritePatients(), this);
+//        gridView.setAdapter(adapter);
 
         fragment = this;
 
@@ -65,6 +66,7 @@ public class PatientsFavoriteFragment extends Fragment {
                     patient.setKey(postSnapshot.getKey());
                     favoritePatients.add(patient);
                 }
+                Log.d("Firebase","Retrieved favorite patients");
                 gridView.setAdapter(new PatientCardFavorite(getActivity(), favoritePatients, fragment));
             }
 

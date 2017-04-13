@@ -90,7 +90,8 @@ public class PatientProfileFragment extends Fragment {
 
         // set Patient infos
         //label.setText(PATIENT.getName());
-        patientBirthDate.setText(DatesHandler.dateToStringWithoutHour(patient.getBirthDate()) + " - " + patient.getAge() + " anos");
+        patientBirthDate.setText(DatesHandler.dateToStringWithoutHour(patient.getBirthDate()) + " - " +
+                 patient.getAge() + " anos");
         patientAddress.setText("Morada: " + patient.getAddress());
         processNumber.setText("Processo nº " + patient.getProcessNumber());
         //patientPhoto.setImageResource(PATIENT.getPicture());

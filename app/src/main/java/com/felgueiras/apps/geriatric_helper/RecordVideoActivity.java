@@ -1,32 +1,35 @@
 package com.felgueiras.apps.geriatric_helper;
 
+import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,49 +41,46 @@ import java.util.Locale;
 
 public class RecordVideoActivity extends AppCompatActivity {
     // Activity request codes
-    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
-    private static final int CAMERA_CAPTURE_VIDEO_REQUEST_CODE = 200;
-    static final int REQUEST_TAKE_PHOTO = 1;
-    public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
 
-    // directory name to store captured images and videos
-    private static final String IMAGE_DIRECTORY_NAME = "HelloCamera";
-    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 123;
+    static final int REQUEST_TAKE_PHOTO = 1;
+    public static final String SCALE_ID = "SCALE_ID";
+
 
     private Uri fileUri; // file url to store image/video
 
-    private ImageView imgPreview;
+
     private VideoView videoPreview;
-    private Button btnCapturePicture, btnRecordVideo;
+    private Button btnRecordVideo;
 
     private static Activity context;
-    private Intent intent;
-    private FirebaseAuth mAuth;
+    private GeriatricScaleFirebase scale;
+    private String videoFileName;
+    private String mCurrentVideoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_video);
 
-        imgPreview = (ImageView) findViewById(R.id.imgPreview);
-        videoPreview = (VideoView) findViewById(R.id.videoPreview);
-        btnCapturePicture = (Button) findViewById(R.id.btnCapturePicture);
-        btnRecordVideo = (Button) findViewById(R.id.btnRecordVideo);
-
         context = this;
 
-        /**
-         * Capture image button click event
-         */
-        btnCapturePicture.setOnClickListener(new View.OnClickListener() {
+        // get the associated scale
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        String scaleID = bundle.getString(SCALE_ID);
 
-            @Override
-            public void onClick(View v) {
-                // capture picture
-                dispatchTakePictureIntent();
-            }
-        });
+        // fetch scale
+        scale = FirebaseHelper.getScaleByID(scaleID);
+
+        // it there is already an image associated to the scale
+        if (scale != null && scale.getVideoPath() != null) {
+            Log.d("Firebase","Already has video, fetching...");
+            fetchVideoFirebaseDisplay();
+        }
+
+        videoPreview = (VideoView) findViewById(R.id.videoPreview);
+        btnRecordVideo = (Button) findViewById(R.id.btnRecordVideo);
+
 
         /**
          * Record video button click event
@@ -90,6 +90,7 @@ public class RecordVideoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // record video
+                verifyVideoPermission();
                 recordVideo();
             }
         });
@@ -101,6 +102,64 @@ public class RecordVideoActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
             // will close the app if the device does't have camera
             finish();
+        }
+    }
+
+    /**
+     * Fetch video from firebase and display it.
+     */
+    private void fetchVideoFirebaseDisplay() {
+        // fetch image from Firebase
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/videos/" + scale.getVideoPath());
+
+
+        try {
+            final File videoFile = File.createTempFile("video", "mp4");
+            storageRef.getFile(videoFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                    videoPreview.setVisibility(View.VISIBLE);
+//                    videoPreview.setVideoURI(videoUri);
+                    videoPreview.setVideoPath(videoFile.getAbsolutePath());
+
+                    // attach MediaController
+                    MediaController mediaController = new MediaController(context);
+                    mediaController.setAnchorView(videoPreview);
+                    videoPreview.setMediaController(mediaController);
+
+                    // start playing
+                    videoPreview.start();
+                    Log.d("Firebase", "Setting video");
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    if (exception instanceof com.google.firebase.storage.StorageException) {
+                        // scale was not found for that language
+                        Log.d("Download", "Video does not exist");
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void verifyVideoPermission() {
+        // Check permission for CAMERA
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAPTURE_VIDEO_OUTPUT)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Check Permissions Now
+            // Callback onRequestPermissionsResult interceptado na Activity MainActivity
+            ActivityCompat.requestPermissions(context,
+                    new String[]{Manifest.permission.CAPTURE_VIDEO_OUTPUT},
+                    REQUEST_TAKE_PHOTO);
         }
     }
 
@@ -140,53 +199,42 @@ public class RecordVideoActivity extends AppCompatActivity {
         fileUri = savedInstanceState.getParcelable("file_uri");
     }
 
+    static final int REQUEST_VIDEO_CAPTURE = 1;
+
     /**
-     * Recording video
+     * Record a video
      */
     private void recordVideo() {
-        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        Intent recordVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        if (recordVideoIntent.resolveActivity(getPackageManager()) != null) {
 
-        fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
-
-        // set video quality
-        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file
-        // name
-
-        // start the video capture Intent
-        startActivityForResult(intent, CAMERA_CAPTURE_VIDEO_REQUEST_CODE);
+            File videoFile = null;
+            try {
+                videoFile = createVideoFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            Uri videoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider",
+                    videoFile);
+            recordVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoURI);
+            startActivityForResult(recordVideoIntent, REQUEST_VIDEO_CAPTURE);
+        }
     }
 
     /**
      * Receiving activity result method will be called after closing the camera
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         // if the result is capturing Image
-        Log.d("Result", resultCode + "");
-        if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE || requestCode == REQUEST_TAKE_PHOTO) {
-            if (resultCode == RESULT_OK) {
-                // successfully captured the image
-                // display it in image view
-                previewCapturedImage();
-
-            } else if (resultCode == RESULT_CANCELED) {
-                // user cancelled Image capture
-                Toast.makeText(getApplicationContext(),
-                        "User cancelled image capture", Toast.LENGTH_SHORT)
-                        .show();
-            } else {
-                // failed to capture image
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-                        .show();
-            }
-        } else if (requestCode == CAMERA_CAPTURE_VIDEO_REQUEST_CODE) {
+        if (requestCode == REQUEST_VIDEO_CAPTURE) {
             if (resultCode == RESULT_OK) {
                 // video successfully recorded
-                // preview the recorded video
-                previewVideo();
+                Uri videoUri = intent.getData();
+                previewVideo(videoUri);
+
+                // display and upload video to Firebase
+                displayAndUploadVideo(videoUri);
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled recording
                 Toast.makeText(getApplicationContext(),
@@ -201,83 +249,90 @@ public class RecordVideoActivity extends AppCompatActivity {
         }
     }
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
+    /**
+     * Previewing recorded video
+     *
+     * @param videoUri
+     */
+    private void previewVideo(Uri videoUri) {
+        try {
+
+            videoPreview.setVisibility(View.VISIBLE);
+            videoPreview.setVideoURI(videoUri);
+
+            // attach MediaController
+            MediaController mediaController = new MediaController(this);
+            mediaController.setAnchorView(videoPreview);
+            videoPreview.setMediaController(mediaController);
+
+            // start playing
+            videoPreview.start();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    String mCurrentPhotoPath;
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
+    /**
+     * Create a video file where video is saved locally
+     *
+     * @return
+     * @throws IOException
+     */
+    private File createVideoFile() throws IOException {
+        // Create an video file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.UK).format(new Date());
+        videoFileName = "MP4_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
+        File video = File.createTempFile(
+                videoFileName,  /* prefix */
+                ".mp4",         /* suffix */
                 storageDir      /* directory */
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
+        mCurrentVideoPath = video.getAbsolutePath();
+        return video;
     }
 
     /**
-     * Display image from a path to ImageView
+     * Display and upload video to Firebase.
+     *
+     * @param videoUri
      */
-    private void previewCapturedImage() {
+    private void displayAndUploadVideo(Uri videoUri) {
+
         try {
-            // hide video preview
-            videoPreview.setVisibility(View.GONE);
+            videoPreview.setVisibility(View.VISIBLE);
+            videoPreview.setVideoURI(videoUri);
 
-            imgPreview.setVisibility(View.VISIBLE);
+            // attach MediaController
+            MediaController mediaController = new MediaController(context);
+            mediaController.setAnchorView(videoPreview);
+            videoPreview.setMediaController(mediaController);
 
-            // bimatp factory
-            BitmapFactory.Options options = new BitmapFactory.Options();
+            // start playing
+            videoPreview.start();
 
-            // downsizing image as it throws OutOfMemory Exception for larger
-            // images
-            options.inSampleSize = 8;
+            // TODO compress the video
+//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//            bmp.compress(CompressFormat.JPEG, 0, bos);
+//            InputStream stream = new ByteArrayInputStream(bos.toByteArray());
 
-            final Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath,
-                    options);
-
-            imgPreview.setImageBitmap(bitmap);
-
-            // upload image to firebase
-            String fileName = mCurrentPhotoPath + ".jpg";
-            // upload file
-
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageReference = storage.
-                    getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
-                    .child("images/" + fileName);
-
+            // read video from file
             InputStream stream = null;
             try {
-                stream = new FileInputStream(new File(mCurrentPhotoPath));
+                stream = new FileInputStream(new File(mCurrentVideoPath));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+
+            final String fileName = videoFileName + ".mp4";
+
+
+            // upload image to firebase
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageReference = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                    .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/videos/" + fileName);
 
             UploadTask uploadTask = storageReference.putStream(stream);
             uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -287,6 +342,9 @@ public class RecordVideoActivity extends AppCompatActivity {
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.d("Firebase", "Video updated successfully");
+                    scale.setVideoPath(fileName);
+                    FirebaseHelper.updateScale(scale);
                 }
             });
         } catch (NullPointerException e) {
@@ -294,70 +352,5 @@ public class RecordVideoActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Previewing recorded video
-     */
-    private void previewVideo() {
-        try {
-            // hide image preview
-            imgPreview.setVisibility(View.GONE);
-
-            videoPreview.setVisibility(View.VISIBLE);
-            videoPreview.setVideoPath(fileUri.getPath());
-            // start playing
-            videoPreview.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * ------------ Helper Methods ----------------------
-     * */
-
-    /**
-     * Creating file uri to store image/video
-     */
-    public Uri getOutputMediaFileUri(int type) {
-        return Uri.fromFile(getOutputMediaFile(type));
-    }
-
-    /**
-     * returning image / video
-     */
-    private static File getOutputMediaFile(int type) {
-
-        // External sdcard location
-//        File mediaStorageDir = new File(Environment.getExternalStorageDirectory(),
-//                IMAGE_DIRECTORY_NAME);
-
-        File mydir = context.getDir(IMAGE_DIRECTORY_NAME, Context.MODE_PRIVATE); //Creating an internal dir;
-        File fileWithinMyDir = new File(mydir, "myfile"); //Getting a file within the dir.
-
-
-        // Create the storage directory if it does not exist
-        if (!mydir.exists()) {
-            if (!mydir.mkdirs()) {
-                Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create " + IMAGE_DIRECTORY_NAME + " directory");
-                return null;
-            }
-        }
-
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-                Locale.getDefault()).format(new Date());
-        File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE) {
-            mediaFile = new File(mydir.getPath() + File.separator
-                    + "IMG_" + timeStamp + ".jpg");
-        } else if (type == MEDIA_TYPE_VIDEO) {
-            mediaFile = new File(mydir.getPath() + File.separator
-                    + "VID_" + timeStamp + ".mp4");
-        } else {
-            return null;
-        }
-
-        return mediaFile;
-    }
 
 }

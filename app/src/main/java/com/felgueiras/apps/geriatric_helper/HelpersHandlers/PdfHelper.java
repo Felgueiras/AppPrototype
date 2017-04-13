@@ -460,7 +460,7 @@ public class PdfHelper {
     private static void viewPdf() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri ur = FileProvider.getUriForFile(context,
-                context.getApplicationContext().getPackageName() + ".provider",
+                "com.example.android.fileprovider",
                 myFile);
 //        intent.setDataAndType(Uri.fromFile(myFile), "application/pdf");
         intent.setDataAndType(ur, "application/pdf");

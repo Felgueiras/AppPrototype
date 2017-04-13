@@ -38,7 +38,6 @@ public class DataHelperDrugs {
      */
     public static List<DrugSuggestion> getHistory(Context context, int count) {
 
-        // TODo get those with history
         List<DrugSuggestion> suggestionList = new ArrayList<>();
         DrugSuggestion drugSuggestion;
         for (int i = 0; i < drugSuggestions.size(); i++) {

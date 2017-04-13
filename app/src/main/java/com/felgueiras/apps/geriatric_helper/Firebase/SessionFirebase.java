@@ -15,7 +15,7 @@ import java.util.Date;
 public class SessionFirebase implements Serializable {
 
     @Expose
-    Date date;
+    long date;
 
     @Expose
     String guid;
@@ -85,25 +85,11 @@ public class SessionFirebase implements Serializable {
      *
      * @return
      */
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 
-    /**
-     * Get date (not including hour and minutes).
-     *
-     * @return
-     */
-    public Date getDateWithoutHour() {
-        // create a copy of the date with hour and minute set to 0
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(date.getTime());
-        return DatesHandler.createCustomDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),
-                0, 0);
-    }
-
-    public void setDate(Date date) {
+    public void setDate(long date) {
         this.date = date;
     }
 

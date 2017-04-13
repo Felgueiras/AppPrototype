@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -19,17 +18,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPublic;
-import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPublicInfo;
+import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublic;
+import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.Introduction.MyIntro;
-import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMain;
+import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMainFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.google.firebase.auth.FirebaseAuth;
@@ -168,7 +165,7 @@ public class PublicAreaActivity extends AppCompatActivity {
                 setTitle(getResources().getString(R.string.cga));
                 break;
             case Constants.fragment_drug_prescription:
-                fragment = new PrescriptionMain();
+                fragment = new PrescriptionMainFragment();
                 setTitle(getResources().getString(R.string.tab_drug_prescription));
                 break;
         }

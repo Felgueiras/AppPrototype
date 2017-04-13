@@ -16,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
-import com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
+import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
+import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionWithPatient;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;

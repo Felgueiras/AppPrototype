@@ -20,6 +20,7 @@ import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
 import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.PatientProfileFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -93,7 +94,7 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
             }
 
             // set session time
-            holder.time.setText(DatesHandler.hour(session.getDate()));
+            holder.time.setText(DatesHandler.hour(new Date(session.getDate())));
         }
 
 

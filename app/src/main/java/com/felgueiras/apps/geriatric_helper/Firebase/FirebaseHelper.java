@@ -1,8 +1,7 @@
 package com.felgueiras.apps.geriatric_helper.Firebase;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -15,8 +14,10 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +25,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -34,7 +37,6 @@ import com.google.gson.GsonBuilder;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,9 +45,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
 
 
 /**
@@ -60,7 +59,7 @@ public class FirebaseHelper {
     /**
      * Firebase realtime database URL.
      */
-    private static final String firebaseURL = "gs://appprototype-bdd27.appspot.com";
+    public static final String firebaseURL = "gs://appprototype-bdd27.appspot.com";
 
     /**
      * Patients table name.
@@ -151,125 +150,7 @@ public class FirebaseHelper {
      */
     private static ArrayList<PrescriptionFirebase> prescriptions = new ArrayList<>();
     public static boolean canLeaveLaunchScreen = false;
-
-    public static void createPatient() {
-
-
-        Log.d("Dummy", "Inserting dummy data");
-
-        int totalPatients = 30;
-        String[] patientsMale =
-                {"Manuel Vieira",
-                        "Ivo Silva",
-                        "Júlio Arrábida",
-                        "Manuel João Costa",
-                        "Vitor Manuel da Assunção",
-                        "José Pinto",
-                        "Teotónio Francisco",
-                        "Fernando Silva",
-                        "Augusto Cunha",
-                        "Óscar Felgueiras",
-                        "Vítor de Sá",
-                        "Leandro Ricardo",
-                        "Mário Alexandre Costa",
-                        "Aníbal Salgueiro",
-                        "Bernardo Silva"};
-        String[] patientsFemale =
-                {"Maria da Graça",
-                        "Maria Silva",
-                        "Júlia Adalberto",
-                        "Beatriz Fernandes Madureira",
-                        "Emília Felgueiras Pinto",
-                        "Maria Adélia Cirne",
-                        "Ana Inês Gonçalves",
-                        "Clara Ferreira",
-                        "Ana Maria Pureza",
-                        "Leonor Fernandes",
-                        "Lurdes Onofre Seixas",
-                        "Teresa Silves",
-                        "Paula Faria",
-                        "Leonor da Graça Gomes",
-                        "Beatriz Flores"};
-
-        String[] patientNames = new String[totalPatients];
-        int[] patientAges = new int[totalPatients];
-        String[] patientAddresses = new String[totalPatients];
-        double[] patientGenders = new double[totalPatients];
-        Date[] patientBirthDates = new Date[totalPatients];
-
-
-        String[] addresses = {
-                "Aveiro",
-                "Eixo",
-                "Esgueira",
-                "Ílhavo",
-                "Estarreja",
-                "Cacia",
-                "Azurva",
-                "Salreu"
-        };
-
-        Random random = new Random();
-
-        /**
-         * Male patients.
-         */
-        for (String aPatientsMale : patientsMale) {
-            // create patients
-            PatientFirebase patient = new PatientFirebase();
-            patient.setName(aPatientsMale);
-            patient.setProcessNumber(random.nextInt(1000) + "");
-            patient.setBirthDate(DatesHandler.stringToDate("01-12-1920"));
-            patient.setGuid("PATIENT-" + aPatientsMale);
-            patient.setAddress(addresses[random.nextInt(addresses.length)]);
-            patient.setPicture(R.drawable.male);
-            patient.setGender(Constants.MALE);
-            patient.setFavorite(false);
-//            patient.save();
-            String patientID = firebaseTablePatients.push().getKey();
-            firebaseTablePatients.child(patientID).setValue(patient);
-        }
-//        /**
-//         * Female patients.
-//         */
-//        for (String aPatientsFemale : patientsFemale) {
-//            // create patients
-//            Patient patient = new Patient();
-//            patient.setName(aPatientsFemale);
-//            patient.setProcessNumber(random.nextInt(1000) + "");
-//            patient.setBirthDate(DatesHandler.stringToDate("01-12-1920"));
-//            patient.setGuid("PATIENT-" + aPatientsFemale);
-//            patient.setAddress(addresses[random.nextInt(addresses.length)]);
-//            patient.setPicture(R.drawable.female);
-//            patient.setGender(Constants.FEMALE);
-//            patient.setFavorite(false);
-//
-//        }
-    }
-
-
-    public static void loadFirebaseFile() {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com").child("sample.jpg");
-
-        try {
-            final File localFile = File.createTempFile("images", "jpg");
-            storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-//                    mImageView.setImageBitmap(bitmap);
-//                    Log.d("Storage", "success");
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                }
-            });
-        } catch (IOException e) {
-        }
-
-    }
+    private static FirebaseRemoteConfig mFirebaseRemoteConfig;
 
 
     public static ArrayList<PatientFirebase> getPatients() {
@@ -328,7 +209,7 @@ public class FirebaseHelper {
                     SharedPreferencesHelper.setScalesVersion(context, firScalesVersion);
                 } else {
                     // same version - no need to donwload
-                    canLeaveLaunchScreen = true;
+//                    canLeaveLaunchScreen = true;
                 }
             }
 
@@ -438,19 +319,6 @@ public class FirebaseHelper {
 
     }
 
-    private static void collectPhoneNumbers(Map<String, Object> patients) {
-        ArrayList<String> names = new ArrayList<>();
-
-        //iterate through each user, ignoring their UID
-        for (Map.Entry<String, Object> entry : patients.entrySet()) {
-
-            //Get user map
-            Map singleUser = (Map) entry.getValue();
-            //Get phone field and append to list
-            names.add((String) singleUser.get("name"));
-        }
-    }
-
 
     static int scalesTotal = 12;
     static int scalesCurrent = 0;
@@ -477,7 +345,7 @@ public class FirebaseHelper {
     public static void downloadScales() {
 
         // get system language
-        final String displayLanguage = Locale.getDefault().getLanguage().toUpperCase();
+//        final String scaleLanguage = Locale.getDefault().getLanguage().toUpperCase();
 
 
         // download scales from that language
@@ -492,8 +360,8 @@ public class FirebaseHelper {
 
         for (int i = 0; i < scalesNames.length; i++) {
             final String scaleName = scalesNames[i];
-//            final String scaleLanguage = scalesLanguages[i];
-            String fileName = scaleName + "-" + displayLanguage + ".json";
+            final String scaleLanguage = scalesLanguages[i];
+            String fileName = scaleName + "-" + scaleLanguage + ".json";
 
 
             StorageReference storageRef = storage.getReferenceFromUrl(firebaseURL).child("scales/" + fileName);
@@ -518,7 +386,7 @@ public class FirebaseHelper {
                     public void onFailure(@NonNull Exception exception) {
                         if (exception instanceof com.google.firebase.storage.StorageException) {
                             // scale was not found for that language
-                            Log.d("Download", "Scale " + scaleName + " does not exist for " + displayLanguage + " language");
+                            Log.d("Download", "Scale " + scaleName + " does not exist for " + scaleLanguage + " language");
                         }
                         scalesCurrent++;
                         if (scalesCurrent == scalesTotal)
@@ -531,6 +399,7 @@ public class FirebaseHelper {
             }
         }
     }
+
 
     /**
      * Get sessions from patient.
@@ -568,9 +437,34 @@ public class FirebaseHelper {
 
     public static ChoiceFirebase getChoiceByID(String choiceID) {
 
-        for (ChoiceFirebase choice : choices) {
+        ArrayList<ChoiceFirebase> choicesToConsider = new ArrayList<>();
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            choicesToConsider = choices;
+        } else {
+            choicesToConsider = Constants.publicChoices;
+
+        }
+        for (ChoiceFirebase choice : choicesToConsider) {
             if (choice.getGuid().equals(choiceID))
                 return choice;
+        }
+        return null;
+    }
+
+
+    /**
+     * Get a scale by its ID.
+     *
+     * @param scaleID
+     * @return
+     */
+    public static GeriatricScaleFirebase getScaleByID(String scaleID) {
+
+        for (GeriatricScaleFirebase scale : scales) {
+            if (scale.getGuid().equals(scaleID))
+                return scale;
         }
         return null;
     }
@@ -601,7 +495,16 @@ public class FirebaseHelper {
      */
     public static QuestionFirebase getQuestionByID(String questionID) {
 
-        for (QuestionFirebase question : questions) {
+        ArrayList<QuestionFirebase> questionsToConsider = new ArrayList<>();
+        // get scales with those IDS
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            questionsToConsider = questions;
+        } else {
+            questionsToConsider = Constants.publicQuestions;
+
+        }
+        for (QuestionFirebase question : questionsToConsider) {
             if (question.getGuid().equals(questionID))
                 return question;
         }
@@ -831,9 +734,17 @@ public class FirebaseHelper {
      */
     public static ArrayList<QuestionFirebase> getQuestionsFromScale(GeriatricScaleFirebase scale) {
         ArrayList<QuestionFirebase> questionsFromScale = new ArrayList<>();
+        ArrayList<QuestionFirebase> questionsToConsider = new ArrayList<>();
         // get scales with those IDS
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            questionsToConsider = questions;
+        } else {
+            questionsToConsider = Constants.publicQuestions;
 
-        for (QuestionFirebase question : questions) {
+        }
+
+        for (QuestionFirebase question : questionsToConsider) {
             if (question.getScaleID().equals(scale.getGuid())) {
                 questionsFromScale.add(question);
             }
@@ -850,8 +761,17 @@ public class FirebaseHelper {
      */
     public static ArrayList<ChoiceFirebase> getChoicesForQuestion(QuestionFirebase question) {
         ArrayList<ChoiceFirebase> choicesForQuestion = new ArrayList<>();
+        ArrayList<ChoiceFirebase> choicesToConsider = new ArrayList<>();
 
-        for (ChoiceFirebase choice : choices) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            choicesToConsider = choices;
+        } else {
+            choicesToConsider = Constants.publicChoices;
+
+        }
+
+        for (ChoiceFirebase choice : choicesToConsider) {
             if (choice.getQuestionID().equals(question.getGuid())) {
                 choicesForQuestion.add(choice);
             }
@@ -979,12 +899,15 @@ public class FirebaseHelper {
      *
      * @param question
      */
-    public static void saveQuestion(QuestionFirebase question) {
+    public static void createQuestion(QuestionFirebase question) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             String questionID = FirebaseHelper.firebaseTableQuestions.push().getKey();
             question.setKey(questionID);
             FirebaseHelper.firebaseTableQuestions.child(questionID).setValue(question);
+        } else {
+            Constants.publicQuestions.add(question);
+
         }
     }
 
@@ -1004,6 +927,8 @@ public class FirebaseHelper {
             // add to table
             String choiceID = FirebaseHelper.firebaseTableChoices.push().getKey();
             FirebaseHelper.firebaseTableChoices.child(choiceID).setValue(choice);
+        } else {
+            Constants.publicChoices.add(choice);
         }
     }
 
@@ -1108,7 +1033,6 @@ public class FirebaseHelper {
                 }
             }
         } else {
-            // TODO erase from public session
             // not logged in - erase from Constants
             ArrayList<GeriatricScaleFirebase> completedScales = new ArrayList<>();
             for (GeriatricScaleFirebase scale : Constants.publicScales) {
@@ -1140,6 +1064,33 @@ public class FirebaseHelper {
             deleteChoice(question);
         }
 
+        // remove associated images or videos
+        if (scale.isContainsPhoto()) {
+            Log.d("Firebase", "Removing photo");
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            // photo reference
+            StorageReference storageRef = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                    .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/images/" + scale.getPhotoPath());
+
+            // Delete the file
+            storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    // File deleted successfully
+                    Log.d("Firebase", "Photo deleted!");
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Uh-oh, an error occurred!
+                }
+            });
+        }
+        if (scale.isContainsVideo()) {
+
+        }
+
         // remove scale
         firebaseTableScales.child(scale.getKey()).removeValue();
     }
@@ -1168,7 +1119,6 @@ public class FirebaseHelper {
     }
 
     public static void initializeFirebase() {
-        // TODO offline auth
         /*
         If your app uses Firebase Authentication, the Firebase Realtime Database
          client persists the user's authentication token across app restarts.
@@ -1233,7 +1183,7 @@ public class FirebaseHelper {
     public static ArrayList<Date> getDifferentSessionDates() {
         HashSet<Date> days = new HashSet<>();
         for (SessionFirebase session : sessions) {
-            Date dateWithoutHour = session.getDateWithoutHour();
+            Date dateWithoutHour = DatesHandler.getDateWithoutHour(session.getDate());
             days.add(dateWithoutHour);
         }
         ArrayList<Date> differentDates = new ArrayList<>();
@@ -1279,13 +1229,13 @@ public class FirebaseHelper {
         Date secondDay = cal.getTime();
 
         //system.out.println("Getting sessions from " + firstDay + "-" + secondDay);
-        return sessions;
         // TODO get evaluations from that date
 //        return new Select()
 //                .from(Session.class)
 //                .where("date > ? and date < ?", firstDay.getTime(), secondDay.getTime())
 //                .orderBy("guid ASC")
 //                .execute();
+        return sessions;
     }
 
     private static Gson gson;
@@ -1374,6 +1324,71 @@ public class FirebaseHelper {
             });
 
         }
+
+
+    }
+
+    /**
+     * Setup remote config (Firebase).
+     *
+     * @param context
+     */
+    public static void setupRemoteConfig(Context context) {
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings remoteConfigSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(true)
+                .build();
+        mFirebaseRemoteConfig.setConfigSettings(remoteConfigSettings);
+
+        // set defaults - can be setup using a map
+//        mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+
+        // fetch remote config
+        // cache expiration in seconds
+        long cacheExpiration = 3600;
+
+//expire the cache immediately for development mode.
+        if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
+            cacheExpiration = 0;
+        }
+
+        // fetch
+        mFirebaseRemoteConfig.fetch(cacheExpiration)
+                .addOnCompleteListener((Activity) context, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // task successful. Activate the fetched data
+                            mFirebaseRemoteConfig.activateFetched();
+
+                            // check whether promo is on
+                            String appName = mFirebaseRemoteConfig.getString("app_name");
+                            Log.d("RemoteConfig", appName);
+
+                        } else {
+                            //task failed
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Get a String for a "key" using Firebase Remote Config instance.
+     *
+     * @param key
+     * @param stringInResources
+     * @return
+     */
+    public static String getString(String key, String stringInResources) {
+        String ret = "";
+        String stringFromFirebase = mFirebaseRemoteConfig.getString(key);
+        if (stringFromFirebase.equals("")) {
+            // if not defined in RemoteConfig, load from languages file
+            ret = stringInResources;
+        } else {
+            ret = stringFromFirebase;
+        }
+        return ret.replace("\\n", System.getProperty("line.separator"));
 
 
     }

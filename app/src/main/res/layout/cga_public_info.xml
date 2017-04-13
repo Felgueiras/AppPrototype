@@ -10,7 +10,7 @@
 
 
     <Button
-        android:text="Criar sessão"
+        android:text="@string/create_session"
         android:id="@+id/start_acg_evaluation"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/start_acg_evaluation"
         android:layout_centerInParent="true"
-        android:text="Saber mais"
+        android:text="@string/more_info"
         android:layout_marginTop="100dp"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
         />

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.QuestionsListAdapter;
+import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.QuestionsListAdapter;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import static com.felgueiras.apps.geriatric_helper.R.id.testQuestions;

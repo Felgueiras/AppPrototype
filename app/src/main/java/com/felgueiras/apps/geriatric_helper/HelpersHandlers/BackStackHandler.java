@@ -15,24 +15,24 @@ import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideAreaFragment;
 import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideScale;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
-import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPublic;
-import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPublicInfo;
-import com.felgueiras.apps.geriatric_helper.Evaluations.DisplayTest.ScaleFragment;
-import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsHistoryMain;
-import com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleSessionNoPatient;
-import com.felgueiras.apps.geriatric_helper.Evaluations.SingleArea.CGAAreaPrivate;
-import com.felgueiras.apps.geriatric_helper.Evaluations.SingleArea.CGAAreaPublic;
+import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
+import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublic;
+import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
+import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.ScaleFragment;
+import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
+import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionNoPatient;
+import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.CGAAreaPrivate;
+import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.CGAAreaPublic;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
-import com.felgueiras.apps.geriatric_helper.Help_Feedback.HelpMain;
+import com.felgueiras.apps.geriatric_helper.Help_Feedback.HelpMainFragment;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaMainFragment;
-import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMain;
+import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMainFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.Progress.ProgressFragment;
-import com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
-import com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewScaleFragment;
+import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionWithPatient;
+import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleTest.ReviewScaleFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.PatientProfileFragment;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -218,14 +218,14 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     nextFragment = new PatientsMain();
                     break;
                 case Constants.tag_view_patient_info_records_from_sessions_list:
-                    nextFragment = new EvaluationsHistoryMain();
+                    nextFragment = new SessionsHistoryMainFragment();
                     break;
                 case Constants.tag_view_drug_info:
-                    nextFragment = new PrescriptionMain();
+                    nextFragment = new PrescriptionMainFragment();
                     break;
                 case Constants.tag_create_session_pick_patient_start:
                     // go back to sessions list
-                    nextFragment = new EvaluationsHistoryMain();
+                    nextFragment = new SessionsHistoryMainFragment();
                     break;
                 case Constants.tag_create_session_no_patient:
                     Log.d("Stack", "pressed back in new session");
@@ -245,14 +245,14 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     break;
                 case Constants.tag_help_topic:
                     args = new Bundle();
-                    nextFragment = new HelpMain();
+                    nextFragment = new HelpMainFragment();
                     break;
                 /**
                  * Sessions history / review
                  */
                 case Constants.tag_review_session_from_sessions_list:
                     SharedPreferencesHelper.resetPrivateSession(context, "");
-                    nextFragment = new EvaluationsHistoryMain();
+                    nextFragment = new SessionsHistoryMainFragment();
                     break;
                 case Constants.tag_review_session_from_patient_profile: {
 
@@ -327,7 +327,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
              */
 
             AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-            alertDialog.setTitle(context.getResources().getString(R.string.app_close));
+            alertDialog.setTitle(context.getResources().getString(R.string.app_close_question));
             alertDialog.setMessage(context.getResources().getString(R.string.app_close_question));
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, context.getResources().getString(R.string.yes),
                     new DialogInterface.OnClickListener() {
@@ -402,7 +402,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             case Constants.tag_create_session_no_patient:
             case Constants.tag_create_session_with_patient_from_session:
                 // created a Session with no PATIENT -> go back to sessions screen
-                fragment = new EvaluationsHistoryMain();
+                fragment = new SessionsHistoryMainFragment();
                 break;
             case Constants.tag_create_session_from_favorites:
                 fragment = new PatientsMain();
@@ -497,7 +497,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
         } else if (tagCurrent.equals(Constants.tag_create_session_with_patient_from_session)) {
             // TODO review session
             fragmentManager.popBackStack();
-            fragment = new EvaluationsHistoryMain();
+            fragment = new SessionsHistoryMainFragment();
         } else if (tagCurrent.equals(Constants.tag_create_patient)) {
             fragmentManager.popBackStack();
             fragment = new PatientsMain();

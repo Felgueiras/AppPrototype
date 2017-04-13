@@ -43,7 +43,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/help_features_description"
+                android:text="@string/help_functionalitites_description"
                 android:textSize="15dp" />
 
             <!--Features-->

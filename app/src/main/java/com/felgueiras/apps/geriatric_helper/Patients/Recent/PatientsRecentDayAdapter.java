@@ -8,6 +8,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,11 @@ import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,8 +36,6 @@ public class PatientsRecentDayAdapter extends BaseAdapter {
     private final PatientsRecent fragment;
     Activity context;
     LayoutInflater inflater;
-    private List<SessionFirebase> sessionsFromDate;
-    private RecyclerView recyclerView;
     private PatientCardRecent adapter;
 
     public PatientsRecentDayAdapter(Activity context, PatientsRecent evaluationsHistoryGrid) {
@@ -48,17 +51,15 @@ public class PatientsRecentDayAdapter extends BaseAdapter {
         // get the date
         Date currentDate = FirebaseHelper.getDifferentSessionDates().get(position);
         dateTextView.setText(DatesHandler.dateToStringWithoutHour(currentDate));
-        sessionsFromDate = FirebaseHelper.getSessionsFromDate(currentDate);
         dateTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.calendar_white, 0, 0, 0);
 
 
         // fill the RecyclerView
-        recyclerView = (RecyclerView) singleDayInfo.findViewById(R.id.recycler_view_sessions_day);
+        RecyclerView recyclerView = (RecyclerView) singleDayInfo.findViewById(R.id.recycler_view_sessions_day);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
-        adapter = new PatientCardRecent(context, sessionsFromDate, fragment);
 
         // create Layout
         int numbercolumns = 1;
@@ -69,20 +70,49 @@ public class PatientsRecentDayAdapter extends BaseAdapter {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        fetchSessionsFromDay(currentDate.getTime(), recyclerView);
         return singleDayInfo;
     }
 
     /**
      * Erase a session from the PATIENT.
      *
-     * @param index Session index
+//     * @param index Session index
      */
-    public void removeSession(int index) {
-        sessionsFromDate.remove(index);
-        recyclerView.removeViewAt(index);
-        adapter.notifyItemRemoved(index);
-        adapter.notifyItemRangeChanged(index, sessionsFromDate.size());
-        adapter.notifyDataSetChanged();
+//    public void removeSession(int index) {
+//        sessionsFromDate.remove(index);
+//        recyclerView.removeViewAt(index);
+//        adapter.notifyItemRemoved(index);
+//        adapter.notifyItemRangeChanged(index, sessionsFromDate.size());
+//        adapter.notifyDataSetChanged();
+//    }
+    private void fetchSessionsFromDay(long startDate, final RecyclerView recyclerView) {
+        long endDate = startDate + 86400000;
+
+        FirebaseHelper.firebaseTableSessions.orderByChild("date").startAt(startDate).endAt(endDate).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<SessionFirebase> sessionsFromDate = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    SessionFirebase session = postSnapshot.getValue(SessionFirebase.class);
+                    session.setKey(postSnapshot.getKey());
+                    Log.d("Session", session.getDate() + "");
+                    sessionsFromDate.add(session);
+                }
+                Log.d("Firebase", "Retrieved sessions from initialTimestamp patients");
+                adapter = new PatientCardRecent(context, sessionsFromDate, fragment);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+
+        });
+
     }
 
 

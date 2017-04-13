@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
 
@@ -34,7 +35,34 @@ public class HelpTopicsAdapter extends BaseAdapter {
 
         //String helpText = context.getResources().getString(R.string.help_cga_description);
         final String helpTopic = Constants.help_topics[position];
-        helpTextView.setText(helpTopic);
+        // get text from RemoteConfig
+        String text = null;
+        switch (position) {
+            case 0:
+                text = FirebaseHelper.getString("help_topic_cga", "");
+                break;
+            case 1:
+                text = FirebaseHelper.getString("help_topic_functionalities", "");
+                break;
+            case 2:
+                text = FirebaseHelper.getString("help_topic_personal_area", "");
+                break;
+            case 3:
+                text = FirebaseHelper.getString("help_topic_patients", "");
+                break;
+            case 4:
+                text = FirebaseHelper.getString("help_topic_sessions", "");
+                break;
+            case 5:
+                text = FirebaseHelper.getString("help_topic_prescriptions", "");
+                break;
+            case 6:
+                text = FirebaseHelper.getString("help_topic_cga_guide", "");
+                break;
+        }
+
+        helpTextView.setText(text);
+        final String finalText = text;
         helpTextView.getRootView().setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -42,6 +70,7 @@ public class HelpTopicsAdapter extends BaseAdapter {
 
                 Bundle args = new Bundle();
                 args.putString(HelpSingleTopic.TOPIC, helpTopic);
+                args.putString(HelpSingleTopic.TOPIC_TEXT, finalText);
                 FragmentTransitions.replaceFragment(context, new HelpSingleTopic(), args, Constants.tag_help_topic);
             }
         });

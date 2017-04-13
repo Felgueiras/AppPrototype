@@ -1,10 +1,8 @@
 package com.felgueiras.apps.geriatric_helper.Main;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.LayoutInflater;
@@ -17,25 +15,13 @@ import android.widget.ImageView;
 
 import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideMain;
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
-import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsHistoryMain;
+import com.felgueiras.apps.geriatric_helper.Help_Feedback.HelpMainFragment;
+import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Help_Feedback.HelpMain;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
-import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMain;
+import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMainFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.Settings;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -76,11 +62,11 @@ public class PrivateAreaMainFragment extends Fragment {
                     navigationView.getMenu().getItem(Constants.menu_positions_patients).setChecked(true);
                     break;
                 case R.id.sessions:
-                    endFragment = new EvaluationsHistoryMain();
+                    endFragment = new SessionsHistoryMainFragment();
                     navigationView.getMenu().getItem(Constants.menu_positions_sessions).setChecked(true);
                     break;
                 case R.id.prescription:
-                    endFragment = new PrescriptionMain();
+                    endFragment = new PrescriptionMainFragment();
                     navigationView.getMenu().getItem(Constants.menu_positions_prescription).setChecked(true);
                     break;
                 case R.id.cga_guide:
@@ -88,7 +74,7 @@ public class PrivateAreaMainFragment extends Fragment {
                     navigationView.getMenu().getItem(Constants.menu_positions_cga_guide).setChecked(true);
                     break;
                 case R.id.help:
-                    endFragment = new HelpMain();
+                    endFragment = new HelpMainFragment();
                     navigationView.getMenu().getItem(Constants.menu_positions_help).setChecked(true);
                     break;
                 case R.id.settings:

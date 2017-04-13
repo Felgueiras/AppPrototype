@@ -14,16 +14,16 @@ import android.view.MenuItem;
 
 import com.felgueiras.apps.geriatric_helper.AboutFragment;
 import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideMain;
-import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPublic;
-import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsHistoryMain;
-import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
-import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPublicInfo;
-import com.felgueiras.apps.geriatric_helper.Help_Feedback.HelpMain;
+import com.felgueiras.apps.geriatric_helper.Help_Feedback.HelpMainFragment;
+import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublic;
+import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
+import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
+import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.Help_Feedback.SendFeedback;
 import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.LoginFragmentFirebase;
 import com.felgueiras.apps.geriatric_helper.Settings;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
-import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMain;
+import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMainFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.google.firebase.auth.FirebaseAuth;
@@ -79,7 +79,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             else
                 endFragment = new CGAPublicInfo();
         } else if (id == R.id.prescription) {
-            endFragment = new PrescriptionMain();
+            endFragment = new PrescriptionMainFragment();
         } else if (id == R.id.patients) {
             String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);
             if (sessionID != null)
@@ -91,9 +91,9 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         } else if (id == R.id.mainArea) {
             endFragment = new PrivateAreaMainFragment();
         } else if (id == R.id.help) {
-            endFragment = new HelpMain();
+            endFragment = new HelpMainFragment();
         } else if (id == R.id.sessions) {
-            endFragment = new EvaluationsHistoryMain();
+            endFragment = new SessionsHistoryMainFragment();
         } else if (id == R.id.about) {
             endFragment = new AboutFragment();
         } else if (id == R.id.cga_guide) {

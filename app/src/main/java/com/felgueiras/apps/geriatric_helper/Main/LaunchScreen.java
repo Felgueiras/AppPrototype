@@ -1,5 +1,6 @@
 package com.felgueiras.apps.geriatric_helper.Main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -7,16 +8,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelperStorage;
 import com.felgueiras.apps.geriatric_helper.R;
 
 public class LaunchScreen extends AppCompatActivity {
+
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch_screen);
 
+        context = this;
 
 
         // start AsyncTask
@@ -37,16 +43,16 @@ public class LaunchScreen extends AppCompatActivity {
         private void displayProgressBar(String s) {
             bar = (ProgressBar) findViewById(R.id.progressBar);
             bar.setVisibility(View.VISIBLE); //View.INVISIBLE, or View.GONE to hide it.
-
         }
 
         @Override
         protected String doInBackground(String... params) {
-//            String url = params[0];
             // check scales version
+            FirebaseHelper.setupRemoteConfig(context);
             FirebaseHelper.canLeaveLaunchScreen = false;
             FirebaseHelper.initializeAndCheckVersions(getBaseContext());
             FirebaseHelper.downloadScales();
+            FirebaseHelperStorage.downloadLanguageResources();
             while (true) {
 //                int scalesTotal = FirebaseHelper.getScalesTotal();
 //                int scalesCurrent = FirebaseHelper.getScalesCurrent();

@@ -2119,34 +2119,6 @@ public class Scales {
 
 
     /**
-     * Get all tests definitions.
-     *
-     * @return
-     */
-    public static ArrayList<GeriatricScaleNonDB> getAllScales() {
-//        // TODO replace by dinamically loading available scales
-//        ArrayList<GeriatricScaleNonDB> tests = new ArrayList<>();
-//        tests.add(escalaDeKatz());
-//        tests.add(escalaDepressaoYesavage());
-//        tests.add(escalaLawtonBrody());
-//        tests.add(marchaHolden());
-//        tests.add(mentalStateFolstein());
-//        tests.add(miniNutritionalAssessmentTriagem());
-//        tests.add(miniNutritionalAssessmentGlobal());
-//        tests.add(recursosSociales());
-//        tests.add(valoracionSocioFamiliarGijon());
-////        tests.add(zaritBurdenInterview());
-//        tests.add(barthelIndex());
-//        //tests.add(shortPortableMentalStatus());
-//        tests.add(clockDrawing());
-////        tests.add(setScaleID());
-//        // tests.add(hamiltonDepressionScale());
-//        tests.add(tinettiScale());
-////        tests.add(advancedDailyLifeActivities());
-        return scales;
-    }
-
-    /**
      * Get the scales that belong to a certain CGA area.
      *
      * @param area
@@ -2154,7 +2126,7 @@ public class Scales {
      */
     public static ArrayList<GeriatricScaleNonDB> getScalesForArea(String area) {
         ArrayList<GeriatricScaleNonDB> testsForArea = new ArrayList<>();
-        for (GeriatricScaleNonDB test : getAllScales()) {
+        for (GeriatricScaleNonDB test : scales) {
             if (test.getArea().equals(area)) {
                 testsForArea.add(test);
             }

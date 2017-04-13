@@ -3,7 +3,9 @@ package com.felgueiras.apps.geriatric_helper;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 
+import com.felgueiras.apps.geriatric_helper.Firebase.ChoiceFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.QuestionFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -241,7 +243,6 @@ public class Constants {
     public static int bottomNavigationReviewSession;
     public static String tag_add_prescription_to_patient = "tag_add_prescription_to_patient";
     public static FirebaseDatabase firebaseInstance;
-    public static GeriatricScaleFirebase photoScale;
     public static ArrayList<GeriatricScaleFirebase> publicScales = new ArrayList<>();
 
     /**
@@ -249,4 +250,6 @@ public class Constants {
      */
     public static SessionFirebase publicSession;
     public static int testNumber;
+    public static ArrayList<ChoiceFirebase> publicChoices = new ArrayList<>();
+    public static ArrayList<QuestionFirebase> publicQuestions = new ArrayList<>();
 }

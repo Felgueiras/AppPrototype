@@ -159,7 +159,6 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
             @Override
             public boolean onLongClick(View v) {
                 Log.d("LongClick", "Open");
-                // TODO use long click?
                 return false;
             }
         });
@@ -216,8 +215,8 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
 //                                    // refresh the adapter
 //                                    if (fragment instanceof PatientSessionsFragment)
 //                                        ((PatientSessionsFragment) fragment).removePatientFromFavorites(PATIENT);
-//                                    else if (fragment instanceof EvaluationsAll)
-//                                        ((EvaluationsAll) fragment).removePatientFromFavorites(PATIENT);
+//                                    else if (fragment instanceof EvaluationsAllFragment)
+//                                        ((EvaluationsAllFragment) fragment).removePatientFromFavorites(PATIENT);
 //                                }
 //                            });
 //                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",

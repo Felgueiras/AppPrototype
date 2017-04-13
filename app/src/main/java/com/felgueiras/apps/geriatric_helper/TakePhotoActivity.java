@@ -1,7 +1,5 @@
 package com.felgueiras.apps.geriatric_helper;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -24,10 +22,13 @@ import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -41,20 +42,15 @@ public class TakePhotoActivity extends AppCompatActivity {
     // Activity request codes
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     static final int REQUEST_TAKE_PHOTO = 1;
-    public static final int MEDIA_TYPE_IMAGE = 1;
 
     // directory name to store captured images and videos
-    private static final String IMAGE_DIRECTORY_NAME = "HelloCamera";
-    public static final String SCALE = "SCALE";
+    public static final String SCALE_ID = "SCALE_ID";
 
     private Uri fileUri; // file url to store image/video
 
     private ImageView imgPreview;
     private Button btnCapturePicture;
 
-    private static Activity context;
-    private Intent intent;
-    private FirebaseAuth mAuth;
     private String imageFileName;
     private GeriatricScaleFirebase scale;
 
@@ -63,52 +59,86 @@ public class TakePhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_photo);
 
-        // get the associated scale
-//        Intent intent = this.getIntent();
-//        Bundle bundle = intent.getExtras();
-
-        scale = Constants.photoScale;
-
+        // setup views
         imgPreview = (ImageView) findViewById(R.id.imgPreview);
         btnCapturePicture = (Button) findViewById(R.id.btnCapturePicture);
 
-        context = this;
+        // get the associated scale
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        String scaleID = bundle.getString(SCALE_ID);
 
-        if (scale.getPhotoPath() != null) {
-            // display image
-            Log.d("Scale","Yes image");
-            BitmapFactory.Options options = new BitmapFactory.Options();
+        // fetch scale
+        scale = FirebaseHelper.getScaleByID(scaleID);
 
-            // downsizing image as it throws OutOfMemory Exception for larger
-            // images
-            options.inSampleSize = 8;
-
-            final Bitmap bitmap = BitmapFactory.decodeFile(scale.getPhotoPath(),
-                    options);
-            imgPreview.setImageBitmap(bitmap);
+        // it there is already an image associated to the scale
+        if (scale != null && scale.getPhotoPath() != null) {
+            fetchImageFirebaseDisplay();
         }
 
-        /**
-         * Capture image button click event
-         */
-        btnCapturePicture.setOnClickListener(new View.OnClickListener() {
+        // Checking camera availability
+        if (!isDeviceSupportCamera()) {
+            Toast.makeText(getApplicationContext(), "Sorry! Your device doesn't support camera",
+                    Toast.LENGTH_LONG).show();
+            // close the activity if the device does't have camera
+            finish();
+        }
 
+        // Capture image button click event
+        btnCapturePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // capture picture
-                dispatchTakePictureIntent();
+                takePicture();
             }
         });
 
 
-        // Checking camera availability
-        if (!isDeviceSupportCamera()) {
-            Toast.makeText(getApplicationContext(),
-                    "Sorry! Your device doesn't support camera",
-                    Toast.LENGTH_LONG).show();
-            // will close the app if the device does't have camera
-            finish();
+    }
+
+    /**
+     * Fetch image from Firebase and display it.
+     */
+    private void fetchImageFirebaseDisplay() {
+        // fetch image from Firebase
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/images/" + scale.getPhotoPath());
+
+        try {
+            final File imageFile = File.createTempFile("photo", "jpg");
+            storageRef.getFile(imageFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                    // display image
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+
+                    // downsizing image as it throws OutOfMemory Exception for larger
+                    // images
+//                    options.inSampleSize = 8;
+
+                    final Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(),
+                            options);
+                    imgPreview.setVisibility(View.VISIBLE);
+                    imgPreview.setImageBitmap(bitmap);
+                    Log.d("Firebase", "Setting image");
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    if (exception instanceof com.google.firebase.storage.StorageException) {
+                        // scale was not found for that language
+                        Log.d("Download", "Image does not exist");
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     /**
@@ -156,22 +186,9 @@ public class TakePhotoActivity extends AppCompatActivity {
         Log.d("Result", resultCode + "");
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE || requestCode == REQUEST_TAKE_PHOTO) {
             if (resultCode == RESULT_OK) {
-                // successfully captured the image
-                // bimatp factory
-                BitmapFactory.Options options = new BitmapFactory.Options();
 
-                // downsizing image as it throws OutOfMemory Exception for larger
-                // images
-                options.inSampleSize = 8;
-
-                final Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath,
-                        options);
-                // display it in image view
-                scale.setPhotoPath(mCurrentPhotoPath);
-                FirebaseHelper.updateScale(scale);
-
-                // save photo path
-                updateAndDisplayImage(bitmap);
+                // display and update image
+                displayAndUploadImage();
 
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled Image capture
@@ -185,10 +202,12 @@ public class TakePhotoActivity extends AppCompatActivity {
                         .show();
             }
         }
-
     }
 
-    private void dispatchTakePictureIntent() {
+    /**
+     * Take a picture and upload it to Firebase.
+     */
+    private void takePicture() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -201,8 +220,7 @@ public class TakePhotoActivity extends AppCompatActivity {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
+                Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
@@ -212,9 +230,15 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     String mCurrentPhotoPath;
 
+    /**
+     * Create an image file where image is saved locally
+     *
+     * @return
+     * @throws IOException
+     */
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.UK).format(new Date());
         imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
@@ -230,28 +254,35 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     /**
      * Display image from a path to ImageView
-     *
-     * @param bitmap
      */
-    private void updateAndDisplayImage(Bitmap bitmap) {
+    private void displayAndUploadImage() {
+
+
+        // bimatp factory
+        BitmapFactory.Options options = new BitmapFactory.Options();
+
+        // downsizing image as it throws OutOfMemory Exception for larger
+        // images
+//        options.inSampleSize = 8;
+
+        // display it in image view
+        final Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath,
+                options);
         try {
             imgPreview.setVisibility(View.VISIBLE);
-
-
             imgPreview.setImageBitmap(bitmap);
-            String fileName = imageFileName + ".jpg";
+            final String fileName = imageFileName + ".jpg";
+
+            // compress the image
+            Bitmap bmp = BitmapFactory.decodeFile(mCurrentPhotoPath);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.JPEG, 0, bos);
+            InputStream stream = new ByteArrayInputStream(bos.toByteArray());
 
             // upload image to firebase
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageReference = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
-                    .child("images/" + fileName);
-
-            InputStream stream = null;
-            try {
-                stream = new FileInputStream(new File(mCurrentPhotoPath));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+                    .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/images/" + fileName);
 
             UploadTask uploadTask = storageReference.putStream(stream);
             uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -261,58 +292,14 @@ public class TakePhotoActivity extends AppCompatActivity {
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.d("Firebase", "Photo updated successfully");
+                    scale.setPhotoPath(fileName);
+                    FirebaseHelper.updateScale(scale);
                 }
             });
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-    }
-
-
-    /**
-     * ------------ Helper Methods ----------------------
-     * */
-
-    /**
-     * Creating file uri to store image/video
-     */
-    public Uri getOutputMediaFileUri(int type) {
-        return Uri.fromFile(getOutputMediaFile(type));
-    }
-
-    /**
-     * returning image / video
-     */
-    private static File getOutputMediaFile(int type) {
-
-        // External sdcard location
-//        File mediaStorageDir = new File(Environment.getExternalStorageDirectory(),
-//                IMAGE_DIRECTORY_NAME);
-
-        File mydir = context.getDir(IMAGE_DIRECTORY_NAME, Context.MODE_PRIVATE); //Creating an internal dir;
-        File fileWithinMyDir = new File(mydir, "myfile"); //Getting a file within the dir.
-
-
-        // Create the storage directory if it does not exist
-        if (!mydir.exists()) {
-            if (!mydir.mkdirs()) {
-                Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create " + IMAGE_DIRECTORY_NAME + " directory");
-                return null;
-            }
-        }
-
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-                Locale.getDefault()).format(new Date());
-        File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE) {
-            mediaFile = new File(mydir.getPath() + File.separator
-                    + "IMG_" + timeStamp + ".jpg");
-        } else {
-            return null;
-        }
-
-        return mediaFile;
     }
 
 }

@@ -1,12 +1,12 @@
-- wait while loading private info from DB
+- if session cancelled, remove images/videos
+- wait while loading scales
 - check, upon start, if needs to get new data (compare versions of a variable!)
-- close button in public scale
 - patient picker not showing patients
 - replace GUID by KEY (Firebase)
-- offline DB
+- update only at the end, to avoid always fetching and sending information...
+- wait while private info is fetched
 
 - save position in bottom navigation
 - guardar qual a área vista ao rever uma sessão
 - save list scroll (sessionsIDS list)
 - bibliography of scales
-- bug na stack ao criar paciente

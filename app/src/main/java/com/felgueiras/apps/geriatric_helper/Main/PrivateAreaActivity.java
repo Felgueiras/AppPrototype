@@ -22,15 +22,15 @@ import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Evaluations.AllAreas.CGAPrivate;
-import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsHistoryMain;
+import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
+import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.ToolbarHelper;
 import com.felgueiras.apps.geriatric_helper.LockScreen.LockScreenActivity;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
-import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMain;
+import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMainFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 
 public class PrivateAreaActivity extends AppCompatActivity {
@@ -153,11 +153,11 @@ public class PrivateAreaActivity extends AppCompatActivity {
                 break;
             case Constants.fragment_sessions:
                 navigationView.getMenu().getItem(Constants.menu_positions_sessions).setChecked(true);
-                fragment = new EvaluationsHistoryMain();
+                fragment = new SessionsHistoryMainFragment();
                 setTitle(getResources().getString(R.string.tab_sessions));
                 break;
             case Constants.fragment_drug_prescription:
-                fragment = new PrescriptionMain();
+                fragment = new PrescriptionMainFragment();
                 navigationView.getMenu().getItem(Constants.menu_positions_prescription).setChecked(true);
                 setTitle(getResources().getString(R.string.tab_drug_prescription));
                 break;

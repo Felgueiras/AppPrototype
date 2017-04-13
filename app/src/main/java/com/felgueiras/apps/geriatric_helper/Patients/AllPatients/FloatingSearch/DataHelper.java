@@ -55,7 +55,6 @@ public class DataHelper {
      */
     public static List<PersonSuggestion> getHistory(Context context, int count) {
 
-        // TODo get those with history
         List<PersonSuggestion> suggestionList = new ArrayList<>();
         PersonSuggestion personSuggestion;
         for (int i = 0; i < sPatientSuggestions.size(); i++) {

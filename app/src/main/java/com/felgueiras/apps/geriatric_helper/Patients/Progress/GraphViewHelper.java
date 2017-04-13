@@ -10,7 +10,7 @@ import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
-import com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleTest.ReviewScaleFragment;
+import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleTest.ReviewScaleFragment;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
@@ -60,7 +60,7 @@ public class GraphViewHelper {
         // y axis - score
         ArrayList<Double> yAxis = new ArrayList<>();
         for (GeriatricScaleFirebase scale : scaleInstances) {
-            Date date = FirebaseHelper.getSessionFromScale(scale).getDate();
+            Date date = new Date(FirebaseHelper.getSessionFromScale(scale).getDate());
             xAxisDate.add(date);
 //            xAxisString.add(date.toString());
             xAxisDouble.add(current++);

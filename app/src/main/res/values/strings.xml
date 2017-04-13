@@ -69,26 +69,25 @@
 
 
     <string name="app_name">GeriatricHelper</string>
-    <string name="male">M</string>
+    <string name="male" translatable="false">M</string>
     <string name="hint_search">Pesquisar</string>
-    <string name="female">F</string>
+    <string name="female" translatable="false">F</string>
     <string name="error_invalid_password">A palavra-passe é muito curta</string>
     <string name="error_invalid_email">O endereço de e-mail é inválido</string>
     <string name="error_incorrect_password">A palavra-passe está incorreta</string>
     <string name="error_field_required">Este campo é obrigatório</string>
-    <string name="action_sign_in_short">Log in</string>
-    <string name="action_log_in">Log in</string>
-    <string name="prompt_email">Email</string>
+    <string name="action_sign_in_short" translatable="false">Log in</string>
+    <string name="action_log_in" translatable="false">Log in</string>
+    <string name="prompt_email" translatable="false">Email</string>
     <string name="prompt_password">Palavra-passe</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login" translatable="false">Sign in</string>
     <string name="create_new_record">Criar novo registo</string>
     <string name="previous_records">Registos anteriores</string>
     <string name="date_of_birth">Data de nascimento</string>
     <string name="action_settings">Definições</string>
-    <string name="title_activity_tabs">Separadores</string>
+    <string name="title_activity_tabs" translatable="false">Separadores</string>
     <string name="action_add_favourite">Adicionar aos favoritos</string>
     <string name="patients_history">Histórico de pacientes</string>
-    <string name="sessionsIDS">AGG</string>
     <string name="my_patients">Pacientes</string>
     <string name="tab_my_patients">Pacientes</string>
     <string name="cga">AGG</string>
@@ -97,10 +96,10 @@
     <string name="yes">Sim</string>
     <string name="finish_session">Terminar a sessão</string>
     <string name="test_incomplete">Escala incompleta</string>
-    <string name="test_not_selected">Teste não selecionado</string>
+    <string name="test_not_selected" translatable="false">Teste não selecionado</string>
     <string name="test_result">Resultado</string>
     <string name="patient_sessions">Sessões do paciente</string>
-    <string name="action_play_next">Reproduzir o próximo</string>
+    <string name="action_play_next" translatable="false">Reproduzir o próximo</string>
     <string name="navigation_drawer_close">Fechar navigation drawer</string>
     <string name="navigation_drawer_open">Abrir navigation drawer</string>
     <string name="complete_one_scale_atleast">Precisa de preencher pelo menos uma escala</string>
@@ -122,7 +121,7 @@
     <string name="selected_drugs">Medicamentos selecionados:</string>
     <string name="create_patient_success">Paciente criado com sucesso</string>
     <string name="session_created">Sessão criada com sucesso</string>
-    <string name="drugSearchDisclaimer">Search by the name of a drug</string>
+    <string name="drugSearchDisclaimer" translatable="false">Search by the name of a drug</string>
     <string name="session_discard">Cancelar</string>
     <string name="session_save">Guardar</string>
     <string name="session_discard_question">Deseja cancelar a sessão atual?</string>
@@ -134,17 +133,17 @@
     <string name="no_sessions_history">Não avaliou ainda nenhum paciente</string>
     <string name="help">Ajuda</string>
     <string name="new_patient_discard">Deseja cancelar?</string>
-    <string name="no_beers_criteria">Não há critérios de Beers associados</string>
     <string name="no_favorite_patients">Não definiu pacientes favoritos</string>
+    <string name="no_beers_criteria">Não há critérios de Beers associados</string>
     <string name="no_start_criteria">Não há critérios Start associados</string>
     <string name="no_stopp_criteria">Não há critérios Stopp associados</string>
-    <string name="rightChoice">certo</string>
+    <string name="rightChoice" translatable="false">certo</string>
     <string name="search_result">Resultados da procura</string>
     <string name="select_patient_gender">Selecione o género do paciente</string>
     <string name="send_feedback">Enviar comentários</string>
-    <string name="wrongChoice">errado</string>
+    <string name="wrongChoice" translatable="false">errado</string>
     <string name="beers_quality_evidence">Qualidade de evidências:</string>
-    <string name="beers_rationale">Rationale:</string>
+    <string name="beers_rationale" translatable="false">Rationale:</string>
     <string name="beers_recommendation">Recomendação:</string>
     <string name="beers_strength_recommendation">Força de recomendação:</string>
     <string name="drugs_all">Todas</string>
@@ -167,7 +166,7 @@
         e indicam quais os compostos a evitar dependendo do historial clínico. QE refere-se a "quality of evidence" e SR é
         "strength of recommendation".
     </string>
-    <string name="help_features_description">
+    <string name="help_functionalitites_description">
         Esta aplicação permite realizar a AGG e acompanhar a evolução de um paciente, caso o utilizador
         esteja autenticado no sistema. Tem como objetivo auxiliar os profissionais de saúde a aplicar este método e
         fornecer-lhes auxílio enquanto realizam o ACG.\n\n
@@ -285,12 +284,12 @@ serviços e intervenções, que respondam aos seus problemas,
         avalià-los e acompanhar o seu progresso.</string>
     <string name="intro_prescription">Consulte critérios que o ajudarão a prescrever o medicamento mais
         apropriado para os seus pacientes.</string>
-    <string name="feedbacktitle">Feedback</string>
+    <string name="feedbacktitle" translatable="false">Feedback</string>
     <string name="feedback_name_error">Precisa de indicar um nome</string>
     <string name="feedback_email_error">Precisa de indicar o seu endereço de email</string>
     <string name="feedback_message_error">Precisa de escrever um comentário de feedback</string>
     <string name="feedback_sent">Feedback enviado com sucesso.</string>
-    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra lectus ut mauris lacinia facilisis. Vestibulum non nisl porta, convallis velit eu, sodales ante. Aenean faucibus a velit sed eleifend. In quis efficitur tellus. Aliquam ut odio nisi. Cras nibh felis, mattis vel lobortis in, aliquet id libero. Phasellus volutpat tincidunt elit, ac sodales orci dictum nec. Cras non facilisis odio. Sed elementum metus leo, eget tincidunt lorem viverra ac. Donec leo tellus, dignissim nec elit quis, venenatis scelerisque nulla. In at nisi risus. Proin non lacinia purus. Quisque semper fringilla placerat.
+    <string name="lorem_ipsum" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec viverra lectus ut mauris lacinia facilisis. Vestibulum non nisl porta, convallis velit eu, sodales ante. Aenean faucibus a velit sed eleifend. In quis efficitur tellus. Aliquam ut odio nisi. Cras nibh felis, mattis vel lobortis in, aliquet id libero. Phasellus volutpat tincidunt elit, ac sodales orci dictum nec. Cras non facilisis odio. Sed elementum metus leo, eget tincidunt lorem viverra ac. Donec leo tellus, dignissim nec elit quis, venenatis scelerisque nulla. In at nisi risus. Proin non lacinia purus. Quisque semper fringilla placerat.
 
 Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante ut purus pellentesque faucibus a et velit. Sed gravida volutpat purus id luctus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a dignissim nisl, non venenatis mauris. Suspendisse ut orci ex. Curabitur maximus vehicula diam, at interdum turpis tempus quis. Morbi accumsan pulvinar ultricies. Vestibulum dapibus sem ut libero sollicitudin, a faucibus ex pretium. Nunc nec lobortis nulla. Curabitur pellentesque leo viverra volutpat pretium. Aenean facilisis blandit tellus, ullamcorper blandit urna efficitur quis. Nunc a lectus dolor.</string>
     <string name="evolution_negative">Paciente piorou</string>
@@ -325,15 +324,14 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="register_disclaimer">Ao registar-se vai poder criar perfis de pacientes e associar-lhes sessões de ACG.
     Será mais fácil acompanhar o seu progresso pois poderá consultar consultas anteriores. Deste modo, a confidencialidade
     dos dados também se encontra assegurada.</string>
-    <string name="username">username</string>
-    <string name="email">email</string>
+    <string name="username" translatable="false">username</string>
+    <string name="email" translatable="false">email</string>
     <string name="password">password</string>
     <string name="create_account">Registar</string>
     <string name="tab_sessions">Sessões</string>
     <string name="new_patient_save">GUARDAR</string>
     <string name="create_patient_error_no_birthDate">Precisa de fornecer uma data de nascimento</string>
     <string name="patients_recent">Recentes</string>
-    <string name="app_close">Deseja fechar a aplicação?</string>
     <string name="app_close_question">Deseja fechar a aplicação?</string>
     <string name="cga_public">Sessão AGG</string>
     <string name="about">Informações</string>
@@ -369,13 +367,19 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="scale_incomplete_leave_scale">sair da escala</string>
     <string name="tab_personal_area">Página Principal</string>
     <string name="settings">Definições</string>
-    <string name="help_sessions_description">Em Sessões pode consultar as suas sessões, agrupadas por dia. Poderá aceder ao seu conteúdo e criar novas sessões de AGG.</string>
-    <string name="help_cga_guide_description">O guia da AGG faz uma apresentação sobre as diferentes áreas abordadas pela AGG. Dentro de cada área poderá aceder às correspondentes escalas, os resultados possíveis e ver que questões fazem parte da escala.</string>
+    <string name="help_sessions_description">
+        Em Sessões pode consultar as suas sessões, agrupadas por dia. Poderá aceder ao seu conteúdo e criar novas sessões de AGG.
+    </string>
+    <string name="help_cga_guide_description">
+        O guia da AGG faz uma apresentação sobre as diferentes áreas abordadas pela AGG.
+        Dentro de cada área poderá aceder às correspondentes escalas, os resultados possíveis
+        e ver que questões fazem parte da escala.
+    </string>
     <string name="cga_mental_name">Estado Mental</string>
     <string name="cga_functional_name">Estado Funcional</string>
     <string name="cga_nutritional_name">Estado Nutricional</string>
     <string name="cga_social_name">Situação Social</string>
-    <string name="drugs_beers">Beers</string>
+    <string name="drugs_beers" translatable="false">Beers</string>
     <string name="btn_forgot_password">Esqueceu-se da password?</string>
     <string name="minimum_password">Pelo menos 6 chars</string>
     <string name="auth_failed">Falhou</string>
@@ -385,11 +389,16 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="action_take_photo">Fotografia</string>
     <string name="clock_drawing_photo">Deve tirar uma fotografia do relógio desenhado pelo paciente</string>
     <string name="take_photo">Tirar fotografia</string>
-    <string name="label_email">Email</string>
-    <string name="label_preview">Preview</string>
-    <string name="label_cancel">Cancel</string>
-    <string name="scalesVersion">scalesVersion</string>
+    <string name="label_email" translatable="false">Email</string>
+    <string name="label_preview" translatable="false">Preview</string>
+    <string name="label_cancel" translatable="false">Cancel</string>
+    <string name="scalesVersion" translatable="false">scalesVersion</string>
     <string name="action_create_pdf">Criar PDF</string>
+    <string name="create_session">Criar sessão</string>
+    <string name="more_info">Saber mais</string>
+    <string name="search_by_drug">Procure por composto...</string>
+    <string name="search_by_patient">Procure por paciente...</string>
+    <string name="action_record_video">Vídeo</string>
 
 
 </resources>

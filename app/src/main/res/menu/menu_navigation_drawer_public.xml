@@ -12,7 +12,7 @@
             android:title="@string/tab_drug_prescription" />
     </group>
 
-    <!--HelpMain & Feedback-->
+    <!--HelpMainFragment & Feedback-->
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/sendFeedback"

@@ -23,7 +23,7 @@ public class GeriatricScaleFirebase implements Serializable {
      * Name of the scaleID
      */
     @Expose
-    String testName;
+    String scaleName;
     /**
      * Type of scaleID
      */
@@ -56,7 +56,7 @@ public class GeriatricScaleFirebase implements Serializable {
     String sessionID;
 
     @Expose
-    boolean completed;
+    boolean completed = false;
 
     @Expose
     String shortName;
@@ -87,10 +87,14 @@ public class GeriatricScaleFirebase implements Serializable {
     String photoPath;
 
     @Expose
+    String videoPath;
+
+    @Expose
     ArrayList<String> questionsIDs = new ArrayList<>();
 
 
     private String key;
+    private boolean containsVideo;
 
 
 //    public static ArrayList<GeriatricScaleFirebase> getAllScales() {
@@ -142,7 +146,7 @@ public class GeriatricScaleFirebase implements Serializable {
     public GeriatricScaleFirebase(String testName, String category, String subCategory, String description) {
         super();
         this.area = category;
-        this.testName = testName;
+        this.scaleName = testName;
         this.subCategory = subCategory;
         this.description = description;
         this.containsPhoto = false;
@@ -154,11 +158,11 @@ public class GeriatricScaleFirebase implements Serializable {
 
 
     public String getScaleName() {
-        return testName;
+        return scaleName;
     }
 
-    public void setTestName(String testName) {
-        this.testName = testName;
+    public void setScaleName(String testName) {
+        this.scaleName = testName;
     }
 
     public double getResult() {
@@ -231,7 +235,7 @@ public class GeriatricScaleFirebase implements Serializable {
     @Override
     public String toString() {
         String ret = "";
-        ret += area + " - " + testName + " - " + result;
+        ret += area + " - " + scaleName + " - " + result;
         return ret;
     }
 
@@ -288,7 +292,7 @@ public class GeriatricScaleFirebase implements Serializable {
 //        } else {
 //            for (Question question : questionsFromTest) {
 //                // in the Hamilton scale, only the first 17 questions make up the result
-//                if (testName.equals(Constants.test_name_hamilton) &&
+//                if (scaleName.equals(Constants.test_name_hamilton) &&
 //                        questionsFromTest.indexOf(question) > 16)
 //                    break;
 //                /**
@@ -336,7 +340,7 @@ public class GeriatricScaleFirebase implements Serializable {
 //            }
 //        }
 //
-//        if (testName.equals(Constants.test_name_mini_nutritional_assessment_global)) {
+//        if (scaleName.equals(Constants.test_name_mini_nutritional_assessment_global)) {
 //            // check if triagem is already answered
 //            Log.d("Nutritional", "Global pressed");
 //
@@ -345,7 +349,7 @@ public class GeriatricScaleFirebase implements Serializable {
 //            GeriatricScaleFirebase triagem = session.getScaleByName(Constants.test_name_mini_nutritional_assessment_triagem);
 //            res += triagem.generateScaleResult();
 //        }
-//        if (testName.equals(Constants.test_name_set_set)) {
+//        if (scaleName.equals(Constants.test_name_set_set)) {
 //            // result is the value from the last question (scoring)
 //            res = questionsFromTest.get(questionsFromTest.size() - 1).getAnswerNumber();
 //        }
@@ -386,8 +390,8 @@ public class GeriatricScaleFirebase implements Serializable {
     /**
      * Get the scale instances from a PATIENT's sessions.
      *
-     * @param patientSessions
-     * @param scaleName
+//     * @param patientSessions
+//     * @param scaleName
      * @return
      */
 //    public static ArrayList<GeriatricScaleFirebase> getScaleInstancesForPatient(ArrayList<Session> patientSessions, String scaleName) {
@@ -449,5 +453,21 @@ public class GeriatricScaleFirebase implements Serializable {
 
     public void setPhotoPath(String photoPath) {
         this.photoPath = photoPath;
+    }
+
+    public void setContainsVideo(boolean containsVideo) {
+        this.containsVideo = containsVideo;
+    }
+
+    public boolean isContainsVideo() {
+        return containsVideo;
+    }
+
+    public String getVideoPath() {
+        return videoPath;
+    }
+
+    public void setVideoPath(String videoPath) {
+        this.videoPath = videoPath;
     }
 }

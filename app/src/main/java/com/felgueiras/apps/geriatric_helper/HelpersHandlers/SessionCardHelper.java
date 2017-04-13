@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsAll;
-import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsHistoryMain;
+import com.felgueiras.apps.geriatric_helper.Sessions.EvaluationsAllFragment;
+import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
@@ -57,7 +57,7 @@ public class SessionCardHelper implements View.OnClickListener {
         /**
          * Inflate menu depending on the fragment.
          */
-        if (fragment instanceof EvaluationsHistoryMain)
+        if (fragment instanceof SessionsHistoryMainFragment)
             inflater.inflate(R.menu.menu_session_card_session_list, popup.getMenu());
         else {
             inflater.inflate(R.menu.menu_session_card_patient_profile, popup.getMenu());
@@ -94,9 +94,9 @@ public class SessionCardHelper implements View.OnClickListener {
                                     // refresh the adapter
                                     if (fragment instanceof PatientSessionsFragment)
                                         ((PatientSessionsFragment) fragment).removeSession(position);
-                                    else if (fragment instanceof EvaluationsHistoryMain) {
+                                    else if (fragment instanceof SessionsHistoryMainFragment) {
                                         Fragment evaluationsList = fragment.getChildFragmentManager().findFragmentById(R.id.evaluation_history_frame_layout);
-                                        ((EvaluationsAll) evaluationsList).removeSession(position);
+                                        ((EvaluationsAllFragment) evaluationsList).removeSession(position);
                                     }
                                 }
                             });

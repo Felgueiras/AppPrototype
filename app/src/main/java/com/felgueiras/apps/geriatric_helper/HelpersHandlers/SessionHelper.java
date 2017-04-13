@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Evaluations.PickPatientFragment;
+import com.felgueiras.apps.geriatric_helper.Sessions.PickPatientFragment;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;

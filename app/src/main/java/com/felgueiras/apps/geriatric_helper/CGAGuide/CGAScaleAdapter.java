@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
-import com.felgueiras.apps.geriatric_helper.Evaluations.SingleArea.ScaleInfoHelper;
+import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.ScaleInfoHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.io.Serializable;

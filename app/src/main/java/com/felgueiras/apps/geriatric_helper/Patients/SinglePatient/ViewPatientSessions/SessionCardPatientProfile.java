@@ -20,12 +20,13 @@ import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
-import com.felgueiras.apps.geriatric_helper.Evaluations.EvaluationsHistory.SessionScalesAdapterRecycler;
-import com.felgueiras.apps.geriatric_helper.Evaluations.ReviewEvaluation.ReviewSingleSessionWithPatient;
+import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistory.SessionScalesAdapterRecycler;
+import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionWithPatient;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardPatientProfile.MyViewHolder> {
@@ -77,7 +78,7 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         session = sessions.get(position);
-        holder.date.setText(DatesHandler.dateToStringWithHour(session.getDate()));
+        holder.date.setText(DatesHandler.dateToStringWithHour(new Date(session.getDate())));
         List<GeriatricScaleFirebase> sessionScales = FirebaseHelper.getScalesFromSession(sessions.get(position));
 
         holder.testsList.setHasFixedSize(true);
