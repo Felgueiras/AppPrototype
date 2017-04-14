@@ -134,17 +134,11 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
 
             @Override
             public void onClick(View v) {
-                /**
-                 * Pick a PATIENT to be associated with a Session.
-                 */
-
 
                 Fragment endFragment = new PatientProfileFragment();
-
+                Constants.patientProfileBottomNavigation = 0;
 
                 Bundle args = new Bundle();
-//                args.putString("ACTION", holder.questionTextView.getText().toString());
-//                args.putString("TRANS_TEXT", patientTransitionName);
                 args.putSerializable(PatientProfileFragment.PATIENT, patient);
                 ((PrivateAreaActivity) context).replaceFragmentSharedElements(endFragment, args,
                         Constants.tag_view_patient_info_records,

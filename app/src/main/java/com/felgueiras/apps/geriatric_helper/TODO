@@ -1,12 +1,6 @@
-- if session cancelled, remove images/videos
-- wait while loading scales
-- check, upon start, if needs to get new data (compare versions of a variable!)
-- patient picker not showing patients
-- replace GUID by KEY (Firebase)
-- update only at the end, to avoid always fetching and sending information...
-- wait while private info is fetched
+- fetch sessions from patient at runtime
+- compress video
+- pdf: include notes and photos (clock drawing scale)
 
-- save position in bottom navigation
-- guardar qual a área vista ao rever uma sessão
 - save list scroll (sessionsIDS list)
 - bibliography of scales

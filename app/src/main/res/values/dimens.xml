@@ -33,4 +33,5 @@
     <dimen name="tab_label">14sp</dimen>
     <dimen name="patient_profile_smartphone">20sp</dimen>
     <dimen name="logo_w_h">100dp</dimen>
+    <dimen name="warningSize">20dp</dimen>
 </resources>

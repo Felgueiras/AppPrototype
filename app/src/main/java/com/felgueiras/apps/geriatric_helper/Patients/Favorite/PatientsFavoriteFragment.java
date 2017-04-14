@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class PatientsFavoriteFragment extends Fragment {
 
-    private ArrayList<PatientFirebase> favoritePatients = new ArrayList<>();
+
     private View view;
     private BaseAdapter adapter;
     private GridView gridView;
@@ -56,17 +56,18 @@ public class PatientsFavoriteFragment extends Fragment {
         return view;
     }
 
-    private ArrayList<PatientFirebase> retrieveFavoritePatients() {
+    private void retrieveFavoritePatients() {
         FirebaseHelper.firebaseTablePatients.orderByChild("favorite").equalTo(true).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                favoritePatients.clear();
+                ArrayList<PatientFirebase> favoritePatients = new ArrayList<>();
+
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     PatientFirebase patient = postSnapshot.getValue(PatientFirebase.class);
                     patient.setKey(postSnapshot.getKey());
                     favoritePatients.add(patient);
                 }
-                Log.d("Firebase","Retrieved favorite patients");
+                Log.d("Firebase", "Retrieved favorite patients");
                 gridView.setAdapter(new PatientCardFavorite(getActivity(), favoritePatients, fragment));
             }
 
@@ -75,21 +76,20 @@ public class PatientsFavoriteFragment extends Fragment {
                 // Getting Post failed, log a message
             }
         });
-
-        return favoritePatients;
     }
 
 
     /**
      * Remove a PATIENT from the favorites.
-     * @param index
+     *
+     * @param patient
      */
-    public void removePatientFromFavorites(int index) {
-        PatientFirebase patient = favoritePatients.get(index);
+    public void removePatientFromFavorites(PatientFirebase patient) {
         patient.setFavorite(false);
         FirebaseHelper.firebaseTablePatients.child(patient.getKey()).child("favorite").setValue(patient.isFavorite());
 
-        favoritePatients.remove(index);
+        // TODO update using firebase
+//        favoritePatients.remove(index);
 //        recyclerView.removeViewAt(index);
 //        adapter.notifyItemRemoved(index);
 //        adapter.notifyItemRangeChanged(index, sessionsFromPatient.size());

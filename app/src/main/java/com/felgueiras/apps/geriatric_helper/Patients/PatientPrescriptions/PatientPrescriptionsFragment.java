@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,11 @@ import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
+import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.PrescriptionAllDrugs;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -28,8 +33,9 @@ public class PatientPrescriptionsFragment extends Fragment {
     private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
     private PatientFirebase patient;
     private RecyclerView recyclerView;
-    private PatientPrescriptionsCard adapter;
-    private ArrayList<PrescriptionFirebase> prescriptionsFromPatient;
+    private PatientPrescriptionsFragment fragment;
+    private ArrayList<PrescriptionFirebase> patientsPrescriptions = new ArrayList<>();
+
 
     // Store instance variables based on arguments passed
     @Override
@@ -47,15 +53,16 @@ public class PatientPrescriptionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.patient_prescriptions, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.patientPrescriptions);
-        prescriptionsFromPatient = FirebaseHelper.getPrescriptionsFromPatient(patient);
-        adapter = new PatientPrescriptionsCard(getActivity(), prescriptionsFromPatient, patient, this);
+        patientsPrescriptions = FirebaseHelper.getPrescriptionsFromPatient(patient);
 
         // create Layout
         int numbercolumns = 1;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+
+        fragment = this;
+
 
         /**
          * Setup FABS
@@ -65,29 +72,66 @@ public class PatientPrescriptionsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                args.putSerializable(CreatePrescription.PATIENT, patient);
+                args.putSerializable(PickPrescription.PATIENT, patient);
                 FragmentTransitions.replaceFragment(getActivity(),
-                        new CreatePrescription(),
+                        new PickPrescription(),
                         args,
                         Constants.tag_add_prescription_to_patient);
             }
         });
 
+        retrievePatientPrescriptions();
+
         return view;
+    }
+
+    /**
+     * Get prescriptions from this patient.
+     *
+     * @return
+     */
+    private void retrievePatientPrescriptions() {
+        FirebaseHelper.firebaseTablePrescriptions.orderByChild("patientID").equalTo(patient.getGuid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                patientsPrescriptions.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    PrescriptionFirebase prescription = postSnapshot.getValue(PrescriptionFirebase.class);
+                    prescription.setKey(postSnapshot.getKey());
+                    patientsPrescriptions.add(prescription);
+                }
+                Log.d("Firebase", "Retrieved patients prescriptions.");
+                PatientPrescriptionsCard adapter = new PatientPrescriptionsCard(
+                        fragment.getActivity(),
+                        patientsPrescriptions,
+                        patient,
+                        fragment);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+
+        });
+
     }
 
 
     /**
      * Erase a session from the PATIENT.
      *
-     * @param index Session index
+     * @param prescription Session index
      */
-    public void removePrescription(int index) {
-        prescriptionsFromPatient.remove(index);
-        recyclerView.removeViewAt(index);
-        adapter.notifyItemRemoved(index);
-        adapter.notifyItemRangeChanged(index, prescriptionsFromPatient.size());
-        adapter.notifyDataSetChanged();
+    public void removePrescription(PrescriptionFirebase prescription) {
+        FirebaseHelper.deletePrescription(prescription);
+//        recyclerView.removeViewAt(index);
+        // TODo
+//        adapter.notifyItemRemoved(index);
+//        adapter.notifyItemRangeChanged(index, prescriptionsFromPatient.size());
+//        adapter.notifyDataSetChanged();
     }
 
     @Override

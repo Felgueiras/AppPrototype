@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientPrescriptions;
 
 import android.app.Fragment;
 import android.graphics.Color;
@@ -28,7 +28,11 @@ import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.Beers.BeersCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
+import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.DataHelperDrugs;
+import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.DrugListItem;
+import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.DrugSuggestion;
 import com.felgueiras.apps.geriatric_helper.Prescription.ViewSingleDrugtInfo;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
@@ -42,9 +46,10 @@ import java.util.Set;
 /**
  * Display the list of Patients to view them or select one of them.
  */
-public class PrescriptionAllDrugs extends Fragment {
+public class PickPrescription extends Fragment {
 
     private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
+    public static final String PATIENT = "PATIENT";
     private DrugListItem adapter;
     private RecyclerView mSearchResultsList;
     private FloatingSearchView mSearchView;
@@ -58,6 +63,7 @@ public class PrescriptionAllDrugs extends Fragment {
 
     private String mLastQuery = "";
     private DrugListItem mSearchResultsAdapter;
+    private PatientFirebase patient;
 
 
     @Override
@@ -115,11 +121,10 @@ public class PrescriptionAllDrugs extends Fragment {
 
                 mLastQuery = searchSuggestion.getBody();
 
-                Fragment endFragment = new ViewSingleDrugtInfo();
+                Fragment endFragment = new PatientPrescriptionCreate();
                 Bundle args = new Bundle();
-                args.putString(ViewSingleDrugtInfo.DRUG, colorSuggestion.getDrugName());
+                args.putString(PatientPrescriptionCreate.DRUG, colorSuggestion.getDrugName());
                 FragmentTransitions.replaceFragment(getActivity(), endFragment, args, Constants.tag_view_drug_info);
-
             }
 
             @Override
@@ -209,7 +214,10 @@ public class PrescriptionAllDrugs extends Fragment {
     }
 
     private void setupResultsList() {
-        mSearchResultsAdapter = new DrugListItem(getActivity(), Constants.allDrugs, true, null);
+        mSearchResultsAdapter = new DrugListItem(getActivity(),
+                Constants.allDrugs,
+                true,
+                patient);
         mSearchResultsList.setAdapter(mSearchResultsAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -263,7 +271,7 @@ public class PrescriptionAllDrugs extends Fragment {
         // display card for each Patientndroid rec
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mSearchResultsList.setLayoutManager(mLayoutManager);
-        adapter = new DrugListItem(getActivity(), Constants.allDrugs, true, null);
+        adapter = new DrugListItem(getActivity(), Constants.allDrugs, true, patient);
         mSearchResultsList.setAdapter(adapter);
 
         fastScroller.setRecyclerView(mSearchResultsList);
@@ -275,6 +283,10 @@ public class PrescriptionAllDrugs extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        // check if there is an associated patient
+        if (getArguments() != null && getArguments().containsKey(PATIENT))
+            patient = (PatientFirebase) getArguments().getSerializable(PATIENT);
 
         mSearchView = (FloatingSearchView) view.findViewById(R.id.floating_search_view);
         mSearchResultsList = (RecyclerView) view.findViewById(R.id.drugs_recycler_view);

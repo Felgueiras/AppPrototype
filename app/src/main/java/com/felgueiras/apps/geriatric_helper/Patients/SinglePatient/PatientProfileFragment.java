@@ -91,7 +91,7 @@ public class PatientProfileFragment extends Fragment {
         // set Patient infos
         //label.setText(PATIENT.getName());
         patientBirthDate.setText(DatesHandler.dateToStringWithoutHour(patient.getBirthDate()) + " - " +
-                 patient.getAge() + " anos");
+                patient.getAge() + " anos");
         patientAddress.setText("Morada: " + patient.getAddress());
         processNumber.setText("Processo nº " + patient.getProcessNumber());
         //patientPhoto.setImageResource(PATIENT.getPicture());
@@ -136,17 +136,32 @@ public class PatientProfileFragment extends Fragment {
 
         ArrayList<SessionFirebase> sessionsFromPatient = FirebaseHelper.getSessionsFromPatient(patient);
 
-        if (sessionsFromPatient.isEmpty()) {
-            defaultFragment = new PatientSessionsEmpty();
-            Bundle args = new Bundle();
-            args.putSerializable(PatientSessionsEmpty.PATIENT, patient);
-            args.putString(PatientSessionsEmpty.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
-            defaultFragment.setArguments(args);
-        } else {
-            defaultFragment = new PatientSessionsFragment();
-            Bundle args = new Bundle();
-            args.putSerializable(PatientSessionsFragment.PATIENT, patient);
-            defaultFragment.setArguments(args);
+        // setup default fragment
+        switch (Constants.patientProfileBottomNavigation) {
+            case 0:
+                if (sessionsFromPatient.isEmpty()) {
+                    defaultFragment = new PatientSessionsEmpty();
+                    Bundle args = new Bundle();
+                    args.putSerializable(PatientSessionsEmpty.PATIENT, patient);
+                    args.putString(PatientSessionsEmpty.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
+                    defaultFragment.setArguments(args);
+                } else {
+                    defaultFragment = new PatientSessionsFragment();
+                    Bundle args = new Bundle();
+                    args.putSerializable(PatientSessionsFragment.PATIENT, patient);
+                    defaultFragment.setArguments(args);
+                }
+                break;
+            case 1:
+                defaultFragment = new PatientNotesFragment();
+                Bundle args = new Bundle();
+                args.putSerializable(PatientNotesFragment.PATIENT, patient);
+                defaultFragment.setArguments(args);
+            case 2:
+                defaultFragment = new PatientPrescriptionsFragment();
+                args = new Bundle();
+                args.putSerializable(PatientPrescriptionsFragment.PATIENT, patient);
+                defaultFragment.setArguments(args);
         }
 
 
@@ -161,18 +176,23 @@ public class PatientProfileFragment extends Fragment {
                         switch (item.getItemId()) {
                             case R.id.patient_sessions:
                                 fragment = defaultFragment;
+                                Constants.patientProfileBottomNavigation = 0;
                                 break;
                             case R.id.patient_notes:
                                 fragment = new PatientNotesFragment();
                                 Bundle args = new Bundle();
                                 args.putSerializable(PatientNotesFragment.PATIENT, patient);
                                 fragment.setArguments(args);
+                                Constants.patientProfileBottomNavigation = 1;
+
                                 break;
                             case R.id.patient_prescriptions:
                                 fragment = new PatientPrescriptionsFragment();
                                 args = new Bundle();
                                 args.putSerializable(PatientPrescriptionsFragment.PATIENT, patient);
                                 fragment.setArguments(args);
+                                Constants.patientProfileBottomNavigation = 2;
+
                                 break;
                         }
 
@@ -185,7 +205,7 @@ public class PatientProfileFragment extends Fragment {
                         transaction.replace(R.id.frame_layout_bottom_navigation, fragment);
                         transaction.commit();
 
-
+                        // TODO save position
                         return true;
                     }
                 });

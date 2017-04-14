@@ -87,27 +87,31 @@ public class PdfHelper {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
-    public static void verifyStoragePermissions(Activity activity) {
+    public static boolean verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
             // We don't have permission so prompt the user
+
             ActivityCompat.requestPermissions(
                     activity,
                     PERMISSIONS_STORAGE,
                     REQUEST_EXTERNAL_STORAGE
             );
+            return false;
+        } else {
+            return true;
         }
     }
+
 
     public static void createSamplePdf(Activity activity) {
         context = activity;
 
         verifyStoragePermissions(activity);
 
-        File pdfFolder = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOCUMENTS), "pdfdemo");
+        File pdfFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "pdfdemo");
         if (!pdfFolder.exists()) {
             pdfFolder.mkdir();
             Log.i(LOG_TAG, "Pdf Directory created");
@@ -163,7 +167,10 @@ public class PdfHelper {
         patient = FirebaseHelper.getPatientFromSession(session);
 
 
-        verifyStoragePermissions(activity);
+        if (!verifyStoragePermissions(activity)) {
+            // currently there are no permissions
+            return;
+        }
 
         File pdfFolder = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOCUMENTS), "pdfdemo");

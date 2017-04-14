@@ -132,7 +132,7 @@ public class PatientCardFavorite extends BaseAdapter {
                     context.setTitle(context.getResources().getString(R.string.cga));
                     break;
                 case R.id.removeFavorite:
-                    fragment.removePatientFromFavorites(position);
+                    fragment.removePatientFromFavorites(patients.get(position));
                     break;
                 default:
             }

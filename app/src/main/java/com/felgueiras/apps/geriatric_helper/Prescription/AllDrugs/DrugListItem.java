@@ -17,7 +17,10 @@ import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.Beers.BeersCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
+import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientPrescriptions.PatientPrescriptionCreate;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientPrescriptions.PickPrescription;
 import com.felgueiras.apps.geriatric_helper.Prescription.ViewSingleDrugtInfo;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
@@ -27,6 +30,8 @@ import java.util.ArrayList;
 public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder> implements Filterable, SectionTitleProvider {
 
     private final ArrayList<String> filteredList;
+    private boolean pickingPrescription = false;
+    private final PatientFirebase patient;
     private Activity context;
     /**
      * Data to be displayed.
@@ -75,14 +80,18 @@ public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder
     /**
      * Constructor of the SessionCardEvaluationHistory
      *
+     * @param pickingPrescription
      * @param context
      * @param patients
+     * @param patient
      */
-    public DrugListItem(Activity context, ArrayList<String> patients) {
+    public DrugListItem(Activity context, ArrayList<String> patients, boolean pickingPrescription, PatientFirebase patient) {
         this.context = context;
         this.drugs = patients;
         this.filteredList = new ArrayList<>();
         filteredList.addAll(patients);
+        this.pickingPrescription = pickingPrescription;
+        this.patient = patient;
     }
 
     @Override
@@ -137,10 +146,22 @@ public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder
 
             @Override
             public void onClick(View v) {
-                Fragment endFragment = new ViewSingleDrugtInfo();
-                Bundle args = new Bundle();
-                args.putString(ViewSingleDrugtInfo.DRUG, currentDrug);
-                FragmentTransitions.replaceFragment(context, endFragment, args, Constants.tag_view_drug_info);
+                if (pickingPrescription) {
+                    // pick a new prescription for a patient
+                    Bundle args = new Bundle();
+                    args.putSerializable(PatientPrescriptionCreate.PATIENT, patient);
+                    args.putString(PatientPrescriptionCreate.DRUG, currentDrug);
+                    FragmentTransitions.replaceFragment(context,
+                            new PatientPrescriptionCreate(),
+                            args,
+                            Constants.tag_add_prescription_to_patient);
+                } else {
+                    Fragment endFragment = new ViewSingleDrugtInfo();
+                    Bundle args = new Bundle();
+                    args.putString(ViewSingleDrugtInfo.DRUG, currentDrug);
+                    FragmentTransitions.replaceFragment(context, endFragment, args, Constants.tag_view_drug_info);
+                }
+
             }
         });
 

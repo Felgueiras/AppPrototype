@@ -13,7 +13,6 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.ScoringNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
-import com.felgueiras.apps.geriatric_helper.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -207,9 +206,15 @@ public class FirebaseHelper {
                 if (sharedPrefScalesVersion != firScalesVersion) {
                     Log.d("ScalesVersion", "Updating scalesVersion to " + firScalesVersion);
                     SharedPreferencesHelper.setScalesVersion(context, firScalesVersion);
+                    // download new scales version
+                    canLeaveLaunchScreen = false;
+                    downloadScales(context);
                 } else {
                     // same version - no need to donwload
-//                    canLeaveLaunchScreen = true;
+                    Scales.scales.clear();
+                    // get scales from SharedPreferences
+                    Scales.scales.addAll(SharedPreferencesHelper.getScalesArrayList(context));
+                    canLeaveLaunchScreen = true;
                 }
             }
 
@@ -341,12 +346,12 @@ public class FirebaseHelper {
 
     /**
      * Download all scales.
+     * @param context
      */
-    public static void downloadScales() {
+    public static void downloadScales(final Context context) {
 
         // get system language
 //        final String scaleLanguage = Locale.getDefault().getLanguage().toUpperCase();
-
 
         // download scales from that language
         GsonBuilder builder = new GsonBuilder();
@@ -356,13 +361,13 @@ public class FirebaseHelper {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         // clear the scales
         Scales.scales.clear();
+        SharedPreferencesHelper.resetScales(context);
         scalesCurrent = 0;
 
         for (int i = 0; i < scalesNames.length; i++) {
             final String scaleName = scalesNames[i];
             final String scaleLanguage = scalesLanguages[i];
             String fileName = scaleName + "-" + scaleLanguage + ".json";
-
 
             StorageReference storageRef = storage.getReferenceFromUrl(firebaseURL).child("scales/" + fileName);
 
@@ -373,6 +378,8 @@ public class FirebaseHelper {
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         try {
                             GeriatricScaleNonDB scaleNonDB = gson.fromJson(new FileReader(localFile), GeriatricScaleNonDB.class);
+                            // save to shared preferences
+                            SharedPreferencesHelper.addScale(scaleNonDB, context);
                             Scales.scales.add(scaleNonDB);
                             scalesCurrent++;
                             if (scalesCurrent == scalesTotal)

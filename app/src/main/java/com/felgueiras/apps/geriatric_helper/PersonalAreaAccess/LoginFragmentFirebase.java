@@ -191,7 +191,7 @@ public class LoginFragmentFirebase extends Fragment {
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+                startActivity(new Intent(getActivity(), ResetPasswordActivity.class));
             }
         });
 

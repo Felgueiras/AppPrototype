@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
@@ -22,12 +23,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-public class CreatePrescription extends Fragment {
+public class PatientPrescriptionCreate extends Fragment {
 
     public static final String PATIENT = "patient";
+    public static final String DRUG = "DRUG";
     RadioGroup radioGroup;
-    private EditText name, notes;
+    private TextView name;
+    private EditText notes;
     PatientFirebase patient;
+    private String prescription;
 
 
     @Override
@@ -49,6 +53,9 @@ public class CreatePrescription extends Fragment {
         if (getArguments() != null && getArguments().containsKey(PATIENT))
             patient = (PatientFirebase) getArguments().getSerializable(PATIENT);
 
+        if (getArguments() != null && getArguments().containsKey(DRUG))
+            prescription = getArguments().getString(DRUG);
+
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.add_prescription_to_patient, container, false);
@@ -56,8 +63,12 @@ public class CreatePrescription extends Fragment {
 
 
         // get views
-        name = (EditText) view.findViewById(R.id.prescriptionName);
+        name = (TextView) view.findViewById(R.id.prescriptionName);
         notes = (EditText) view.findViewById(R.id.addressText);
+
+        if (prescription != null) {
+            name.setText(prescription);
+        }
 
         Button addPrescription = (Button) view.findViewById(R.id.saveButton);
         addPrescription.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +98,7 @@ public class CreatePrescription extends Fragment {
 
                 Snackbar.make(getView(), R.string.add_prescription_success, Snackbar.LENGTH_SHORT).show();
 
+                BackStackHandler.getFragmentManager().popBackStack();
                 BackStackHandler.getFragmentManager().popBackStack();
             }
         });

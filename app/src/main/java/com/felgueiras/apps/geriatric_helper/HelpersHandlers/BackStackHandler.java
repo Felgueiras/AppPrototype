@@ -305,12 +305,12 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     break;
             }
 
-            if (nextFragment.isAdded()) {
+            if (nextFragment != null && nextFragment.isAdded()) {
                 Log.d("Stack", "already added");
                 return; //or return false/true, based on where you are calling from
             }
 
-            if (nextFragment.getArguments() == null) {
+            if (nextFragment != null && nextFragment.getArguments() == null) {
                 nextFragment.setArguments(args);
             }
             Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);

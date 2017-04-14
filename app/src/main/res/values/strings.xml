@@ -399,6 +399,8 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="search_by_drug">Procure por composto...</string>
     <string name="search_by_patient">Procure por paciente...</string>
     <string name="action_record_video">Vídeo</string>
+    <string name="btn_reset_password">Recuperar password</string>
+    <string name="btn_back"><![CDATA[<< Voltar]]></string>
 
 
 </resources>

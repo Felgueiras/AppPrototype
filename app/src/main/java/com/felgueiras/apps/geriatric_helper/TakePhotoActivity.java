@@ -1,5 +1,7 @@
 package com.felgueiras.apps.geriatric_helper;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -9,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -30,8 +33,6 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -89,11 +90,24 @@ public class TakePhotoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // capture picture
-                takePicture();
+                verifyPhotoPermission(getApplicationContext());
             }
         });
 
 
+    }
+
+    public void verifyPhotoPermission(Context context) {
+        // Check permission for CAMERA
+        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Check Permissions Now
+            // Callback onRequestPermissionsResult interceptado na Activity MainActivity
+            ActivityCompat.requestPermissions((Activity) context,
+                    new String[]{android.Manifest.permission.CAMERA},
+                    REQUEST_TAKE_PHOTO);
+        }
+        takePicture();
     }
 
     /**

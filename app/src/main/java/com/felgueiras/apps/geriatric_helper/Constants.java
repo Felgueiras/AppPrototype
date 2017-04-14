@@ -252,4 +252,5 @@ public class Constants {
     public static int testNumber;
     public static ArrayList<ChoiceFirebase> publicChoices = new ArrayList<>();
     public static ArrayList<QuestionFirebase> publicQuestions = new ArrayList<>();
+    public static int patientProfileBottomNavigation = 0;
 }

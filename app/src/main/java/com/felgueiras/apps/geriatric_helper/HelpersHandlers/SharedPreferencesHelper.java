@@ -7,7 +7,15 @@ import android.util.Log;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
+import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -156,4 +164,66 @@ public class SharedPreferencesHelper {
     }
 
 
+    /**
+     * Persist a scale into shared prferences.
+     *
+     * @param scaleNonDB
+     * @param context
+     */
+    public static void addScale(GeriatricScaleNonDB scaleNonDB, Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+
+        /**
+         * //Retrieve the values
+         Set<String> set = myScores.getStringSet("key", null);
+
+
+         */
+
+        // save scale as JSON String
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
+        Gson gson = builder.create();
+
+        String json = gson.toJson(scaleNonDB);
+
+        //Set the values
+        Set<String> set = new HashSet<String>();
+        set.addAll(getScalesSet(context));
+        // add new set
+        set.add(json);
+
+        sharedPreferences.edit().putStringSet("scales", set).apply();
+        Log.d("Scales", "Size: " + set.size());
+    }
+
+    /**
+     * Get scales.
+     *
+     * @param context
+     */
+    public static Set<String> getScalesSet(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        return sharedPreferences.getStringSet("scales", new HashSet<String>());
+    }
+
+    public static void resetScales(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        sharedPreferences.edit().putStringSet("scales", new HashSet<String>()).apply();
+    }
+
+    public static ArrayList<GeriatricScaleNonDB> getScalesArrayList(Context context) {
+        ArrayList<GeriatricScaleNonDB> scales = new ArrayList<>();
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        Set<String> scalesSet = sharedPreferences.getStringSet("scales", new HashSet<String>());
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
+        Gson gson = builder.create();
+        for (String currentScaleString : new ArrayList<String>(scalesSet)) {
+            GeriatricScaleNonDB scaleNonDB = gson.fromJson(currentScaleString, GeriatricScaleNonDB.class);
+            scales.add(scaleNonDB);
+        }
+        return scales;
+    }
 }

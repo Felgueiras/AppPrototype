@@ -8,9 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.Beers.BeersCriteria;
+import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
+import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
+import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.PrescriptionFirebase;
@@ -27,7 +33,6 @@ public class PatientPrescriptionsCard extends RecyclerView.Adapter<PatientPrescr
      * Records from that PATIENT
      */
     private ArrayList<PrescriptionFirebase> prescriptions;
-    private PrescriptionFirebase prescription;
 
     /**
      * Create a View
@@ -37,6 +42,7 @@ public class PatientPrescriptionsCard extends RecyclerView.Adapter<PatientPrescr
         private final TextView notes, name;
         public TextView date;
         public ImageView removePrescription;
+        public Button warning;
 
         public MyViewHolder(View view) {
             super(view);
@@ -45,6 +51,7 @@ public class PatientPrescriptionsCard extends RecyclerView.Adapter<PatientPrescr
             name = (TextView) view.findViewById(R.id.prescriptionName);
             date = (TextView) view.findViewById(R.id.prescriptionDate);
             removePrescription = (ImageView) view.findViewById(R.id.removePrescription);
+            warning = (Button) view.findViewById(R.id.warning);
         }
     }
 
@@ -58,19 +65,19 @@ public class PatientPrescriptionsCard extends RecyclerView.Adapter<PatientPrescr
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_prescription, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_patient_prescription, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        prescription = prescriptions.get(position);
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
+        final PrescriptionFirebase prescription = prescriptions.get(position);
 
         // set views
         holder.name.setText(prescription.getName());
         holder.notes.setText(prescription.getNotes());
-        holder.date.setText(DatesHandler.dateToStringWithHour(prescription.getDate()));
+        holder.date.setText("Data de prescrição: " + DatesHandler.dateToStringWithHour(prescription.getDate()));
         holder.removePrescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +92,7 @@ public class PatientPrescriptionsCard extends RecyclerView.Adapter<PatientPrescr
                                 FirebaseHelper.deletePrescription(prescription);
 
                                 // refresh the adapter
-                                fragment.removePrescription(position);
+                                fragment.removePrescription(prescription);
                             }
                         });
                 alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
@@ -97,6 +104,46 @@ public class PatientPrescriptionsCard extends RecyclerView.Adapter<PatientPrescr
                 alertDialog.show();
             }
         });
+
+        /**
+         * Setup warning button
+         */
+        holder.warning.setBackgroundResource(R.drawable.ic_warning_24dp);
+
+        ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(StoppCriteria.getStoppData());
+        ArrayList<String> beersCriteriaDrugs = BeersCriteria.getBeersDrugsAllString();
+
+        // display warning
+        if (stoppCriteriaDrugs.contains(prescription.getName())
+                ||
+                beersCriteriaDrugs.contains(prescription.getName())) {
+            holder.warning.setVisibility(View.VISIBLE);
+        } else {
+            holder.warning.setVisibility(View.GONE);
+        }
+
+        holder.warning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = context.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.prescription_warning, null);
+                dialogBuilder.setView(dialogView);
+
+                // display prescription warning
+                TextView warningText = (TextView) dialogView.findViewById(R.id.warningText);
+                warningText.setText("Este composto ativo deve ser evitado");
+
+                AlertDialog alertDialog = dialogBuilder.setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                }).create();
+                alertDialog.setTitle("Aviso");
+                alertDialog.show();
+            }
+        });
+
     }
 
 

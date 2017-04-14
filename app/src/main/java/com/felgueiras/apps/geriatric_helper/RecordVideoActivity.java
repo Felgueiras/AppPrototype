@@ -74,7 +74,7 @@ public class RecordVideoActivity extends AppCompatActivity {
 
         // it there is already an image associated to the scale
         if (scale != null && scale.getVideoPath() != null) {
-            Log.d("Firebase","Already has video, fetching...");
+            Log.d("Firebase", "Already has video, fetching...");
             fetchVideoFirebaseDisplay();
         }
 
@@ -91,7 +91,6 @@ public class RecordVideoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // record video
                 verifyVideoPermission();
-                recordVideo();
             }
         });
 
@@ -151,16 +150,18 @@ public class RecordVideoActivity extends AppCompatActivity {
 
     }
 
-    public static void verifyVideoPermission() {
+    public void verifyVideoPermission() {
         // Check permission for CAMERA
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAPTURE_VIDEO_OUTPUT)
                 != PackageManager.PERMISSION_GRANTED) {
             // Check Permissions Now
             // Callback onRequestPermissionsResult interceptado na Activity MainActivity
             ActivityCompat.requestPermissions(context,
-                    new String[]{Manifest.permission.CAPTURE_VIDEO_OUTPUT},
+                    new String[]{Manifest.permission.CAPTURE_VIDEO_OUTPUT,
+                            Manifest.permission.CAMERA},
                     REQUEST_TAKE_PHOTO);
         }
+        recordVideo();
     }
 
     /**
