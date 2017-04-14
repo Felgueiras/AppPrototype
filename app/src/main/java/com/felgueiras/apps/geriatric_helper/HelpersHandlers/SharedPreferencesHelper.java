@@ -68,7 +68,7 @@ public class SharedPreferencesHelper {
      */
     public static int getScalesVersion(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
-        return sharedPreferences.getInt(context.getString(R.string.scalesVersion), 0);
+        return sharedPreferences.getInt(context.getString(R.string.scalesVersion), -1);
     }
 
     public static void setPrivateSession(Activity context, String sessionID) {

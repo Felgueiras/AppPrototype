@@ -8,11 +8,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.Patients.Favorite.PatientCardFavorite;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
@@ -20,6 +22,9 @@ import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -29,9 +34,7 @@ public class PatientSessionsFragment extends Fragment {
     public static final String PATIENT = "PATIENT";
     private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
     private PatientFirebase patient;
-    private ArrayList<SessionFirebase> sessionsFromPatient;
     private RecyclerView recyclerView;
-    private SessionCardPatientProfile adapter;
 
     // Store instance variables based on arguments passed
     @Override
@@ -49,15 +52,12 @@ public class PatientSessionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.patient_info_sessions, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.patientSessions);
-        sessionsFromPatient = FirebaseHelper.getSessionsFromPatient(patient);
-        adapter = new SessionCardPatientProfile(getActivity(), sessionsFromPatient, patient, this);
 
         // create Layout
         int numbercolumns = 1;
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
 
         /**
          * Setup FABS
@@ -74,21 +74,46 @@ public class PatientSessionsFragment extends Fragment {
             }
         });
 
+        // get the patient's sessions
+        retrievePatientSessions(this);
+
         return view;
     }
 
 
-    /**
-     * Erase a session from the PATIENT.
-     *
-     * @param index Session index
-     */
-    public void removeSession(int index) {
-        sessionsFromPatient.remove(index);
-        recyclerView.removeViewAt(index);
-        adapter.notifyItemRemoved(index);
-        adapter.notifyItemRangeChanged(index, sessionsFromPatient.size());
-        adapter.notifyDataSetChanged();
+    private void retrievePatientSessions(final PatientSessionsFragment fragment) {
+        /*
+           ArrayList<String> sessionsIDS = patient.getSessionsIDS();
+        final ArrayList<SessionFirebase> sessions = new ArrayList<>();
+
+        for (int i = 0; i < sessionsIDS.size(); i++) {
+            String currentID = sessionsIDS.get(i);
+            sessions.add(FirebaseHelper.getSessionByID(currentID));
+        }
+        return sessions;
+         */
+        FirebaseHelper.firebaseTableSessions.orderByChild("patientID").equalTo(patient.getGuid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<SessionFirebase> patientSessions = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    SessionFirebase sessions = postSnapshot.getValue(SessionFirebase.class);
+                    sessions.setKey(postSnapshot.getKey());
+                    patientSessions.add(sessions);
+                }
+                SessionCardPatientProfile adapter = new SessionCardPatientProfile(getActivity(),
+                        patientSessions,
+                        patient,
+                        fragment);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+            }
+        });
     }
 
     @Override

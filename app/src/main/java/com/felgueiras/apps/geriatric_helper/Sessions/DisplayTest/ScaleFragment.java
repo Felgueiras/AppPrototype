@@ -1,6 +1,7 @@
 package com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,10 +22,13 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.RecordVideoActivity;
+import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
+import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionNoPatient;
 import com.felgueiras.apps.geriatric_helper.TakePhotoActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -66,7 +70,7 @@ public class ScaleFragment extends Fragment {
         Bundle bundle = getArguments();
         scaleNonDB = (GeriatricScaleNonDB) bundle.getSerializable(testObject);
         scale = (GeriatricScaleFirebase) bundle.getSerializable(SCALE);
-//        session = scale.getSessionID();
+        session = FirebaseHelper.getSessionFromScale(scale);
 
         // set the title
         getActivity().setTitle(scaleNonDB.getShortName());
@@ -130,6 +134,9 @@ public class ScaleFragment extends Fragment {
     }
 
 
+    /**
+     * Finish a public session.
+     */
     private void finishPublicSession() {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         alertDialog.setTitle(getResources().getString(R.string.session_reset));
@@ -139,44 +146,42 @@ public class ScaleFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         SharedPreferencesHelper.lockSessionCreation(getActivity());
 
-                        // remove session
-                        // TODO
-//                        session.eraseScalesNotCompleted();
+                        // erase uncompleted scales
+                        FirebaseHelper.eraseScalesNotCompleted(session);
                         Snackbar.make(getView(), "Sessão terminada", Snackbar.LENGTH_SHORT).show();
 
-                        // TODO
-//                        if (session.getScalesFromSession().size() == 0) {
-//                            SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
-//
-//                            BackStackHandler.clearBackStack();
-//                            FragmentManager fragmentManager = getFragmentManager();
-//                            Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-//                            Fragment fragment = new CGAPublicInfo();
-//                            fragmentManager.beginTransaction()
-//                                    .remove(currentFragment)
-//                                    .replace(R.id.current_fragment, fragment)
-//                                    .commit();
-//                        } else {
-//                            Session sessionCopy = session;
-//                            SharedPreferencesHelper.lockSessionCreation(getActivity());
-//                            SharedPreferencesHelper.resetPublicSession(getActivity(), null);
-//
-//                            BackStackHandler.clearBackStack();
-//
-//                            FragmentManager fragmentManager = BackStackHandler.getFragmentManager();
-////                            fragmentManager.popBackStack();
-//                            Bundle args = new Bundle();
-//                            args.putSerializable(ReviewSingleSessionNoPatient.SESSION, sessionCopy);
-//                            Fragment fragment = new ReviewSingleSessionNoPatient();
-//                            fragment.setArguments(args);
-//                            Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
-////                            fragmentManager.popBackStack();
-//                            fragmentManager.beginTransaction()
-//                                    .remove(currentFragment)
-//                                    .replace(R.id.current_fragment, fragment)
-////                                            .addToBackStack(Constants.tag_review_session_public)
-//                                    .commit();
-//                        }
+                        if (FirebaseHelper.getScalesFromSession(session).size() == 0) {
+                            SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
+
+                            BackStackHandler.clearBackStack();
+                            FragmentManager fragmentManager = BackStackHandler.getFragmentManager();
+                            Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+                            Fragment fragment = new CGAPublicInfo();
+                            fragmentManager.beginTransaction()
+                                    .remove(currentFragment)
+                                    .replace(R.id.current_fragment, fragment)
+                                    .commit();
+                        } else {
+                            SessionFirebase sessionCopy = session;
+                            SharedPreferencesHelper.lockSessionCreation(getActivity());
+                            SharedPreferencesHelper.resetPublicSession(getActivity(), null);
+
+                            BackStackHandler.clearBackStack();
+
+                            FragmentManager fragmentManager = BackStackHandler.getFragmentManager();
+//                            fragmentManager.popBackStack();
+                            Bundle args = new Bundle();
+                            args.putSerializable(ReviewSingleSessionNoPatient.SESSION, sessionCopy);
+                            Fragment fragment = new ReviewSingleSessionNoPatient();
+                            fragment.setArguments(args);
+                            Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
+//                            fragmentManager.popBackStack();
+                            fragmentManager.beginTransaction()
+                                    .remove(currentFragment)
+                                    .replace(R.id.current_fragment, fragment)
+//                                            .addToBackStack(Constants.tag_review_session_public)
+                                    .commit();
+                        }
 
                         dialog.dismiss();
 

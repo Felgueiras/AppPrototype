@@ -1,6 +1,8 @@
-- fetch sessions from patient at runtime
 - compress video
-- pdf: include notes and photos (clock drawing scale)
+- improve photo/video screens
 
+- email pdf
+- pdf: include notes and photos (clock drawing scale)
+- save photos and video in public session?
 - save list scroll (sessionsIDS list)
 - bibliography of scales

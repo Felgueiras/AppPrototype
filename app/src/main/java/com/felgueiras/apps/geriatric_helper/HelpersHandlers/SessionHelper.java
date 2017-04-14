@@ -168,6 +168,14 @@ public class SessionHelper {
     }
 
 
+    /**
+     * Cancel a session.
+     *
+     * @param context
+     * @param session
+     * @param view
+     * @param place
+     */
     public static void cancelSession(final Activity context, final SessionFirebase session, final View view, final String place) {
         Log.d("Stack", "Cancel");
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();

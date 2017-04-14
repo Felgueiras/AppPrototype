@@ -290,7 +290,8 @@ public class TakePhotoActivity extends AppCompatActivity {
             // compress the image
             Bitmap bmp = BitmapFactory.decodeFile(mCurrentPhotoPath);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.JPEG, 0, bos);
+            int imageQuality = 20;
+            bmp.compress(Bitmap.CompressFormat.JPEG, imageQuality, bos);
             InputStream stream = new ByteArrayInputStream(bos.toByteArray());
 
             // upload image to firebase

@@ -1990,7 +1990,6 @@ public class Scales {
      * @return
      */
     public static GeriatricScaleNonDB getScaleByName(String scaleName) {
-        // TODO get from the scales array
         for (GeriatricScaleNonDB scale : scales) {
             if (scale.getScaleName().equals(scaleName))
                 return scale;

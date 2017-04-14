@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.CAPTURE_VIDEO_OUTPUT" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -82,6 +83,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".MediaRecorderTutorialActivity"
+            android:screenOrientation="portrait">
+
         </activity>
     </application>
 

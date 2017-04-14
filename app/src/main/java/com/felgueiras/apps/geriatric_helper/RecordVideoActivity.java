@@ -160,8 +160,9 @@ public class RecordVideoActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.CAPTURE_VIDEO_OUTPUT,
                             Manifest.permission.CAMERA},
                     REQUEST_TAKE_PHOTO);
+        } else {
+            recordVideo();
         }
-        recordVideo();
     }
 
     /**
@@ -218,6 +219,7 @@ public class RecordVideoActivity extends AppCompatActivity {
             Uri videoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider",
                     videoFile);
             recordVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoURI);
+
             startActivityForResult(recordVideoIntent, REQUEST_VIDEO_CAPTURE);
         }
     }

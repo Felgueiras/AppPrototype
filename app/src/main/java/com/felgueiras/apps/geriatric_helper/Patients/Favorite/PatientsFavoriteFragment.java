@@ -23,9 +23,7 @@ public class PatientsFavoriteFragment extends Fragment {
 
 
     private View view;
-    private BaseAdapter adapter;
     private GridView gridView;
-    private PatientsFavoriteFragment fragment;
 
     // Store instance variables based on arguments passed
     @Override
@@ -40,23 +38,18 @@ public class PatientsFavoriteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.patients_grid, container, false);
-        // fill the GridView
 
         /**
          Grid view that will hold info about the Patients
          **/
         gridView = (GridView) view.findViewById(R.id.patients_grid);
 
-        retrieveFavoritePatients();
-//        adapter = new PatientCardFavorite(getActivity(), retrieveFavoritePatients(), this);
-//        gridView.setAdapter(adapter);
-
-        fragment = this;
+        retrieveFavoritePatients(this);
 
         return view;
     }
 
-    private void retrieveFavoritePatients() {
+    private void retrieveFavoritePatients(final PatientsFavoriteFragment fragment) {
         FirebaseHelper.firebaseTablePatients.orderByChild("favorite").equalTo(true).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -82,17 +75,16 @@ public class PatientsFavoriteFragment extends Fragment {
     /**
      * Remove a PATIENT from the favorites.
      *
-     * @param patient
+//     * @param index
      */
     public void removePatientFromFavorites(PatientFirebase patient) {
         patient.setFavorite(false);
         FirebaseHelper.firebaseTablePatients.child(patient.getKey()).child("favorite").setValue(patient.isFavorite());
 
-        // TODO update using firebase
 //        favoritePatients.remove(index);
 //        recyclerView.removeViewAt(index);
 //        adapter.notifyItemRemoved(index);
 //        adapter.notifyItemRangeChanged(index, sessionsFromPatient.size());
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
     }
 }

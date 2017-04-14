@@ -194,7 +194,11 @@ public class FirebaseHelper {
             mFirebaseInstance = Constants.firebaseInstance;
         }
 
+        Log.d("Fiebase","Checking scales version");
         firebaseTablePublic = mFirebaseInstance.getReference(FirebaseHelper.PUBLIC);
+
+//        firebaseTablePublic = mFirebaseInstance.getReference(FirebaseHelper.PUBLIC);
+
 
         FirebaseHelper.firebaseTablePublic.child("scalesVersion").addValueEventListener(new ValueEventListener() {
             @Override
@@ -346,6 +350,7 @@ public class FirebaseHelper {
 
     /**
      * Download all scales.
+     *
      * @param context
      */
     public static void downloadScales(final Context context) {
@@ -598,7 +603,6 @@ public class FirebaseHelper {
                     question.setKey(postSnapshot.getKey());
                     questions.add(question);
                 }
-                Log.d("Fetch", "Questions");
             }
 
             @Override
@@ -618,7 +622,6 @@ public class FirebaseHelper {
                     choice.setKey(postSnapshot.getKey());
                     choices.add(choice);
                 }
-                Log.d("Fetch", "Choices");
             }
 
             @Override
@@ -702,14 +705,17 @@ public class FirebaseHelper {
     }
 
     public static SessionFirebase getSessionFromScale(GeriatricScaleFirebase scale) {
-        ArrayList<GeriatricScaleFirebase> scalesForSession = new ArrayList<>();
-        // get scales with those IDS
-
-        for (SessionFirebase session : sessions) {
-            if (session.getGuid().equals(scale.getSessionID())) {
-                return session;
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            for (SessionFirebase session : sessions) {
+                if (session.getGuid().equals(scale.getSessionID())) {
+                    return session;
+                }
             }
+        } else {
+            return Constants.publicSession;
         }
+
         return null;
 
     }
@@ -988,9 +994,13 @@ public class FirebaseHelper {
         return scalesForArea;
     }
 
+    /**
+     * Delete a session.
+     *
+     * @param session
+     */
     public static void deleteSession(SessionFirebase session) {
 
-        sessions.remove(session);
         // remove session from patient's sessions list (if patient not null)
         PatientFirebase patient = FirebaseHelper.getPatientFromSession(session);
         if (patient != null) {
@@ -1341,6 +1351,7 @@ public class FirebaseHelper {
      * @param context
      */
     public static void setupRemoteConfig(Context context) {
+        Log.d("Firebase","Setting up remote config");
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings remoteConfigSettings = new FirebaseRemoteConfigSettings.Builder()
                 .setDeveloperModeEnabled(true)

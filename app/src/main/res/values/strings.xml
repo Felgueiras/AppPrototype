@@ -382,7 +382,7 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="drugs_beers" translatable="false">Beers</string>
     <string name="btn_forgot_password">Esqueceu-se da password?</string>
     <string name="minimum_password">Pelo menos 6 chars</string>
-    <string name="auth_failed">Falhou</string>
+    <string name="auth_failed">Email ou password incorretas</string>
     <string name="add_prescription">Nova Prescrição</string>
     <string name="add_prescription_error_name">Precisa de fornecer um nome para a prescrição</string>
     <string name="add_prescription_success">Prescrição criada com sucesso</string>

@@ -18,10 +18,11 @@
 
     <TextView
         android:id="@+id/testName"
-        style="@style/header2"
+        style="@style/header1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test Name" />
+        android:text="Test Name"
+        />
 
     <!--Stub for holding area info-->
     <ViewStub
@@ -33,6 +34,7 @@
         />
 
     <TextView
+        style="@style/header2"
         android:id="@+id/scale_not_evaluated"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

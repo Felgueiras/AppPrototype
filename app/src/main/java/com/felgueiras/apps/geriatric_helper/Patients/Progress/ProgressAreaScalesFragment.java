@@ -68,9 +68,9 @@ public class ProgressAreaScalesFragment extends Fragment {
         if (progressType.equals("2")) {
             ProgressScalesForAreaGraph adapter = new ProgressScalesForAreaGraph(getActivity(), patientSessions, area, patient);
             int numbercolumns = 1;
-            if (Constants.screenSize > Configuration.SCREENLAYOUT_SIZE_NORMAL) {
-                numbercolumns = 2;
-            }
+//            if (Constants.screenSize > Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+//                numbercolumns = 2;
+//            }
             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
             scales.setLayoutManager(mLayoutManager);
             scales.setItemAnimator(new DefaultItemAnimator());

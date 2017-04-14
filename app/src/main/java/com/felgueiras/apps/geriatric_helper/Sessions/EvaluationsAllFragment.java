@@ -29,6 +29,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
 public class EvaluationsAllFragment extends Fragment implements Serializable {
@@ -86,15 +87,8 @@ public class EvaluationsAllFragment extends Fragment implements Serializable {
 
     /**
      * Erase a session from the PATIENT.
-     *
-     * @param index Session index
      */
-    public void removeSession(int index) {
-//        sessionsFromPatient.remove(index);
-//        recyclerView.removeViewAt(index);
-//        adapter.notifyItemRemoved(index);
-//        adapter.notifyItemRangeChanged(index, sessionsFromPatient.size());
-//        adapter.notifyDataSetChanged();
+    public void removeSession() {
         adapter = new SessionsAllDays(getActivity(), this);
         gridView.setAdapter(adapter);
 
@@ -148,11 +142,10 @@ public class EvaluationsAllFragment extends Fragment implements Serializable {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
             Calendar c = Calendar.getInstance();
-            c.set(year, month, day,0,0);
+            c.set(year, month, day, 0, 0);
 
 
-
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.UK);
             String formattedDate = sdf.format(c.getTime());
 
             // get Sessions from that date

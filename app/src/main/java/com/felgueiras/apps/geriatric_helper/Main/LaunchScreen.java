@@ -61,6 +61,8 @@ public class LaunchScreen extends AppCompatActivity {
 
                     alertDialog.show();
                 } else {
+                    Log.d("FirstStart", "Not showing alert dialog");
+
                     // start AsyncTask
                     new FirebaseLoadInitialData().execute("");
 
@@ -71,6 +73,8 @@ public class LaunchScreen extends AppCompatActivity {
 //                    return false;
             }
         } else {
+            Log.d("FirstStart", "Not first start!!!");
+
             // start AsyncTask
             new FirebaseLoadInitialData().execute("");
         }
@@ -96,8 +100,8 @@ public class LaunchScreen extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
 
-            FirebaseHelper.setupRemoteConfig(context);
             FirebaseHelper.canLeaveLaunchScreen = false;
+            FirebaseHelper.setupRemoteConfig(context);
             FirebaseHelper.initializeAndCheckVersions(getBaseContext());
 //            FirebaseHelperStorage.downloadLanguageResources();
             while (true) {

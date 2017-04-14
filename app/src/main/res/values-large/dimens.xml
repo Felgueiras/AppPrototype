@@ -15,7 +15,7 @@
     <dimen name="test_name">22dp</dimen>
     <dimen name="test_type">22dp</dimen>
 
-    <dimen name="patient_name_size">25dp</dimen>
+    <dimen name="patient_name_size">35dp</dimen>
     <dimen name="songs_count_padding_bottom">5dp</dimen>
     <dimen name="songs_count">12dp</dimen>
     <dimen name="ic_album_overflow_width">28dp</dimen>
@@ -24,4 +24,8 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="progress_test_name">30sp</dimen>
+    <dimen name="info">20sp</dimen>
+    <dimen name="button_size">220dp</dimen>
+
 </resources>

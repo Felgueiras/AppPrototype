@@ -127,11 +127,6 @@ public class PatientPrescriptionsFragment extends Fragment {
      */
     public void removePrescription(PrescriptionFirebase prescription) {
         FirebaseHelper.deletePrescription(prescription);
-//        recyclerView.removeViewAt(index);
-        // TODo
-//        adapter.notifyItemRemoved(index);
-//        adapter.notifyItemRangeChanged(index, prescriptionsFromPatient.size());
-//        adapter.notifyDataSetChanged();
     }
 
     @Override

@@ -128,7 +128,6 @@ public class PrivateAreaMainFragment extends Fragment {
         /**
          * Fetch Firebase data.
          */
-        // TODO put in launch screen
         FirebaseHelper.initializeFirebase();
 
         /**

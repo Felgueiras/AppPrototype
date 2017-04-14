@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/testName"
-        style="@style/header2"
+        style="@style/header2_bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Test Name" />

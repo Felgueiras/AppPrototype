@@ -4,4 +4,20 @@
     <style name="question_text">
         <item name="android:textSize">20sp</item>
     </style>
+
+    <!--HEADERS-->
+    <style name="header1">
+        <item name="android:textSize">30dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="header2_bold">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="header2">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

@@ -92,11 +92,9 @@ public class SessionCardHelper implements View.OnClickListener {
                                     Snackbar.make(view, "Sessão eliminada.", Snackbar.LENGTH_SHORT).show();
                                     FirebaseHelper.deleteSession(session);
                                     // refresh the adapter
-                                    if (fragment instanceof PatientSessionsFragment)
-                                        ((PatientSessionsFragment) fragment).removeSession(position);
-                                    else if (fragment instanceof SessionsHistoryMainFragment) {
+                                    if (fragment instanceof SessionsHistoryMainFragment) {
                                         Fragment evaluationsList = fragment.getChildFragmentManager().findFragmentById(R.id.evaluation_history_frame_layout);
-                                        ((EvaluationsAllFragment) evaluationsList).removeSession(position);
+                                        ((EvaluationsAllFragment) evaluationsList).removeSession();
                                     }
                                 }
                             });

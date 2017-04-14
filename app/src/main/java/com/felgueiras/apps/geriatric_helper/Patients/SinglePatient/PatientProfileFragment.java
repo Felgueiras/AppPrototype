@@ -205,7 +205,6 @@ public class PatientProfileFragment extends Fragment {
                         transaction.replace(R.id.frame_layout_bottom_navigation, fragment);
                         transaction.commit();
 
-                        // TODO save position
                         return true;
                     }
                 });

@@ -28,6 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/name"
+                style="@style/header2"
                 android:text="Drug name"/>
 
 
@@ -42,6 +43,7 @@
                 android:text="@string/notes" />
 
             <EditText
+                style="@style/header2"
                 android:id="@+id/addressText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
