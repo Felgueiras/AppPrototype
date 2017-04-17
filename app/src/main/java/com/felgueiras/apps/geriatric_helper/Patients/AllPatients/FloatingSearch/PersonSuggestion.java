@@ -3,7 +3,7 @@ package com.felgueiras.apps.geriatric_helper.Patients.AllPatients.FloatingSearch
 import android.os.Parcel;
 
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 
 
 public class PersonSuggestion implements SearchSuggestion {

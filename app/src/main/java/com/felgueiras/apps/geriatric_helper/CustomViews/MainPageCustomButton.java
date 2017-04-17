@@ -21,8 +21,6 @@ public class MainPageCustomButton extends LinearLayout {
 
     private int pageIcon;
     private CharSequence pageName;
-    private ImageView buttonImage;
-    private TextView buttonText;
 
 
     public MainPageCustomButton(Context context) {
@@ -75,8 +73,8 @@ public class MainPageCustomButton extends LinearLayout {
 
         // When the previous button is pressed, select the previous value
         // in the list.
-        buttonImage = (ImageView) this.findViewById(R.id.custombutton_image);
-        buttonText = (TextView) this.findViewById(R.id.custombutton_text);
+        ImageView buttonImage = (ImageView) this.findViewById(R.id.custombutton_image);
+        TextView buttonText = (TextView) this.findViewById(R.id.custombutton_text);
 
         // set text and image
         buttonImage.setImageResource(pageIcon);

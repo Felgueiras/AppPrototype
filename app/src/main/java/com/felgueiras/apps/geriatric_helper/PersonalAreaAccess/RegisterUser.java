@@ -1,6 +1,5 @@
 package com.felgueiras.apps.geriatric_helper.PersonalAreaAccess;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,17 +13,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class RegisterUser extends AppCompatActivity {
 
@@ -43,9 +37,6 @@ public class RegisterUser extends AppCompatActivity {
 
 
     private EditText inputEmail, inputPassword;
-    private TextView btnSignIn;
-    private Button btnSignUp;
-    private Button btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
 
@@ -57,12 +48,12 @@ public class RegisterUser extends AppCompatActivity {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        btnSignIn = (TextView) findViewById(R.id.sign_in_button);
-        btnSignUp = (Button) findViewById(R.id.sign_up_button);
+        TextView btnSignIn = (TextView) findViewById(R.id.sign_in_button);
+        Button btnSignUp = (Button) findViewById(R.id.sign_up_button);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
+        Button btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
 
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override

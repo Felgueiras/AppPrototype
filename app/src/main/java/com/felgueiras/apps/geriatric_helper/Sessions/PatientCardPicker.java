@@ -18,10 +18,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionWithPatient;
@@ -114,6 +114,7 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                                 if (pickBeforeSession) {
                                     context.getFragmentManager().popBackStack();
                                     Bundle args = new Bundle();
+
                                     /**
                                      * Go to new session with this PATIENT.
                                      */
@@ -130,11 +131,11 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                                     String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);
 
                                     // get session by ID
-                                    SessionFirebase session = FirebaseHelper.getSessionByID(sessionID);
+                                    SessionFirebase session = FirebaseDatabaseHelper.getSessionByID(sessionID);
                                     session.setPatientID(patient.getGuid());
-                                    FirebaseHelper.eraseScalesNotCompleted(session);
+                                    FirebaseDatabaseHelper.eraseScalesNotCompleted(session);
 
-                                    FirebaseHelper.updateSession(session);
+                                    FirebaseDatabaseHelper.updateSession(session);
 
                                     // reset current private session
                                     SharedPreferencesHelper.resetPrivateSession(context, "");

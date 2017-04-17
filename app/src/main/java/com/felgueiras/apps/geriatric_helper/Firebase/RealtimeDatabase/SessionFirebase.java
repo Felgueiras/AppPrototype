@@ -1,13 +1,10 @@
-package com.felgueiras.apps.geriatric_helper.Firebase;
+package com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase;
 
 
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by rafael on 15-09-2016.
@@ -109,6 +106,6 @@ public class SessionFirebase implements Serializable {
     public void addScaleID(String scaleID)
     {
         scalesIDS.add(scaleID);
-        FirebaseHelper.updateSession(this);
+        FirebaseDatabaseHelper.updateSession(this);
     }
 }

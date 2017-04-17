@@ -17,7 +17,7 @@ import com.felgueiras.apps.geriatric_helper.R;
 public class MyFragment extends Fragment {
     public static final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
 
-    public static final MyFragment newInstance(String message) {
+    public static MyFragment newInstance(String message) {
         MyFragment f = new MyFragment();
         Bundle bdl = new Bundle(1);
         bdl.putString(EXTRA_MESSAGE, message);

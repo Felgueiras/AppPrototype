@@ -8,17 +8,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Patients.Favorite.PatientCardFavorite;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -81,17 +79,13 @@ public class PatientSessionsFragment extends Fragment {
     }
 
 
+    /**
+     * Retrieve the patient's sessions.
+     *
+     * @param fragment
+     */
     private void retrievePatientSessions(final PatientSessionsFragment fragment) {
-        /*
-           ArrayList<String> sessionsIDS = patient.getSessionsIDS();
-        final ArrayList<SessionFirebase> sessions = new ArrayList<>();
 
-        for (int i = 0; i < sessionsIDS.size(); i++) {
-            String currentID = sessionsIDS.get(i);
-            sessions.add(FirebaseHelper.getSessionByID(currentID));
-        }
-        return sessions;
-         */
         FirebaseHelper.firebaseTableSessions.orderByChild("patientID").equalTo(patient.getGuid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

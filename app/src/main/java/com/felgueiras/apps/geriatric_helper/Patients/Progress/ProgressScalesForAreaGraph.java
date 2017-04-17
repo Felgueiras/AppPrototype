@@ -1,9 +1,6 @@
 package com.felgueiras.apps.geriatric_helper.Patients.Progress;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,13 +11,12 @@ import android.view.ViewManager;
 import android.view.ViewStub;
 import android.widget.TextView;
 
-import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.jjoe64.graphview.GraphView;
 
@@ -90,7 +86,7 @@ public class ProgressScalesForAreaGraph extends RecyclerView.Adapter<ProgressSca
         final String currentScale = testsForArea.get(position).getScaleName();
 
         // get all the instances of that Test for this Patient
-        ArrayList<GeriatricScaleFirebase> scaleInstances =    FirebaseHelper.getScaleInstancesForPatient(patientSessions, currentScale);
+        ArrayList<GeriatricScaleFirebase> scaleInstances =    FirebaseDatabaseHelper.getScaleInstancesForPatient(patientSessions, currentScale);
 
         // set test area in the gui
         holder.testName.setText(currentScale);

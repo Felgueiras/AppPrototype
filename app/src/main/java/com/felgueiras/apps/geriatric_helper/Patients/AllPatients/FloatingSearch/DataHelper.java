@@ -19,8 +19,8 @@ package com.felgueiras.apps.geriatric_helper.Patients.AllPatients.FloatingSearch
 import android.content.Context;
 import android.widget.Filter;
 
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.StringHelper;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class DataHelper {
 
     private static List<PersonSuggestion> createSuggestions() {
         ArrayList<PersonSuggestion> suggestions = new ArrayList<>();
-        for (PatientFirebase patient : FirebaseHelper.getPatients()) {
+        for (PatientFirebase patient : FirebaseDatabaseHelper.getPatients()) {
             suggestions.add(new PersonSuggestion(patient));
         }
         return suggestions;

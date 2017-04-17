@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper;
+package com.felgueiras.apps.geriatric_helper.PhotoVideoHandling;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,8 +20,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,10 +51,10 @@ public class TakePhotoActivity extends AppCompatActivity {
     private Uri fileUri; // file url to store image/video
 
     private ImageView imgPreview;
-    private Button btnCapturePicture;
 
     private String imageFileName;
     private GeriatricScaleFirebase scale;
+    private Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,9 @@ public class TakePhotoActivity extends AppCompatActivity {
 
         // setup views
         imgPreview = (ImageView) findViewById(R.id.imgPreview);
-        btnCapturePicture = (Button) findViewById(R.id.btnCapturePicture);
+        Button btnCapturePicture = (Button) findViewById(R.id.btnCapturePicture);
+
+        activity = this;
 
         // get the associated scale
         Intent intent = this.getIntent();
@@ -70,7 +73,7 @@ public class TakePhotoActivity extends AppCompatActivity {
         String scaleID = bundle.getString(SCALE_ID);
 
         // fetch scale
-        scale = FirebaseHelper.getScaleByID(scaleID);
+        scale = FirebaseDatabaseHelper.getScaleByID(scaleID);
 
         // it there is already an image associated to the scale
         if (scale != null && scale.getPhotoPath() != null) {
@@ -103,11 +106,12 @@ public class TakePhotoActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) {
             // Check Permissions Now
             // Callback onRequestPermissionsResult interceptado na Activity MainActivity
-            ActivityCompat.requestPermissions((Activity) context,
+            ActivityCompat.requestPermissions(activity,
                     new String[]{android.Manifest.permission.CAMERA},
                     REQUEST_TAKE_PHOTO);
+        } else {
+            takePicture();
         }
-        takePicture();
     }
 
     /**
@@ -159,14 +163,10 @@ public class TakePhotoActivity extends AppCompatActivity {
      * Checking device has camera hardware or not
      */
     private boolean isDeviceSupportCamera() {
-        if (getApplicationContext().getPackageManager().hasSystemFeature(
-                PackageManager.FEATURE_CAMERA)) {
-            // this device has a camera
-            return true;
-        } else {
-            // no camera on this device
-            return false;
-        }
+        // this device has a camera
+// no camera on this device
+        return getApplicationContext().getPackageManager().hasSystemFeature(
+                PackageManager.FEATURE_CAMERA);
     }
 
 
@@ -309,7 +309,7 @@ public class TakePhotoActivity extends AppCompatActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Log.d("Firebase", "Photo updated successfully");
                     scale.setPhotoPath(fileName);
-                    FirebaseHelper.updateScale(scale);
+                    FirebaseDatabaseHelper.updateScale(scale);
                 }
             });
         } catch (NullPointerException e) {

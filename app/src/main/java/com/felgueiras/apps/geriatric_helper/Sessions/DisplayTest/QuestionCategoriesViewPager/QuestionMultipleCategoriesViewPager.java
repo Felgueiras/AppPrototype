@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.QuestionsListAdapter;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -24,16 +24,14 @@ public class QuestionMultipleCategoriesViewPager {
 
     private final LayoutInflater inflater;
     private final GeriatricScaleNonDB scaleNonDB;
-    private final Activity context;
     GeriatricScaleFirebase scaleDB;
     private final QuestionsListAdapter questionsListAdapter;
-    private TabLayout tabLayout;
 
 
     public QuestionMultipleCategoriesViewPager(LayoutInflater inflater, GeriatricScaleNonDB testNonDB, Activity context, GeriatricScaleFirebase test, QuestionsListAdapter adapter) {
         this.inflater = inflater;
         this.scaleNonDB = testNonDB;
-        this.context = context;
+        Activity context1 = context;
         this.scaleDB = test;
         this.questionsListAdapter = adapter;
     }
@@ -53,7 +51,7 @@ public class QuestionMultipleCategoriesViewPager {
 
         questionsListAdapter.setViewPagerAux(viewPager);
 
-        tabLayout = (TabLayout) questionView.findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) questionView.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         return questionView;

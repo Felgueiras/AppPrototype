@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Help_Feedback.HelpMainFragment;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseRemoteConfig;
+import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.HelpMainFragment;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -23,8 +23,6 @@ import com.felgueiras.apps.geriatric_helper.R;
  */
 public class CGAPublicInfo extends Fragment {
 
-
-    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,15 +40,15 @@ public class CGAPublicInfo extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.cga_public_info, container, false);
-        getActivity().setTitle(FirebaseHelper.getString("cga",
+        View view = inflater.inflate(R.layout.cga_public_info, container, false);
+        getActivity().setTitle(FirebaseRemoteConfig.getString("cga",
                 getResources().getString(R.string.cga)));
 
         /**
          * Start a session.
          */
         Button startSession = (Button) view.findViewById(R.id.start_acg_evaluation);
-        startSession.setText(FirebaseHelper.getString("create_session",
+        startSession.setText(FirebaseRemoteConfig.getString("create_session",
                 getResources().getString(R.string.create_session)));
 
         startSession.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +65,7 @@ public class CGAPublicInfo extends Fragment {
          * See more information.
          */
         Button moreInfo = (Button) view.findViewById(R.id.more_info);
-        moreInfo.setText(FirebaseHelper.getString("more_info",
+        moreInfo.setText(FirebaseRemoteConfig.getString("more_info",
                 getResources().getString(R.string.more_info)));
         moreInfo.setOnClickListener(new View.OnClickListener() {
             @Override

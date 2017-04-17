@@ -11,11 +11,12 @@ import android.util.Log;
 import android.view.View;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.PickPatientFragment;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.R;
 
@@ -33,7 +34,7 @@ public class SessionHelper {
          */
 
         // no test selected
-        if (FirebaseHelper.getScalesFromSession(session).size() == 0) {
+        if (FirebaseDatabaseHelper.getScalesFromSession(session).size() == 0) {
             Log.d("Session", "size");
             Snackbar.make(layout, context.getResources().getString(R.string.you_must_select_test), Snackbar.LENGTH_SHORT).show();
             return;
@@ -42,7 +43,7 @@ public class SessionHelper {
 
         // check how many tests were completed
         int numTestsCompleted = 0;
-        List<GeriatricScaleFirebase> testsFromSession = FirebaseHelper.getScalesFromSession(session);
+        List<GeriatricScaleFirebase> testsFromSession = FirebaseDatabaseHelper.getScalesFromSession(session);
         for (GeriatricScaleFirebase test : testsFromSession) {
             if (test.isCompleted())
                 numTestsCompleted++;
@@ -81,7 +82,7 @@ public class SessionHelper {
                             FragmentManager fragmentManager = context.getFragmentManager();
 //                                    fragmentManager.popBackStack();
                             BackStackHandler.clearBackStack();
-                            FirebaseHelper.eraseScalesNotCompleted(session);
+                            FirebaseDatabaseHelper.eraseScalesNotCompleted(session);
 
                             Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
                             fragmentManager.beginTransaction()
@@ -152,7 +153,7 @@ public class SessionHelper {
                         /**
                          * Erase scales that weren't completed.
                          */
-                        FirebaseHelper.eraseScalesNotCompleted(session);
+                        FirebaseDatabaseHelper.eraseScalesNotCompleted(session);
 
                         Snackbar.make(view, context.getResources().getString(R.string.session_created), Snackbar.LENGTH_LONG).show();
                         BackStackHandler.goToPreviousScreen();

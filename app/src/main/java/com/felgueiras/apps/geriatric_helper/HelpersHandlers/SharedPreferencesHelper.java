@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
+import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -59,6 +61,11 @@ public class SharedPreferencesHelper {
         sharedPreferences.edit().putInt(context.getString(R.string.scalesVersion), scalesVersion).apply();
     }
 
+    public static void setCriteriaVersion(Context context, int criteriaVersion) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        sharedPreferences.edit().putInt(context.getString(R.string.criteriaVersion), criteriaVersion).apply();
+    }
+
 
     /**
      * Get the current scales version.
@@ -69,6 +76,11 @@ public class SharedPreferencesHelper {
     public static int getScalesVersion(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         return sharedPreferences.getInt(context.getString(R.string.scalesVersion), -1);
+    }
+
+    public static int getCriteriaVersion(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        return sharedPreferences.getInt(context.getString(R.string.criteriaVersion), -1);
     }
 
     public static void setPrivateSession(Activity context, String sessionID) {
@@ -197,6 +209,46 @@ public class SharedPreferencesHelper {
         Log.d("Scales", "Size: " + set.size());
     }
 
+    public static void addStoppCriteria(StoppCriteria stoppCriteria, Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+
+        // save scale as JSON String
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
+        Gson gson = builder.create();
+
+        String json = gson.toJson(stoppCriteria);
+
+        //Set the values
+        Set<String> set = new HashSet<String>();
+        set.addAll(getStoppCriteriaSet(context));
+        // add new set
+        set.add(json);
+
+        sharedPreferences.edit().putStringSet("stoppCriteria", set).apply();
+        Log.d("StoppCriteria", "Size: " + set.size());
+    }
+
+    public static void addStartCriteria(StartCriteria startCriteria, Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+
+        // save scale as JSON String
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
+        Gson gson = builder.create();
+
+        String json = gson.toJson(startCriteria);
+
+        //Set the values
+        Set<String> set = new HashSet<String>();
+        set.addAll(getStartCriteriaSet(context));
+        // add new set
+        set.add(json);
+
+        sharedPreferences.edit().putStringSet("startCriteria", set).apply();
+        Log.d("StartCriteria", "Size: " + set.size());
+    }
+
     /**
      * Get scales.
      *
@@ -207,9 +259,30 @@ public class SharedPreferencesHelper {
         return sharedPreferences.getStringSet("scales", new HashSet<String>());
     }
 
+    public static Set<String> getStartCriteriaSet(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        return sharedPreferences.getStringSet("startCriteria", new HashSet<String>());
+    }
+
+    public static Set<String> getStoppCriteriaSet(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        return sharedPreferences.getStringSet("stoppCriteria", new HashSet<String>());
+    }
+
     public static void resetScales(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         sharedPreferences.edit().putStringSet("scales", new HashSet<String>()).apply();
+    }
+
+    /**
+     * Reset medical criteria.
+     *
+     * @param context
+     */
+    public static void resetCriteria(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        sharedPreferences.edit().putStringSet("startCriteria", new HashSet<String>()).apply();
+        sharedPreferences.edit().putStringSet("stoppCriteria", new HashSet<String>()).apply();
     }
 
     public static ArrayList<GeriatricScaleNonDB> getScalesArrayList(Context context) {
@@ -226,4 +299,36 @@ public class SharedPreferencesHelper {
         }
         return scales;
     }
+
+    public static ArrayList<StartCriteria> getStartCriteria(Context context) {
+        ArrayList<StartCriteria> startCriteria = new ArrayList<>();
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        Set<String> criteriaSet = sharedPreferences.getStringSet("startCriteria", new HashSet<String>());
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
+        Gson gson = builder.create();
+        for (String currentCriteriaString : new ArrayList<String>(criteriaSet)) {
+            StartCriteria criteria = gson.fromJson(currentCriteriaString, StartCriteria.class);
+            startCriteria.add(criteria);
+        }
+        return startCriteria;
+    }
+
+    public static ArrayList<StoppCriteria> getStoppCriteria(Context context) {
+        ArrayList<StoppCriteria> stoppCriteria = new ArrayList<>();
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        Set<String> criteriaSet = sharedPreferences.getStringSet("stoppCriteria", new HashSet<String>());
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
+        Gson gson = builder.create();
+        for (String currentCriteriaString : new ArrayList<String>(criteriaSet)) {
+            StoppCriteria criteria = gson.fromJson(currentCriteriaString, StoppCriteria.class);
+            stoppCriteria.add(criteria);
+        }
+        return stoppCriteria;
+    }
+
+
 }

@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.List;
@@ -23,7 +23,6 @@ public class SessionScalesAdapterRecyclerIcons extends RecyclerView.Adapter<Sess
      * Questions for a Test
      */
     private final List<GeriatricScaleFirebase> sessionScales;
-    private final Context context;
     private View.OnClickListener onClickListener;
 
     public void setOnClickListener(View.OnClickListener onClickListener) {
@@ -56,7 +55,7 @@ public class SessionScalesAdapterRecyclerIcons extends RecyclerView.Adapter<Sess
      */
     public SessionScalesAdapterRecyclerIcons(Context context, List<GeriatricScaleFirebase> tests) {
         this.sessionScales = tests;
-        this.context = context;
+        Context context1 = context;
     }
 
 

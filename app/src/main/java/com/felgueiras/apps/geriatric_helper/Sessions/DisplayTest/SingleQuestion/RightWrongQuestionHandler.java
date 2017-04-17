@@ -7,9 +7,9 @@ import android.widget.TextView;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionCategory;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionNonDB;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.QuestionsListAdapter;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.QuestionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.QuestionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 /**
@@ -21,7 +21,6 @@ public class RightWrongQuestionHandler implements View.OnClickListener {
      */
     private final QuestionFirebase question;
     private final QuestionsListAdapter adapter;
-    private final GeriatricScaleNonDB testNonDB;
     private final ImageButton right;
     private final ImageButton wrong;
     private final TextView categoryText;
@@ -32,7 +31,7 @@ public class RightWrongQuestionHandler implements View.OnClickListener {
                                      int index, ImageButton right, ImageButton wrong, TextView categoryTextView, QuestionCategory currentCategory) {
         this.question = question;
         this.adapter = adapter;
-        this.testNonDB = testNonDB;
+        GeriatricScaleNonDB testNonDB1 = testNonDB;
         this.index = index;
         this.right = right;
         this.wrong = wrong;
@@ -55,7 +54,7 @@ public class RightWrongQuestionHandler implements View.OnClickListener {
         }
         question.setAnswered(true);
 
-        FirebaseHelper.updateQuestion(question);
+        FirebaseDatabaseHelper.updateQuestion(question);
         /**
          * Signal that que Question was answered
          */

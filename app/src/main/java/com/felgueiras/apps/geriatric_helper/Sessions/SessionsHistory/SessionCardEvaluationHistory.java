@@ -16,11 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionWithPatient;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -88,8 +88,8 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         // get the current Session and tests from that Session
         final SessionFirebase session = sessionsList.get(position);
-        List<GeriatricScaleFirebase> scalesFromSession = FirebaseHelper.getScalesFromSession(session);
-        PatientFirebase patient = FirebaseHelper.getPatientFromSession(session);
+        List<GeriatricScaleFirebase> scalesFromSession = FirebaseDatabaseHelper.getScalesFromSession(session);
+        PatientFirebase patient = FirebaseDatabaseHelper.getPatientFromSession(session);
         if (patient != null) {
             holder.patientName.setText(patient.getName() + " - " + DatesHandler.hour(new Date(session.getDate())));
             // loading album cover using Glide library

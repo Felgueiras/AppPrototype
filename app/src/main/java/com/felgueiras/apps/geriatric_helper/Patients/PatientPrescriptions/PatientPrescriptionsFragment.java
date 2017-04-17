@@ -15,10 +15,10 @@ import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.PrescriptionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.PrescriptionAllDrugs;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +34,6 @@ public class PatientPrescriptionsFragment extends Fragment {
     private PatientFirebase patient;
     private RecyclerView recyclerView;
     private PatientPrescriptionsFragment fragment;
-    private ArrayList<PrescriptionFirebase> patientsPrescriptions = new ArrayList<>();
 
 
     // Store instance variables based on arguments passed
@@ -53,7 +52,7 @@ public class PatientPrescriptionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.patient_prescriptions, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.patientPrescriptions);
-        patientsPrescriptions = FirebaseHelper.getPrescriptionsFromPatient(patient);
+//        patientsPrescriptions = FirebaseDatabaseHelper.getPrescriptionsFromPatient(patient);
 
         // create Layout
         int numbercolumns = 1;
@@ -94,13 +93,12 @@ public class PatientPrescriptionsFragment extends Fragment {
         FirebaseHelper.firebaseTablePrescriptions.orderByChild("patientID").equalTo(patient.getGuid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                patientsPrescriptions.clear();
+                ArrayList<PrescriptionFirebase> patientsPrescriptions = new ArrayList<>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     PrescriptionFirebase prescription = postSnapshot.getValue(PrescriptionFirebase.class);
                     prescription.setKey(postSnapshot.getKey());
                     patientsPrescriptions.add(prescription);
                 }
-                Log.d("Firebase", "Retrieved patients prescriptions.");
                 PatientPrescriptionsCard adapter = new PatientPrescriptionsCard(
                         fragment.getActivity(),
                         patientsPrescriptions,
@@ -126,7 +124,7 @@ public class PatientPrescriptionsFragment extends Fragment {
      * @param prescription Session index
      */
     public void removePrescription(PrescriptionFirebase prescription) {
-        FirebaseHelper.deletePrescription(prescription);
+        FirebaseDatabaseHelper.deletePrescription(prescription);
     }
 
     @Override

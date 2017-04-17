@@ -33,7 +33,7 @@ public class StoppCriteria {
     /**
      * Add Stopp and Beers data.
      */
-    public static ArrayList<StoppCriteria> getStoppData() {
+    public static ArrayList<StoppCriteria> getStoppCriteria() {
         ArrayList<StoppCriteria> stoppGeneral = new ArrayList<>();
         /**
          * Stopp criteria.

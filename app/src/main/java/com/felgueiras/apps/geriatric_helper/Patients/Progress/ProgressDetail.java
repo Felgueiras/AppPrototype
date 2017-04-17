@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.jjoe64.graphview.GraphView;
 
@@ -40,7 +40,7 @@ public class ProgressDetail extends Fragment {
         GraphView graphView = (GraphView) view.findViewById(R.id.graph_view);
 
         ArrayList<GeriatricScaleFirebase> scaleInstances =
-                FirebaseHelper.getScaleInstancesForPatient(FirebaseHelper.getSessionsFromPatient(patient), scale);
+                FirebaseDatabaseHelper.getScaleInstancesForPatient(FirebaseDatabaseHelper.getSessionsFromPatient(patient), scale);
 
         GraphViewHelper.buildProgressGraph(graphView, scaleInstances, scaleInfo, getActivity(), patient);
 

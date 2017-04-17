@@ -5,7 +5,7 @@
     android:baselineAligned="false"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".TakePhotoActivity">
+    tools:context=".PhotoVideoHandling.TakePhotoActivity">
 
 
     <!-- Capture picture button -->
@@ -30,6 +30,7 @@
         android:id="@+id/imgPreview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:visibility="gone" />
 
 </LinearLayout>

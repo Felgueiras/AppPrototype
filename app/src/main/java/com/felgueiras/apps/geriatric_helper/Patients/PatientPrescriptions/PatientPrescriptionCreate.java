@@ -13,9 +13,9 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.PrescriptionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.R;
 
@@ -94,7 +94,7 @@ public class PatientPrescriptionCreate extends Fragment {
                 patient.addPrescription(prescription.getGuid());
 
                 // save Prescription
-                FirebaseHelper.createPrescription(prescription);
+                FirebaseDatabaseHelper.createPrescription(prescription);
 
                 Snackbar.make(getView(), R.string.add_prescription_success, Snackbar.LENGTH_SHORT).show();
 

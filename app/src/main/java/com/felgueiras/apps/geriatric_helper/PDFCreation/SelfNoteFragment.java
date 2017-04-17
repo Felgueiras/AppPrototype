@@ -12,8 +12,6 @@ import com.felgueiras.apps.geriatric_helper.R;
 public class SelfNoteFragment extends Fragment {
 
 
-    private View mRootView;
-
     public SelfNoteFragment() {
         // Required empty public constructor
     }
@@ -26,7 +24,7 @@ public class SelfNoteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_self_note, container, false);
+        View mRootView = inflater.inflate(R.layout.fragment_self_note, container, false);
 
         PdfHelper.createSamplePdf(getActivity());
 

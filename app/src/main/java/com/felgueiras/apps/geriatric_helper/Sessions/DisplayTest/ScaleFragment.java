@@ -19,17 +19,17 @@ import android.widget.ProgressBar;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.R;
-import com.felgueiras.apps.geriatric_helper.RecordVideoActivity;
+import com.felgueiras.apps.geriatric_helper.PhotoVideoHandling.RecordVideoActivity;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionNoPatient;
-import com.felgueiras.apps.geriatric_helper.TakePhotoActivity;
+import com.felgueiras.apps.geriatric_helper.PhotoVideoHandling.TakePhotoActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -70,7 +70,7 @@ public class ScaleFragment extends Fragment {
         Bundle bundle = getArguments();
         scaleNonDB = (GeriatricScaleNonDB) bundle.getSerializable(testObject);
         scale = (GeriatricScaleFirebase) bundle.getSerializable(SCALE);
-        session = FirebaseHelper.getSessionFromScale(scale);
+        session = FirebaseDatabaseHelper.getSessionFromScale(scale);
 
         // set the title
         getActivity().setTitle(scaleNonDB.getShortName());
@@ -110,7 +110,7 @@ public class ScaleFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     View viewForSnackbar = getActivity().findViewById(R.id.scale_progress);
-                    SessionHelper.saveSession(getActivity(), session, FirebaseHelper.getPatientFromSession(session), viewForSnackbar, viewForSnackbar, 3);
+                    SessionHelper.saveSession(getActivity(), session, FirebaseDatabaseHelper.getPatientFromSession(session), viewForSnackbar, viewForSnackbar, 3);
                 }
             });
             cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -147,10 +147,10 @@ public class ScaleFragment extends Fragment {
                         SharedPreferencesHelper.lockSessionCreation(getActivity());
 
                         // erase uncompleted scales
-                        FirebaseHelper.eraseScalesNotCompleted(session);
+                        FirebaseDatabaseHelper.eraseScalesNotCompleted(session);
                         Snackbar.make(getView(), "Sessão terminada", Snackbar.LENGTH_SHORT).show();
 
-                        if (FirebaseHelper.getScalesFromSession(session).size() == 0) {
+                        if (FirebaseDatabaseHelper.getScalesFromSession(session).size() == 0) {
                             SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
 
                             BackStackHandler.clearBackStack();

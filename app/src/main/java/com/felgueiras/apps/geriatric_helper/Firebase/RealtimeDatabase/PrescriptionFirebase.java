@@ -1,9 +1,8 @@
-package com.felgueiras.apps.geriatric_helper.Firebase;
+package com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase;
 
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;

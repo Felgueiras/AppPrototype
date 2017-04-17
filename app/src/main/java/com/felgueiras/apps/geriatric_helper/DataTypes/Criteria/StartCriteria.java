@@ -30,103 +30,103 @@ public class StartCriteria {
     /**
      * Create startGeneral criteria.
      */
-    public static ArrayList<StartCriteria> getStartData() {
+    public static ArrayList<StartCriteria> getStartCriteria() {
         ArrayList<StartCriteria> startGeneral = new ArrayList<>();
         // Encodrine
-        StartCriteria criterion = new StartCriteria("Endocrine System");
+        StartCriteria criteria = new StartCriteria("Endocrine System");
         // 1
         PrescriptionStart prescriptionStart = new PrescriptionStart("Metformin", "Metformin with type 2 diabetes +/- metabolic syndrome" +
                 "(in the absence of renal impairment—estimated GFR <50ml/ min).");
-        criterion.addPrescription(prescriptionStart);
+        criteria.addPrescription(prescriptionStart);
         // 2
         prescriptionStart = new PrescriptionStart("ACE inhibitor or Angiotensin Receptor Blocker",
                 "in diabetes with nephropathy i.e. overt urinalysis" +
                         " proteinuria or micoralbuminuria (>30mg/24 hours)" +
                         " +/- serum biochemical renal impairment—estimated GFR <50ml/min.");
-        criterion.addPrescription(prescriptionStart);
+        criteria.addPrescription(prescriptionStart);
         // 3
         prescriptionStart = new PrescriptionStart("Antiplatelet therapy",
                 "in diabetes mellitus if one or more co-existing major cardiovascular " +
                         "risk factor present (hypertension, hypercholesterolaemia, smoking history).");
-        criterion.addPrescription(prescriptionStart);
+        criteria.addPrescription(prescriptionStart);
         // 4
         prescriptionStart = new PrescriptionStart("Statin",
                 "Statin therapy in diabetes mellitus if one or more co-existing major cardiovascular risk factor present");
-        criterion.addPrescription(prescriptionStart);
-        startGeneral.add(criterion);
+        criteria.addPrescription(prescriptionStart);
+        startGeneral.add(criteria);
 
 
         // Musculoskeletal
-        criterion = new StartCriteria("Musculoskeletal System");
+        criteria = new StartCriteria("Musculoskeletal System");
         prescriptionStart = new PrescriptionStart("Disease-modifying anti-rheumatic drug (DMARD)",
                 "with active moderate-severe rheumatoid disease lasting > 12 weeks");
-        criterion.addPrescription(prescriptionStart);
+        criteria.addPrescription(prescriptionStart);
         prescriptionStart = new PrescriptionStart("Bisphosphonates",
                 "in patients taking maintenance oral corticosteroid therapy.");
-        criterion.addPrescription(prescriptionStart);
+        criteria.addPrescription(prescriptionStart);
         prescriptionStart = new PrescriptionStart("Calcium and Vitamin D",
                 "supplement in patients with known osteoporosis (radiological" +
                         " evidence or previous fragility fracture or acquired dorsal kyphosis).");
-        criterion.addPrescription(prescriptionStart);
-        startGeneral.add(criterion);
+        criteria.addPrescription(prescriptionStart);
+        startGeneral.add(criteria);
 
         // Cardiovascular System
-        criterion = new StartCriteria("Cardiovascular System");
+        criteria = new StartCriteria("Cardiovascular System");
         prescriptionStart = new PrescriptionStart("Warfarin",
                 "in the presence of chronic atrial fibrillation");
-        criterion.addPrescription(prescriptionStart);
+        criteria.addPrescription(prescriptionStart);
         prescriptionStart = new PrescriptionStart("Aspirin",
                 "in the presence of chronic atrial fibrillation, where warfarin is contraindicated, but not aspirin");
-        criterion.addPrescription(prescriptionStart);
+        criteria.addPrescription(prescriptionStart);
         prescriptionStart = new PrescriptionStart("Aspirin or clopidogrel",
                 "with a documented history of atherosclerotic coronary, cerebral" +
                         " or peripheral vascular disease in patients with sinus rhythm.");
-        criterion.addPrescription(prescriptionStart);
+        criteria.addPrescription(prescriptionStart);
         prescriptionStart = new PrescriptionStart("Antihypertensive",
                 "Antihypertensive therapy where systolic blood pressure consistently >160 mmHg.");
-        criterion.addPrescription(prescriptionStart);
+        criteria.addPrescription(prescriptionStart);
         prescriptionStart = new PrescriptionStart("Statin",
                 "Statin therapy with a documented history of coronary, cerebral or peripheral vascular disease, where the PATIENT’s functional status remains" +
                         " independent for activities of daily living and life expectancy is > 5 years");
-        criterion.addPrescription(prescriptionStart);
+        criteria.addPrescription(prescriptionStart);
         prescriptionStart = new PrescriptionStart("Angiotensin Converting Enzyme (ACE) inhibitor",
                 "with chronic heart failure");
-        criterion.addPrescription(prescriptionStart);
+        criteria.addPrescription(prescriptionStart);
         prescriptionStart = new PrescriptionStart("ACE inhibitor",
                 "following acute myocardial infarction");
-        criterion.addPrescription(prescriptionStart);
+        criteria.addPrescription(prescriptionStart);
         prescriptionStart = new PrescriptionStart("Beta-blocker",
                 "with chronic stable angina");
-        criterion.addPrescription(prescriptionStart);
-        startGeneral.add(criterion);
+        criteria.addPrescription(prescriptionStart);
+        startGeneral.add(criteria);
 
         // Central Nervous System and Psychotropic Drugs
-        criterion = new StartCriteria("Central Nervous System and Psychotropic Drugs");
+        criteria = new StartCriteria("Central Nervous System and Psychotropic Drugs");
         prescriptionStart = new PrescriptionStart("L-DOPA",
                 "in idiopathic Parkinson’s disease with definite functional impairment and resultant disability.");
-        criterion.addPrescription(prescriptionStart);
+        criteria.addPrescription(prescriptionStart);
         prescriptionStart = new PrescriptionStart("Antidepressant drug",
                 "in the presence of moderate-severe depressive symptoms lasting at least three months");
-        criterion.addPrescription(prescriptionStart);
-        startGeneral.add(criterion);
+        criteria.addPrescription(prescriptionStart);
+        startGeneral.add(criteria);
 
         // Respiratory System
-        criterion = new StartCriteria("Respiratory System");
+        criteria = new StartCriteria("Respiratory System");
         prescriptionStart = new PrescriptionStart("Regular inhaled beta 2 agonist or anticholinergic (antimuscarinic)",
                 "agent for mild to moderate asthma or COPD");
-        criterion.addPrescription(prescriptionStart);
-        startGeneral.add(criterion);
+        criteria.addPrescription(prescriptionStart);
+        startGeneral.add(criteria);
 
 
         //Gastrointestinal
-        criterion = new StartCriteria("Gastrointestinal System");
+        criteria = new StartCriteria("Gastrointestinal System");
         prescriptionStart = new PrescriptionStart("Proton Pump Inhibitor",
                 "with severe gastro-oesophageal acid reflux disease or peptic stricture requiring dilatation.");
-        criterion.addPrescription(prescriptionStart);
+        criteria.addPrescription(prescriptionStart);
         prescriptionStart = new PrescriptionStart("Fibre supplement",
                 "for chronic, symptomatic diverticular disease with constipation.");
-        criterion.addPrescription(prescriptionStart);
-        startGeneral.add(criterion);
+        criteria.addPrescription(prescriptionStart);
+        startGeneral.add(criteria);
         return startGeneral;
     }
 

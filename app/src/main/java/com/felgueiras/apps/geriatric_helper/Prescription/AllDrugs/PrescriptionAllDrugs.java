@@ -28,6 +28,7 @@ import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.Beers.BeersCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.Prescription.ViewSingleDrugtInfo;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -45,7 +46,6 @@ import java.util.Set;
 public class PrescriptionAllDrugs extends Fragment {
 
     private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
-    private DrugListItem adapter;
     private RecyclerView mSearchResultsList;
     private FloatingSearchView mSearchView;
     private String TAG = "Search";
@@ -57,7 +57,6 @@ public class PrescriptionAllDrugs extends Fragment {
 
 
     private String mLastQuery = "";
-    private DrugListItem mSearchResultsAdapter;
 
 
     @Override
@@ -209,13 +208,10 @@ public class PrescriptionAllDrugs extends Fragment {
     }
 
     private void setupResultsList() {
-        mSearchResultsAdapter = new DrugListItem(getActivity(), Constants.allDrugs, true, null);
+        DrugListItem mSearchResultsAdapter = new DrugListItem(getActivity(), Constants.allDrugs, false, null);
         mSearchResultsList.setAdapter(mSearchResultsAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
-
-    private ArrayList<StoppCriteria> stoppGeneral;
-    private ArrayList<StartCriteria> startGeneral;
 
 
     @Override
@@ -225,8 +221,8 @@ public class PrescriptionAllDrugs extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_drugs_list_persistent_search, container, false);
 
-        stoppGeneral = StoppCriteria.getStoppData();
-        startGeneral = StartCriteria.getStartData();
+        ArrayList<StoppCriteria> stoppGeneral = FirebaseStorageHelper.getStoppCriteria();
+        ArrayList<StartCriteria> startGeneral = FirebaseStorageHelper.getStartCriteria();
 
         // stopp
         final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(stoppGeneral);
@@ -263,7 +259,7 @@ public class PrescriptionAllDrugs extends Fragment {
         // display card for each Patientndroid rec
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mSearchResultsList.setLayoutManager(mLayoutManager);
-        adapter = new DrugListItem(getActivity(), Constants.allDrugs, true, null);
+        DrugListItem adapter = new DrugListItem(getActivity(), Constants.allDrugs, false, null);
         mSearchResultsList.setAdapter(adapter);
 
         fastScroller.setRecyclerView(mSearchResultsList);

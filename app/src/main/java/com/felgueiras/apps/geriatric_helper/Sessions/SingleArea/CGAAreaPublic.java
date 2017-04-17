@@ -19,11 +19,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionNoPatient;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -120,12 +120,12 @@ public class CGAAreaPublic extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // remove session
-                        FirebaseHelper.eraseScalesNotCompleted(session);
+                        FirebaseDatabaseHelper.eraseScalesNotCompleted(session);
                         Snackbar.make(getView(), "Sessão terminada", Snackbar.LENGTH_SHORT).show();
 
                         SharedPreferencesHelper.lockSessionCreation(getActivity());
 
-                        if (FirebaseHelper.getScalesFromSession(session).size() == 0) {
+                        if (FirebaseDatabaseHelper.getScalesFromSession(session).size() == 0) {
                             SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
 
                             BackStackHandler.clearBackStack();

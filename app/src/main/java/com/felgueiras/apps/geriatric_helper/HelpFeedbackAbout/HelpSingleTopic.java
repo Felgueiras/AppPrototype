@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper.Help_Feedback;
+package com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseRemoteConfig;
 import com.felgueiras.apps.geriatric_helper.R;
 
 
@@ -36,29 +36,29 @@ public class HelpSingleTopic extends Fragment {
         String text = "";
         switch (helpTopic) {
             case Constants.help_topic_cga:
-                text = FirebaseHelper.getString("help_cga_description",
+                text = FirebaseRemoteConfig.getString("help_cga_description",
                         "");
                 break;
             case Constants.help_topic_functionalities:
-                text = FirebaseHelper.getString("help_functionalitites_description",
+                text = FirebaseRemoteConfig.getString("help_functionalitites_description",
                         "");
                 break;
             case Constants.help_topic_personal_area:
-                text = FirebaseHelper.getString("help_personal_area",
+                text = FirebaseRemoteConfig.getString("help_personal_area",
                         "");
                 break;
             case Constants.help_topic_patients:
-                text = FirebaseHelper.getString("help_patients_description",
+                text = FirebaseRemoteConfig.getString("help_patients_description",
                         "");
                 break;
             case Constants.help_topic_prescriptions:
-                text = FirebaseHelper.getString("help_precription_description",
+                text = FirebaseRemoteConfig.getString("help_precription_description",
                         "");
             case Constants.help_topic_sessions:
-                text = FirebaseHelper.getString("help_sessions_description",
+                text = FirebaseRemoteConfig.getString("help_sessions_description",
                         "");
             case Constants.help_topic_cga_guide:
-                text = FirebaseHelper.getString("help_cga_guide_description",
+                text = FirebaseRemoteConfig.getString("help_cga_guide_description",
                         "");
                 break;
         }

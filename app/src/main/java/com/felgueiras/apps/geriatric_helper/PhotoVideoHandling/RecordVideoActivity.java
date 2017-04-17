@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper;
+package com.felgueiras.apps.geriatric_helper.PhotoVideoHandling;
 
 import android.Manifest;
 import android.app.Activity;
@@ -19,8 +19,9 @@ import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,7 +30,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -50,7 +50,6 @@ public class RecordVideoActivity extends AppCompatActivity {
 
 
     private VideoView videoPreview;
-    private Button btnRecordVideo;
 
     private static Activity context;
     private GeriatricScaleFirebase scale;
@@ -70,7 +69,7 @@ public class RecordVideoActivity extends AppCompatActivity {
         String scaleID = bundle.getString(SCALE_ID);
 
         // fetch scale
-        scale = FirebaseHelper.getScaleByID(scaleID);
+        scale = FirebaseDatabaseHelper.getScaleByID(scaleID);
 
         // it there is already an image associated to the scale
         if (scale != null && scale.getVideoPath() != null) {
@@ -79,7 +78,7 @@ public class RecordVideoActivity extends AppCompatActivity {
         }
 
         videoPreview = (VideoView) findViewById(R.id.videoPreview);
-        btnRecordVideo = (Button) findViewById(R.id.btnRecordVideo);
+        Button btnRecordVideo = (Button) findViewById(R.id.btnRecordVideo);
 
 
         /**
@@ -169,14 +168,10 @@ public class RecordVideoActivity extends AppCompatActivity {
      * Checking device has camera hardware or not
      */
     private boolean isDeviceSupportCamera() {
-        if (getApplicationContext().getPackageManager().hasSystemFeature(
-                PackageManager.FEATURE_CAMERA)) {
-            // this device has a camera
-            return true;
-        } else {
-            // no camera on this device
-            return false;
-        }
+        // this device has a camera
+// no camera on this device
+        return getApplicationContext().getPackageManager().hasSystemFeature(
+                PackageManager.FEATURE_CAMERA);
     }
 
 
@@ -347,7 +342,7 @@ public class RecordVideoActivity extends AppCompatActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Log.d("Firebase", "Video updated successfully");
                     scale.setVideoPath(fileName);
-                    FirebaseHelper.updateScale(scale);
+                    FirebaseDatabaseHelper.updateScale(scale);
                 }
             });
         } catch (NullPointerException e) {

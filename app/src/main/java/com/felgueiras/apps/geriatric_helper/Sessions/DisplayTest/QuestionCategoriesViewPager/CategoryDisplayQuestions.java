@@ -14,11 +14,11 @@ import android.widget.TextView;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionCategory;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionNonDB;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.QuestionsListAdapter;
 import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.SingleQuestion.RightWrongQuestionHandler;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.QuestionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.QuestionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -82,7 +82,7 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
                 scaleNonDB);
         if (scaleDB != null) {
             String dummyID = scaleDB.getGuid() + "-" + questionIdx;
-            questionInDB = FirebaseHelper.getQuestionByID(dummyID);
+            questionInDB = FirebaseDatabaseHelper.getQuestionByID(dummyID);
             if (questionInDB == null) {
                 questionInDB = new QuestionFirebase();
                 // create question and add to DB
@@ -91,7 +91,7 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
                 questionInDB.setScaleID(scaleDB.getGuid());
                 questionInDB.setYesOrNo(false);
                 questionInDB.setRightWrong(true);
-                FirebaseHelper.createQuestion(questionInDB);
+                FirebaseDatabaseHelper.createQuestion(questionInDB);
 
             }
         }
@@ -161,7 +161,7 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
                     // signal this question was answered
                     finalQuestionInDB.setAnswered(true);
 
-                    FirebaseHelper.updateQuestion(finalQuestionInDB);
+                    FirebaseDatabaseHelper.updateQuestion(finalQuestionInDB);
                     // check if question was answered
                     signalAllQuestionsAnswered();
 
@@ -176,7 +176,7 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
                     // signal this question was answered
 
                     finalQuestionInDB.setAnswered(true);
-                    FirebaseHelper.updateQuestion(finalQuestionInDB);
+                    FirebaseDatabaseHelper.updateQuestion(finalQuestionInDB);
 
                     // check if question was answered
                     signalAllQuestionsAnswered();
@@ -204,7 +204,7 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
                     i,
                     scaleNonDB);
             String dummyID = scaleDB.getGuid() + "-" + qIdx;
-            QuestionFirebase questionInDB = FirebaseHelper.getQuestionByID(dummyID);
+            QuestionFirebase questionInDB = FirebaseDatabaseHelper.getQuestionByID(dummyID);
             if (questionInDB != null && questionInDB.isAnswered()) numQuestionsAnswered++;
 
         }

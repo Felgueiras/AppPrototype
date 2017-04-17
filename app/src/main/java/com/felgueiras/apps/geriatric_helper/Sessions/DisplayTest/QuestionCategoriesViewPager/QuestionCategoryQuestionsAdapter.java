@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionCategory;
 import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.QuestionsListAdapter;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 /**
@@ -39,10 +39,10 @@ public class QuestionCategoryQuestionsAdapter extends Fragment {
     private RecyclerView questionsRecyclerView;
     QuestionsListAdapter adapter;
 
-    public static final QuestionCategoryQuestionsAdapter newInstance(int categoryIndex,
-                                                                     GeriatricScaleNonDB scaleNonDB,
-                                                                     GeriatricScaleFirebase scaleDB,
-                                                                     QuestionsListAdapter adapter, ViewPager viewPager) {
+    public static QuestionCategoryQuestionsAdapter newInstance(int categoryIndex,
+                                                               GeriatricScaleNonDB scaleNonDB,
+                                                               GeriatricScaleFirebase scaleDB,
+                                                               QuestionsListAdapter adapter, ViewPager viewPager) {
         QuestionCategoryQuestionsAdapter f = new QuestionCategoryQuestionsAdapter();
         Bundle bdl = new Bundle(1);
         bdl.putInt(EXTRA_MESSAGE, categoryIndex);

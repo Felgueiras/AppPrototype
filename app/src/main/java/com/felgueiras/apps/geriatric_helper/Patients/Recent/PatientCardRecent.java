@@ -12,9 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
 import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.PatientProfileFragment;
@@ -78,7 +78,7 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
         // get the current Session and tests from that Session
         final SessionFirebase session = sessionsList.get(position);
 //        List<GeriatricScale> scalesFromSession = session.getScalesFromSession();
-        final PatientFirebase patient = FirebaseHelper.getPatientFromSession(session);
+        final PatientFirebase patient = FirebaseDatabaseHelper.getPatientFromSession(session);
         if(patient!=null)
         {
             holder.name.setText(patient.getName());

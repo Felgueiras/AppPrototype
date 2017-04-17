@@ -16,10 +16,10 @@ import android.widget.Button;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.ScaleFragment;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class AreaScalesIconsAdapter extends RecyclerView.Adapter<AreaScalesIcons
         this.scales = scales;
         this.session = session;
         this.context = context;
-        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public class ScaleIconHolder extends RecyclerView.ViewHolder {
@@ -85,7 +85,7 @@ public class AreaScalesIconsAdapter extends RecyclerView.Adapter<AreaScalesIcons
                     // check if triagem is already answered
                     Log.d("Nutritional", "Global pressed");
 
-                    GeriatricScaleFirebase triagem = FirebaseHelper.getScaleFromSession(session,
+                    GeriatricScaleFirebase triagem = FirebaseDatabaseHelper.getScaleFromSession(session,
                             Constants.test_name_mini_nutritional_assessment_triagem);
                     if (!triagem.isCompleted()) {
                         Snackbar.make(holder.scaleIcon, "Precisa primeiro de completar a triagem", Snackbar.LENGTH_SHORT).show();
@@ -100,7 +100,7 @@ public class AreaScalesIconsAdapter extends RecyclerView.Adapter<AreaScalesIcons
                 bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(scaleName));
                 bundle.putSerializable(ScaleFragment.SCALE, currentScaleDB);
                 bundle.putSerializable(ScaleFragment.CGA_AREA, currentScaleDB.getArea());
-                bundle.putSerializable(ScaleFragment.patient, FirebaseHelper.getPatientFromSession(session));
+                bundle.putSerializable(ScaleFragment.patient, FirebaseDatabaseHelper.getPatientFromSession(session));
                 newFragment.setArguments(bundle);
                 // setup the transaction
                 FragmentTransaction transaction = context.getFragmentManager().beginTransaction();

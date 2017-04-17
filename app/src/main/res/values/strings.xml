@@ -310,7 +310,7 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
         Para tal, faça login com as suas credenciais. Na sua área pessoal pode igualmente criar novos pacientes
         e acompanhar o seu progresso.
     </string>
-    <string name="first_session_evaluate_all_areas">Primeira sessão do paciente, precisa de avaliar todas as áreas</string>
+    <string name="first_session_evaluate_all_areas" translatable="false">Primeira sessão do paciente, precisa de avaliar todas as áreas</string>
     <string name="erase_patient">Eliminar paciente</string>
     <string name="patient_erase">Eliminar paciente</string>
     <string name="patient_erase_question">Deseja eliminar este paciente?</string>
@@ -326,10 +326,10 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     dos dados também se encontra assegurada.</string>
     <string name="username" translatable="false">username</string>
     <string name="email" translatable="false">email</string>
-    <string name="password">password</string>
+    <string name="password" translatable="false">password</string>
     <string name="create_account">Registar</string>
     <string name="tab_sessions">Sessões</string>
-    <string name="new_patient_save">GUARDAR</string>
+    <string name="new_patient_save" translatable="false">GUARDAR</string>
     <string name="create_patient_error_no_birthDate">Precisa de fornecer uma data de nascimento</string>
     <string name="patients_recent">Recentes</string>
     <string name="app_close_question">Deseja fechar a aplicação?</string>
@@ -364,7 +364,7 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="session_erase_question">Deseja eliminar esta sessão?</string>
     <string name="session_erase_snackbar">Sessão eliminada.</string>
     <string name="picked_patient_session_created">Paciente associado à sesssão e sessão criada.</string>
-    <string name="scale_incomplete_leave_scale">sair da escala</string>
+    <string name="scale_incomplete_leave_scale" translatable="false">sair da escala</string>
     <string name="tab_personal_area">Página Principal</string>
     <string name="settings">Definições</string>
     <string name="help_sessions_description">
@@ -396,11 +396,13 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="action_create_pdf">Criar PDF</string>
     <string name="create_session">Criar sessão</string>
     <string name="more_info">Saber mais</string>
-    <string name="search_by_drug">Procure por composto...</string>
-    <string name="search_by_patient">Procure por paciente...</string>
+    <string name="search_by_drug">Procure por composto…</string>
+    <string name="search_by_patient">Procure por paciente…</string>
     <string name="action_record_video">Vídeo</string>
     <string name="btn_reset_password">Recuperar password</string>
     <string name="btn_back"><![CDATA[<< Voltar]]></string>
+    <string name="criteriaVersion" translatable="false">criteriaVersion</string>
+    <string name="no_prescriptions_for_patient">Paciente não tem prescrições associadas</string>
 
 
 </resources>

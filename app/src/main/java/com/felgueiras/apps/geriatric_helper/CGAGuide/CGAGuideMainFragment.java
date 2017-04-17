@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.R;
 
-public class CGAGuideMain extends Fragment {
+public class CGAGuideMainFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

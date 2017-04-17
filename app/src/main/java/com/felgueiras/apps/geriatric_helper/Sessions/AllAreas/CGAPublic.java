@@ -19,10 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelperStorage;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseStorageHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
@@ -310,16 +310,16 @@ public class CGAPublic extends Fragment {
 
     public void finishSession() {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle(FirebaseHelperStorage.getString("session_reset"));
+        alertDialog.setTitle(FirebaseStorageHelper.getString("session_reset"));
         alertDialog.setMessage(getResources().getString(R.string.session_reset_question));
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // remove session
-                        FirebaseHelper.eraseScalesNotCompleted(session);
+                        FirebaseDatabaseHelper.eraseScalesNotCompleted(session);
                         Snackbar.make(getView(), "Sessão terminada", Snackbar.LENGTH_SHORT).show();
 
-                        if (FirebaseHelper.getScalesFromSession(session).size() == 0) {
+                        if (FirebaseDatabaseHelper.getScalesFromSession(session).size() == 0) {
                             SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
 
                             BackStackHandler.clearBackStack();

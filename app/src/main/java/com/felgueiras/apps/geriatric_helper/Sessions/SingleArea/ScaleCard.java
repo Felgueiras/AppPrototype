@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,10 @@ import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.ScaleFragment;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.io.Serializable;
@@ -103,7 +104,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
         // get scale nonDB
         GeriatricScaleNonDB scaleNonDB = testsForArea.get(position);
 
-        GeriatricScaleFirebase currentScale = FirebaseHelper.getScaleFromSession(session, scaleNonDB.getScaleName());
+        GeriatricScaleFirebase currentScale = FirebaseDatabaseHelper.getScaleFromSession(session, scaleNonDB.getScaleName());
 
 //        String testCompletionNotSelected = context.getResources().getString(R.string.test_not_selected);
         String testCompletionSelectedIncomplete = context.getResources().getString(R.string.test_incomplete);
@@ -190,7 +191,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                 if (finalCurrentTest.getScaleName().equals(Constants.test_name_mini_nutritional_assessment_global)) {
                     // check if triagem is already answered
 
-                    GeriatricScaleFirebase triagem = FirebaseHelper.getScaleFromSession(session,
+                    GeriatricScaleFirebase triagem = FirebaseDatabaseHelper.getScaleFromSession(session,
                             Constants.test_name_mini_nutritional_assessment_triagem);
 
                 }
@@ -204,7 +205,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                 bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(selectedTestName));
                 bundle.putSerializable(ScaleFragment.SCALE, finalCurrentTest);
                 bundle.putSerializable(ScaleFragment.CGA_AREA, area);
-                bundle.putSerializable(ScaleFragment.patient, FirebaseHelper.getPatientFromSession(session));
+                bundle.putSerializable(ScaleFragment.patient, FirebaseDatabaseHelper.getPatientFromSession(session));
                 newFragment.setArguments(bundle);
                 // setup the transaction
                 FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
@@ -241,6 +242,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
     @Override
     public int getItemCount() {
+        Log.d("Scales",Scales.scales.size()+"");
         // get the number of tests that exist for this area
         testsForArea = Scales.getScalesForArea(area);
         return testsForArea.size();

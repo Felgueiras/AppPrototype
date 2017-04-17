@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper.Help_Feedback;
+package com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseRemoteConfig;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
 
@@ -39,25 +39,25 @@ public class HelpTopicsAdapter extends BaseAdapter {
         String text = null;
         switch (position) {
             case 0:
-                text = FirebaseHelper.getString("help_topic_cga", "");
+                text = FirebaseRemoteConfig.getString("help_topic_cga", "");
                 break;
             case 1:
-                text = FirebaseHelper.getString("help_topic_functionalities", "");
+                text = FirebaseRemoteConfig.getString("help_topic_functionalities", "");
                 break;
             case 2:
-                text = FirebaseHelper.getString("help_topic_personal_area", "");
+                text = FirebaseRemoteConfig.getString("help_topic_personal_area", "");
                 break;
             case 3:
-                text = FirebaseHelper.getString("help_topic_patients", "");
+                text = FirebaseRemoteConfig.getString("help_topic_patients", "");
                 break;
             case 4:
-                text = FirebaseHelper.getString("help_topic_sessions", "");
+                text = FirebaseRemoteConfig.getString("help_topic_sessions", "");
                 break;
             case 5:
-                text = FirebaseHelper.getString("help_topic_prescriptions", "");
+                text = FirebaseRemoteConfig.getString("help_topic_prescriptions", "");
                 break;
             case 6:
-                text = FirebaseHelper.getString("help_topic_cga_guide", "");
+                text = FirebaseRemoteConfig.getString("help_topic_cga_guide", "");
                 break;
         }
 

@@ -24,8 +24,8 @@ import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.arlib.floatingsearchview.util.Util;
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
 import com.felgueiras.apps.geriatric_helper.Patients.AllPatients.FloatingSearch.DataHelper;
@@ -45,12 +45,10 @@ public class PatientsListFragment extends Fragment {
 
     private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
     public static String selectPatient = "selectPatient";
-    private PatientCardPatientsList adapter;
     private RecyclerView mSearchResultsList;
     private FloatingSearchView mSearchView;
     private String TAG = "Search";
-    private PatientCardPatientsList mSearchResultsAdapter;
-    ArrayList<PatientFirebase> patients = new ArrayList<PatientFirebase>();
+    ArrayList<PatientFirebase> patients = new ArrayList<>();
 
 
     private boolean mIsDarkSearchTheme = false;
@@ -291,7 +289,7 @@ public class PatientsListFragment extends Fragment {
     }
 
     private void setupResultsList() {
-        mSearchResultsAdapter = new PatientCardPatientsList(getActivity(), FirebaseHelper.getPatients());
+        PatientCardPatientsList mSearchResultsAdapter = new PatientCardPatientsList(getActivity(), FirebaseDatabaseHelper.getPatients());
         mSearchResultsList.setAdapter(mSearchResultsAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -324,7 +322,7 @@ public class PatientsListFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mSearchResultsList.setLayoutManager(mLayoutManager);
 //        mSearchResultsList.setItemAnimator(new DefaultItemAnimator());
-        adapter = new PatientCardPatientsList(getActivity(), patients);
+        PatientCardPatientsList adapter = new PatientCardPatientsList(getActivity(), patients);
         mSearchResultsList.setAdapter(adapter);
 
         fastScroller.setRecyclerView(mSearchResultsList);

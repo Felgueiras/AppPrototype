@@ -6,10 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
 
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.google.firebase.database.DataSnapshot;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 public class PatientsFavoriteFragment extends Fragment {
 
 
-    private View view;
     private GridView gridView;
 
     // Store instance variables based on arguments passed
@@ -37,7 +35,7 @@ public class PatientsFavoriteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.patients_grid, container, false);
+        View view = inflater.inflate(R.layout.patients_grid, container, false);
 
         /**
          Grid view that will hold info about the Patients

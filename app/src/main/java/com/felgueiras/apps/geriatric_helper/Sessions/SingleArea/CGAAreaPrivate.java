@@ -14,10 +14,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionHelper;
 import com.felgueiras.apps.geriatric_helper.R;
+
+import java.util.Objects;
 
 
 public class CGAAreaPrivate extends Fragment {
@@ -83,7 +85,7 @@ public class CGAAreaPrivate extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numbercolumns);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        if (area != Constants.cga_clinical) {
+        if (!area.equals(Constants.cga_clinical)) {
             recyclerView.setAdapter(finalAdapter);
         }
 //        else {

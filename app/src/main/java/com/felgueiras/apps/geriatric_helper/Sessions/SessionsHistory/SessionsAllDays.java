@@ -1,7 +1,6 @@
 package com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistory;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,9 +14,10 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.EvaluationsAllFragment;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.google.firebase.database.DataSnapshot;
@@ -32,7 +32,6 @@ import java.util.Date;
  * Show all the Evaluations for a single day.
  */
 public class SessionsAllDays extends BaseAdapter {
-    private final EvaluationsAllFragment fragment;
     Activity context;
     LayoutInflater inflater;
 
@@ -40,7 +39,7 @@ public class SessionsAllDays extends BaseAdapter {
     public SessionsAllDays(Activity context, EvaluationsAllFragment evaluationsHistoryGrid) {
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.fragment = evaluationsHistoryGrid;
+        EvaluationsAllFragment fragment = evaluationsHistoryGrid;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -48,7 +47,7 @@ public class SessionsAllDays extends BaseAdapter {
         Button dateTextView = (Button) singleDayInfo.findViewById(R.id.dateText);
 
         // get the date
-        Date currentDate = FirebaseHelper.getDifferentSessionDates().get(position);
+        Date currentDate = FirebaseDatabaseHelper.getDifferentSessionDates().get(position);
         Log.d("Sessions", "Current date: " + currentDate);
         dateTextView.setText(DatesHandler.dateToStringWithoutHour(currentDate));
 //        sessionsFromDate = FirebaseHelper.getSessionsFromDate(currentDate);
@@ -109,7 +108,7 @@ public class SessionsAllDays extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return FirebaseHelper.getDifferentSessionDates().size();
+        return FirebaseDatabaseHelper.getDifferentSessionDates().size();
     }
 
     @Override

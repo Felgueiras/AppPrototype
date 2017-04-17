@@ -17,10 +17,9 @@ import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.Beers.BeersCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientPrescriptions.PatientPrescriptionCreate;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientPrescriptions.PickPrescription;
 import com.felgueiras.apps.geriatric_helper.Prescription.ViewSingleDrugtInfo;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
@@ -99,8 +98,8 @@ public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.drug_item, parent, false);
         // check the criterias we have for this drug
         // get drug info
-        ArrayList<StoppCriteria> stoppData = StoppCriteria.getStoppData();
-        ArrayList<StartCriteria> startData = StartCriteria.getStartData();
+        ArrayList<StoppCriteria> stoppData = StoppCriteria.getStoppCriteria();
+        ArrayList<StartCriteria> startData = StartCriteria.getStartCriteria();
         // stopp
         stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(stoppData);
         // beers

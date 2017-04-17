@@ -15,10 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistory.SessionScalesAdapterRecycler;
 import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionWithPatient;
@@ -31,13 +31,11 @@ import java.util.List;
 
 public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardPatientProfile.MyViewHolder> {
 
-    private final PatientSessionsFragment fragment;
     private Activity context;
     /**
      * Records from that PATIENT
      */
     private ArrayList<SessionFirebase> sessions;
-    private SessionFirebase session;
 
     /**
      * Create a View
@@ -64,7 +62,7 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
         /*
       Patient which has these NewEvaluationPrivate.
      */
-        this.fragment = patientSessionsFragment;
+        PatientSessionsFragment fragment = patientSessionsFragment;
     }
 
 
@@ -77,9 +75,9 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        session = sessions.get(position);
+        SessionFirebase session = sessions.get(position);
         holder.date.setText(DatesHandler.dateToStringWithHour(new Date(session.getDate())));
-        List<GeriatricScaleFirebase> sessionScales = FirebaseHelper.getScalesFromSession(sessions.get(position));
+        List<GeriatricScaleFirebase> sessionScales = FirebaseDatabaseHelper.getScalesFromSession(sessions.get(position));
 
         holder.testsList.setHasFixedSize(true);
 
@@ -121,7 +119,7 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Snackbar.make(holder.view, "Sessão eliminada.", Snackbar.LENGTH_SHORT).show();
-                                FirebaseHelper.deleteSession(currentSession);
+                                FirebaseDatabaseHelper.deleteSession(currentSession);
 
                             }
                         });

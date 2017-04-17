@@ -22,9 +22,9 @@ import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.ToolbarHelper;
@@ -113,7 +113,7 @@ public class PrivateAreaActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             // erase the sessionID
                             SharedPreferencesHelper.resetPrivateSession(context, sessionID);
-                            FirebaseHelper.deleteSession(FirebaseHelper.getSessionByID(sessionID));
+                            FirebaseDatabaseHelper.deleteSession(FirebaseDatabaseHelper.getSessionByID(sessionID));
                         }
                     });
             alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {

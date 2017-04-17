@@ -20,13 +20,13 @@ import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.ScaleCard;
 import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.ScaleInfoHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.ScaleHandlerNotes;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
     public ReviewScaleCard(Activity context, SessionFirebase session, String area, boolean comparePrevious) {
         this.context = context;
         this.session = session;
-        this.patient = FirebaseHelper.getPatientFromSession(session);
+        this.patient = FirebaseDatabaseHelper.getPatientFromSession(session);
         this.area = area;
         this.comparePrevious = comparePrevious;
     }
@@ -175,7 +175,7 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 currentScale.setNotes(charSequence.toString());
 
-                FirebaseHelper.updateScale(currentScale);
+                FirebaseDatabaseHelper.updateScale(currentScale);
             }
 
             @Override
@@ -216,13 +216,12 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
         double currentScaleResult = currentScale.getResult();
         // access this test from previous session that had this test
         String scaleName = currentScale.getScaleName();
-        SessionFirebase currentSession = FirebaseHelper.getSessionByID(currentScale.getSessionID());
+        SessionFirebase currentSession = FirebaseDatabaseHelper.getSessionByID(currentScale.getSessionID());
 
         // get all the instances of that Scale for this Patient
         ArrayList<GeriatricScaleFirebase> scaleInstances = new ArrayList<>();
 
-        ArrayList<SessionFirebase> patientSessions = FirebaseHelper.getSessionsFromPatient(patient);
-        ;
+        ArrayList<SessionFirebase> patientSessions = FirebaseDatabaseHelper.getSessionsFromPatient(patient);
         //patientSessions.remove(currentSession);
 
         // sort by date ascending
@@ -240,7 +239,7 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
         // get instances for that test
         for (int i = sessionIndex - 1; i >= 0; i--) {
             SessionFirebase previousSession = patientSessions.get(i);
-            List<GeriatricScaleFirebase> scalesfromSession = FirebaseHelper.getScalesFromSession(previousSession);
+            List<GeriatricScaleFirebase> scalesfromSession = FirebaseDatabaseHelper.getScalesFromSession(previousSession);
             for (GeriatricScaleFirebase previousScale : scalesfromSession) {
                 if (previousScale.getScaleName().equals(scaleName)) {
                     scaleInstances.add(previousScale);
@@ -300,9 +299,9 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
     @Override
     public int getItemCount() {
 
-        List<GeriatricScaleFirebase> sessionScales = FirebaseHelper.getScalesFromSession(session);
+        List<GeriatricScaleFirebase> sessionScales = FirebaseDatabaseHelper.getScalesFromSession(session);
         // get scales for this area
-        scalesForArea =  FirebaseHelper.getScalesForArea(sessionScales, area);
+        scalesForArea =  FirebaseDatabaseHelper.getScalesForArea(sessionScales, area);
         return scalesForArea.size();
     }
 

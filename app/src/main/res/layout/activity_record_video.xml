@@ -5,7 +5,7 @@
     android:baselineAligned="false"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".TakePhotoActivity"
+    tools:context=".PhotoVideoHandling.TakePhotoActivity"
     android:padding="10dp">
 
 

@@ -6,9 +6,9 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.QuestionsListAdapter;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.QuestionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.QuestionFirebase;
 
 /**
  * Create the layout of the Questions
@@ -39,15 +39,15 @@ public class MultipleChoiceHandler implements RadioGroup.OnCheckedChangeListener
             if (o instanceof RadioButton) {
                 if (((RadioButton) o).isChecked()) {
                     // save the text of the option
-                    String selected = FirebaseHelper.getChoicesForQuestion(question).get(i).getName();
+                    String selected = FirebaseDatabaseHelper.getChoicesForQuestion(question).get(i).getName();
                     System.out.println("Selected " + selected);
-                    question.setSelectedChoice(FirebaseHelper.getChoicesForQuestion(question).get(i).getName());
+                    question.setSelectedChoice(FirebaseDatabaseHelper.getChoicesForQuestion(question).get(i).getName());
                 }
             }
         }
         question.setAnswered(true);
 
-        FirebaseHelper.updateQuestion(question);
+        FirebaseDatabaseHelper.updateQuestion(question);
         /**
          * Signal that que Question was answered
          */
@@ -62,10 +62,10 @@ public class MultipleChoiceHandler implements RadioGroup.OnCheckedChangeListener
 
         // save the text of the option
 //        String selected = FirebaseHelper.getChoicesForQuestion(question).get(selectedAnswer).getName();
-        question.setSelectedChoice(FirebaseHelper.getChoicesForQuestion(question).get(selectedAnswer).getName());
+        question.setSelectedChoice(FirebaseDatabaseHelper.getChoicesForQuestion(question).get(selectedAnswer).getName());
 
         question.setAnswered(true);
-        FirebaseHelper.updateQuestion(question);
+        FirebaseDatabaseHelper.updateQuestion(question);
         /**
          * Signal that que Question was answered
          */

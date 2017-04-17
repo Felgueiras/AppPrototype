@@ -1,12 +1,9 @@
-package com.felgueiras.apps.geriatric_helper.Firebase;
+package com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase;
 
 
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Question;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by rafael on 30-09-2016.

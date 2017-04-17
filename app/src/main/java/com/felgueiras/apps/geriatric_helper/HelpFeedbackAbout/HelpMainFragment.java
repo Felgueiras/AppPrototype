@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper.Help_Feedback;
+package com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseRemoteConfig;
 import com.felgueiras.apps.geriatric_helper.R;
 
 
@@ -30,7 +30,7 @@ public class HelpMainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // set the title
-        getActivity().setTitle(FirebaseHelper.getString("help",
+        getActivity().setTitle(FirebaseRemoteConfig.getString("help",
                 getResources().getString(R.string.help)));
 
         // Inflate the layout for this fragment

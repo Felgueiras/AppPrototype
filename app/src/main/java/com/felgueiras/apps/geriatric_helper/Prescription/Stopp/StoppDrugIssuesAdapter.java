@@ -29,7 +29,7 @@ public class StoppDrugIssuesAdapter extends RecyclerView.Adapter<StoppDrugIssues
      */
     public StoppDrugIssuesAdapter(Context context, ArrayList<Issue> issues) {
         this.issues = issues;
-        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public class DrugIssue extends RecyclerView.ViewHolder {

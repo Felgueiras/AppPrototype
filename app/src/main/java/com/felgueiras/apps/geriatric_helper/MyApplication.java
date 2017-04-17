@@ -1,7 +1,6 @@
 package com.felgueiras.apps.geriatric_helper;
 
 
-
 import android.app.Application;
 
 /**

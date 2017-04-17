@@ -13,13 +13,14 @@ import android.widget.ExpandableListView;
 
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.PrescriptionStart;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class StartCriteriaFragment extends Fragment {
+public class PrescriptionStartCriteriaFragment extends Fragment {
 
     ExpandableListAdapterStart listAdapter;
     ExpandableListView expListView;
@@ -61,7 +62,7 @@ public class StartCriteriaFragment extends Fragment {
         expListView = (ExpandableListView) v.findViewById(R.id.lvExp);
 
         // preparing list data
-        startGeneral = StartCriteria.getStartData();
+        startGeneral = FirebaseStorageHelper.getStartCriteria();
         prepareListData();
 
         listAdapter = new ExpandableListAdapterStart(getActivity(), listDataHeader, listDataChild);

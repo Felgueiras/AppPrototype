@@ -13,9 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideMain;
+import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideMainFragment;
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Help_Feedback.HelpMainFragment;
+import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.HelpMainFragment;
 import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
@@ -70,7 +70,7 @@ public class PrivateAreaMainFragment extends Fragment {
                     navigationView.getMenu().getItem(Constants.menu_positions_prescription).setChecked(true);
                     break;
                 case R.id.cga_guide:
-                    endFragment = new CGAGuideMain();
+                    endFragment = new CGAGuideMainFragment();
                     navigationView.getMenu().getItem(Constants.menu_positions_cga_guide).setChecked(true);
                     break;
                 case R.id.help:

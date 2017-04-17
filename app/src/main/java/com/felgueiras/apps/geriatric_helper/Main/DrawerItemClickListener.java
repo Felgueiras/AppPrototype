@@ -12,14 +12,14 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.felgueiras.apps.geriatric_helper.AboutFragment;
-import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideMain;
-import com.felgueiras.apps.geriatric_helper.Help_Feedback.HelpMainFragment;
+import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.AboutFragment;
+import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideMainFragment;
+import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.HelpMainFragment;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublic;
 import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
-import com.felgueiras.apps.geriatric_helper.Help_Feedback.SendFeedback;
+import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.SendFeedback;
 import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.LoginFragmentFirebase;
 import com.felgueiras.apps.geriatric_helper.Settings;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
@@ -97,7 +97,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         } else if (id == R.id.about) {
             endFragment = new AboutFragment();
         } else if (id == R.id.cga_guide) {
-            endFragment = new CGAGuideMain();
+            endFragment = new CGAGuideMainFragment();
         }
 //        else if (id == R.id.transfer_db) {
 //            endFragment = new TransferDB();

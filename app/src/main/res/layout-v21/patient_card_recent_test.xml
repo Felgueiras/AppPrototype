@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/patientCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <ImageView
+        android:id="@+id/patientIcon"
+        android:layout_width="50dp"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
+        android:scaleType="fitXY"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:src="@drawable/male" />
+
+
+    <TextView
+        android:id="@+id/patientName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Patient name"
+        android:textColor="@color/album_title"
+        android:textSize="@dimen/patient_name_size"
+        android:transitionName="@string/fragment_text_trans" />
+
+
+    <TextView
+        android:id="@+id/sessionTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hora da sessão"
+        android:textColor="@color/album_title"
+        android:textSize="@dimen/subText"
+        android:transitionName="@string/fragment_text_trans" />
+
+
+</LinearLayout>

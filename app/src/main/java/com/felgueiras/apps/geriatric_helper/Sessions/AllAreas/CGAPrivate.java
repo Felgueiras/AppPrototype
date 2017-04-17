@@ -17,9 +17,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
@@ -84,8 +85,8 @@ public class CGAPrivate extends Fragment {
 
         if (sessionID != null) {
             // get session by ID
-            session = FirebaseHelper.getSessionByID(sessionID);
-            patient = FirebaseHelper.getPatientFromSession(session);
+            session = FirebaseDatabaseHelper.getSessionByID(sessionID);
+            patient = FirebaseDatabaseHelper.getPatientFromSession(session);
             // create a new Fragment to hold info about the Patient
             if (patient != null) {
                 // set the PATIENT for this session
@@ -222,6 +223,7 @@ public class CGAPrivate extends Fragment {
             test.setSessionID(session.getGuid());
             test.setSubCategory(testNonDB.getSubCategory());
             test.setDescription(testNonDB.getDescription());
+            test.setMultipleChoice(testNonDB.isMultipleChoice());
             if (testNonDB.isSingleQuestion())
                 test.setSingleQuestion(true);
             test.setAlreadyOpened(false);
@@ -230,7 +232,7 @@ public class CGAPrivate extends Fragment {
             if (testNonDB.getScaleName().equals(Constants.test_name_tinetti)|| testNonDB.getScaleName().equals(Constants.test_name_marchaHolden))
                 test.setContainsVideo(true);
             session.addScaleID(test.getGuid());
-            FirebaseHelper.createScale(test);
+            FirebaseDatabaseHelper.createScale(test);
         }
     }
 
@@ -264,7 +266,7 @@ public class CGAPrivate extends Fragment {
         session.setDate(date.getTime());
 
         // save Session
-        FirebaseHelper.createSession(session);
+        FirebaseDatabaseHelper.createSession(session);
 
         // save the ID
         SharedPreferencesHelper.setPrivateSession(getActivity(), sessionID);

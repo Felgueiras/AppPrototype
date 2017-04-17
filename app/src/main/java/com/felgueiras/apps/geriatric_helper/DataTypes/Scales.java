@@ -1,19 +1,17 @@
 package com.felgueiras.apps.geriatric_helper.DataTypes;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.GeriatricScale;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.ChoiceNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionCategory;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.ScoringNonDB;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class holds  definition of all the scales that exist

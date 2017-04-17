@@ -20,10 +20,10 @@ import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BadElementException;
@@ -73,7 +73,6 @@ public class PdfHelper {
     private static final String LOG_TAG = "PDF";
     private static Context context;
     private static PatientFirebase patient;
-    private View mRootView;
     private EditText mSubjectEditText, mBodyEditText;
     private Button mSaveButton;
     private static File myFile;
@@ -164,7 +163,7 @@ public class PdfHelper {
     public static void createSessionPdf(Activity activity, SessionFirebase sess) {
         context = activity;
         session = sess;
-        patient = FirebaseHelper.getPatientFromSession(session);
+        patient = FirebaseDatabaseHelper.getPatientFromSession(session);
 
 
         if (!verifyStoragePermissions(activity)) {
@@ -351,7 +350,7 @@ public class PdfHelper {
         // represent data from each CGA area
         for (int i = 0; i < Constants.cga_areas.length; i++) {
             String area = Constants.cga_areas[i];
-            ArrayList<GeriatricScaleFirebase> scalesForArea = FirebaseHelper.getScalesForArea(FirebaseHelper.getScalesFromSession(session), area);
+            ArrayList<GeriatricScaleFirebase> scalesForArea = FirebaseDatabaseHelper.getScalesForArea(FirebaseDatabaseHelper.getScalesFromSession(session), area);
             // area
             Paragraph subPara = new Paragraph(area, subFont);
             Section subCatPart = catPart.addSection(subPara);

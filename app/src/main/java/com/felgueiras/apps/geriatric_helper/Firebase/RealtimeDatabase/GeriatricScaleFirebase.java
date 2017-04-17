@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper.Firebase;
+package com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase;
 
 
 import android.graphics.Bitmap;
@@ -63,6 +63,10 @@ public class GeriatricScaleFirebase implements Serializable {
 
     @Expose
     boolean singleQuestion;
+
+    @Expose
+    private boolean multipleChoice;
+
 
     /**
      * Notes for a scaleID, can explain why the result is this one.
@@ -469,5 +473,13 @@ public class GeriatricScaleFirebase implements Serializable {
 
     public void setVideoPath(String videoPath) {
         this.videoPath = videoPath;
+    }
+
+    public boolean isMultipleChoice() {
+        return multipleChoice;
+    }
+
+    public void setMultipleChoice(boolean multipleChoice) {
+        this.multipleChoice = multipleChoice;
     }
 }

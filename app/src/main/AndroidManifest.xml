@@ -68,8 +68,8 @@
             android:name=".VerticalViewPager.CustomViewPagerActivity"
             android:label="@string/title_activity_custom_view_pager"
             android:theme="@style/AppTheme" />
-        <activity android:name=".TakePhotoActivity" />
-        <activity android:name=".RecordVideoActivity">
+        <activity android:name=".PhotoVideoHandling.TakePhotoActivity" />
+        <activity android:name=".PhotoVideoHandling.RecordVideoActivity">
 
         </activity>
         <activity android:name=".PersonalAreaAccess.ResetPasswordActivity">
@@ -85,8 +85,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MediaRecorderTutorialActivity"
+            android:name=".PhotoVideoHandling.MediaRecorderTutorialActivity"
             android:screenOrientation="portrait">
+
 
         </activity>
     </application>

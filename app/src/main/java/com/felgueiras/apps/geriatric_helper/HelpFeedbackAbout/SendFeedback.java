@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper.Help_Feedback;
+package com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout;
 
 import android.app.Fragment;
 import android.content.Intent;

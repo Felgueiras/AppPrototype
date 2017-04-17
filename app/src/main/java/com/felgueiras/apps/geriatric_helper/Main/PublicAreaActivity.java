@@ -184,7 +184,7 @@ public class PublicAreaActivity extends AppCompatActivity {
             fragment = getFragmentManager().findFragmentByTag("initial_tag");
 //            handler =
             handler = (BackStackHandler) savedInstanceState.getSerializable("backStackHandler");
-            Log.d("Key", handler.getFragmentManager().getBackStackEntryCount() + "");
+            Log.d("Key", BackStackHandler.getFragmentManager().getBackStackEntryCount() + "");
             handler.onBackStackChanged();
         }
 

@@ -19,12 +19,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.CGAAreaPrivate;
 import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.CGAAreaPublic;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -178,7 +178,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
                     Fragment newFragment = new CGAAreaPrivate();
                     // add arguments
                     Bundle bundle = new Bundle();
-                    PatientFirebase patient = FirebaseHelper.getPatientFromSession(session);
+                    PatientFirebase patient = FirebaseDatabaseHelper.getPatientFromSession(session);
                     if (patient != null)
                         bundle.putSerializable(CGAAreaPrivate.PATIENT, patient);
 
@@ -196,7 +196,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
                     // add arguments
                     Bundle bundle = new Bundle();
 
-                    PatientFirebase patient = FirebaseHelper.getPatientFromSession(session);
+                    PatientFirebase patient = FirebaseDatabaseHelper.getPatientFromSession(session);
                     if (patient != null)
                         bundle.putSerializable(CGAAreaPublic.PATIENT, patient);
 

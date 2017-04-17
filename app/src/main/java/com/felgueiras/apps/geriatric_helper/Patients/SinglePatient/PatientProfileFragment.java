@@ -21,12 +21,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientPrescriptions.PatientPrescriptionsEmpty;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientPrescriptions.PatientPrescriptionsFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.Progress.ProgressFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.ViewPatientSessions.PatientNotesFragment;
@@ -134,7 +135,7 @@ public class PatientProfileFragment extends Fragment {
             transaction.remove(currentFragment);
 
 
-        ArrayList<SessionFirebase> sessionsFromPatient = FirebaseHelper.getSessionsFromPatient(patient);
+        ArrayList<SessionFirebase> sessionsFromPatient = FirebaseDatabaseHelper.getSessionsFromPatient(patient);
 
         // setup default fragment
         switch (Constants.patientProfileBottomNavigation) {
@@ -157,11 +158,23 @@ public class PatientProfileFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putSerializable(PatientNotesFragment.PATIENT, patient);
                 defaultFragment.setArguments(args);
+                break;
             case 2:
-                defaultFragment = new PatientPrescriptionsFragment();
-                args = new Bundle();
-                args.putSerializable(PatientPrescriptionsFragment.PATIENT, patient);
-                defaultFragment.setArguments(args);
+                if (patient.getPrescriptionsIDS().size()==0 || patient.getPrescriptionsIDS()==null) {
+                    defaultFragment = new PatientPrescriptionsEmpty();
+                    args = new Bundle();
+                    args.putSerializable(PatientPrescriptionsEmpty.PATIENT, patient);
+                    args.putString(PatientPrescriptionsEmpty.MESSAGE, getResources().
+                            getString(R.string.no_prescriptions_for_patient));
+                    defaultFragment.setArguments(args);
+                } else {
+                    defaultFragment = new PatientPrescriptionsFragment();
+                    args = new Bundle();
+                    args.putSerializable(PatientPrescriptionsFragment.PATIENT, patient);
+                    defaultFragment.setArguments(args);
+                }
+                break;
+
         }
 
 
@@ -187,11 +200,21 @@ public class PatientProfileFragment extends Fragment {
 
                                 break;
                             case R.id.patient_prescriptions:
-                                fragment = new PatientPrescriptionsFragment();
-                                args = new Bundle();
-                                args.putSerializable(PatientPrescriptionsFragment.PATIENT, patient);
-                                fragment.setArguments(args);
+                                if (patient.getPrescriptionsIDS().size()==0) {
+                                    fragment = new PatientPrescriptionsEmpty();
+                                    args = new Bundle();
+                                    args.putSerializable(PatientPrescriptionsEmpty.PATIENT, patient);
+                                    args.putString(PatientPrescriptionsEmpty.MESSAGE, getResources().
+                                            getString(R.string.no_prescriptions_for_patient));
+                                    fragment.setArguments(args);
+                                } else {
+                                    fragment = new PatientPrescriptionsFragment();
+                                    args = new Bundle();
+                                    args.putSerializable(PatientPrescriptionsFragment.PATIENT, patient);
+                                    fragment.setArguments(args);
+                                }
                                 Constants.patientProfileBottomNavigation = 2;
+
 
                                 break;
                         }
@@ -235,7 +258,7 @@ public class PatientProfileFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.favorite:
                 patient.setFavorite(!patient.isFavorite());
-                FirebaseHelper.updatePatient(patient);
+                FirebaseDatabaseHelper.updatePatient(patient);
 
                 if (patient.isFavorite()) {
                     Snackbar.make(getView(), R.string.patient_favorite_add, Snackbar.LENGTH_LONG).show();
@@ -254,7 +277,7 @@ public class PatientProfileFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // remove sessions from PATIENT
-                                FirebaseHelper.deletePatient(patient);
+                                FirebaseDatabaseHelper.deletePatient(patient);
                                 dialog.dismiss();
 
                                 DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);

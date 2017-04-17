@@ -28,12 +28,11 @@ import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.Beers.BeersCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.DataHelperDrugs;
 import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.DrugListItem;
 import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.DrugSuggestion;
-import com.felgueiras.apps.geriatric_helper.Prescription.ViewSingleDrugtInfo;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 
@@ -50,7 +49,6 @@ public class PickPrescription extends Fragment {
 
     private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
     public static final String PATIENT = "PATIENT";
-    private DrugListItem adapter;
     private RecyclerView mSearchResultsList;
     private FloatingSearchView mSearchView;
     private String TAG = "Search";
@@ -62,7 +60,6 @@ public class PickPrescription extends Fragment {
 
 
     private String mLastQuery = "";
-    private DrugListItem mSearchResultsAdapter;
     private PatientFirebase patient;
 
 
@@ -214,16 +211,13 @@ public class PickPrescription extends Fragment {
     }
 
     private void setupResultsList() {
-        mSearchResultsAdapter = new DrugListItem(getActivity(),
+        DrugListItem mSearchResultsAdapter = new DrugListItem(getActivity(),
                 Constants.allDrugs,
                 true,
                 patient);
         mSearchResultsList.setAdapter(mSearchResultsAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
-
-    private ArrayList<StoppCriteria> stoppGeneral;
-    private ArrayList<StartCriteria> startGeneral;
 
 
     @Override
@@ -233,8 +227,8 @@ public class PickPrescription extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_drugs_list_persistent_search, container, false);
 
-        stoppGeneral = StoppCriteria.getStoppData();
-        startGeneral = StartCriteria.getStartData();
+        ArrayList<StoppCriteria> stoppGeneral = StoppCriteria.getStoppCriteria();
+        ArrayList<StartCriteria> startGeneral = StartCriteria.getStartCriteria();
 
         // stopp
         final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(stoppGeneral);
@@ -271,7 +265,7 @@ public class PickPrescription extends Fragment {
         // display card for each Patientndroid rec
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mSearchResultsList.setLayoutManager(mLayoutManager);
-        adapter = new DrugListItem(getActivity(), Constants.allDrugs, true, patient);
+        DrugListItem adapter = new DrugListItem(getActivity(), Constants.allDrugs, true, patient);
         mSearchResultsList.setAdapter(adapter);
 
         fastScroller.setRecyclerView(mSearchResultsList);

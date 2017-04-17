@@ -32,7 +32,7 @@ public class CustomViewPagerActivity extends AppCompatActivity {
     }
 
     private List<Fragment> getFragments() {
-        List<Fragment> fList = new ArrayList<Fragment>();
+        List<Fragment> fList = new ArrayList<>();
         fList.add(MyFragment.newInstance("Fragment 1"));
         fList.add(MyFragment.newInstance("Fragment 2"));
         fList.add(MyFragment.newInstance("Fragment 3"));

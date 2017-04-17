@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,11 +13,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelperStorage;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseRemoteConfig;
 import com.felgueiras.apps.geriatric_helper.R;
-
-import java.net.InetAddress;
 
 public class LaunchScreen extends AppCompatActivity {
 
@@ -101,9 +97,9 @@ public class LaunchScreen extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             FirebaseHelper.canLeaveLaunchScreen = false;
-            FirebaseHelper.setupRemoteConfig(context);
+            FirebaseRemoteConfig.setupRemoteConfig(context);
             FirebaseHelper.initializeAndCheckVersions(getBaseContext());
-//            FirebaseHelperStorage.downloadLanguageResources();
+//            FirebaseStorageHelper.downloadLanguageResources();
             while (true) {
                 try {
                     Thread.sleep(50);

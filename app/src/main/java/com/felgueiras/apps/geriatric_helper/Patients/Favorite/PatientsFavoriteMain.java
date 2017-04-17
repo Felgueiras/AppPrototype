@@ -11,16 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.EmptyStateFragment;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
 
 public class PatientsFavoriteMain extends Fragment {
 
-
-    private FragmentManager fragmentManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,10 +51,10 @@ public class PatientsFavoriteMain extends Fragment {
 
 
         // get the patients - filter to display only favorites
-        ArrayList<PatientFirebase> favoritePatients = FirebaseHelper.getFavoritePatients();
+        ArrayList<PatientFirebase> favoritePatients = FirebaseDatabaseHelper.getFavoritePatients();
         System.out.println("Empty? " + favoritePatients.isEmpty());
 
-        fragmentManager = getChildFragmentManager();
+        FragmentManager fragmentManager = getChildFragmentManager();
 
         // update views
         if (favoritePatients.isEmpty()) {

@@ -11,15 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
-import com.felgueiras.apps.geriatric_helper.RecordVideoActivity;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.PhotoVideoHandling.RecordVideoActivity;
 import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.QuestionsListAdapter;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
-import com.felgueiras.apps.geriatric_helper.TakePhotoActivity;
+import com.felgueiras.apps.geriatric_helper.PhotoVideoHandling.TakePhotoActivity;
 
 
 public class ReviewScaleFragment extends Fragment {
@@ -42,7 +41,7 @@ public class ReviewScaleFragment extends Fragment {
 
         Bundle bundle = getArguments();
         scale = (GeriatricScaleFirebase) bundle.getSerializable(SCALE);
-        session = FirebaseHelper.getSessionFromScale(scale);
+        session = FirebaseDatabaseHelper.getSessionFromScale(scale);
 
         // set the title
         getActivity().setTitle(scale.getShortName());

@@ -1,10 +1,12 @@
-package com.felgueiras.apps.geriatric_helper;
+package com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout;
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.felgueiras.apps.geriatric_helper.R;
 
 public class AboutFragment extends Fragment {
 

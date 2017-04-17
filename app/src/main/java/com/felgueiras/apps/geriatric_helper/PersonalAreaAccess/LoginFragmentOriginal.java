@@ -27,6 +27,8 @@ import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHel
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
 import com.felgueiras.apps.geriatric_helper.R;
 
+import java.util.Objects;
+
 /**
  * A login screen that offers login via email/password.
  */
@@ -80,7 +82,7 @@ public class LoginFragmentOriginal extends Fragment {
          */
         final String email = SharedPreferencesHelper.getUserEmail(getActivity());
         View view;
-        if (email != "") {
+        if (email.equals("")) {
             // Inflate the layout for this fragment
             view = inflater.inflate(R.layout.activity_login_already_registered, container, false);
 

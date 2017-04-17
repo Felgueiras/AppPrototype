@@ -3,10 +3,10 @@ package com.felgueiras.apps.geriatric_helper;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 
-import com.felgueiras.apps.geriatric_helper.Firebase.ChoiceFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.QuestionFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.ChoiceFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.QuestionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;

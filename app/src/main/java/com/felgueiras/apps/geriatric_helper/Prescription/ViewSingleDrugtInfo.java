@@ -47,8 +47,8 @@ public class ViewSingleDrugtInfo extends Fragment {
         getActivity().setTitle(drug);
 
         // get drug info
-        ArrayList<StoppCriteria> stoppData = StoppCriteria.getStoppData();
-        ArrayList<StartCriteria> startData = StartCriteria.getStartData();
+        ArrayList<StoppCriteria> stoppData = StoppCriteria.getStoppCriteria();
+        ArrayList<StartCriteria> startData = StartCriteria.getStartCriteria();
         // stopp
         final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(stoppData);
         // beers

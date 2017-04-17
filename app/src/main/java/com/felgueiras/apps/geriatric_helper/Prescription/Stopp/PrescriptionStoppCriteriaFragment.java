@@ -13,13 +13,14 @@ import android.widget.ExpandableListView;
 
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.PrescriptionStopp;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class StoppCriteriaFragment extends Fragment {
+public class PrescriptionStoppCriteriaFragment extends Fragment {
 
 
     private ArrayList<StoppCriteria> stoppGeneral;
@@ -64,7 +65,7 @@ public class StoppCriteriaFragment extends Fragment {
         expListView = (ExpandableListView) v.findViewById(R.id.lvExp);
 
         // preparing list data
-        stoppGeneral = StoppCriteria.getStoppData();
+        stoppGeneral = FirebaseStorageHelper.getStoppCriteria();
         prepareListData();
 
         listAdapter = new ExpandableListAdapterStop(getActivity(), listDataHeader, listDataChild, getChildFragmentManager());

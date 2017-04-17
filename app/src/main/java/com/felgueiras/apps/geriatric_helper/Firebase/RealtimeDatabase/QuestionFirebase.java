@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper.Firebase;
+package com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase;
 
 
 import com.google.gson.annotations.Expose;
@@ -281,7 +281,7 @@ public class QuestionFirebase implements Serializable {
 
     public void addChoiceID(String choiceID) {
         choicesIDs.add(choiceID);
-        FirebaseHelper.updateQuestion(this);
+        FirebaseDatabaseHelper.updateQuestion(this);
     }
 }
 

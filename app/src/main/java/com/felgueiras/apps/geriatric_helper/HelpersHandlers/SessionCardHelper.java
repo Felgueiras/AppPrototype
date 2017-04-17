@@ -13,12 +13,11 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.EvaluationsAllFragment;
 import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
-import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.PatientProfileFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 
@@ -90,7 +89,7 @@ public class SessionCardHelper implements View.OnClickListener {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Snackbar.make(view, "Sessão eliminada.", Snackbar.LENGTH_SHORT).show();
-                                    FirebaseHelper.deleteSession(session);
+                                    FirebaseDatabaseHelper.deleteSession(session);
                                     // refresh the adapter
                                     if (fragment instanceof SessionsHistoryMainFragment) {
                                         Fragment evaluationsList = fragment.getChildFragmentManager().findFragmentById(R.id.evaluation_history_frame_layout);
@@ -111,7 +110,7 @@ public class SessionCardHelper implements View.OnClickListener {
                     Fragment endFragment = new PatientProfileFragment();
 
                     Bundle args = new Bundle();
-                    args.putSerializable(PatientProfileFragment.PATIENT, FirebaseHelper.getPatientFromSession(session));
+                    args.putSerializable(PatientProfileFragment.PATIENT, FirebaseDatabaseHelper.getPatientFromSession(session));
                     ((PrivateAreaActivity) context).replaceFragmentSharedElements(endFragment,
                             args,
                             Constants.tag_view_patient_info_records_from_sessions_list,

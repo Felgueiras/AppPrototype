@@ -2,7 +2,6 @@ package com.felgueiras.apps.geriatric_helper.Patients.Progress;
 
 import android.app.Fragment;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,10 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -64,7 +62,7 @@ public class ProgressAreaScalesFragment extends Fragment {
          */
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String progressType = SP.getString(getActivity().getResources().getString(R.string.patientProgressType), "2");
-        ArrayList<SessionFirebase> patientSessions = FirebaseHelper.getSessionsFromPatient(patient);
+        ArrayList<SessionFirebase> patientSessions = FirebaseDatabaseHelper.getSessionsFromPatient(patient);
         if (progressType.equals("2")) {
             ProgressScalesForAreaGraph adapter = new ProgressScalesForAreaGraph(getActivity(), patientSessions, area, patient);
             int numbercolumns = 1;
