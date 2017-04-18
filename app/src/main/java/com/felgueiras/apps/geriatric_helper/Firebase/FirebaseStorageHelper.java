@@ -4,13 +4,19 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -31,6 +37,7 @@ import java.io.InputStream;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -134,64 +141,112 @@ public class FirebaseStorageHelper {
      * Download all scales.
      *
      * @param context
+     * @param firebaseTablePublic
      */
-    public static void downloadScales(final Context context) {
-
-        // get system language
-//        final String scaleLanguage = Locale.getDefault().getLanguage().toUpperCase();
+    public static void downloadScales(final Context context, DatabaseReference firebaseTablePublic) {
+        Log.d("Scales", "Downloading scales");
 
         // download scales from that language
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
         final Gson gson = builder.create();
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
+        final FirebaseStorage storage = FirebaseStorage.getInstance();
         // clear the scales
         Scales.scales.clear();
         SharedPreferencesHelper.resetScales(context);
         FirebaseHelper.scalesCurrent = 0;
 
-        for (int i = 0; i < FirebaseHelper.scalesNames.length; i++) {
-            final String scaleName = FirebaseHelper.scalesNames[i];
-            final String scaleLanguage = FirebaseHelper.scalesLanguages[i];
-            String fileName = scaleName + "-" + scaleLanguage + ".json";
+        // default system language
+        final String displayLanguage = Locale.getDefault().getLanguage().toLowerCase();
 
-            StorageReference storageRef = storage.getReferenceFromUrl(FirebaseHelper.firebaseURL).child("scales/" + fileName);
 
-            try {
-                final File localFile = File.createTempFile("scale", "json");
-                storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        try {
-                            GeriatricScaleNonDB scaleNonDB = gson.fromJson(new FileReader(localFile), GeriatricScaleNonDB.class);
-                            // save to shared preferences
-                            SharedPreferencesHelper.addScale(scaleNonDB, context);
-                            Scales.scales.add(scaleNonDB);
-                            FirebaseHelper.scalesCurrent++;
-                            if (FirebaseHelper.scalesCurrent == FirebaseHelper.scalesTotal)
-                                FirebaseHelper.canLeaveLaunchScreen = true;
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+        // fetch every existing scale
+        firebaseTablePublic.child("scales").orderByChild("name").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                FirebaseHelper.patients.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    ScaleMetadata scale = postSnapshot.getValue(ScaleMetadata.class);
+                    scale.setKey(postSnapshot.getKey());
+//                    Log.d("Scales", scale.getLanguages().size() + "");
+
+                    final String scaleName = scale.getName();
+                    String scaleLanguage = null;
+
+                    // check if we have the scale version for this language
+                    if (scale.getLanguages().contains(displayLanguage)) {
+                        Log.d("Scales", "Language match " + scale.getName());
+                        scaleLanguage = displayLanguage.toUpperCase();
+
+                    } else {
+                        Log.d("Scales", "Language mismatch " + scale.getName());
+                        if (scale.getLanguages().size() == 1) {
+                            // only one available language
+                            scaleLanguage = scale.getLanguages().get(0).toUpperCase();
+                        } else {
+                            // multiple languages
+                            if (scale.getLanguages().contains("en")) {
+                                // english is available
+                                scaleLanguage = "en";
+                            } else {
+                                // return first one
+                                scaleLanguage = scale.getLanguages().get(0);
+                            }
+
                         }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        if (exception instanceof com.google.firebase.storage.StorageException) {
-                            // scale was not found for that language
-                            Log.d("Download", "Scale " + scaleName + " does not exist for " + scaleLanguage + " language");
-                        }
-                        FirebaseHelper.scalesCurrent++;
-                        if (FirebaseHelper.scalesCurrent == FirebaseHelper.scalesTotal)
-                            FirebaseHelper.canLeaveLaunchScreen = true;
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
+                    String fileName = scaleName + "-" + scaleLanguage + ".json";
 
+                    StorageReference storageRef = storage.getReferenceFromUrl(FirebaseHelper.firebaseURL).child("scales/" + fileName);
+
+                    try {
+                        final File localFile = File.createTempFile("scale", "json");
+                        storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                try {
+                                    Log.d("Scales", "Downloaded " + scaleName);
+                                    GeriatricScaleNonDB scaleNonDB = gson.fromJson(new FileReader(localFile), GeriatricScaleNonDB.class);
+                                    // save to shared preferences
+                                    SharedPreferencesHelper.addScale(scaleNonDB, context);
+                                    Scales.scales.add(scaleNonDB);
+                                    FirebaseHelper.scalesCurrent++;
+                                    if (FirebaseHelper.scalesCurrent == FirebaseHelper.scalesTotal)
+                                        FirebaseHelper.canLeaveLaunchScreen = true;
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                if (exception instanceof com.google.firebase.storage.StorageException) {
+                                    // scale was not found for that language
+                                }
+                                FirebaseHelper.scalesCurrent++;
+                                if (FirebaseHelper.scalesCurrent == FirebaseHelper.scalesTotal)
+                                    FirebaseHelper.canLeaveLaunchScreen = true;
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                    }
+                }
+                Log.d("Fetch", "Patients");
             }
-        }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+            }
+        });
+
+        // get system language
+//        final String scaleLanguage = Locale.getDefault().getLanguage().toUpperCase();
+
+
     }
 
 
@@ -319,7 +374,6 @@ public class FirebaseStorageHelper {
 
 
     }
-
 
 
     public static void uploadCriteria() {

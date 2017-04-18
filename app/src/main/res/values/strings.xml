@@ -403,6 +403,7 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="btn_back"><![CDATA[<< Voltar]]></string>
     <string name="criteriaVersion" translatable="false">criteriaVersion</string>
     <string name="no_prescriptions_for_patient">Paciente não tem prescrições associadas</string>
+    <string name="notas">Notas</string>
 
 
 </resources>

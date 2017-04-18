@@ -6,32 +6,28 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewManager;
 import android.widget.EditText;
 
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 /**
  * Created by felgueiras on 18/02/2017.
  */
 
-public class ScaleHandlerNotes implements View.OnClickListener {
+public class SessionNoteshandler{
     private Context context;
-    private GeriatricScaleFirebase finalCurrentTest;
-    private ScaleCard.ScaleCardHolder holder;
-    private ViewManager parentView;
+    private SessionFirebase session;
 
-    public ScaleHandlerNotes(Activity context, GeriatricScaleFirebase finalCurrentTest, ScaleCard.ScaleCardHolder holder, ViewManager parentView) {
+    public SessionNoteshandler(Activity context, SessionFirebase session) {
         this.context = context;
-        this.finalCurrentTest = finalCurrentTest;
-        this.holder = holder;
-        this.parentView = parentView;
+        this.session = session;
     }
 
-    @Override
-    public void onClick(View view) {
+
+    public void editNotes() {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         // get prompts.xml view
@@ -40,8 +36,8 @@ public class ScaleHandlerNotes implements View.OnClickListener {
         alertDialogBuilder.setView(promptsView);
 
         final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
-        if (finalCurrentTest.hasNotes())
-            userInput.setText(finalCurrentTest.getNotes());
+        if (session.getNotes()!=null)
+            userInput.setText(session.getNotes());
 
         // set dialog message
         alertDialogBuilder
@@ -51,10 +47,8 @@ public class ScaleHandlerNotes implements View.OnClickListener {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // get user input and save it as a note for the scale
-                                finalCurrentTest.setNotes(userInput.getText().toString());
-                                FirebaseDatabaseHelper.updateScale(finalCurrentTest);
-                                parentView.removeView(holder.addNotesButton);
-                                holder.notes.setText(finalCurrentTest.getNotes());
+                                session.setNotes(userInput.getText().toString());
+                                FirebaseDatabaseHelper.updateSession(session);
                             }
                         })
                 .setNegativeButton("Cancel",

@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper.Patients.PatientPrescriptions;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions;
 
 import android.app.Fragment;
 import android.graphics.Color;

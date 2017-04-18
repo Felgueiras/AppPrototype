@@ -34,7 +34,7 @@ import com.felgueiras.apps.geriatric_helper.Patients.Progress.ProgressFragment;
 import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionWithPatient;
 import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleTest.ReviewScaleFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
-import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.PatientProfileFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientProfileFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.io.Serializable;

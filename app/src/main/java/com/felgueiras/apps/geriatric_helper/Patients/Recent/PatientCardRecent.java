@@ -17,7 +17,7 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFir
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
-import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.PatientProfileFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientProfileFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.Date;

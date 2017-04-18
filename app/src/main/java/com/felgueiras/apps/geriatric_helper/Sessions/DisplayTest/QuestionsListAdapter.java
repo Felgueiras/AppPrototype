@@ -558,7 +558,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
      * @param i
      * @return
      */
-    private RadioButton addRadioButton(ChoiceFirebase choice, RadioGroup radioGroup, int i, Activity context) {
+    private RadioButton addRadioButton(ChoiceNonDB choice, RadioGroup radioGroup, int i, Activity context) {
         RadioButton newRadioButton = new RadioButton(context);
         if (choice.getName().equals("") || choice.getName() == null) {
             newRadioButton.setText(choice.getDescription());
@@ -628,22 +628,22 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 
             for (int i = 0; i < choicesNonDB.size(); i++) {
                 ChoiceNonDB currentChoice = choicesNonDB.get(i);
-                ChoiceFirebase choice = new ChoiceFirebase();
-                String choiceID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription() + "-" + currentChoice.getDescription();
-                // check if already in DB
-                if (FirebaseDatabaseHelper.getChoiceByID(choiceID) == null) {
-                    choice.setGuid(choiceID);
-                    choice.setQuestionID(question.getGuid());
-                    if (currentChoice.getName() != null)
-                        choice.setName(currentChoice.getName());
-                    choice.setDescription(currentChoice.getDescription());
-                    choice.setScore(currentChoice.getScore());
-
-                    FirebaseDatabaseHelper.createChoice(choice);
-                }
+//                ChoiceFirebase choice = new ChoiceFirebase();
+//                String choiceID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription() + "-" + currentChoice.getDescription();
+//                // check if already in DB
+//                if (FirebaseDatabaseHelper.getChoiceByID(choiceID) == null) {
+//                    choice.setGuid(choiceID);
+//                    choice.setQuestionID(question.getGuid());
+//                    if (currentChoice.getName() != null)
+//                        choice.setName(currentChoice.getName());
+//                    choice.setDescription(currentChoice.getDescription());
+//                    choice.setScore(currentChoice.getScore());
+//
+//                    FirebaseDatabaseHelper.createChoice(choice);
+//                }
 
                 // create RadioButton for that choice
-                addRadioButton(choice, radioGroup, i, context);
+                addRadioButton(currentChoice, radioGroup, i, context);
             }
 
         } else {
@@ -652,8 +652,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             // create Radio Group from the info in DB
             radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
 
-            for (int i = 0; i < FirebaseDatabaseHelper.getChoicesForQuestion(question).size(); i++) {
-                ChoiceFirebase choice = FirebaseDatabaseHelper.getChoicesForQuestion(question).get(i);
+            for (int i = 0; i < FirebaseDatabaseHelper.getChoicesForQuestion(currentQuestionNonDB).size(); i++) {
+                ChoiceNonDB choice = FirebaseDatabaseHelper.getChoicesForQuestion(currentQuestionNonDB).get(i);
 
                 // create RadioButton for that choice
                 addRadioButton(choice, radioGroup, i, context);
@@ -661,7 +661,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         }
 
 
-        radioGroup.setOnCheckedChangeListener(new MultipleChoiceHandler(question, this, position, listView));
+        radioGroup.setOnCheckedChangeListener(new MultipleChoiceHandler(question, this, position, listView, currentQuestionNonDB));
 
         if (question.isAnswered()) {
             //system.out.println("answered");
@@ -671,7 +671,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             // set the selected option
             String selectedChoice = question.getSelectedChoice();
             //system.out.println("sel choice is " + selectedChoice);
-            ArrayList<ChoiceFirebase> choices = FirebaseDatabaseHelper.getChoicesForQuestion(question);
+            ArrayList<ChoiceNonDB> choices = FirebaseDatabaseHelper.getChoicesForQuestion(currentQuestionNonDB);
             int selectedIdx = -1;
             for (int i = 0; i < choices.size(); i++) {
                 if (choices.get(i).getName().equals(selectedChoice)) {
@@ -700,7 +700,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
      * @param questionIndex
      * @return
      */
-    private View multipleChoiceSelectFromDialog(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
+    private View multipleChoiceSelectFromDialog(final QuestionNonDB currentQuestionNonDB, final int questionIndex) {
 
         View questionView = inflater.inflate(R.layout.content_question_multiple_choice_alertdialog, null);
 
@@ -736,29 +736,14 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 
                 for (int i = 0; i < choicesNonDB.size(); i++) {
                     ChoiceNonDB currentChoice = choicesNonDB.get(i);
-                    ChoiceFirebase choice = new ChoiceFirebase();
-                    String choiceID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription() + "-" + currentChoice.getDescription();
-                    // check if already in DB
-                    if (FirebaseDatabaseHelper.getChoiceByID(choiceID) == null) {
-                        choice.setGuid(choiceID);
-                        choice.setQuestionID(question.getGuid());
-                        if (currentChoice.getName() != null)
-                            choice.setName(currentChoice.getName());
-                        choice.setDescription(currentChoice.getDescription());
-                        choice.setScore(currentChoice.getScore());
-                        FirebaseDatabaseHelper.createChoice(choice);
-                        question.addChoiceID(choiceID);
 
-
-                    }
-
-                    if (choice.getName().equals("") || choice.getName() == null) {
-                        arrayAdapter.add(choice.getDescription());
+                    if (currentChoice.getName().equals("") || currentChoice.getName() == null) {
+                        arrayAdapter.add(currentChoice.getDescription());
                     } else {
-                        if (!choice.getName().equals(choice.getDescription())) {
-                            arrayAdapter.add(choice.getName() + " - " + choice.getDescription());
+                        if (!currentChoice.getName().equals(currentChoice.getDescription())) {
+                            arrayAdapter.add(currentChoice.getName() + " - " + currentChoice.getDescription());
                         } else {
-                            arrayAdapter.add(choice.getDescription());
+                            arrayAdapter.add(currentChoice.getDescription());
                         }
                     }
                 }
@@ -772,16 +757,18 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                 question = FirebaseDatabaseHelper.getQuestionsFromScale(scale).get(questionIndex);
                 // create Radio Group from the info in DB
 
-                for (int i = 0; i < FirebaseDatabaseHelper.getChoicesForQuestion(question).size(); i++) {
-                    ChoiceFirebase choice = FirebaseDatabaseHelper.getChoicesForQuestion(question).get(i);
+                ArrayList<ChoiceNonDB> choicesNonDB = currentQuestionNonDB.getChoices();
 
-                    if (choice.getName().equals("") || choice.getName() == null) {
-                        arrayAdapter.add(choice.getDescription());
+                for (int i = 0; i < choicesNonDB.size(); i++) {
+                    ChoiceNonDB currentChoice = choicesNonDB.get(i);
+
+                    if (currentChoice.getName().equals("") || currentChoice.getName() == null) {
+                        arrayAdapter.add(currentChoice.getDescription());
                     } else {
-                        if (!choice.getName().equals(choice.getDescription())) {
-                            arrayAdapter.add(choice.getName() + " - " + choice.getDescription());
+                        if (!currentChoice.getName().equals(currentChoice.getDescription())) {
+                            arrayAdapter.add(currentChoice.getName() + " - " + currentChoice.getDescription());
                         } else {
-                            arrayAdapter.add(choice.getDescription());
+                            arrayAdapter.add(currentChoice.getDescription());
                         }
                     }
                 }
@@ -814,13 +801,13 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             holder.question.setBackgroundResource(R.color.question_answered);
         }
 
-        final QuestionFirebase finalQuestion = question;
+        final QuestionFirebase finalQuestionFirebase = question;
         final QuestionsListAdapter adapter = this;
         if (question != null) {
             builderSingle.setAdapter(arrayAdapter,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int selectedAnswer) {
-                            MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex, listView);
+                            MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestionFirebase, adapter, questionIndex, listView, currentQuestionNonDB);
                             multipleChoiceHandler.selectedFromAlertDialog(selectedAnswer);
                             holder.question.setBackgroundResource(R.color.question_answered);
                             dialog.dismiss();
@@ -831,7 +818,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             builderSingle.setAdapter(arrayAdapter,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int selectedAnswer) {
-                            MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex, listView);
+                            MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestionFirebase, adapter, questionIndex, listView, currentQuestionNonDB);
                             dialog.dismiss();
                         }
                     });
@@ -843,15 +830,16 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             public void onClick(View v) {
                 // check if already answered
                 int selectedIdx = -1;
-                if (finalQuestion != null && finalQuestion.isAnswered()) {
+                if (finalQuestionFirebase != null && finalQuestionFirebase.isAnswered()) {
 
                     holder.question.setBackgroundResource(R.color.question_answered);
                     // set the selected option
-                    String selectedChoice = finalQuestion.getSelectedChoice();
+                    String selectedChoice = finalQuestionFirebase.getSelectedChoice();
                     //system.out.println("sel choice is " + selectedChoice);
-                    ArrayList<ChoiceFirebase> choices = FirebaseDatabaseHelper.getChoicesForQuestion(finalQuestion);
-                    for (int i = 0; i < choices.size(); i++) {
-                        if (choices.get(i).getName().equals(selectedChoice)) {
+                    ArrayList<ChoiceNonDB> choicesNonDB = currentQuestionNonDB.getChoices();
+
+                    for (int i = 0; i < choicesNonDB.size(); i++) {
+                        if (choicesNonDB.get(i).getName().equals(selectedChoice)) {
                             selectedIdx = i;
                         }
                     }
@@ -860,8 +848,13 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int selectedAnswer) {
-                                if (finalQuestion != null) {
-                                    MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(finalQuestion, adapter, questionIndex, listView);
+                                if (finalQuestionFirebase != null) {
+                                    MultipleChoiceHandler multipleChoiceHandler = new MultipleChoiceHandler(
+                                            finalQuestionFirebase,
+                                            adapter,
+                                            questionIndex,
+                                            listView,
+                                            currentQuestionNonDB);
                                     multipleChoiceHandler.selectedFromAlertDialog(selectedAnswer);
                                     holder.question.setBackgroundResource(R.color.question_answered);
 

@@ -31,7 +31,7 @@ import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
 import com.felgueiras.apps.geriatric_helper.Patients.AllPatients.FloatingSearch.DataHelper;
 import com.felgueiras.apps.geriatric_helper.Patients.AllPatients.FloatingSearch.PersonSuggestion;
 import com.felgueiras.apps.geriatric_helper.Patients.NewPatient.CreatePatient;
-import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.PatientProfileFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientProfileFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 

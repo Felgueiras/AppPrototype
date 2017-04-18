@@ -53,6 +53,6 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         app:layout_anchorGravity="bottom|right|end"
-        app:srcCompat="@drawable/account_plus" />
+        app:srcCompat="@drawable/account_plus_white" />
 
 </android.support.design.widget.CoordinatorLayout>

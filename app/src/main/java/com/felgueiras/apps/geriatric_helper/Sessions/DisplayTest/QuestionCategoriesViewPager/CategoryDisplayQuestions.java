@@ -2,8 +2,12 @@ package com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.QuestionCatego
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +24,13 @@ import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.SingleQuestion.
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.QuestionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -92,7 +103,6 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
                 questionInDB.setYesOrNo(false);
                 questionInDB.setRightWrong(true);
                 FirebaseDatabaseHelper.createQuestion(questionInDB);
-
             }
         }
 
@@ -105,34 +115,68 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
          */
         holder.questionTextView.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
 
-        if (currentQuestionNonDB.getImage() != 0) {
-//            holder.questionImage.setImageResource(currentQuestionNonDB.getImage());
-            holder.questionImage.setVisibility(View.VISIBLE);
+        if (!currentQuestionNonDB.getImage().equals("")) {
 
-            // display image in full screen when clicking it
-            holder.questionImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder imageDialog = new AlertDialog.Builder(context);
-                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            FirebaseStorage storage = FirebaseStorage.getInstance();
 
-                    View layout = inflater.inflate(R.layout.custom_fullimage_dialog, null);
-                    ImageView image = (ImageView) layout.findViewById(R.id.fullimage);
-                    image.setImageResource(currentQuestionNonDB.getImage());
-                    imageDialog.setView(layout);
-                    imageDialog.setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
+            StorageReference storageRef = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                    .child("images/" + currentQuestionNonDB.getImage());
 
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+            try {
+                // TODO get file suffix
+                final File imageFile = File.createTempFile("photo", "png");
+                storageRef.getFile(imageFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                        // display image
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+
+                        // downsizing image as it throws OutOfMemory Exception for larger
+                        // images
+//                    options.inSampleSize = 8;
+
+                        final Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(),
+                                options);
+                        holder.questionImage.setVisibility(View.VISIBLE);
+
+                        holder.questionImage.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                AlertDialog.Builder imageDialog = new AlertDialog.Builder(context);
+                                LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+                                View layout = inflater.inflate(R.layout.custom_fullimage_dialog, null);
+                                ImageView image = (ImageView) layout.findViewById(R.id.fullimage);
+                                image.setImageBitmap(bitmap);
+                                imageDialog.setView(layout);
+                                imageDialog.setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+
+                                });
+
+
+                                imageDialog.create();
+                                imageDialog.show();
+                            }
+                        });
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        if (exception instanceof com.google.firebase.storage.StorageException) {
+                            // scale was not found for that language
+                            Log.d("Download", "Image does not exist");
                         }
-
-                    });
-
-
-                    imageDialog.create();
-                    imageDialog.show();
-                }
-            });
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         // detect when choice changed
 

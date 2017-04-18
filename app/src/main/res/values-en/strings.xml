@@ -155,4 +155,5 @@
     <string name="feedback_name_error">You need to supply a name</string>
     <string name="feedback_message_error">You need to write a feddback comment</string>
     <string name="feedback_email_error">You need to supply your email address</string>
+    <string name="notas">Notas</string>
 </resources>

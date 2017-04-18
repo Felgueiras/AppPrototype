@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.ChoiceNonDB;
+import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
@@ -92,8 +94,10 @@ public class FirebaseDatabaseHelper {
      */
     public static void fetchSessions() {
         FirebaseHelper.firebaseTableSessions.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("Firebase","Fetch sessions");
                 FirebaseHelper.sessions.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     SessionFirebase session = postSnapshot.getValue(SessionFirebase.class);
@@ -138,6 +142,7 @@ public class FirebaseDatabaseHelper {
         FirebaseHelper.firebaseTableQuestions.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("Firebase","Fetch questions");
                 FirebaseHelper.questions.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     QuestionFirebase question = postSnapshot.getValue(QuestionFirebase.class);
@@ -153,24 +158,7 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    public static void fetchChoices() {
-        FirebaseHelper.firebaseTableChoices.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                FirebaseHelper.choices.clear();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    ChoiceFirebase choice = postSnapshot.getValue(ChoiceFirebase.class);
-                    choice.setKey(postSnapshot.getKey());
-                    FirebaseHelper.choices.add(choice);
-                }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-            }
-        });
-    }
 
     /**
      * Fetch prescriptions from Firebase.
@@ -505,24 +493,6 @@ public class FirebaseDatabaseHelper {
         return prescriptionsForPatient;
     }
 
-    public static ChoiceFirebase getChoiceByID(String choiceID) {
-
-        ArrayList<ChoiceFirebase> choicesToConsider = new ArrayList<>();
-
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null) {
-            choicesToConsider = FirebaseHelper.choices;
-        } else {
-            choicesToConsider = Constants.publicChoices;
-
-        }
-        for (ChoiceFirebase choice : choicesToConsider) {
-            if (choice.getGuid().equals(choiceID))
-                return choice;
-        }
-        return null;
-    }
-
     /**
      * Get a scale by its ID.
      *
@@ -717,24 +687,24 @@ public class FirebaseDatabaseHelper {
      * @param question
      * @return
      */
-    public static ArrayList<ChoiceFirebase> getChoicesForQuestion(QuestionFirebase question) {
+    public static ArrayList<ChoiceNonDB> getChoicesForQuestion(QuestionNonDB question) {
         ArrayList<ChoiceFirebase> choicesForQuestion = new ArrayList<>();
-        ArrayList<ChoiceFirebase> choicesToConsider = new ArrayList<>();
+        ArrayList<ChoiceNonDB> choicesToConsider;
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null) {
-            choicesToConsider = FirebaseHelper.choices;
-        } else {
-            choicesToConsider = Constants.publicChoices;
+//        if (auth.getCurrentUser() != null) {
+            choicesToConsider = question.getChoices();
+//        } else {
+//            choicesToConsider = Constants.publicChoices;
+//
+//        }
 
-        }
-
-        for (ChoiceFirebase choice : choicesToConsider) {
-            if (choice.getQuestionID().equals(question.getGuid())) {
-                choicesForQuestion.add(choice);
-            }
-        }
-        return choicesForQuestion;
+//        for (ChoiceFirebase choice : choicesToConsider) {
+//            if (choice.getQuestionID().equals(question.getGuid())) {
+//                choicesForQuestion.add(choice);
+//            }
+//        }
+        return choicesToConsider;
     }
 
     /**

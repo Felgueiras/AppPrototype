@@ -19,7 +19,7 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientPrescriptions.PatientPrescriptionCreate;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionCreate;
 import com.felgueiras.apps.geriatric_helper.Prescription.ViewSingleDrugtInfo;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;

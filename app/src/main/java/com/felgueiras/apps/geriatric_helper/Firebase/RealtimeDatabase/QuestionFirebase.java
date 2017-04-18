@@ -271,13 +271,6 @@ public class QuestionFirebase implements Serializable {
         return key;
     }
 
-    public ArrayList<String> getChoicesIDs() {
-        return choicesIDs;
-    }
-
-    public void setChoicesIDs(ArrayList<String> choicesIDs) {
-        this.choicesIDs = choicesIDs;
-    }
 
     public void addChoiceID(String choiceID) {
         choicesIDs.add(choiceID);

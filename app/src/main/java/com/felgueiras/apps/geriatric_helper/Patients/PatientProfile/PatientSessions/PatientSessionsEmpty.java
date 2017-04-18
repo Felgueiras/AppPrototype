@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper.Patients.PatientPrescriptions;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -9,16 +9,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
-import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
 
 /**
  * Created by rafael on 21-11-2016.
  */
-public class PatientPrescriptionsEmpty extends Fragment {
+public class PatientSessionsEmpty extends Fragment {
 
     public static final String MESSAGE = "MESSAGE";
     public static final String PATIENT = "PATIENT";
@@ -41,11 +41,10 @@ public class PatientPrescriptionsEmpty extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                args.putSerializable(PickPrescription.PATIENT, patient);
-                FragmentTransitions.replaceFragment(getActivity(),
-                        new PickPrescription(),
-                        args,
-                        Constants.tag_add_prescription_to_patient);
+                args.putSerializable(CGAPrivate.PATIENT, patient);
+                SharedPreferencesHelper.unlockSessionCreation(getActivity());
+                FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), args, Constants.tag_create_session_with_patient);
+                getActivity().setTitle(getResources().getString(R.string.cga));
             }
         });
 

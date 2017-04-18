@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.ViewPatientSessions;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

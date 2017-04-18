@@ -20,7 +20,7 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFir
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
-import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.PatientProfileFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientProfileFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;

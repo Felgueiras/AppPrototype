@@ -23,7 +23,6 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.ScaleCard;
 import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.ScaleInfoHelper;
-import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.ScaleHandlerNotes;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
@@ -131,14 +130,14 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
         ViewManager parentView = (ViewManager) holder.result_qualitative.getParent();
 
         if (currentScale.hasNotes()) {
-            parentView.removeView(holder.addNotesButton);
+//            parentView.removeView(holder.addNotesButton);
             holder.notes.setText(currentScale.getNotes());
         } else {
             // parentView.removeView(holder.notes);
         }
 
-        holder.addNotesButton.setOnClickListener(new ScaleHandlerNotes(context, currentScale, holder, parentView));
-        holder.notes.setOnClickListener(new ScaleHandlerNotes(context, currentScale, holder, parentView));
+//        holder.addNotesButton.setOnClickListener(new SessionNoteshandler(context, currentScale, holder, parentView));
+//        holder.notes.setOnClickListener(new SessionNoteshandler(context, currentScale, holder, parentView));
 
         // quantitative result
         String quantitative = "";

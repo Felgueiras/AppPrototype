@@ -35,7 +35,7 @@ public class QuestionNonDB implements Serializable {
     private boolean numerical;
     private boolean multipleTextInput;
     private int numericalMax;
-    private int image;
+    private String image;
 
 
     /**
@@ -152,11 +152,11 @@ public class QuestionNonDB implements Serializable {
         return numericalMax;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 

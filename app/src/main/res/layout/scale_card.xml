@@ -70,21 +70,27 @@
                     android:textSize="@dimen/test_type" />
 
 
-                <ImageButton
-                    android:id="@+id/addNotes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/result_quantitative"
-                    android:background="@color/transparent"
-                    android:padding="10dp"
-                    app:srcCompat="@drawable/ic_note_add_black_24dp" />
 
-                <TextView
-                    android:id="@+id/testNotes"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/addNotes"
-                    android:padding="10dp" />
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/addNotes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:padding="5dp"
+                        app:srcCompat="@drawable/ic_note_add_black_24dp" />
+
+                    <EditText
+                        android:id="@+id/testNotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:hint="@string/notas"/>
+                </LinearLayout>
 
 
             </LinearLayout>

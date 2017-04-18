@@ -6,6 +6,8 @@ import android.util.Log;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
+import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.ChoiceNonDB;
+import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.ScoringNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
@@ -121,10 +123,7 @@ public class FirebaseHelper {
      * Questions.
      */
     public static ArrayList<QuestionFirebase> questions = new ArrayList<>();
-    /**
-     * Choices.
-     */
-    public static ArrayList<ChoiceFirebase> choices = new ArrayList<>();
+
     /**
      * Prescriptions.
      */
@@ -167,7 +166,7 @@ public class FirebaseHelper {
                     SharedPreferencesHelper.setScalesVersion(context, firScalesVersion);
                     // download new scales version
                     canLeaveLaunchScreen = false;
-                    FirebaseStorageHelper.downloadScales(context);
+                    FirebaseStorageHelper.downloadScales(context, firebaseTablePublic);
                 } else {
                     // same version - no need to donwload
                     Scales.scales.clear();
@@ -221,9 +220,11 @@ public class FirebaseHelper {
         double res = 0;
         ArrayList<QuestionFirebase> questionsFromTest = FirebaseDatabaseHelper.getQuestionsFromScale(scale);
 
+        GeriatricScaleNonDB scaleNonDb = Scales.getScaleByName(scale.getScaleName());
+
         if (scale.getSingleQuestion()) {
             //system.out.println("SINGLE");
-            ScoringNonDB scoring = Scales.getScaleByName(scale.getScaleName()).getScoring();
+            ScoringNonDB scoring = scaleNonDb.getScoring();
             ArrayList<GradingNonDB> valuesBoth = scoring.getValuesBoth();
             for (GradingNonDB grade : valuesBoth) {
                 if (grade.getGrade().equals(scale.getAnswer())) {
@@ -234,6 +235,7 @@ public class FirebaseHelper {
             }
         } else {
             for (QuestionFirebase question : questionsFromTest) {
+                int questionIndex = questionsFromTest.indexOf(question);
                 // in the Hamilton scale, only the first 17 questions make up the result
                 if (scale.getScaleName().equals(Constants.test_name_hamilton) &&
                         questionsFromTest.indexOf(question) > 16)
@@ -269,8 +271,11 @@ public class FirebaseHelper {
                 else {
                     // get the selected Choice
                     String selectedChoice = question.getSelectedChoice();
-                    ArrayList<ChoiceFirebase> choices = FirebaseDatabaseHelper.getChoicesForQuestion(question);
-                    for (ChoiceFirebase c : choices) {
+
+                    ArrayList<ChoiceNonDB> choices = FirebaseDatabaseHelper.getChoicesForQuestion(
+                            scaleNonDb.getQuestions().get(questionIndex)
+                    );
+                    for (ChoiceNonDB c : choices) {
                         if (c.getName().equals(selectedChoice)) {
                             //system.out.println(c.toString());
                             res += c.getScore();
@@ -338,7 +343,6 @@ public class FirebaseHelper {
         FirebaseDatabaseHelper.fetchScales();
         FirebaseDatabaseHelper.fetchQuestions();
         FirebaseDatabaseHelper.fetchPrescriptions();
-        FirebaseDatabaseHelper.fetchChoices();
     }
 
     public static ArrayList<SessionFirebase> getSessions() {
@@ -353,15 +357,9 @@ public class FirebaseHelper {
         return questions;
     }
 
-    public static ArrayList<ChoiceFirebase> getChoices() {
-        return choices;
-    }
-
     public static ArrayList<PrescriptionFirebase> getPrescriptions() {
         return prescriptions;
     }
-
-
 
 
     static String languageSpanish = "ES";

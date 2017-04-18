@@ -1790,11 +1790,11 @@ public class Scales {
         category.setDescription("“Como se chama isto? Mostrar os objectos:");
         // 21
         question = new QuestionNonDB("Relógio", 0, 1);
-        question.setImage(R.drawable.folstein_watch);
+//        question.setImage(R.drawable.folstein_watch);
         category.addQuestion(question);
         // 23
         question = new QuestionNonDB("Lápis", 1, 0);
-        question.setImage(R.drawable.folstein_pencil);
+//        question.setImage(R.drawable.folstein_pencil);
         category.addQuestion(question);
         mentalState.addQuestionCategory(category);
 
@@ -1846,7 +1846,7 @@ public class Scales {
                 "intersectados. Não valorizar tremor ou rotação");
         // 30
         question = new QuestionNonDB("Copiou bem o desenho", 0, 1);
-        question.setImage(R.drawable.folstein_pentagons);
+//        question.setImage(R.drawable.folstein_pentagons);
         category.addQuestion(question);
         mentalState.addQuestionCategory(category);
 

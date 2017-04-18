@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper.Patients.SinglePatient;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -27,11 +27,12 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFir
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientPrescriptions.PatientPrescriptionsEmpty;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientPrescriptions.PatientPrescriptionsFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientNotes.PatientSessionsNotesFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsEmpty;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsEmpty;
 import com.felgueiras.apps.geriatric_helper.Patients.Progress.ProgressFragment;
-import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.ViewPatientSessions.PatientNotesFragment;
-import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.ViewPatientSessions.PatientSessionsFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class PatientProfileFragment extends Fragment {
     private Menu menu;
 
     Fragment defaultFragment;
+    private TextView patientBirthDate;
 
 
     @Override
@@ -58,12 +60,14 @@ public class PatientProfileFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    View view;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.bottom_navigation_patient_profile, container, false);
+         view = inflater.inflate(R.layout.bottom_navigation_patient_profile, container, false);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -82,7 +86,7 @@ public class PatientProfileFragment extends Fragment {
 
         // access Views
         //TextView label = (TextView) view.findViewById(R.id.label);
-        TextView patientBirthDate = (TextView) view.findViewById(R.id.patientAge);
+        patientBirthDate = (TextView) view.findViewById(R.id.patientAge);
         TextView patientAddress = (TextView) view.findViewById(R.id.patientAddress);
         ImageView patientPhoto = (ImageView) view.findViewById(R.id.patientPhoto);
         Button patientProgress = (Button) view.findViewById(R.id.patientEvolution);
@@ -154,9 +158,9 @@ public class PatientProfileFragment extends Fragment {
                 }
                 break;
             case 1:
-                defaultFragment = new PatientNotesFragment();
+                defaultFragment = new PatientSessionsNotesFragment();
                 Bundle args = new Bundle();
-                args.putSerializable(PatientNotesFragment.PATIENT, patient);
+                args.putSerializable(PatientSessionsNotesFragment.PATIENT, patient);
                 defaultFragment.setArguments(args);
                 break;
             case 2:
@@ -192,9 +196,9 @@ public class PatientProfileFragment extends Fragment {
                                 Constants.patientProfileBottomNavigation = 0;
                                 break;
                             case R.id.patient_notes:
-                                fragment = new PatientNotesFragment();
+                                fragment = new PatientSessionsNotesFragment();
                                 Bundle args = new Bundle();
-                                args.putSerializable(PatientNotesFragment.PATIENT, patient);
+                                args.putSerializable(PatientSessionsNotesFragment.PATIENT, patient);
                                 fragment.setArguments(args);
                                 Constants.patientProfileBottomNavigation = 1;
 
@@ -261,11 +265,11 @@ public class PatientProfileFragment extends Fragment {
                 FirebaseDatabaseHelper.updatePatient(patient);
 
                 if (patient.isFavorite()) {
-                    Snackbar.make(getView(), R.string.patient_favorite_add, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view, R.string.patient_favorite_add, Snackbar.LENGTH_LONG).show();
                     item.setIcon(R.drawable.ic_star_white_24dp);
 
                 } else {
-                    Snackbar.make(getView(), R.string.patient_favorite_remove, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view.findViewById(R.id.bottom_navigation), R.string.patient_favorite_remove, Snackbar.LENGTH_LONG).show();
                     item.setIcon(R.drawable.ic_star_border_black_24dp);
                 }
                 break;

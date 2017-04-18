@@ -18,7 +18,7 @@ import com.felgueiras.apps.geriatric_helper.Sessions.EvaluationsAllFragment;
 import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
-import com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.PatientProfileFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientProfileFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 
 /**

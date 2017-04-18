@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper.Patients.SinglePatient.ViewPatientSessions;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -13,11 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.google.firebase.database.DataSnapshot;
@@ -27,12 +26,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class PatientSessionsFragment extends Fragment {
+public class PatientPrescriptionsFragment extends Fragment {
 
     public static final String PATIENT = "PATIENT";
     private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
     private PatientFirebase patient;
     private RecyclerView recyclerView;
+    private PatientPrescriptionsFragment fragment;
+
 
     // Store instance variables based on arguments passed
     @Override
@@ -48,8 +49,9 @@ public class PatientSessionsFragment extends Fragment {
     // Inflate the view for the fragment based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.patient_info_sessions, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.patientSessions);
+        View view = inflater.inflate(R.layout.patient_prescriptions, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.patientPrescriptions);
+//        patientsPrescriptions = FirebaseDatabaseHelper.getPrescriptionsFromPatient(patient);
 
         // create Layout
         int numbercolumns = 1;
@@ -57,47 +59,48 @@ public class PatientSessionsFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        fragment = this;
+
+
         /**
          * Setup FABS
          */
-        FloatingActionButton fabAddSession = (FloatingActionButton) view.findViewById(R.id.patient_createSession);
-        fabAddSession.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fabAddPrescription = (FloatingActionButton) view.findViewById(R.id.patientAddPrescription);
+        fabAddPrescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                args.putSerializable(CGAPrivate.PATIENT, patient);
-                SharedPreferencesHelper.unlockSessionCreation(getActivity());
-                FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), args, Constants.tag_create_session_with_patient);
-                getActivity().setTitle(getResources().getString(R.string.cga));
+                args.putSerializable(PickPrescription.PATIENT, patient);
+                FragmentTransitions.replaceFragment(getActivity(),
+                        new PickPrescription(),
+                        args,
+                        Constants.tag_add_prescription_to_patient);
             }
         });
 
-        // get the patient's sessions
-        retrievePatientSessions(this);
+        retrievePatientPrescriptions();
 
         return view;
     }
 
-
     /**
-     * Retrieve the patient's sessions.
+     * Get prescriptions from this patient.
      *
-     * @param fragment
+     * @return
      */
-    private void retrievePatientSessions(final PatientSessionsFragment fragment) {
-
-        FirebaseHelper.firebaseTableSessions.orderByChild("patientID").equalTo(patient.getGuid()).addValueEventListener(new ValueEventListener() {
+    private void retrievePatientPrescriptions() {
+        FirebaseHelper.firebaseTablePrescriptions.orderByChild("patientID").equalTo(patient.getGuid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<SessionFirebase> patientSessions = new ArrayList<>();
-
+                ArrayList<PrescriptionFirebase> patientsPrescriptions = new ArrayList<>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    SessionFirebase sessions = postSnapshot.getValue(SessionFirebase.class);
-                    sessions.setKey(postSnapshot.getKey());
-                    patientSessions.add(sessions);
+                    PrescriptionFirebase prescription = postSnapshot.getValue(PrescriptionFirebase.class);
+                    prescription.setKey(postSnapshot.getKey());
+                    patientsPrescriptions.add(prescription);
                 }
-                SessionCardPatientProfile adapter = new SessionCardPatientProfile(getActivity(),
-                        patientSessions,
+                PatientPrescriptionsCard adapter = new PatientPrescriptionsCard(
+                        fragment.getActivity(),
+                        patientsPrescriptions,
                         patient,
                         fragment);
                 recyclerView.setAdapter(adapter);
@@ -105,9 +108,22 @@ public class PatientSessionsFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
+
             }
+
+
         });
+
+    }
+
+
+    /**
+     * Erase a session from the PATIENT.
+     *
+     * @param prescription Session index
+     */
+    public void removePrescription(PrescriptionFirebase prescription) {
+        FirebaseDatabaseHelper.deletePrescription(prescription);
     }
 
     @Override

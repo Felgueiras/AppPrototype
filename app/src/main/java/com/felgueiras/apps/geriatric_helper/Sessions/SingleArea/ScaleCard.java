@@ -5,11 +5,14 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -51,7 +54,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
      */
     public static class ScaleCardHolder extends RecyclerView.ViewHolder implements Serializable {
         public final TextView result_quantitative;
-        public final TextView notes;
+        public final EditText notes;
         public final TextView subCategory;
         public TextView name;
         public ImageButton description;
@@ -68,7 +71,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
             result_qualitative = (TextView) view.findViewById(R.id.result_qualitative);
             result_quantitative = (TextView) view.findViewById(R.id.result_quantitative);
             addNotesButton = (ImageButton) view.findViewById(R.id.addNotes);
-            notes = (TextView) view.findViewById(R.id.testNotes);
+            notes = (EditText) view.findViewById(R.id.testNotes);
             patientProgress = (TextView) view.findViewById(R.id.patient_progress);
             this.view = view;
         }
@@ -104,7 +107,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
         // get scale nonDB
         GeriatricScaleNonDB scaleNonDB = testsForArea.get(position);
 
-        GeriatricScaleFirebase currentScale = FirebaseDatabaseHelper.getScaleFromSession(session, scaleNonDB.getScaleName());
+        final GeriatricScaleFirebase currentScale = FirebaseDatabaseHelper.getScaleFromSession(session, scaleNonDB.getScaleName());
 
 //        String testCompletionNotSelected = context.getResources().getString(R.string.test_not_selected);
         String testCompletionSelectedIncomplete = context.getResources().getString(R.string.test_incomplete);
@@ -178,8 +181,8 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
         }
 
 
-        holder.addNotesButton.setOnClickListener(new ScaleHandlerNotes(context, finalCurrentTest, holder, parentView));
-        holder.notes.setOnClickListener(new ScaleHandlerNotes(context, finalCurrentTest, holder, parentView));
+//        holder.addNotesButton.setOnClickListener(new SessionNoteshandler(context, finalCurrentTest, holder, parentView));
+//        holder.notes.setOnClickListener(new SessionNoteshandler(context, finalCurrentTest, holder, parentView));
 
         /**
          * For when the Test is selected.
@@ -217,8 +220,8 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
         /**
          * Add a listener for when a note is added.
          */
-        /*
-        holder.addNotesButton.addTextChangedListener(new TextWatcher() {
+//        /*
+        holder.notes.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -227,7 +230,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 currentScale.setNotes(charSequence.toString());
-                currentScale.save();
+                FirebaseDatabaseHelper.updateScale(currentScale);
             }
 
             @Override
@@ -235,7 +238,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
             }
         });
-        */
+//        */
 
     }
 

@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Tutorial.Tabs">
     <item
+        android:id="@+id/addNotes"
+        android:icon="@drawable/ic_note_add_white_24dp"
+        android:title="@string/action_create_pdf"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/createPDF"
         android:icon="@drawable/ic_picture_as_pdf_white_24dp"
         android:title="@string/action_create_pdf"

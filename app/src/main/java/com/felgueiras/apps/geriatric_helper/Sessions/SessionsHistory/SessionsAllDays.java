@@ -67,7 +67,6 @@ public class SessionsAllDays extends BaseAdapter {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         fetchSessionsFromDay(currentDate, recyclerView);
-//        recyclerView.setAdapter(adapter);
 
 
         return singleDayInfo;
@@ -87,11 +86,8 @@ public class SessionsAllDays extends BaseAdapter {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     SessionFirebase session = postSnapshot.getValue(SessionFirebase.class);
                     session.setKey(postSnapshot.getKey());
-                    Log.d("Session", session.getDate() + "");
                     sessionsFromDate.add(session);
                 }
-                Log.d("Sessions", "Sessions for date: " + date +
-                        "\nSize: " + sessionsFromDate.size());
                 RecyclerView.Adapter<SessionCardEvaluationHistory.MyViewHolder> adapter;
                 adapter = new SessionCardEvaluationHistory(context, sessionsFromDate);
                 recyclerView.setAdapter(adapter);

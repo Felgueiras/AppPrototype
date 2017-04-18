@@ -6,6 +6,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionNonDB;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.QuestionsListAdapter;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.QuestionFirebase;
@@ -19,14 +20,16 @@ public class MultipleChoiceHandler implements RadioGroup.OnCheckedChangeListener
     private final QuestionFirebase question;
     private final QuestionsListAdapter adapter;
     private final ListView listView;
+    private final QuestionNonDB questionNonDB;
     private int position;
 
 
-    public MultipleChoiceHandler(QuestionFirebase question, QuestionsListAdapter adapter, int position, ListView listView) {
+    public MultipleChoiceHandler(QuestionFirebase question, QuestionsListAdapter adapter, int position, ListView listView, QuestionNonDB currentQuestionNonDB) {
         this.question = question;
         this.adapter = adapter;
         this.position = position;
         this.listView = listView;
+        this.questionNonDB = currentQuestionNonDB;
     }
 
 
@@ -39,9 +42,9 @@ public class MultipleChoiceHandler implements RadioGroup.OnCheckedChangeListener
             if (o instanceof RadioButton) {
                 if (((RadioButton) o).isChecked()) {
                     // save the text of the option
-                    String selected = FirebaseDatabaseHelper.getChoicesForQuestion(question).get(i).getName();
+                    String selected = FirebaseDatabaseHelper.getChoicesForQuestion(questionNonDB).get(i).getName();
                     System.out.println("Selected " + selected);
-                    question.setSelectedChoice(FirebaseDatabaseHelper.getChoicesForQuestion(question).get(i).getName());
+                    question.setSelectedChoice(FirebaseDatabaseHelper.getChoicesForQuestion(questionNonDB).get(i).getName());
                 }
             }
         }
@@ -62,7 +65,7 @@ public class MultipleChoiceHandler implements RadioGroup.OnCheckedChangeListener
 
         // save the text of the option
 //        String selected = FirebaseHelper.getChoicesForQuestion(question).get(selectedAnswer).getName();
-        question.setSelectedChoice(FirebaseDatabaseHelper.getChoicesForQuestion(question).get(selectedAnswer).getName());
+        question.setSelectedChoice(questionNonDB.getChoices().get(selectedAnswer).getName());
 
         question.setAnswered(true);
         FirebaseDatabaseHelper.updateQuestion(question);
