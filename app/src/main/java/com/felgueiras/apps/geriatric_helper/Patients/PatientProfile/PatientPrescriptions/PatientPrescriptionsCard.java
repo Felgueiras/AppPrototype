@@ -74,7 +74,7 @@ public class PatientPrescriptionsCard extends RecyclerView.Adapter<PatientPrescr
         // set views
         holder.name.setText(prescription.getName());
         holder.notes.setText(prescription.getNotes());
-        holder.date.setText("Data de prescrição: " + DatesHandler.dateToStringWithHour(prescription.getDate()));
+        holder.date.setText("Data de prescrição: " + DatesHandler.dateToStringWithHour(prescription.getDate(),true));
         holder.removePrescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +126,7 @@ public class PatientPrescriptionsCard extends RecyclerView.Adapter<PatientPrescr
                 LayoutInflater inflater = context.getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.prescription_warning, null);
                 dialogBuilder.setView(dialogView);
+                // TODO create custom alertdialog with stopp and beers
 
                 // display prescription warning
                 TextView warningText = (TextView) dialogView.findViewById(R.id.warningText);

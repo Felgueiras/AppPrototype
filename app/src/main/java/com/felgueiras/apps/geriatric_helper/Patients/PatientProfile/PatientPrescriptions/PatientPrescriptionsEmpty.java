@@ -39,9 +39,9 @@ public class PatientPrescriptionsEmpty extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                args.putSerializable(PickPrescription.PATIENT, patient);
+                args.putSerializable(PatientPrescriptionAddMultiple.PATIENT, patient);
                 FragmentTransitions.replaceFragment(getActivity(),
-                        new PickPrescription(),
+                        new PatientPrescriptionAddMultiple(),
                         args,
                         Constants.tag_add_prescription_to_patient);
             }

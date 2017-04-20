@@ -129,7 +129,7 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
 
         ViewManager parentView = (ViewManager) holder.result_qualitative.getParent();
 
-        if (currentScale.hasNotes()) {
+        if (currentScale.getNotes()!=null) {
 //            parentView.removeView(holder.addNotesButton);
             holder.notes.setText(currentScale.getNotes());
         } else {
@@ -156,7 +156,7 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
         }
         holder.result_quantitative.setText(quantitative);
 
-        if (currentScale.hasNotes()) {
+        if (currentScale.getNotes()!=null) {
             holder.notes.setText(currentScale.getNotes());
         }
 
@@ -297,7 +297,7 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
 
     @Override
     public int getItemCount() {
-
+        // TODO only the ones completed
         List<GeriatricScaleFirebase> sessionScales = FirebaseDatabaseHelper.getScalesFromSession(session);
         // get scales for this area
         scalesForArea =  FirebaseDatabaseHelper.getScalesForArea(sessionScales, area);

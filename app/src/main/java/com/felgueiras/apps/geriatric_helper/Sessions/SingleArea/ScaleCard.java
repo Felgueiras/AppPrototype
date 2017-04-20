@@ -65,7 +65,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
         public ScaleCardHolder(View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.testName);
+            name = (TextView) view.findViewById(R.id.scaleName);
             subCategory = (TextView) view.findViewById(R.id.testSubCategory);
             description = (ImageButton) view.findViewById(R.id.scale_info);
             result_qualitative = (TextView) view.findViewById(R.id.result_qualitative);
@@ -173,7 +173,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
         }
 
 
-        if (currentScale != null && currentScale.hasNotes()) {
+        if (currentScale != null && currentScale.getNotes()!=null) {
             parentView.removeView(holder.addNotesButton);
             holder.notes.setText(currentScale.getNotes());
         } else {

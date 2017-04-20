@@ -46,7 +46,7 @@ public class ProgressScalesForAreaGraph extends RecyclerView.Adapter<ProgressSca
 
         public MyViewHolder(View view) {
             super(view);
-            testName = (TextView) view.findViewById(R.id.testName);
+            testName = (TextView) view.findViewById(R.id.scaleName);
             scaleNotEvaluated = (TextView) view.findViewById(R.id.scale_not_evaluated);
             itemView = view;
         }

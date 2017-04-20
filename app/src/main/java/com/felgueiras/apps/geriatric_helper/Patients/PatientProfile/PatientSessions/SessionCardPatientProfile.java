@@ -76,7 +76,7 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         SessionFirebase session = sessions.get(position);
-        holder.date.setText(DatesHandler.dateToStringWithHour(new Date(session.getDate())));
+        holder.date.setText(DatesHandler.dateToStringWithHour(new Date(session.getDate()),true));
         List<GeriatricScaleFirebase> sessionScales = FirebaseDatabaseHelper.getScalesFromSession(sessions.get(position));
 
         holder.testsList.setHasFixedSize(true);

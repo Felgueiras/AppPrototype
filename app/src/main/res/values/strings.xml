@@ -389,9 +389,8 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="action_take_photo">Fotografia</string>
     <string name="clock_drawing_photo">Deve tirar uma fotografia do relógio desenhado pelo paciente</string>
     <string name="take_photo">Tirar fotografia</string>
-    <string name="label_email" translatable="false">Email</string>
-    <string name="label_preview" translatable="false">Preview</string>
-    <string name="label_cancel" translatable="false">Cancel</string>
+    <string name="label_email">Enviar por email</string>
+    <string name="label_cancel">Cancelar</string>
     <string name="scalesVersion" translatable="false">scalesVersion</string>
     <string name="action_create_pdf">Criar PDF</string>
     <string name="create_session">Criar sessão</string>
@@ -404,6 +403,11 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="criteriaVersion" translatable="false">criteriaVersion</string>
     <string name="no_prescriptions_for_patient">Paciente não tem prescrições associadas</string>
     <string name="notas">Notas</string>
+    <string name="close">Fechar</string>
+    <string name="sessionPDF">PDF da sessão</string>
+    <string name="label_preview">Ver PDF</string>
+    <string name="label_print">Imprimir</string>
+    <string name="action_save">Guardar</string>
 
 
 </resources>

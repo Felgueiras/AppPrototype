@@ -373,9 +373,6 @@ public class GeriatricScaleFirebase implements Serializable {
         this.notes = notes;
     }
 
-    public boolean hasNotes() {
-        return notes != null;
-    }
 
     public String getNotes() {
         return notes;

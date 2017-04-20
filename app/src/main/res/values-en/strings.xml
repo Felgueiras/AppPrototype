@@ -156,4 +156,11 @@
     <string name="feedback_message_error">You need to write a feddback comment</string>
     <string name="feedback_email_error">You need to supply your email address</string>
     <string name="notas">Notas</string>
+    <string name="close">Close</string>
+    <string name="sessionPDF">Session\'s PDF</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="label_email" translatable="false">Email</string>
+    <string name="label_preview">Preview</string>
+    <string name="label_print">Print</string>
+    <string name="action_save">Save</string>
 </resources>

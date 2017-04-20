@@ -36,6 +36,7 @@ public class PatientSessionsFragment extends Fragment {
     private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
     private PatientFirebase patient;
     private RecyclerView recyclerView;
+    ArrayList<SessionFirebase> patientSessions;
 
     // Store instance variables based on arguments passed
     @Override
@@ -69,6 +70,7 @@ public class PatientSessionsFragment extends Fragment {
             public void onClick(View view) {
                 Bundle args = new Bundle();
                 args.putSerializable(CGAPrivate.PATIENT, patient);
+                // pass the previous session
                 SharedPreferencesHelper.unlockSessionCreation(getActivity());
                 FragmentTransitions.replaceFragment(getActivity(), new CGAPrivate(), args, Constants.tag_create_session_with_patient);
                 getActivity().setTitle(getResources().getString(R.string.cga));
@@ -92,7 +94,7 @@ public class PatientSessionsFragment extends Fragment {
         FirebaseHelper.firebaseTableSessions.orderByChild("patientID").equalTo(patient.getGuid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<SessionFirebase> patientSessions = new ArrayList<>();
+                patientSessions = new ArrayList<>();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     SessionFirebase sessions = postSnapshot.getValue(SessionFirebase.class);

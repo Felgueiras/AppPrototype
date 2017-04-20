@@ -61,11 +61,17 @@ public class DatesHandler {
             return datetime;
     }
 
-    public static String dateToStringWithHour(Date date) {
+    /**
+     * Display Date as day-month-year, without hour.
+     * @param date
+     * @param currentDateAsToday
+     * @return
+     */
+    public static String dateToStringWithHour(Date date, boolean currentDateAsToday) {
         /**
          * Day.
          */
-        SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
         String day = dayFormat.format(date);
 
 
@@ -77,7 +83,7 @@ public class DatesHandler {
 
         String ret = "";
 
-        if (day.equals(datetimeCurrent))
+        if (currentDateAsToday && day.equals(datetimeCurrent))
             ret += "Hoje";
         else
             ret += day;
@@ -85,10 +91,10 @@ public class DatesHandler {
         /**
          * Hour.
          */
-        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm",Locale.UK);
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm", Locale.UK);
         String hour = hourFormat.format(date);
 
-        ret+= " - " + hour;
+        ret += " - " + hour;
         return ret;
     }
 
@@ -116,8 +122,8 @@ public class DatesHandler {
     /**
      * Get date (not including hour and minutes).
      *
-     * @return
      * @param date
+     * @return
      */
     public static Date getDateWithoutHour(long date) {
         // create a copy of the date with hour and minute set to 0

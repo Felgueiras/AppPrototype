@@ -73,7 +73,7 @@ public class SessionCardPatientNotes extends RecyclerView.Adapter<SessionCardPat
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         SessionFirebase session = sessions.get(position);
-        holder.date.setText(DatesHandler.dateToStringWithHour(new Date(session.getDate())));
+        holder.date.setText(DatesHandler.dateToStringWithHour(new Date(session.getDate()),true));
         List<GeriatricScaleFirebase> sessionScales = FirebaseDatabaseHelper.getScalesFromSession(sessions.get(position));
 
 

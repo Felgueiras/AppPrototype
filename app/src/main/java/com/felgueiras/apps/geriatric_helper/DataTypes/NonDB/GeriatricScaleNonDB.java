@@ -12,7 +12,7 @@ public class GeriatricScaleNonDB implements Serializable {
     /**
      * Name of the test
      */
-    private String testName;
+    private String scaleName;
     /**
      * Type of test
      */
@@ -61,14 +61,14 @@ public class GeriatricScaleNonDB implements Serializable {
     /**
      * Create a new GenerecTest
      *
-     * @param testName    date of the test
+     * @param scaleName    date of the test
      * @param area    area of the test
      * @param subCategory subcategory of the test
      * @param description field of the test
      */
-    public GeriatricScaleNonDB(String testName, String area, String subCategory, String description) {
+    public GeriatricScaleNonDB(String scaleName, String area, String subCategory, String description) {
         this.area = area;
-        this.testName = testName;
+        this.scaleName = scaleName;
         this.subCategory = subCategory;
         this.description = description;
         this.questionsCategories = new ArrayList<>();
@@ -96,11 +96,11 @@ public class GeriatricScaleNonDB implements Serializable {
     }
 
     public String getScaleName() {
-        return testName;
+        return scaleName;
     }
 
-    public void setTestName(String testName) {
-        this.testName = testName;
+    public void setScaleName(String scaleName) {
+        this.scaleName = scaleName;
     }
 
     public int getResult() {
@@ -163,7 +163,7 @@ public class GeriatricScaleNonDB implements Serializable {
     @Override
     public String toString() {
         String ret = "";
-        ret += area + " - " + testName + " - " + result;
+        ret += area + " - " + scaleName + " - " + result;
         return ret;
     }
 

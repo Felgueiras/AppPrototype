@@ -54,7 +54,7 @@ public class AreaScalesAlreadyCompleted extends RecyclerView.Adapter<AreaScalesA
 
         public ScaleIconHolder(View view) {
             super(view);
-            testName = (TextView) view.findViewById(R.id.testName);
+            testName = (TextView) view.findViewById(R.id.scaleName);
         }
     }
 

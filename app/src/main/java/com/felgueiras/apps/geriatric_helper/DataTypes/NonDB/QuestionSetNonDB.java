@@ -14,7 +14,7 @@ public class QuestionSetNonDB implements Serializable {
     /**
      * Name of the test
      */
-    String testName;
+    String scaleName;
     /**
      * Type of test
      */
@@ -61,7 +61,7 @@ public class QuestionSetNonDB implements Serializable {
      */
     public QuestionSetNonDB(String testName, String area, String subCategory, String description) {
         this.area = area;
-        this.testName = testName;
+        this.scaleName = testName;
         this.subCategory = subCategory;
         this.description = description;
         this.questionsCategories = new ArrayList<>();
@@ -88,12 +88,12 @@ public class QuestionSetNonDB implements Serializable {
         this.questions = questions;
     }
 
-    public String getTestName() {
-        return testName;
+    public String getScaleName() {
+        return scaleName;
     }
 
-    public void setTestName(String testName) {
-        this.testName = testName;
+    public void setScaleName(String scaleName) {
+        this.scaleName = scaleName;
     }
 
     public String getType() {
@@ -140,7 +140,7 @@ public class QuestionSetNonDB implements Serializable {
     @Override
     public String toString() {
         String ret = "";
-        ret += area + " - " + testName;
+        ret += area + " - " + scaleName;
         return ret;
     }
 

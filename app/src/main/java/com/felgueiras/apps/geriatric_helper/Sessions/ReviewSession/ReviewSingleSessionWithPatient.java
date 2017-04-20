@@ -25,7 +25,7 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricS
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.PdfHelper;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionPDF;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientProfileFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.SessionNoteshandler;
@@ -226,7 +226,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
                 break;
             case R.id.createPDF:
                 // create a PDF of the session for printing
-                PdfHelper.createSessionPdf(getActivity(),session);
+                new SessionPDF(session).createSessionPdf(getActivity());
                 break;
             case R.id.addNotes:
                 // edit notes for this session

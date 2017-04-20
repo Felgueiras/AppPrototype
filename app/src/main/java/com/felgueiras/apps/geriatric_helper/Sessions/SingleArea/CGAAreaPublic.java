@@ -129,7 +129,7 @@ public class CGAAreaPublic extends Fragment {
                             SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
 
                             BackStackHandler.clearBackStack();
-                            FragmentManager fragmentManager = getFragmentManager();
+                            FragmentManager fragmentManager = BackStackHandler.getFragmentManager();
                             Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
                             Fragment fragment = new CGAPublicInfo();
                             fragmentManager.beginTransaction()

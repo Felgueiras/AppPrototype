@@ -71,8 +71,9 @@ public class PatientPrescriptionsFragment extends Fragment {
             public void onClick(View view) {
                 Bundle args = new Bundle();
                 args.putSerializable(PickPrescription.PATIENT, patient);
+                // TODO review tag
                 FragmentTransitions.replaceFragment(getActivity(),
-                        new PickPrescription(),
+                        new PatientPrescriptionAddMultiple(),
                         args,
                         Constants.tag_add_prescription_to_patient);
             }

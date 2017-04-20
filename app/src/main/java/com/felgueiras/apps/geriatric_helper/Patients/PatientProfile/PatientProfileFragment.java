@@ -139,7 +139,7 @@ public class PatientProfileFragment extends Fragment {
             transaction.remove(currentFragment);
 
 
-        ArrayList<SessionFirebase> sessionsFromPatient = FirebaseDatabaseHelper.getSessionsFromPatient(patient);
+        final ArrayList<SessionFirebase> sessionsFromPatient = FirebaseDatabaseHelper.getSessionsFromPatient(patient);
 
         // setup default fragment
         switch (Constants.patientProfileBottomNavigation) {
@@ -189,15 +189,28 @@ public class PatientProfileFragment extends Fragment {
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        // same item pressed
                         Fragment fragment = null;
+                        Bundle args = new Bundle();
+
                         switch (item.getItemId()) {
                             case R.id.patient_sessions:
-                                fragment = defaultFragment;
+                                if (sessionsFromPatient.isEmpty()) {
+                                    fragment = new PatientSessionsEmpty();
+                                    args.putSerializable(PatientSessionsEmpty.PATIENT, patient);
+                                    args.putString(PatientSessionsEmpty.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
+                                    fragment.setArguments(args);
+                                } else {
+                                    fragment = new PatientSessionsFragment();
+                                    args = new Bundle();
+                                    args.putSerializable(PatientSessionsFragment.PATIENT, patient);
+                                    fragment.setArguments(args);
+                                }
                                 Constants.patientProfileBottomNavigation = 0;
                                 break;
                             case R.id.patient_notes:
                                 fragment = new PatientSessionsNotesFragment();
-                                Bundle args = new Bundle();
+                                args = new Bundle();
                                 args.putSerializable(PatientSessionsNotesFragment.PATIENT, patient);
                                 fragment.setArguments(args);
                                 Constants.patientProfileBottomNavigation = 1;

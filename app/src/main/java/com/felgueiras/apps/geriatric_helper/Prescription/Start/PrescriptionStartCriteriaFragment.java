@@ -40,6 +40,8 @@ public class PrescriptionStartCriteriaFragment extends Fragment {
         inflater.inflate(R.menu.menu_info, menu);
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

@@ -1,6 +1,7 @@
 package com.felgueiras.apps.geriatric_helper.Sessions.AllAreas;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -29,9 +30,14 @@ import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -62,9 +68,11 @@ public class CGAPrivate extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+
         Bundle args = getArguments();
-        if (args != null)
+        if (args != null) {
             patient = (PatientFirebase) args.getSerializable(PATIENT);
+        }
 
         // Inflate the layout for this fragment
         View view;
@@ -99,12 +107,17 @@ public class CGAPrivate extends Fragment {
          */
         else {
             if (canCreateSessions) {
+                if (patient != null) {
+                    getPatientPreviousSession();
+                }
+
                 // create a new session
                 createNewSession();
                 addScalesToSession();
-                if (patient != null)
+                if (patient != null) {
                     Constants.SESSION_GENDER = patient.getGender();
-                else {
+
+                } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle(R.string.select_patient_gender);
 
@@ -185,6 +198,81 @@ public class CGAPrivate extends Fragment {
     }
 
 
+    /**
+     * Get the patient's previous session, to check if there are notes to display.
+     */
+    private void getPatientPreviousSession() {
+
+        FirebaseHelper.firebaseTableSessions.orderByChild("patientID").equalTo(patient.getGuid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<SessionFirebase> patientSessions = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    SessionFirebase sessions = postSnapshot.getValue(SessionFirebase.class);
+                    sessions.setKey(postSnapshot.getKey());
+                    patientSessions.add(sessions);
+                }
+
+                // sort by date descending
+                Collections.sort(patientSessions, new Comparator<SessionFirebase>() {
+                    public int compare(SessionFirebase o1, SessionFirebase o2) {
+                        return new Date(o2.getDate()).compareTo(new Date(o1.getDate()));
+                    }
+                });
+
+                SessionFirebase previousSession = patientSessions.get(0);
+
+
+                boolean previousSessionContainsNotes = false;
+                // check if session has notes
+                if (previousSession.getNotes() != null) {
+                    previousSessionContainsNotes = true;
+                }
+                // check if any scale from the session contains notes
+                ArrayList<GeriatricScaleFirebase> scalesPreviousSession = FirebaseDatabaseHelper.getScalesFromSession(previousSession);
+                for (GeriatricScaleFirebase scale : scalesPreviousSession) {
+                    if (scale.getNotes() != null) {
+                        previousSessionContainsNotes = true;
+                    }
+                }
+                if (previousSessionContainsNotes) {
+                    // display an alert with the notes from previous session
+                    AlertDialog.Builder showPreviousSessionNotes = new AlertDialog.Builder(getActivity());
+                    showPreviousSessionNotes.setTitle("Notas da última sessão");
+                    String alertMessage = "";
+                    alertMessage += previousSession.getNotes();
+
+                    // get session's scales -> access their notes
+                    for (GeriatricScaleFirebase scale : scalesPreviousSession) {
+                        if (scale.getNotes() != null) {
+                            alertMessage += "\n" + scale.getScaleName() + " - " + scale.getNotes();
+                        }
+                    }
+                    showPreviousSessionNotes.setMessage(alertMessage);
+                    // check notes for each scale
+                    showPreviousSessionNotes.setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+
+                    });
+                    showPreviousSessionNotes.create();
+                    showPreviousSessionNotes.show();
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+            }
+        });
+    }
+
+
     public void discardSession() {
 
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
@@ -229,7 +317,7 @@ public class CGAPrivate extends Fragment {
             test.setAlreadyOpened(false);
             if (testNonDB.getScaleName().equals(Constants.test_name_clock_drawing))
                 test.setContainsPhoto(true);
-            if (testNonDB.getScaleName().equals(Constants.test_name_tinetti)|| testNonDB.getScaleName().equals(Constants.test_name_marchaHolden))
+            if (testNonDB.getScaleName().equals(Constants.test_name_tinetti) || testNonDB.getScaleName().equals(Constants.test_name_marchaHolden))
                 test.setContainsVideo(true);
             session.addScaleID(test.getGuid());
             FirebaseDatabaseHelper.createScale(test);
@@ -261,7 +349,7 @@ public class CGAPrivate extends Fragment {
         int day = now.get(Calendar.DAY_OF_MONTH);
         int hour = now.get(Calendar.HOUR_OF_DAY);
         int minute = now.get(Calendar.MINUTE);
-        Log.d("Session","Year " + year+",Month " + month+", day " + day);
+        Log.d("Session", "Year " + year + ",Month " + month + ", day " + day);
 //        session.setDate(DatesHandler.createCustomDate(year, month, day, hour, minute));
         session.setDate(date.getTime());
 
