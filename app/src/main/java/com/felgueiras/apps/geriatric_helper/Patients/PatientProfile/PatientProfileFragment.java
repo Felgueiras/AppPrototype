@@ -27,7 +27,7 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFir
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientNotes.PatientSessionsNotesFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientNotes.PatientNotesFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsEmpty;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsEmpty;
@@ -158,9 +158,9 @@ public class PatientProfileFragment extends Fragment {
                 }
                 break;
             case 1:
-                defaultFragment = new PatientSessionsNotesFragment();
+                defaultFragment = new PatientNotesFragment();
                 Bundle args = new Bundle();
-                args.putSerializable(PatientSessionsNotesFragment.PATIENT, patient);
+                args.putSerializable(PatientNotesFragment.PATIENT, patient);
                 defaultFragment.setArguments(args);
                 break;
             case 2:
@@ -209,9 +209,9 @@ public class PatientProfileFragment extends Fragment {
                                 Constants.patientProfileBottomNavigation = 0;
                                 break;
                             case R.id.patient_notes:
-                                fragment = new PatientSessionsNotesFragment();
+                                fragment = new PatientNotesFragment();
                                 args = new Bundle();
-                                args.putSerializable(PatientSessionsNotesFragment.PATIENT, patient);
+                                args.putSerializable(PatientNotesFragment.PATIENT, patient);
                                 fragment.setArguments(args);
                                 Constants.patientProfileBottomNavigation = 1;
 
@@ -275,7 +275,7 @@ public class PatientProfileFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.favorite:
                 patient.setFavorite(!patient.isFavorite());
-                FirebaseDatabaseHelper.updatePatient(patient);
+//                FirebaseDatabaseHelper.updatePatient(patient);
 
                 if (patient.isFavorite()) {
                     Snackbar.make(view, R.string.patient_favorite_add, Snackbar.LENGTH_LONG).show();

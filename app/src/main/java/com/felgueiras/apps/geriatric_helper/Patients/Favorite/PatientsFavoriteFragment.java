@@ -48,25 +48,25 @@ public class PatientsFavoriteFragment extends Fragment {
     }
 
     private void retrieveFavoritePatients(final PatientsFavoriteFragment fragment) {
-        FirebaseHelper.firebaseTablePatients.orderByChild("favorite").equalTo(true).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<PatientFirebase> favoritePatients = new ArrayList<>();
-
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    PatientFirebase patient = postSnapshot.getValue(PatientFirebase.class);
-                    patient.setKey(postSnapshot.getKey());
-                    favoritePatients.add(patient);
-                }
-                Log.d("Firebase", "Retrieved favorite patients");
-                gridView.setAdapter(new PatientCardFavorite(getActivity(), favoritePatients, fragment));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-            }
-        });
+//        FirebaseHelper.firebaseTablePatients.orderByChild("favorite").equalTo(true).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                ArrayList<PatientFirebase> favoritePatients = new ArrayList<>();
+//
+//                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+//                    PatientFirebase patient = postSnapshot.getValue(PatientFirebase.class);
+//                    patient.setKey(postSnapshot.getKey());
+//                    favoritePatients.add(patient);
+//                }
+//                Log.d("Firebase", "Retrieved favorite patients");
+//                gridView.setAdapter(new PatientCardFavorite(getActivity(), favoritePatients, fragment));
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                // Getting Post failed, log a message
+//            }
+//        });
     }
 
 
@@ -77,7 +77,7 @@ public class PatientsFavoriteFragment extends Fragment {
      */
     public void removePatientFromFavorites(PatientFirebase patient) {
         patient.setFavorite(false);
-        FirebaseHelper.firebaseTablePatients.child(patient.getKey()).child("favorite").setValue(patient.isFavorite());
+//        FirebaseHelper.firebaseTablePatients.child(patient.getKey()).child("favorite").setValue(patient.isFavorite());
 
 //        favoritePatients.remove(index);
 //        recyclerView.removeViewAt(index);

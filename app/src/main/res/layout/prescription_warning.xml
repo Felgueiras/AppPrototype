@@ -13,12 +13,36 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!--Stopp criteria-->
             <TextView
-                android:id="@+id/warningText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Warning text" />
+                android:text="@string/criteria_stopp"
+                style="@style/header1"/>
+            <include
+                android:id="@+id/drug_info_stopp"
+                layout="@layout/empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+            <!--Beers criteria-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/criteria_beers"
+                style="@style/header1"/>
+            <include
+                android:id="@+id/drug_info_beers"
+                layout="@layout/empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

@@ -46,7 +46,7 @@ public class FirebaseHelper {
     /**
      * Patients table name.
      */
-    private static String PATIENTS;
+//    private static String PATIENTS;
 
     /**
      * Sessions table name.
@@ -80,7 +80,7 @@ public class FirebaseHelper {
     /**
      * Firebase - patients table.
      */
-    public static DatabaseReference firebaseTablePatients;
+//    public static DatabaseReference firebaseTablePatients;
     /**
      * Firebase - sessions table.
      */
@@ -321,7 +321,7 @@ public class FirebaseHelper {
         // set patients
         String userArea = "users/" + FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        PATIENTS = userArea + "/patients";
+//        PATIENTS = userArea + "/patients";
         SESSIONS = userArea + "/sessions";
         SCALES = userArea + "/scales";
         QUESTIONS = userArea + "/questions";
@@ -329,7 +329,7 @@ public class FirebaseHelper {
         CHOICES = userArea + "/choices";
 
 
-        firebaseTablePatients = mFirebaseInstance.getReference(FirebaseHelper.PATIENTS);
+//        firebaseTablePatients = mFirebaseInstance.getReference(FirebaseHelper.PATIENTS);
         firebaseTableSessions = mFirebaseInstance.getReference(FirebaseHelper.SESSIONS);
         firebaseTableScales = mFirebaseInstance.getReference(FirebaseHelper.SCALES);
         firebaseTableQuestions = mFirebaseInstance.getReference(FirebaseHelper.QUESTIONS);
@@ -337,8 +337,8 @@ public class FirebaseHelper {
         firebaseTableChoices = mFirebaseInstance.getReference(FirebaseHelper.CHOICES);
 
         // fetch all data from firebase
-        FirebaseDatabaseHelper.fetchPatients();
-        FirebaseDatabaseHelper.fetchFavoritePatients();
+//        FirebaseDatabaseHelper.fetchPatients();
+//        FirebaseDatabaseHelper.fetchFavoritePatients();
         FirebaseDatabaseHelper.fetchSessions();
         FirebaseDatabaseHelper.fetchScales();
         FirebaseDatabaseHelper.fetchQuestions();

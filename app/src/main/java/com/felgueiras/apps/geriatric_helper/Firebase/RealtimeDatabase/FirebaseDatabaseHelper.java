@@ -39,54 +39,54 @@ public class FirebaseDatabaseHelper {
      *
      * @return
      */
-    public static void fetchPatients() {
-
-        FirebaseHelper.firebaseTablePatients.orderByChild("name").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                FirebaseHelper.patients.clear();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    PatientFirebase patient = postSnapshot.getValue(PatientFirebase.class);
-                    patient.setKey(postSnapshot.getKey());
-                    FirebaseHelper.patients.add(patient);
-                }
-                Log.d("Fetch", "Patients");
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-            }
-        });
-    }
+//    public static void fetchPatients() {
+//
+//        FirebaseHelper.firebaseTablePatients.orderByChild("name").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                FirebaseHelper.patients.clear();
+//                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+//                    PatientFirebase patient = postSnapshot.getValue(PatientFirebase.class);
+//                    patient.setKey(postSnapshot.getKey());
+//                    FirebaseHelper.patients.add(patient);
+//                }
+//                Log.d("Fetch", "Patients");
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                // Getting Post failed, log a message
+//            }
+//        });
+//    }
 
     /**
      * Fetch favorite patients from Firebase.
      *
      * @return
      */
-    public static void fetchFavoritePatients() {
-
-        FirebaseHelper.firebaseTablePatients.orderByChild("favorite").equalTo(true).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                FirebaseHelper.favoritePatients.clear();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    PatientFirebase patient = postSnapshot.getValue(PatientFirebase.class);
-                    patient.setKey(postSnapshot.getKey());
-                    FirebaseHelper.favoritePatients.add(patient);
-//                    Log.d("Firebase", "Patients favorite: " + favoritePatients.size());
-                    Log.d("Fetch", "Favorite patients");
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-            }
-        });
-    }
+//    public static void fetchFavoritePatients() {
+//
+//        FirebaseHelper.firebaseTablePatients.orderByChild("favorite").equalTo(true).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                FirebaseHelper.favoritePatients.clear();
+//                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+//                    PatientFirebase patient = postSnapshot.getValue(PatientFirebase.class);
+//                    patient.setKey(postSnapshot.getKey());
+//                    FirebaseHelper.favoritePatients.add(patient);
+////                    Log.d("Firebase", "Patients favorite: " + favoritePatients.size());
+//                    Log.d("Fetch", "Favorite patients");
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                // Getting Post failed, log a message
+//            }
+//        });
+//    }
 
 
     /**
@@ -291,9 +291,9 @@ public class FirebaseDatabaseHelper {
         }
     }
 
-    public static void updatePatient(PatientFirebase patient) {
-        FirebaseHelper.firebaseTablePatients.child(patient.getKey()).setValue(patient);
-    }
+//    public static void updatePatient(PatientFirebase patient) {
+//        FirebaseHelper.firebaseTablePatients.child(patient.getKey()).setValue(patient);
+//    }
 
     public static void updateSession(SessionFirebase session) {
         if (session != null)
@@ -321,7 +321,7 @@ public class FirebaseDatabaseHelper {
         PatientFirebase patient = getPatientFromSession(session);
         if (patient != null) {
             patient.getSessionsIDS().remove(session.getGuid());
-            updatePatient(patient);
+//            updatePatient(patient);
         }
 
         // delete scales
@@ -347,7 +347,7 @@ public class FirebaseDatabaseHelper {
             deletePrescription(prescription);
         }
 
-        FirebaseHelper.firebaseTablePatients.child(patient.getKey()).removeValue();
+//        FirebaseHelper.firebaseTablePatients.child(patient.getKey()).removeValue();
     }
 
     /**
@@ -445,7 +445,7 @@ public class FirebaseDatabaseHelper {
         // remove from patient's list of prescriptions
         PatientFirebase patient = getPatientFromPrescription(prescription);
         patient.getPrescriptionsIDS().remove(prescription.getGuid());
-        updatePatient(patient);
+//        updatePatient(patient);
 
         // remove prescription
         FirebaseHelper.firebaseTablePrescriptions.child(prescription.getKey()).removeValue();
@@ -712,11 +712,11 @@ public class FirebaseDatabaseHelper {
      *
      * @param patient
      */
-    public static void createPatient(PatientFirebase patient) {
-        String patientID = FirebaseHelper.firebaseTablePatients.push().getKey();
-        patient.setKey(patientID);
-        FirebaseHelper.firebaseTablePatients.child(patientID).setValue(patient);
-    }
+//    public static void createPatient(PatientFirebase patient) {
+//        String patientID = FirebaseHelper.firebaseTablePatients.push().getKey();
+//        patient.setKey(patientID);
+//        FirebaseHelper.firebaseTablePatients.child(patientID).setValue(patient);
+//    }
 
     public static void createPrescription(PrescriptionFirebase prescription) {
         String prescriptionID = FirebaseHelper.firebaseTablePrescriptions.push().getKey();

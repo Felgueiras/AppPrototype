@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Created by rafael on 05-10-2016.
  */
-public class ViewSingleDrugtInfo extends Fragment {
+public class PrescriptionSingleDrugFragment extends Fragment {
 
     public static final String DRUG = "drug";
     private String drug;

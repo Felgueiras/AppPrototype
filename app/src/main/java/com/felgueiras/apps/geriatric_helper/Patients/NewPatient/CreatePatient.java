@@ -169,8 +169,8 @@ public class CreatePatient extends Fragment {
 
                 patient.setFavorite(false);
 
-                // save Patient
-                FirebaseDatabaseHelper.createPatient(patient);
+                // TODO save Patient
+//                FirebaseDatabaseHelper.createPatient(patient);
 
                 FirebaseDatabaseHelper.getPatients().add(patient);
 

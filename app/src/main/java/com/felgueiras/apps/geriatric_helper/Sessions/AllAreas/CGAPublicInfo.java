@@ -1,7 +1,12 @@
 package com.felgueiras.apps.geriatric_helper.Sessions.AllAreas;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +20,7 @@ import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseRemoteConfig;
 import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.HelpMainFragment;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
+import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.RegisterUser;
 import com.felgueiras.apps.geriatric_helper.R;
 
 
@@ -55,8 +61,44 @@ public class CGAPublicInfo extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d("Session", "Clicked in CGAPublicInfo!");
-                SharedPreferencesHelper.unlockSessionCreation(getActivity());
-                FragmentTransitions.replaceFragment(getActivity(), new CGAPublic(), null, Constants.tag_cga_public);
+                /**
+                 * If first public evaluation, show alert dialog about saving sessions
+                 * and registering in the app.
+                 */
+                Activity context = getActivity();
+                boolean firstPublicEvaluation = SharedPreferencesHelper.checkFirstPublicEvaluation(getActivity());
+                if (firstPublicEvaluation) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                    //alertDialog.setTitle(getResources().getString(R.string.session_discard));
+                    alertDialog.setMessage(context.getResources().getString(R.string.firstPublicEvaluation));
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, context.getResources().getString(R.string.yes),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // go to register activity
+                                    dialog.dismiss();
+
+                                    FragmentManager fragmentManager = getFragmentManager();
+                                    fragmentManager.popBackStack();
+
+                                    Intent intent = new Intent(getActivity(), RegisterUser.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    getActivity().startActivity(intent);
+                                    getActivity().finish();
+                                }
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, context.getResources().getString(R.string.register_later),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                } else {
+                    SharedPreferencesHelper.unlockSessionCreation(getActivity());
+                    FragmentTransitions.replaceFragment(getActivity(), new CGAPublic(), null, Constants.tag_cga_public);
+                }
+
+
             }
         });
 

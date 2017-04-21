@@ -1,8 +1,2 @@
-- area pessoal onde pode mudar password e unlock pattern
-
 Doctor feedback:
-- Mistake user session (after registering) with evaluation session - P7
 - Quantitative result for a Session could be visible in the Session card inside the Patient’s profile - P9
-- Going back from session should be considering as finishing and saving the session, not cancelling it
-- Add drugName from the navigation menu
-- setup unlock pattern

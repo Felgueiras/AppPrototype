@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.AboutFragment;
 import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideMainFragment;
 import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.HelpMainFragment;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublic;
 import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
@@ -34,12 +35,12 @@ import com.google.firebase.auth.FirebaseAuth;
 public class DrawerItemClickListener implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private final FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
     private final DrawerLayout drawer;
     private final Activity context;
 
     public DrawerItemClickListener(Activity context, FragmentManager fragmentManager, DrawerLayout drawer) {
-        this.fragmentManager = fragmentManager;
+        this.fragmentManager = BackStackHandler.getFragmentManager();
         this.drawer = drawer;
         this.context = context;
 
@@ -49,15 +50,6 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        // ToolbarHelper.hideBackButton(context);
-
-//        if (id == R.id.options) {
-//            Intent i = new Intent(context, Settings.class);
-//            context.startActivity(i);
-//            return true;
-//        }
-
 
         Fragment endFragment = null;
 
@@ -99,9 +91,6 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         } else if (id == R.id.cga_guide) {
             endFragment = new CGAGuideMainFragment();
         }
-//        else if (id == R.id.transfer_db) {
-//            endFragment = new TransferDB();
-//        }
         else if (id == R.id.settings) {
             Intent i = new Intent(context, Settings.class);
             context.startActivity(i);
@@ -135,16 +124,9 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
                     });
             alertDialog.show();
         } else {
-            // add Exit transition
-
-//            Fragment startFragment = context.getFragmentManager().findFragmentById(R.id.current_fragment);
-//            startFragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.fade));
-//            // add Enter transition
-//            endFragment.setEnterTransition(TransitionInflater.from(context).
-//                    inflateTransition(android.R.transition.fade));
-
             // empty back stack
 //            BackStackHandler.clearBackStack();
+            fragmentManager = BackStackHandler.getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.current_fragment, endFragment, "initial_tag")
                     .commit();

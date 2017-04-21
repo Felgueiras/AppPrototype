@@ -250,7 +250,7 @@ public class PatientFirebase implements Serializable {
     public void addSession(String sessionID) {
         sessionsIDS.add(sessionID);
         // update patient
-        FirebaseDatabaseHelper.updatePatient(this);
+//        FirebaseDatabaseHelper.updatePatient(this);
     }
 
     public ArrayList<String> getPrescriptionsIDS() {
@@ -265,6 +265,6 @@ public class PatientFirebase implements Serializable {
     public void addPrescription(String prescription) {
         prescriptionsIDS.add(prescription);
         // update patient
-        FirebaseDatabaseHelper.updatePatient(this);
+//        FirebaseDatabaseHelper.updatePatient(this);
     }
 }

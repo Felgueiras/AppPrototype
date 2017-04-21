@@ -20,7 +20,7 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionCreate;
-import com.felgueiras.apps.geriatric_helper.Prescription.ViewSingleDrugtInfo;
+import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionSingleDrugFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
@@ -155,9 +155,9 @@ public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder
                             args,
                             Constants.tag_add_prescription_to_patient);
                 } else {
-                    Fragment endFragment = new ViewSingleDrugtInfo();
+                    Fragment endFragment = new PrescriptionSingleDrugFragment();
                     Bundle args = new Bundle();
-                    args.putString(ViewSingleDrugtInfo.DRUG, currentDrug);
+                    args.putString(PrescriptionSingleDrugFragment.DRUG, currentDrug);
                     FragmentTransitions.replaceFragment(context, endFragment, args, Constants.tag_view_drug_info);
                 }
 

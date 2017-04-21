@@ -67,40 +67,6 @@ public class ReviewSingleSessionNoPatient extends Fragment {
 
         getActivity().setTitle(getResources().getString(R.string.evaluation_results));
 
-        /**
-         * If first public evaluation, show alert dialog about saving sessions
-         * and registering in the app.
-         */
-        Activity context = getActivity();
-        boolean firstPublicEvaluation = SharedPreferencesHelper.checkFirstPublicEvaluation(getActivity());
-        if (firstPublicEvaluation) {
-            AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-            //alertDialog.setTitle(getResources().getString(R.string.session_discard));
-            alertDialog.setMessage(context.getResources().getString(R.string.firstPublicEvaluation));
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, context.getResources().getString(R.string.yes),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // go to register activity
-                            dialog.dismiss();
-
-                            FragmentManager fragmentManager = getFragmentManager();
-                            fragmentManager.popBackStack();
-
-                            Intent intent = new Intent(getActivity(), RegisterUser.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            getActivity().startActivity(intent);
-                            getActivity().finish();
-                        }
-                    });
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, context.getResources().getString(R.string.register_later),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-        }
-
 
         /**
          * Setup bottom navigation.
