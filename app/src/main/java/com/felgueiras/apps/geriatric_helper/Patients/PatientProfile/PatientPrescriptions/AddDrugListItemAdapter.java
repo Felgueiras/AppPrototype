@@ -34,8 +34,6 @@ public class AddDrugListItemAdapter extends RecyclerView.Adapter<AddDrugListItem
     private final RecyclerView.Adapter<DrugViewHolder> adapter;
     private Activity context;
 
-    private ArrayList<String> allDrugs = new ArrayList<>();
-
 
     /**
      * Get the added drugs.
@@ -91,7 +89,7 @@ public class AddDrugListItemAdapter extends RecyclerView.Adapter<AddDrugListItem
      */
     AddDrugListItemAdapter(Activity context, ArrayList<String> drugs, PatientFirebase patient) {
         this.context = context;
-        this.allDrugs = new ArrayList<>();
+        ArrayList<String> allDrugs = new ArrayList<>();
         allDrugs.addAll(drugs);
         // append first dummy item
         addedDrugsList.add("");

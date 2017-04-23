@@ -25,6 +25,7 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFir
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.PhotoVideoHandling.RecordVideoActivity;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
@@ -110,7 +111,8 @@ public class ScaleFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     View viewForSnackbar = getActivity().findViewById(R.id.scale_progress);
-                    SessionHelper.saveSession(getActivity(), session, FirebaseDatabaseHelper.getPatientFromSession(session), viewForSnackbar, viewForSnackbar, 3);
+                    SessionHelper.saveSession(getActivity(), session, PatientsManagement.getPatientFromSession(session,
+                            getActivity()), viewForSnackbar, viewForSnackbar, 3);
                 }
             });
             cancelButton.setOnClickListener(new View.OnClickListener() {

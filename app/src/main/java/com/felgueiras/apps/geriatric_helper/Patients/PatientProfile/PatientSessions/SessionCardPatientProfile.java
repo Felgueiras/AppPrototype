@@ -119,7 +119,7 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Snackbar.make(holder.view, "Sessão eliminada.", Snackbar.LENGTH_SHORT).show();
-                                FirebaseDatabaseHelper.deleteSession(currentSession);
+                                FirebaseDatabaseHelper.deleteSession(currentSession, context);
 
                             }
                         });

@@ -16,6 +16,7 @@ import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideScale;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublic;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
@@ -261,7 +262,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     // get the arguments
                     Bundle arguments = fr.getArguments();
                     SessionFirebase session = (SessionFirebase) arguments.getSerializable(ReviewSingleSessionWithPatient.SESSION);
-                    PatientFirebase patient =  FirebaseDatabaseHelper.getPatientFromSession(session);
+                    PatientFirebase patient =  PatientsManagement.getPatientFromSession(session, context);
                     args = new Bundle();
                     args.putSerializable(PatientProfileFragment.PATIENT, patient);
                     nextFragment = new PatientProfileFragment();
@@ -277,7 +278,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     args = new Bundle();
                     args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
                     nextFragment = new ReviewSingleSessionWithPatient();
-                    if (FirebaseDatabaseHelper.getPatientFromSession(session) == null) {
+                    if (PatientsManagement.getPatientFromSession(session, context) == null) {
                         nextFragment = new ReviewSingleSessionNoPatient();
                     }
                     break;
@@ -386,7 +387,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
         SharedPreferencesHelper.resetPrivateSession(context, "");
 
         // erase from firebase
-        FirebaseDatabaseHelper.deleteSession(session);
+        FirebaseDatabaseHelper.deleteSession(session, context);
 
 
         Fragment fragment = null;
@@ -545,7 +546,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             GeriatricScaleFirebase scale = (GeriatricScaleFirebase) arguments.getSerializable(ScaleFragment.SCALE);
             boolean containsFavorite = checkBackStackContainsTag(Constants.tag_create_session_from_favorites);
             if (containsFavorite) {
-                PatientFirebase patient = FirebaseDatabaseHelper.getPatientFromSession(FirebaseDatabaseHelper.getSessionFromScale(scale));
+                PatientFirebase patient = PatientsManagement.getPatientFromSession(FirebaseDatabaseHelper.getSessionFromScale(scale), context);
 
                 args.putSerializable(PatientProfileFragment.PATIENT, patient);
                 fragment = new PatientProfileFragment();
@@ -601,10 +602,13 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
     }
 
     public static void clearBackStack() {
-        FragmentManager.BackStackEntry entry = fragmentManager.getBackStackEntryAt(0);
-        fragmentManager.popBackStack(entry.getId(),
-                FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        fragmentManager.executePendingTransactions();
+        if (fragmentManager.getBackStackEntryCount() > 0){
+            FragmentManager.BackStackEntry entry = fragmentManager.getBackStackEntryAt(0);
+            fragmentManager.popBackStack(entry.getId(),
+                    FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragmentManager.executePendingTransactions();
+        }
+
 
 //        if (fragmentManager.getBackStackEntryCount() > 0) {
 //            FragmentManager.BackStackEntry first = fragmentManager.getBackStackEntryAt(0);

@@ -1,7 +1,7 @@
 package com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
@@ -10,6 +10,7 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -291,10 +292,6 @@ public class FirebaseDatabaseHelper {
         }
     }
 
-//    public static void updatePatient(PatientFirebase patient) {
-//        FirebaseHelper.firebaseTablePatients.child(patient.getKey()).setValue(patient);
-//    }
-
     public static void updateSession(SessionFirebase session) {
         if (session != null)
             FirebaseHelper.firebaseTableSessions.child(session.getKey()).setValue(session);
@@ -314,11 +311,12 @@ public class FirebaseDatabaseHelper {
      * Delete a session.
      *
      * @param session
+     * @param context
      */
-    public static void deleteSession(SessionFirebase session) {
+    public static void deleteSession(SessionFirebase session, Context context) {
 
         // remove session from patient's sessions list (if patient not null)
-        PatientFirebase patient = getPatientFromSession(session);
+        PatientFirebase patient = PatientsManagement.getPatientFromSession(session, context);
         if (patient != null) {
             patient.getSessionsIDS().remove(session.getGuid());
 //            updatePatient(patient);
@@ -333,22 +331,6 @@ public class FirebaseDatabaseHelper {
         FirebaseHelper.firebaseTableSessions.child(session.getKey()).removeValue();
     }
 
-
-    public static void deletePatient(PatientFirebase patient) {
-        // delete sessions from this patient
-        ArrayList<SessionFirebase> sessions = getSessionsFromPatient(patient);
-        for (SessionFirebase session : sessions) {
-            deleteSession(session);
-        }
-
-        // delete prescriptions from this patient
-        ArrayList<PrescriptionFirebase> prescriptions = getPrescriptionsFromPatient(patient);
-        for (PrescriptionFirebase prescription : prescriptions) {
-            deletePrescription(prescription);
-        }
-
-//        FirebaseHelper.firebaseTablePatients.child(patient.getKey()).removeValue();
-    }
 
     /**
      * Erase uncompleted scales from a session.
@@ -440,23 +422,16 @@ public class FirebaseDatabaseHelper {
      * Delete a prescription.
      *
      * @param prescription
+     * @param context
      */
-    public static void deletePrescription(PrescriptionFirebase prescription) {
+    public static void deletePrescription(PrescriptionFirebase prescription, Context context) {
         // remove from patient's list of prescriptions
-        PatientFirebase patient = getPatientFromPrescription(prescription);
+        PatientFirebase patient = PatientsManagement.getPatientFromPrescription(prescription, context);
         patient.getPrescriptionsIDS().remove(prescription.getGuid());
-//        updatePatient(patient);
+        PatientsManagement.updatePatient(patient, context);
 
         // remove prescription
         FirebaseHelper.firebaseTablePrescriptions.child(prescription.getKey()).removeValue();
-    }
-
-    public static ArrayList<PatientFirebase> getPatients() {
-        return FirebaseHelper.patients;
-    }
-
-    public static ArrayList<PatientFirebase> getFavoritePatients() {
-        return FirebaseHelper.favoritePatients;
     }
 
     /**
@@ -551,27 +526,6 @@ public class FirebaseDatabaseHelper {
     }
 
     /**
-     * Get a patient by its ID.
-     *
-     * @return
-     */
-    @Nullable
-    public static PatientFirebase getPatientFromSession(SessionFirebase session) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() == null) {
-            return null;
-        }
-        if (session.getPatientID() == null) {
-            return null;
-        }
-        for (PatientFirebase patient : FirebaseHelper.patients) {
-            if (patient.getGuid().equals(session.getPatientID()))
-                return patient;
-        }
-        return null;
-    }
-
-    /**
      * Get a scale from a session by its name.
      *
      * @param session
@@ -639,23 +593,6 @@ public class FirebaseDatabaseHelper {
     }
 
     /**
-     * Get patient associated with a prescription.
-     *
-     * @param prescription
-     * @return
-     */
-    public static PatientFirebase getPatientFromPrescription(PrescriptionFirebase prescription) {
-
-        for (PatientFirebase patient : FirebaseHelper.patients) {
-            if (patient.getGuid().equals(prescription.getPatientID())) {
-                return patient;
-            }
-        }
-        return null;
-
-    }
-
-    /**
      * Get questions from a scale.
      *
      * @param scale
@@ -707,17 +644,6 @@ public class FirebaseDatabaseHelper {
         return choicesToConsider;
     }
 
-    /**
-     * Save a Patient.
-     *
-     * @param patient
-     */
-//    public static void createPatient(PatientFirebase patient) {
-//        String patientID = FirebaseHelper.firebaseTablePatients.push().getKey();
-//        patient.setKey(patientID);
-//        FirebaseHelper.firebaseTablePatients.child(patientID).setValue(patient);
-//    }
-
     public static void createPrescription(PrescriptionFirebase prescription) {
         String prescriptionID = FirebaseHelper.firebaseTablePrescriptions.push().getKey();
         prescription.setKey(prescriptionID);
@@ -749,27 +675,6 @@ public class FirebaseDatabaseHelper {
         } else {
             Constants.publicQuestions.add(question);
 
-        }
-    }
-
-    /**
-     * Save a Choice.
-     *
-     * @param choice
-     */
-    public static void createChoice(ChoiceFirebase choice) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null) {
-            // add to questions
-//        QuestionFirebase question = getQuestionByID(choice.getQuestionID());
-//        question.getChoicesIDs().add(choice.getGuid());
-//        updateQuestion(question);
-
-            // add to table
-            String choiceID = FirebaseHelper.firebaseTableChoices.push().getKey();
-            FirebaseHelper.firebaseTableChoices.child(choiceID).setValue(choice);
-        } else {
-            Constants.publicChoices.add(choice);
         }
     }
 }

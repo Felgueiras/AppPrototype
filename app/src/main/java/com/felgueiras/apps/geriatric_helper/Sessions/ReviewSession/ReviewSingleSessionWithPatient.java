@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
@@ -61,8 +62,8 @@ public class ReviewSingleSessionWithPatient extends Fragment {
         // get Session and Patient
         session = (SessionFirebase) args.getSerializable(SESSION);
 
-        if (FirebaseDatabaseHelper.getPatientFromSession(session) != null) {
-            getActivity().setTitle(FirebaseDatabaseHelper.getPatientFromSession(session).getName() + " - " +
+        if (PatientsManagement.getPatientFromSession(session, getActivity()) != null) {
+            getActivity().setTitle(PatientsManagement.getPatientFromSession(session, getActivity()).getName() + " - " +
                     DatesHandler.dateToStringWithoutHour(new Date(session.getDate())));
         } else {
             getActivity().setTitle(DatesHandler.dateToStringWithoutHour(new Date(session.getDate())));
@@ -188,7 +189,8 @@ public class ReviewSingleSessionWithPatient extends Fragment {
                                 String tag = backEntry.getName();
 
                                 fragmentManager.popBackStack();
-                                PatientFirebase patient = FirebaseDatabaseHelper.getPatientFromSession(session);
+                                PatientFirebase patient = PatientsManagement.getPatientFromSession(session,
+                                        getActivity());
                                 dialog.dismiss();
 
                                 DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
@@ -213,7 +215,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
 //                                        .replace(R.id.current_fragment, fragment)
 //                                        .commit();
 
-                                FirebaseDatabaseHelper.deleteSession(session);
+                                FirebaseDatabaseHelper.deleteSession(session, getActivity());
                             }
                         });
                 alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),

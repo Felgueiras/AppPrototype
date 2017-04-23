@@ -1,6 +1,7 @@
 package com.felgueiras.apps.geriatric_helper.HelpersHandlers;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDa
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BadElementException;
@@ -115,7 +117,7 @@ public class SessionPDF {
      */
     public void createSessionPdf(Activity activity) {
         context = activity;
-        patient = FirebaseDatabaseHelper.getPatientFromSession(session);
+        patient = PatientsManagement.getPatientFromSession(session, context);
 
 
         if (!verifyStoragePermissions(activity)) {
@@ -132,7 +134,7 @@ public class SessionPDF {
 
         //Create time stamp
         Date date = new Date();
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(date);
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(date);
 
         myFile = new File(pdfFolder + timeStamp + ".pdf");
 

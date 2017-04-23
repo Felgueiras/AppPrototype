@@ -113,7 +113,7 @@ public class PrivateAreaActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             // erase the sessionID
                             SharedPreferencesHelper.resetPrivateSession(context, sessionID);
-                            FirebaseDatabaseHelper.deleteSession(FirebaseDatabaseHelper.getSessionByID(sessionID));
+                            FirebaseDatabaseHelper.deleteSession(FirebaseDatabaseHelper.getSessionByID(sessionID), context);
                         }
                     });
             alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {

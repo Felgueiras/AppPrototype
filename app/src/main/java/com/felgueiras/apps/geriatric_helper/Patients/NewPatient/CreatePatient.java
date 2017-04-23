@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionWithPatient;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
@@ -169,10 +169,9 @@ public class CreatePatient extends Fragment {
 
                 patient.setFavorite(false);
 
-                // TODO save Patient
-//                FirebaseDatabaseHelper.createPatient(patient);
+                PatientsManagement.createPatient(patient, getActivity());
 
-                FirebaseDatabaseHelper.getPatients().add(patient);
+                PatientsManagement.getPatients(getActivity()).add(patient);
 
 
                 Snackbar.make(getView(), R.string.create_patient_success, Snackbar.LENGTH_SHORT).show();

@@ -21,6 +21,7 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.ScaleCard;
 import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.ScaleInfoHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
@@ -70,7 +71,7 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
     public ReviewScaleCard(Activity context, SessionFirebase session, String area, boolean comparePrevious) {
         this.context = context;
         this.session = session;
-        this.patient = FirebaseDatabaseHelper.getPatientFromSession(session);
+        this.patient = PatientsManagement.getPatientFromSession(session, context);
         this.area = area;
         this.comparePrevious = comparePrevious;
     }

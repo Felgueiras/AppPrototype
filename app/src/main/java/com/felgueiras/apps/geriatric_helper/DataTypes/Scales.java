@@ -9,7 +9,6 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.ScoringNonDB;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
-import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
 

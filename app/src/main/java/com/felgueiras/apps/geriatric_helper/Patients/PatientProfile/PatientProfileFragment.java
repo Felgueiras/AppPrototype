@@ -33,6 +33,7 @@ import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPresc
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsEmpty;
 import com.felgueiras.apps.geriatric_helper.Patients.Progress.ProgressFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsFragment;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -51,7 +52,6 @@ public class PatientProfileFragment extends Fragment {
     private Menu menu;
 
     Fragment defaultFragment;
-    private TextView patientBirthDate;
 
 
     @Override
@@ -86,7 +86,7 @@ public class PatientProfileFragment extends Fragment {
 
         // access Views
         //TextView label = (TextView) view.findViewById(R.id.label);
-        patientBirthDate = (TextView) view.findViewById(R.id.patientAge);
+        TextView patientBirthDate = (TextView) view.findViewById(R.id.patientAge);
         TextView patientAddress = (TextView) view.findViewById(R.id.patientAddress);
         ImageView patientPhoto = (ImageView) view.findViewById(R.id.patientPhoto);
         Button patientProgress = (Button) view.findViewById(R.id.patientEvolution);
@@ -275,7 +275,7 @@ public class PatientProfileFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.favorite:
                 patient.setFavorite(!patient.isFavorite());
-//                FirebaseDatabaseHelper.updatePatient(patient);
+                PatientsManagement.updatePatient(patient, getActivity());
 
                 if (patient.isFavorite()) {
                     Snackbar.make(view, R.string.patient_favorite_add, Snackbar.LENGTH_LONG).show();
@@ -294,7 +294,7 @@ public class PatientProfileFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // remove sessions from PATIENT
-                                FirebaseDatabaseHelper.deletePatient(patient);
+                                PatientsManagement.deletePatient(patient, getActivity());
                                 dialog.dismiss();
 
                                 DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);

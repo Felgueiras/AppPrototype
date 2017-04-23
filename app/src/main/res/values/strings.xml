@@ -100,8 +100,8 @@
     <string name="test_result">Resultado</string>
     <string name="patient_sessions">Sessões do paciente</string>
     <string name="action_play_next" translatable="false">Reproduzir o próximo</string>
-    <string name="navigation_drawer_close">Fechar navigation drawer</string>
-    <string name="navigation_drawer_open">Abrir navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Fechar navigation drawer</string>
+    <string name="navigation_drawer_open" translatable="false">Abrir navigation drawer</string>
     <string name="complete_one_scale_atleast">Precisa de preencher pelo menos uma escala</string>
     <string name="you_must_add_patient">Tem de selecionar um paciente para esta sessão</string>
     <string name="you_must_select_test">Tem de selecionar pelo menos um teste</string>
@@ -133,7 +133,7 @@
     <string name="no_sessions_history">Não avaliou ainda nenhum paciente</string>
     <string name="help">Ajuda</string>
     <string name="new_patient_discard">Deseja cancelar?</string>
-    <string name="no_favorite_patients">Não definiu pacientes favoritos</string>
+    <string name="no_favorite_patients" translatable="false">Não definiu pacientes favoritos</string>
     <string name="no_beers_criteria">Não há critérios de Beers associados</string>
     <string name="no_start_criteria">Não há critérios Start associados</string>
     <string name="no_stopp_criteria">Não há critérios Stopp associados</string>
@@ -156,7 +156,7 @@
     <string name="patients_favorites">Favoritos</string>
     <string name="patients_all">Todos</string>
     <string name="menu_search">Procurar</string>
-    <string name="help_precription_description">
+    <string name="help_precription_description" translatable="false">
         Há certos compostos químicos presentes em medicamentos que devem ou não ser prescritos aos pacientes geriátricos.
         De modo a auxiliar os profissionais de saúde a escolher o medicamento mais indicado para um paciente,
         encontram-se compilados os critérios Start, Stopp e de Beers.
@@ -166,7 +166,7 @@
         e indicam quais os compostos a evitar dependendo do historial clínico. QE refere-se a "quality of evidence" e SR é
         "strength of recommendation".
     </string>
-    <string name="help_functionalitites_description">
+    <string name="help_functionalitites_description" translatable="false">
         Esta aplicação permite realizar a AGG e acompanhar a evolução de um paciente, caso o utilizador
         esteja autenticado no sistema. Tem como objetivo auxiliar os profissionais de saúde a aplicar este método e
         fornecer-lhes auxílio enquanto realizam o ACG.\n\n
@@ -175,12 +175,12 @@
         áreas. Preencha somente as escalas que achar adequadas, não necessita de preencher todas à partida.
         Quando quiser terminar a sessão volte ao ecrã onde estão todas as áreas, prima o botão "+" e selecione terminar.
         </string>
-    <string name="help_patients_description">
+    <string name="help_patients_description" translatable="false">
         Em Pacientes, na sua área pessoal, pode ver os seus pacientes, as últimas avaliações e os pacientes favoritos.
         As sessões podem ser criadas a partir do perfil do paciente.</string>
 
     <!--CGA areas disclaimers-->
-    <string name="cga_cognitive">Fatores relacionados com o estado cognitivo do paciente, nomeadamente
+    <string name="cga_cognitive" translatable="false">Fatores relacionados com o estado cognitivo do paciente, nomeadamente
     orientação, memória, cálculo, pensamento abstracto, linguagem, etc.\n
     A la hora de explorar la esfera cognitiva, debemos
 interrogar acerca de:\n
@@ -218,14 +218,14 @@ física y/o verbal.
 — Ideación o tentativas autolíticas.\n
 — Quejas somáticas.\n
     </string>
-    <string name="cga_social">A avaliação social é complexa pela quantidade/diversidade de fatores que envolve
+    <string name="cga_social" translatable="false">A avaliação social é complexa pela quantidade/diversidade de fatores que envolve
     (idoso, família, comunidade e redes sociais). Tem por base o suporte social, condições habitacionais,
     localização dos recursos necessários, disponibilidade de transportes e recursos financeiros.</string>
-    <string name="cga_nutritional">Detetar a presença ou risco de malnutrição sem recurso a parâmetros
+    <string name="cga_nutritional" translatable="false">Detetar a presença ou risco de malnutrição sem recurso a parâmetros
     analíticos</string>
-    <string name="cga_mental">Composto por avaliação Cognitiva e Afetiva. A Cognitiva relaciona-se com o estado cognitivo do paciente, nomeadamente
+    <string name="cga_mental" translatable="false">Composto por avaliação Cognitiva e Afetiva. A Cognitiva relaciona-se com o estado cognitivo do paciente, nomeadamente
     orientação, memória, cálculo, pensamento abstracto, linguagem, etc. A Afetiva é afecta ao estado emocional do paciente, humor, tristeza e depressão.</string>
-    <string name="cga_functional">Tem como objetivo determinar o grau de independência do paciente.
+    <string name="cga_functional" translatable="false">Tem como objetivo determinar o grau de independência do paciente.
     Aborda as atividades da vida diária, dividindo-as em básicas (ABVD - independência para o auto-cuidado) e
     instrumentais (AIVD - independência para viver sozinho).
     </string>
@@ -235,7 +235,7 @@ física y/o verbal.
     <string name="consult_progress">Consultar progresso</string>
     <string name="progress">Progresso</string>
     <string name="help_cga">Avaliação Geriátrica Global</string>
-    <string name="help_cga_description">
+    <string name="help_cga_description" translatable="false">
         A Avaliação Geriátrica Global (AGG) é uma avaliação multidimensional e interdisciplinar do idoso:\n
 • Capacidade funcional e física;\n
 • Estado cognitivo e afetivo;\n
@@ -271,18 +271,18 @@ serviços e intervenções, que respondam aos seus problemas,
     <string name="address">Morada</string>
     <string name="create_patient_error_address">Precisa de fornecer uma morada</string>
     <string name="create_patient_error_birthDate">Precisa de fornecer a data de nascimento</string>
-    <string name="info_prescription">
+    <string name="info_prescription" translatable="false">
         Aqui pode consultar todos os compostos químicos associados a medicamentos prescritos a pacientes
         geriátricos. Os compostos estão também agrupados pelos critérios Start, Stopp e de Beers.
         \n\n
         Para consultar os critérios Start e Stopp selecione primeiro o sistema em causa. Os critérios Beers
         estão organizados por sistema/categoria terapêutica ou doença/síndrome.
     </string>
-    <string name="intro_welcome_message">Bem-vindo ao GeriatricHelper</string>
-    <string name="intro_brief_description">Esta aplicação permite-lhe aplicar a Avaliação Geriátrica Global.</string>
-    <string name="intro_patients">Ao registar-se na aplicação pode gerir os seus pacientes,
+    <string name="intro_welcome_message" translatable="false">Bem-vindo ao GeriatricHelper</string>
+    <string name="intro_brief_description" translatable="false">Esta aplicação permite-lhe aplicar a Avaliação Geriátrica Global.</string>
+    <string name="intro_patients" translatable="false">Ao registar-se na aplicação pode gerir os seus pacientes,
         avalià-los e acompanhar o seu progresso.</string>
-    <string name="intro_prescription">Consulte critérios que o ajudarão a prescrever o medicamento mais
+    <string name="intro_prescription" translatable="false">Consulte critérios que o ajudarão a prescrever o medicamento mais
         apropriado para os seus pacientes.</string>
     <string name="feedbacktitle" translatable="false">Feedback</string>
     <string name="feedback_name_error">Precisa de indicar um nome</string>
@@ -293,9 +293,9 @@ serviços e intervenções, que respondam aos seus problemas,
 
 Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante ut purus pellentesque faucibus a et velit. Sed gravida volutpat purus id luctus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a dignissim nisl, non venenatis mauris. Suspendisse ut orci ex. Curabitur maximus vehicula diam, at interdum turpis tempus quis. Morbi accumsan pulvinar ultricies. Vestibulum dapibus sem ut libero sollicitudin, a faucibus ex pretium. Nunc nec lobortis nulla. Curabitur pellentesque leo viverra volutpat pretium. Aenean facilisis blandit tellus, ullamcorper blandit urna efficitur quis. Nunc a lectus dolor.</string>
     <string name="evolution_negative">Paciente piorou</string>
-    <string name="evolution_positive">Paciente melhorou</string>
-    <string name="evolution_neutral">Paciente permanece igual</string>
-    <string name="info_procedure_patient_worse">
+    <string name="evolution_positive" translatable="false">Paciente melhorou</string>
+    <string name="evolution_neutral" translatable="false">Paciente permanece igual</string>
+    <string name="info_procedure_patient_worse" translatable="false">
         Caso o paciente tenha aumentado a sua dependência:\n
         1. Pesquisar a causa de maior dependência (patologia de novo? agravamento da patologia de base?);\n
         2. Avaliação da esfera social: quem é o cuidador? qual a disponibilidade do cuidador?
@@ -305,7 +305,7 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     </string>
     <string name="scale_notes">Notas</string>
     <string name="notes">Notas</string>
-    <string name="help_personal_area">
+    <string name="help_personal_area" translatable="false">
         Caso queira criar uma sessão e associá-la a um seu paciente pode fazê-lo na sua área pessoa.
         Para tal, faça login com as suas credenciais. Na sua área pessoal pode igualmente criar novos pacientes
         e acompanhar o seu progresso.
@@ -321,7 +321,7 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="session_finish">Terminar</string>
     <string name="action_options">Opções</string>
     <string name="action_register">Registar</string>
-    <string name="register_disclaimer">Ao registar-se vai poder criar perfis de pacientes e associar-lhes sessões de ACG.
+    <string name="register_disclaimer" translatable="false">Ao registar-se vai poder criar perfis de pacientes e associar-lhes sessões de ACG.
     Será mais fácil acompanhar o seu progresso pois poderá consultar consultas anteriores. Deste modo, a confidencialidade
     dos dados também se encontra assegurada.</string>
     <string name="username" translatable="false">username</string>
@@ -338,13 +338,13 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="about_app">Aplicação desenvolvida no âmbito da Dissertação de Mestrado em Engenharia de Computadores
     e Telemática da Universidade de Aveiro do aluno Rafael Salgueiro Felgueiras Pinto.</string>
     <string name="cga_guide">Guia da AGG</string>
-    <string name="firstPublicEvaluation">Se quiser criar uma sessão associada a um paciente deve registar-se na aplicação.
+    <string name="firstPublicEvaluation" translatable="false">Se quiser criar uma sessão associada a um paciente deve registar-se na aplicação.
         Ao registar-se pode criar perfis de pacientes, sessões e associar prescrições.
     Quer registar-se agora?</string>
     <string name="register_now">Registar</string>
     <string name="register_later">Mais tarde</string>
     <string name="evaluate_patient">Avaliar o paciente</string>
-    <string name="hospitalProcessNumber">Nº processo hospitalar</string>
+    <string name="hospitalProcessNumber" translatable="false">Nº processo hospitalar</string>
     <string name="create_patient_error_process_number">Precisa de fornecer um nº de processo hospitalar</string>
     <string name="new_session_private">Nova sessão</string>
     <!--Incomplete scale-->
@@ -367,10 +367,10 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="scale_incomplete_leave_scale" translatable="false">sair da escala</string>
     <string name="tab_personal_area">Página Principal</string>
     <string name="settings">Definições</string>
-    <string name="help_sessions_description">
+    <string name="help_sessions_description" translatable="false">
         Em Sessões pode consultar as suas sessões, agrupadas por dia. Poderá aceder ao seu conteúdo e criar novas sessões de AGG.
     </string>
-    <string name="help_cga_guide_description">
+    <string name="help_cga_guide_description" translatable="false">
         O guia da AGG faz uma apresentação sobre as diferentes áreas abordadas pela AGG.
         Dentro de cada área poderá aceder às correspondentes escalas, os resultados possíveis
         e ver que questões fazem parte da escala.
@@ -381,7 +381,7 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="cga_social_name">Situação Social</string>
     <string name="drugs_beers" translatable="false">Beers</string>
     <string name="btn_forgot_password">Esqueceu-se da password?</string>
-    <string name="minimum_password">Pelo menos 6 chars</string>
+    <string name="minimum_password" translatable="false">Pelo menos 6 chars</string>
     <string name="auth_failed">Email ou password incorretas</string>
     <string name="add_prescription">Nova Prescrição</string>
     <string name="add_prescription_error_name">Precisa de fornecer um nome para a prescrição</string>
@@ -389,7 +389,7 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="action_take_photo">Fotografia</string>
     <string name="clock_drawing_photo">Deve tirar uma fotografia do relógio desenhado pelo paciente</string>
     <string name="take_photo">Tirar fotografia</string>
-    <string name="label_email">Enviar por email</string>
+    <string name="label_email" translatable="false">Enviar por email</string>
     <string name="label_cancel">Cancelar</string>
     <string name="scalesVersion" translatable="false">scalesVersion</string>
     <string name="action_create_pdf">Criar PDF</string>
@@ -399,9 +399,9 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="search_by_patient">Procure por paciente…</string>
     <string name="action_record_video">Vídeo</string>
     <string name="btn_reset_password">Recuperar password</string>
-    <string name="btn_back"><![CDATA[<< Voltar]]></string>
+    <string name="btn_back" translatable="false"><![CDATA[<< Voltar]]></string>
     <string name="criteriaVersion" translatable="false">criteriaVersion</string>
-    <string name="no_prescriptions_for_patient">Paciente não tem prescrições associadas</string>
+    <string name="no_prescriptions_for_patient" translatable="false">Paciente não tem prescrições associadas</string>
     <string name="notas">Notas</string>
     <string name="close">Fechar</string>
     <string name="sessionPDF">PDF da sessão</string>

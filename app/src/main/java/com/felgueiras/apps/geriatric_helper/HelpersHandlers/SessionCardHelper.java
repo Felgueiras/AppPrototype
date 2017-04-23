@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.EvaluationsAllFragment;
 import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
@@ -89,7 +90,7 @@ public class SessionCardHelper implements View.OnClickListener {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Snackbar.make(view, "Sessão eliminada.", Snackbar.LENGTH_SHORT).show();
-                                    FirebaseDatabaseHelper.deleteSession(session);
+                                    FirebaseDatabaseHelper.deleteSession(session, context);
                                     // refresh the adapter
                                     if (fragment instanceof SessionsHistoryMainFragment) {
                                         Fragment evaluationsList = fragment.getChildFragmentManager().findFragmentById(R.id.evaluation_history_frame_layout);
@@ -110,7 +111,7 @@ public class SessionCardHelper implements View.OnClickListener {
                     Fragment endFragment = new PatientProfileFragment();
 
                     Bundle args = new Bundle();
-                    args.putSerializable(PatientProfileFragment.PATIENT, FirebaseDatabaseHelper.getPatientFromSession(session));
+                    args.putSerializable(PatientProfileFragment.PATIENT, PatientsManagement.getPatientFromSession(session, context));
                     ((PrivateAreaActivity) context).replaceFragmentSharedElements(endFragment,
                             args,
                             Constants.tag_view_patient_info_records_from_sessions_list,

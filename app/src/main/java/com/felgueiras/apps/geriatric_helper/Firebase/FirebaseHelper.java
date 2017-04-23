@@ -11,10 +11,8 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.ScoringNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.ChoiceFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.QuestionFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
@@ -106,11 +104,11 @@ public class FirebaseHelper {
     /**
      * Patients.
      */
-    public static ArrayList<PatientFirebase> patients = new ArrayList<>();
+//    public static ArrayList<PatientFirebase> patients = new ArrayList<>();
     /**
      * Favorite Patients.
      */
-    public static ArrayList<PatientFirebase> favoritePatients = new ArrayList<>();
+//    public static ArrayList<PatientFirebase> favoritePatients = new ArrayList<>();
     /**
      * Sessions.
      */

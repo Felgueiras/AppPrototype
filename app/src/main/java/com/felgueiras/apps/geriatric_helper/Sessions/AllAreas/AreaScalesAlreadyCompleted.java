@@ -17,6 +17,7 @@ import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.ScaleFragment;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
@@ -96,7 +97,7 @@ public class AreaScalesAlreadyCompleted extends RecyclerView.Adapter<AreaScalesA
                 bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(scaleName));
                 bundle.putSerializable(ScaleFragment.SCALE, currentScaleDB);
                 bundle.putSerializable(ScaleFragment.CGA_AREA, currentScaleDB.getArea());
-                bundle.putSerializable(ScaleFragment.patient, FirebaseDatabaseHelper.getPatientFromSession(session));
+                bundle.putSerializable(ScaleFragment.patient, PatientsManagement.getPatientFromSession(session, context));
                 newFragment.setArguments(bundle);
                 // setup the transaction
                 FragmentTransaction transaction = context.getFragmentManager().beginTransaction();

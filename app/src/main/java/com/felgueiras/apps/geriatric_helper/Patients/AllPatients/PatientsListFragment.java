@@ -24,7 +24,6 @@ import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.arlib.floatingsearchview.util.Util;
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
@@ -32,6 +31,7 @@ import com.felgueiras.apps.geriatric_helper.Patients.AllPatients.FloatingSearch.
 import com.felgueiras.apps.geriatric_helper.Patients.AllPatients.FloatingSearch.PersonSuggestion;
 import com.felgueiras.apps.geriatric_helper.Patients.NewPatient.CreatePatient;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientProfileFragment;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 
@@ -289,7 +289,7 @@ public class PatientsListFragment extends Fragment {
     }
 
     private void setupResultsList() {
-        PatientCardPatientsList mSearchResultsAdapter = new PatientCardPatientsList(getActivity(), FirebaseDatabaseHelper.getPatients());
+        PatientCardPatientsList mSearchResultsAdapter = new PatientCardPatientsList(getActivity(), PatientsManagement.getPatients(getActivity()));
         mSearchResultsList.setAdapter(mSearchResultsAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }

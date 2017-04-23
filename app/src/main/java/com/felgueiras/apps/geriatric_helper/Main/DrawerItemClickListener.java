@@ -125,7 +125,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             alertDialog.show();
         } else {
             // empty back stack
-//            BackStackHandler.clearBackStack();
+            BackStackHandler.clearBackStack();
             fragmentManager = BackStackHandler.getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.current_fragment, endFragment, "initial_tag")

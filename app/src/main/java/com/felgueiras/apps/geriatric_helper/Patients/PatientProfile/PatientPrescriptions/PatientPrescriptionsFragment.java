@@ -124,7 +124,7 @@ public class PatientPrescriptionsFragment extends Fragment {
      * @param prescription Session index
      */
     public void removePrescription(PrescriptionFirebase prescription) {
-        FirebaseDatabaseHelper.deletePrescription(prescription);
+        FirebaseDatabaseHelper.deletePrescription(prescription, getActivity());
     }
 
     @Override

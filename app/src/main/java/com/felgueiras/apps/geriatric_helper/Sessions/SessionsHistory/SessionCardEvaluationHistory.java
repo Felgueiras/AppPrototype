@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionWithPatient;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
@@ -89,7 +90,7 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
         // get the current Session and tests from that Session
         final SessionFirebase session = sessionsList.get(position);
         List<GeriatricScaleFirebase> scalesFromSession = FirebaseDatabaseHelper.getScalesFromSession(session);
-        PatientFirebase patient = FirebaseDatabaseHelper.getPatientFromSession(session);
+        PatientFirebase patient = PatientsManagement.getPatientFromSession(session, context);
         if (patient != null) {
             holder.patientName.setText(patient.getName() + " - " + DatesHandler.hour(new Date(session.getDate())));
             // loading album cover using Glide library

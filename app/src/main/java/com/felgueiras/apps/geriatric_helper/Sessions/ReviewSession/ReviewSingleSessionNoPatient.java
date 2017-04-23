@@ -1,16 +1,12 @@
 package com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +21,6 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricS
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
-import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.RegisterUser;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;

@@ -324,7 +324,7 @@ public class PatientPrescriptionAddMultiple extends Fragment {
                     prescription.setGuid("PRESCRIPTION" + new Random().nextInt());
                     prescription.setName(currentDrug);
                     prescription.setPatientID(patient.getGuid());
-                    patient.addPrescription(prescription.getGuid());
+                    patient.addPrescription(prescription.getGuid(), context);
 
                     // save Prescription
                     FirebaseDatabaseHelper.createPrescription(prescription);

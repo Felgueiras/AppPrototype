@@ -12,7 +12,7 @@
             android:icon="@drawable/ic_people_black_24dp"
             android:title="@string/tab_my_patients" />
         <item
-            android:id="@+id/sessionsIDS"
+            android:id="@+id/sessions"
             android:icon="@drawable/ic_assignment_black_24dp"
             android:title="@string/tab_sessions" />
         <item

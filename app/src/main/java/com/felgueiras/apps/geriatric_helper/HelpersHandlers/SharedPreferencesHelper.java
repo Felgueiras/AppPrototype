@@ -10,6 +10,7 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -175,6 +176,32 @@ public class SharedPreferencesHelper {
         return sharedPreferences.getBoolean(Constants.create_session_permitted, true);
     }
 
+    /**
+     * Add a new patient to SharedPreferences.
+     *
+     * @param patient
+     * @param context
+     */
+    public static void addPatient(PatientFirebase patient, Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+
+        // save scale as JSON String
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
+        Gson gson = builder.create();
+
+        String json = gson.toJson(patient);
+
+        //Set the values
+        Set<String> set = new HashSet<>();
+        set.addAll(getPatientsSet(context));
+        // add new set
+        set.add(json);
+
+        sharedPreferences.edit().putStringSet("patients", set).apply();
+        Log.d("Patients", "Size: " + set.size());
+    }
+
 
     /**
      * Persist a scale into shared prferences.
@@ -185,13 +212,6 @@ public class SharedPreferencesHelper {
     public static void addScale(GeriatricScaleNonDB scaleNonDB, Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
 
-        /**
-         * //Retrieve the values
-         Set<String> set = myScores.getStringSet("key", null);
-
-
-         */
-
         // save scale as JSON String
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
@@ -200,7 +220,7 @@ public class SharedPreferencesHelper {
         String json = gson.toJson(scaleNonDB);
 
         //Set the values
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new HashSet<>();
         set.addAll(getScalesSet(context));
         // add new set
         set.add(json);
@@ -220,7 +240,7 @@ public class SharedPreferencesHelper {
         String json = gson.toJson(stoppCriteria);
 
         //Set the values
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new HashSet<>();
         set.addAll(getStoppCriteriaSet(context));
         // add new set
         set.add(json);
@@ -240,7 +260,7 @@ public class SharedPreferencesHelper {
         String json = gson.toJson(startCriteria);
 
         //Set the values
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new HashSet<>();
         set.addAll(getStartCriteriaSet(context));
         // add new set
         set.add(json);
@@ -254,17 +274,22 @@ public class SharedPreferencesHelper {
      *
      * @param context
      */
-    public static Set<String> getScalesSet(Context context) {
+    private static Set<String> getScalesSet(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         return sharedPreferences.getStringSet("scales", new HashSet<String>());
     }
 
-    public static Set<String> getStartCriteriaSet(Context context) {
+    private static Set<String> getPatientsSet(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        return sharedPreferences.getStringSet("patients", new HashSet<String>());
+    }
+
+    private static Set<String> getStartCriteriaSet(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         return sharedPreferences.getStringSet("startCriteria", new HashSet<String>());
     }
 
-    public static Set<String> getStoppCriteriaSet(Context context) {
+    private static Set<String> getStoppCriteriaSet(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         return sharedPreferences.getStringSet("stoppCriteria", new HashSet<String>());
     }
@@ -285,6 +310,21 @@ public class SharedPreferencesHelper {
         sharedPreferences.edit().putStringSet("stoppCriteria", new HashSet<String>()).apply();
     }
 
+    public static ArrayList<PatientFirebase> getPatients(Context context) {
+        ArrayList<PatientFirebase> patients = new ArrayList<>();
+        Set<String> patientsSet = getPatientsSet(context);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
+        Gson gson = builder.create();
+        for (String currentPatientString : new ArrayList<>(patientsSet)) {
+            PatientFirebase p = gson.fromJson(currentPatientString, PatientFirebase.class);
+            patients.add(p);
+        }
+        return patients;
+    }
+
+
     public static ArrayList<GeriatricScaleNonDB> getScalesArrayList(Context context) {
         ArrayList<GeriatricScaleNonDB> scales = new ArrayList<>();
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
@@ -293,7 +333,7 @@ public class SharedPreferencesHelper {
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
         Gson gson = builder.create();
-        for (String currentScaleString : new ArrayList<String>(scalesSet)) {
+        for (String currentScaleString : new ArrayList<>(scalesSet)) {
             GeriatricScaleNonDB scaleNonDB = gson.fromJson(currentScaleString, GeriatricScaleNonDB.class);
             scales.add(scaleNonDB);
         }
@@ -308,7 +348,7 @@ public class SharedPreferencesHelper {
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
         Gson gson = builder.create();
-        for (String currentCriteriaString : new ArrayList<String>(criteriaSet)) {
+        for (String currentCriteriaString : new ArrayList<>(criteriaSet)) {
             StartCriteria criteria = gson.fromJson(currentCriteriaString, StartCriteria.class);
             startCriteria.add(criteria);
         }
@@ -323,7 +363,7 @@ public class SharedPreferencesHelper {
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
         Gson gson = builder.create();
-        for (String currentCriteriaString : new ArrayList<String>(criteriaSet)) {
+        for (String currentCriteriaString : new ArrayList<>(criteriaSet)) {
             StoppCriteria criteria = gson.fromJson(currentCriteriaString, StoppCriteria.class);
             stoppCriteria.add(criteria);
         }
@@ -331,4 +371,36 @@ public class SharedPreferencesHelper {
     }
 
 
+    /**
+     * Update a Patient.
+     *
+     * @param context
+     * @param index
+     * @param patient
+     */
+    public static void updatePatient(Context context, int index, PatientFirebase patient) {
+        ArrayList<PatientFirebase> patients = getPatients(context);
+        patients.set(index, patient);
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+
+        // save scale as JSON String
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
+        Gson gson = builder.create();
+
+        Set<String> set = new HashSet<>();
+
+        for (PatientFirebase p : patients) {
+            String patientJSON = gson.toJson(p);
+
+            // add new patient
+            set.add(patientJSON);
+        }
+
+
+        sharedPreferences.edit().putStringSet("patients", set).apply();
+        Log.d("Patients", "Size: " + set.size());
+
+    }
 }

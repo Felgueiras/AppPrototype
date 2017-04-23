@@ -91,7 +91,7 @@ public class PatientPrescriptionCreate extends Fragment {
                 prescription.setGuid("PRESCRIPTION" + new Random().nextInt());
                 prescription.setName(name.getText().toString());
                 prescription.setPatientID(patient.getGuid());
-                patient.addPrescription(prescription.getGuid());
+                patient.addPrescription(prescription.getGuid(), getActivity());
 
                 // save Prescription
                 FirebaseDatabaseHelper.createPrescription(prescription);
@@ -108,69 +108,5 @@ public class PatientPrescriptionCreate extends Fragment {
 
     }
 
-
-/**
- * Launch an AlertDialog that lets the user take a icon or select one from the device.
- */
-    /*
-    private void selectImage() {
-        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(CreatePatient.this);
-        builder.setTitle("Add Photo!");
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("Take Photo")) {
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                } else if (options[item].equals("Choose from Gallery")) {
-                    Intent intent = new Intent();
-                    intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    startActivityForResult(intent, REQUEST_CODE);
-                } else if (options[item].equals("Cancel")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
-    */
-
-
-    /*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        InputStream stream = null;
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            try {
-                // recyle unused bitmaps
-                if (bitmap != null) {
-                    bitmap.recycle();
-                }
-                stream = getActivity().getContentResolver().openInputStream(data.getData());
-                bitmap = BitmapFactory.decodeStream(stream);
-                patientPhoto.setImageBitmap(bitmap);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } finally
-
-            {
-                if (stream != null) {
-                    try {
-                        stream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-        /*
-        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            Bitmap app_icon = (Bitmap) data.getExtras().get("data");
-            patientPhoto.setImageBitmap(app_icon);
-        }
-        */
 
 }

@@ -2,7 +2,6 @@ package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPres
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -17,18 +16,13 @@ import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.Beers.BeersCriteria;
-import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.PrescriptionStopp;
-import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.RecommendationInfo;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
-import com.felgueiras.apps.geriatric_helper.EmptyStateFragment;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.Prescription.Beers.DrugInfoBeers;
 import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionSingleDrugFragment;
-import com.felgueiras.apps.geriatric_helper.Prescription.Stopp.DrugInfoStopp;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -97,7 +91,7 @@ public class PatientPrescriptionsCard extends RecyclerView.Adapter<PatientPrescr
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Snackbar.make(holder.view, "Prescrião eliminada.", Snackbar.LENGTH_SHORT).show();
-                                FirebaseDatabaseHelper.deletePrescription(drug);
+                                FirebaseDatabaseHelper.deletePrescription(drug, context);
 
                                 // refresh the adapter
                                 fragment.removePrescription(drug);

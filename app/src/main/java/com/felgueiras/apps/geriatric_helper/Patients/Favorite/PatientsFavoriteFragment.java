@@ -2,26 +2,17 @@ package com.felgueiras.apps.geriatric_helper.Patients.Favorite;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 
 public class PatientsFavoriteFragment extends Fragment {
 
-
-    private GridView gridView;
 
     // Store instance variables based on arguments passed
     @Override
@@ -40,7 +31,7 @@ public class PatientsFavoriteFragment extends Fragment {
         /**
          Grid view that will hold info about the Patients
          **/
-        gridView = (GridView) view.findViewById(R.id.patients_grid);
+        GridView gridView = (GridView) view.findViewById(R.id.patients_grid);
 
         retrieveFavoritePatients(this);
 

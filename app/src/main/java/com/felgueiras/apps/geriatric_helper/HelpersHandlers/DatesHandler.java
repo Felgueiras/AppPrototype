@@ -1,5 +1,7 @@
 package com.felgueiras.apps.geriatric_helper.HelpersHandlers;
 
+import android.annotation.SuppressLint;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -45,7 +47,7 @@ public class DatesHandler {
     }
 
     public static String dateToStringWithoutHour(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String datetime;
         datetime = format.format(date);
 
