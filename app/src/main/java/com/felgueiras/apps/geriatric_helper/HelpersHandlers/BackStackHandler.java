@@ -262,7 +262,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     // get the arguments
                     Bundle arguments = fr.getArguments();
                     SessionFirebase session = (SessionFirebase) arguments.getSerializable(ReviewSingleSessionWithPatient.SESSION);
-                    PatientFirebase patient =  PatientsManagement.getPatientFromSession(session, context);
+                    PatientFirebase patient =  PatientsManagement.getInstance().getPatientFromSession(session, context);
                     args = new Bundle();
                     args.putSerializable(PatientProfileFragment.PATIENT, patient);
                     nextFragment = new PatientProfileFragment();
@@ -278,7 +278,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     args = new Bundle();
                     args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
                     nextFragment = new ReviewSingleSessionWithPatient();
-                    if (PatientsManagement.getPatientFromSession(session, context) == null) {
+                    if (PatientsManagement.getInstance().getPatientFromSession(session, context) == null) {
                         nextFragment = new ReviewSingleSessionNoPatient();
                     }
                     break;
@@ -546,7 +546,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             GeriatricScaleFirebase scale = (GeriatricScaleFirebase) arguments.getSerializable(ScaleFragment.SCALE);
             boolean containsFavorite = checkBackStackContainsTag(Constants.tag_create_session_from_favorites);
             if (containsFavorite) {
-                PatientFirebase patient = PatientsManagement.getPatientFromSession(FirebaseDatabaseHelper.getSessionFromScale(scale), context);
+                PatientFirebase patient = PatientsManagement.getInstance().getPatientFromSession(FirebaseDatabaseHelper.getSessionFromScale(scale), context);
 
                 args.putSerializable(PatientProfileFragment.PATIENT, patient);
                 fragment = new PatientProfileFragment();

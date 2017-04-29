@@ -209,7 +209,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                 bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(selectedTestName));
                 bundle.putSerializable(ScaleFragment.SCALE, finalCurrentTest);
                 bundle.putSerializable(ScaleFragment.CGA_AREA, area);
-                bundle.putSerializable(ScaleFragment.patient, PatientsManagement.getPatientFromSession(session, context));
+                bundle.putSerializable(ScaleFragment.patient, PatientsManagement.getInstance().getPatientFromSession(session, context));
                 newFragment.setArguments(bundle);
                 // setup the transaction
                 FragmentTransaction transaction = context.getFragmentManager().beginTransaction();

@@ -1,6 +1,7 @@
 package com.felgueiras.apps.geriatric_helper.Firebase;
 
 import android.content.Context;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -8,9 +9,12 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,11 +36,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * Created by felgueiras on 11/04/2017.
@@ -45,6 +52,8 @@ import java.util.Map;
 public class FirebaseStorageHelper {
 
     static Map<String, String> resourcesMap = new HashMap<>();
+
+    static String patientsFile = "patients.json";
 
 
     public static void downloadLanguageResources() {
@@ -456,5 +465,124 @@ public class FirebaseStorageHelper {
 
     public static ArrayList<StartCriteria> getStartCriteria() {
         return FirebaseHelper.startCriteria;
+    }
+
+    public static void sendPatientsBackEnd(Gson gson, Context context, StorageReference storageReference) {
+        // convert to JSON array
+        String jsonArray = gson.toJson(PatientsManagement.getInstance().getPatients(context));
+
+        // write JSON to file
+        File patientsJSONFile = createPatientsJSONFile(context);
+
+        try {
+            PrintWriter out = new PrintWriter(patientsJSONFile);
+            out.println(jsonArray);
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // cipher file contents
+        CipherDecipherFiles cip = CipherDecipherFiles.getInstance();
+        cip.cipherFileContents(patientsJSONFile);
+
+
+        // upload to Firebase
+        InputStream stream = null;
+        try {
+            stream = new FileInputStream(patientsJSONFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        UploadTask uploadTask = storageReference.putStream(stream);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d("Firebase", "Patients updated successfully");
+            }
+        });
+    }
+
+
+    private static File createPatientsJSONFile(Context context) {
+        // Create an image file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "patients";
+        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+        File file = null;
+        try {
+            file = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".json",         /* suffix */
+                    storageDir      /* directory */
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return file;
+    }
+
+    public static void getPatientsBackEnd(final Context context) {
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
+        final Gson gson = builder.create();
+
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + patientsFile);
+        try {
+            final File localFile = File.createTempFile("patients", "json");
+            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Log.d("Patients", "Downloaded patients");
+                    // decipher file
+                    CipherDecipherFiles cip = CipherDecipherFiles.getInstance();
+                    cip.decipherFile(localFile);
+
+                    // check contents of file
+                    String content = null;
+                    try {
+                        content = new Scanner(localFile).useDelimiter("\\Z").next();
+                        System.out.println(content);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    // read file
+                    ArrayList<PatientFirebase> patients = null;
+                    try {
+                        patients = new ArrayList<>(Arrays.asList(gson.fromJson(new FileReader(localFile), PatientFirebase[].class)));
+                        Log.d("Patients", patients.size() + "");
+
+                        // save to shared preferences
+                        SharedPreferencesHelper.addInitialPatients(patients, context);
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Log.d("Patients", "Patients file not found in Firebase");
+
+                    SharedPreferencesHelper.addInitialPatients(new ArrayList<PatientFirebase>(), context);
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+
     }
 }

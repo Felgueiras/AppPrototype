@@ -35,7 +35,7 @@ public class DataHelper {
 
     private static List<PersonSuggestion> createSuggestions(Context context) {
         ArrayList<PersonSuggestion> suggestions = new ArrayList<>();
-        for (PatientFirebase patient : PatientsManagement.getPatients(context)) {
+        for (PatientFirebase patient : PatientsManagement.getInstance().getPatients(context)) {
             suggestions.add(new PersonSuggestion(patient));
         }
         return suggestions;

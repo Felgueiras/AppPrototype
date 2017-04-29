@@ -84,7 +84,7 @@ public class SessionCardPatientProfile extends RecyclerView.Adapter<SessionCardP
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         holder.testsList.setLayoutManager(layoutManager);
 
-        SessionScalesAdapterRecycler adapter = new SessionScalesAdapterRecycler(context, sessionScales);
+        SessionScalesAdapterRecycler adapter = new SessionScalesAdapterRecycler(context, sessionScales, true);
         holder.testsList.setAdapter(adapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,

@@ -94,7 +94,7 @@ public class CGAPrivate extends Fragment {
         if (sessionID != null) {
             // get session by ID
             session = FirebaseDatabaseHelper.getSessionByID(sessionID);
-            patient = PatientsManagement.getPatientFromSession(session, getActivity());
+            patient = PatientsManagement.getInstance().getPatientFromSession(session, getActivity());
             // create a new Fragment to hold info about the Patient
             if (patient != null) {
                 // set the PATIENT for this session

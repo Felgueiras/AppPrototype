@@ -50,6 +50,7 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by felgueiras on 10/04/2017.
@@ -58,6 +59,7 @@ import java.util.Date;
 public class SessionPDF {
 
     static int leftIndentation = 50;
+
 
     /**
      * Fonts.
@@ -114,10 +116,12 @@ public class SessionPDF {
      * Cret
      *
      * @param activity
+     * @param includePatientInfo
      */
-    public void createSessionPdf(Activity activity) {
+    public void createSessionPdf(Activity activity, boolean includePatientInfo) {
         context = activity;
-        patient = PatientsManagement.getPatientFromSession(session, context);
+        if (includePatientInfo)
+            patient = PatientsManagement.getInstance().getPatientFromSession(session, context);
 
 
         if (!verifyStoragePermissions(activity)) {
@@ -134,7 +138,7 @@ public class SessionPDF {
 
         //Create time stamp
         Date date = new Date();
-        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(date);
+        String timeStamp = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss", Locale.UK).format(date);
 
         myFile = new File(pdfFolder + timeStamp + ".pdf");
 
@@ -157,41 +161,35 @@ public class SessionPDF {
             PdfWriter.getInstance(document, output);
             document.open();
             addMetaData(document);
-            addTitlePageSession(document);
+            addTitlePageSession(document, includePatientInfo);
             addScalesInfo(document);
             document.close();
         } catch (DocumentException e) {
             e.printStackTrace();
         }
 
-        /**
-         *
-         */
-
         promptForNextAction();
-//        viewPdf();
-
-
     }
 
     // iText allows to add metadata to the PDF which can be viewed in your Adobe
     // Reader
     // under File -> Properties
     private static void addMetaData(Document document) {
-        document.addTitle("My first PDF");
-        document.addSubject("Using iText");
-        document.addKeywords("Java, PDF, iText");
-        document.addAuthor("Lars Vogel");
-        document.addCreator("Lars Vogel");
+        document.addTitle("Relatório AGG");
+//        document.addSubject("Using iText");
+//        document.addKeywords("Java, PDF, iText");
+//        document.addAuthor("Lars Vogel");
+//        document.addCreator("Lars Vogel");
     }
 
     /**
      * Add title page with infos about patient.
      *
      * @param document
+     * @param includePatientInfo
      * @throws DocumentException
      */
-    private static void addTitlePageSession(Document document)
+    private static void addTitlePageSession(Document document, boolean includePatientInfo)
             throws DocumentException {
         Paragraph preface = new Paragraph();
         // We add one empty line
@@ -214,18 +212,21 @@ public class SessionPDF {
 
 
         // infos about Patient
-        preface.add(new Paragraph(
-                "Nome: " + patient.getName(),
-                smallBold));
-        preface.add(new Paragraph(
-                "Data de nascimento: " + patient.getBirthDate(),
-                smallBold));
-        preface.add(new Paragraph(
-                "Morada: " + patient.getAddress(),
-                smallBold));
-        preface.add(new Paragraph(
-                "Processo nº: " + patient.getProcessNumber(),
-                smallBold));
+        if (includePatientInfo) {
+            preface.add(new Paragraph(
+                    "Nome: " + patient.getName(),
+                    smallBold));
+            preface.add(new Paragraph(
+                    "Data de nascimento: " + patient.getBirthDate(),
+                    smallBold));
+            preface.add(new Paragraph(
+                    "Morada: " + patient.getAddress(),
+                    smallBold));
+            preface.add(new Paragraph(
+                    "Processo nº: " + patient.getProcessNumber(),
+                    smallBold));
+        }
+
 
         document.add(preface);
         // Start a new page
@@ -248,28 +249,39 @@ public class SessionPDF {
 
         // represent data from each CGA area
         for (int i = 0; i < Constants.cga_areas.length; i++) {
+            // check if there are scales from this area
+
             String area = Constants.cga_areas[i];
             ArrayList<GeriatricScaleFirebase> scalesForArea = FirebaseDatabaseHelper.getScalesForArea(FirebaseDatabaseHelper.getScalesFromSession(session), area);
+            if (scalesForArea.size() == 0) {
+                continue;
+            }
+
             // area
             Paragraph subPara = new Paragraph(area, subFont);
             Section subCatPart = catPart.addSection(subPara);
             // display tests/scales from that area
             for (int j = 0; j < Scales.getScalesForArea(area).size(); j++) {
+                // search if there is an occurrence for this scale
                 GeriatricScaleNonDB scale = Scales.getScalesForArea(area).get(j);
-//                subCatPart.add();
-                Section scaleInfo = subCatPart.addSection(new Paragraph(scale.getScaleName()));
 
                 for (GeriatricScaleFirebase scaleFirebase : scalesForArea) {
                     GradingNonDB match;
                     if (scaleFirebase.getScaleName().equals(scale.getScaleName())) {
+                        Section scaleInfo = subCatPart.addSection(new Paragraph(scale.getScaleName()));
                         // present info - result (qualitative/quantitative)
-                        match = Scales.getGradingForScale(
-                                scaleFirebase,
-                                patient.getGender());
+                        if (patient != null) {
+                            match = Scales.getGradingForScale(
+                                    scaleFirebase,
+                                    patient.getGender());
+                        } else {
+                            match = Scales.getGradingForScale(
+                                    scaleFirebase,
+                                    Constants.SESSION_GENDER);
+                        }
 
                         // add notes
-                        if(scaleFirebase.getNotes()!=null)
-                        {
+                        if (scaleFirebase.getNotes() != null) {
                             Paragraph qualitativeResult = new Paragraph("Notas: " + scaleFirebase.getNotes());
                             qualitativeResult.setIndentationLeft(leftIndentation);
                             scaleInfo.add(qualitativeResult);
@@ -291,33 +303,7 @@ public class SessionPDF {
 
         }
 
-
-//        // add a list
-//        createList(subCatPart);
-//        Paragraph paragraph = new Paragraph();
-//        addEmptyLine(paragraph, 5);
-//        subCatPart.add(paragraph);
-//
-//        // add a table
-//        createTable(subCatPart);
-
-        // now add all this to the document
         document.add(catPart);
-
-//        // Next section
-//        anchor = new Anchor("Second Chapter", catFont);
-//        anchor.setName("Second Chapter");
-//
-//        // Second parameter is the number of the chapter
-//        catPart = new Chapter(new Paragraph(anchor), 1);
-
-//        subPara = new Paragraph("Subcategory", subFont);
-//        subCatPart = catPart.addSection(subPara);
-//        subCatPart.add(new Paragraph("This is a very important message"));
-
-        // now add all this to the document
-//        document.add(catPart);
-
     }
 
     private static void createTable(Section subCatPart)
@@ -413,8 +399,9 @@ public class SessionPDF {
      * Prompt the user what to do (view, print or email pdf)
      */
     private static void promptForNextAction() {
-        final String[] options = {context.getString(R.string.label_email),
+        final String[] options = {
                 context.getString(R.string.label_preview),
+                context.getString(R.string.label_email),
 //                context.getString(R.string.label_print),
                 context.getString(R.string.label_cancel)};
 

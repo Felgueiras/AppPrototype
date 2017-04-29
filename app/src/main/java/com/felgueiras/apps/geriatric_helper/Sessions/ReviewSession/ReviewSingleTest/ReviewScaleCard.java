@@ -71,7 +71,7 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
     public ReviewScaleCard(Activity context, SessionFirebase session, String area, boolean comparePrevious) {
         this.context = context;
         this.session = session;
-        this.patient = PatientsManagement.getPatientFromSession(session, context);
+        this.patient = PatientsManagement.getInstance().getPatientFromSession(session, context);
         this.area = area;
         this.comparePrevious = comparePrevious;
     }

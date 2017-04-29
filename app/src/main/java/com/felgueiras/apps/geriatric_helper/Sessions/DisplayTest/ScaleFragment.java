@@ -111,7 +111,7 @@ public class ScaleFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     View viewForSnackbar = getActivity().findViewById(R.id.scale_progress);
-                    SessionHelper.saveSession(getActivity(), session, PatientsManagement.getPatientFromSession(session,
+                    SessionHelper.saveSession(getActivity(), session, PatientsManagement.getInstance().getPatientFromSession(session,
                             getActivity()), viewForSnackbar, viewForSnackbar, 3);
                 }
             });

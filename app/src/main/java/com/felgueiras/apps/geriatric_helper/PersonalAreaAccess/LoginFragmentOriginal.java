@@ -63,7 +63,7 @@ public class LoginFragmentOriginal extends Fragment {
 //                /**
 //                 * Register the user and associate it with the app.
 //                 */
-//                Intent intent = new Intent(getActivity(), RegisterUser.class);
+//                Intent intent = new Intent(getActivity(), RegisterActivity.class);
 //                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                startActivity(intent);
 //                getActivity().finish();
@@ -164,7 +164,7 @@ public class LoginFragmentOriginal extends Fragment {
                     /**
                      * Go to register screen.
                      */
-                    Intent intent = new Intent(getActivity(), RegisterUser.class);
+                    Intent intent = new Intent(getActivity(), RegisterActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     getActivity().finish();

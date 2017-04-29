@@ -51,7 +51,7 @@ public class PatientsFavoriteMain extends Fragment {
 
 
         // get the patients - filter to display only favorites
-        ArrayList<PatientFirebase> favoritePatients = PatientsManagement.getFavoritePatients(getActivity());
+        ArrayList<PatientFirebase> favoritePatients = PatientsManagement.getInstance().getFavoritePatients(getActivity());
         System.out.println("Empty? " + favoritePatients.isEmpty());
 
         FragmentManager fragmentManager = getChildFragmentManager();

@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -162,7 +163,7 @@ public class LoginFragmentFirebase extends Fragment {
 //                /**
 //                 * Go to register screen.
 //                 */
-//                Intent intent = new Intent(getActivity(), RegisterUser.class);
+//                Intent intent = new Intent(getActivity(), RegisterActivity.class);
 //                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                startActivity(intent);
 //                getActivity().finish();
@@ -184,7 +185,7 @@ public class LoginFragmentFirebase extends Fragment {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), RegisterUser.class));
+                startActivity(new Intent(getActivity(), RegisterActivity.class));
             }
         });
 
@@ -230,6 +231,7 @@ public class LoginFragmentFirebase extends Fragment {
                                         Toast.makeText(getActivity(), getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
+                                    PatientsManagement.loadInitialPatients(getActivity());
                                     Intent intent = new Intent(getActivity(), PrivateAreaActivity.class);
                                     startActivity(intent);
                                     getActivity().finish();
@@ -386,6 +388,7 @@ public class LoginFragmentFirebase extends Fragment {
 //                        sess.delete();
 //                    }
 //                }
+                PatientsManagement.loadInitialPatients(getActivity());
 
                 Intent intent = new Intent(getActivity(), PrivateAreaActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

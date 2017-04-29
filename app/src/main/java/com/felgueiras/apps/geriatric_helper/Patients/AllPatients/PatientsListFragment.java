@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.arlib.floatingsearchview.util.Util;
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
@@ -34,7 +36,13 @@ import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientProfi
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +78,41 @@ public class PatientsListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
+        inflater.inflate(R.menu.menu_patients_list, menu);
+
+
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
+        final Gson gson = builder.create();
+
+        String fileName = "patients.json";
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + fileName);
+
+        switch (item.getItemId()) {
+
+            case R.id.sendToBackEnd:
+
+                FirebaseStorageHelper.sendPatientsBackEnd(gson, getActivity(), storageReference);
+
+                break;
+            case R.id.getFromBackEnd:
+
+                FirebaseStorageHelper.getPatientsBackEnd(getActivity());
+
+                break;
+
+        }
+        return true;
+    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -128,7 +170,7 @@ public class PatientsListFragment extends Fragment {
             @Override
             public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
 
-                PersonSuggestion colorSuggestion = (PersonSuggestion) searchSuggestion;
+                PersonSuggestion person = (PersonSuggestion) searchSuggestion;
                 // add to history
                 ((PersonSuggestion) searchSuggestion).setIsHistory(true);
 //                DataHelper.findColors(getActivity(), colorSuggestion.getBody(),
@@ -153,7 +195,7 @@ public class PatientsListFragment extends Fragment {
                 Bundle args = new Bundle();
 //                args.putString("ACTION", holder.questionTextView.getText().toString());
 //                args.putString("TRANS_TEXT", patientTransitionName);
-                args.putSerializable(PatientProfileFragment.PATIENT, colorSuggestion.getPatient());
+                args.putSerializable(PatientProfileFragment.PATIENT, person.getPatient());
                 ((PrivateAreaActivity) getActivity()).replaceFragmentSharedElements(endFragment, args,
                         Constants.tag_view_patient_info_records,
                         null);
@@ -199,36 +241,6 @@ public class PatientsListFragment extends Fragment {
             }
         });
 
-
-        //handle menu clicks the same way as you would
-        //in a regular activity
-//        mSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
-//            @Override
-//            public void onActionMenuItemSelected(MenuItem item) {
-//
-//                if (item.getItemId() == R.id.action_change_colors) {
-//
-//                    mIsDarkSearchTheme = true;
-//
-//                    //demonstrate setting colors for items
-//                    mSearchView.setBackgroundColor(Color.parseColor("#787878"));
-//                    mSearchView.setViewTextColor(Color.parseColor("#e9e9e9"));
-//                    mSearchView.setHintTextColor(Color.parseColor("#e9e9e9"));
-//                    mSearchView.setActionMenuOverflowColor(Color.parseColor("#e9e9e9"));
-//                    mSearchView.setMenuItemIconColor(Color.parseColor("#e9e9e9"));
-//                    mSearchView.setLeftActionIconColor(Color.parseColor("#e9e9e9"));
-//                    mSearchView.setClearBtnColor(Color.parseColor("#e9e9e9"));
-//                    mSearchView.setDividerColor(Color.parseColor("#BEBEBE"));
-//                    mSearchView.setLeftActionIconColor(Color.parseColor("#e9e9e9"));
-//                } else {
-//
-//                    //just print action
-//                    Toast.makeText(getActivity().getApplicationContext(), item.getTitle(),
-//                            Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }
-//        });
 
         //use this listener to listen to menu clicks when app:floatingSearch_leftAction="showHome"
         mSearchView.setOnHomeActionClickListener(new FloatingSearchView.OnHomeActionClickListener() {
@@ -289,7 +301,7 @@ public class PatientsListFragment extends Fragment {
     }
 
     private void setupResultsList() {
-        PatientCardPatientsList mSearchResultsAdapter = new PatientCardPatientsList(getActivity(), PatientsManagement.getPatients(getActivity()));
+        PatientCardPatientsList mSearchResultsAdapter = new PatientCardPatientsList(getActivity(), PatientsManagement.getInstance().getPatients(getActivity()));
         mSearchResultsList.setAdapter(mSearchResultsAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -326,12 +338,6 @@ public class PatientsListFragment extends Fragment {
         mSearchResultsList.setAdapter(adapter);
 
         fastScroller.setRecyclerView(mSearchResultsList);
-
-//
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(),
-//                layoutManager.getOrientation());
-//        mSearchResultsList.addItemDecoration(dividerItemDecoration);
 
 
         // FAB

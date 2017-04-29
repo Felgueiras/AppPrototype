@@ -1,6 +1,7 @@
 package com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistory;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
      * Questions for a Test
      */
     private final List<GeriatricScaleFirebase> sessionScales;
+    private final boolean displayResult;
     private View testView;
     private View.OnClickListener onClickListener;
 
@@ -40,6 +42,7 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
         private final TextView testName;
         private final TextView testResult;
         private final LinearLayout card;
+        private final ImageView scaleAreaIcon;
         public TextView patientName;
         public ImageView overflow;
 
@@ -48,6 +51,7 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
             card = (LinearLayout)view.findViewById(R.id.testResultCard);
             testName = (TextView) view.findViewById(R.id.scaleName);
             testResult = (TextView) view.findViewById(R.id.testResult);
+            scaleAreaIcon = (ImageView) view.findViewById(R.id.scaleAreaIcon);
         }
     }
 
@@ -55,9 +59,11 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
      * Display all Questions for a GeriatricScale
      *
      * @param tests ArrayList of Questions
+     * @param displayResult
      */
-    public SessionScalesAdapterRecycler(Context context, List<GeriatricScaleFirebase> tests) {
+    public SessionScalesAdapterRecycler(Context context, List<GeriatricScaleFirebase> tests, boolean displayResult) {
         this.sessionScales = tests;
+        this.displayResult = displayResult;
     }
 
 
@@ -77,8 +83,29 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
         GradingNonDB grading = Scales.getGradingForTestWithoutGenerating(scale, Constants.SESSION_GENDER);
         // update views
         holder.testName.setText(name);
-        if (grading != null)
+        if (grading != null && displayResult)
             holder.testResult.setText(grading.getGrade());
+        else{
+            holder.testResult.setVisibility(View.GONE);
+        }
+
+        // set the area icon
+        final String area = scale.getArea();
+
+        switch (area) {
+            case Constants.cga_mental:
+                holder.scaleAreaIcon.setImageResource(R.drawable.ic_mental);
+                break;
+            case Constants.cga_functional:
+                holder.scaleAreaIcon.setImageResource(R.drawable.ic_functional);
+                break;
+            case Constants.cga_nutritional:
+                holder.scaleAreaIcon.setImageResource(R.drawable.ic_nutritional_black);
+                break;
+            case Constants.cga_social:
+                holder.scaleAreaIcon.setImageResource(R.drawable.ic_people_black_24dp);
+                break;
+        }
 
         /**
          * If a ClickListener was passed, add it

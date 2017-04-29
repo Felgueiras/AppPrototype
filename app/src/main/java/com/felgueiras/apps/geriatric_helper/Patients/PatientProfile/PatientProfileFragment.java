@@ -1,5 +1,7 @@
 package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -16,8 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
@@ -29,10 +30,10 @@ import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientNotes.PatientNotesFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsEmpty;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsTimelineFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsEmpty;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.PatientSessionsTimelineFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.Progress.ProgressFragment;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsFragment;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.R;
 
@@ -67,7 +68,7 @@ public class PatientProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-         view = inflater.inflate(R.layout.bottom_navigation_patient_profile, container, false);
+        view = inflater.inflate(R.layout.patient_profile, container, false);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -80,47 +81,81 @@ public class PatientProfileFragment extends Fragment {
 
         // get PATIENT
         patient = (PatientFirebase) bundle.getSerializable(PATIENT);
-//        ((PrivateAreaActivity)getActivity()).changeTitle(PATIENT.getName());
 
         getActivity().setTitle(patient.getName());
 
         // access Views
-        //TextView label = (TextView) view.findViewById(R.id.label);
+        final View patientInfo = view.findViewById(R.id.patientInfo);
+        final View separator = view.findViewById(R.id.separator);
         TextView patientBirthDate = (TextView) view.findViewById(R.id.patientAge);
         TextView patientAddress = (TextView) view.findViewById(R.id.patientAddress);
-        ImageView patientPhoto = (ImageView) view.findViewById(R.id.patientPhoto);
-        Button patientProgress = (Button) view.findViewById(R.id.patientEvolution);
-//        Button erasePatient = (Button) view.findViewById(R.id.erasePatient);
         TextView processNumber = (TextView) view.findViewById(R.id.processNumber);
+        ImageButton hidePatientInfo = (ImageButton) view.findViewById(R.id.hidePatientInfo);
 
         // set Patient infos
-        //label.setText(PATIENT.getName());
         patientBirthDate.setText(DatesHandler.dateToStringWithoutHour(patient.getBirthDate()) + " - " +
                 patient.getAge() + " anos");
         patientAddress.setText("Morada: " + patient.getAddress());
         processNumber.setText("Processo nº " + patient.getProcessNumber());
-        //patientPhoto.setImageResource(PATIENT.getPicture());
-        switch (patient.getGender()) {
-            case Constants.MALE:
-                patientPhoto.setImageResource(R.drawable.male);
-                break;
-            case Constants.FEMALE:
-                patientPhoto.setImageResource(R.drawable.female);
-                break;
-        }
-
-
-        // consult patient's progress
-        patientProgress.setOnClickListener(new View.OnClickListener() {
+        hidePatientInfo.bringToFront();
+        hidePatientInfo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                // reset the page
-                Constants.bottomNavigationPatientProgress = 0;
-                Bundle args = new Bundle();
-                args.putSerializable(ProgressFragment.PATIENT, patient);
-                FragmentTransitions.replaceFragment(getActivity(), new ProgressFragment(), args, Constants.tag_patient_progress);
+            public void onClick(final View v) {
+                if (patientInfo.getVisibility() == View.VISIBLE) {
+                    // Prepare the View for the animation
+                    patientInfo.setAlpha(1.0f);
+
+                    v.animate()
+                            .translationY(-patientInfo.getHeight());
+
+                    separator.animate()
+                            .translationY(-patientInfo.getHeight()).alpha(1.0f);
+
+
+                    // Start the animation
+                    patientInfo.animate()
+                            .translationY(-patientInfo.getHeight())
+                            .alpha(0.0f)
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    patientInfo.setVisibility(View.GONE);
+//                                    v.setVisibility(View.VISIBLE);
+                                    separator.animate().translationY(0);
+                                    v.animate().translationY(0);
+
+                                }
+                            });
+                } else {
+                    // Prepare the View for the animation
+                    patientInfo.setVisibility(View.VISIBLE);
+
+                    // Start the animation
+                    patientInfo.animate()
+                            .translationY(0)
+                            .alpha(1.0f).setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            patientInfo.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+
             }
         });
+
+
+        //patientPhoto.setImageResource(PATIENT.getPicture());
+//        switch (patient.getGender()) {
+//            case Constants.MALE:
+//                patientPhoto.setImageResource(R.drawable.male);
+//                break;
+//            case Constants.FEMALE:
+//                patientPhoto.setImageResource(R.drawable.female);
+//                break;
+//        }
 
 
         /**
@@ -138,6 +173,7 @@ public class PatientProfileFragment extends Fragment {
         if (currentFragment != null)
             transaction.remove(currentFragment);
 
+        // TODO put fragments in array
 
         final ArrayList<SessionFirebase> sessionsFromPatient = FirebaseDatabaseHelper.getSessionsFromPatient(patient);
 
@@ -151,9 +187,9 @@ public class PatientProfileFragment extends Fragment {
                     args.putString(PatientSessionsEmpty.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
                     defaultFragment.setArguments(args);
                 } else {
-                    defaultFragment = new PatientSessionsFragment();
+                    defaultFragment = new PatientSessionsTimelineFragment();
                     Bundle args = new Bundle();
-                    args.putSerializable(PatientSessionsFragment.PATIENT, patient);
+                    args.putSerializable(PatientSessionsTimelineFragment.PATIENT, patient);
                     defaultFragment.setArguments(args);
                 }
                 break;
@@ -164,7 +200,7 @@ public class PatientProfileFragment extends Fragment {
                 defaultFragment.setArguments(args);
                 break;
             case 2:
-                if (patient.getPrescriptionsIDS().size()==0 || patient.getPrescriptionsIDS()==null) {
+                if (patient.getPrescriptionsIDS().size() == 0 || patient.getPrescriptionsIDS() == null) {
                     defaultFragment = new PatientPrescriptionsEmpty();
                     args = new Bundle();
                     args.putSerializable(PatientPrescriptionsEmpty.PATIENT, patient);
@@ -172,11 +208,18 @@ public class PatientProfileFragment extends Fragment {
                             getString(R.string.no_prescriptions_for_patient));
                     defaultFragment.setArguments(args);
                 } else {
-                    defaultFragment = new PatientPrescriptionsFragment();
+                    defaultFragment = new PatientPrescriptionsTimelineFragment();
                     args = new Bundle();
-                    args.putSerializable(PatientPrescriptionsFragment.PATIENT, patient);
+                    args.putSerializable(PatientPrescriptionsTimelineFragment.PATIENT, patient);
                     defaultFragment.setArguments(args);
                 }
+                break;
+            case 3:
+                defaultFragment = new PatientTimelineFragment();
+                args = new Bundle();
+                args.putSerializable(PatientTimelineFragment.PATIENT, patient);
+                defaultFragment.setArguments(args);
+
                 break;
 
         }
@@ -201,9 +244,13 @@ public class PatientProfileFragment extends Fragment {
                                     args.putString(PatientSessionsEmpty.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
                                     fragment.setArguments(args);
                                 } else {
-                                    fragment = new PatientSessionsFragment();
+//                                    fragment = new PatientSessionsFragment();
+//                                    args = new Bundle();
+//                                    args.putSerializable(PatientSessionsFragment.PATIENT, patient);
+//                                    fragment.setArguments(args);
+                                    fragment = new PatientSessionsTimelineFragment();
                                     args = new Bundle();
-                                    args.putSerializable(PatientSessionsFragment.PATIENT, patient);
+                                    args.putSerializable(PatientSessionsTimelineFragment.PATIENT, patient);
                                     fragment.setArguments(args);
                                 }
                                 Constants.patientProfileBottomNavigation = 0;
@@ -217,7 +264,7 @@ public class PatientProfileFragment extends Fragment {
 
                                 break;
                             case R.id.patient_prescriptions:
-                                if (patient.getPrescriptionsIDS().size()==0) {
+                                if (patient.getPrescriptionsIDS().size() == 0) {
                                     fragment = new PatientPrescriptionsEmpty();
                                     args = new Bundle();
                                     args.putSerializable(PatientPrescriptionsEmpty.PATIENT, patient);
@@ -225,15 +272,24 @@ public class PatientProfileFragment extends Fragment {
                                             getString(R.string.no_prescriptions_for_patient));
                                     fragment.setArguments(args);
                                 } else {
-                                    fragment = new PatientPrescriptionsFragment();
+                                    fragment = new PatientPrescriptionsTimelineFragment();
                                     args = new Bundle();
-                                    args.putSerializable(PatientPrescriptionsFragment.PATIENT, patient);
+                                    args.putSerializable(PatientPrescriptionsTimelineFragment.PATIENT, patient);
                                     fragment.setArguments(args);
                                 }
                                 Constants.patientProfileBottomNavigation = 2;
 
 
                                 break;
+                            case R.id.patientTimeline:
+                                fragment = new PatientTimelineFragment();
+                                args = new Bundle();
+                                args.putSerializable(PatientTimelineFragment.PATIENT, patient);
+                                fragment.setArguments(args);
+                                Constants.patientProfileBottomNavigation = 3;
+                                break;
+
+
                         }
 
                         FragmentManager fragmentManager = getChildFragmentManager();
@@ -275,7 +331,7 @@ public class PatientProfileFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.favorite:
                 patient.setFavorite(!patient.isFavorite());
-                PatientsManagement.updatePatient(patient, getActivity());
+                PatientsManagement.getInstance().updatePatient(patient, getActivity());
 
                 if (patient.isFavorite()) {
                     Snackbar.make(view, R.string.patient_favorite_add, Snackbar.LENGTH_LONG).show();
@@ -294,7 +350,7 @@ public class PatientProfileFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // remove sessions from PATIENT
-                                PatientsManagement.deletePatient(patient, getActivity());
+                                PatientsManagement.getInstance().deletePatient(patient, getActivity());
                                 dialog.dismiss();
 
                                 DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
@@ -316,6 +372,13 @@ public class PatientProfileFragment extends Fragment {
                             }
                         });
                 alertDialog.show();
+                break;
+            case R.id.progress:
+                // reset the page
+                Bundle args = new Bundle();
+                args.putSerializable(ProgressFragment.PATIENT, patient);
+                FragmentTransitions.replaceFragment(getActivity(), new ProgressFragment(), args, Constants.tag_patient_progress);
+
                 break;
 
         }

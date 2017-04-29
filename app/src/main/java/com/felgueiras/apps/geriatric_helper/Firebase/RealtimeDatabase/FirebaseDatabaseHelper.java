@@ -98,7 +98,7 @@ public class FirebaseDatabaseHelper {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("Firebase","Fetch sessions");
+                Log.d("Firebase", "Fetch sessions");
                 FirebaseHelper.sessions.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     SessionFirebase session = postSnapshot.getValue(SessionFirebase.class);
@@ -143,7 +143,7 @@ public class FirebaseDatabaseHelper {
         FirebaseHelper.firebaseTableQuestions.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("Firebase","Fetch questions");
+                Log.d("Firebase", "Fetch questions");
                 FirebaseHelper.questions.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     QuestionFirebase question = postSnapshot.getValue(QuestionFirebase.class);
@@ -158,7 +158,6 @@ public class FirebaseDatabaseHelper {
             }
         });
     }
-
 
 
     /**
@@ -292,6 +291,13 @@ public class FirebaseDatabaseHelper {
         }
     }
 
+    public static void updatePrescription(PrescriptionFirebase prescription) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            FirebaseHelper.firebaseTablePrescriptions.child(prescription.getKey()).setValue(prescription);
+        }
+    }
+
     public static void updateSession(SessionFirebase session) {
         if (session != null)
             FirebaseHelper.firebaseTableSessions.child(session.getKey()).setValue(session);
@@ -316,7 +322,7 @@ public class FirebaseDatabaseHelper {
     public static void deleteSession(SessionFirebase session, Context context) {
 
         // remove session from patient's sessions list (if patient not null)
-        PatientFirebase patient = PatientsManagement.getPatientFromSession(session, context);
+        PatientFirebase patient = PatientsManagement.getInstance().getPatientFromSession(session, context);
         if (patient != null) {
             patient.getSessionsIDS().remove(session.getGuid());
 //            updatePatient(patient);
@@ -426,9 +432,9 @@ public class FirebaseDatabaseHelper {
      */
     public static void deletePrescription(PrescriptionFirebase prescription, Context context) {
         // remove from patient's list of prescriptions
-        PatientFirebase patient = PatientsManagement.getPatientFromPrescription(prescription, context);
+        PatientFirebase patient = PatientsManagement.getInstance().getPatientFromPrescription(prescription, context);
         patient.getPrescriptionsIDS().remove(prescription.getGuid());
-        PatientsManagement.updatePatient(patient, context);
+        PatientsManagement.getInstance().updatePatient(patient, context);
 
         // remove prescription
         FirebaseHelper.firebaseTablePrescriptions.child(prescription.getKey()).removeValue();
@@ -444,8 +450,8 @@ public class FirebaseDatabaseHelper {
 
         final ArrayList<SessionFirebase> patientSessions = new ArrayList<>();
 
-        for (SessionFirebase session: FirebaseHelper.sessions) {
-            if(session.getPatientID().equals(patient.getGuid()))
+        for (SessionFirebase session : FirebaseHelper.sessions) {
+            if (session.getPatientID().equals(patient.getGuid()))
                 patientSessions.add(session);
         }
         return patientSessions;
@@ -630,7 +636,7 @@ public class FirebaseDatabaseHelper {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
 //        if (auth.getCurrentUser() != null) {
-            choicesToConsider = question.getChoices();
+        choicesToConsider = question.getChoices();
 //        } else {
 //            choicesToConsider = Constants.publicChoices;
 //

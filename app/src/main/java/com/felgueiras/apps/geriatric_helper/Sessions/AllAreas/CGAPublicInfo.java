@@ -20,7 +20,7 @@ import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseRemoteConfig;
 import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.HelpMainFragment;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.RegisterUser;
+import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.RegisterActivity;
 import com.felgueiras.apps.geriatric_helper.R;
 
 
@@ -80,7 +80,7 @@ public class CGAPublicInfo extends Fragment {
                                     FragmentManager fragmentManager = getFragmentManager();
                                     fragmentManager.popBackStack();
 
-                                    Intent intent = new Intent(getActivity(), RegisterUser.class);
+                                    Intent intent = new Intent(getActivity(), RegisterActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     getActivity().startActivity(intent);
                                     getActivity().finish();

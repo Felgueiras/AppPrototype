@@ -77,11 +77,7 @@ public class CreatePatient extends Fragment {
 
 
         patientPhoto = (ImageView) view.findViewById(R.id.patientPhoto);
-        patientPhoto.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // selectImage();
-            }
-        });
+
 
         patientName = (EditText) view.findViewById(R.id.patientName);
         patientAddress = (EditText) view.findViewById(R.id.addressText);
@@ -169,9 +165,9 @@ public class CreatePatient extends Fragment {
 
                 patient.setFavorite(false);
 
-                PatientsManagement.createPatient(patient, getActivity());
+                PatientsManagement.getInstance().createPatient(patient, getActivity());
 
-                PatientsManagement.getPatients(getActivity()).add(patient);
+                PatientsManagement.getInstance().getPatients(getActivity()).add(patient);
 
 
                 Snackbar.make(getView(), R.string.create_patient_success, Snackbar.LENGTH_SHORT).show();

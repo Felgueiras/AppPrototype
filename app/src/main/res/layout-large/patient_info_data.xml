@@ -52,14 +52,14 @@
             android:layout_weight="1"
             android:src="@drawable/female" />
 
-        <Button
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:padding="10dp"
-            android:id="@+id/patientEvolution"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/consult_progress"
-            android:layout_weight="1" />
+        <!--<Button-->
+            <!--style="@style/Widget.AppCompat.Button.Colored"-->
+            <!--android:padding="10dp"-->
+            <!--android:id="@+id/patientEvolution"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/consult_progress"-->
+            <!--android:layout_weight="1" />-->
 
         <!--<Button-->
             <!--android:id="@+id/erasePatient"-->

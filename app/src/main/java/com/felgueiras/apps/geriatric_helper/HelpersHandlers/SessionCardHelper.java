@@ -111,7 +111,7 @@ public class SessionCardHelper implements View.OnClickListener {
                     Fragment endFragment = new PatientProfileFragment();
 
                     Bundle args = new Bundle();
-                    args.putSerializable(PatientProfileFragment.PATIENT, PatientsManagement.getPatientFromSession(session, context));
+                    args.putSerializable(PatientProfileFragment.PATIENT, PatientsManagement.getInstance().getPatientFromSession(session, context));
                     ((PrivateAreaActivity) context).replaceFragmentSharedElements(endFragment,
                             args,
                             Constants.tag_view_patient_info_records_from_sessions_list,

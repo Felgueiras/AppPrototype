@@ -11,7 +11,7 @@
         android:orientation="vertical">
         <!--Infos about Patient-->
         <include
-            android:id="@+id/patientInfoInclude"
+            android:id="@+id/patientInfo"
             layout="@layout/patient_info_data" />
 
         <View
@@ -19,16 +19,34 @@
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/patientInfoInclude"
-            android:background="#000000" />
+            android:background="@color/colorAccent" />
 
-        <!-- Content Container -->
-        <FrameLayout
-            android:id="@+id/frame_layout_bottom_navigation"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1">
+
+            <!--Button to hide/show the patient data-->
+            <ImageButton
+                android:id="@+id/hidePatientInfo"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+
+                android:paddingRight="5dp"
+                app:srcCompat="@drawable/ic_call_to_action_black_24dp" />
+
+            <!-- Content Container -->
+            <FrameLayout
+                android:id="@+id/frame_layout_bottom_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
 
+        </RelativeLayout>
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottom_navigation"

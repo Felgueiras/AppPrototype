@@ -159,4 +159,5 @@
     <string name="label_preview">Preview</string>
     <string name="label_print">Print</string>
     <string name="action_save">Save</string>
+    <string name="timeline">Timeline</string>
 </resources>

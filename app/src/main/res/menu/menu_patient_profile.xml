@@ -2,7 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Tutorial.Tabs">
-    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+        android:id="@+id/progress"
+        android:icon="@drawable/progress_icon"
+        android:title="@string/consult_progress"
+        app:showAsAction="ifRoom"/>
+
     <item
         android:id="@+id/delete"
         android:icon="@drawable/ic_delete_white_24dp"

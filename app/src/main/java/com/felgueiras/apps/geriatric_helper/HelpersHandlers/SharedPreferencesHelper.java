@@ -8,15 +8,22 @@ import android.util.Log;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
+import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -200,6 +207,16 @@ public class SharedPreferencesHelper {
 
         sharedPreferences.edit().putStringSet("patients", set).apply();
         Log.d("Patients", "Size: " + set.size());
+
+        // TODO remove from here
+        // update in firebase
+        String fileName = "patients.json";
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + fileName);
+
+        FirebaseStorageHelper.sendPatientsBackEnd(gson, context, storageReference);
+
     }
 
 
@@ -321,6 +338,17 @@ public class SharedPreferencesHelper {
             PatientFirebase p = gson.fromJson(currentPatientString, PatientFirebase.class);
             patients.add(p);
         }
+
+        // sort patients by name
+        Collections.sort(patients, new Comparator<PatientFirebase>() {
+            public int compare(PatientFirebase o1, PatientFirebase o2) {
+                String first = StringHelper.removeAccents(o1.getName());
+                String second = StringHelper.removeAccents(o2.getName());
+                return first.compareTo(second);
+            }
+        });
+
+
         return patients;
     }
 
@@ -401,6 +429,20 @@ public class SharedPreferencesHelper {
 
         sharedPreferences.edit().putStringSet("patients", set).apply();
         Log.d("Patients", "Size: " + set.size());
+
+    }
+
+    public static void addInitialPatients(ArrayList<PatientFirebase> patients, Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+
+        // empty set
+        Set<String> set = new HashSet<>();
+        sharedPreferences.edit().putStringSet("patients", set).apply();
+
+
+        for (PatientFirebase patient : patients) {
+            addPatient(patient, context);
+        }
 
     }
 }

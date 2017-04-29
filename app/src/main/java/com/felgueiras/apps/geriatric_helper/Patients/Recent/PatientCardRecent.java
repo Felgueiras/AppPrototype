@@ -78,7 +78,7 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
         // get the current Session and tests from that Session
         final SessionFirebase session = sessionsList.get(position);
 //        List<GeriatricScale> scalesFromSession = session.getScalesFromSession();
-        final PatientFirebase patient = PatientsManagement.getPatientFromSession(session, context);
+        final PatientFirebase patient = PatientsManagement.getInstance().getPatientFromSession(session, context);
         if(patient!=null)
         {
             holder.name.setText(patient.getName());

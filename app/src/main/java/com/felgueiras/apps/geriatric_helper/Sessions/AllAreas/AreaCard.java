@@ -178,7 +178,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
                     Fragment newFragment = new CGAAreaPrivate();
                     // add arguments
                     Bundle bundle = new Bundle();
-                    PatientFirebase patient = PatientsManagement.getPatientFromSession(session, context);
+                    PatientFirebase patient = PatientsManagement.getInstance().getPatientFromSession(session, context);
                     if (patient != null)
                         bundle.putSerializable(CGAAreaPrivate.PATIENT, patient);
 
@@ -196,7 +196,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
                     // add arguments
                     Bundle bundle = new Bundle();
 
-                    PatientFirebase patient = PatientsManagement.getPatientFromSession(session, context);
+                    PatientFirebase patient = PatientsManagement.getInstance().getPatientFromSession(session, context);
                     if (patient != null)
                         bundle.putSerializable(CGAAreaPublic.PATIENT, patient);
 

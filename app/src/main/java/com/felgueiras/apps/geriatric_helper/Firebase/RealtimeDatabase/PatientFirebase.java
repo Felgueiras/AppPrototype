@@ -253,7 +253,7 @@ public class PatientFirebase implements Serializable {
     public void addSession(String sessionID, Context context) {
         sessionsIDS.add(sessionID);
         // update patient
-        PatientsManagement.updatePatient(this, context);
+        PatientsManagement.getInstance().updatePatient(this, context);
     }
 
     public ArrayList<String> getPrescriptionsIDS() {
@@ -268,6 +268,6 @@ public class PatientFirebase implements Serializable {
     public void addPrescription(String prescription, Context context) {
         prescriptionsIDS.add(prescription);
         // update patient
-        PatientsManagement.updatePatient(this, context);
+        PatientsManagement.getInstance().updatePatient(this, context);
     }
 }

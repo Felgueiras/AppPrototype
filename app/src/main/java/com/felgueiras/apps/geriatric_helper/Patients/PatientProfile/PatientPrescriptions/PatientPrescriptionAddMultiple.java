@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,7 +53,6 @@ import java.util.Set;
  */
 public class PatientPrescriptionAddMultiple extends Fragment {
 
-    private static final String BUNDLE_RECYCLER_LAYOUT = "abc";
     public static final String PATIENT = "PATIENT";
     private RecyclerView mSearchResultsList;
     private FloatingSearchView mSearchView;
@@ -276,33 +276,10 @@ public class PatientPrescriptionAddMultiple extends Fragment {
         adapter = new AddDrugListItemAdapter(getActivity(), Constants.allDrugs, patient);
         drugAdd.setAdapter(adapter);
 
-
-        return view;
-    }
-
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-        // check if there is an associated patient
-        if (getArguments() != null && getArguments().containsKey(PATIENT))
-            patient = (PatientFirebase) getArguments().getSerializable(PATIENT);
-
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        inflater.inflate(R.menu.menu_save, menu);
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_save:
+        Button savePrescriptions = (Button) view.findViewById(R.id.saveButton);
+        savePrescriptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 // add drugs to patient
                 ArrayList<String> addedDrugs = adapter.getAddedDrugsList();
                 ArrayList<String> addedNotes = adapter.getAddedDrugsNotes();
@@ -332,10 +309,31 @@ public class PatientPrescriptionAddMultiple extends Fragment {
                 }
                 Snackbar.make(getView(), R.string.add_prescription_success, Snackbar.LENGTH_SHORT).show();
                 BackStackHandler.getFragmentManager().popBackStack();
+            }
+        });
 
-        }
 
-        return super.onOptionsItemSelected(item);
+        return view;
     }
+
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        // check if there is an associated patient
+        if (getArguments() != null && getArguments().containsKey(PATIENT))
+            patient = (PatientFirebase) getArguments().getSerializable(PATIENT);
+
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+//        inflater.inflate(R.menu.menu_save, menu);
+    }
+
+
 }
 

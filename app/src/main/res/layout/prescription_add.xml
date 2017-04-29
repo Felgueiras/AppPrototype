@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:padding="10dp">
 
     <LinearLayout
@@ -13,17 +13,17 @@
 
         <AutoCompleteTextView
             android:id="@+id/autocompleteDrugName"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Type drug name"/>
+            android:layout_weight="1"
+            android:hint="Nome de composto" />
 
         <ImageButton
             android:id="@+id/cancelPrescription"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/transparent"
-            app:srcCompat="@drawable/ic_close_black_24dp"/>
+            app:srcCompat="@drawable/ic_close_black_24dp" />
 
     </LinearLayout>
 
@@ -31,16 +31,16 @@
         android:id="@+id/drugNotes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Notes"/>
+        android:hint="Notas" />
 
     <Button
         android:id="@+id/addMoreItem"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:text="+ Novo composto"
         android:textColor="#FFA4CF"
-        android:text="+ New item"
-        android:visibility="visible"
-        android:background="@color/transparent"/>
+        android:visibility="visible" />
 
 
 </LinearLayout>

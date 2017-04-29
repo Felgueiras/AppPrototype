@@ -20,7 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class RegisterUser extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "SignupActivity";
 
@@ -58,7 +58,7 @@ public class RegisterUser extends AppCompatActivity {
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(RegisterUser.this, PrivateAreaActivity.class));
+//                startActivity(new Intent(RegisterActivity.this, PrivateAreaActivity.class));
             }
         });
 
@@ -94,20 +94,20 @@ public class RegisterUser extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 //create user
                 auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(RegisterUser.this, new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(RegisterUser.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
                                 if (!task.isSuccessful()) {
-                                    Toast.makeText(RegisterUser.this, "Authentication failed." + task.getException(),
+                                    Toast.makeText(RegisterActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                     Log.d("Firebase",task.getException()+"");
                                 } else {
-                                    startActivity(new Intent(RegisterUser.this, PrivateAreaActivity.class));
+                                    startActivity(new Intent(RegisterActivity.this, PrivateAreaActivity.class));
                                     finish();
                                 }
                             }
@@ -155,7 +155,7 @@ public class RegisterUser extends AppCompatActivity {
 //
 //        _signupButton.setEnabled(false);
 //
-//        final ProgressDialog progressDialog = new ProgressDialog(RegisterUser.this);
+//        final ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this);
 //        progressDialog.setIndeterminate(true);
 //        progressDialog.setMessage("Registando-se...");
 //        progressDialog.show();

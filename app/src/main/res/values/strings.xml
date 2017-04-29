@@ -354,7 +354,7 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="action_new_session">Nova sessão AGG</string>
     <string name="action_favorite_remove">Remover dos favoritos</string>
     <string name="create_patient_error_invalid_birthDate">Data de nascimento inválida</string>
-    <string name="action_delete">remover</string>
+    <string name="action_delete">Remover</string>
     <string name="personal_area">Área pessoal</string>
     <string name="login_not_registered">Não está registado? Clique aqui para se registar.</string>
     <string name="criteria_start">Critérios Start</string>
@@ -408,6 +408,7 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="label_preview">Ver PDF</string>
     <string name="label_print">Imprimir</string>
     <string name="action_save">Guardar</string>
+    <string name="timeline">Timeline</string>
 
 
 </resources>

@@ -76,7 +76,7 @@ public class PickPatientFragment extends Fragment {
         getActivity().setTitle(getResources().getString(R.string.pick_patient));
 
         // get the patients
-        ArrayList<PatientFirebase> patients = PatientsManagement.getPatients(getActivity());
+        ArrayList<PatientFirebase> patients = PatientsManagement.getInstance().getPatients(getActivity());
 
         // fill the RecyclerView
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);

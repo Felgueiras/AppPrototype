@@ -3,10 +3,14 @@ package com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,12 +20,18 @@ import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionPDF;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientProfileFragment;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
+import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.SessionNoteshandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,13 +53,30 @@ public class ReviewSingleSessionNoPatient extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
+        inflater.inflate(R.menu.menu_review_session_no_patient, menu);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.createPDF:
+                // create a PDF of the session for printing
+                new SessionPDF(session).createSessionPdf(getActivity(), false);
+                break;
+
+        }
+        return true;
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -148,10 +175,6 @@ public class ReviewSingleSessionNoPatient extends Fragment {
                         return true;
                     }
                 });
-
-
-
-
 
 
         // close session FAB

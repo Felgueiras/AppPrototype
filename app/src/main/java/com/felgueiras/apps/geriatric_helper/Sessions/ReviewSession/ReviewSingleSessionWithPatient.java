@@ -62,8 +62,8 @@ public class ReviewSingleSessionWithPatient extends Fragment {
         // get Session and Patient
         session = (SessionFirebase) args.getSerializable(SESSION);
 
-        if (PatientsManagement.getPatientFromSession(session, getActivity()) != null) {
-            getActivity().setTitle(PatientsManagement.getPatientFromSession(session, getActivity()).getName() + " - " +
+        if (PatientsManagement.getInstance().getPatientFromSession(session, getActivity()) != null) {
+            getActivity().setTitle(PatientsManagement.getInstance().getPatientFromSession(session, getActivity()).getName() + " - " +
                     DatesHandler.dateToStringWithoutHour(new Date(session.getDate())));
         } else {
             getActivity().setTitle(DatesHandler.dateToStringWithoutHour(new Date(session.getDate())));
@@ -169,7 +169,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.menu_patient_session, menu);
+        inflater.inflate(R.menu.menu_review_session_with_patient, menu);
     }
 
     @Override
@@ -189,7 +189,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
                                 String tag = backEntry.getName();
 
                                 fragmentManager.popBackStack();
-                                PatientFirebase patient = PatientsManagement.getPatientFromSession(session,
+                                PatientFirebase patient = PatientsManagement.getInstance().getPatientFromSession(session,
                                         getActivity());
                                 dialog.dismiss();
 
@@ -227,12 +227,31 @@ public class ReviewSingleSessionWithPatient extends Fragment {
                 alertDialog.show();
                 break;
             case R.id.createPDF:
-                // create a PDF of the session for printing
-                new SessionPDF(session).createSessionPdf(getActivity());
+                // prompt if user information is to be added to the PDF
+                alertDialog = new AlertDialog.Builder(getActivity()).create();
+//                alertDialog.setTitle(getResources().getString(R.string.session_erase));
+                alertDialog.setMessage("Deseja incluir dados do paciente no PDF?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                new SessionPDF(session).createSessionPdf(getActivity(), true);
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                new SessionPDF(session).createSessionPdf(getActivity(), false);
+
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+
                 break;
             case R.id.addNotes:
                 // edit notes for this session
-                new SessionNoteshandler(getActivity(),session).editNotes();
+                new SessionNoteshandler(getActivity(), session).editNotes();
 
         }
         return true;
