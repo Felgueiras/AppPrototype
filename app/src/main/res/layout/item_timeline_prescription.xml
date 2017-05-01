@@ -38,7 +38,7 @@
                 android:id="@+id/prescriptionDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                style="@style/date"
                 tools:text="24 JAN" />
 
             <android.support.v7.widget.RecyclerView

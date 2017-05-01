@@ -164,7 +164,7 @@ public class FirebaseHelper {
                     SharedPreferencesHelper.setScalesVersion(context, firScalesVersion);
                     // download new scales version
                     canLeaveLaunchScreen = false;
-                    FirebaseStorageHelper.downloadScales(context, firebaseTablePublic);
+                    FirebaseStorageHelper.getInstance().downloadScales(context, firebaseTablePublic);
                 } else {
                     // same version - no need to donwload
                     Scales.scales.clear();
@@ -190,7 +190,7 @@ public class FirebaseHelper {
                     Log.d("CriteriaVersion", "Updating criteria version to " + firCriteriaVersion);
                     SharedPreferencesHelper.setCriteriaVersion(context, firCriteriaVersion);
                     // download new criteria version
-                    FirebaseStorageHelper.downloadCriteria(context);
+                    FirebaseStorageHelper.getInstance().downloadCriteria(context);
                 } else {
                     // same version - no need to donwload
                     startCriteria.clear();

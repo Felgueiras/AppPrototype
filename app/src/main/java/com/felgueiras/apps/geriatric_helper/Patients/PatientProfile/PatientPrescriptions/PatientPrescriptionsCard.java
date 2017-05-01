@@ -86,12 +86,19 @@ public class PatientPrescriptionsCard extends RecyclerView.Adapter<PatientPrescr
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final PrescriptionFirebase prescription = prescriptions.get(position);
 
+        // stopp
+        final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(StoppCriteria.getStoppCriteria());
+        // beers
+        final ArrayList<String> beersCriteriaDrugs = BeersCriteria.getBeersDrugsAllString();
+
+
         // set views
         holder.name.setText(prescription.getName());
         if (compactView) {
             holder.notes.setVisibility(View.GONE);
-//            holder.date.setVisibility(View.GONE);
+            holder.warning.setVisibility(View.GONE);
         } else {
+
             holder.notes.setText(prescription.getNotes());
 //            holder.date.setText("Data de prescrição: " + DatesHandler.dateToStringWithHour(prescription.getDate(), true));
 
@@ -113,6 +120,15 @@ public class PatientPrescriptionsCard extends RecyclerView.Adapter<PatientPrescr
                     FirebaseDatabaseHelper.updatePrescription(prescription);
                 }
             });
+
+            // display warning
+            if (stoppCriteriaDrugs.contains(prescription.getName())
+                    ||
+                    beersCriteriaDrugs.contains(prescription.getName())) {
+                holder.warning.setVisibility(View.VISIBLE);
+            } else {
+                holder.warning.setVisibility(View.GONE);
+            }
 
         }
 
@@ -148,19 +164,8 @@ public class PatientPrescriptionsCard extends RecyclerView.Adapter<PatientPrescr
          * Setup warning button
          */
         holder.warning.setBackgroundResource(R.drawable.ic_warning_24dp);
-        // stopp
-        final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(StoppCriteria.getStoppCriteria());
-        // beers
-        final ArrayList<String> beersCriteriaDrugs = BeersCriteria.getBeersDrugsAllString();
 
-        // display warning
-        if (stoppCriteriaDrugs.contains(prescription.getName())
-                ||
-                beersCriteriaDrugs.contains(prescription.getName())) {
-            holder.warning.setVisibility(View.VISIBLE);
-        } else {
-            holder.warning.setVisibility(View.GONE);
-        }
+
 
 
         holder.warning.setOnClickListener(new View.OnClickListener() {

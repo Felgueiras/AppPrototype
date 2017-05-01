@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -90,8 +92,28 @@ public class PatientNotesFragment extends Fragment {
                     }
                 });
 
-                SessionCardPatientNotes adapter = new SessionCardPatientNotes(getActivity(),
-                        patientSessions,
+                // include only the sessions which have associated notes
+                ArrayList<SessionFirebase> sessionsWithNotes = new ArrayList<SessionFirebase>();
+                for (SessionFirebase session : patientSessions) {
+                    // session has notes
+                    if (session.getNotes() != null) {
+                        sessionsWithNotes.add(session);
+                        continue;
+                    }
+                    // scale inside session has notes
+                    ArrayList<GeriatricScaleFirebase> scales = FirebaseDatabaseHelper.getScalesFromSession(session);
+                    for (GeriatricScaleFirebase scale : scales) {
+                        if (scale.getNotes() != null) {
+                            sessionsWithNotes.add(session);
+                            continue;
+                        }
+
+                    }
+
+                }
+
+                PatientNotesAdapter adapter = new PatientNotesAdapter(getActivity(),
+                        sessionsWithNotes,
                         patient);
                 recyclerView.setAdapter(adapter);
             }

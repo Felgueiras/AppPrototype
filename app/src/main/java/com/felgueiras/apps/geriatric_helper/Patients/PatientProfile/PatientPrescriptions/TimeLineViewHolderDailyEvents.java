@@ -2,8 +2,6 @@ package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPres
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.R;
@@ -16,23 +14,23 @@ import butterknife.InjectView;
 /**
  * Created by HP-HP on 05-12-2015.
  */
-public class TimeLineViewHolderPrescription extends RecyclerView.ViewHolder {
+public class TimeLineViewHolderDailyEvents extends RecyclerView.ViewHolder {
 
     View view;
-    @InjectView(R.id.prescriptionDate)
-    public TextView date;
-    @InjectView(R.id.prescriptionsForDate)
-    public RecyclerView prescriptionsForDate;
-//    @InjectView(R.id.prescriptionNotes)
-//    @InjectView(R.id.prescriptionName)
-//    TextView name;
     @InjectView(R.id.time_marker)
     public TimelineView mTimelineView;
-//    EditText notes;
-//    @InjectView(R.id.warning)
-//    Button warning;
 
-    public TimeLineViewHolderPrescription(View itemView, int viewType) {
+    @InjectView(R.id.date)
+    public TextView date;
+
+    @InjectView(R.id.prescriptionsForDate)
+    public RecyclerView prescriptionsForDate;
+
+    @InjectView(R.id.sessionsForDate)
+    public RecyclerView sessionsForDate;
+
+
+    public TimeLineViewHolderDailyEvents(View itemView, int viewType) {
         super(itemView);
         this.view = itemView;
 

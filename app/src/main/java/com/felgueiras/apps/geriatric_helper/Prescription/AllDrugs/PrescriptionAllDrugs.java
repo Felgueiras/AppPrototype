@@ -221,8 +221,8 @@ public class PrescriptionAllDrugs extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_drugs_list_persistent_search, container, false);
 
-        ArrayList<StoppCriteria> stoppGeneral = FirebaseStorageHelper.getStoppCriteria();
-        ArrayList<StartCriteria> startGeneral = FirebaseStorageHelper.getStartCriteria();
+        ArrayList<StoppCriteria> stoppGeneral = FirebaseStorageHelper.getInstance().getStoppCriteria();
+        ArrayList<StartCriteria> startGeneral = FirebaseStorageHelper.getInstance().getStartCriteria();
 
         // stopp
         final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(stoppGeneral);

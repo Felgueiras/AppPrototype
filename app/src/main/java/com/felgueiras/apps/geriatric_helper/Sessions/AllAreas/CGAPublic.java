@@ -310,7 +310,7 @@ public class CGAPublic extends Fragment {
 
     public void finishSession() {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle(FirebaseStorageHelper.getString("session_reset"));
+        alertDialog.setTitle(FirebaseStorageHelper.getInstance().getString("session_reset"));
         alertDialog.setMessage(getResources().getString(R.string.session_reset_question));
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
                 new DialogInterface.OnClickListener() {

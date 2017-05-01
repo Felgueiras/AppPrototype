@@ -1,42 +1,23 @@
 package com.felgueiras.apps.geriatric_helper;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.felgueiras.apps.geriatric_helper.Firebase.CipherDecipherFiles;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  * Created by felgueiras on 21/04/2017.
  */
 
 public class PatientsManagement {
-
-//    static ArrayList<PatientFirebase> patients = new ArrayList<>();
-
-    boolean initialFetch = false;
 
     private static PatientsManagement singleton = new PatientsManagement();
 
@@ -85,14 +66,17 @@ public class PatientsManagement {
      * @return
      */
     public ArrayList<PatientFirebase> getPatients(Context context) {
-
         return SharedPreferencesHelper.getPatients(context);
     }
 
+    /**
+     * Load patients when entering PrivateArea.
+     *
+     * @param context
+     */
     public static void loadInitialPatients(Context context) {
-        Log.d("Patients", "Loading initial list of patients");
         // fetch from Firebase and save to shared preferences
-         FirebaseStorageHelper.getPatientsBackEnd(context);
+        FirebaseStorageHelper.getInstance().getPatients(context);
     }
 
 
@@ -105,18 +89,33 @@ public class PatientsManagement {
         return favoritePatients;
     }
 
+    /**
+     * Update a patient.
+     *
+     * @param patient
+     * @param context
+     */
     public void updatePatient(PatientFirebase patient, Context context) {
         ArrayList<PatientFirebase> patients = getPatients(context);
         for (int i = 0; i < patients.size(); i++) {
             if (patients.get(i).getGuid().equals(patient.getGuid())) {
                 patients.set(i, patient);
                 // persist in Shared Preferences
+                Log.d("Patients", "Updated patient");
                 SharedPreferencesHelper.updatePatient(context, i, patient);
+
+                // TODO persist in Firebase
                 return;
             }
         }
     }
 
+    /**
+     * Delete a patient.
+     *
+     * @param patient
+     * @param context
+     */
     public void deletePatient(PatientFirebase patient, Context context) {
         // delete sessions from this patient
         ArrayList<SessionFirebase> sessions = FirebaseDatabaseHelper.getSessionsFromPatient(patient);

@@ -64,7 +64,7 @@ public class PrescriptionStartCriteriaFragment extends Fragment {
         expListView = (ExpandableListView) v.findViewById(R.id.lvExp);
 
         // preparing list data
-        startGeneral = FirebaseStorageHelper.getStartCriteria();
+        startGeneral = FirebaseStorageHelper.getInstance().getStartCriteria();
         prepareListData();
 
         listAdapter = new ExpandableListAdapterStart(getActivity(), listDataHeader, listDataChild);

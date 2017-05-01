@@ -33,7 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginFragmentFirebase extends Fragment {
+public class LoginFragment extends Fragment {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.

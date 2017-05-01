@@ -1,15 +1,12 @@
-package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,15 +18,13 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.Prescripti
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.Orientation;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.TimeLineViewHolderSession;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsCard;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.TimeLineViewHolderPrescription;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.utils.VectorDrawableUtils;
-import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionSingleDrugFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionWithPatient;
 import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistory.SessionScalesAdapterRecycler;
 import com.github.vipulasri.timelineview.LineType;
-import com.github.vipulasri.timelineview.TimelineView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,7 +33,7 @@ import java.util.List;
 /**
  * Created by HP-HP on 05-12-2015.
  */
-public class TimeLineAdapterGeneral extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TimeLineAdapterGeneralOriginal extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Activity context;
     private final boolean compactView;
@@ -50,7 +45,7 @@ public class TimeLineAdapterGeneral extends RecyclerView.Adapter<RecyclerView.Vi
     int TYPE_PRESCRIPTION = 0;
     int TYPE_SESSION = 1;
 
-    public TimeLineAdapterGeneral(ArrayList<Object> feedList, Orientation orientation, boolean withLinePadding, Activity activity, boolean compactView) {
+    public TimeLineAdapterGeneralOriginal(ArrayList<Object> feedList, Orientation orientation, boolean withLinePadding, Activity activity, boolean compactView) {
         objectsList = feedList;
         mOrientation = orientation;
         mWithLinePadding = withLinePadding;
@@ -140,12 +135,20 @@ public class TimeLineAdapterGeneral extends RecyclerView.Adapter<RecyclerView.Vi
 
     }
 
-    private void configureSessionViewHolder(final SessionFirebase session, TimeLineViewHolderSession holderSession) {
-        holderSession.mDate.setVisibility(View.VISIBLE);
-        holderSession.mDate.setText(DatesHandler.dateToStringWithHour(new Date(session.getDate()), true));
+    /**
+     * Configure a Session ViewHolder.
+     *
+     * @param session
+     * @param holder
+     */
+    private void configureSessionViewHolder(final SessionFirebase session, TimeLineViewHolderSession holder) {
+        holder.mDate.setVisibility(View.VISIBLE);
+        holder.mDate.setText(DatesHandler.dateToStringWithoutHour(new Date(session.getDate())));
 
-        holderSession.mMessage.setText("1234");
-        holderSession.mMessage.setVisibility(View.GONE);
+        holder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext,
+                R.drawable.ic_sessions_white_24dp,
+                R.color.colorAccent));
+
 
         View.OnClickListener cardSelected = new View.OnClickListener() {
             @Override
@@ -163,28 +166,32 @@ public class TimeLineAdapterGeneral extends RecyclerView.Adapter<RecyclerView.Vi
         // setup scales list
         List<GeriatricScaleFirebase> sessionScales = FirebaseDatabaseHelper.getScalesFromSession(session);
 
-        holderSession.sessionScales.setHasFixedSize(true);
+        holder.sessionScales.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        holderSession.sessionScales.setLayoutManager(layoutManager);
+        holder.sessionScales.setLayoutManager(layoutManager);
 
         SessionScalesAdapterRecycler adapter = new SessionScalesAdapterRecycler(context, sessionScales, false);
         adapter.setOnClickListener(cardSelected);
-        holderSession.sessionScales.setAdapter(adapter);
+        holder.sessionScales.setAdapter(adapter);
 
-        holderSession.view.setOnClickListener(cardSelected);
+        holder.view.setOnClickListener(cardSelected);
     }
 
+    /**
+     * Configure a Prescription ViewHolder.
+     *
+     * @param prescriptionsForDate
+     * @param holder
+     */
     private void configurePrescriptionViewHolder(final ArrayList<PrescriptionFirebase> prescriptionsForDate,
                                                  TimeLineViewHolderPrescription holder) {
         Date currentDate = prescriptionsForDate.get(0).getDate();
         holder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext,
-                R.drawable.ic_sessions_white_24dp,
+                R.drawable.pill_black,
                 R.color.colorAccent));
 
-        holder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_inactive, android.R.color.darker_gray));
 
-        holder.date.setVisibility(View.VISIBLE);
         holder.date.setText(DatesHandler.dateToStringWithoutHour(currentDate));
 
         // get recycler view for prescriptions

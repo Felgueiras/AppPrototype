@@ -6,9 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:orientation="horizontal"
-
-    >
+    android:orientation="horizontal">
 
     <com.github.vipulasri.timelineview.TimelineView
         android:id="@+id/time_marker"
@@ -25,8 +23,7 @@
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="15dp"
-        app:cardBackgroundColor="@color/timelineSession"
-
+        app:cardBackgroundColor="@color/almost_white"
         app:cardElevation="1dp"
         app:contentPadding="15dp">
 
@@ -38,20 +35,24 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/text_timeline_date"
+                android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/date"
                 tools:text="24 JAN" />
 
-
-            <!--scales from session-->
-
+            <!--Prescriptions-->
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/session_tests_results"
+                android:id="@+id/prescriptionsForDate"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="true" />
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+            <!--Sessions-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/sessionsForDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
 
         </LinearLayout>
 

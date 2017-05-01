@@ -1,9 +1,10 @@
-package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline;
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,6 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFir
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.StringHelper;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.TimeLineAdapterGeneral;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.Orientation;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,11 +26,10 @@ import java.util.Date;
 import java.util.HashSet;
 
 
-public class PatientTimelineFragment extends Fragment {
+public class PatientTimelineFragmentGroupByDay extends Fragment {
 
     public static final String PATIENT = "PATIENT";
     private PatientFirebase patient;
-    ArrayList<Object> patientSessionsPrescriptions = new ArrayList<>();
 
 
     private RecyclerView mRecyclerView;
@@ -133,22 +130,23 @@ public class PatientTimelineFragment extends Fragment {
                                     patientsPrescriptions.add(prescription);
                                 }
 
+                                ArrayList<DailyEvents> dailyEvents = getDailyEvents();
 
-                                // join sessions with prescriptions
-                                patientSessionsPrescriptions.addAll(patientSessions);
-//                                patientSessionsPrescriptions.addAll(patientsPrescriptions);
 
-                                // sort all by date
-//                                Collections.sort(patientSessionsPrescriptions, new Comparator<Object>() {
+//                                dailyEvents.addAll(patientsPrescriptions);
+
+
+//                                 sort all by date
+//                                Collections.sort(dailyEvents, new Comparator<Object>() {
 //                                    public int compare(Object o1, Object o2) {
 //                                        Date d1, d2;
-//                                        if (o1 instanceof PrescriptionFirebase) {
-//                                            d1 = ((PrescriptionFirebase) o1).getDate();
+//                                        if (o1 instanceof ArrayList<?>) {
+//                                            d1 = ((ArrayList<PrescriptionFirebase>) o1).get(0).getDate();
 //                                        } else {
 //                                            d1 = new Date(((SessionFirebase) o1).getDate());
 //                                        }
-//                                        if (o2 instanceof PrescriptionFirebase) {
-//                                            d2 = ((PrescriptionFirebase) o2).getDate();
+//                                        if (o2 instanceof ArrayList<?>) {
+//                                            d2 = ((ArrayList<PrescriptionFirebase>) o2).get(0).getDate();
 //                                        } else {
 //                                            d2 = new Date(((SessionFirebase) o2).getDate());
 //                                        }
@@ -157,43 +155,7 @@ public class PatientTimelineFragment extends Fragment {
 //                                });
 
 
-                                // decompose prescriptions per day
-                                HashSet<Date> days = new HashSet<>();
-                                for (PrescriptionFirebase prescriptionFirebase : patientsPrescriptions) {
-                                    Date dateWithoutHour = DatesHandler.getDateWithoutHour(prescriptionFirebase.getDate().getTime());
-                                    days.add(dateWithoutHour);
-                                }
-
-                                ArrayList<Date> differentDates = new ArrayList<>();
-                                differentDates.addAll(days);
-                                // order by date (descending)
-                                Collections.sort(differentDates, new Comparator<Date>() {
-                                    @Override
-                                    public int compare(Date first, Date second) {
-                                        return second.compareTo(first);
-                                    }
-                                });
-
-                                // add prescriptions by date
-                                for(Date currentDate: differentDates)
-                                {
-                                    // get prescriptions from this date
-                                    ArrayList<PrescriptionFirebase> prescriptionsForDate = new ArrayList<>();
-                                    for (PrescriptionFirebase prescription : patientsPrescriptions) {
-                                        if (DatesHandler.getDateWithoutHour(prescription.getDate().getTime()).compareTo(currentDate) == 0) {
-                                            prescriptionsForDate.add(prescription);
-                                        }
-                                    }
-                                    // add to array
-                                    patientSessionsPrescriptions.add(prescriptionsForDate);
-                                }
-
-
-
-
-
-
-                                mTimeLineAdapter = new TimeLineAdapterGeneral(patientSessionsPrescriptions,
+                                mTimeLineAdapter = new TimeLineAdapterGeneral(dailyEvents,
                                         mOrientation, mWithLinePadding, getActivity(), false);
                                 mRecyclerView.setAdapter(mTimeLineAdapter);
                             }
@@ -216,4 +178,56 @@ public class PatientTimelineFragment extends Fragment {
     }
 
 
+    /**
+     * Get Sessions and Prescriptions for a single day.
+     */
+    public ArrayList<DailyEvents> getDailyEvents() {
+
+        ArrayList<DailyEvents> dailyEvents = new ArrayList<>();
+
+
+        // get events by date
+        HashSet<Date> daysSet = new HashSet<>();
+        for (PrescriptionFirebase prescriptionFirebase : patientsPrescriptions) {
+            Date dateWithoutHour = DatesHandler.getDateWithoutHour(prescriptionFirebase.getDate().getTime());
+            daysSet.add(dateWithoutHour);
+        }
+        for (SessionFirebase session : patientSessions) {
+            Date dateWithoutHour = DatesHandler.getDateWithoutHour(session.getDate());
+            daysSet.add(dateWithoutHour);
+        }
+
+        ArrayList<Date> differentDates = new ArrayList<>();
+        differentDates.addAll(daysSet);
+        // order by date (descending)
+        Collections.sort(differentDates, new Comparator<Date>() {
+            @Override
+            public int compare(Date first, Date second) {
+                return second.compareTo(first);
+            }
+        });
+
+        // get events for current date
+        for (Date currentDate : differentDates) {
+            // get prescriptions from this date
+            ArrayList<PrescriptionFirebase> prescriptionsForDate = new ArrayList<>();
+            for (PrescriptionFirebase prescription : patientsPrescriptions) {
+                if (DatesHandler.getDateWithoutHour(prescription.getDate().getTime()).compareTo(currentDate) == 0) {
+                    prescriptionsForDate.add(prescription);
+                }
+            }
+            // get sessions from this date
+            ArrayList<SessionFirebase> sessionsForDate = new ArrayList<>();
+            for (SessionFirebase session : patientSessions) {
+                if (DatesHandler.getDateWithoutHour(session.getDate()).compareTo(currentDate) == 0) {
+                    sessionsForDate.add(session);
+                }
+            }
+            // add to array
+            dailyEvents.add(new DailyEvents(currentDate, prescriptionsForDate, sessionsForDate));
+
+        }
+
+        return dailyEvents;
+    }
 }

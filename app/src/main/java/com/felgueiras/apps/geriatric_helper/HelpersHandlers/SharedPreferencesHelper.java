@@ -210,12 +210,8 @@ public class SharedPreferencesHelper {
 
         // TODO remove from here
         // update in firebase
-        String fileName = "patients.json";
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
-                .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + fileName);
 
-        FirebaseStorageHelper.sendPatientsBackEnd(gson, context, storageReference);
+        FirebaseStorageHelper.getInstance().sendPatientsBackEnd(context);
 
     }
 
@@ -426,9 +422,12 @@ public class SharedPreferencesHelper {
             set.add(patientJSON);
         }
 
-
         sharedPreferences.edit().putStringSet("patients", set).apply();
         Log.d("Patients", "Size: " + set.size());
+
+        // update in Firebase
+        FirebaseStorageHelper.getInstance().sendPatientsBackEnd(context);
+
 
     }
 

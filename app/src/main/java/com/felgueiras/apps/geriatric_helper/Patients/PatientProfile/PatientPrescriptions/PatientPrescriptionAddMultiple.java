@@ -34,6 +34,7 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFir
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.DataHelperDrugs;
 import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.DrugListItem;
 import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.DrugSuggestion;
@@ -289,7 +290,11 @@ public class PatientPrescriptionAddMultiple extends Fragment {
                 Date prescriptionDate = c.getTime();
                 for (int i = 0; i < addedDrugs.size(); i++) {
                     String currentDrug = addedDrugs.get(i);
-                    String currentNote = addedNotes.get(i);
+                    String currentNote;
+                    if (addedNotes.size() > 0)
+                        currentNote = addedNotes.get(i);
+                    else
+                        currentNote = null;
 //                    if (currentDrug.getText().length() == 0) {
 //                        Snackbar.make(getView(), R.string.add_prescription_error_name, Snackbar.LENGTH_SHORT).show();
 //                        return;
@@ -299,9 +304,11 @@ public class PatientPrescriptionAddMultiple extends Fragment {
                     PrescriptionFirebase prescription = new PrescriptionFirebase(currentDrug,
                             currentNote, prescriptionDate);
                     prescription.setGuid("PRESCRIPTION" + new Random().nextInt());
-                    prescription.setName(currentDrug);
                     prescription.setPatientID(patient.getGuid());
                     patient.addPrescription(prescription.getGuid(), context);
+
+                    // update patient
+                    PatientsManagement.getInstance().updatePatient(patient, context);
 
                     // save Prescription
                     FirebaseDatabaseHelper.createPrescription(prescription);

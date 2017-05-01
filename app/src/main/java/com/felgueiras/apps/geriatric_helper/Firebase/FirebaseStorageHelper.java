@@ -51,12 +51,30 @@ import java.util.Scanner;
 
 public class FirebaseStorageHelper {
 
+    private static FirebaseStorageHelper singleton = new FirebaseStorageHelper();
+    private final FirebaseStorage storage;
+    private final StorageReference patientsStorageReference;
+    static String patientsFile = "patients.json";
+    final Gson gson;
+
+
+    public static FirebaseStorageHelper getInstance() {
+        return singleton;
+    }
+
+    private FirebaseStorageHelper() {
+        storage = FirebaseStorage.getInstance();
+        patientsStorageReference = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + patientsFile);
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
+        gson = builder.create();
+    }
+
     static Map<String, String> resourcesMap = new HashMap<>();
 
-    static String patientsFile = "patients.json";
 
-
-    public static void downloadLanguageResources() {
+    public void downloadLanguageResources() {
 
         // get system language
 //        final String displayLanguage = Locale.getDefault().getLanguage().toUpperCase();
@@ -102,7 +120,7 @@ public class FirebaseStorageHelper {
 //        }
     }
 
-    private static void parseXML(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private void parseXML(XmlPullParser parser) throws XmlPullParserException, IOException {
         int eventType = parser.getEventType();
 
         while (eventType != XmlPullParser.END_DOCUMENT) {
@@ -132,11 +150,11 @@ public class FirebaseStorageHelper {
         printResources(resourcesMap);
     }
 
-    private static void printResources(Map<String, String> resources) {
+    private void printResources(Map<String, String> resources) {
         Log.d("XML", "Number of strings: " + resources.keySet().size());
     }
 
-    public static String getString(String name) {
+    public String getString(String name) {
         if (resourcesMap.keySet().contains(name)) {
             return resourcesMap.get(name);
         } else {
@@ -150,7 +168,7 @@ public class FirebaseStorageHelper {
      * @param context
      * @param firebaseTablePublic
      */
-    public static void downloadScales(final Context context, DatabaseReference firebaseTablePublic) {
+    public void downloadScales(final Context context, DatabaseReference firebaseTablePublic) {
         Log.d("Scales", "Downloading scales");
 
         // download scales from that language
@@ -262,7 +280,7 @@ public class FirebaseStorageHelper {
      *
      * @param context
      */
-    public static void downloadCriteria(final Context context) {
+    public void downloadCriteria(final Context context) {
 
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
@@ -346,7 +364,7 @@ public class FirebaseStorageHelper {
     /**
      * JSON handling.
      */
-    public static void uploadScales() {
+    public void uploadScales() {
 
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
@@ -383,7 +401,7 @@ public class FirebaseStorageHelper {
     }
 
 
-    public static void uploadCriteria() {
+    public void uploadCriteria() {
 
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
@@ -418,11 +436,11 @@ public class FirebaseStorageHelper {
 //        String fileName = "start.json";
 //        // upload file
 //        FirebaseStorage storage = FirebaseStorage.getInstance();
-//        StorageReference storageReference = storage.
+//        StorageReference patientsStorageReference = storage.
 //                getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
 //                .child("criteria/" + fileName);
 //
-//        UploadTask uploadTask = storageReference.putBytes(jsonArray.getBytes());
+//        UploadTask uploadTask = patientsStorageReference.putBytes(jsonArray.getBytes());
 //        uploadTask.addOnFailureListener(new OnFailureListener() {
 //            @Override
 //            public void onFailure(@NonNull Exception exception) {
@@ -440,11 +458,11 @@ public class FirebaseStorageHelper {
 //        fileName = "stopp.json";
 //        // upload file
 //        storage = FirebaseStorage.getInstance();
-//        storageReference = storage.
+//        patientsStorageReference = storage.
 //                getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
 //                .child("criteria/" + fileName);
 //
-//        uploadTask = storageReference.putBytes(jsonArray.getBytes());
+//        uploadTask = patientsStorageReference.putBytes(jsonArray.getBytes());
 //        uploadTask.addOnFailureListener(new OnFailureListener() {
 //            @Override
 //            public void onFailure(@NonNull Exception exception) {
@@ -459,16 +477,22 @@ public class FirebaseStorageHelper {
 
     }
 
-    public static ArrayList<StoppCriteria> getStoppCriteria() {
+    public ArrayList<StoppCriteria> getStoppCriteria() {
         return FirebaseHelper.stoppCriteria;
     }
 
-    public static ArrayList<StartCriteria> getStartCriteria() {
+    public ArrayList<StartCriteria> getStartCriteria() {
         return FirebaseHelper.startCriteria;
     }
 
-    public static void sendPatientsBackEnd(Gson gson, Context context, StorageReference storageReference) {
+    /**
+     * Save patients on Firebase back-end as a ciphered JSON file.
+     *
+     * @param context
+     */
+    public void sendPatientsBackEnd(Context context) {
         // convert to JSON array
+
         String jsonArray = gson.toJson(PatientsManagement.getInstance().getPatients(context));
 
         // write JSON to file
@@ -486,7 +510,6 @@ public class FirebaseStorageHelper {
         CipherDecipherFiles cip = CipherDecipherFiles.getInstance();
         cip.cipherFileContents(patientsJSONFile);
 
-
         // upload to Firebase
         InputStream stream = null;
         try {
@@ -494,7 +517,7 @@ public class FirebaseStorageHelper {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        UploadTask uploadTask = storageReference.putStream(stream);
+        UploadTask uploadTask = patientsStorageReference.putStream(stream);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
@@ -508,7 +531,7 @@ public class FirebaseStorageHelper {
     }
 
 
-    private static File createPatientsJSONFile(Context context) {
+    private File createPatientsJSONFile(Context context) {
         // Create an image file name
 //        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "patients";
@@ -528,18 +551,16 @@ public class FirebaseStorageHelper {
         return file;
     }
 
-    public static void getPatientsBackEnd(final Context context) {
-        GsonBuilder builder = new GsonBuilder();
-        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
-        final Gson gson = builder.create();
+    /**
+     * Get patients from Firebase.
+     *
+     * @param context
+     */
+    public void getPatients(final Context context) {
 
-
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
-                .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + patientsFile);
         try {
             final File localFile = File.createTempFile("patients", "json");
-            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            patientsStorageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Log.d("Patients", "Downloaded patients");

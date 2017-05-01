@@ -78,7 +78,7 @@ public class PatientsListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.menu_patients_list, menu);
+//        inflater.inflate(R.menu.menu_patients_list, menu);
 
 
     }
@@ -100,12 +100,12 @@ public class PatientsListFragment extends Fragment {
 
             case R.id.sendToBackEnd:
 
-                FirebaseStorageHelper.sendPatientsBackEnd(gson, getActivity(), storageReference);
+                FirebaseStorageHelper.getInstance().sendPatientsBackEnd(getActivity());
 
                 break;
             case R.id.getFromBackEnd:
 
-                FirebaseStorageHelper.getPatientsBackEnd(getActivity());
+                FirebaseStorageHelper.getInstance().getPatients(getActivity());
 
                 break;
 

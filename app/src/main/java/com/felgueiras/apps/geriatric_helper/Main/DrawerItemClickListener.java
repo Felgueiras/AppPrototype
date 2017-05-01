@@ -21,7 +21,7 @@ import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.SendFeedback;
-import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.LoginFragmentFirebase;
+import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.LoginFragment;
 import com.felgueiras.apps.geriatric_helper.Settings;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMainFragment;
@@ -59,7 +59,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             if (sessionID != null) {
                 SharedPreferencesHelper.resetPublicSession(context, sessionID);
             }
-            endFragment = new LoginFragmentFirebase();
+            endFragment = new LoginFragment();
 
         } else if (id == R.id.cga_public) {
             /**

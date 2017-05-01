@@ -56,7 +56,7 @@ public class AddDrugListItemAdapter extends RecyclerView.Adapter<AddDrugListItem
         if (addedDrugsNotes.get(addedDrugsNotes.size() - 1).equals("")) {
             addedDrugsNotes.remove(addedDrugsNotes.size() - 1);
         }
-        return addedDrugsList;
+        return addedDrugsNotes;
     }
 
     /**

@@ -20,4 +20,9 @@
         <item name="android:textSize">20dp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <!--Dates-->
+    <style name="date">
+        <item name="android:textSize">40sp</item>
+    </style>
 </resources>

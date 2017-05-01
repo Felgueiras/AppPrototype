@@ -20,8 +20,6 @@ public class TimeLineViewHolderSession extends RecyclerView.ViewHolder {
 
     @InjectView(R.id.text_timeline_date)
     public TextView mDate;
-    @InjectView(R.id.text_timeline_title)
-    public TextView mMessage;
     @InjectView(R.id.time_marker)
     public TimelineView mTimelineView;
     @InjectView(R.id.session_tests_results)

@@ -32,7 +32,8 @@ import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientNotes
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsEmpty;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsTimelineFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsEmpty;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.PatientSessionsTimelineFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsTimelineFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.PatientTimelineFragmentGroupByDay;
 import com.felgueiras.apps.geriatric_helper.Patients.Progress.ProgressFragment;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -173,56 +174,65 @@ public class PatientProfileFragment extends Fragment {
         if (currentFragment != null)
             transaction.remove(currentFragment);
 
-        // TODO put fragments in array
+        // put fragments in array
+        final ArrayList<Fragment> fragments = new ArrayList<>();
 
         final ArrayList<SessionFirebase> sessionsFromPatient = FirebaseDatabaseHelper.getSessionsFromPatient(patient);
 
-        // setup default fragment
-        switch (Constants.patientProfileBottomNavigation) {
-            case 0:
-                if (sessionsFromPatient.isEmpty()) {
-                    defaultFragment = new PatientSessionsEmpty();
-                    Bundle args = new Bundle();
-                    args.putSerializable(PatientSessionsEmpty.PATIENT, patient);
-                    args.putString(PatientSessionsEmpty.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
-                    defaultFragment.setArguments(args);
-                } else {
-                    defaultFragment = new PatientSessionsTimelineFragment();
-                    Bundle args = new Bundle();
-                    args.putSerializable(PatientSessionsTimelineFragment.PATIENT, patient);
-                    defaultFragment.setArguments(args);
-                }
-                break;
-            case 1:
-                defaultFragment = new PatientNotesFragment();
-                Bundle args = new Bundle();
-                args.putSerializable(PatientNotesFragment.PATIENT, patient);
-                defaultFragment.setArguments(args);
-                break;
-            case 2:
-                if (patient.getPrescriptionsIDS().size() == 0 || patient.getPrescriptionsIDS() == null) {
-                    defaultFragment = new PatientPrescriptionsEmpty();
-                    args = new Bundle();
-                    args.putSerializable(PatientPrescriptionsEmpty.PATIENT, patient);
-                    args.putString(PatientPrescriptionsEmpty.MESSAGE, getResources().
-                            getString(R.string.no_prescriptions_for_patient));
-                    defaultFragment.setArguments(args);
-                } else {
-                    defaultFragment = new PatientPrescriptionsTimelineFragment();
-                    args = new Bundle();
-                    args.putSerializable(PatientPrescriptionsTimelineFragment.PATIENT, patient);
-                    defaultFragment.setArguments(args);
-                }
-                break;
-            case 3:
-                defaultFragment = new PatientTimelineFragment();
-                args = new Bundle();
-                args.putSerializable(PatientTimelineFragment.PATIENT, patient);
-                defaultFragment.setArguments(args);
 
-                break;
+        for (int i = 0; i < 4; i++) {
+            Fragment frag = null;
+            Bundle args = null;
+            switch (i) {
+                case 0:
+                    if (sessionsFromPatient.isEmpty()) {
+                        frag = new PatientSessionsEmpty();
+                        args = new Bundle();
+                        args.putSerializable(PatientSessionsEmpty.PATIENT, patient);
+                        args.putString(PatientSessionsEmpty.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
+                        frag.setArguments(args);
+                    } else {
+                        frag = new PatientSessionsTimelineFragment();
+                        args = new Bundle();
+                        args.putSerializable(PatientSessionsTimelineFragment.PATIENT, patient);
+                        frag.setArguments(args);
+                    }
+                    break;
+                case 2:
+                    frag = new PatientNotesFragment();
+                    args = new Bundle();
+                    args.putSerializable(PatientNotesFragment.PATIENT, patient);
+                    frag.setArguments(args);
+                    break;
+                case 1:
+                    if (patient.getPrescriptionsIDS().size() == 0 || patient.getPrescriptionsIDS() == null) {
+                        frag = new PatientPrescriptionsEmpty();
+                        args = new Bundle();
+                        args.putSerializable(PatientPrescriptionsEmpty.PATIENT, patient);
+                        args.putString(PatientPrescriptionsEmpty.MESSAGE, getResources().
+                                getString(R.string.no_prescriptions_for_patient));
+                        frag.setArguments(args);
+                    } else {
+                        frag = new PatientPrescriptionsTimelineFragment();
+                        args = new Bundle();
+                        args.putSerializable(PatientPrescriptionsTimelineFragment.PATIENT, patient);
+                        frag.setArguments(args);
+                    }
+                    break;
+                case 3:
+                    frag = new PatientTimelineFragmentGroupByDay();
+                    args = new Bundle();
+                    args.putSerializable(PatientTimelineFragmentGroupByDay.PATIENT, patient);
+                    frag.setArguments(args);
 
+                    break;
+
+            }
+            fragments.add(frag);
         }
+
+
+        defaultFragment = fragments.get(Constants.patientProfileBottomNavigation);
 
 
         transaction.replace(R.id.frame_layout_bottom_navigation, defaultFragment);
@@ -234,63 +244,34 @@ public class PatientProfileFragment extends Fragment {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         // same item pressed
                         Fragment fragment = null;
-                        Bundle args = new Bundle();
+
 
                         switch (item.getItemId()) {
                             case R.id.patient_sessions:
-                                if (sessionsFromPatient.isEmpty()) {
-                                    fragment = new PatientSessionsEmpty();
-                                    args.putSerializable(PatientSessionsEmpty.PATIENT, patient);
-                                    args.putString(PatientSessionsEmpty.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
-                                    fragment.setArguments(args);
-                                } else {
-//                                    fragment = new PatientSessionsFragment();
-//                                    args = new Bundle();
-//                                    args.putSerializable(PatientSessionsFragment.PATIENT, patient);
-//                                    fragment.setArguments(args);
-                                    fragment = new PatientSessionsTimelineFragment();
-                                    args = new Bundle();
-                                    args.putSerializable(PatientSessionsTimelineFragment.PATIENT, patient);
-                                    fragment.setArguments(args);
-                                }
+                                if(Constants.patientProfileBottomNavigation == 0)
+                                    return true;
                                 Constants.patientProfileBottomNavigation = 0;
                                 break;
-                            case R.id.patient_notes:
-                                fragment = new PatientNotesFragment();
-                                args = new Bundle();
-                                args.putSerializable(PatientNotesFragment.PATIENT, patient);
-                                fragment.setArguments(args);
-                                Constants.patientProfileBottomNavigation = 1;
-
-                                break;
                             case R.id.patient_prescriptions:
-                                if (patient.getPrescriptionsIDS().size() == 0) {
-                                    fragment = new PatientPrescriptionsEmpty();
-                                    args = new Bundle();
-                                    args.putSerializable(PatientPrescriptionsEmpty.PATIENT, patient);
-                                    args.putString(PatientPrescriptionsEmpty.MESSAGE, getResources().
-                                            getString(R.string.no_prescriptions_for_patient));
-                                    fragment.setArguments(args);
-                                } else {
-                                    fragment = new PatientPrescriptionsTimelineFragment();
-                                    args = new Bundle();
-                                    args.putSerializable(PatientPrescriptionsTimelineFragment.PATIENT, patient);
-                                    fragment.setArguments(args);
-                                }
+                                if(Constants.patientProfileBottomNavigation == 1)
+                                    return true;
+                                Constants.patientProfileBottomNavigation = 1;
+                                break;
+                            case R.id.patient_notes:
+                                if(Constants.patientProfileBottomNavigation == 2)
+                                    return true;
                                 Constants.patientProfileBottomNavigation = 2;
-
-
                                 break;
                             case R.id.patientTimeline:
-                                fragment = new PatientTimelineFragment();
-                                args = new Bundle();
-                                args.putSerializable(PatientTimelineFragment.PATIENT, patient);
-                                fragment.setArguments(args);
+                                if(Constants.patientProfileBottomNavigation == 3)
+                                    return true;
                                 Constants.patientProfileBottomNavigation = 3;
                                 break;
 
 
                         }
+                        fragment = fragments.get(Constants.patientProfileBottomNavigation);
+
 
                         FragmentManager fragmentManager = getChildFragmentManager();
                         FragmentTransaction transaction = fragmentManager.beginTransaction();

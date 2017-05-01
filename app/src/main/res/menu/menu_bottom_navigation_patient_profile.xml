@@ -6,15 +6,16 @@
         android:icon="@drawable/ic_sessions_white_24dp"
         android:title="@string/evaluations"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/patient_notes"
-        android:icon="@drawable/ic_note_add_black_24dp"
-        android:title="@string/notes"
-        app:showAsAction="always" />
+
     <item
         android:id="@+id/patient_prescriptions"
         android:icon="@drawable/pill_white"
         android:title="@string/drug_prescription"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/patient_notes"
+        android:icon="@drawable/ic_note_add_white_24dp"
+        android:title="@string/notes"
         app:showAsAction="always" />
 
     <item

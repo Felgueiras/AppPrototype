@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SessionCardPatientNotes extends RecyclerView.Adapter<SessionCardPatientNotes.MyViewHolder> {
+public class PatientNotesAdapter extends RecyclerView.Adapter<PatientNotesAdapter.MyViewHolder> {
 
     private Activity context;
     /**
@@ -45,13 +45,12 @@ public class SessionCardPatientNotes extends RecyclerView.Adapter<SessionCardPat
             super(view);
             this.view = view;
             date = (TextView) view.findViewById(R.id.recordDate);
-//            overflow = (ImageView) view.findViewById(R.id.overflow);
             notes = (TextView) view.findViewById(R.id.sessionNotes);
         }
     }
 
 
-    public SessionCardPatientNotes(Activity context, ArrayList<SessionFirebase> sessions, PatientFirebase patient) {
+    public PatientNotesAdapter(Activity context, ArrayList<SessionFirebase> sessions, PatientFirebase patient) {
         this.context = context;
         this.sessions = sessions;
     }
@@ -124,6 +123,7 @@ public class SessionCardPatientNotes extends RecyclerView.Adapter<SessionCardPat
 
     @Override
     public int getItemCount() {
+
         return sessions.size();
     }
 }

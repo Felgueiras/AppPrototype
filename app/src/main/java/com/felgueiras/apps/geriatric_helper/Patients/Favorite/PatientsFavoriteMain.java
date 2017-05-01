@@ -45,7 +45,6 @@ public class PatientsFavoriteMain extends Fragment {
     }
 
 
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
@@ -66,7 +65,6 @@ public class PatientsFavoriteMain extends Fragment {
             fragmentManager.beginTransaction()
                     .replace(R.id.favorite_patients_frame_layout, fragment)
                     .commit();
-
 
         } else {
             Fragment fragment = new PatientsFavoriteFragment();
