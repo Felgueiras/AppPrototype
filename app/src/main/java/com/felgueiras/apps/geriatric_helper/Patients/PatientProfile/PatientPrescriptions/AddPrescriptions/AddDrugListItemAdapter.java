@@ -1,6 +1,7 @@
-package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.AddPrescriptions;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,9 +12,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -69,6 +73,7 @@ public class AddDrugListItemAdapter extends RecyclerView.Adapter<AddDrugListItem
         private final Button addMoreButton;
         private final ImageButton cancelPrescription;
         private final EditText drugNotes;
+        private final Button warning;
 
         public DrugViewHolder(View view) {
             super(view);
@@ -76,6 +81,7 @@ public class AddDrugListItemAdapter extends RecyclerView.Adapter<AddDrugListItem
             addMoreButton = (Button) view.findViewById(R.id.addMoreItem);
             cancelPrescription = (ImageButton) view.findViewById(R.id.cancelPrescription);
             drugNotes = (EditText) view.findViewById(R.id.drugNotes);
+            warning = (Button) view.findViewById(R.id.warning);
 
         }
     }
@@ -123,6 +129,9 @@ public class AddDrugListItemAdapter extends RecyclerView.Adapter<AddDrugListItem
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 addedDrugsList.set(holder.getAdapterPosition(), s.toString());
+                // check warning
+                PrescriptionFirebase.checkWarning(s.toString(), holder.warning);
+
             }
 
             @Override
@@ -171,12 +180,40 @@ public class AddDrugListItemAdapter extends RecyclerView.Adapter<AddDrugListItem
         });
 
 
+        holder.warning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // custom dialog
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.custom);
+                dialog.setTitle("Title...");
+
+                // set the custom dialog components - text, image and button
+                TextView text = (TextView) dialog.findViewById(R.id.text);
+                text.setText("Android custom dialog example!");
+                ImageView image = (ImageView) dialog.findViewById(R.id.image);
+                image.setImageResource(R.drawable.ic_warning_24dp);
+
+                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+                // if button is clicked, close the custom dialog
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+            }
+        });
 
         if (position < addedDrugsList.size() - 1) {
             holder.addMoreButton.setVisibility(View.GONE);
         } else {
             holder.addMoreButton.setVisibility(View.VISIBLE);
         }
+
+
 
     }
 

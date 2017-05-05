@@ -69,52 +69,6 @@ public class PatientsListFragment extends Fragment {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-//        inflater.inflate(R.menu.menu_patients_list, menu);
-
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        GsonBuilder builder = new GsonBuilder();
-        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
-        final Gson gson = builder.create();
-
-        String fileName = "patients.json";
-
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
-                .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + fileName);
-
-        switch (item.getItemId()) {
-
-            case R.id.sendToBackEnd:
-
-                FirebaseStorageHelper.getInstance().sendPatientsBackEnd(getActivity());
-
-                break;
-            case R.id.getFromBackEnd:
-
-                FirebaseStorageHelper.getInstance().getPatients(getActivity());
-
-                break;
-
-        }
-        return true;
-    }
-
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         mSearchView = (FloatingSearchView) view.findViewById(R.id.floating_search_view);
@@ -122,12 +76,25 @@ public class PatientsListFragment extends Fragment {
 
         setupFloatingSearch();
         setupResultsList();
-//        setupDrawer();
 
         super.onViewCreated(view, savedInstanceState);
     }
 
+    @Override
+    public void onResume() {
 
+
+        setupFloatingSearch();
+        setupResultsList();
+
+        Log.d("Patients","Resuming");
+
+        super.onResume();
+    }
+
+    /**
+     * Setup searching mechanism.
+     */
     private void setupFloatingSearch() {
         mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
 
@@ -300,6 +267,9 @@ public class PatientsListFragment extends Fragment {
         });
     }
 
+    /**
+     * Show the list of results (original/filtered)
+     */
     private void setupResultsList() {
         PatientCardPatientsList mSearchResultsAdapter = new PatientCardPatientsList(getActivity(), PatientsManagement.getInstance().getPatients(getActivity()));
         mSearchResultsList.setAdapter(mSearchResultsAdapter);
@@ -313,9 +283,6 @@ public class PatientsListFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_patients_list_persistent_search, container, false);
-
-        // get the patients
-//        ArrayList<PatientFirebase> patients = Patient.getAllPatients();
 
         // read arguments
         Bundle arguments = getArguments();
@@ -333,7 +300,6 @@ public class PatientsListFragment extends Fragment {
         // display card for each Patientndroid rec
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mSearchResultsList.setLayoutManager(mLayoutManager);
-//        mSearchResultsList.setItemAnimator(new DefaultItemAnimator());
         PatientCardPatientsList adapter = new PatientCardPatientsList(getActivity(), patients);
         mSearchResultsList.setAdapter(adapter);
 
@@ -389,6 +355,18 @@ public class PatientsListFragment extends Fragment {
         super.onPause();
         Constants.patientsListBundle = new Bundle();
         Constants.patientsListBundle.putParcelable(BUNDLE_RECYCLER_LAYOUT, mSearchResultsList.getLayoutManager().onSaveInstanceState());
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
     }
 }
 

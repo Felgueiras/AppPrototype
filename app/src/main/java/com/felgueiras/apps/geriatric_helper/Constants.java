@@ -241,7 +241,7 @@ public class Constants {
     public static ArrayList<String> allDrugs = new ArrayList<>();
     public static int bottomNavigationPatientProgress;
     public static int bottomNavigationReviewSession;
-    public static String tag_add_prescription_to_patient = "tag_add_prescription_to_patient";
+    public static final String tag_add_prescription_to_patient = "tag_add_prescription_to_patient";
     public static FirebaseDatabase firebaseInstance;
     public static ArrayList<GeriatricScaleFirebase> publicScales = new ArrayList<>();
 

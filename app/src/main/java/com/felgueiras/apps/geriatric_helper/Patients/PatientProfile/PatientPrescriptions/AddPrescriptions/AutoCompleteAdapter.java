@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.AddPrescriptions;
 
 import android.content.Context;
 import android.util.Log;

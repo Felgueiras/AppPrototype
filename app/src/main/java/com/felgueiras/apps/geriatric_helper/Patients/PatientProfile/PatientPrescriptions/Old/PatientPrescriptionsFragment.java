@@ -1,14 +1,11 @@
-package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.Old;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +19,8 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFir
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.StringHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.AddPrescriptions.PatientPrescriptionsAddFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsCard;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,7 +40,6 @@ public class PatientPrescriptionsFragment extends Fragment {
     private PatientPrescriptionsFragment fragment;
     private ArrayList<PrescriptionFirebase> patientsPrescriptions;
     boolean compactView = false;
-    private String someVarB;
 
 
     // Store instance variables based on arguments passed
@@ -100,9 +98,9 @@ public class PatientPrescriptionsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                args.putSerializable(PatientPrescriptionAddMultiple.PATIENT, patient);
+                args.putSerializable(PatientPrescriptionsAddFragment.PATIENT, patient);
                 FragmentTransitions.replaceFragment(getActivity(),
-                        new PatientPrescriptionAddMultiple(),
+                        new PatientPrescriptionsAddFragment(),
                         args,
                         Constants.tag_add_prescription_to_patient);
             }

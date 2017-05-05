@@ -16,6 +16,7 @@ import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideScale;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.AddPrescriptions.PatientPrescriptionsAddFragment;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublic;
@@ -86,7 +87,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             if (!tag.equals(Constants.tag_create_session_no_patient) &&
                     !tag.equals(Constants.tag_create_session_with_patient) &&
                     !tag.equals(Constants.tag_cga_public)
-                    && !tag.equals(Constants.tag_display_session_scale)) {
+                    && !tag.equals(Constants.tag_display_session_scale)
+                    && !tag.equals(Constants.tag_add_prescription_to_patient)) {
                 fragmentManager.popBackStack();
             }
 //            return;
@@ -235,6 +237,9 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 case Constants.tag_create_session_with_patient:
                     Log.d("Stack", "pressed back in new session with PATIENT");
                     ((CGAPrivate) fr).discardSession();
+                    return;
+                case Constants.tag_add_prescription_to_patient:
+                    ((PatientPrescriptionsAddFragment) fr).discardPrescriptions();
                     return;
                 case Constants.tag_cga_public:
                     Log.d("Stack", "pressed back in new session (public)");

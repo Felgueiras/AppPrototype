@@ -8,26 +8,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsFragment;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.utils.VectorDrawableUtils;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.Old.PatientPrescriptionsFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionWithPatient;
 import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistory.SessionScalesAdapterRecycler;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class PatientSessionCard extends RecyclerView.Adapter<TimeLineViewHolderSession> {

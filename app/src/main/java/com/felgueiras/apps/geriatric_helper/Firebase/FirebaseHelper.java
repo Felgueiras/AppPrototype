@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
@@ -44,7 +45,7 @@ public class FirebaseHelper {
     /**
      * Patients table name.
      */
-//    private static String PATIENTS;
+    private static String PATIENTS;
 
     /**
      * Sessions table name.
@@ -83,6 +84,8 @@ public class FirebaseHelper {
      * Firebase - sessions table.
      */
     public static DatabaseReference firebaseTableSessions;
+    public static DatabaseReference firebaseTablePatients ;
+
     /**
      * Firebase - scales table.
      */
@@ -319,7 +322,7 @@ public class FirebaseHelper {
         // set patients
         String userArea = "users/" + FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-//        PATIENTS = userArea + "/patients";
+        PATIENTS = userArea + "/patients";
         SESSIONS = userArea + "/sessions";
         SCALES = userArea + "/scales";
         QUESTIONS = userArea + "/questions";
@@ -327,7 +330,7 @@ public class FirebaseHelper {
         CHOICES = userArea + "/choices";
 
 
-//        firebaseTablePatients = mFirebaseInstance.getReference(FirebaseHelper.PATIENTS);
+        firebaseTablePatients   = FirebaseDatabase.getInstance().getReference(FirebaseHelper.PATIENTS);
         firebaseTableSessions = mFirebaseInstance.getReference(FirebaseHelper.SESSIONS);
         firebaseTableScales = mFirebaseInstance.getReference(FirebaseHelper.SCALES);
         firebaseTableQuestions = mFirebaseInstance.getReference(FirebaseHelper.QUESTIONS);

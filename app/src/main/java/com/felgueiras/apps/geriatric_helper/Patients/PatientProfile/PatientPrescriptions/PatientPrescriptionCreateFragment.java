@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-public class PatientPrescriptionCreate extends Fragment {
+public class PatientPrescriptionCreateFragment extends Fragment {
 
     public static final String PATIENT = "patient";
     public static final String DRUG = "DRUG";

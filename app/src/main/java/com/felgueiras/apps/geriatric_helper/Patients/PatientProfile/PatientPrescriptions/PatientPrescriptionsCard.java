@@ -2,10 +2,7 @@ package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPres
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,8 +20,8 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.Old.PatientPrescriptionsFragment;
 import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionSingleDrugFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 
@@ -86,11 +83,6 @@ public class PatientPrescriptionsCard extends RecyclerView.Adapter<PatientPrescr
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final PrescriptionFirebase prescription = prescriptions.get(position);
 
-        // stopp
-        final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(StoppCriteria.getStoppCriteria());
-        // beers
-        final ArrayList<String> beersCriteriaDrugs = BeersCriteria.getBeersDrugsAllString();
-
 
         // set views
         holder.name.setText(prescription.getName());
@@ -121,14 +113,8 @@ public class PatientPrescriptionsCard extends RecyclerView.Adapter<PatientPrescr
                 }
             });
 
-            // display warning
-            if (stoppCriteriaDrugs.contains(prescription.getName())
-                    ||
-                    beersCriteriaDrugs.contains(prescription.getName())) {
-                holder.warning.setVisibility(View.VISIBLE);
-            } else {
-                holder.warning.setVisibility(View.GONE);
-            }
+            PrescriptionFirebase.checkWarning(prescription.getName(), holder.warning);
+
 
         }
 
@@ -164,8 +150,6 @@ public class PatientPrescriptionsCard extends RecyclerView.Adapter<PatientPrescr
          * Setup warning button
          */
         holder.warning.setBackgroundResource(R.drawable.ic_warning_24dp);
-
-
 
 
         holder.warning.setOnClickListener(new View.OnClickListener() {

@@ -3,6 +3,7 @@ package com.felgueiras.apps.geriatric_helper;
 import android.content.Context;
 import android.util.Log;
 
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
@@ -34,10 +35,13 @@ public class PatientsManagement {
      * @param patient
      * @param context
      */
-    public void createPatient(PatientFirebase patient, Context context) {
+    public void addPatient(PatientFirebase patient, Context context) {
 
-        // persist to shared preferences
+        // persist locally
         SharedPreferencesHelper.addPatient(patient, context);
+
+        // persist in backend
+        FirebaseStorageHelper.getInstance().addPatientBackEnd(context, patient);
     }
 
 
@@ -104,7 +108,9 @@ public class PatientsManagement {
                 Log.d("Patients", "Updated patient");
                 SharedPreferencesHelper.updatePatient(context, i, patient);
 
-                // TODO persist in Firebase
+                // update in Firebase
+                FirebaseStorageHelper.getInstance().updatePatient(context, patient);
+
                 return;
             }
         }
@@ -129,7 +135,16 @@ public class PatientsManagement {
             FirebaseDatabaseHelper.deletePrescription(prescription, context);
         }
 
-//        FirebaseHelper.firebaseTablePatients.child(patient.getKey()).removeValue();
+        // remove from storage
+        FirebaseStorageHelper.getInstance().removePatientFile(patient.getGuid());
+
+        // remove from database
+        FirebaseHelper.firebaseTablePatients.child(patient.getGuid()).removeValue();
+
+        // remove from shared preferences
+        SharedPreferencesHelper.removePatient(patient, context);
+
+
     }
 
     /**
@@ -152,4 +167,6 @@ public class PatientsManagement {
         }
         return null;
     }
+
+
 }

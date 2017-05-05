@@ -27,11 +27,29 @@
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/drugNotes"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Notas" />
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/drugNotes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Notas" />
+
+        <Button
+            android:id="@+id/warning"
+            android:layout_width="@dimen/warningSize"
+            android:layout_height="@dimen/warningSize"
+            android:layout_margin="2dp"
+            android:background="@drawable/ic_warning_24dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+
 
     <Button
         android:id="@+id/addMoreItem"

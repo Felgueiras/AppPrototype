@@ -41,6 +41,10 @@ public class GeriatricScaleNonDB implements Serializable {
      * Short area for display purposes.
      */
     private String shortName;
+    /**
+     * Bibliographic references for this scale.
+     */
+    private String bibliography;
 
 
     private boolean singleQuestion;
@@ -240,5 +244,9 @@ public class GeriatricScaleNonDB implements Serializable {
 
     public void setContainsPhoto(boolean containsPhoto) {
         this.containsPhoto = containsPhoto;
+    }
+
+    public String getBibliography() {
+        return bibliography;
     }
 }

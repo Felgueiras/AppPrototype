@@ -19,7 +19,7 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionCreate;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionCreateFragment;
 import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionSingleDrugFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
@@ -148,10 +148,10 @@ public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder
                 if (pickingPrescription) {
                     // pick a new prescription for a patient
                     Bundle args = new Bundle();
-                    args.putSerializable(PatientPrescriptionCreate.PATIENT, patient);
-                    args.putString(PatientPrescriptionCreate.DRUG, currentDrug);
+                    args.putSerializable(PatientPrescriptionCreateFragment.PATIENT, patient);
+                    args.putString(PatientPrescriptionCreateFragment.DRUG, currentDrug);
                     FragmentTransitions.replaceFragment(context,
-                            new PatientPrescriptionCreate(),
+                            new PatientPrescriptionCreateFragment(),
                             args,
                             Constants.tag_add_prescription_to_patient);
                 } else {

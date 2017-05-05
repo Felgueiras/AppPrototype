@@ -1,6 +1,8 @@
 package com.felgueiras.apps.geriatric_helper.Prescription.Beers;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class BeersCriteriaFragment extends Fragment {
+public class PrescriptionBeersCriteriaFragment extends Fragment {
 
 
     ExpandableListView expListView;
@@ -54,10 +56,13 @@ public class BeersCriteriaFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_info:
-                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                alertDialog.setTitle("Prescrição");
-                alertDialog.setMessage(getActivity().getResources().getString(R.string.info_prescription));
-                alertDialog.show();
+//                 http://bcbpsd.ca/docs/part-1/PrintableBeersPocketCard.pdf
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://bcbpsd.ca/docs/part-1/PrintableBeersPocketCard.pdf"));
+                startActivity(browserIntent);
+//                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+//                alertDialog.setTitle("Prescrição");
+//                alertDialog.setMessage(getActivity().getResources().getString(R.string.info_prescription));
+//                alertDialog.show();
         }
         return true;
 

@@ -207,12 +207,39 @@ public class SharedPreferencesHelper {
 
         sharedPreferences.edit().putStringSet("patients", set).apply();
         Log.d("Patients", "Size: " + set.size());
+    }
 
-        // TODO remove from here
-        // update in firebase
+    /**
+     * Remove a patient.
+     *
+     * @param patientToRemove
+     * @param context
+     */
+    public static void removePatient(PatientFirebase patientToRemove, Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
 
-        FirebaseStorageHelper.getInstance().sendPatientsBackEnd(context);
+        // save scale as JSON String
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
+        Gson gson = builder.create();
 
+        String json = gson.toJson(patientToRemove);
+
+        // get all patients
+        ArrayList<PatientFirebase> patients = new ArrayList<>();
+        Set<String> patientsSet = getPatientsSet(context);
+
+        Set<String> setWithoutRemovedPatient = new HashSet<>();
+
+        // rebuild patients set
+        for (String currentPatientString : new ArrayList<>(patientsSet)) {
+            PatientFirebase p = gson.fromJson(currentPatientString, PatientFirebase.class);
+            if (!p.getGuid().equals(patientToRemove.getGuid()))
+                setWithoutRemovedPatient.add(currentPatientString);
+        }
+
+        sharedPreferences.edit().putStringSet("patients", setWithoutRemovedPatient).apply();
+        Log.d("Patients", "Size: " + setWithoutRemovedPatient.size());
     }
 
 
@@ -292,6 +319,12 @@ public class SharedPreferencesHelper {
         return sharedPreferences.getStringSet("scales", new HashSet<String>());
     }
 
+    /**
+     * Get the patients as Set of JSON strings.
+     *
+     * @param context
+     * @return
+     */
     private static Set<String> getPatientsSet(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         return sharedPreferences.getStringSet("patients", new HashSet<String>());
@@ -323,6 +356,12 @@ public class SharedPreferencesHelper {
         sharedPreferences.edit().putStringSet("stoppCriteria", new HashSet<String>()).apply();
     }
 
+    /**
+     * Get patients.
+     *
+     * @param context
+     * @return
+     */
     public static ArrayList<PatientFirebase> getPatients(Context context) {
         ArrayList<PatientFirebase> patients = new ArrayList<>();
         Set<String> patientsSet = getPatientsSet(context);
@@ -425,23 +464,14 @@ public class SharedPreferencesHelper {
         sharedPreferences.edit().putStringSet("patients", set).apply();
         Log.d("Patients", "Size: " + set.size());
 
-        // update in Firebase
-        FirebaseStorageHelper.getInstance().sendPatientsBackEnd(context);
-
 
     }
 
-    public static void addInitialPatients(ArrayList<PatientFirebase> patients, Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
 
+    public static void resetPatients(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         // empty set
         Set<String> set = new HashSet<>();
         sharedPreferences.edit().putStringSet("patients", set).apply();
-
-
-        for (PatientFirebase patient : patients) {
-            addPatient(patient, context);
-        }
-
     }
 }

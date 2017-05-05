@@ -1,8 +1,14 @@
 package com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase;
 
+import android.view.View;
+import android.widget.Button;
+
+import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.Beers.BeersCriteria;
+import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -95,5 +101,25 @@ public class PrescriptionFirebase implements Serializable {
 
     public void setPatientID(String patientID) {
         this.patientID = patientID;
+    }
+
+    /**
+     * Check if this drug is included in stopp or beers criteria.
+     *  @param warning
+     */
+    public static void checkWarning(String drugName, Button warning) {
+        // stopp
+        final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(StoppCriteria.getStoppCriteria());
+        // beers
+        final ArrayList<String> beersCriteriaDrugs = BeersCriteria.getBeersDrugsAllString();
+
+        // display warning
+        if (stoppCriteriaDrugs.contains(drugName)
+                ||
+                beersCriteriaDrugs.contains(drugName)) {
+            warning.setVisibility(View.VISIBLE);
+        } else {
+            warning.setVisibility(View.GONE);
+        }
     }
 }

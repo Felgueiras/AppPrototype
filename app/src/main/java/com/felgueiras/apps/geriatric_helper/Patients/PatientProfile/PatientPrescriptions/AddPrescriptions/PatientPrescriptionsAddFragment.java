@@ -1,12 +1,14 @@
-package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.AddPrescriptions;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -14,7 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -33,7 +34,10 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDa
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.AddPrescriptions.AddDrugListItemAdapter;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionCreateFragment;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.DataHelperDrugs;
 import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.DrugListItem;
@@ -49,10 +53,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-/**
- * Display the list of Patients to view them or select one of them.
- */
-public class PatientPrescriptionAddMultiple extends Fragment {
+
+public class PatientPrescriptionsAddFragment extends Fragment {
 
     public static final String PATIENT = "PATIENT";
     private RecyclerView mSearchResultsList;
@@ -126,9 +128,9 @@ public class PatientPrescriptionAddMultiple extends Fragment {
 
                 mLastQuery = searchSuggestion.getBody();
 
-                Fragment endFragment = new PatientPrescriptionCreate();
+                Fragment endFragment = new PatientPrescriptionCreateFragment();
                 Bundle args = new Bundle();
-                args.putString(PatientPrescriptionCreate.DRUG, colorSuggestion.getDrugName());
+                args.putString(PatientPrescriptionCreateFragment.DRUG, colorSuggestion.getDrugName());
                 FragmentTransitions.replaceFragment(getActivity(), endFragment, args, Constants.tag_view_drug_info);
             }
 
@@ -218,15 +220,6 @@ public class PatientPrescriptionAddMultiple extends Fragment {
         });
     }
 
-    private void setupResultsList() {
-        DrugListItem mSearchResultsAdapter = new DrugListItem(getActivity(),
-                Constants.allDrugs,
-                true,
-                patient);
-        mSearchResultsList.setAdapter(mSearchResultsAdapter);
-        mSearchResultsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -281,46 +274,77 @@ public class PatientPrescriptionAddMultiple extends Fragment {
         savePrescriptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // add drugs to patient
-                ArrayList<String> addedDrugs = adapter.getAddedDrugsList();
-                ArrayList<String> addedNotes = adapter.getAddedDrugsNotes();
-
-                // get current date
-                Calendar c = Calendar.getInstance();
-                Date prescriptionDate = c.getTime();
-                for (int i = 0; i < addedDrugs.size(); i++) {
-                    String currentDrug = addedDrugs.get(i);
-                    String currentNote;
-                    if (addedNotes.size() > 0)
-                        currentNote = addedNotes.get(i);
-                    else
-                        currentNote = null;
-//                    if (currentDrug.getText().length() == 0) {
-//                        Snackbar.make(getView(), R.string.add_prescription_error_name, Snackbar.LENGTH_SHORT).show();
-//                        return;
-//                    }
-
-                    // create new Prescription object
-                    PrescriptionFirebase prescription = new PrescriptionFirebase(currentDrug,
-                            currentNote, prescriptionDate);
-                    prescription.setGuid("PRESCRIPTION" + new Random().nextInt());
-                    prescription.setPatientID(patient.getGuid());
-                    patient.addPrescription(prescription.getGuid(), context);
-
-                    // update patient
-                    PatientsManagement.getInstance().updatePatient(patient, context);
-
-                    // save Prescription
-                    FirebaseDatabaseHelper.createPrescription(prescription);
-
-                }
-                Snackbar.make(getView(), R.string.add_prescription_success, Snackbar.LENGTH_SHORT).show();
-                BackStackHandler.getFragmentManager().popBackStack();
+                savePrescriptions();
             }
         });
 
 
         return view;
+    }
+
+    /**
+     * Save prescriptions.
+     */
+    public void savePrescriptions() {
+        // add drugs to patient
+        ArrayList<String> addedDrugs = adapter.getAddedDrugsList();
+        ArrayList<String> addedNotes = adapter.getAddedDrugsNotes();
+
+        // get current date
+        Calendar c = Calendar.getInstance();
+        Date prescriptionDate = c.getTime();
+        for (int i = 0; i < addedDrugs.size(); i++) {
+            String currentDrug = addedDrugs.get(i);
+            String currentNote;
+            if (addedNotes.size() > 0)
+                currentNote = addedNotes.get(i);
+            else
+                currentNote = null;
+//                    if (currentDrug.getText().length() == 0) {
+//                        Snackbar.make(getView(), R.string.add_prescription_error_name, Snackbar.LENGTH_SHORT).show();
+//                        return;
+//                    }
+
+            // create new Prescription object
+            PrescriptionFirebase prescription = new PrescriptionFirebase(currentDrug,
+                    currentNote, prescriptionDate);
+            prescription.setGuid("PRESCRIPTION" + new Random().nextInt());
+            prescription.setPatientID(patient.getGuid());
+            patient.addPrescription(prescription.getGuid(), context);
+
+            // update patient
+            PatientsManagement.getInstance().updatePatient(patient, context);
+
+            // save Prescription
+            FirebaseDatabaseHelper.createPrescription(prescription);
+
+        }
+        Snackbar.make(getView(), R.string.add_prescription_success, Snackbar.LENGTH_SHORT).show();
+        BackStackHandler.getFragmentManager().popBackStack();
+    }
+
+    /**
+     * Prompt user to discard the added prescriptions.
+     */
+    public void discardPrescriptions() {
+
+        // check if there is any prescription, if not, go back
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setMessage("Tem a certeza de que pretente rejeitar estas prescrições?");
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Rejeitar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        BackStackHandler.getFragmentManager().popBackStack();
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Continuar a adicionar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
 
