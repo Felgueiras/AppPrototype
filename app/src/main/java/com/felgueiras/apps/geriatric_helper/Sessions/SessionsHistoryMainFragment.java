@@ -38,7 +38,7 @@ public class SessionsHistoryMainFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // create a new Session - switch to CreatePatient Fragment
+                // create a new Session - switch to CreatePatientFragment Fragment
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(R.string.new_session_private);
 

@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.Patients.NewPatient.CreatePatient;
+import com.felgueiras.apps.geriatric_helper.Patients.NewPatient.CreatePatientFragment;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.R;
 
@@ -100,23 +100,23 @@ public class PickPatientFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                // create a new Patient - switch to CreatePatient Fragment
+                // create a new Patient - switch to CreatePatientFragment Fragment
                 Bundle bundle = new Bundle();
                 if(pickBeforeSession)
                 {
                     // create new patient before session start
-                    bundle.putInt(CreatePatient.CREATE_PATIENT_TYPE, CreatePatient.CREATE_BEFORE_SESSION);
+                    bundle.putInt(CreatePatientFragment.CREATE_PATIENT_TYPE, CreatePatientFragment.CREATE_BEFORE_SESSION);
                     FragmentTransitions.replaceFragment(getActivity(),
-                            new CreatePatient(),
+                            new CreatePatientFragment(),
                             bundle,
                             Constants.tag_create_patient_session_start);
                 }
                 else
                 {
                     // create new patient after session finish
-                    bundle.putInt(CreatePatient.CREATE_PATIENT_TYPE, CreatePatient.CREATE_AFTER_SESSION);
+                    bundle.putInt(CreatePatientFragment.CREATE_PATIENT_TYPE, CreatePatientFragment.CREATE_AFTER_SESSION);
                     FragmentTransitions.replaceFragment(getActivity(),
-                            new CreatePatient(),
+                            new CreatePatientFragment(),
                             bundle,
                             Constants.tag_create_patient_session_start);
                 }

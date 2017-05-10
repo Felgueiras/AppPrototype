@@ -89,6 +89,7 @@ public class PatientsMain extends Fragment {
         if (currentFragment != null)
             transaction.remove(currentFragment);
 
+        // TODO default fragment
         transaction.replace(R.id.frame_layout_bottom_navigation, new PatientsListFragment());
         transaction.commit();
 

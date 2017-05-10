@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

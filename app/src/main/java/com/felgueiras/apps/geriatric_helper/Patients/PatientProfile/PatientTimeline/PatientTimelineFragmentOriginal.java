@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.HashSet;
 
 
-public class PatientTimelineFragmentOriginalGroupByDay extends Fragment {
+public class PatientTimelineFragmentOriginal extends Fragment {
 
     public static final String PATIENT = "PATIENT";
     private PatientFirebase patient;

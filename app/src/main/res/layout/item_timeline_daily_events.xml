@@ -23,7 +23,7 @@
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="15dp"
-        app:cardBackgroundColor="@color/almost_white"
+        app:cardBackgroundColor="@color/white"
         app:cardElevation="1dp"
         app:contentPadding="15dp">
 
@@ -42,12 +42,14 @@
                 tools:text="24 JAN" />
 
             <!--Prescriptions-->
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/prescriptionsForDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
             <!--Sessions-->
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/sessionsForDate"
                 android:layout_width="match_parent"

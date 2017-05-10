@@ -197,35 +197,6 @@ public class Session extends Model implements Serializable {
     }
 
 
-    // TODO get in order
-    public static ArrayList<Date> getDifferentSessionDates() {
-        List<Session> dates = new Select()
-                .distinct()
-                .from(Session.class)
-                .groupBy("date")
-                .orderBy("date ASC")
-                .execute();
-        HashSet<Date> days = new HashSet<>();
-        for (Session session : dates) {
-            Date dateWithoutHour = session.getDateWithoutHour();
-            days.add(dateWithoutHour);
-        }
-        ArrayList<Date> differentDates = new ArrayList<>();
-        differentDates.addAll(days);
-        // order by date (descending)
-        Collections.sort(differentDates, new Comparator<Date>() {
-            @Override
-            public int compare(Date first, Date second) {
-                if (first.after(second)) {
-                    return -1;
-                } else if (first.before(second)) {
-                    return 1;
-                } else
-                    return 0;
-            }
-        });
-        return differentDates;
-    }
 
 
     public void eraseScalesNotCompleted() {

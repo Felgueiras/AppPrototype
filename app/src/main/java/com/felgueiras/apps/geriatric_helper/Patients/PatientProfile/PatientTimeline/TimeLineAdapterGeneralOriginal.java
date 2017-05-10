@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,12 +19,12 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.Prescripti
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsCard;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsAdapter;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.TimeLineViewHolderPrescription;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.utils.VectorDrawableUtils;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionWithPatient;
-import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistory.SessionScalesAdapterRecycler;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.SessionScalesAdapterRecycler;
 import com.github.vipulasri.timelineview.LineType;
 
 import java.util.ArrayList;
@@ -171,9 +172,13 @@ public class TimeLineAdapterGeneralOriginal extends RecyclerView.Adapter<Recycle
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         holder.sessionScales.setLayoutManager(layoutManager);
 
-        SessionScalesAdapterRecycler adapter = new SessionScalesAdapterRecycler(context, sessionScales, false);
+        SessionScalesAdapterRecycler adapter = new SessionScalesAdapterRecycler(context, sessionScales, true);
         adapter.setOnClickListener(cardSelected);
         holder.sessionScales.setAdapter(adapter);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
+                layoutManager.getOrientation());
+        holder.sessionScales.addItemDecoration(dividerItemDecoration);
 
         holder.view.setOnClickListener(cardSelected);
     }
@@ -191,17 +196,47 @@ public class TimeLineAdapterGeneralOriginal extends RecyclerView.Adapter<Recycle
                 R.drawable.pill_black,
                 R.color.colorAccent));
 
+        checkWarnings(holder, prescriptionsForDate);
+
+
 
         holder.date.setText(DatesHandler.dateToStringWithoutHour(currentDate));
 
         // get recycler view for prescriptions
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, 1);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+
         holder.prescriptionsForDate.setLayoutManager(mLayoutManager);
         holder.prescriptionsForDate.setItemAnimator(new DefaultItemAnimator());
 
-        PatientPrescriptionsCard mTimeLineAdapter = new PatientPrescriptionsCard(context, prescriptionsForDate,
+        PatientPrescriptionsAdapter mTimeLineAdapter = new PatientPrescriptionsAdapter(context, prescriptionsForDate,
                 null, null, compactView);
         holder.prescriptionsForDate.setAdapter(mTimeLineAdapter);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
+                mLayoutManager.getOrientation());
+        holder.prescriptionsForDate.addItemDecoration(dividerItemDecoration);
+    }
+
+    /**
+     * Check if any of the prescriptions for the current date contains associated warnings.
+     *
+     * @param holder
+     * @param prescriptionsForDate
+     */
+    private void checkWarnings(TimeLineViewHolderPrescription holder, ArrayList<PrescriptionFirebase> prescriptionsForDate) {
+
+        int numWarnings = 0;
+        for (PrescriptionFirebase prescription : prescriptionsForDate) {
+            if (PrescriptionFirebase.checkWarning(prescription.getName(), null)) {
+                numWarnings++;
+            }
+        }
+        if (numWarnings == 0) {
+            holder.numberWarnings.setVisibility(View.GONE);
+            holder.warning.setVisibility(View.GONE);
+        } else {
+            holder.numberWarnings.setText(numWarnings + " X ");
+        }
     }
 
     @Override

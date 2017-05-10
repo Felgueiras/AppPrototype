@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.felgueiras.apps.geriatric_helper">
 
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -50,7 +49,7 @@
             android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".Main.PublicAreaActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LockScreen.LockScreenActivity"
             android:hardwareAccelerated="true"
@@ -59,7 +58,11 @@
             android:name=".Main.PrivateAreaActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Settings"
+            android:name=".Settings.SettingsPrivate"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Settings.SettingsPublic"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity android:name=".PersonalAreaAccess.RegisterActivity" />
@@ -68,12 +71,8 @@
             android:label="@string/title_activity_custom_view_pager"
             android:theme="@style/AppTheme" />
         <activity android:name=".PhotoVideoHandling.TakePhotoActivity" />
-        <activity android:name=".PhotoVideoHandling.RecordVideoActivity">
-
-        </activity>
-        <activity android:name=".PersonalAreaAccess.ResetPasswordActivity">
-
-        </activity>
+        <activity android:name=".PhotoVideoHandling.RecordVideoActivity"></activity>
+        <activity android:name=".PersonalAreaAccess.ResetPasswordActivity"></activity>
         <activity
             android:name=".Main.LaunchScreen"
             android:screenOrientation="portrait">
@@ -85,10 +84,8 @@
         </activity>
         <activity
             android:name=".PhotoVideoHandling.MediaRecorderTutorialActivity"
-            android:screenOrientation="portrait">
-
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".PersonalAreaAccess.PromptSyncBackend"></activity>
     </application>
 
 </manifest>

@@ -2,9 +2,11 @@ package com.felgueiras.apps.geriatric_helper.Patients.NewPatient;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,7 +32,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-public class CreatePatient extends Fragment {
+public class CreatePatientFragment extends Fragment {
 
     public static final String CREATE_PATIENT_TYPE = "CREATE_PATIENT_TYPE";
     // create patient before session starts
@@ -245,6 +247,30 @@ public class CreatePatient extends Fragment {
             }
         });
         return view;
+    }
+
+    /**
+     * Prompt user to discard the patient.
+     */
+    public void discardPatient() {
+
+        // check if there is any prescription, if not, go back
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setMessage("Tem a certeza de que pretente rejeitar este paciente?");
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Rejeitar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        BackStackHandler.getFragmentManager().popBackStack();
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Continuar a editar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
 }

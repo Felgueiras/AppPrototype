@@ -1,11 +1,14 @@
 package com.felgueiras.apps.geriatric_helper.HelpersHandlers;
 
 import android.annotation.SuppressLint;
+import android.text.format.DateUtils;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /**
@@ -46,25 +49,34 @@ public class DatesHandler {
         return datetime;
     }
 
-    public static String dateToStringWithoutHour(Date date) {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        String datetime;
-        datetime = format.format(date);
+    /**
+     * Convert Date to String (without hour).
+     *
+     * @param eventDate
+     * @return
+     */
+    public static String dateToStringWithoutHour(Date eventDate) {
 
-        // get current date - if they match day is 'Hoje'
+        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+        calendar.setTime(eventDate);   // assigns calendar to given date
+        // gets hour in 24h format
+        Log.d("Date", "Session hour: " + calendar.get(Calendar.HOUR_OF_DAY));
+
         Calendar cal = Calendar.getInstance();
         Date currentDate = cal.getTime();
-        String datetimeCurrent;
-        datetimeCurrent = format.format(currentDate);
+        Log.d("Date", "Current hour: " + cal.get(Calendar.HOUR_OF_DAY));
 
-        if (datetime.equals(datetimeCurrent))
-            return "Hoje";
-        else
-            return datetime;
+
+        CharSequence relativeTimeSpanString = DateUtils.getRelativeTimeSpanString(eventDate.getTime(),
+                currentDate.getTime(), DateUtils.DAY_IN_MILLIS);
+
+
+        return relativeTimeSpanString.toString();
     }
 
     /**
      * Display Date as day-month-year, without hour.
+     *
      * @param date
      * @param currentDateAsToday
      * @return
@@ -78,17 +90,20 @@ public class DatesHandler {
 
 
         // get current date - if they match day is 'Hoje'
+        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+        calendar.setTime(date);   // assigns calendar to given date
+
+
         Calendar cal = Calendar.getInstance();
         Date currentDate = cal.getTime();
-        String datetimeCurrent;
-        datetimeCurrent = dayFormat.format(currentDate);
+
+
+        CharSequence relativeTimeSpanString = DateUtils.getRelativeTimeSpanString(date.getTime(),
+                currentDate.getTime(), DateUtils.DAY_IN_MILLIS);
 
         String ret = "";
 
-        if (currentDateAsToday && day.equals(datetimeCurrent))
-            ret += "Hoje";
-        else
-            ret += day;
+        ret += relativeTimeSpanString.toString();
 
         /**
          * Hour.

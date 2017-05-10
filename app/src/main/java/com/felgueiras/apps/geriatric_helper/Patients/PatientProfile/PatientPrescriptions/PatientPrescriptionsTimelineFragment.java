@@ -8,11 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.StringHelper;
@@ -37,10 +36,11 @@ public class PatientPrescriptionsTimelineFragment extends Fragment {
 
 
     private RecyclerView mRecyclerView;
-    private TimeLineAdapterPrescriptions mTimeLineAdapter;
+    private PrescriptionsDailyAdapter mTimeLineAdapter;
     private Orientation mOrientation;
     private boolean mWithLinePadding;
-    private boolean compactView;
+    private boolean compactView = true;
+    private PatientPrescriptionsTimelineFragment fragment;
 
 
     // Store instance variables based on arguments passed
@@ -54,6 +54,8 @@ public class PatientPrescriptionsTimelineFragment extends Fragment {
 
         mOrientation = Orientation.VERTICAL;
         mWithLinePadding = false;
+
+        fragment = this;
     }
 
 
@@ -84,26 +86,26 @@ public class PatientPrescriptionsTimelineFragment extends Fragment {
             }
         });
 
-        Switch switchButton = (Switch) view.findViewById(R.id.compactViewSwitch);
-        switchButton.bringToFront();
-        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean bChecked) {
-                if (bChecked) {
-                    compactView = true;
-
-                } else {
-                    compactView = false;
-                }
-
-                mTimeLineAdapter = new TimeLineAdapterPrescriptions(patientsPrescriptions,
-                        mOrientation,
-                        mWithLinePadding,
-                        getActivity(),
-                        compactView);
-                mRecyclerView.setAdapter(mTimeLineAdapter);
-            }
-        });
+//        Switch switchButton = (Switch) view.findViewById(R.id.compactViewSwitch);
+//        switchButton.bringToFront();
+//        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean bChecked) {
+//                if (bChecked) {
+//                    compactView = true;
+//
+//                } else {
+//                    compactView = false;
+//                }
+//
+//                mTimeLineAdapter = new PrescriptionsDailyAdapter(patientsPrescriptions,
+//                        mOrientation,
+//                        mWithLinePadding,
+//                        getActivity(),
+//                        compactView);
+//                mRecyclerView.setAdapter(mTimeLineAdapter);
+//            }
+//        });
 
         // create timeline
         initView();
@@ -151,8 +153,8 @@ public class PatientPrescriptionsTimelineFragment extends Fragment {
                             }
                         });
 
-                        mTimeLineAdapter = new TimeLineAdapterPrescriptions(patientsPrescriptions,
-                                mOrientation, mWithLinePadding, getActivity(), compactView);
+                        mTimeLineAdapter = new PrescriptionsDailyAdapter(patientsPrescriptions,
+                                mOrientation, mWithLinePadding, getActivity(), compactView, fragment);
                         mRecyclerView.setAdapter(mTimeLineAdapter);
                     }
 
@@ -165,6 +167,16 @@ public class PatientPrescriptionsTimelineFragment extends Fragment {
                 });
 
 
+    }
+
+    /**
+     * Erase a session from the PATIENT.
+     *
+     * @param prescription Session index
+     */
+    public void removePrescription(PrescriptionFirebase prescription) {
+        FirebaseDatabaseHelper.deletePrescription(prescription, getActivity());
+        retrievePatientPrescriptions();
     }
 
 

@@ -9,17 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Switch
+        <!--<Switch-->
 
-            android:id="@+id/compactViewSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="10dp"
-            android:alpha="0.6"
-            android:background="@drawable/round_corners"
-            android:padding="8dp"
-            android:text="Vista compacta" />
+            <!--android:id="@+id/compactViewSwitch"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:alpha="0.6"-->
+            <!--android:background="@drawable/round_corners"-->
+            <!--android:padding="8dp"-->
+            <!--android:text="Vista compacta" />-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"

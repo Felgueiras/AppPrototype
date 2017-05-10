@@ -1,27 +1,19 @@
 package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
-import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.Orientation;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.utils.VectorDrawableUtils;
-import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionSingleDrugFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.github.vipulasri.timelineview.TimelineView;
 
@@ -34,10 +26,11 @@ import java.util.HashSet;
 /**
  * Created by HP-HP on 05-12-2015.
  */
-public class TimeLineAdapterPrescriptions extends RecyclerView.Adapter<TimeLineViewHolderPrescription> {
+public class PrescriptionsDailyAdapter extends RecyclerView.Adapter<TimeLineViewHolderPrescription> {
 
     private final Activity context;
     private final boolean compactView;
+    private final PatientPrescriptionsTimelineFragment fragment;
     private ArrayList<PrescriptionFirebase> prescriptionsList;
     private Context mContext;
     private Orientation mOrientation;
@@ -45,12 +38,13 @@ public class TimeLineAdapterPrescriptions extends RecyclerView.Adapter<TimeLineV
     private LayoutInflater mLayoutInflater;
     private ArrayList<Date> differentDates;
 
-    public TimeLineAdapterPrescriptions(ArrayList<PrescriptionFirebase> feedList, Orientation orientation, boolean withLinePadding, Activity activity, boolean compactView) {
+    public PrescriptionsDailyAdapter(ArrayList<PrescriptionFirebase> feedList, Orientation orientation, boolean withLinePadding, Activity activity, boolean compactView, PatientPrescriptionsTimelineFragment fragment) {
         prescriptionsList = feedList;
         mOrientation = orientation;
         mWithLinePadding = withLinePadding;
         context = activity;
         this.compactView = compactView;
+        this.fragment = fragment;
     }
 
     @Override
@@ -62,12 +56,7 @@ public class TimeLineAdapterPrescriptions extends RecyclerView.Adapter<TimeLineV
     public TimeLineViewHolderPrescription onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
         mLayoutInflater = LayoutInflater.from(mContext);
-        View view;
-
-
-        view = mLayoutInflater.inflate(R.layout.item_timeline_prescription, parent, false);
-
-
+        View view = mLayoutInflater.inflate(R.layout.item_timeline_prescription, parent, false);
         return new TimeLineViewHolderPrescription(view, viewType);
     }
 
@@ -78,16 +67,16 @@ public class TimeLineAdapterPrescriptions extends RecyclerView.Adapter<TimeLineV
         Date currentDate = differentDates.get(position);
 
         // get prescriptions from this date
-        ArrayList<PrescriptionFirebase> prescriptionForDate = new ArrayList<>();
+        ArrayList<PrescriptionFirebase> prescriptionsForDate = new ArrayList<>();
         for (PrescriptionFirebase prescription : prescriptionsList) {
             if (DatesHandler.getDateWithoutHour(prescription.getDate().getTime()).compareTo(currentDate) == 0) {
-                prescriptionForDate.add(prescription);
+                prescriptionsForDate.add(prescription);
             }
         }
 
+        // check number of warnings
+        checkWarnings(holder, prescriptionsForDate);
 
-        // get the current date
-//        final PrescriptionFirebase prescription = prescriptionsList.get(position);
 
         holder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_inactive, android.R.color.darker_gray));
 
@@ -95,15 +84,42 @@ public class TimeLineAdapterPrescriptions extends RecyclerView.Adapter<TimeLineV
         holder.date.setText(DatesHandler.dateToStringWithoutHour(currentDate));
 
         // get recycler view for prescriptions
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, 1);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+
         holder.prescriptionsForDate.setLayoutManager(mLayoutManager);
         holder.prescriptionsForDate.setItemAnimator(new DefaultItemAnimator());
 
-        PatientPrescriptionsCard mTimeLineAdapter = new PatientPrescriptionsCard(context, prescriptionForDate,
-                null, null, compactView);
+        PatientPrescriptionsAdapter mTimeLineAdapter = new PatientPrescriptionsAdapter(context, prescriptionsForDate,
+                null, fragment, compactView);
         holder.prescriptionsForDate.setAdapter(mTimeLineAdapter);
 
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
+                mLayoutManager.getOrientation());
+        holder.prescriptionsForDate.addItemDecoration(dividerItemDecoration);
 
+
+    }
+
+    /**
+     * Check if any of the prescriptions for the current date contains associated warnings.
+     *
+     * @param holder
+     * @param prescriptionsForDate
+     */
+    private void checkWarnings(TimeLineViewHolderPrescription holder, ArrayList<PrescriptionFirebase> prescriptionsForDate) {
+
+        int numWarnings = 0;
+        for (PrescriptionFirebase prescription : prescriptionsForDate) {
+            if (PrescriptionFirebase.checkWarning(prescription.getName(), null)) {
+                numWarnings++;
+            }
+        }
+        if (numWarnings == 0) {
+            holder.numberWarnings.setVisibility(View.GONE);
+            holder.warning.setVisibility(View.GONE);
+        } else {
+            holder.numberWarnings.setText(numWarnings + " X ");
+        }
     }
 
     @Override

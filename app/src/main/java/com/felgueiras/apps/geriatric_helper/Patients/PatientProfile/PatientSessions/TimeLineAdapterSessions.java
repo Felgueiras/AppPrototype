@@ -1,8 +1,9 @@
-package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,10 +16,11 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricS
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.Orientation;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.TimeLineViewHolderSession;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.utils.VectorDrawableUtils;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionWithPatient;
-import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistory.SessionScalesAdapterRecycler;
 import com.github.vipulasri.timelineview.TimelineView;
 
 import java.util.ArrayList;
@@ -69,20 +71,10 @@ public class TimeLineAdapterSessions extends RecyclerView.Adapter<TimeLineViewHo
 
         final SessionFirebase session = sessionsList.get(position);
 
-//        if(session.getStatus() == OrderStatus.INACTIVE) {
         holder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_inactive, android.R.color.darker_gray));
-//        } else if(session.getStatus() == OrderStatus.ACTIVE) {
-//            holder.mTimelineView.setMarker(VectorDrawableUtils.getDrawable(mContext, R.drawable.ic_marker_active, R.color.colorPrimary));
-//        } else {
-//            holder.mTimelineView.setMarker(ContextCompat.getDrawable(mContext, R.drawable.ic_marker), ContextCompat.getColor(mContext, R.color.colorPrimary));
-//        }
 
-//        if(!session.getDate().isEmpty()) {
         holder.mDate.setVisibility(View.VISIBLE);
         holder.mDate.setText(DatesHandler.dateToStringWithHour(new Date(session.getDate()), true));
-//        }
-//        else
-//            holder.mDate.setVisibility(View.GONE);
 
         View.OnClickListener cardSelected = new View.OnClickListener() {
             @Override
@@ -105,9 +97,13 @@ public class TimeLineAdapterSessions extends RecyclerView.Adapter<TimeLineViewHo
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         holder.sessionScales.setLayoutManager(layoutManager);
 
-        SessionScalesAdapterRecycler adapter = new SessionScalesAdapterRecycler(context, sessionScales, false);
+        SessionScalesAdapterRecycler adapter = new SessionScalesAdapterRecycler(context, sessionScales, true);
         adapter.setOnClickListener(cardSelected);
         holder.sessionScales.setAdapter(adapter);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
+                layoutManager.getOrientation());
+        holder.sessionScales.addItemDecoration(dividerItemDecoration);
 
         holder.view.setOnClickListener(cardSelected);
     }

@@ -24,13 +24,13 @@ aceder mais rapidamente à escala a executar"
         android:summary="Selecione a informação a ver no resumo de uma sessão de AGG"
         android:title="Resumo de sessão" />
     <!--<ListPreference-->
-        <!--android:defaultValue="1"-->
-        <!--android:entries="@array/patientProgressTypes"-->
-        <!--android:entryValues="@array/patientProgressIndex"-->
-        <!--android:key="@string/patientProgressType"-->
-        <!--android:summary="Escolha a forma como o progresso do paciente por escala-->
-<!--é visualizado"-->
-        <!--android:title="Progresso do Paciente" />-->
+    <!--android:defaultValue="1"-->
+    <!--android:entries="@array/patientProgressTypes"-->
+    <!--android:entryValues="@array/patientProgressIndex"-->
+    <!--android:key="@string/patientProgressType"-->
+    <!--android:summary="Escolha a forma como o progresso do paciente por escala-->
+    <!--é visualizado"-->
+    <!--android:title="Progresso do Paciente" />-->
     <ListPreference
         android:defaultValue="2"
         android:entries="@array/multipleChoiceTypes"
@@ -39,4 +39,13 @@ aceder mais rapidamente à escala a executar"
         android:summary="Selecione se prefere ver logo todas as opções na lista
 ou ver só as opções de resposta quando selecionar a pergunta"
         android:title="Questões escolha múltipla" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/syncBackEnd"
+        android:summary="Os dados dos pacientes são sincronizados entre
+os dispotivos que usar ou ficam guardados unicamente neste dispositivo"
+        android:title="Sincronizar informações de pacientes" />
+
+
 </PreferenceScreen>

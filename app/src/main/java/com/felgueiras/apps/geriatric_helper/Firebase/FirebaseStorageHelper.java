@@ -1,7 +1,9 @@
 package com.felgueiras.apps.geriatric_helper.Firebase;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -12,7 +14,7 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.PatientMetadata;
-import com.felgueiras.apps.geriatric_helper.PatientsManagement;
+import com.felgueiras.apps.geriatric_helper.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -405,82 +407,6 @@ public class FirebaseStorageHelper {
     }
 
 
-    public void uploadCriteria() {
-
-        GsonBuilder builder = new GsonBuilder();
-        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
-        Gson gson = builder.create();
-
-        // upload Beers criteria
-        String jsonArray = gson.toJson(StartCriteria.getStartCriteria());
-
-        String fileName = "start.json";
-        // upload file
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.
-                getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
-                .child("criteria/" + fileName);
-
-        UploadTask uploadTask = storageReference.putBytes(jsonArray.getBytes());
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d("Criteria", "Uploaded start criteria");
-            }
-        });
-
-
-//        // upload Start criteria
-//        String jsonArray = gson.toJson(StartCriteria.getStartCriteria());
-//
-//        String fileName = "start.json";
-//        // upload file
-//        FirebaseStorage storage = FirebaseStorage.getInstance();
-//        StorageReference patientsStorageReference = storage.
-//                getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
-//                .child("criteria/" + fileName);
-//
-//        UploadTask uploadTask = patientsStorageReference.putBytes(jsonArray.getBytes());
-//        uploadTask.addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//            }
-//        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                Log.d("Criteria", "Uploaded start criteria");
-//            }
-//        });
-//
-//        // upload Stopp criteria
-//        jsonArray = gson.toJson(StoppCriteria.getStoppCriteria());
-//
-//        fileName = "stopp.json";
-//        // upload file
-//        storage = FirebaseStorage.getInstance();
-//        patientsStorageReference = storage.
-//                getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
-//                .child("criteria/" + fileName);
-//
-//        uploadTask = patientsStorageReference.putBytes(jsonArray.getBytes());
-//        uploadTask.addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//            }
-//        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                Log.d("Criteria", "Uploaded stopp criteria");
-//            }
-//        });
-
-
-    }
-
     public ArrayList<StoppCriteria> getStoppCriteria() {
         return FirebaseHelper.stoppCriteria;
     }
@@ -496,6 +422,9 @@ public class FirebaseStorageHelper {
      * @param patient
      */
     public void updatePatient(Context context, PatientFirebase patient) {
+        if (!isSyncEnabled(context)) {
+            return;
+        }
 
         // convert to JSON array
         String jsonArray = gson.toJson(patient);
@@ -515,7 +444,7 @@ public class FirebaseStorageHelper {
 
         // cipher file contents
         CipherDecipherFiles cip = CipherDecipherFiles.getInstance();
-        cip.cipherFileContents(patientJSONFile);
+        cip.cipherFileContents(patientJSONFile, context);
 
         // upload to Firebase
         InputStream stream = null;
@@ -545,6 +474,9 @@ public class FirebaseStorageHelper {
      * @param patient
      */
     public void addPatientBackEnd(Context context, PatientFirebase patient) {
+        if (!isSyncEnabled(context)) {
+            return;
+        }
 
         // add to database
         PatientMetadata meta = new PatientMetadata(patient.getGuid());
@@ -565,7 +497,7 @@ public class FirebaseStorageHelper {
 
         // cipher file contents
         CipherDecipherFiles cip = CipherDecipherFiles.getInstance();
-        cip.cipherFileContents(patientJSONFile);
+        cip.cipherFileContents(patientJSONFile, context);
 
         // upload to Firebase
         InputStream stream = null;
@@ -614,24 +546,17 @@ public class FirebaseStorageHelper {
         return file;
     }
 
-    private File createPatientsJSONFile(Context context) {
-        // Create an image file name
-//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "patients";
-        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
-        File file = null;
-        try {
-            file = File.createTempFile(
-                    imageFileName,  /* prefix */
-                    ".json",         /* suffix */
-                    storageDir      /* directory */
-            );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
+    /**
+     * Check if information is to be synched with Firebase or not.
+     *
+     * @param context
+     * @return
+     */
+    private boolean isSyncEnabled(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean(context.getResources().getString(R.string.syncBackEnd), false);
 
-        return file;
     }
 
     /**
@@ -641,8 +566,9 @@ public class FirebaseStorageHelper {
      */
     public void getPatients(final Context context) {
 
-        Log.d("Patients", "Downloading pstients");
-
+        if (!isSyncEnabled(context)) {
+            return;
+        }
 
         // check DB for patients
         GsonBuilder builder = new GsonBuilder();
@@ -667,11 +593,11 @@ public class FirebaseStorageHelper {
                 Log.d("Patients", patientsFiles + "");
 
 
-                // get files
-                // get system language
-//        final String scaleLanguage = Locale.getDefault().getLanguage().toUpperCase();
-
                 SharedPreferencesHelper.resetPatients(context);
+                if(patientsFiles.size()==0)
+                {
+                    return;
+                }
                 for (String patientFile : patientsFiles) {
 
                     try {
@@ -683,7 +609,7 @@ public class FirebaseStorageHelper {
                                 Log.d("Patients", "Downloaded patient file");
                                 // decipher file
                                 CipherDecipherFiles cip = CipherDecipherFiles.getInstance();
-                                cip.decipherFile(localFile);
+                                cip.decipherFile(localFile, context);
 
                                 // check contents of file
 //                                String content = null;
@@ -737,6 +663,7 @@ public class FirebaseStorageHelper {
      * @param patientID
      */
     public void removePatientFile(String patientID) {
+
 
         // Delete the file
         String fileName = patientID + ".json";

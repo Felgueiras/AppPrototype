@@ -296,7 +296,7 @@ public class PatientPrescriptionsAddFragment extends Fragment {
         for (int i = 0; i < addedDrugs.size(); i++) {
             String currentDrug = addedDrugs.get(i);
             String currentNote;
-            if (addedNotes.size() > 0)
+            if (addedNotes.size() > i)
                 currentNote = addedNotes.get(i);
             else
                 currentNote = null;

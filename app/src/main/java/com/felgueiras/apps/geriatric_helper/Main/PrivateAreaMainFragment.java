@@ -21,7 +21,7 @@ import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMainFragment;
 import com.felgueiras.apps.geriatric_helper.R;
-import com.felgueiras.apps.geriatric_helper.Settings;
+import com.felgueiras.apps.geriatric_helper.Settings.SettingsPrivate;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -78,7 +78,7 @@ public class PrivateAreaMainFragment extends Fragment {
                     navigationView.getMenu().getItem(Constants.menu_positions_help).setChecked(true);
                     break;
                 case R.id.settings:
-                    Intent i = new Intent(getActivity(), Settings.class);
+                    Intent i = new Intent(getActivity(), SettingsPrivate.class);
                     navigationView.getMenu().getItem(Constants.menu_positions_settings).setChecked(true);
                     getActivity().startActivity(i);
                     return;

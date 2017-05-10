@@ -39,6 +39,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Create a new private CGA.
@@ -345,14 +346,6 @@ public class CGAPrivate extends Fragment {
 
 
         // set date
-        Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
-        int month = now.get(Calendar.MONTH);
-        int day = now.get(Calendar.DAY_OF_MONTH);
-        int hour = now.get(Calendar.HOUR_OF_DAY);
-        int minute = now.get(Calendar.MINUTE);
-        Log.d("Session", "Year " + year + ",Month " + month + ", day " + day);
-//        session.setDate(DatesHandler.createCustomDate(year, month, day, hour, minute));
         session.setDate(date.getTime());
 
         // save Session

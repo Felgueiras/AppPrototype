@@ -21,16 +21,15 @@ public class TimeLineViewHolderPrescription extends RecyclerView.ViewHolder {
     View view;
     @InjectView(R.id.prescriptionDate)
     public TextView date;
+    @InjectView(R.id.numberWarnings)
+    public TextView numberWarnings;
     @InjectView(R.id.prescriptionsForDate)
     public RecyclerView prescriptionsForDate;
-//    @InjectView(R.id.prescriptionNotes)
-//    @InjectView(R.id.prescriptionName)
-//    TextView name;
+
     @InjectView(R.id.time_marker)
     public TimelineView mTimelineView;
-//    EditText notes;
-//    @InjectView(R.id.warning)
-//    Button warning;
+    @InjectView(R.id.warning)
+    public Button warning;
 
     public TimeLineViewHolderPrescription(View itemView, int viewType) {
         super(itemView);

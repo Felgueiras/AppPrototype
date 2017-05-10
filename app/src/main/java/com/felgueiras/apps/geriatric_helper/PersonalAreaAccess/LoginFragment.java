@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +20,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.felgueiras.apps.geriatric_helper.Firebase.CipherDecipherFiles;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
@@ -35,10 +36,6 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class LoginFragment extends Fragment {
 
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -67,12 +64,6 @@ public class LoginFragment extends Fragment {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-
-        // user already logged in
-        if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(getActivity(), PrivateAreaActivity.class));
-            getActivity().finish();
-        }
 
 //        /**
 //         * Check if there's an already registered user.
@@ -196,6 +187,7 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        // login putton pressed
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,7 +223,16 @@ public class LoginFragment extends Fragment {
                                         Toast.makeText(getActivity(), getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
+                                    // generate cipher
+                                    CipherDecipherFiles.getInstance().generateKey(
+                                            FirebaseAuth.getInstance().getCurrentUser().getUid(), password,
+                                            getActivity());
+
+                                    // load initial list of patients
+                                    FirebaseHelper.initializeFirebase();
+
                                     PatientsManagement.loadInitialPatients(getActivity());
+
                                     Intent intent = new Intent(getActivity(), PrivateAreaActivity.class);
                                     startActivity(intent);
                                     getActivity().finish();
@@ -247,58 +248,21 @@ public class LoginFragment extends Fragment {
 
 
     /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
+     * Validate email.
+     *
+     * @param email
+     * @return
      */
-    private void attemptLogin(String email, String password) {
-        if (mAuthTask != null) {
-            return;
-        }
-
-        // Reset errors.
-        if (mEmailView != null)
-            mEmailView.setError(null);
-        mPasswordView.setError(null);
-
-        boolean cancel = false;
-        View focusView = null;
-
-        // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }
-
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
-        }
-    }
-
     private boolean isEmailValid(String email) {
         return email.contains("@");
     }
 
+    /**
+     * Validate password.
+     *
+     * @param password
+     * @return
+     */
     private boolean isPasswordValid(String password) {
         return true;
         // return password.length() > 4;
@@ -337,73 +301,6 @@ public class LoginFragment extends Fragment {
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            // validate from dummy credentials
-//            for (String credential : DUMMY_CREDENTIALS) {
-//                String[] pieces = credential.split(":");
-//                if (pieces[0].equals(mEmail)) {
-//                    // Account exists, return true if the password matches.
-//                    return pieces[1].equals(mPassword);
-//                }
-//            }
-            return validateLogin(mEmail, mPassword);
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-
-//                // erase all sessions without pacients just to avoid errors
-//                for (SessionFirebase sess : FirebaseHelper.getAllSessions()) {
-//                    if (sess.getPatient() == null) {
-//                        sess.delete();
-//                    }
-//                }
-                PatientsManagement.loadInitialPatients(getActivity());
-
-                Intent intent = new Intent(getActivity(), PrivateAreaActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                getActivity().finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
         }
     }
 

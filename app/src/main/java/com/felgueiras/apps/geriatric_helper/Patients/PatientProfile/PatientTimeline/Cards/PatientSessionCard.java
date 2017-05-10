@@ -1,10 +1,9 @@
-package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.Cards;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,10 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricS
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.Old.PatientPrescriptionsFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.TimeLineViewHolderSession;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionWithPatient;
-import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistory.SessionScalesAdapterRecycler;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.SessionScalesAdapterRecycler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,18 +31,15 @@ public class PatientSessionCard extends RecyclerView.Adapter<TimeLineViewHolderS
 
     public PatientSessionCard(Activity context,
                               ArrayList<SessionFirebase> sessions,
-                              PatientFirebase patient,
-                              PatientPrescriptionsFragment patientSessionsFragment) {
+                              PatientFirebase patient) {
         this.context = context;
         this.sessions = sessions;
-//        this.fragment = patientSessionsFragment;
     }
 
 
     @Override
     public TimeLineViewHolderSession onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_timeline_session, parent, false);
-
         return new TimeLineViewHolderSession(itemView, 0);
     }
 
@@ -87,7 +83,6 @@ public class PatientSessionCard extends RecyclerView.Adapter<TimeLineViewHolderS
 
     @Override
     public int getItemCount() {
-        Log.d("Daily", "Sessions " + sessions.size());
         return sessions.size();
     }
 }

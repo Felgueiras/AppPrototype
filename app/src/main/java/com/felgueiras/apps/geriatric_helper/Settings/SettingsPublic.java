@@ -1,4 +1,4 @@
-package com.felgueiras.apps.geriatric_helper;
+package com.felgueiras.apps.geriatric_helper.Settings;
 
 /**
  * Created by felgueiras on 08/03/2017.
@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 
-public class Settings extends PreferenceActivity {
+import com.felgueiras.apps.geriatric_helper.R;
+
+public class SettingsPublic extends PreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +22,7 @@ public class Settings extends PreferenceActivity {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.preferences);
-
-//            SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-//            String strUserName = SP.getString(getResources().getString(R.string.areaCardShowScalesIcon), "NA");
-
+            addPreferencesFromResource(R.xml.preferences_public);
         }
     }
 

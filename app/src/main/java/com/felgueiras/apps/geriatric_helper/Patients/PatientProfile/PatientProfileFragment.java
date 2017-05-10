@@ -12,6 +12,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +35,7 @@ import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPresc
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsEmpty;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsTimelineFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.PatientTimelineFragmentGroupByDay;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.PatientTimelineFragmentOriginal;
 import com.felgueiras.apps.geriatric_helper.Patients.Progress.ProgressFragment;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -60,6 +62,21 @@ public class PatientProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        Log.d("Profile","OnCreate");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("Profile","OnResume");
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("Profile","OnStop");
+
     }
 
     View view;
@@ -99,19 +116,24 @@ public class PatientProfileFragment extends Fragment {
         patientAddress.setText("Morada: " + patient.getAddress());
         processNumber.setText("Processo nº " + patient.getProcessNumber());
         hidePatientInfo.bringToFront();
+        if(!Constants.patientInfoShow)
+        {
+            ((ImageButton) hidePatientInfo).setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+            patientInfo.setVisibility(View.GONE);
+            separator.animate().translationY(0);
+            hidePatientInfo.animate().translationY(0);
+        }
+
+
         hidePatientInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 if (patientInfo.getVisibility() == View.VISIBLE) {
-                    // Prepare the View for the animation
+                    // slide up
                     patientInfo.setAlpha(1.0f);
-
-                    v.animate()
-                            .translationY(-patientInfo.getHeight());
-
-                    separator.animate()
-                            .translationY(-patientInfo.getHeight()).alpha(1.0f);
-
+                    v.animate().translationY(-patientInfo.getHeight());
+                    separator.animate().translationY(-patientInfo.getHeight()).alpha(1.0f);
+                    Constants.patientInfoShow = false;
 
                     // Start the animation
                     patientInfo.animate()
@@ -121,16 +143,19 @@ public class PatientProfileFragment extends Fragment {
                                 @Override
                                 public void onAnimationEnd(Animator animation) {
                                     super.onAnimationEnd(animation);
+                                    // change icon
+                                    ((ImageButton) v).setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
                                     patientInfo.setVisibility(View.GONE);
-//                                    v.setVisibility(View.VISIBLE);
                                     separator.animate().translationY(0);
                                     v.animate().translationY(0);
 
                                 }
                             });
                 } else {
-                    // Prepare the View for the animation
+                    // slide down
                     patientInfo.setVisibility(View.VISIBLE);
+                    Constants.patientInfoShow = true;
+
 
                     // Start the animation
                     patientInfo.animate()
@@ -140,6 +165,8 @@ public class PatientProfileFragment extends Fragment {
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
                             patientInfo.setVisibility(View.VISIBLE);
+                            ((ImageButton) v).setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+
                         }
                     });
                 }
@@ -220,9 +247,9 @@ public class PatientProfileFragment extends Fragment {
                     }
                     break;
                 case 3:
-                    frag = new PatientTimelineFragmentGroupByDay();
+                    frag = new PatientTimelineFragmentOriginal();
                     args = new Bundle();
-                    args.putSerializable(PatientTimelineFragmentGroupByDay.PATIENT, patient);
+                    args.putSerializable(PatientTimelineFragmentOriginal.PATIENT, patient);
                     frag.setArguments(args);
 
                     break;
@@ -248,22 +275,22 @@ public class PatientProfileFragment extends Fragment {
 
                         switch (item.getItemId()) {
                             case R.id.patient_sessions:
-                                if(Constants.patientProfileBottomNavigation == 0)
+                                if (Constants.patientProfileBottomNavigation == 0)
                                     return true;
                                 Constants.patientProfileBottomNavigation = 0;
                                 break;
                             case R.id.patient_prescriptions:
-                                if(Constants.patientProfileBottomNavigation == 1)
+                                if (Constants.patientProfileBottomNavigation == 1)
                                     return true;
                                 Constants.patientProfileBottomNavigation = 1;
                                 break;
                             case R.id.patient_notes:
-                                if(Constants.patientProfileBottomNavigation == 2)
+                                if (Constants.patientProfileBottomNavigation == 2)
                                     return true;
                                 Constants.patientProfileBottomNavigation = 2;
                                 break;
                             case R.id.patientTimeline:
-                                if(Constants.patientProfileBottomNavigation == 3)
+                                if (Constants.patientProfileBottomNavigation == 3)
                                     return true;
                                 Constants.patientProfileBottomNavigation = 3;
                                 break;

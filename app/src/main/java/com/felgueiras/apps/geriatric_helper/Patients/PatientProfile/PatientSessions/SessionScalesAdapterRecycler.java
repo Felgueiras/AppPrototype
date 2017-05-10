@@ -1,7 +1,6 @@
-package com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistory;
+package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;

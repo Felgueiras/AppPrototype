@@ -2,39 +2,27 @@ package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTime
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
-import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsCard;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.TimeLineViewHolderDailyEvents;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.TimeLineViewHolderPrescription;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.Cards.PatientPrescriptionCardTimeline;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.Cards.PatientSessionCard;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.utils.VectorDrawableUtils;
 import com.felgueiras.apps.geriatric_helper.R;
-import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionWithPatient;
-import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistory.SessionScalesAdapterRecycler;
 import com.github.vipulasri.timelineview.TimelineView;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by HP-HP on 05-12-2015.
  */
-public class TimeLineAdapterGeneral extends RecyclerView.Adapter<TimeLineViewHolderDailyEvents> {
+public class TimeLineAdapterGeneralGroupByDay extends RecyclerView.Adapter<TimeLineViewHolderDailyEvents> {
 
     private final Activity context;
     private final boolean compactView;
@@ -46,7 +34,7 @@ public class TimeLineAdapterGeneral extends RecyclerView.Adapter<TimeLineViewHol
     int TYPE_PRESCRIPTION = 0;
     int TYPE_SESSION = 1;
 
-    public TimeLineAdapterGeneral(ArrayList<DailyEvents> feedList, Orientation orientation, boolean withLinePadding, Activity activity, boolean compactView) {
+    public TimeLineAdapterGeneralGroupByDay(ArrayList<DailyEvents> feedList, Orientation orientation, boolean withLinePadding, Activity activity, boolean compactView) {
         dailyEvents = feedList;
         mOrientation = orientation;
         mWithLinePadding = withLinePadding;
@@ -99,22 +87,25 @@ public class TimeLineAdapterGeneral extends RecyclerView.Adapter<TimeLineViewHol
 
         holder.date.setText(DatesHandler.dateToStringWithoutHour(currentDate));
 
-        // get recycler view for prescriptions
+        /**
+         * Prescriptions.
+         */
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, 1);
         holder.prescriptionsForDate.setLayoutManager(mLayoutManager);
         holder.prescriptionsForDate.setItemAnimator(new DefaultItemAnimator());
-
-        PatientPrescriptionsCard prescriptionsAdapter = new PatientPrescriptionsCard(context, dailyEvent.getPrescriptions(),
-                null, null, compactView);
+        PatientPrescriptionCardTimeline prescriptionsAdapter = new PatientPrescriptionCardTimeline(context, dailyEvent.getPrescriptions(),
+                null);
         holder.prescriptionsForDate.setAdapter(prescriptionsAdapter);
 
-        // get recycler view for sessions
+        /**
+         * Sessions.
+         */
         RecyclerView.LayoutManager sessionsLayoutManager = new GridLayoutManager(context, 1);
         holder.sessionsForDate.setLayoutManager(sessionsLayoutManager);
         holder.sessionsForDate.setItemAnimator(new DefaultItemAnimator());
 
         PatientSessionCard sessionsAdapter = new PatientSessionCard(context, dailyEvent.getSessions(),
-                null, null);
+                null);
         holder.sessionsForDate.setAdapter(sessionsAdapter);
     }
 

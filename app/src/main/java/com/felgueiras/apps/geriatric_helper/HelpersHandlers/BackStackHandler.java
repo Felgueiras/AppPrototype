@@ -16,6 +16,7 @@ import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideScale;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Patients.NewPatient.CreatePatientFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.AddPrescriptions.PatientPrescriptionsAddFragment;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
@@ -86,6 +87,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
              */
             if (!tag.equals(Constants.tag_create_session_no_patient) &&
                     !tag.equals(Constants.tag_create_session_with_patient) &&
+                    !tag.equals(Constants.tag_create_patient) &&
                     !tag.equals(Constants.tag_cga_public)
                     && !tag.equals(Constants.tag_display_session_scale)
                     && !tag.equals(Constants.tag_add_prescription_to_patient)) {
@@ -289,8 +291,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     break;
                 }
                 case Constants.tag_create_patient:
-                    nextFragment = new PatientsMain();
-                    break;
+                    ((CreatePatientFragment) fr).discardPatient();
+                    return;
                 /**
                  * CGA Guide.
                  */
@@ -501,7 +503,6 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
 
         } else if (tagCurrent.equals(Constants.tag_create_session_with_patient_from_session)) {
-            // TODO review session
             fragmentManager.popBackStack();
             fragment = new SessionsHistoryMainFragment();
         } else if (tagCurrent.equals(Constants.tag_create_patient)) {

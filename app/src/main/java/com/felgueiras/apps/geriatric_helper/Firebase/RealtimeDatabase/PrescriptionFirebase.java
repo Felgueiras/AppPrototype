@@ -105,9 +105,10 @@ public class PrescriptionFirebase implements Serializable {
 
     /**
      * Check if this drug is included in stopp or beers criteria.
-     *  @param warning
+     *
+     * @param warning
      */
-    public static void checkWarning(String drugName, Button warning) {
+    public static boolean checkWarning(String drugName, Button warning) {
         // stopp
         final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(StoppCriteria.getStoppCriteria());
         // beers
@@ -117,9 +118,13 @@ public class PrescriptionFirebase implements Serializable {
         if (stoppCriteriaDrugs.contains(drugName)
                 ||
                 beersCriteriaDrugs.contains(drugName)) {
-            warning.setVisibility(View.VISIBLE);
+            if (warning != null)
+                warning.setVisibility(View.VISIBLE);
+            return true;
         } else {
-            warning.setVisibility(View.GONE);
+            if (warning != null)
+                warning.setVisibility(View.GONE);
+            return false;
         }
     }
 }

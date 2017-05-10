@@ -22,11 +22,12 @@ import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.SendFeedback;
 import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.LoginFragment;
-import com.felgueiras.apps.geriatric_helper.Settings;
+import com.felgueiras.apps.geriatric_helper.Settings.SettingsPrivate;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMainFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
+import com.felgueiras.apps.geriatric_helper.Settings.SettingsPublic;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -90,9 +91,12 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             endFragment = new AboutFragment();
         } else if (id == R.id.cga_guide) {
             endFragment = new CGAGuideMainFragment();
-        }
-        else if (id == R.id.settings) {
-            Intent i = new Intent(context, Settings.class);
+        } else if (id == R.id.settingsPublic) {
+            Intent i = new Intent(context, SettingsPublic.class);
+            context.startActivity(i);
+            return true;
+        } else if (id == R.id.settingsPrivate) {
+            Intent i = new Intent(context, SettingsPrivate.class);
             context.startActivity(i);
             return true;
         }

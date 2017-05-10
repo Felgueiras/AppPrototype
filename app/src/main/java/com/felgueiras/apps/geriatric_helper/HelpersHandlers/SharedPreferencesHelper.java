@@ -474,4 +474,27 @@ public class SharedPreferencesHelper {
         Set<String> set = new HashSet<>();
         sharedPreferences.edit().putStringSet("patients", set).apply();
     }
+
+    /**
+     * Save hash string user for cipher and decipher ops.
+     *
+     * @param hashString
+     * @param context
+     */
+    public static void writeHashString(String hashString, Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        sharedPreferences.edit().putString(context.getString(R.string.hashString), hashString).apply();
+    }
+
+    /**
+     * Read Hash string.
+     *
+     * @param context
+     * @return
+     */
+    public static String readHashString(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        return sharedPreferences.getString(context.getString(R.string.hashString), "");
+    }
+
 }

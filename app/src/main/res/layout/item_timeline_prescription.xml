@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:orientation="horizontal">
 
@@ -34,12 +33,40 @@
             android:gravity="center"
             android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/prescriptionDate"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="2"
                 android:layout_height="wrap_content"
                 style="@style/date"
                 tools:text="24 JAN" />
+
+            <!--Number of warnings-->
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/numberWarnings"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textAlignment="textEnd"
+                tools:text="24 JAN" />
+
+            <Button
+                android:id="@+id/warning"
+                android:layout_width="@dimen/warningSize"
+                android:layout_height="@dimen/warningSize"
+                android:layout_margin="2dp"
+                android:background="@drawable/ic_warning_24dp"
+                />
+            </LinearLayout>
+
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/prescriptionsForDate"

@@ -43,7 +43,7 @@
     <item android:title="@string/actions_account">
         <menu>
             <item
-                android:id="@+id/settings"
+                android:id="@+id/settingsPrivate"
                 android:icon="@drawable/ic_settings_black_24dp"
                 android:title="@string/settings" />
             <item

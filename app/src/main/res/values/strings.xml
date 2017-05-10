@@ -20,7 +20,7 @@
     <string name="saved_session_private" translatable="false">SESSION_PRIVATE</string>
     <string name="title_activity_settings" translatable="false">Settings</string>
 
-    <!-- Strings related to Settings -->
+    <!-- Strings related to SettingsPrivate -->
 
     <!-- Example General settings -->
     <string name="pref_header_general" translatable="false">General</string>
@@ -54,6 +54,7 @@
 
     <string name="pref_title_vibrate" translatable="false">Vibrate</string>
     <string name="areaCardShowScalesIcon" translatable="false">areaCardShowScalesIcon</string>
+    <string name="syncBackEnd" translatable="false">syncBackEnd</string>
     <string name="sessionResumeInformation" translatable="false">sessionResumeInformation</string>
     <string name="patientProgressType" translatable="false">patientProgressType</string>
     <string name="multipleChoiceType" translatable="false">multipleChoiceType</string>
@@ -409,6 +410,9 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="label_print">Imprimir</string>
     <string name="action_save">Guardar</string>
     <string name="timeline">Timeline</string>
+    <string name="syncBackendQuestion">Deseja que informações sobre os pacientes sejam
+        sincronizadas entre vários dispositivos? \n (poderá alterar esta opção mais tarde)</string>
+    <string name="hashString">hashString</string>
 
 
 </resources>
