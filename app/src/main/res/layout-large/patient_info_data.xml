@@ -42,15 +42,6 @@
             android:textSize="25dp"
             android:text="Process number" />
 
-        <ImageView
-            android:background="@color/album_title"
-            android:id="@+id/patientPhoto"
-            android:adjustViewBounds="true"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/female" />
 
         <!--<Button-->
             <!--style="@style/Widget.AppCompat.Button.Colored"-->

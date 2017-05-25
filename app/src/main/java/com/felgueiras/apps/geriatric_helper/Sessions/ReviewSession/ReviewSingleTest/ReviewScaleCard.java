@@ -63,6 +63,7 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
 
     /**
      * Default constructor for the RV adapter.
+     *
      * @param context
      * @param session
      * @param area
@@ -130,7 +131,7 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
 
         ViewManager parentView = (ViewManager) holder.result_qualitative.getParent();
 
-        if (currentScale.getNotes()!=null) {
+        if (currentScale.getNotes() != null) {
 //            parentView.removeView(holder.addNotesButton);
             holder.notes.setText(currentScale.getNotes());
         } else {
@@ -157,7 +158,7 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
         }
         holder.result_quantitative.setText(quantitative);
 
-        if (currentScale.getNotes()!=null) {
+        if (currentScale.getNotes() != null) {
             holder.notes.setText(currentScale.getNotes());
         }
 
@@ -200,7 +201,6 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
                 transaction.addToBackStack(Constants.tag_review_test).commit();
             }
         });
-
 
 
         holder.description.setOnClickListener(new ScaleInfoHelper(context, Scales.getScaleByName(currentScale.getScaleName())));
@@ -298,10 +298,17 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
 
     @Override
     public int getItemCount() {
-        // TODO only the ones completed
         List<GeriatricScaleFirebase> sessionScales = FirebaseDatabaseHelper.getScalesFromSession(session);
         // get scales for this area
-        scalesForArea =  FirebaseDatabaseHelper.getScalesForArea(sessionScales, area);
+        scalesForArea = FirebaseDatabaseHelper.getScalesForArea(sessionScales, area);
+        // filter uncompleted scales (may happen)
+        ArrayList<GeriatricScaleFirebase> completedScales = new ArrayList<>();
+        for (GeriatricScaleFirebase scale : scalesForArea) {
+            if (scale.isCompleted()) {
+                completedScales.add(scale);
+            }
+        }
+        scalesForArea = completedScales;
         return scalesForArea.size();
     }
 

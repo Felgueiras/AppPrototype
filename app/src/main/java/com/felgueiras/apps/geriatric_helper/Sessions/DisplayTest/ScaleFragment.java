@@ -254,8 +254,8 @@ public class ScaleFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        // if this test allows to take photo, inflate another menu
-        if (scale.isContainsPhoto()) {
+        // if this test allows to take photoDownloaded, inflate another menu
+        if (scale.photos()) {
             inflater.inflate(R.menu.menu_scale_photo, menu);
         } else if (scale.isContainsVideo()) {
             inflater.inflate(R.menu.menu_scale_video, menu);

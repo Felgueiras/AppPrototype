@@ -251,7 +251,6 @@ public class FirebaseDatabaseHelper {
         Date secondDay = cal.getTime();
 
         //system.out.println("Getting sessions from " + firstDay + "-" + secondDay);
-        // TODO get evaluations from that date
 //        return new Select()
 //                .from(Session.class)
 //                .where("date > ? and date < ?", firstDay.getTime(), secondDay.getTime())
@@ -386,10 +385,10 @@ public class FirebaseDatabaseHelper {
         }
 
         // remove associated images or videos
-        if (scale.isContainsPhoto()) {
-            Log.d("Firebase", "Removing photo");
+        if (scale.photos()) {
+            Log.d("Firebase", "Removing photoDownloaded");
             FirebaseStorage storage = FirebaseStorage.getInstance();
-            // photo reference
+            // photoDownloaded reference
             StorageReference storageRef = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
                     .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/images/" + scale.getPhotoPath());
 

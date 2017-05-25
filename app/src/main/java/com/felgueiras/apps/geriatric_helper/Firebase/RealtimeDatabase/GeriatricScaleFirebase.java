@@ -432,7 +432,7 @@ public class GeriatricScaleFirebase implements Serializable {
         this.answer = answer;
     }
 
-    public boolean isContainsPhoto() {
+    public boolean photos() {
         return containsPhoto;
     }
 

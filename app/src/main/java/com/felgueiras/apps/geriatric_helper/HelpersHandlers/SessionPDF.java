@@ -1,12 +1,14 @@
 package com.felgueiras.apps.geriatric_helper.HelpersHandlers;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -20,6 +22,7 @@ import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
@@ -34,6 +37,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.List;
 import com.itextpdf.text.ListItem;
 import com.itextpdf.text.Paragraph;
@@ -43,6 +47,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -93,7 +98,13 @@ public class SessionPDF {
         this.session = session;
     }
 
-    public static boolean verifyStoragePermissions(Activity activity) {
+    /**
+     * Check if storage permissions were granted.
+     *
+     * @param activity
+     * @return
+     */
+    public boolean verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
@@ -108,6 +119,46 @@ public class SessionPDF {
             return false;
         } else {
             return true;
+        }
+    }
+
+    /**
+     * Handle request permission results.
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_STORAGE:
+                if (grantResults.length > 0) {
+
+                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    if (cameraAccepted) {
+//                        Toast.makeText(getApplicationContext(), "Permission Granted, Now you can access camera", Toast.LENGTH_LONG).show();
+//                        takePicture();
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "Permission Denied, You cannot access and camera", Toast.LENGTH_LONG).show();
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                            if (shouldShowRequestPermissionRationale(CAMERA)) {
+//                                showMessageOKCancel("You need to allow access to both the permissions",
+//                                        new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                                                    requestPermissions(new String[]{CAMERA},
+//                                                            REQUEST_CAMERA);
+//                                                }
+//                                            }
+//                                        });
+//                                return;
+//                            }
+//                        }
+//                    }
+                    }
+                }
+                break;
         }
     }
 
@@ -130,7 +181,7 @@ public class SessionPDF {
         }
 
         File pdfFolder = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOCUMENTS), "pdfdemo");
+                Environment.DIRECTORY_DOCUMENTS), "pdf");
         if (!pdfFolder.exists()) {
             pdfFolder.mkdir();
             Log.i(LOG_TAG, "Pdf Directory created");
@@ -230,7 +281,7 @@ public class SessionPDF {
 
         document.add(preface);
         // Start a new page
-        document.newPage();
+//        document.newPage();pd
     }
 
 
@@ -246,6 +297,7 @@ public class SessionPDF {
 
         // Second parameter is the number of the chapter
         Chapter catPart = new Chapter(new Paragraph(anchor), 1);
+
 
         // represent data from each CGA area
         for (int i = 0; i < Constants.cga_areas.length; i++) {
@@ -297,12 +349,30 @@ public class SessionPDF {
                         // paragraph.setAlignment(Element.ALIGN_LEFT);
                         quantitativeResult.setIndentationLeft(leftIndentation);
                         scaleInfo.add(quantitativeResult);
+
+                        if (scaleFirebase.photos()) {
+                            String photoPath = scaleFirebase.getPhotoPath();
+                            if (photoPath != null) {
+                                // add photoDownloaded
+                                try {
+
+                                    // load photoDownloaded from firebase
+                                    FirebaseStorageHelper.fetchImageFirebasePDF(scaleFirebase, scaleInfo);
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
                     }
                 }
             }
 
         }
 
+        // automatically go to new page
         document.add(catPart);
     }
 
@@ -425,4 +495,47 @@ public class SessionPDF {
         builder.show();
 
     }
+
+
+//    // The definition of our task class
+//    private class FirebaseLoadPhoto extends AsyncTask<String, Integer, String> {
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//
+//            FirebaseStorageHelper.fetchImageFirebasePDF();
+////            FirebaseStorageHelper.downloadLanguageResources();
+//            while (true) {
+//                try {
+//                    Thread.sleep(50);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                if (FirebaseHelper.canLeaveLaunchScreen)
+//                    break;
+//            }
+//            return "All Done!";
+//        }
+//
+//        @Override
+//        protected void onProgressUpdate(Integer... values) {
+//            super.onProgressUpdate(values);
+//            bar.setProgress(values[0]);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            super.onPostExecute(result);
+////            bar.setVisibility(View.GONE);
+//
+//            // go to public area
+//            Intent intent = new Intent(getBaseContext(), PublicAreaActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
+//    }
+//
+//
+
+
 }

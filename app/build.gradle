@@ -13,8 +13,8 @@ android {
         applicationId "com.felgueiras.apps.geriatric_helper"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 7
-        versionName "4.2"
+        versionCode 8
+        versionName "4.3"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }

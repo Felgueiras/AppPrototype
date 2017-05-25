@@ -329,8 +329,10 @@ public class FirebaseHelper {
         PRESCRIPTIONS = userArea + "/prescriptions";
         CHOICES = userArea + "/choices";
 
+        mFirebaseInstance = FirebaseDatabase.getInstance();
 
-        firebaseTablePatients   = FirebaseDatabase.getInstance().getReference(FirebaseHelper.PATIENTS);
+
+        firebaseTablePatients   = mFirebaseInstance.getReference(FirebaseHelper.PATIENTS);
         firebaseTableSessions = mFirebaseInstance.getReference(FirebaseHelper.SESSIONS);
         firebaseTableScales = mFirebaseInstance.getReference(FirebaseHelper.SCALES);
         firebaseTableQuestions = mFirebaseInstance.getReference(FirebaseHelper.QUESTIONS);

@@ -56,7 +56,7 @@
                 android:textSize="15sp"
                 android:textAlignment="textEnd"
                 tools:text="24 JAN" />
-
+ 
             <Button
                 android:id="@+id/warning"
                 android:layout_width="@dimen/warningSize"

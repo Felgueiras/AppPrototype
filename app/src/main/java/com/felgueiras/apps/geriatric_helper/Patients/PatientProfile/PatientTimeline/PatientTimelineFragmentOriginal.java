@@ -36,8 +36,8 @@ public class PatientTimelineFragmentOriginal extends Fragment {
     private TimeLineAdapterGeneralOriginal mTimeLineAdapter;
     private Orientation mOrientation;
     private boolean mWithLinePadding;
-    private ArrayList<SessionFirebase> patientSessions;
-    private ArrayList<PrescriptionFirebase> patientsPrescriptions;
+    private ArrayList<SessionFirebase> patientSessions = new ArrayList<>();
+    private ArrayList<PrescriptionFirebase> patientsPrescriptions = new ArrayList<>();
 
 
     // Store instance variables based on arguments passed
@@ -109,7 +109,8 @@ public class PatientTimelineFragmentOriginal extends Fragment {
         FirebaseHelper.firebaseTableSessions.orderByChild("patientID").equalTo(patient.getGuid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                patientSessions = new ArrayList<>();
+                patientSessions.clear();
+                patientSessionsPrescriptions.clear();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     SessionFirebase sessions = postSnapshot.getValue(SessionFirebase.class);
@@ -123,7 +124,7 @@ public class PatientTimelineFragmentOriginal extends Fragment {
                         .addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                patientsPrescriptions = new ArrayList<>();
+                                patientsPrescriptions.clear();
                                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                                     PrescriptionFirebase prescription = postSnapshot.getValue(PrescriptionFirebase.class);
                                     prescription.setKey(postSnapshot.getKey());

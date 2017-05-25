@@ -82,9 +82,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".PhotoVideoHandling.MediaRecorderTutorialActivity"
-            android:screenOrientation="portrait"></activity>
         <activity android:name=".PersonalAreaAccess.PromptSyncBackend"></activity>
     </application>
 

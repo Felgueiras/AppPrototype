@@ -1,22 +1,30 @@
 package com.felgueiras.apps.geriatric_helper.Firebase;
 
+import android.app.MediaRouteButton;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.PatientMetadata;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,11 +36,15 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Section;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -54,23 +66,31 @@ public class FirebaseStorageHelper {
 
     private static FirebaseStorageHelper singleton = new FirebaseStorageHelper();
     private final FirebaseStorage storage;
-    private final StorageReference patientsStorageReference;
-    static String patientsFile = "patients.json";
+    private StorageReference patientsStorageReference;
     final Gson gson;
 
 
+    /**
+     * Get the singleton instance.
+     *
+     * @return
+     */
     public static FirebaseStorageHelper getInstance() {
+        // it is important to get assign the patients storage reference
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            singleton.patientsStorageReference = singleton.storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                    .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/");
+        } else {
+            singleton.patientsStorageReference = null;
+        }
         return singleton;
     }
 
+    /**
+     * Private default constructor.
+     */
     private FirebaseStorageHelper() {
         storage = FirebaseStorage.getInstance();
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            patientsStorageReference = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
-                    .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/");
-        } else {
-            patientsStorageReference = null;
-        }
 
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
@@ -566,16 +586,15 @@ public class FirebaseStorageHelper {
      */
     public void getPatients(final Context context) {
 
-        if (!isSyncEnabled(context)) {
-            return;
-        }
+//        if (!isSyncEnabled(context)) {
+//            return;
+//        }
 
         // check DB for patients
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
         final Gson gson = builder.create();
 
-        final FirebaseStorage storage = FirebaseStorage.getInstance();
 
         final ArrayList<String> patientsFiles = new ArrayList<>();
 
@@ -594,8 +613,7 @@ public class FirebaseStorageHelper {
 
 
                 SharedPreferencesHelper.resetPatients(context);
-                if(patientsFiles.size()==0)
-                {
+                if (patientsFiles.size() == 0) {
                     return;
                 }
                 for (String patientFile : patientsFiles) {
@@ -682,4 +700,114 @@ public class FirebaseStorageHelper {
             }
         });
     }
+
+
+    /**
+     * Fetch image from Firebase and display it.
+     *
+     * @param scale
+     * @param imgPreview
+     * @param progressBar
+     */
+    public static void fetchImageFirebaseDisplay(GeriatricScaleFirebase scale, final ImageView imgPreview,
+                                                 final ProgressBar progressBar) {
+        // fetch image from Firebase
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/images/" + scale.getPhotoPath());
+
+        try {
+            final File imageFile = File.createTempFile("photoDownloaded", "jpg");
+            storageRef.getFile(imageFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                    // display image
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+
+                    // downsizing image as it throws OutOfMemory Exception for larger
+                    // images
+//                    options.inSampleSize = 8;
+
+                    final Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(),
+                            options);
+
+                    progressBar.setVisibility(View.GONE);
+                    imgPreview.setVisibility(View.VISIBLE);
+                    imgPreview.setImageBitmap(bitmap);
+                    Log.d("Firebase", "Setting image");
+
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    if (exception instanceof com.google.firebase.storage.StorageException) {
+                        // scale was not found for that language
+                        Log.d("Download", "Image does not exist");
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Fetch image from Firebase and display it.
+     *
+     * @param scale
+     * @param scaleInfo
+     */
+    public static void fetchImageFirebasePDF(GeriatricScaleFirebase scale, final Section scaleInfo) {
+        // fetch image from Firebase
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/images/" + scale.getPhotoPath());
+
+        try {
+            final File imageFile = File.createTempFile("photoDownloaded", "jpg");
+            FileDownloadTask downloadFile = storageRef.getFile(imageFile);
+
+            while (true) {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (downloadFile.isComplete() && downloadFile.isSuccessful()) {
+//                    FileDownloadTask.TaskSnapshot result = downloadFile.getResult();
+                    // display image
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+
+                    // downsizing image as it throws OutOfMemory Exception for larger
+                    // images
+                    options.inSampleSize = 16;
+
+                    final Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(),
+                            options);
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    Image image = null;
+                    try {
+                        image = Image.getInstance(stream.toByteArray());
+                    } catch (BadElementException | IOException e) {
+                        e.printStackTrace();
+                    }
+                    scaleInfo.add(image);
+                    Log.d("Loading", "Is complete");
+                    break;
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }

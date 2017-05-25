@@ -160,4 +160,5 @@
     <string name="label_print">Print</string>
     <string name="action_save">Save</string>
     <string name="timeline">Timeline</string>
+    <string name="syncBackendQuestion">Do you wish patient infos to be synced between multiple devices? \\n (this setting may be changed later)</string>
 </resources>

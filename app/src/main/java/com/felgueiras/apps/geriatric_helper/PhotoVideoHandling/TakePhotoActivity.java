@@ -18,15 +18,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -63,6 +64,7 @@ public class TakePhotoActivity extends AppCompatActivity {
 
         // setup views
         imgPreview = (ImageView) findViewById(R.id.imgPreview);
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
         Button btnCapturePicture = (Button) findViewById(R.id.btnCapturePicture);
 
         activity = this;
@@ -77,7 +79,9 @@ public class TakePhotoActivity extends AppCompatActivity {
 
         // it there is already an image associated to the scale
         if (scale != null && scale.getPhotoPath() != null) {
-            fetchImageFirebaseDisplay();
+            // load animation
+            progressBar.setVisibility(View.VISIBLE);
+            FirebaseStorageHelper.fetchImageFirebaseDisplay(scale, imgPreview, progressBar);
         }
 
         // Checking camera availability
@@ -100,13 +104,17 @@ public class TakePhotoActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Verify if there is permission to take photoDownloaded.
+     *
+     * @param context
+     */
     public void verifyPhotoPermission(Context context) {
         // Check permission for CAMERA
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             // Check Permissions Now
-            // Callback onRequestPermissionsResult interceptado na Activity MainActivity
-            ActivityCompat.requestPermissions(activity,
+            ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.CAMERA},
                     REQUEST_TAKE_PHOTO);
         } else {
@@ -115,49 +123,45 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     /**
-     * Fetch image from Firebase and display it.
+     * Handle request permission results.
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
      */
-    private void fetchImageFirebaseDisplay() {
-        // fetch image from Firebase
-        FirebaseStorage storage = FirebaseStorage.getInstance();
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_TAKE_PHOTO:
+                if (grantResults.length > 0) {
 
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
-                .child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/images/" + scale.getPhotoPath());
-
-        try {
-            final File imageFile = File.createTempFile("photo", "jpg");
-            storageRef.getFile(imageFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-
-                    // display image
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-
-                    // downsizing image as it throws OutOfMemory Exception for larger
-                    // images
-//                    options.inSampleSize = 8;
-
-                    final Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(),
-                            options);
-                    imgPreview.setVisibility(View.VISIBLE);
-                    imgPreview.setImageBitmap(bitmap);
-                    Log.d("Firebase", "Setting image");
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    if (exception instanceof com.google.firebase.storage.StorageException) {
-                        // scale was not found for that language
-                        Log.d("Download", "Image does not exist");
+                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    if (cameraAccepted) {
+//                        Toast.makeText(getApplicationContext(), "Permission Granted, Now you can access camera", Toast.LENGTH_LONG).show();
+                        takePicture();
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "Permission Denied, You cannot access and camera", Toast.LENGTH_LONG).show();
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                            if (shouldShowRequestPermissionRationale(CAMERA)) {
+//                                showMessageOKCancel("You need to allow access to both the permissions",
+//                                        new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                                                    requestPermissions(new String[]{CAMERA},
+//                                                            REQUEST_CAMERA);
+//                                                }
+//                                            }
+//                                        });
+//                                return;
+//                            }
+//                        }
+//                    }
                     }
                 }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+                break;
         }
-
     }
+
 
     /**
      * Checking device has camera hardware or not
@@ -225,7 +229,7 @@ public class TakePhotoActivity extends AppCompatActivity {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
+            // Create the File where the photoDownloaded should go
             File photoFile = null;
             try {
                 photoFile = createImageFile();
@@ -270,7 +274,6 @@ public class TakePhotoActivity extends AppCompatActivity {
      * Display image from a path to ImageView
      */
     private void displayAndUploadImage() {
-
 
         // bimatp factory
         BitmapFactory.Options options = new BitmapFactory.Options();
