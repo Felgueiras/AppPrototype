@@ -7,8 +7,8 @@ import android.widget.TextView;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.github.vipulasri.timelineview.TimelineView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 
 /**
@@ -18,18 +18,18 @@ public class TimeLineViewHolderSession extends RecyclerView.ViewHolder {
 
     public View view;
 
-    @InjectView(R.id.text_timeline_date)
+    @BindView(R.id.text_timeline_date)
     public TextView mDate;
-    @InjectView(R.id.time_marker)
+    @BindView(R.id.time_marker)
     public TimelineView mTimelineView;
-    @InjectView(R.id.session_tests_results)
+    @BindView(R.id.session_tests_results)
     public RecyclerView sessionScales;
 
     public TimeLineViewHolderSession(View itemView, int viewType) {
         super(itemView);
         this.view = itemView;
 
-        ButterKnife.inject(this, itemView);
+        ButterKnife.bind(this, itemView);
         mTimelineView.initLine(viewType);
     }
 }

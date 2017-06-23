@@ -9,8 +9,8 @@ import android.widget.TextView;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.github.vipulasri.timelineview.TimelineView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 
 /**
@@ -19,23 +19,23 @@ import butterknife.InjectView;
 public class TimeLineViewHolderPrescription extends RecyclerView.ViewHolder {
 
     View view;
-    @InjectView(R.id.prescriptionDate)
+    @BindView(R.id.prescriptionDate)
     public TextView date;
-    @InjectView(R.id.numberWarnings)
+    @BindView(R.id.numberWarnings)
     public TextView numberWarnings;
-    @InjectView(R.id.prescriptionsForDate)
+    @BindView(R.id.prescriptionsForDate)
     public RecyclerView prescriptionsForDate;
 
-    @InjectView(R.id.time_marker)
+    @BindView(R.id.time_marker)
     public TimelineView mTimelineView;
-    @InjectView(R.id.warning)
+    @BindView(R.id.warning)
     public Button warning;
 
     public TimeLineViewHolderPrescription(View itemView, int viewType) {
         super(itemView);
         this.view = itemView;
 
-        ButterKnife.inject(this, itemView);
+        ButterKnife.bind(this, itemView);
         mTimelineView.initLine(viewType);
     }
 }
