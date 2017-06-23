@@ -16,6 +16,9 @@ import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideScale;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Patients.NewPatient.CreatePatientFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.AddPrescriptions.PatientPrescriptionsAddFragment;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublic;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
@@ -84,8 +87,10 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
              */
             if (!tag.equals(Constants.tag_create_session_no_patient) &&
                     !tag.equals(Constants.tag_create_session_with_patient) &&
+                    !tag.equals(Constants.tag_create_patient) &&
                     !tag.equals(Constants.tag_cga_public)
-                    && !tag.equals(Constants.tag_display_session_scale)) {
+                    && !tag.equals(Constants.tag_display_session_scale)
+                    && !tag.equals(Constants.tag_add_prescription_to_patient)) {
                 fragmentManager.popBackStack();
             }
 //            return;
@@ -235,6 +240,9 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     Log.d("Stack", "pressed back in new session with PATIENT");
                     ((CGAPrivate) fr).discardSession();
                     return;
+                case Constants.tag_add_prescription_to_patient:
+                    ((PatientPrescriptionsAddFragment) fr).discardPrescriptions();
+                    return;
                 case Constants.tag_cga_public:
                     Log.d("Stack", "pressed back in new session (public)");
                     ((CGAPublic) fr).finishSession();
@@ -261,7 +269,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     // get the arguments
                     Bundle arguments = fr.getArguments();
                     SessionFirebase session = (SessionFirebase) arguments.getSerializable(ReviewSingleSessionWithPatient.SESSION);
-                    PatientFirebase patient =  FirebaseDatabaseHelper.getPatientFromSession(session);
+                    PatientFirebase patient =  PatientsManagement.getInstance().getPatientFromSession(session, context);
                     args = new Bundle();
                     args.putSerializable(PatientProfileFragment.PATIENT, patient);
                     nextFragment = new PatientProfileFragment();
@@ -277,14 +285,14 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     args = new Bundle();
                     args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
                     nextFragment = new ReviewSingleSessionWithPatient();
-                    if (FirebaseDatabaseHelper.getPatientFromSession(session) == null) {
+                    if (PatientsManagement.getInstance().getPatientFromSession(session, context) == null) {
                         nextFragment = new ReviewSingleSessionNoPatient();
                     }
                     break;
                 }
                 case Constants.tag_create_patient:
-                    nextFragment = new PatientsMain();
-                    break;
+                    ((CreatePatientFragment) fr).discardPatient();
+                    return;
                 /**
                  * CGA Guide.
                  */
@@ -386,7 +394,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
         SharedPreferencesHelper.resetPrivateSession(context, "");
 
         // erase from firebase
-        FirebaseDatabaseHelper.deleteSession(session);
+        FirebaseDatabaseHelper.deleteSession(session, context);
 
 
         Fragment fragment = null;
@@ -495,7 +503,6 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
 
         } else if (tagCurrent.equals(Constants.tag_create_session_with_patient_from_session)) {
-            // TODO review session
             fragmentManager.popBackStack();
             fragment = new SessionsHistoryMainFragment();
         } else if (tagCurrent.equals(Constants.tag_create_patient)) {
@@ -545,7 +552,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             GeriatricScaleFirebase scale = (GeriatricScaleFirebase) arguments.getSerializable(ScaleFragment.SCALE);
             boolean containsFavorite = checkBackStackContainsTag(Constants.tag_create_session_from_favorites);
             if (containsFavorite) {
-                PatientFirebase patient = FirebaseDatabaseHelper.getPatientFromSession(FirebaseDatabaseHelper.getSessionFromScale(scale));
+                PatientFirebase patient = PatientsManagement.getInstance().getPatientFromSession(FirebaseDatabaseHelper.getSessionFromScale(scale), context);
 
                 args.putSerializable(PatientProfileFragment.PATIENT, patient);
                 fragment = new PatientProfileFragment();
@@ -601,10 +608,13 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
     }
 
     public static void clearBackStack() {
-        FragmentManager.BackStackEntry entry = fragmentManager.getBackStackEntryAt(0);
-        fragmentManager.popBackStack(entry.getId(),
-                FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        fragmentManager.executePendingTransactions();
+        if (fragmentManager.getBackStackEntryCount() > 0){
+            FragmentManager.BackStackEntry entry = fragmentManager.getBackStackEntryAt(0);
+            fragmentManager.popBackStack(entry.getId(),
+                    FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragmentManager.executePendingTransactions();
+        }
+
 
 //        if (fragmentManager.getBackStackEntryCount() > 0) {
 //            FragmentManager.BackStackEntry first = fragmentManager.getBackStackEntryAt(0);

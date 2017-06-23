@@ -40,6 +40,7 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
     public static class ScaleCardHolder extends RecyclerView.ViewHolder implements Serializable {
 
         private final TableLayout scaleScoring;
+        private final TextView bibliography;
         private TextView scaleInfo;
         public TextView name;
         public View view;
@@ -47,6 +48,7 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
         public ScaleCardHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.scaleName);
+            bibliography = (TextView) view.findViewById(R.id.bibliography);
             scaleInfo = (TextView) view.findViewById(R.id.scale_info);
             scaleScoring = (TableLayout) view.findViewById(R.id.scale_scoring_table);
             this.view = view;
@@ -80,6 +82,9 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
         holder.name.setText(scalesForArea.get(position).getShortName());
 
         holder.scaleInfo.setText(currentScale.getDescription());
+
+        // setup bibliography
+        holder.bibliography.setText(currentScale.getBibliography());
 
         // scale scoring
         new ScaleInfoHelper(context,currentScale).fillTableScaleScoring(

@@ -1,6 +1,5 @@
-- put real information about prescription - open page showing criteria
-- pdf: include notes and photos (clock drawing scale)
-- snackbar on top of bottomnavigationview
+- suporte a múltiplas contas sem sync
+- ao fazer login com outra conta os pacientes da conta anterior continuam lá
+- area card: show already completed scales
 
-- email pdf
 - bibliography of scales

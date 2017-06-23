@@ -241,7 +241,7 @@ public class Constants {
     public static ArrayList<String> allDrugs = new ArrayList<>();
     public static int bottomNavigationPatientProgress;
     public static int bottomNavigationReviewSession;
-    public static String tag_add_prescription_to_patient = "tag_add_prescription_to_patient";
+    public static final String tag_add_prescription_to_patient = "tag_add_prescription_to_patient";
     public static FirebaseDatabase firebaseInstance;
     public static ArrayList<GeriatricScaleFirebase> publicScales = new ArrayList<>();
 
@@ -253,4 +253,5 @@ public class Constants {
     public static ArrayList<ChoiceFirebase> publicChoices = new ArrayList<>();
     public static ArrayList<QuestionFirebase> publicQuestions = new ArrayList<>();
     public static int patientProfileBottomNavigation = 0;
+    public static boolean patientInfoShow = true;
 }

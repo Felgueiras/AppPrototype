@@ -19,8 +19,6 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFir
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 
-import java.util.Objects;
-
 
 public class CGAAreaPrivate extends Fragment {
 

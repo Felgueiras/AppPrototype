@@ -1,15 +1,15 @@
 package com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,13 +20,18 @@ import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionPDF;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientProfileFragment;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
-import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.RegisterUser;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
+import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.SessionNoteshandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,13 +53,30 @@ public class ReviewSingleSessionNoPatient extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
+        inflater.inflate(R.menu.menu_review_session_no_patient, menu);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.createPDF:
+                // create a PDF of the session for printing
+                new SessionPDF(session).createSessionPdf(getActivity(), false);
+                break;
+
+        }
+        return true;
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,40 +88,6 @@ public class ReviewSingleSessionNoPatient extends Fragment {
         session = (SessionFirebase) args.getSerializable(SESSION);
 
         getActivity().setTitle(getResources().getString(R.string.evaluation_results));
-
-        /**
-         * If first public evaluation, show alert dialog about saving sessions
-         * and registering in the app.
-         */
-        Activity context = getActivity();
-        boolean firstPublicEvaluation = SharedPreferencesHelper.checkFirstPublicEvaluation(getActivity());
-        if (firstPublicEvaluation) {
-            AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-            //alertDialog.setTitle(getResources().getString(R.string.session_discard));
-            alertDialog.setMessage(context.getResources().getString(R.string.firstPublicEvaluation));
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, context.getResources().getString(R.string.yes),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // go to register activity
-                            dialog.dismiss();
-
-                            FragmentManager fragmentManager = getFragmentManager();
-                            fragmentManager.popBackStack();
-
-                            Intent intent = new Intent(getActivity(), RegisterUser.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            getActivity().startActivity(intent);
-                            getActivity().finish();
-                        }
-                    });
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, context.getResources().getString(R.string.register_later),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-        }
 
 
         /**
@@ -187,10 +175,6 @@ public class ReviewSingleSessionNoPatient extends Fragment {
                         return true;
                     }
                 });
-
-
-
-
 
 
         // close session FAB

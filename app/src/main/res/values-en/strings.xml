@@ -119,7 +119,6 @@
     <string name="search_result">Search results</string>
     <string name="search_hint">Search hint</string>
     <string name="search_drugs">Type name of drug...</string>
-    <string name="scale_incomplete_leave_scale"></string>
     <string name="previous_records">Previous records</string>
     <string name="patients_history">Patients History</string>
     <string name="patient_sessions">Patient\'s sessions</string>
@@ -139,7 +138,6 @@
     <string name="btn_reset_password">Recover password</string>
     <string name="create_patient_error_process_number">You need to supply an hospitl process number</string>
     <string name="evaluations_disclaimer">To create a new Session, press the + button</string>
-    <string name="password"></string>
     <string name="patient_erase">Delete patient\'s profile</string>
     <string name="patient_erase_question">Do you wish to delete this patient?</string>
     <string name="patient_erase_snackbar">Patient deleted.</string>
@@ -147,7 +145,6 @@
     <string name="notes">Notes</string>
     <string name="no_sessions_history">You haven\'t evaluated any patient yet</string>
     <string name="no_sessions_for_patient">Patient was not yet evaluated</string>
-    <string name="new_patient_save"></string>
     <string name="help_evaluations_description">Consult previous evaluations, you can search by date.</string>
     <string name="help_cga">Comprehensive Geriatric Assessment</string>
     <string name="hello_blank_fragment">Search drugs...</string>
@@ -159,8 +156,9 @@
     <string name="close">Close</string>
     <string name="sessionPDF">Session\'s PDF</string>
     <string name="label_cancel">Cancel</string>
-    <string name="label_email" translatable="false">Email</string>
     <string name="label_preview">Preview</string>
     <string name="label_print">Print</string>
     <string name="action_save">Save</string>
+    <string name="timeline">Timeline</string>
+    <string name="syncBackendQuestion">Do you wish patient infos to be synced between multiple devices? \\n (this setting may be changed later)</string>
 </resources>

@@ -11,10 +11,8 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.ScoringNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.ChoiceFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.QuestionFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
@@ -23,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
@@ -80,11 +79,13 @@ public class FirebaseHelper {
     /**
      * Firebase - patients table.
      */
-    public static DatabaseReference firebaseTablePatients;
+//    public static DatabaseReference firebaseTablePatients;
     /**
      * Firebase - sessions table.
      */
     public static DatabaseReference firebaseTableSessions;
+    public static DatabaseReference firebaseTablePatients ;
+
     /**
      * Firebase - scales table.
      */
@@ -106,11 +107,11 @@ public class FirebaseHelper {
     /**
      * Patients.
      */
-    public static ArrayList<PatientFirebase> patients = new ArrayList<>();
+//    public static ArrayList<PatientFirebase> patients = new ArrayList<>();
     /**
      * Favorite Patients.
      */
-    public static ArrayList<PatientFirebase> favoritePatients = new ArrayList<>();
+//    public static ArrayList<PatientFirebase> favoritePatients = new ArrayList<>();
     /**
      * Sessions.
      */
@@ -166,7 +167,7 @@ public class FirebaseHelper {
                     SharedPreferencesHelper.setScalesVersion(context, firScalesVersion);
                     // download new scales version
                     canLeaveLaunchScreen = false;
-                    FirebaseStorageHelper.downloadScales(context, firebaseTablePublic);
+                    FirebaseStorageHelper.getInstance().downloadScales(context, firebaseTablePublic);
                 } else {
                     // same version - no need to donwload
                     Scales.scales.clear();
@@ -192,7 +193,7 @@ public class FirebaseHelper {
                     Log.d("CriteriaVersion", "Updating criteria version to " + firCriteriaVersion);
                     SharedPreferencesHelper.setCriteriaVersion(context, firCriteriaVersion);
                     // download new criteria version
-                    FirebaseStorageHelper.downloadCriteria(context);
+                    FirebaseStorageHelper.getInstance().downloadCriteria(context);
                 } else {
                     // same version - no need to donwload
                     startCriteria.clear();
@@ -328,8 +329,10 @@ public class FirebaseHelper {
         PRESCRIPTIONS = userArea + "/prescriptions";
         CHOICES = userArea + "/choices";
 
+        mFirebaseInstance = FirebaseDatabase.getInstance();
 
-        firebaseTablePatients = mFirebaseInstance.getReference(FirebaseHelper.PATIENTS);
+
+        firebaseTablePatients   = mFirebaseInstance.getReference(FirebaseHelper.PATIENTS);
         firebaseTableSessions = mFirebaseInstance.getReference(FirebaseHelper.SESSIONS);
         firebaseTableScales = mFirebaseInstance.getReference(FirebaseHelper.SCALES);
         firebaseTableQuestions = mFirebaseInstance.getReference(FirebaseHelper.QUESTIONS);
@@ -337,8 +340,8 @@ public class FirebaseHelper {
         firebaseTableChoices = mFirebaseInstance.getReference(FirebaseHelper.CHOICES);
 
         // fetch all data from firebase
-        FirebaseDatabaseHelper.fetchPatients();
-        FirebaseDatabaseHelper.fetchFavoritePatients();
+//        FirebaseDatabaseHelper.fetchPatients();
+//        FirebaseDatabaseHelper.fetchFavoritePatients();
         FirebaseDatabaseHelper.fetchSessions();
         FirebaseDatabaseHelper.fetchScales();
         FirebaseDatabaseHelper.fetchQuestions();

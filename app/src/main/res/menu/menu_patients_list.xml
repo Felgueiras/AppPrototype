@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Tutorial.Tabs">
+
+
+    <item
+        android:id="@+id/sendToBackEnd"
+        android:icon="@drawable/ic_star_border_white_24dp"
+        android:title="Enviar pacientes "
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/getFromBackEnd"
+        android:icon="@drawable/ic_star_border_white_24dp"
+        android:title="Download pacientes "
+        app:showAsAction="never"/>
+</menu>

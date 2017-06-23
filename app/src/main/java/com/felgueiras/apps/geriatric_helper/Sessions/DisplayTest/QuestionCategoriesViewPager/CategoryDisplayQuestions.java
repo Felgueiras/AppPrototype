@@ -123,8 +123,7 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
                     .child("images/" + currentQuestionNonDB.getImage());
 
             try {
-                // TODO get file suffix
-                final File imageFile = File.createTempFile("photo", "png");
+                final File imageFile = File.createTempFile("photoDownloaded", "png");
                 storageRef.getFile(imageFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {

@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.EmptyStateFragment;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -45,13 +45,12 @@ public class PatientsFavoriteMain extends Fragment {
     }
 
 
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
 
         // get the patients - filter to display only favorites
-        ArrayList<PatientFirebase> favoritePatients = FirebaseDatabaseHelper.getFavoritePatients();
+        ArrayList<PatientFirebase> favoritePatients = PatientsManagement.getInstance().getFavoritePatients(getActivity());
         System.out.println("Empty? " + favoritePatients.isEmpty());
 
         FragmentManager fragmentManager = getChildFragmentManager();
@@ -66,7 +65,6 @@ public class PatientsFavoriteMain extends Fragment {
             fragmentManager.beginTransaction()
                     .replace(R.id.favorite_patients_frame_layout, fragment)
                     .commit();
-
 
         } else {
             Fragment fragment = new PatientsFavoriteFragment();

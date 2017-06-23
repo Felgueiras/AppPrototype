@@ -76,7 +76,7 @@
         android:text="@string/cga_guide"/>
 
 
-    <!--Settings-->
+    <!--SettingsPrivate-->
     <Button
         android:layout_margin="5dp"
 

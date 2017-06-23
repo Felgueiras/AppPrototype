@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.PrescriptionAllDrugs;
-import com.felgueiras.apps.geriatric_helper.Prescription.Beers.BeersCriteriaFragment;
+import com.felgueiras.apps.geriatric_helper.Prescription.Beers.PrescriptionBeersCriteriaFragment;
 import com.felgueiras.apps.geriatric_helper.Prescription.Start.PrescriptionStartCriteriaFragment;
 import com.felgueiras.apps.geriatric_helper.Prescription.Stopp.PrescriptionStoppCriteriaFragment;
 import com.felgueiras.apps.geriatric_helper.R;
@@ -66,7 +66,7 @@ public class PrescriptionMainFragment extends Fragment {
                                 fragment = new PrescriptionStoppCriteriaFragment();
                                 break;
                             case R.id.drugs_beers:
-                                fragment = new BeersCriteriaFragment();
+                                fragment = new PrescriptionBeersCriteriaFragment();
                                 break;
                         }
 

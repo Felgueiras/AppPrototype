@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
@@ -61,8 +62,8 @@ public class ReviewSingleSessionWithPatient extends Fragment {
         // get Session and Patient
         session = (SessionFirebase) args.getSerializable(SESSION);
 
-        if (FirebaseDatabaseHelper.getPatientFromSession(session) != null) {
-            getActivity().setTitle(FirebaseDatabaseHelper.getPatientFromSession(session).getName() + " - " +
+        if (PatientsManagement.getInstance().getPatientFromSession(session, getActivity()) != null) {
+            getActivity().setTitle(PatientsManagement.getInstance().getPatientFromSession(session, getActivity()).getName() + " - " +
                     DatesHandler.dateToStringWithoutHour(new Date(session.getDate())));
         } else {
             getActivity().setTitle(DatesHandler.dateToStringWithoutHour(new Date(session.getDate())));
@@ -168,7 +169,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-        inflater.inflate(R.menu.menu_patient_session, menu);
+        inflater.inflate(R.menu.menu_review_session_with_patient, menu);
     }
 
     @Override
@@ -188,7 +189,8 @@ public class ReviewSingleSessionWithPatient extends Fragment {
                                 String tag = backEntry.getName();
 
                                 fragmentManager.popBackStack();
-                                PatientFirebase patient = FirebaseDatabaseHelper.getPatientFromSession(session);
+                                PatientFirebase patient = PatientsManagement.getInstance().getPatientFromSession(session,
+                                        getActivity());
                                 dialog.dismiss();
 
                                 DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
@@ -213,7 +215,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
 //                                        .replace(R.id.current_fragment, fragment)
 //                                        .commit();
 
-                                FirebaseDatabaseHelper.deleteSession(session);
+                                FirebaseDatabaseHelper.deleteSession(session, getActivity());
                             }
                         });
                 alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
@@ -225,12 +227,31 @@ public class ReviewSingleSessionWithPatient extends Fragment {
                 alertDialog.show();
                 break;
             case R.id.createPDF:
-                // create a PDF of the session for printing
-                new SessionPDF(session).createSessionPdf(getActivity());
+                // prompt if user information is to be added to the PDF
+                alertDialog = new AlertDialog.Builder(getActivity()).create();
+//                alertDialog.setTitle(getResources().getString(R.string.session_erase));
+                alertDialog.setMessage("Deseja incluir dados do paciente no PDF?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string.yes),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                new SessionPDF(session).createSessionPdf(getActivity(), true);
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                new SessionPDF(session).createSessionPdf(getActivity(), false);
+
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+
                 break;
             case R.id.addNotes:
                 // edit notes for this session
-                new SessionNoteshandler(getActivity(),session).editNotes();
+                new SessionNoteshandler(getActivity(), session).editNotes();
 
         }
         return true;

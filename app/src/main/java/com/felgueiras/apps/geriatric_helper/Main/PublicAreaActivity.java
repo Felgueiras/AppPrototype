@@ -21,8 +21,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublic;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.Introduction.MyIntro;
@@ -59,6 +61,11 @@ public class PublicAreaActivity extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         // user already logged in
         if (auth.getCurrentUser() != null) {
+
+            // load initial list of patients
+            FirebaseHelper.initializeFirebase();
+
+            PatientsManagement.loadInitialPatients(this);
             startActivity(new Intent(this, PrivateAreaActivity.class));
             finish();
         }

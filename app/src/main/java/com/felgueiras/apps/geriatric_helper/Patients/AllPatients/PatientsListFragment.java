@@ -24,14 +24,14 @@ import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.arlib.floatingsearchview.util.Util;
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
 import com.felgueiras.apps.geriatric_helper.Patients.AllPatients.FloatingSearch.DataHelper;
 import com.felgueiras.apps.geriatric_helper.Patients.AllPatients.FloatingSearch.PersonSuggestion;
-import com.felgueiras.apps.geriatric_helper.Patients.NewPatient.CreatePatient;
+import com.felgueiras.apps.geriatric_helper.Patients.NewPatient.CreatePatientFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientProfileFragment;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 
@@ -61,18 +61,6 @@ public class PatientsListFragment extends Fragment {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         mSearchView = (FloatingSearchView) view.findViewById(R.id.floating_search_view);
@@ -80,12 +68,25 @@ public class PatientsListFragment extends Fragment {
 
         setupFloatingSearch();
         setupResultsList();
-//        setupDrawer();
 
         super.onViewCreated(view, savedInstanceState);
     }
 
+    @Override
+    public void onResume() {
 
+
+        setupFloatingSearch();
+        setupResultsList();
+
+        Log.d("Patients","Resuming");
+
+        super.onResume();
+    }
+
+    /**
+     * Setup searching mechanism.
+     */
     private void setupFloatingSearch() {
         mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
 
@@ -128,7 +129,7 @@ public class PatientsListFragment extends Fragment {
             @Override
             public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
 
-                PersonSuggestion colorSuggestion = (PersonSuggestion) searchSuggestion;
+                PersonSuggestion person = (PersonSuggestion) searchSuggestion;
                 // add to history
                 ((PersonSuggestion) searchSuggestion).setIsHistory(true);
 //                DataHelper.findColors(getActivity(), colorSuggestion.getBody(),
@@ -153,7 +154,7 @@ public class PatientsListFragment extends Fragment {
                 Bundle args = new Bundle();
 //                args.putString("ACTION", holder.questionTextView.getText().toString());
 //                args.putString("TRANS_TEXT", patientTransitionName);
-                args.putSerializable(PatientProfileFragment.PATIENT, colorSuggestion.getPatient());
+                args.putSerializable(PatientProfileFragment.PATIENT, person.getPatient());
                 ((PrivateAreaActivity) getActivity()).replaceFragmentSharedElements(endFragment, args,
                         Constants.tag_view_patient_info_records,
                         null);
@@ -199,36 +200,6 @@ public class PatientsListFragment extends Fragment {
             }
         });
 
-
-        //handle menu clicks the same way as you would
-        //in a regular activity
-//        mSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
-//            @Override
-//            public void onActionMenuItemSelected(MenuItem item) {
-//
-//                if (item.getItemId() == R.id.action_change_colors) {
-//
-//                    mIsDarkSearchTheme = true;
-//
-//                    //demonstrate setting colors for items
-//                    mSearchView.setBackgroundColor(Color.parseColor("#787878"));
-//                    mSearchView.setViewTextColor(Color.parseColor("#e9e9e9"));
-//                    mSearchView.setHintTextColor(Color.parseColor("#e9e9e9"));
-//                    mSearchView.setActionMenuOverflowColor(Color.parseColor("#e9e9e9"));
-//                    mSearchView.setMenuItemIconColor(Color.parseColor("#e9e9e9"));
-//                    mSearchView.setLeftActionIconColor(Color.parseColor("#e9e9e9"));
-//                    mSearchView.setClearBtnColor(Color.parseColor("#e9e9e9"));
-//                    mSearchView.setDividerColor(Color.parseColor("#BEBEBE"));
-//                    mSearchView.setLeftActionIconColor(Color.parseColor("#e9e9e9"));
-//                } else {
-//
-//                    //just print action
-//                    Toast.makeText(getActivity().getApplicationContext(), item.getTitle(),
-//                            Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }
-//        });
 
         //use this listener to listen to menu clicks when app:floatingSearch_leftAction="showHome"
         mSearchView.setOnHomeActionClickListener(new FloatingSearchView.OnHomeActionClickListener() {
@@ -288,8 +259,11 @@ public class PatientsListFragment extends Fragment {
         });
     }
 
+    /**
+     * Show the list of results (original/filtered)
+     */
     private void setupResultsList() {
-        PatientCardPatientsList mSearchResultsAdapter = new PatientCardPatientsList(getActivity(), FirebaseDatabaseHelper.getPatients());
+        PatientCardPatientsList mSearchResultsAdapter = new PatientCardPatientsList(getActivity(), PatientsManagement.getInstance().getPatients(getActivity()));
         mSearchResultsList.setAdapter(mSearchResultsAdapter);
         mSearchResultsList.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -301,9 +275,6 @@ public class PatientsListFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_patients_list_persistent_search, container, false);
-
-        // get the patients
-//        ArrayList<PatientFirebase> patients = Patient.getAllPatients();
 
         // read arguments
         Bundle arguments = getArguments();
@@ -321,17 +292,10 @@ public class PatientsListFragment extends Fragment {
         // display card for each Patientndroid rec
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mSearchResultsList.setLayoutManager(mLayoutManager);
-//        mSearchResultsList.setItemAnimator(new DefaultItemAnimator());
         PatientCardPatientsList adapter = new PatientCardPatientsList(getActivity(), patients);
         mSearchResultsList.setAdapter(adapter);
 
         fastScroller.setRecyclerView(mSearchResultsList);
-
-//
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(),
-//                layoutManager.getOrientation());
-//        mSearchResultsList.addItemDecoration(dividerItemDecoration);
 
 
         // FAB
@@ -340,9 +304,9 @@ public class PatientsListFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                // create a new Patient - switch to CreatePatient Fragment
+                // create a new Patient - switch to CreatePatientFragment Fragment
                 Bundle args = new Bundle();
-                FragmentTransitions.replaceFragment(getActivity(), new CreatePatient(), args, Constants.tag_create_patient);
+                FragmentTransitions.replaceFragment(getActivity(), new CreatePatientFragment(), args, Constants.tag_create_patient);
             }
         });
 
@@ -383,6 +347,18 @@ public class PatientsListFragment extends Fragment {
         super.onPause();
         Constants.patientsListBundle = new Bundle();
         Constants.patientsListBundle.putParcelable(BUNDLE_RECYCLER_LAYOUT, mSearchResultsList.getLayoutManager().onSaveInstanceState());
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
     }
 }
 

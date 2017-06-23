@@ -39,7 +39,7 @@
                 android:icon="@drawable/ic_info_outline_black_24dp"
                 android:title="Sobre" />
             <item
-                android:id="@+id/settings"
+                android:id="@+id/settingsPublic"
                 android:icon="@drawable/ic_settings_black_24dp"
                 android:title="Definições" />
             <item

@@ -54,9 +54,12 @@ public class HelpSingleTopic extends Fragment {
             case Constants.help_topic_prescriptions:
                 text = FirebaseRemoteConfig.getString("help_precription_description",
                         "");
+                break;
             case Constants.help_topic_sessions:
                 text = FirebaseRemoteConfig.getString("help_sessions_description",
                         "");
+                break;
+
             case Constants.help_topic_cga_guide:
                 text = FirebaseRemoteConfig.getString("help_cga_guide_description",
                         "");

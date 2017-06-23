@@ -1,7 +1,6 @@
 package com.felgueiras.apps.geriatric_helper.Sessions.AllAreas;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -28,6 +27,7 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionHelper;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +39,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Create a new private CGA.
@@ -94,7 +95,7 @@ public class CGAPrivate extends Fragment {
         if (sessionID != null) {
             // get session by ID
             session = FirebaseDatabaseHelper.getSessionByID(sessionID);
-            patient = FirebaseDatabaseHelper.getPatientFromSession(session);
+            patient = PatientsManagement.getInstance().getPatientFromSession(session, getActivity());
             // create a new Fragment to hold info about the Patient
             if (patient != null) {
                 // set the PATIENT for this session
@@ -214,52 +215,54 @@ public class CGAPrivate extends Fragment {
                     patientSessions.add(sessions);
                 }
 
-                // sort by date descending
-                Collections.sort(patientSessions, new Comparator<SessionFirebase>() {
-                    public int compare(SessionFirebase o1, SessionFirebase o2) {
-                        return new Date(o2.getDate()).compareTo(new Date(o1.getDate()));
-                    }
-                });
 
-                SessionFirebase previousSession = patientSessions.get(0);
+                if (patientSessions.size() > 0) {
+                    // sort by date descending
+                    Collections.sort(patientSessions, new Comparator<SessionFirebase>() {
+                        public int compare(SessionFirebase o1, SessionFirebase o2) {
+                            return new Date(o2.getDate()).compareTo(new Date(o1.getDate()));
+                        }
+                    });
+                    SessionFirebase previousSession = patientSessions.get(0);
 
 
-                boolean previousSessionContainsNotes = false;
-                // check if session has notes
-                if (previousSession.getNotes() != null) {
-                    previousSessionContainsNotes = true;
-                }
-                // check if any scale from the session contains notes
-                ArrayList<GeriatricScaleFirebase> scalesPreviousSession = FirebaseDatabaseHelper.getScalesFromSession(previousSession);
-                for (GeriatricScaleFirebase scale : scalesPreviousSession) {
-                    if (scale.getNotes() != null) {
+                    boolean previousSessionContainsNotes = false;
+                    // check if session has notes
+                    if (previousSession.getNotes() != null) {
                         previousSessionContainsNotes = true;
                     }
-                }
-                if (previousSessionContainsNotes) {
-                    // display an alert with the notes from previous session
-                    AlertDialog.Builder showPreviousSessionNotes = new AlertDialog.Builder(getActivity());
-                    showPreviousSessionNotes.setTitle("Notas da última sessão");
-                    String alertMessage = "";
-                    alertMessage += previousSession.getNotes();
-
-                    // get session's scales -> access their notes
+                    // check if any scale from the session contains notes
+                    ArrayList<GeriatricScaleFirebase> scalesPreviousSession = FirebaseDatabaseHelper.getScalesFromSession(previousSession);
                     for (GeriatricScaleFirebase scale : scalesPreviousSession) {
                         if (scale.getNotes() != null) {
-                            alertMessage += "\n" + scale.getScaleName() + " - " + scale.getNotes();
+                            previousSessionContainsNotes = true;
                         }
                     }
-                    showPreviousSessionNotes.setMessage(alertMessage);
-                    // check notes for each scale
-                    showPreviousSessionNotes.setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                    if (previousSessionContainsNotes) {
+                        // display an alert with the notes from previous session
+                        AlertDialog.Builder showPreviousSessionNotes = new AlertDialog.Builder(getActivity());
+                        showPreviousSessionNotes.setTitle("Notas da última sessão");
+                        String alertMessage = "";
+                        alertMessage += previousSession.getNotes();
 
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                        // get session's scales -> access their notes
+                        for (GeriatricScaleFirebase scale : scalesPreviousSession) {
+                            if (scale.getNotes() != null) {
+                                alertMessage += "\n" + scale.getScaleName() + " - " + scale.getNotes();
+                            }
                         }
+                        showPreviousSessionNotes.setMessage(alertMessage);
+                        // check notes for each scale
+                        showPreviousSessionNotes.setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
 
-                    });
-                    showPreviousSessionNotes.create();
-                    showPreviousSessionNotes.show();
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+
+                        });
+                        showPreviousSessionNotes.create();
+                        showPreviousSessionNotes.show();
+                    }
                 }
 
 
@@ -338,19 +341,11 @@ public class CGAPrivate extends Fragment {
             session.setPatientID(patient.getGuid());
 
             // add session to patient
-            patient.addSession(session.getGuid());
+            patient.addSession(session.getGuid(), getActivity());
         }
 
 
         // set date
-        Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
-        int month = now.get(Calendar.MONTH);
-        int day = now.get(Calendar.DAY_OF_MONTH);
-        int hour = now.get(Calendar.HOUR_OF_DAY);
-        int minute = now.get(Calendar.MINUTE);
-        Log.d("Session", "Year " + year + ",Month " + month + ", day " + day);
-//        session.setDate(DatesHandler.createCustomDate(year, month, day, hour, minute));
         session.setDate(date.getTime());
 
         // save Session

@@ -22,10 +22,6 @@ public class MyIntro extends AppIntro {
         showStatusBar(false);
         showSkipButton(false);
 
-        // Turn vibration on and set intensity
-        // You will need to add VIBRATE permission in Manifest file
-        //setVibrate(true);
-        //setVibrateIntensity(30);
 
         //Add animation to the intro slider
         setDepthAnimation();

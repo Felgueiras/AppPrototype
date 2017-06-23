@@ -21,15 +21,23 @@ import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMainFragment;
 import com.felgueiras.apps.geriatric_helper.R;
-import com.felgueiras.apps.geriatric_helper.Settings;
+import com.felgueiras.apps.geriatric_helper.Settings.SettingsPrivate;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Display the list of Patients to view them or select one of them.
  */
 public class PrivateAreaMainFragment extends Fragment {
+
+    @BindView(R.id.patients) Button patients;
+    @BindView(R.id.sessions) Button sessions;
+    @BindView(R.id.prescription)   Button prescriptions;
+    @BindView(R.id.cga_guide)    Button cgaGuide;
+    @BindView(R.id.settings)    Button settings;
+    @BindView(R.id.help)    Button help;
+    @BindView(R.id.app_icon)    ImageView mImageView;
 
 
 
@@ -78,7 +86,7 @@ public class PrivateAreaMainFragment extends Fragment {
                     navigationView.getMenu().getItem(Constants.menu_positions_help).setChecked(true);
                     break;
                 case R.id.settings:
-                    Intent i = new Intent(getActivity(), Settings.class);
+                    Intent i = new Intent(getActivity(), SettingsPrivate.class);
                     navigationView.getMenu().getItem(Constants.menu_positions_settings).setChecked(true);
                     getActivity().startActivity(i);
                     return;
@@ -90,20 +98,7 @@ public class PrivateAreaMainFragment extends Fragment {
     };
 
 
-    @InjectView(R.id.patients)
-    Button patients;
-    @InjectView(R.id.sessions)
-    Button sessions;
-    @InjectView(R.id.prescription)
-    Button prescriptions;
-    @InjectView(R.id.cga_guide)
-    Button cgaGuide;
-    @InjectView(R.id.settings)
-    Button settings;
-    @InjectView(R.id.help)
-    Button help;
-    @InjectView(R.id.app_icon)
-    ImageView mImageView;
+
 
 
 
@@ -118,12 +113,10 @@ public class PrivateAreaMainFragment extends Fragment {
         getActivity().setTitle(getResources().getString(R.string.tab_personal_area));
 
 
-
-
         // Inflate the layout for this fragment
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         View view = inflater.inflate(R.layout.private_area_main_page, container, false);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this,view);
 
         /**
          * Fetch Firebase data.

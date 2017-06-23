@@ -15,17 +15,19 @@ import android.view.MenuItem;
 import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.AboutFragment;
 import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideMainFragment;
 import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.HelpMainFragment;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublic;
 import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.SendFeedback;
-import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.LoginFragmentFirebase;
-import com.felgueiras.apps.geriatric_helper.Settings;
+import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.LoginFragment;
+import com.felgueiras.apps.geriatric_helper.Settings.SettingsPrivate;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMainFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
+import com.felgueiras.apps.geriatric_helper.Settings.SettingsPublic;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -34,12 +36,12 @@ import com.google.firebase.auth.FirebaseAuth;
 public class DrawerItemClickListener implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private final FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
     private final DrawerLayout drawer;
     private final Activity context;
 
     public DrawerItemClickListener(Activity context, FragmentManager fragmentManager, DrawerLayout drawer) {
-        this.fragmentManager = fragmentManager;
+        this.fragmentManager = BackStackHandler.getFragmentManager();
         this.drawer = drawer;
         this.context = context;
 
@@ -50,15 +52,6 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        // ToolbarHelper.hideBackButton(context);
-
-//        if (id == R.id.options) {
-//            Intent i = new Intent(context, Settings.class);
-//            context.startActivity(i);
-//            return true;
-//        }
-
-
         Fragment endFragment = null;
 
         if (id == R.id.access_personal_area) {
@@ -67,7 +60,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             if (sessionID != null) {
                 SharedPreferencesHelper.resetPublicSession(context, sessionID);
             }
-            endFragment = new LoginFragmentFirebase();
+            endFragment = new LoginFragment();
 
         } else if (id == R.id.cga_public) {
             /**
@@ -98,12 +91,12 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             endFragment = new AboutFragment();
         } else if (id == R.id.cga_guide) {
             endFragment = new CGAGuideMainFragment();
-        }
-//        else if (id == R.id.transfer_db) {
-//            endFragment = new TransferDB();
-//        }
-        else if (id == R.id.settings) {
-            Intent i = new Intent(context, Settings.class);
+        } else if (id == R.id.settingsPublic) {
+            Intent i = new Intent(context, SettingsPublic.class);
+            context.startActivity(i);
+            return true;
+        } else if (id == R.id.settingsPrivate) {
+            Intent i = new Intent(context, SettingsPrivate.class);
             context.startActivity(i);
             return true;
         }
@@ -135,16 +128,9 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
                     });
             alertDialog.show();
         } else {
-            // add Exit transition
-
-//            Fragment startFragment = context.getFragmentManager().findFragmentById(R.id.current_fragment);
-//            startFragment.setExitTransition(TransitionInflater.from(context).inflateTransition(android.R.transition.fade));
-//            // add Enter transition
-//            endFragment.setEnterTransition(TransitionInflater.from(context).
-//                    inflateTransition(android.R.transition.fade));
-
             // empty back stack
-//            BackStackHandler.clearBackStack();
+            BackStackHandler.clearBackStack();
+            fragmentManager = BackStackHandler.getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.current_fragment, endFragment, "initial_tag")
                     .commit();

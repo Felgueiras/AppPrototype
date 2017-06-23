@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.AddPrescriptions.PatientPrescriptionsAddFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 
 /**
@@ -39,9 +40,9 @@ public class PatientPrescriptionsEmpty extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle args = new Bundle();
-                args.putSerializable(PatientPrescriptionAddMultiple.PATIENT, patient);
+                args.putSerializable(PatientPrescriptionsAddFragment.PATIENT, patient);
                 FragmentTransitions.replaceFragment(getActivity(),
-                        new PatientPrescriptionAddMultiple(),
+                        new PatientPrescriptionsAddFragment(),
                         args,
                         Constants.tag_add_prescription_to_patient);
             }

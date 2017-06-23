@@ -1,5 +1,7 @@
 package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -10,14 +12,14 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
@@ -27,12 +29,15 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFir
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.DatesHandler;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientNotes.PatientSessionsNotesFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientNotes.PatientNotesFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsEmpty;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsTimelineFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsEmpty;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsTimelineFragment;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.PatientTimelineFragmentGroupByDay;
+import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.PatientTimelineFragmentOriginal;
 import com.felgueiras.apps.geriatric_helper.Patients.Progress.ProgressFragment;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsFragment;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.util.ArrayList;
@@ -51,13 +56,27 @@ public class PatientProfileFragment extends Fragment {
     private Menu menu;
 
     Fragment defaultFragment;
-    private TextView patientBirthDate;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        Log.d("Profile","OnCreate");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("Profile","OnResume");
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("Profile","OnStop");
+
     }
 
     View view;
@@ -67,7 +86,7 @@ public class PatientProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-         view = inflater.inflate(R.layout.bottom_navigation_patient_profile, container, false);
+        view = inflater.inflate(R.layout.patient_profile, container, false);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -80,47 +99,91 @@ public class PatientProfileFragment extends Fragment {
 
         // get PATIENT
         patient = (PatientFirebase) bundle.getSerializable(PATIENT);
-//        ((PrivateAreaActivity)getActivity()).changeTitle(PATIENT.getName());
 
         getActivity().setTitle(patient.getName());
 
         // access Views
-        //TextView label = (TextView) view.findViewById(R.id.label);
-        patientBirthDate = (TextView) view.findViewById(R.id.patientAge);
+        final View patientInfo = view.findViewById(R.id.patientInfo);
+        final View separator = view.findViewById(R.id.separator);
+        TextView patientBirthDate = (TextView) view.findViewById(R.id.patientAge);
         TextView patientAddress = (TextView) view.findViewById(R.id.patientAddress);
-        ImageView patientPhoto = (ImageView) view.findViewById(R.id.patientPhoto);
-        Button patientProgress = (Button) view.findViewById(R.id.patientEvolution);
-//        Button erasePatient = (Button) view.findViewById(R.id.erasePatient);
         TextView processNumber = (TextView) view.findViewById(R.id.processNumber);
+        ImageButton hidePatientInfo = (ImageButton) view.findViewById(R.id.hidePatientInfo);
 
         // set Patient infos
-        //label.setText(PATIENT.getName());
         patientBirthDate.setText(DatesHandler.dateToStringWithoutHour(patient.getBirthDate()) + " - " +
                 patient.getAge() + " anos");
         patientAddress.setText("Morada: " + patient.getAddress());
         processNumber.setText("Processo nº " + patient.getProcessNumber());
-        //patientPhoto.setImageResource(PATIENT.getPicture());
-        switch (patient.getGender()) {
-            case Constants.MALE:
-                patientPhoto.setImageResource(R.drawable.male);
-                break;
-            case Constants.FEMALE:
-                patientPhoto.setImageResource(R.drawable.female);
-                break;
+        hidePatientInfo.bringToFront();
+        if(!Constants.patientInfoShow)
+        {
+            ((ImageButton) hidePatientInfo).setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+            patientInfo.setVisibility(View.GONE);
+            separator.animate().translationY(0);
+            hidePatientInfo.animate().translationY(0);
         }
 
 
-        // consult patient's progress
-        patientProgress.setOnClickListener(new View.OnClickListener() {
+        hidePatientInfo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                // reset the page
-                Constants.bottomNavigationPatientProgress = 0;
-                Bundle args = new Bundle();
-                args.putSerializable(ProgressFragment.PATIENT, patient);
-                FragmentTransitions.replaceFragment(getActivity(), new ProgressFragment(), args, Constants.tag_patient_progress);
+            public void onClick(final View v) {
+                if (patientInfo.getVisibility() == View.VISIBLE) {
+                    // slide up
+                    patientInfo.setAlpha(1.0f);
+                    v.animate().translationY(-patientInfo.getHeight());
+                    separator.animate().translationY(-patientInfo.getHeight()).alpha(1.0f);
+                    Constants.patientInfoShow = false;
+
+                    // Start the animation
+                    patientInfo.animate()
+                            .translationY(-patientInfo.getHeight())
+                            .alpha(0.0f)
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    // change icon
+                                    ((ImageButton) v).setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                                    patientInfo.setVisibility(View.GONE);
+                                    separator.animate().translationY(0);
+                                    v.animate().translationY(0);
+
+                                }
+                            });
+                } else {
+                    // slide down
+                    patientInfo.setVisibility(View.VISIBLE);
+                    Constants.patientInfoShow = true;
+
+
+                    // Start the animation
+                    patientInfo.animate()
+                            .translationY(0)
+                            .alpha(1.0f).setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            patientInfo.setVisibility(View.VISIBLE);
+                            ((ImageButton) v).setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+
+                        }
+                    });
+                }
+
             }
         });
+
+
+        //patientPhoto.setImageResource(PATIENT.getPicture());
+//        switch (patient.getGender()) {
+//            case Constants.MALE:
+//                patientPhoto.setImageResource(R.drawable.male);
+//                break;
+//            case Constants.FEMALE:
+//                patientPhoto.setImageResource(R.drawable.female);
+//                break;
+//        }
 
 
         /**
@@ -138,48 +201,65 @@ public class PatientProfileFragment extends Fragment {
         if (currentFragment != null)
             transaction.remove(currentFragment);
 
+        // put fragments in array
+        final ArrayList<Fragment> fragments = new ArrayList<>();
 
         final ArrayList<SessionFirebase> sessionsFromPatient = FirebaseDatabaseHelper.getSessionsFromPatient(patient);
 
-        // setup default fragment
-        switch (Constants.patientProfileBottomNavigation) {
-            case 0:
-                if (sessionsFromPatient.isEmpty()) {
-                    defaultFragment = new PatientSessionsEmpty();
-                    Bundle args = new Bundle();
-                    args.putSerializable(PatientSessionsEmpty.PATIENT, patient);
-                    args.putString(PatientSessionsEmpty.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
-                    defaultFragment.setArguments(args);
-                } else {
-                    defaultFragment = new PatientSessionsFragment();
-                    Bundle args = new Bundle();
-                    args.putSerializable(PatientSessionsFragment.PATIENT, patient);
-                    defaultFragment.setArguments(args);
-                }
-                break;
-            case 1:
-                defaultFragment = new PatientSessionsNotesFragment();
-                Bundle args = new Bundle();
-                args.putSerializable(PatientSessionsNotesFragment.PATIENT, patient);
-                defaultFragment.setArguments(args);
-                break;
-            case 2:
-                if (patient.getPrescriptionsIDS().size()==0 || patient.getPrescriptionsIDS()==null) {
-                    defaultFragment = new PatientPrescriptionsEmpty();
-                    args = new Bundle();
-                    args.putSerializable(PatientPrescriptionsEmpty.PATIENT, patient);
-                    args.putString(PatientPrescriptionsEmpty.MESSAGE, getResources().
-                            getString(R.string.no_prescriptions_for_patient));
-                    defaultFragment.setArguments(args);
-                } else {
-                    defaultFragment = new PatientPrescriptionsFragment();
-                    args = new Bundle();
-                    args.putSerializable(PatientPrescriptionsFragment.PATIENT, patient);
-                    defaultFragment.setArguments(args);
-                }
-                break;
 
+        for (int i = 0; i < 4; i++) {
+            Fragment frag = null;
+            Bundle args = null;
+            switch (i) {
+                case 0:
+                    if (sessionsFromPatient.isEmpty()) {
+                        frag = new PatientSessionsEmpty();
+                        args = new Bundle();
+                        args.putSerializable(PatientSessionsEmpty.PATIENT, patient);
+                        args.putString(PatientSessionsEmpty.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
+                        frag.setArguments(args);
+                    } else {
+                        frag = new PatientSessionsTimelineFragment();
+                        args = new Bundle();
+                        args.putSerializable(PatientSessionsTimelineFragment.PATIENT, patient);
+                        frag.setArguments(args);
+                    }
+                    break;
+                case 2:
+                    frag = new PatientNotesFragment();
+                    args = new Bundle();
+                    args.putSerializable(PatientNotesFragment.PATIENT, patient);
+                    frag.setArguments(args);
+                    break;
+                case 1:
+                    if (patient.getPrescriptionsIDS().size() == 0 || patient.getPrescriptionsIDS() == null) {
+                        frag = new PatientPrescriptionsEmpty();
+                        args = new Bundle();
+                        args.putSerializable(PatientPrescriptionsEmpty.PATIENT, patient);
+                        args.putString(PatientPrescriptionsEmpty.MESSAGE, getResources().
+                                getString(R.string.no_prescriptions_for_patient));
+                        frag.setArguments(args);
+                    } else {
+                        frag = new PatientPrescriptionsTimelineFragment();
+                        args = new Bundle();
+                        args.putSerializable(PatientPrescriptionsTimelineFragment.PATIENT, patient);
+                        frag.setArguments(args);
+                    }
+                    break;
+                case 3:
+                    frag = new PatientTimelineFragmentOriginal();
+                    args = new Bundle();
+                    args.putSerializable(PatientTimelineFragmentOriginal.PATIENT, patient);
+                    frag.setArguments(args);
+
+                    break;
+
+            }
+            fragments.add(frag);
         }
+
+
+        defaultFragment = fragments.get(Constants.patientProfileBottomNavigation);
 
 
         transaction.replace(R.id.frame_layout_bottom_navigation, defaultFragment);
@@ -191,50 +271,34 @@ public class PatientProfileFragment extends Fragment {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         // same item pressed
                         Fragment fragment = null;
-                        Bundle args = new Bundle();
+
 
                         switch (item.getItemId()) {
                             case R.id.patient_sessions:
-                                if (sessionsFromPatient.isEmpty()) {
-                                    fragment = new PatientSessionsEmpty();
-                                    args.putSerializable(PatientSessionsEmpty.PATIENT, patient);
-                                    args.putString(PatientSessionsEmpty.MESSAGE, getResources().getString(R.string.no_sessions_for_patient));
-                                    fragment.setArguments(args);
-                                } else {
-                                    fragment = new PatientSessionsFragment();
-                                    args = new Bundle();
-                                    args.putSerializable(PatientSessionsFragment.PATIENT, patient);
-                                    fragment.setArguments(args);
-                                }
+                                if (Constants.patientProfileBottomNavigation == 0)
+                                    return true;
                                 Constants.patientProfileBottomNavigation = 0;
                                 break;
-                            case R.id.patient_notes:
-                                fragment = new PatientSessionsNotesFragment();
-                                args = new Bundle();
-                                args.putSerializable(PatientSessionsNotesFragment.PATIENT, patient);
-                                fragment.setArguments(args);
-                                Constants.patientProfileBottomNavigation = 1;
-
-                                break;
                             case R.id.patient_prescriptions:
-                                if (patient.getPrescriptionsIDS().size()==0) {
-                                    fragment = new PatientPrescriptionsEmpty();
-                                    args = new Bundle();
-                                    args.putSerializable(PatientPrescriptionsEmpty.PATIENT, patient);
-                                    args.putString(PatientPrescriptionsEmpty.MESSAGE, getResources().
-                                            getString(R.string.no_prescriptions_for_patient));
-                                    fragment.setArguments(args);
-                                } else {
-                                    fragment = new PatientPrescriptionsFragment();
-                                    args = new Bundle();
-                                    args.putSerializable(PatientPrescriptionsFragment.PATIENT, patient);
-                                    fragment.setArguments(args);
-                                }
-                                Constants.patientProfileBottomNavigation = 2;
-
-
+                                if (Constants.patientProfileBottomNavigation == 1)
+                                    return true;
+                                Constants.patientProfileBottomNavigation = 1;
                                 break;
+                            case R.id.patient_notes:
+                                if (Constants.patientProfileBottomNavigation == 2)
+                                    return true;
+                                Constants.patientProfileBottomNavigation = 2;
+                                break;
+                            case R.id.patientTimeline:
+                                if (Constants.patientProfileBottomNavigation == 3)
+                                    return true;
+                                Constants.patientProfileBottomNavigation = 3;
+                                break;
+
+
                         }
+                        fragment = fragments.get(Constants.patientProfileBottomNavigation);
+
 
                         FragmentManager fragmentManager = getChildFragmentManager();
                         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -275,7 +339,7 @@ public class PatientProfileFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.favorite:
                 patient.setFavorite(!patient.isFavorite());
-                FirebaseDatabaseHelper.updatePatient(patient);
+                PatientsManagement.getInstance().updatePatient(patient, getActivity());
 
                 if (patient.isFavorite()) {
                     Snackbar.make(view, R.string.patient_favorite_add, Snackbar.LENGTH_LONG).show();
@@ -294,7 +358,7 @@ public class PatientProfileFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // remove sessions from PATIENT
-                                FirebaseDatabaseHelper.deletePatient(patient);
+                                PatientsManagement.getInstance().deletePatient(patient, getActivity());
                                 dialog.dismiss();
 
                                 DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
@@ -316,6 +380,13 @@ public class PatientProfileFragment extends Fragment {
                             }
                         });
                 alertDialog.show();
+                break;
+            case R.id.progress:
+                // reset the page
+                Bundle args = new Bundle();
+                args.putSerializable(ProgressFragment.PATIENT, patient);
+                FragmentTransitions.replaceFragment(getActivity(), new ProgressFragment(), args, Constants.tag_patient_progress);
+
                 break;
 
         }

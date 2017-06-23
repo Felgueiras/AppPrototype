@@ -30,7 +30,7 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.Prescription.ViewSingleDrugtInfo;
+import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionSingleDrugFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 
@@ -114,9 +114,9 @@ public class PrescriptionAllDrugs extends Fragment {
 
                 mLastQuery = searchSuggestion.getBody();
 
-                Fragment endFragment = new ViewSingleDrugtInfo();
+                Fragment endFragment = new PrescriptionSingleDrugFragment();
                 Bundle args = new Bundle();
-                args.putString(ViewSingleDrugtInfo.DRUG, colorSuggestion.getDrugName());
+                args.putString(PrescriptionSingleDrugFragment.DRUG, colorSuggestion.getDrugName());
                 FragmentTransitions.replaceFragment(getActivity(), endFragment, args, Constants.tag_view_drug_info);
 
             }
@@ -221,8 +221,8 @@ public class PrescriptionAllDrugs extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_drugs_list_persistent_search, container, false);
 
-        ArrayList<StoppCriteria> stoppGeneral = FirebaseStorageHelper.getStoppCriteria();
-        ArrayList<StartCriteria> startGeneral = FirebaseStorageHelper.getStartCriteria();
+        ArrayList<StoppCriteria> stoppGeneral = FirebaseStorageHelper.getInstance().getStoppCriteria();
+        ArrayList<StartCriteria> startGeneral = FirebaseStorageHelper.getInstance().getStartCriteria();
 
         // stopp
         final ArrayList<String> stoppCriteriaDrugs = StoppCriteria.getAllDrugsStopp(stoppGeneral);

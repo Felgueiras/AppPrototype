@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.CGAAreaPrivate;
 import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.CGAAreaPublic;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
@@ -178,7 +178,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
                     Fragment newFragment = new CGAAreaPrivate();
                     // add arguments
                     Bundle bundle = new Bundle();
-                    PatientFirebase patient = FirebaseDatabaseHelper.getPatientFromSession(session);
+                    PatientFirebase patient = PatientsManagement.getInstance().getPatientFromSession(session, context);
                     if (patient != null)
                         bundle.putSerializable(CGAAreaPrivate.PATIENT, patient);
 
@@ -196,7 +196,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
                     // add arguments
                     Bundle bundle = new Bundle();
 
-                    PatientFirebase patient = FirebaseDatabaseHelper.getPatientFromSession(session);
+                    PatientFirebase patient = PatientsManagement.getInstance().getPatientFromSession(session, context);
                     if (patient != null)
                         bundle.putSerializable(CGAAreaPublic.PATIENT, patient);
 

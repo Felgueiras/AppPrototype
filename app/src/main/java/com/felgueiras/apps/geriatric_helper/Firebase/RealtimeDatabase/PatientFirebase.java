@@ -1,5 +1,8 @@
 package com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase;
 
+import android.content.Context;
+
+import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
@@ -247,10 +250,10 @@ public class PatientFirebase implements Serializable {
     }
 
 
-    public void addSession(String sessionID) {
+    public void addSession(String sessionID, Context context) {
         sessionsIDS.add(sessionID);
         // update patient
-        FirebaseDatabaseHelper.updatePatient(this);
+        PatientsManagement.getInstance().updatePatient(this, context);
     }
 
     public ArrayList<String> getPrescriptionsIDS() {
@@ -262,9 +265,9 @@ public class PatientFirebase implements Serializable {
     }
 
 
-    public void addPrescription(String prescription) {
+    public void addPrescription(String prescription, Context context) {
         prescriptionsIDS.add(prescription);
         // update patient
-        FirebaseDatabaseHelper.updatePatient(this);
+        PatientsManagement.getInstance().updatePatient(this, context);
     }
 }
