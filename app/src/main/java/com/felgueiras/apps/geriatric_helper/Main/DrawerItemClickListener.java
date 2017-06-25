@@ -54,7 +54,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
 
         Fragment endFragment = null;
 
-        if (id == R.id.access_personal_area) {
+       /* if (id == R.id.access_personal_area) {
             // check if there is any on-going session
             String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(context);
             if (sessionID != null) {
@@ -62,7 +62,8 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             }
             endFragment = new LoginFragment();
 
-        } else if (id == R.id.cga_public) {
+        } else*/
+            if (id == R.id.cga_public) {
             /**
              * Check if there's an ongoing session.
              */

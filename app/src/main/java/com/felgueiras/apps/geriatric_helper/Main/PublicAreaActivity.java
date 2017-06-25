@@ -142,10 +142,11 @@ public class PublicAreaActivity extends AppCompatActivity {
                 //  Create a new boolean and preference and set it to true
                 boolean isFirstStart = finalSharedPreferences.getBoolean("firstStart", true);
                 //  If the activity has never started before...
-                if (isFirstStart) {
+                // TODO only first launch?
+//                if (isFirstStart) {
                     //  Launch app intro
-                    Intent i = new Intent(PublicAreaActivity.this, MyIntro.class);
-                    startActivity(i);
+                    /*Intent i = new Intent(PublicAreaActivity.this, MyIntro.class);
+                    startActivity(i);*/
                     //  Make a new preferences editor
                     SharedPreferences.Editor e = finalSharedPreferences.edit();
                     //  Edit preference to make it false because we don'checkFirstStart want this to run again
@@ -153,7 +154,7 @@ public class PublicAreaActivity extends AppCompatActivity {
                     e.apply();
                     // insert dummy data in the app
 //                    DatabaseOps.insertDummyData();
-                }
+//                }
             }
         });
         // Start the thread

@@ -14,9 +14,15 @@ public class MyIntro extends AppIntro {
     public void init(Bundle savedInstanceState) {
 
         //adding the three slides for introduction app you can ad as many you needed
+        // welcome to the App
         addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro1));
-        addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro2));
-        addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro3));
+        addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro_create_cga_session));
+        addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro_fill_session));
+        addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro_review));
+        addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro_modules));
+
+//        addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro2));
+//        addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro3));
 
         // Show and Hide Skip and Done buttons
         showStatusBar(false);

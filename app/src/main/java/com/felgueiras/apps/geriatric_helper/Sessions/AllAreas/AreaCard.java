@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
+
 
 /**
  * Create the Card for each of the Tests available
@@ -43,6 +49,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
     private final SessionFirebase session;
 
     private Activity context;
+    private TourGuide areaCardTourGUide;
 
 
     /**
@@ -71,6 +78,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
 
     /**
      * Constructor of the SessionCardEvaluationHistory
+     *
      * @param context       current Context
      * @param session
      * @param resuming      true if we are resuming a Session
@@ -127,6 +135,18 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
 //        } else {
 //            holder.cgaCompletion.setText("Todas as escalas foram preenchidas");
 //        }
+
+        // functional area
+        if (position == 1 && Constants.showTour) {
+            // create TourGuide on first area
+            areaCardTourGUide = TourGuide.init(context).with(TourGuide.Technique.Click)
+                    .setPointer(new Pointer())
+                    .setToolTip(new ToolTip().setTitle("Área").setDescription("Selecione esta área ")
+                            .setGravity(Gravity.BOTTOM | Gravity.CENTER))
+                    .setOverlay(new Overlay())
+                    .playOn(holder.name);
+        }
+
 
         holder.infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,6 +231,11 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
                     transaction.addToBackStack(Constants.tag_display_single_area_public).commit();
                 }
 
+                // close TourGuide
+                if (areaCardTourGUide != null) {
+                    areaCardTourGUide.cleanUp();
+                }
+
             }
         });
 
@@ -235,6 +260,9 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
             AreaScalesAlreadyCompleted adapter = new AreaScalesAlreadyCompleted(context, scalesFromArea, session);
             holder.scalesIcons.setAdapter(adapter);
         }
+
+
+
 
     }
 

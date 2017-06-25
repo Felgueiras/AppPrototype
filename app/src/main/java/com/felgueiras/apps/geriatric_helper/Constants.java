@@ -120,12 +120,14 @@ public class Constants {
     public static final String cga_functional = "Estado funcional";
     public static final String cga_mental = "Estado mental";
     public static final String cga_social = "Situação social";
+    // TODO remove social area, because there are no scales
     public static String[] cga_areas = new String[]{
             cga_mental,
 //            cga_clinical,
             cga_functional,
             cga_nutritional,
-            cga_social};
+            cga_social
+    };
 
     /**
      * Clinical evaluation guidelines.
@@ -254,4 +256,11 @@ public class Constants {
     public static ArrayList<QuestionFirebase> publicQuestions = new ArrayList<>();
     public static int patientProfileBottomNavigation = 0;
     public static boolean patientInfoShow = true;
+
+    /**
+     * Tour guide constants
+     */
+    public static final int scalePosition = 1;
+    public static boolean showTourInitialScreen = true;
+    public static boolean showTour = true;
 }

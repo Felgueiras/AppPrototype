@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,7 +20,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
+import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionNoPatient;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
@@ -27,6 +31,13 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFir
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.R;
+
+import java.util.ArrayList;
+
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
 
 
 public class CGAAreaPublic extends Fragment {
@@ -43,6 +54,7 @@ public class CGAAreaPublic extends Fragment {
 
     boolean resuming = false;
     private SessionFirebase session;
+    private TourGuide finishSessionGuide;
 
 
     @Override
@@ -73,14 +85,33 @@ public class CGAAreaPublic extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(finalAdapter);
 
+        // check if the tutorial scale is filled up
+        // show guide to finish the session
+        ArrayList<GeriatricScaleNonDB> testsForArea = Scales.getScalesForArea(area);
+        GeriatricScaleNonDB scaleNonDB = testsForArea.get(Constants.scalePosition);
+        GeriatricScaleFirebase currentScale = FirebaseDatabaseHelper.getScaleFromSession(session, scaleNonDB.getScaleName());
+
+
 
         Button finishSession = (Button) view.findViewById(R.id.session_finish);
         finishSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finishSession();
+                if (finishSessionGuide!=null){
+                    finishSessionGuide.cleanUp();
+                }
             }
         });
+
+        if (currentScale.isCompleted()){
+            finishSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
+                    .setPointer(new Pointer())
+                    .setToolTip(new ToolTip().setTitle("Terminar Sessão").setDescription("Clique aqui para terminar a sessão")
+                            .setGravity(Gravity.TOP | Gravity.CENTER))
+                    .setOverlay(new Overlay())
+                    .playOn(finishSession);
+        }
 
         return view;
     }

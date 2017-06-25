@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,6 +38,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
+
 
 public class ReviewSingleSessionNoPatient extends Fragment {
 
@@ -48,6 +54,7 @@ public class ReviewSingleSessionNoPatient extends Fragment {
      * String that identifies the Session to be passed as argument.
      */
     public static String SESSION = "session";
+    private TourGuide finishReviewingSessionGuide;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -198,8 +205,20 @@ public class ReviewSingleSessionNoPatient extends Fragment {
                         .remove(currentFragment)
                         .replace(R.id.current_fragment, fragment)
                         .commit();
+
+                if (Constants.showTour){
+                    Constants.showTour = false;
+                    finishReviewingSessionGuide.cleanUp();
+                }
             }
         });
+
+        finishReviewingSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
+                .setPointer(new Pointer())
+                .setToolTip(new ToolTip().setTitle("Fechar").setDescription("Termine de rever a sessão")
+                        .setGravity(Gravity.TOP | Gravity.LEFT))
+                .setOverlay(new Overlay())
+                .playOn(closeFAB);
 
         return view;
     }

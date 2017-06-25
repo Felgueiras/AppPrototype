@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,11 @@ import com.felgueiras.apps.geriatric_helper.R;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
+
 
 /**
  * Create the Card for each of the Tests available
@@ -48,6 +54,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
     private Activity context;
     private ArrayList<GeriatricScaleNonDB> testsForArea;
+    private TourGuide scaleTourGuide;
 
 
     /**
@@ -102,13 +109,31 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
 
     @Override
-    public void onBindViewHolder(final ScaleCardHolder holder, int position) {
+    public void onBindViewHolder(final ScaleCardHolder holder, final int position) {
         // get constants
         ViewManager parentView = (ViewManager) holder.result_qualitative.getParent();
         // get scale nonDB
         GeriatricScaleNonDB scaleNonDB = testsForArea.get(position);
 
+
+
         final GeriatricScaleFirebase currentScale = FirebaseDatabaseHelper.getScaleFromSession(session, scaleNonDB.getScaleName());
+
+        if (position == Constants.scalePosition && Constants.showTour ) {
+
+            if (!currentScale.isCompleted()){
+                // click on the scale
+                scaleTourGuide = TourGuide.init(context).with(TourGuide.Technique.Click)
+                        .setPointer(new Pointer())
+                        .setToolTip(new ToolTip().setTitle("Escalas").setDescription("Selecione esta escala e preencha-a")
+                                .setGravity(Gravity.BOTTOM | Gravity.CENTER))
+                        .setOverlay(new Overlay())
+                        .playOn(holder.name);
+            }
+
+
+        }
+
 
 //        String testCompletionNotSelected = context.getResources().getString(R.string.test_not_selected);
         String testCompletionSelectedIncomplete = context.getResources().getString(R.string.test_incomplete);
@@ -215,6 +240,11 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                 FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
                 transaction.replace(R.id.current_fragment, newFragment);
                 transaction.addToBackStack(Constants.tag_display_session_scale).commit();
+
+                if (position == 1 && Constants.showTour ) {
+                    // close TourGuide
+                    scaleTourGuide.cleanUp();
+                }
             }
         });
 

@@ -23,12 +23,19 @@ import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.RegisterActivity;
 import com.felgueiras.apps.geriatric_helper.R;
 
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
+
 
 /**
  * Display info about CGA and allow to create a new CGA session (public).
  */
 public class CGAPublicInfo extends Fragment {
 
+
+    private TourGuide createSessionGuide;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +74,9 @@ public class CGAPublicInfo extends Fragment {
                  */
                 Activity context = getActivity();
                 boolean firstPublicEvaluation = SharedPreferencesHelper.checkFirstPublicEvaluation(getActivity());
-                if (firstPublicEvaluation) {
+
+                // TODO use in later versions
+                /*if (firstPublicEvaluation) {
                     AlertDialog alertDialog = new AlertDialog.Builder(context).create();
                     //alertDialog.setTitle(getResources().getString(R.string.session_discard));
                     alertDialog.setMessage(context.getResources().getString(R.string.firstPublicEvaluation));
@@ -93,10 +102,15 @@ public class CGAPublicInfo extends Fragment {
                                 }
                             });
                     alertDialog.show();
-                } else {
-                    SharedPreferencesHelper.unlockSessionCreation(getActivity());
-                    FragmentTransitions.replaceFragment(getActivity(), new CGAPublic(), null, Constants.tag_cga_public);
-                }
+                } else {*/
+
+                SharedPreferencesHelper.unlockSessionCreation(getActivity());
+                FragmentTransitions.replaceFragment(getActivity(), new CGAPublic(), null, Constants.tag_cga_public);
+//                }
+
+                // remove tutorial
+                if (createSessionGuide != null)
+                    createSessionGuide.cleanUp();
 
 
             }
@@ -116,6 +130,22 @@ public class CGAPublicInfo extends Fragment {
                 FragmentTransitions.replaceFragment(getActivity(), new HelpMainFragment(), null, Constants.more_info_clicked);
             }
         });
+
+
+        if (Constants.showTourInitialScreen)
+        {
+            // TourGuide
+
+            createSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
+                    .setPointer(new Pointer())
+                    .setToolTip(new ToolTip().setTitle("Welcome!").setDescription("Clique aqui para iniciar uma nova sessão "))
+                    .setOverlay(new Overlay())
+                    .playOn(startSession);
+
+            Constants.showTourInitialScreen = false;
+        }
+
+
         return view;
     }
 }

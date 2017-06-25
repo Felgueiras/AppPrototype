@@ -11,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +36,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -47,6 +53,7 @@ public class CGAPublic extends Fragment {
     boolean resuming = false;
 
     private SharedPreferences sharedPreferences;
+    private TourGuide finishSessionGuide;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -147,10 +154,17 @@ public class CGAPublic extends Fragment {
         AreaCard adapter = new AreaCard(getActivity(), session, resuming, Constants.SESSION_GENDER);
 
         Button finishSession = (Button) myInflatedView.findViewById(R.id.session_finish);
+        // TourGuide
+        /*finishSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
+                .setPointer(new Pointer())
+                .setToolTip(new ToolTip().setTitle("Welcome!").setDescription("Clique aqui para iniciar uma nova sessão ")
+                        .setGravity(Gravity.TOP | Gravity.CENTER))
+                .setOverlay(new Overlay())
+                .playOn(finishSession);*/
         finishSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finishSession();
+                //finishSession();
             }
         });
 
@@ -350,6 +364,10 @@ public class CGAPublic extends Fragment {
                         }
 
                         dialog.dismiss();
+
+                        // close TourGuide
+                        finishSessionGuide.cleanUp();
+
 
                         // Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
                     }
