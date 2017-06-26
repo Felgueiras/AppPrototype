@@ -206,19 +206,22 @@ public class ReviewSingleSessionNoPatient extends Fragment {
                         .replace(R.id.current_fragment, fragment)
                         .commit();
 
-                if (Constants.showTour){
-                    Constants.showTour = false;
+                if (SharedPreferencesHelper.showTour(getActivity())){
+                    SharedPreferencesHelper.disableTour(getActivity());
                     finishReviewingSessionGuide.cleanUp();
                 }
             }
         });
 
-        finishReviewingSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
-                .setPointer(new Pointer())
-                .setToolTip(new ToolTip().setTitle("Fechar").setDescription("Termine de rever a sessão")
-                        .setGravity(Gravity.TOP | Gravity.LEFT))
-                .setOverlay(new Overlay())
-                .playOn(closeFAB);
+        if (SharedPreferencesHelper.showTour(getActivity())){
+            finishReviewingSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
+                    .setPointer(new Pointer())
+                    .setToolTip(new ToolTip().setTitle("Fechar").setDescription("Termine de rever a sessão")
+                            .setGravity(Gravity.TOP | Gravity.LEFT))
+                    .setOverlay(new Overlay())
+                    .playOn(closeFAB);
+        }
+
 
         return view;
     }

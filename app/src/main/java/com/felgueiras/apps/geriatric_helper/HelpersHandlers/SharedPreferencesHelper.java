@@ -36,6 +36,12 @@ import static android.content.Context.MODE_PRIVATE;
 public class SharedPreferencesHelper {
 
 
+
+    public static boolean showTour(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        return sharedPreferences.getBoolean(context.getResources().getString(R.string.show_tour), true);
+    }
+
     public static String isThereOngoingPublicSession(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         return sharedPreferences.getString(context.getResources().getString(R.string.saved_session_public), null);
@@ -55,6 +61,13 @@ public class SharedPreferencesHelper {
 
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         sharedPreferences.edit().putString(context.getString(R.string.saved_session_public), null).apply();
+    }
+
+
+
+    public static void disableTour(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean(context.getString(R.string.show_tour), false).apply();
     }
 
 

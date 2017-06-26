@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.AboutFragment;
 import com.felgueiras.apps.geriatric_helper.CGAGuide.CGAGuideMainFragment;
 import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.HelpMainFragment;
@@ -30,6 +31,8 @@ import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHel
 import com.felgueiras.apps.geriatric_helper.Settings.SettingsPublic;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.Serializable;
+
 /**
  * Handle the selection of an item from the NaviagtionDrawer
  */
@@ -44,7 +47,6 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         this.fragmentManager = BackStackHandler.getFragmentManager();
         this.drawer = drawer;
         this.context = context;
-
     }
 
     @Override
@@ -63,7 +65,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             endFragment = new LoginFragment();
 
         } else*/
-            if (id == R.id.cga_public) {
+        if (id == R.id.cga_public) {
             /**
              * Check if there's an ongoing session.
              */
@@ -94,6 +96,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             endFragment = new CGAGuideMainFragment();
         } else if (id == R.id.settingsPublic) {
             Intent i = new Intent(context, SettingsPublic.class);
+            Constants.publicArea = (PublicAreaActivity) context;
             context.startActivity(i);
             return true;
         } else if (id == R.id.settingsPrivate) {

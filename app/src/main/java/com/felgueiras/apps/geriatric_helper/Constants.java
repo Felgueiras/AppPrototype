@@ -1,5 +1,6 @@
 package com.felgueiras.apps.geriatric_helper;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 
@@ -7,6 +8,7 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.ChoiceFire
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.QuestionFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
+import com.felgueiras.apps.geriatric_helper.Main.PublicAreaActivity;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -120,13 +122,12 @@ public class Constants {
     public static final String cga_functional = "Estado funcional";
     public static final String cga_mental = "Estado mental";
     public static final String cga_social = "Situação social";
-    // TODO remove social area, because there are no scales
     public static String[] cga_areas = new String[]{
             cga_mental,
 //            cga_clinical,
             cga_functional,
             cga_nutritional,
-            cga_social
+//            cga_social
     };
 
     /**
@@ -261,6 +262,5 @@ public class Constants {
      * Tour guide constants
      */
     public static final int scalePosition = 1;
-    public static boolean showTourInitialScreen = true;
-    public static boolean showTour = true;
+    public static PublicAreaActivity publicArea;
 }

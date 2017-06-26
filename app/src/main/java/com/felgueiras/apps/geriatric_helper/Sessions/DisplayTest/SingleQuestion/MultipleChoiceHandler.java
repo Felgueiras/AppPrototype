@@ -57,7 +57,6 @@ public class MultipleChoiceHandler implements RadioGroup.OnCheckedChangeListener
         adapter.questionAnswered(position);
 
         listView.smoothScrollToPosition(position+1);
-
     }
 
 

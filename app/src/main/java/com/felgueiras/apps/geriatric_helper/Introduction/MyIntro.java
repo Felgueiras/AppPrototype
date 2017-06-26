@@ -21,13 +21,9 @@ public class MyIntro extends AppIntro {
         addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro_review));
         addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro_modules));
 
-//        addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro2));
-//        addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro3));
-
         // Show and Hide Skip and Done buttons
         showStatusBar(false);
         showSkipButton(false);
-
 
         //Add animation to the intro slider
         setDepthAnimation();

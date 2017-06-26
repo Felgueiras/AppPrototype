@@ -130,20 +130,19 @@ public class CGAPublicInfo extends Fragment {
                 FragmentTransitions.replaceFragment(getActivity(), new HelpMainFragment(), null, Constants.more_info_clicked);
             }
         });
+        
 
-
-        if (Constants.showTourInitialScreen)
-        {
-            // TourGuide
-
-            createSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
-                    .setPointer(new Pointer())
-                    .setToolTip(new ToolTip().setTitle("Welcome!").setDescription("Clique aqui para iniciar uma nova sessão "))
-                    .setOverlay(new Overlay())
-                    .playOn(startSession);
-
-            Constants.showTourInitialScreen = false;
-        }
+        // TODO
+//        if (SharedPreferencesHelper.showTour(getActivity()))
+//        {
+//            // TourGuide
+//
+//            createSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
+//                    .setPointer(new Pointer())
+//                    .setToolTip(new ToolTip().setTitle("Criar Sessão AGG").setDescription("Clique aqui para iniciar uma nova sessão "))
+//                    .setOverlay(new Overlay())
+//                    .playOn(startSession);
+//        }
 
 
         return view;

@@ -22,6 +22,7 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.ScaleFragment;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
@@ -119,7 +120,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
         final GeriatricScaleFirebase currentScale = FirebaseDatabaseHelper.getScaleFromSession(session, scaleNonDB.getScaleName());
 
-        if (position == Constants.scalePosition && Constants.showTour ) {
+        if (position == Constants.scalePosition && SharedPreferencesHelper.showTour(context) ) {
 
             if (!currentScale.isCompleted()){
                 // click on the scale
@@ -241,7 +242,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                 transaction.replace(R.id.current_fragment, newFragment);
                 transaction.addToBackStack(Constants.tag_display_session_scale).commit();
 
-                if (position == 1 && Constants.showTour ) {
+                if (position == 1 && SharedPreferencesHelper.showTour(context) ) {
                     // close TourGuide
                     scaleTourGuide.cleanUp();
                 }

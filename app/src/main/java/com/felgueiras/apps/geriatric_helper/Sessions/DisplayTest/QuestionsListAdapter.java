@@ -843,6 +843,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                         }
                     }
                 }
+                // TODO add shading
                 builderSingle.setSingleChoiceItems(arrayAdapter, selectedIdx,
                         new DialogInterface.OnClickListener() {
                             @Override

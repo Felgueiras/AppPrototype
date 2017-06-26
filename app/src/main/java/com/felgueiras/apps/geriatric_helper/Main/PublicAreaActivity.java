@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,6 +18,8 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
 
@@ -46,10 +49,14 @@ public class PublicAreaActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     BackStackHandler handler;
+    private NavigationView navigationView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // save context
+        context = this;
 
         // support vector drawables on lower API
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -87,12 +94,12 @@ public class PublicAreaActivity extends AppCompatActivity {
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         Constants.toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new DrawerItemClickListener(this, getFragmentManager(), drawer));
         navigationView.getMenu().getItem(0).setChecked(true);
 
-
-
+        // show modules in navigation drawer
+        ModulesManagement.manageModulesPublicArea(context,navigationView);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,8 +116,7 @@ public class PublicAreaActivity extends AppCompatActivity {
 
         // initialize ActiveAndroid (DB)
         ActiveAndroid.initialize(getApplication());
-        // save context
-        context = this;
+
 
         // access SharedPreferences
         Log.d("Preferences", getString(R.string.sharedPreferencesTag));
@@ -142,11 +148,10 @@ public class PublicAreaActivity extends AppCompatActivity {
                 //  Create a new boolean and preference and set it to true
                 boolean isFirstStart = finalSharedPreferences.getBoolean("firstStart", true);
                 //  If the activity has never started before...
-                // TODO only first launch?
-//                if (isFirstStart) {
+                if (isFirstStart) {
                     //  Launch app intro
-                    /*Intent i = new Intent(PublicAreaActivity.this, MyIntro.class);
-                    startActivity(i);*/
+                    Intent i = new Intent(PublicAreaActivity.this, MyIntro.class);
+                    startActivity(i);
                     //  Make a new preferences editor
                     SharedPreferences.Editor e = finalSharedPreferences.edit();
                     //  Edit preference to make it false because we don'checkFirstStart want this to run again
@@ -154,7 +159,7 @@ public class PublicAreaActivity extends AppCompatActivity {
                     e.apply();
                     // insert dummy data in the app
 //                    DatabaseOps.insertDummyData();
-//                }
+                }
             }
         });
         // Start the thread
@@ -350,6 +355,12 @@ public class PublicAreaActivity extends AppCompatActivity {
             });
             alertDialog.show();
         }
+
+    }
+
+    public void updateDrawer() {
+        Log.d("PublicArea","Updating drawer...");
+        ModulesManagement.manageModulesPublicArea(context,navigationView);
 
     }
 }

@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.CGAAreaPrivate;
 import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.CGAAreaPublic;
@@ -137,7 +138,7 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
 //        }
 
         // functional area
-        if (position == 1 && Constants.showTour) {
+        if (position == 1 && SharedPreferencesHelper.showTour(context)) {
             // create TourGuide on first area
             areaCardTourGUide = TourGuide.init(context).with(TourGuide.Technique.Click)
                     .setPointer(new Pointer())

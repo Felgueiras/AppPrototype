@@ -164,7 +164,7 @@ public class CGAPublic extends Fragment {
         finishSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //finishSession();
+                finishSession();
             }
         });
 
@@ -366,7 +366,8 @@ public class CGAPublic extends Fragment {
                         dialog.dismiss();
 
                         // close TourGuide
-                        finishSessionGuide.cleanUp();
+                        if (finishSessionGuide != null)
+                            finishSessionGuide.cleanUp();
 
 
                         // Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();

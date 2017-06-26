@@ -1,21 +1,38 @@
 package com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout;
 
 import android.app.Fragment;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseRemoteConfig;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 
 public class HelpSingleTopic extends Fragment {
 
     public static final String TOPIC = "TOPIC";
     public static final String TOPIC_TEXT = "TOPIC_TEXT";
+    private VideoView vidView;
+    private ProgressBar bar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -23,6 +40,8 @@ public class HelpSingleTopic extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.help_topic_detail, container, false);
+        vidView = view.findViewById(R.id.myVideo);
+
 
         Bundle arguments = getArguments();
         String helpTopic = arguments.getString(TOPIC);
@@ -66,6 +85,11 @@ public class HelpSingleTopic extends Fragment {
                 break;
         }
         helpText.setText(text);
+
+        bar = (ProgressBar) view.findViewById(R.id.progressBar);
+
+        FirebaseStorageHelper.fetchVideoDisplay(vidView, bar, getActivity());
+
 
         return view;
     }

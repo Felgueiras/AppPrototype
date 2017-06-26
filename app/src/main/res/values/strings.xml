@@ -415,6 +415,8 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="hashString" translatable="false">hashString</string>
     <string name="moduleCriteria">moduleCriteria</string>
     <string name="modulePrescription">modulePrescription</string>
+    <string name="show_initial_tour">show_initial_tour</string>
+    <string name="show_tour">show_tour</string>
 
 
 </resources>

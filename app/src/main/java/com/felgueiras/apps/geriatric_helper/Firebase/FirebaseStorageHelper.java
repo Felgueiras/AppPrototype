@@ -1,17 +1,21 @@
 package com.felgueiras.apps.geriatric_helper.Firebase;
 
+import android.app.Activity;
 import android.app.MediaRouteButton;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
+import android.widget.VideoView;
 
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
@@ -810,4 +814,47 @@ public class FirebaseStorageHelper {
     }
 
 
+    public static void fetchVideoDisplay(final VideoView vidView, final ProgressBar bar, final Activity activity) {
+
+        // download help video from Firebase
+        bar.setVisibility(View.VISIBLE); //View.INVISIBLE, or View.GONE to hide it.
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        String fileName = "video_sample.mp4";
+        StorageReference storageRef = storage.getReferenceFromUrl(FirebaseHelper.firebaseURL).child("help_videos/" + fileName);
+
+        try {
+            final File localFile = File.createTempFile("video", "mp4");
+            storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                    // hide progress bar since loading has finished
+                    bar.setVisibility(View.GONE);
+
+                    vidView.setVisibility(View.VISIBLE);
+                    String path = localFile.getAbsolutePath();
+                    // show video from firebase
+                    vidView.setVideoURI(Uri.parse(path));
+
+                    // add media controls to the video
+                    MediaController vidControl = new MediaController(activity);
+                    vidControl.setAnchorView(vidView);
+                    vidView.setMediaController(vidControl);
+                    vidView.start();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    if (exception instanceof com.google.firebase.storage.StorageException) {
+                        // scale was not found for that language
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+    }
 }
