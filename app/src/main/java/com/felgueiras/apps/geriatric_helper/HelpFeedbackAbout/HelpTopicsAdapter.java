@@ -60,7 +60,6 @@ public class HelpTopicsAdapter extends BaseAdapter {
                 text = FirebaseRemoteConfig.getString("help_topic_cga_guide", "");
                 break;
         }
-        // TODO add video help topics
 
         helpTextView.setText(text);
         final String finalText = text;
