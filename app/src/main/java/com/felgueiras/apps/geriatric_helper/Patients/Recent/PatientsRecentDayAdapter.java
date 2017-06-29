@@ -46,7 +46,7 @@ public class PatientsRecentDayAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View singleDayInfo = inflater.inflate(R.layout.content_sessions_history, null);
-        TextView dateTextView = (TextView) singleDayInfo.findViewById(R.id.dateText);
+        TextView dateTextView = singleDayInfo.findViewById(R.id.dateText);
 
         // get the date
         Date currentDate = FirebaseDatabaseHelper.getDifferentSessionDates().get(position);
@@ -55,7 +55,7 @@ public class PatientsRecentDayAdapter extends BaseAdapter {
 
 
         // fill the RecyclerView
-        RecyclerView recyclerView = (RecyclerView) singleDayInfo.findViewById(R.id.recycler_view_sessions_day);
+        RecyclerView recyclerView = singleDayInfo.findViewById(R.id.recycler_view_sessions_day);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context,
                 layoutManager.getOrientation());

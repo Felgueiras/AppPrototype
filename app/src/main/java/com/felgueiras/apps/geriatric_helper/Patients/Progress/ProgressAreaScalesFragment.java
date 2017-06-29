@@ -53,7 +53,7 @@ public class ProgressAreaScalesFragment extends Fragment {
         View testCard = inflater.inflate(R.layout.content_progress_area, null);
 
 //        TextView areatextView = (TextView) testCard.findViewById(R.id.area);
-        RecyclerView scales = (RecyclerView) testCard.findViewById(R.id.area_scales);
+        RecyclerView scales = testCard.findViewById(R.id.area_scales);
 
 //        areatextView.setText(area);
 

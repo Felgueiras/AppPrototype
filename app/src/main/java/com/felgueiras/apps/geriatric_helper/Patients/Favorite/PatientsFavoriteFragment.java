@@ -36,7 +36,7 @@ public class PatientsFavoriteFragment extends Fragment {
         View view = inflater.inflate(R.layout.patients_grid, container, false);
 
 
-        gridView = (GridView) view.findViewById(R.id.patients_grid);
+        gridView = view.findViewById(R.id.patients_grid);
         ArrayList<PatientFirebase> favoritePatients = PatientsManagement.getInstance().getFavoritePatients(getActivity());
 
         adapter = new PatientCardFavorite(getActivity(), favoritePatients, this);

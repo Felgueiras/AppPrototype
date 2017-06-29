@@ -60,17 +60,17 @@ public class BeersCriteriaOrganSystem extends BaseExpandableListAdapter {
 
 
         // therapeutic category
-        TextView category = (TextView) childView.findViewById(R.id.therapeutic_category);
+        TextView category = childView.findViewById(R.id.therapeutic_category);
         // drugs list
-        TextView drugs = (TextView) childView.findViewById(R.id.drugs);
+        TextView drugs = childView.findViewById(R.id.drugs);
         // Reccomendation
-        TextView recommendation = (TextView) childView.findViewById(R.id.recommendation);
+        TextView recommendation = childView.findViewById(R.id.recommendation);
         // Rationale
-        TextView rationale = (TextView) childView.findViewById(R.id.rationale);
+        TextView rationale = childView.findViewById(R.id.rationale);
         // QE
-        TextView qualityOfEvidence = (TextView) childView.findViewById(R.id.qualityOfEvidence);
+        TextView qualityOfEvidence = childView.findViewById(R.id.qualityOfEvidence);
         // SR
-        TextView strengthOfRecommendation = (TextView) childView.findViewById(R.id.strengthOfRecommendation);
+        TextView strengthOfRecommendation = childView.findViewById(R.id.strengthOfRecommendation);
 
         // set the views
         category.setText(therapeuticCategory.getCategoryName());
@@ -116,7 +116,7 @@ public class BeersCriteriaOrganSystem extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_group, null);
         }
 
-        TextView lblListHeader = (TextView) convertView
+        TextView lblListHeader = convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);

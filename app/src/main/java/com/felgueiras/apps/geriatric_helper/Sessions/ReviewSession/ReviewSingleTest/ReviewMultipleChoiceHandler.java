@@ -87,7 +87,7 @@ public class ReviewMultipleChoiceHandler extends BaseAdapter implements AdapterV
         ChoiceNonDB currentChoice = choices.get(position);
         // create a Hilder
         Holder holder = new Holder();
-        holder.choiceText = (TextView) rowView.findViewById(R.id.choiceText);
+        holder.choiceText = rowView.findViewById(R.id.choiceText);
         // fill view with info
         String name = currentChoice.getName();
         String description = currentChoice.getDescription();

@@ -92,7 +92,7 @@ public class ScaleFragment extends Fragment {
             view = inflater.inflate(R.layout.content_display_single_test_bottom_buttons_public, container, false);
 
             // finish
-            Button finishSession = (Button) view.findViewById(R.id.session_finish);
+            Button finishSession = view.findViewById(R.id.session_finish);
             finishSession.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -105,8 +105,8 @@ public class ScaleFragment extends Fragment {
              */
             view = inflater.inflate(R.layout.content_display_single_test_bottom_buttons_private, container, false);
 
-            Button saveButton = (Button) view.findViewById(R.id.session_save);
-            Button cancelButton = (Button) view.findViewById(R.id.session_cancel);
+            Button saveButton = view.findViewById(R.id.session_save);
+            Button cancelButton = view.findViewById(R.id.session_cancel);
             saveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -125,8 +125,8 @@ public class ScaleFragment extends Fragment {
         }
 
         // populate the ListView
-        ListView testQuestions = (ListView) view.findViewById(R.id.testQuestions);
-        ProgressBar progress = (ProgressBar) view.findViewById(R.id.scale_progress);
+        ListView testQuestions = view.findViewById(R.id.testQuestions);
+        ProgressBar progress = view.findViewById(R.id.scale_progress);
         // create the adapter
         QuestionsListAdapter adapter = new QuestionsListAdapter(this.getActivity(), scaleNonDB, scale, progress, getChildFragmentManager(), testQuestions);
         testQuestions.setAdapter(adapter);

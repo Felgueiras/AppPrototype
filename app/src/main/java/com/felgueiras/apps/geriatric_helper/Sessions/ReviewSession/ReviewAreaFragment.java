@@ -49,7 +49,7 @@ public class ReviewAreaFragment extends Fragment {
 
         View areaCard = inflater.inflate(R.layout.content_review_area, null);
 
-        RecyclerView scales = (RecyclerView) areaCard.findViewById(R.id.area_scales);
+        RecyclerView scales = areaCard.findViewById(R.id.area_scales);
 
 
 //        String area = Constants.cga_areas[position];

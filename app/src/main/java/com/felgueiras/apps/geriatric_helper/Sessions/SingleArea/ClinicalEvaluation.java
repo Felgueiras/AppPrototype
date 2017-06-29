@@ -37,8 +37,8 @@ public class ClinicalEvaluation extends RecyclerView.Adapter<ClinicalEvaluation.
         public TestCardHolder(View view) {
             super(view);
             this.view = view;
-            field = (TextView) view.findViewById(R.id.field);
-            notes = (EditText) view.findViewById(R.id.notes);
+            field = view.findViewById(R.id.field);
+            notes = view.findViewById(R.id.notes);
         }
     }
 

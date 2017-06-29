@@ -253,8 +253,8 @@ public class PrescriptionAllDrugs extends Fragment {
 
 
         // fill the RecyclerView
-        mSearchResultsList = (RecyclerView) view.findViewById(R.id.drugs_recycler_view);
-        FastScroller fastScroller = (FastScroller) view.findViewById(R.id.fastscroll);
+        mSearchResultsList = view.findViewById(R.id.drugs_recycler_view);
+        FastScroller fastScroller = view.findViewById(R.id.fastscroll);
 
         // display card for each Patientndroid rec
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -272,8 +272,8 @@ public class PrescriptionAllDrugs extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
-        mSearchView = (FloatingSearchView) view.findViewById(R.id.floating_search_view);
-        mSearchResultsList = (RecyclerView) view.findViewById(R.id.drugs_recycler_view);
+        mSearchView = view.findViewById(R.id.floating_search_view);
+        mSearchResultsList = view.findViewById(R.id.drugs_recycler_view);
 
         setupFloatingSearch();
         setupResultsList();

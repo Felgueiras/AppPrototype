@@ -47,11 +47,11 @@ public class ScaleInfoHelper implements View.OnClickListener {
         View dialogView = inflater.inflate(R.layout.scale_info, null);
         dialogBuilder.setView(dialogView);
 
-        TextView scaleDescription = (TextView) dialogView.findViewById(R.id.scale_description);
+        TextView scaleDescription = dialogView.findViewById(R.id.scale_description);
         scaleDescription.setText(currentScale.getDescription());
 
         // create table with classification for this scale
-        TableLayout table = (TableLayout) dialogView.findViewById(R.id.scale_outcomes);
+        TableLayout table = dialogView.findViewById(R.id.scale_outcomes);
         GeriatricScaleNonDB test = Scales.getScaleByName(currentScale.getScaleName());
         fillTableScaleScoring(test, table);
 

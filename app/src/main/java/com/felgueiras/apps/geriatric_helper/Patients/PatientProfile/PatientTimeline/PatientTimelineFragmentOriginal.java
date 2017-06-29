@@ -60,7 +60,7 @@ public class PatientTimelineFragmentOriginal extends Fragment {
         View view = inflater.inflate(R.layout.timeline_general, container, false);
 
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        mRecyclerView = view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(getLinearLayoutManager());
         mRecyclerView.setHasFixedSize(true);
 

@@ -1,6 +1,5 @@
 package com.felgueiras.apps.geriatric_helper.HelpersHandlers;
 
-import android.annotation.SuppressLint;
 import android.text.format.DateUtils;
 import android.util.Log;
 

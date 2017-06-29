@@ -33,7 +33,7 @@ public class StoppSingleDrugInfo extends RecyclerView.Adapter<StoppSingleDrugInf
 
         public MyViewHolder(View view) {
             super(view);
-            drugIssues= (RecyclerView) view.findViewById(R.id.issues);
+            drugIssues= view.findViewById(R.id.issues);
         }
     }
 

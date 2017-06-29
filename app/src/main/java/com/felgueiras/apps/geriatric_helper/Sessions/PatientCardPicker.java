@@ -59,9 +59,9 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
 
         public MyViewHolder(View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.patientName);
-            icon = (ImageView) view.findViewById(R.id.patientIcon);
-            card = (RelativeLayout) view.findViewById(R.id.patientCard);
+            name = view.findViewById(R.id.patientName);
+            icon = view.findViewById(R.id.patientIcon);
+            card = view.findViewById(R.id.patientCard);
         }
     }
 
@@ -125,7 +125,7 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                                             Constants.tag_create_session_with_patient_from_session);
 //                                            Constants.tag_create_session_with_patient);
                                 } else {
-                                    DrawerLayout layout = (DrawerLayout) context.findViewById(R.id.drawer_layout);
+                                    DrawerLayout layout = context.findViewById(R.id.drawer_layout);
                                     Snackbar.make(layout, context.getString(R.string.picked_patient_session_created), Snackbar.LENGTH_SHORT).show();
                                     // add Patient to Session
                                     String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);

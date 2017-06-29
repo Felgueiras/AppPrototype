@@ -55,7 +55,7 @@ public class EvaluationsAllFragment extends Fragment implements Serializable {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sessions_history_grid, container, false);
         // fill the GridView
-        gridView = (GridView) view.findViewById(R.id.gridView);
+        gridView = view.findViewById(R.id.gridView);
         adapter = new SessionsAllDays(getActivity(), this);
         gridView.setAdapter(adapter);
 
@@ -155,7 +155,7 @@ public class EvaluationsAllFragment extends Fragment implements Serializable {
              * Filter by date.
              */
             ListAdapter adapter = new SessionsSingleDay(getActivity(), c.getTime().getTime());
-            GridView gridView = (GridView) getActivity().findViewById(R.id.gridView);
+            GridView gridView = getActivity().findViewById(R.id.gridView);
             gridView.setAdapter(adapter);
 
 //                sessionsFromPatient.remove(index);

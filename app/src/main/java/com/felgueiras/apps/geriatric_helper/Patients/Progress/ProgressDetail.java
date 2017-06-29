@@ -37,7 +37,7 @@ public class ProgressDetail extends Fragment {
         GeriatricScaleNonDB scaleInfo = (GeriatricScaleNonDB) arguments.getSerializable(SCALE_INFO);
 
         getActivity().setTitle(scaleInfo.getScaleName());
-        GraphView graphView = (GraphView) view.findViewById(R.id.graph_view);
+        GraphView graphView = view.findViewById(R.id.graph_view);
 
         ArrayList<GeriatricScaleFirebase> scaleInstances =
                 FirebaseDatabaseHelper.getScaleInstancesForPatient(FirebaseDatabaseHelper.getSessionsFromPatient(patient), scale);

@@ -31,7 +31,7 @@ public class HelpTopicsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         // setup views
         View view = inflater.inflate(R.layout.help_topic, parent, false);
-        TextView helpTextView = (TextView) view.findViewById(R.id.help_text);
+        TextView helpTextView = view.findViewById(R.id.help_text);
 
         //String helpText = context.getResources().getString(R.string.help_cga_description);
         final String helpTopic = Constants.help_topics[position];

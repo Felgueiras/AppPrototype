@@ -61,14 +61,14 @@ public class PatientSessionsTimelineFragment extends Fragment {
         View view = inflater.inflate(R.layout.patient_timeline, container, false);
 
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        mRecyclerView = view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(getLinearLayoutManager());
         mRecyclerView.setHasFixedSize(true);
 
         /**
          * Setup FABS
          */
-        FloatingActionButton fabAddSession = (FloatingActionButton) view.findViewById(R.id.patient_createSession);
+        FloatingActionButton fabAddSession = view.findViewById(R.id.patient_createSession);
         fabAddSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

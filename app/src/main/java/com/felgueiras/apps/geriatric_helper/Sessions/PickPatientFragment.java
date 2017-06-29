@@ -79,7 +79,7 @@ public class PickPatientFragment extends Fragment {
         ArrayList<PatientFirebase> patients = PatientsManagement.getInstance().getPatients(getActivity());
 
         // fill the RecyclerView
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
 
 
         pickBeforeSession = false;
@@ -95,7 +95,7 @@ public class PickPatientFragment extends Fragment {
 
 
         // FAB
-        final FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.patients_fab);
+        final FloatingActionButton fab = view.findViewById(R.id.patients_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

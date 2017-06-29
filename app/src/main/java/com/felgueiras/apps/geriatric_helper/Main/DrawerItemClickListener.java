@@ -22,7 +22,6 @@ import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPrivate;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.SendFeedback;
-import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.LoginFragment;
 import com.felgueiras.apps.geriatric_helper.Settings.SettingsPrivate;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMainFragment;
@@ -31,19 +30,17 @@ import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHel
 import com.felgueiras.apps.geriatric_helper.Settings.SettingsPublic;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.io.Serializable;
-
 /**
  * Handle the selection of an item from the NaviagtionDrawer
  */
-public class DrawerItemClickListener implements NavigationView.OnNavigationItemSelectedListener {
+class DrawerItemClickListener implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private FragmentManager fragmentManager;
     private final DrawerLayout drawer;
     private final Activity context;
 
-    public DrawerItemClickListener(Activity context, FragmentManager fragmentManager, DrawerLayout drawer) {
+    DrawerItemClickListener(Activity context, FragmentManager fragmentManager, DrawerLayout drawer) {
         this.fragmentManager = BackStackHandler.getFragmentManager();
         this.drawer = drawer;
         this.context = context;
@@ -65,6 +62,10 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
             endFragment = new LoginFragment();
 
         } else*/
+
+        /**
+         * Public area
+         */
         if (id == R.id.cga_public) {
             /**
              * Check if there's an ongoing session.
@@ -77,6 +78,7 @@ public class DrawerItemClickListener implements NavigationView.OnNavigationItemS
         } else if (id == R.id.prescription) {
             endFragment = new PrescriptionMainFragment();
         } else if (id == R.id.patients) {
+            // Patients
             String sessionID = SharedPreferencesHelper.isThereOngoingPrivateSession(context);
             if (sessionID != null)
                 endFragment = new CGAPrivate();

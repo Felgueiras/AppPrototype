@@ -32,7 +32,7 @@ public class CGAGuideAreaFragment extends Fragment {
         String area = args.getString(CGA_AREA);
         getActivity().setTitle(area);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.area_scales_recycler_view);
         CGAScaleAdapter adapter = new CGAScaleAdapter(getActivity(), area);
 
         // display the different scales to choose from this area

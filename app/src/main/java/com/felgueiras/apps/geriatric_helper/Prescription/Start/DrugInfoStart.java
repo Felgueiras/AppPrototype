@@ -36,7 +36,7 @@ public class DrugInfoStart extends Fragment {
             drugInfos = (ArrayList<PrescriptionStart>) bundle.getSerializable(DRUGS);
         }
 
-        ListView startList = (ListView) view.findViewById(R.id.start_drugs_list_view);
+        ListView startList = view.findViewById(R.id.start_drugs_list_view);
 
 
         ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_normal, R.id.drug_name,

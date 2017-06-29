@@ -47,10 +47,10 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
 
         public ScaleCardHolder(View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.scaleName);
-            bibliography = (TextView) view.findViewById(R.id.bibliography);
-            scaleInfo = (TextView) view.findViewById(R.id.scale_info);
-            scaleScoring = (TableLayout) view.findViewById(R.id.scale_scoring_table);
+            name = view.findViewById(R.id.scaleName);
+            bibliography = view.findViewById(R.id.bibliography);
+            scaleInfo = view.findViewById(R.id.scale_info);
+            scaleScoring = view.findViewById(R.id.scale_scoring_table);
             this.view = view;
         }
     }

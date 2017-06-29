@@ -79,14 +79,14 @@ public class CreatePatientFragment extends Fragment {
         getActivity().setTitle(getResources().getString(R.string.new_patient));
 
 
-        patientPhoto = (ImageView) view.findViewById(R.id.patientPhoto);
+        patientPhoto = view.findViewById(R.id.patientPhoto);
 
 
-        patientName = (EditText) view.findViewById(R.id.patientName);
-        patientAddress = (EditText) view.findViewById(R.id.addressText);
+        patientName = view.findViewById(R.id.patientName);
+        patientAddress = view.findViewById(R.id.addressText);
 
 
-        radioGroup = (RadioGroup) view.findViewById(R.id.myRadioGroup);
+        radioGroup = view.findViewById(R.id.myRadioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -100,14 +100,14 @@ public class CreatePatientFragment extends Fragment {
         });
 
         // birth date
-        day = (EditText) view.findViewById(R.id.birth_date_day);
-        month = (EditText) view.findViewById(R.id.birth_date_month);
-        year = (EditText) view.findViewById(R.id.birth_date_year);
+        day = view.findViewById(R.id.birth_date_day);
+        month = view.findViewById(R.id.birth_date_month);
+        year = view.findViewById(R.id.birth_date_year);
 
         // hospital process number
-        processNumber = (EditText) view.findViewById(R.id.processNumber);
+        processNumber = view.findViewById(R.id.processNumber);
 
-        Button savePatient = (Button) view.findViewById(R.id.saveButton);
+        Button savePatient = view.findViewById(R.id.saveButton);
         savePatient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

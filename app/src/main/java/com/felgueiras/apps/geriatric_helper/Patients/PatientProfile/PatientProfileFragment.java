@@ -34,7 +34,6 @@ import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPresc
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionsTimelineFragment;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsEmpty;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientSessions.PatientSessionsTimelineFragment;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.PatientTimelineFragmentGroupByDay;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientTimeline.PatientTimelineFragmentOriginal;
 import com.felgueiras.apps.geriatric_helper.Patients.Progress.ProgressFragment;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
@@ -105,10 +104,10 @@ public class PatientProfileFragment extends Fragment {
         // access Views
         final View patientInfo = view.findViewById(R.id.patientInfo);
         final View separator = view.findViewById(R.id.separator);
-        TextView patientBirthDate = (TextView) view.findViewById(R.id.patientAge);
-        TextView patientAddress = (TextView) view.findViewById(R.id.patientAddress);
-        TextView processNumber = (TextView) view.findViewById(R.id.processNumber);
-        ImageButton hidePatientInfo = (ImageButton) view.findViewById(R.id.hidePatientInfo);
+        TextView patientBirthDate = view.findViewById(R.id.patientAge);
+        TextView patientAddress = view.findViewById(R.id.patientAddress);
+        TextView processNumber = view.findViewById(R.id.processNumber);
+        ImageButton hidePatientInfo = view.findViewById(R.id.hidePatientInfo);
 
         // set Patient infos
         patientBirthDate.setText(DatesHandler.dateToStringWithoutHour(patient.getBirthDate()) + " - " +
@@ -118,7 +117,7 @@ public class PatientProfileFragment extends Fragment {
         hidePatientInfo.bringToFront();
         if(!Constants.patientInfoShow)
         {
-            ((ImageButton) hidePatientInfo).setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+            hidePatientInfo.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
             patientInfo.setVisibility(View.GONE);
             separator.animate().translationY(0);
             hidePatientInfo.animate().translationY(0);
@@ -189,7 +188,7 @@ public class PatientProfileFragment extends Fragment {
         /**
          * Setup bottom navigation.
          */
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) view.findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_navigation);
 
         /**
          * Default fragment.
@@ -361,7 +360,7 @@ public class PatientProfileFragment extends Fragment {
                                 PatientsManagement.getInstance().deletePatient(patient, getActivity());
                                 dialog.dismiss();
 
-                                DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+                                DrawerLayout layout = getActivity().findViewById(R.id.drawer_layout);
                                 Snackbar.make(layout, getResources().getString(R.string.patient_erase_snackbar), Snackbar.LENGTH_SHORT).show();
 
                                 BackStackHandler.getFragmentManager().popBackStack();

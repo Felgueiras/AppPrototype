@@ -22,7 +22,7 @@ public class EmptyStateFragment extends Fragment {
 
         Bundle bundle = getArguments();
         String messageToDisplay = bundle.getString(MESSAGE, "Empty state");
-        TextView emptyStateTextView = (TextView) view.findViewById(R.id.emptyStateText);
+        TextView emptyStateTextView = view.findViewById(R.id.emptyStateText);
         emptyStateTextView.setText(messageToDisplay);
 
 

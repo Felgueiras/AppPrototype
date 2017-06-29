@@ -8,15 +8,10 @@ import android.util.Log;
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Criteria.StoppCriteria;
-import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Patient;
 import com.felgueiras.apps.geriatric_helper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

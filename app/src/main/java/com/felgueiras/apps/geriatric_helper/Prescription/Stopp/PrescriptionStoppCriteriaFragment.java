@@ -62,7 +62,7 @@ public class PrescriptionStoppCriteriaFragment extends Fragment {
 
 
         // get the listview
-        expListView = (ExpandableListView) v.findViewById(R.id.lvExp);
+        expListView = v.findViewById(R.id.lvExp);
 
         // preparing list data
         stoppGeneral = FirebaseStorageHelper.getInstance().getStoppCriteria();

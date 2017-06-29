@@ -77,11 +77,11 @@ public class AddDrugListItemAdapter extends RecyclerView.Adapter<AddDrugListItem
 
         public DrugViewHolder(View view) {
             super(view);
-            autoCompleteTextView = (AutoCompleteTextView) view.findViewById(R.id.autocompleteDrugName);
-            addMoreButton = (Button) view.findViewById(R.id.addMoreItem);
-            cancelPrescription = (ImageButton) view.findViewById(R.id.cancelPrescription);
-            drugNotes = (EditText) view.findViewById(R.id.drugNotes);
-            warning = (Button) view.findViewById(R.id.warning);
+            autoCompleteTextView = view.findViewById(R.id.autocompleteDrugName);
+            addMoreButton = view.findViewById(R.id.addMoreItem);
+            cancelPrescription = view.findViewById(R.id.cancelPrescription);
+            drugNotes = view.findViewById(R.id.drugNotes);
+            warning = view.findViewById(R.id.warning);
 
         }
     }
@@ -189,12 +189,12 @@ public class AddDrugListItemAdapter extends RecyclerView.Adapter<AddDrugListItem
                 dialog.setTitle("Title...");
 
                 // set the custom dialog components - text, image and button
-                TextView text = (TextView) dialog.findViewById(R.id.text);
+                TextView text = dialog.findViewById(R.id.text);
                 text.setText("Android custom dialog example!");
-                ImageView image = (ImageView) dialog.findViewById(R.id.image);
+                ImageView image = dialog.findViewById(R.id.image);
                 image.setImageResource(R.drawable.ic_warning_24dp);
 
-                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+                Button dialogButton = dialog.findViewById(R.id.dialogButtonOK);
                 // if button is clicked, close the custom dialog
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override

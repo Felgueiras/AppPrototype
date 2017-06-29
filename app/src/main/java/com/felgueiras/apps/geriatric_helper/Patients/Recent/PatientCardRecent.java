@@ -48,10 +48,10 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
 
         public MyViewHolder(View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.patientName);
-            time = (TextView) view.findViewById(R.id.sessionTime);
-            icon = (ImageView) view.findViewById(R.id.patientIcon);
-            card = (LinearLayout) view.findViewById(R.id.patientCard);
+            name = view.findViewById(R.id.patientName);
+            time = view.findViewById(R.id.sessionTime);
+            icon = view.findViewById(R.id.patientIcon);
+            card = view.findViewById(R.id.patientCard);
         }
     }
 

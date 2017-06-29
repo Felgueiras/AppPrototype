@@ -35,7 +35,7 @@ public class PrescriptionMainFragment extends Fragment {
         /**
          * Setup bottom navigation.
          */
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) view.findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_navigation);
 
         /**
          * Default fragment.

@@ -61,7 +61,7 @@ public class PrescriptionStartCriteriaFragment extends Fragment {
         View v = inflater.inflate(R.layout.activity_start_criteria, container, false);
 
         // get the listview
-        expListView = (ExpandableListView) v.findViewById(R.id.lvExp);
+        expListView = v.findViewById(R.id.lvExp);
 
         // preparing list data
         startGeneral = FirebaseStorageHelper.getInstance().getStartCriteria();

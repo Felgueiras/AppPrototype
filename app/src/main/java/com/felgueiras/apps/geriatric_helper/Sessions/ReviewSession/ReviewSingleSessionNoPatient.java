@@ -3,14 +3,10 @@ package com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,18 +17,13 @@ import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
-import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionPDF;
-import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientProfileFragment;
-import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.R;
-import com.felgueiras.apps.geriatric_helper.Sessions.SessionsHistoryMainFragment;
-import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.SessionNoteshandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,7 +91,7 @@ public class ReviewSingleSessionNoPatient extends Fragment {
         /**
          * Setup bottom navigation.
          */
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) view.findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_navigation);
 
         // disable areas that don't have any scale
         Menu menuNav = bottomNavigationView.getMenu();
@@ -185,7 +176,7 @@ public class ReviewSingleSessionNoPatient extends Fragment {
 
 
         // close session FAB
-        FloatingActionButton closeFAB = (FloatingActionButton) view.findViewById(R.id.close_session);
+        FloatingActionButton closeFAB = view.findViewById(R.id.close_session);
         closeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -216,7 +207,10 @@ public class ReviewSingleSessionNoPatient extends Fragment {
         if (SharedPreferencesHelper.showTour(getActivity())){
             finishReviewingSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
                     .setPointer(new Pointer())
-                    .setToolTip(new ToolTip().setTitle("Fechar").setDescription("Termine de rever a sessão")
+                    .setToolTip(new ToolTip().setTitle("Fechar").
+                            setDescription("Neste ecrã tem acesso ao resumo da sessão. Pode consultar os resultados" +
+                                    "de cada escala e, se pretender, gerar um documento PDF." +
+                                    "Quando quiser sair, clique neste botão.")
                             .setGravity(Gravity.TOP | Gravity.LEFT))
                     .setOverlay(new Overlay())
                     .playOn(closeFAB);

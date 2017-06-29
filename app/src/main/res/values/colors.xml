@@ -45,4 +45,7 @@
     <color name="timelineSession">#d9cbd0</color>
     <color name="timelinePrescription">#cbd3c9</color>
 
+    <!--Multiple Choice alert dialog colors-->
+    <color name="multiple_choice_grey">#eeeeee</color>
+
 </resources>

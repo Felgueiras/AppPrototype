@@ -44,14 +44,14 @@ public class QuestionMultipleCategoriesViewPager {
     public View getView() {
         View questionView = inflater.inflate(R.layout.view_pager, null);
 
-        ViewPager viewPager = (ViewPager) questionView.findViewById(R.id.container);
+        ViewPager viewPager = questionView.findViewById(R.id.container);
         MyPageAdapter pageAdapter = new MyPageAdapter(questionsListAdapter.getChildFragmentManager());
         setupViewPager(viewPager, pageAdapter);
         viewPager.setAdapter(pageAdapter);
 
         questionsListAdapter.setViewPagerAux(viewPager);
 
-        TabLayout tabLayout = (TabLayout) questionView.findViewById(R.id.tabs);
+        TabLayout tabLayout = questionView.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         return questionView;

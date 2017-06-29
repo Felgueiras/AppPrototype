@@ -60,17 +60,17 @@ public class BeersCriteriaDisease extends BaseExpandableListAdapter {
 
 
         // Disease questionTextView
-        TextView diseaseText = (TextView) convertView.findViewById(R.id.beersDisease);
+        TextView diseaseText = convertView.findViewById(R.id.beersDisease);
         // drugs list
-        TextView drugs = (TextView) convertView.findViewById(R.id.drugs);
+        TextView drugs = convertView.findViewById(R.id.drugs);
         // Reccomendation
-        TextView recommendation = (TextView) convertView.findViewById(R.id.recommendation);
+        TextView recommendation = convertView.findViewById(R.id.recommendation);
         // Rationale
-        TextView rationale = (TextView) convertView.findViewById(R.id.rationale);
+        TextView rationale = convertView.findViewById(R.id.rationale);
         // QE
-        TextView qualityOfEvidence = (TextView) convertView.findViewById(R.id.qualityOfEvidence);
+        TextView qualityOfEvidence = convertView.findViewById(R.id.qualityOfEvidence);
         // SR
-        TextView strengthOfRecommendation = (TextView) convertView.findViewById(R.id.strengthOfRecommendation);
+        TextView strengthOfRecommendation = convertView.findViewById(R.id.strengthOfRecommendation);
 
         // set the views
         diseaseText.setText(diseaseSyndrome.getDiseaseSyndrome());
@@ -116,7 +116,7 @@ public class BeersCriteriaDisease extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_group, null);
         }
 
-        TextView lblListHeader = (TextView) convertView
+        TextView lblListHeader = convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);

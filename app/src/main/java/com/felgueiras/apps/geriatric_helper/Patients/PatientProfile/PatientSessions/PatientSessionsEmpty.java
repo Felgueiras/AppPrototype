@@ -32,11 +32,11 @@ public class PatientSessionsEmpty extends Fragment {
         Bundle bundle = getArguments();
         String messageToDisplay = bundle.getString(MESSAGE, "Empty state");
         final PatientFirebase patient = (PatientFirebase) bundle.getSerializable(PATIENT);
-        TextView emptyStateTextView = (TextView) view.findViewById(R.id.emptyStateText);
+        TextView emptyStateTextView = view.findViewById(R.id.emptyStateText);
         emptyStateTextView.setText(messageToDisplay);
 
 
-        FloatingActionButton fabAddSession = (FloatingActionButton) view.findViewById(R.id.patient_createSession);
+        FloatingActionButton fabAddSession = view.findViewById(R.id.patient_createSession);
         fabAddSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

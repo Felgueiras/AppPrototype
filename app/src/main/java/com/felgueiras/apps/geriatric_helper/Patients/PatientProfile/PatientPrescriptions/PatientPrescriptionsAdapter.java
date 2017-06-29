@@ -14,8 +14,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -58,13 +56,13 @@ public class PatientPrescriptionsAdapter extends RecyclerView.Adapter<PatientPre
         public PrescriptionCardViewHolder(View view) {
             super(view);
             this.view = view;
-            notes = (EditText) view.findViewById(R.id.prescriptionNotes);
-            name = (TextView) view.findViewById(R.id.prescriptionName);
-            date = (TextView) view.findViewById(R.id.prescriptionDate);
-            removePrescription = (ImageView) view.findViewById(R.id.removePrescription);
-            toggleInfo = (ImageView) view.findViewById(R.id.toggleInfo);
-            addNotes = (ImageButton) view.findViewById(R.id.addNotes);
-            warning = (Button) view.findViewById(R.id.warning);
+            notes = view.findViewById(R.id.prescriptionNotes);
+            name = view.findViewById(R.id.prescriptionName);
+            date = view.findViewById(R.id.prescriptionDate);
+            removePrescription = view.findViewById(R.id.removePrescription);
+            toggleInfo = view.findViewById(R.id.toggleInfo);
+            addNotes = view.findViewById(R.id.addNotes);
+            warning = view.findViewById(R.id.warning);
 
         }
     }

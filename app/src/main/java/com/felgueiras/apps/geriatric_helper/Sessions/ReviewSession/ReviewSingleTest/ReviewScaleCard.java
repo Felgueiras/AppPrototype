@@ -263,12 +263,12 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
                     if (index2 > index1) {
                         // PATIENT got worse
                         System.out.println("WORSE");
-                        ViewStub stubInfo = ((ViewStub) holder.itemView.findViewById(R.id.area_info_stub)); // get the reference of ViewStub
+                        ViewStub stubInfo = holder.itemView.findViewById(R.id.area_info_stub); // get the reference of ViewStub
                         if (stubInfo != null) {
                             // only inflate once
                             View inflated = stubInfo.inflate();
-                            TextView patientProgress = (TextView) inflated.findViewById(R.id.patient_progress);
-                            ImageButton moreInfo = (ImageButton) inflated.findViewById(R.id.more_info);
+                            TextView patientProgress = inflated.findViewById(R.id.patient_progress);
+                            ImageButton moreInfo = inflated.findViewById(R.id.more_info);
                             patientProgress.setText(R.string.evolution_negative);
                             // display more info
                             moreInfo.setOnClickListener(new View.OnClickListener() {

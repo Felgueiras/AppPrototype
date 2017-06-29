@@ -43,7 +43,7 @@ public class CGAGuideScale extends Fragment {
         GeriatricScaleNonDB scaleNonDB = (GeriatricScaleNonDB) args.getSerializable(SCALE);
         getActivity().setTitle(scaleNonDB.getScaleName());
 
-        ListView scaleQuestions = (ListView) view.findViewById(testQuestions);
+        ListView scaleQuestions = view.findViewById(testQuestions);
         
         // create fake session so doctor can fill out the questions
         QuestionsListAdapter adapter = new QuestionsListAdapter(this.getActivity(), scaleNonDB, null, null, getChildFragmentManager(), scaleQuestions);

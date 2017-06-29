@@ -129,7 +129,7 @@ public class PrivateAreaActivity extends AppCompatActivity {
 
         // set username
         View headerLayout = navigationView.getHeaderView(0);
-        TextView userName = (TextView) headerLayout.findViewById(R.id.userName);
+        TextView userName = headerLayout.findViewById(R.id.userName);
         userName.setText(sharedPreferences.getString(getString(R.string.username), null));
 
 

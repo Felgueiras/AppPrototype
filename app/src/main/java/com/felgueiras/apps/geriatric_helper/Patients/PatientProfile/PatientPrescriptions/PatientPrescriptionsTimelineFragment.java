@@ -65,7 +65,7 @@ public class PatientPrescriptionsTimelineFragment extends Fragment {
         View view = inflater.inflate(R.layout.prescriptions_timeline, container, false);
 
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        mRecyclerView = view.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(getLinearLayoutManager());
         mRecyclerView.setHasFixedSize(true);
 
@@ -73,7 +73,7 @@ public class PatientPrescriptionsTimelineFragment extends Fragment {
         /**
          * Setup FABS
          */
-        FloatingActionButton fabAddPrescription = (FloatingActionButton) view.findViewById(R.id.patientAddPrescription);
+        FloatingActionButton fabAddPrescription = view.findViewById(R.id.patientAddPrescription);
         fabAddPrescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

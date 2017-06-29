@@ -96,7 +96,7 @@ public class SideSpinner extends LinearLayout {
         // Set the current index and display the value.
         mSelectedIndex = index;
         TextView currentValue;
-        currentValue = (TextView) this.findViewById(R.id.sidespinner_view_current_value);
+        currentValue = this.findViewById(R.id.sidespinner_view_current_value);
         currentValue.setText(mSpinnerValues[index]);
 
         // If the first value is shown, hide the previous button.
@@ -148,7 +148,7 @@ public class SideSpinner extends LinearLayout {
 
         // When the previous button is pressed, select the previous value
         // in the list.
-        mPreviousButton = (Button) this.findViewById(R.id.sidespinner_view_previous);
+        mPreviousButton = this.findViewById(R.id.sidespinner_view_previous);
         mPreviousButton.setBackgroundResource(android.R.drawable.ic_media_previous);
 
         mPreviousButton.setOnClickListener(new OnClickListener() {
@@ -162,7 +162,7 @@ public class SideSpinner extends LinearLayout {
 
         // When the next button is pressed, select the next item in the
         // list.
-        mNextButton = (Button) this
+        mNextButton = this
                 .findViewById(R.id.sidespinner_view_next);
         mNextButton
                 .setBackgroundResource(android.R.drawable.ic_media_next);

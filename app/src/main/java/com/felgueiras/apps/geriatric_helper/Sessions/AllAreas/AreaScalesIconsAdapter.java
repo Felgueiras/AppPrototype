@@ -54,7 +54,7 @@ public class AreaScalesIconsAdapter extends RecyclerView.Adapter<AreaScalesIcons
 
         public ScaleIconHolder(View view) {
             super(view);
-            scaleIcon = (Button) view.findViewById(R.id.scale_icon);
+            scaleIcon = view.findViewById(R.id.scale_icon);
         }
     }
 

@@ -66,12 +66,12 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
 
         public CGACardHolder(View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.cga_area);
+            name = view.findViewById(R.id.cga_area);
             //type = (TextView) view.findViewById(R.id.testType);
-            infoButton = (ImageButton) view.findViewById(R.id.area_info);
-            areaIcon = (ImageView) view.findViewById(R.id.area_icon);
-            cgaCompletion = (TextView) view.findViewById(R.id.cga_completion);
-            scalesIcons = (RecyclerView) view.findViewById(R.id.area_scales);
+            infoButton = view.findViewById(R.id.area_info);
+            areaIcon = view.findViewById(R.id.area_icon);
+            cgaCompletion = view.findViewById(R.id.cga_completion);
+            scalesIcons = view.findViewById(R.id.area_scales);
             //addNotesButton = (EditText) view.findViewById(R.id.testNotes);
             this.view = view;
         }
@@ -142,7 +142,8 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
             // create TourGuide on first area
             areaCardTourGUide = TourGuide.init(context).with(TourGuide.Technique.Click)
                     .setPointer(new Pointer())
-                    .setToolTip(new ToolTip().setTitle("Área").setDescription("Selecione esta área ")
+                    .setToolTip(new ToolTip().setTitle("Áreas").setDescription("A AGG encontra-se dividida por áreas." +
+                            " Selecione esta área.")
                             .setGravity(Gravity.BOTTOM | Gravity.CENTER))
                     .setOverlay(new Overlay())
                     .playOn(holder.name);

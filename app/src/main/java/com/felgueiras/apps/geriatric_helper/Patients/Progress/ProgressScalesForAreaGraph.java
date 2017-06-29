@@ -46,8 +46,8 @@ public class ProgressScalesForAreaGraph extends RecyclerView.Adapter<ProgressSca
 
         public MyViewHolder(View view) {
             super(view);
-            testName = (TextView) view.findViewById(R.id.scaleName);
-            scaleNotEvaluated = (TextView) view.findViewById(R.id.scale_not_evaluated);
+            testName = view.findViewById(R.id.scaleName);
+            scaleNotEvaluated = view.findViewById(R.id.scale_not_evaluated);
             itemView = view;
         }
     }
@@ -96,14 +96,14 @@ public class ProgressScalesForAreaGraph extends RecyclerView.Adapter<ProgressSca
          */
         if (scaleInstances.size() > 0) {
             // inflate the ViewStub
-            ViewStub graphViewStub = ((ViewStub) holder.itemView.findViewById(R.id.area_info_stub)); // get the reference of ViewStub
+            ViewStub graphViewStub = holder.itemView.findViewById(R.id.area_info_stub); // get the reference of ViewStub
             if (graphViewStub != null) {
                 // only inflate once
                 View inflated = graphViewStub.inflate();
-                GraphView graph = (GraphView) inflated.findViewById(R.id.graph_view);
+                GraphView graph = inflated.findViewById(R.id.graph_view);
 
                 // create labels for graph
-                RecyclerView labels = (RecyclerView) inflated.findViewById(R.id.scoringLabels);
+                RecyclerView labels = inflated.findViewById(R.id.scoringLabels);
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, 1);
                 labels.setLayoutManager(mLayoutManager);
                 labels.setItemAnimator(new DefaultItemAnimator());

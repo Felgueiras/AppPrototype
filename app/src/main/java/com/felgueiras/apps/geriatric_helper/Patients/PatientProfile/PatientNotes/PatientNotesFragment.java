@@ -52,7 +52,7 @@ public class PatientNotesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.patient_info_notes, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.sessionNotes);
+        recyclerView = view.findViewById(R.id.sessionNotes);
 
         // create Layout
         int numbercolumns = 1;
@@ -93,7 +93,7 @@ public class PatientNotesFragment extends Fragment {
                 });
 
                 // include only the sessions which have associated notes
-                ArrayList<SessionFirebase> sessionsWithNotes = new ArrayList<SessionFirebase>();
+                ArrayList<SessionFirebase> sessionsWithNotes = new ArrayList<>();
                 for (SessionFirebase session : patientSessions) {
                     // session has notes
                     if (session.getNotes() != null) {

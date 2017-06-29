@@ -70,14 +70,14 @@ public class QuestionCategoryQuestionsAdapter extends Fragment {
         /**
          * Access views.
          */
-        categoryTextView = (TextView) questionView.findViewById(R.id.category);
-        categoryNumber = (TextView) questionView.findViewById(R.id.categoryNumber);
-        instructions = (TextView) questionView.findViewById(R.id.instructions);
+        categoryTextView = questionView.findViewById(R.id.category);
+        categoryNumber = questionView.findViewById(R.id.categoryNumber);
+        instructions = questionView.findViewById(R.id.instructions);
         // left and right arrows - switch category
-        previous = (ImageButton) questionView.findViewById(R.id.previousCategory);
-        next = (ImageButton) questionView.findViewById(R.id.nextCategory);
+        previous = questionView.findViewById(R.id.previousCategory);
+        next = questionView.findViewById(R.id.nextCategory);
         // fill the RecyclerView
-        questionsRecyclerView = (RecyclerView) questionView.findViewById(R.id.questions);
+        questionsRecyclerView = questionView.findViewById(R.id.questions);
 
 
         previous.setOnClickListener(new View.OnClickListener() {

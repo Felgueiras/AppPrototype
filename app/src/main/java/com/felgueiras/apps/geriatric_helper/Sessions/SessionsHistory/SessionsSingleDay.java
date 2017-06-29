@@ -42,13 +42,13 @@ public class SessionsSingleDay extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View singleDayInfo = inflater.inflate(R.layout.content_sessions_history, null);
-        TextView dateTextView = (TextView) singleDayInfo.findViewById(R.id.dateText);
+        TextView dateTextView = singleDayInfo.findViewById(R.id.dateText);
 
         dateTextView.setText(DatesHandler.dateToStringWithoutHour(new Date(initialTimestamp)));
         // get NewEvaluationPrivate for that initialTimestamp
 
         // fill the RecyclerView
-        RecyclerView recyclerView = (RecyclerView) singleDayInfo.findViewById(R.id.recycler_view_sessions_day);
+        RecyclerView recyclerView = singleDayInfo.findViewById(R.id.recycler_view_sessions_day);
 
         // create Layout
         int numbercolumns = 1;

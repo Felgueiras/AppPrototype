@@ -63,14 +63,14 @@ public class PatientPrescriptionCreateFragment extends Fragment {
 
 
         // get views
-        name = (TextView) view.findViewById(R.id.prescriptionName);
-        notes = (EditText) view.findViewById(R.id.addressText);
+        name = view.findViewById(R.id.prescriptionName);
+        notes = view.findViewById(R.id.addressText);
 
         if (prescription != null) {
             name.setText(prescription);
         }
 
-        Button addPrescription = (Button) view.findViewById(R.id.saveButton);
+        Button addPrescription = view.findViewById(R.id.saveButton);
         addPrescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

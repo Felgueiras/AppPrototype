@@ -34,7 +34,7 @@ public class SessionNoteshandler{
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
 
-        final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
+        final EditText userInput = promptsView.findViewById(R.id.editTextDialogUserInput);
         if (session.getNotes()!=null)
             userInput.setText(session.getNotes());
 

@@ -44,7 +44,7 @@ public class SessionsAllDays extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View singleDayInfo = inflater.inflate(R.layout.content_sessions_history, null);
-        Button dateTextView = (Button) singleDayInfo.findViewById(R.id.dateText);
+        Button dateTextView = singleDayInfo.findViewById(R.id.dateText);
 
         // get the date
         Date currentDate = FirebaseDatabaseHelper.getDifferentSessionDates().get(position);
@@ -53,7 +53,7 @@ public class SessionsAllDays extends BaseAdapter {
 //        sessionsFromDate = FirebaseHelper.getSessionsFromDate(currentDate);
 
         // fill the RecyclerView
-        RecyclerView recyclerView = (RecyclerView) singleDayInfo.findViewById(R.id.recycler_view_sessions_day);
+        RecyclerView recyclerView = singleDayInfo.findViewById(R.id.recycler_view_sessions_day);
 
 //        adapter = new SessionCardEvaluationHistory(context, sessionsFromDate);
         // create Layout

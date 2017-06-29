@@ -73,7 +73,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
         /**
          * Setup bottom navigation.
          */
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) view.findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_navigation);
 
         // disable areas that don't have any scale
         Menu menuNav = bottomNavigationView.getMenu();
@@ -193,7 +193,7 @@ public class ReviewSingleSessionWithPatient extends Fragment {
                                         getActivity());
                                 dialog.dismiss();
 
-                                DrawerLayout layout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+                                DrawerLayout layout = getActivity().findViewById(R.id.drawer_layout);
                                 Snackbar.make(layout, getResources().getString(R.string.session_erase_snackbar), Snackbar.LENGTH_SHORT).show();
 
                                 Fragment fragment = null;

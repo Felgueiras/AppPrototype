@@ -48,9 +48,9 @@ public class PatientCardFavorite extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View card = inflater.inflate(R.layout.patient_card_grid_2, null);
 
-        final TextView name = (TextView) card.findViewById(R.id.patientName);
-        final TextView nameAbbreviation = (TextView) card.findViewById(R.id.patientNameAbbreviation);
-        final ImageView overflow = (ImageView) card.findViewById(R.id.overflow);
+        final TextView name = card.findViewById(R.id.patientName);
+        final TextView nameAbbreviation = card.findViewById(R.id.patientNameAbbreviation);
+        final ImageView overflow = card.findViewById(R.id.overflow);
         overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

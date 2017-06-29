@@ -34,13 +34,11 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDa
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PrescriptionFirebase;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.AddPrescriptions.AddDrugListItemAdapter;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPrescriptions.PatientPrescriptionCreateFragment;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.DataHelperDrugs;
-import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.DrugListItem;
 import com.felgueiras.apps.geriatric_helper.Prescription.AllDrugs.DrugSuggestion;
 import com.felgueiras.apps.geriatric_helper.R;
 
@@ -231,7 +229,7 @@ public class PatientPrescriptionsAddFragment extends Fragment {
         context = getActivity();
 
 
-        RecyclerView drugAdd = (RecyclerView) view.findViewById(R.id.drugItems);
+        RecyclerView drugAdd = view.findViewById(R.id.drugItems);
 
         ArrayList<StoppCriteria> stoppGeneral = StoppCriteria.getStoppCriteria();
         ArrayList<StartCriteria> startGeneral = StartCriteria.getStartCriteria();
@@ -270,7 +268,7 @@ public class PatientPrescriptionsAddFragment extends Fragment {
         adapter = new AddDrugListItemAdapter(getActivity(), Constants.allDrugs, patient);
         drugAdd.setAdapter(adapter);
 
-        Button savePrescriptions = (Button) view.findViewById(R.id.saveButton);
+        Button savePrescriptions = view.findViewById(R.id.saveButton);
         savePrescriptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -44,8 +44,8 @@ public class PatientNotesAdapter extends RecyclerView.Adapter<PatientNotesAdapte
         public MyViewHolder(View view) {
             super(view);
             this.view = view;
-            date = (TextView) view.findViewById(R.id.recordDate);
-            notes = (TextView) view.findViewById(R.id.sessionNotes);
+            date = view.findViewById(R.id.recordDate);
+            notes = view.findViewById(R.id.sessionNotes);
         }
     }
 

@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 
 import com.felgueiras.apps.geriatric_helper.Main.PrivateAreaActivity;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;

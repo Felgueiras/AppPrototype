@@ -44,7 +44,7 @@ public class SendFeedback extends Fragment {
         // set the title
         getActivity().setTitle(getResources().getString(R.string.send_feedback));
 
-        final Button sendFeedback = (Button) view.findViewById(R.id.ButtonSendFeedback);
+        final Button sendFeedback = view.findViewById(R.id.ButtonSendFeedback);
         sendFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,13 +60,13 @@ public class SendFeedback extends Fragment {
     private void sendEmailWithFeedback() {
 
 
-        final EditText nameField = (EditText) view.findViewById(R.id.EditTextName);
+        final EditText nameField = view.findViewById(R.id.EditTextName);
         String name = nameField.getText().toString();
 
-        final EditText feedbackField = (EditText) view.findViewById(R.id.EditTextFeedbackBody);
+        final EditText feedbackField = view.findViewById(R.id.EditTextFeedbackBody);
         String feedback = feedbackField.getText().toString();
 
-        final CheckBox responseCheckbox = (CheckBox) view.findViewById(R.id.CheckBoxResponse);
+        final CheckBox responseCheckbox = view.findViewById(R.id.CheckBoxResponse);
         boolean bRequiresResponse = responseCheckbox.isChecked();
 
         if (name.isEmpty()) {

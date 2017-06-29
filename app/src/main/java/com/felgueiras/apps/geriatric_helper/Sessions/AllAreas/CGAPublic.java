@@ -11,7 +11,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,9 +35,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import tourguide.tourguide.Overlay;
-import tourguide.tourguide.Pointer;
-import tourguide.tourguide.ToolTip;
 import tourguide.tourguide.TourGuide;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -150,10 +146,10 @@ public class CGAPublic extends Fragment {
         }
 
 
-        RecyclerView recyclerView = (RecyclerView) myInflatedView.findViewById(R.id.area_scales_recycler_view);
+        RecyclerView recyclerView = myInflatedView.findViewById(R.id.area_scales_recycler_view);
         AreaCard adapter = new AreaCard(getActivity(), session, resuming, Constants.SESSION_GENDER);
 
-        Button finishSession = (Button) myInflatedView.findViewById(R.id.session_finish);
+        Button finishSession = myInflatedView.findViewById(R.id.session_finish);
         // TourGuide
         /*finishSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
                 .setPointer(new Pointer())

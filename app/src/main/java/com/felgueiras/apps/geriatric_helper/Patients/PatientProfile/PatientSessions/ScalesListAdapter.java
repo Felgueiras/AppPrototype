@@ -50,8 +50,8 @@ public class ScalesListAdapter extends BaseAdapter {
         Holder holder = new Holder();
         View rowView;
         rowView = inflater.inflate(R.layout.test_result, null);
-        holder.name = (TextView) rowView.findViewById(R.id.scaleName);
-        holder.result = (TextView) rowView.findViewById(R.id.testResult);
+        holder.name = rowView.findViewById(R.id.scaleName);
+        holder.result = rowView.findViewById(R.id.testResult);
         holder.name.setText(geriatricTests.get(position).getType());
         holder.result.setText(geriatricTests.get(position).getResult()+"");
         rowView.setOnClickListener(new OnClickListener() {

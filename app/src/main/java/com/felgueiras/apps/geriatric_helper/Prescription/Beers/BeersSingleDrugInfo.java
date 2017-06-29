@@ -36,10 +36,10 @@ public class BeersSingleDrugInfo extends RecyclerView.Adapter<BeersSingleDrugInf
         public MyViewHolder(View view) {
             super(view);
             // get the views
-            recommendation = (TextView) view.findViewById(R.id.recommendation);
-            rationale = (TextView) view.findViewById(R.id.rationale);
-            qualityOfEvidence = (TextView) view.findViewById(R.id.qualityOfEvidence);
-            strengthOfRecommendation = (TextView) view.findViewById(R.id.strengthOfRecommendation);
+            recommendation = view.findViewById(R.id.recommendation);
+            rationale = view.findViewById(R.id.rationale);
+            qualityOfEvidence = view.findViewById(R.id.qualityOfEvidence);
+            strengthOfRecommendation = view.findViewById(R.id.strengthOfRecommendation);
         }
     }
 

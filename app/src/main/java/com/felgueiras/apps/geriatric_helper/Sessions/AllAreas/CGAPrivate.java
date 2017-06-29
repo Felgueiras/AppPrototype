@@ -39,7 +39,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * Create a new private CGA.
@@ -165,7 +164,7 @@ public class CGAPrivate extends Fragment {
         }
 
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.area_scales_recycler_view);
         AreaCard adapter;
 
         // new evaluation created for no Patient
@@ -178,12 +177,12 @@ public class CGAPrivate extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        Button saveButton = (Button) view.findViewById(R.id.session_save);
-        Button cancelButton = (Button) view.findViewById(R.id.session_cancel);
+        Button saveButton = view.findViewById(R.id.session_save);
+        Button cancelButton = view.findViewById(R.id.session_cancel);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.newSessionLayout);
+                RelativeLayout layout = getActivity().findViewById(R.id.newSessionLayout);
                 SessionHelper.saveSession(getActivity(), session, patient, getView(), layout, 1);
             }
         });

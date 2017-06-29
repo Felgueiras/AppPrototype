@@ -39,7 +39,7 @@ public class DrugInfoStopp extends Fragment {
         }
 
         // fill the RecyclerView
-        RecyclerView recommendationIndoRecyclerView = (RecyclerView) view.findViewById(R.id.stopp_criteria_recycler_view);
+        RecyclerView recommendationIndoRecyclerView = view.findViewById(R.id.stopp_criteria_recycler_view);
 
         // display card for each Patientndroid rec
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());

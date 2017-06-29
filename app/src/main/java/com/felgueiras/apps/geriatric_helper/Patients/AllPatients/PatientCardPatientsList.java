@@ -62,10 +62,10 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
 
         public MyViewHolder(View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.patientName);
-            initial = (TextView) view.findViewById(R.id.initialLetter);
-            icon = (ImageView) view.findViewById(R.id.patientIcon);
-            card = (RelativeLayout) view.findViewById(R.id.patientCard);
+            name = view.findViewById(R.id.patientName);
+            initial = view.findViewById(R.id.initialLetter);
+            icon = view.findViewById(R.id.patientIcon);
+            card = view.findViewById(R.id.patientCard);
 //            overflow = (ImageView) view.findViewById(R.id.overflow);
         }
     }

@@ -42,9 +42,9 @@ public class SessionScalesAdapterRecyclerIcons extends RecyclerView.Adapter<Sess
 
         public MyViewHolder(View view) {
             super(view);
-            card = (LinearLayout)view.findViewById(R.id.testResultCard);
-            testName = (TextView) view.findViewById(R.id.scaleName);
-            testResult = (TextView) view.findViewById(R.id.testResult);
+            card = view.findViewById(R.id.testResultCard);
+            testName = view.findViewById(R.id.scaleName);
+            testResult = view.findViewById(R.id.testResult);
         }
     }
 

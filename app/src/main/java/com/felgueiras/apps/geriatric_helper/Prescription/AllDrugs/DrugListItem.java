@@ -65,14 +65,14 @@ public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder
         public MyViewHolder(View view) {
             super(view);
             this.view = view;
-            name = (TextView) view.findViewById(R.id.patientName);
-            photo = (ImageView) view.findViewById(R.id.patientPhoto);
+            name = view.findViewById(R.id.patientName);
+            photo = view.findViewById(R.id.patientPhoto);
             /**
              * Criteria buttons.
              */
-            startButton = (Button) view.findViewById(R.id.startCriteria);
-            stoppButton = (Button) view.findViewById(R.id.stoppCriteria);
-            beersButton = (Button) view.findViewById(R.id.beersCriteria);
+            startButton = view.findViewById(R.id.startCriteria);
+            stoppButton = view.findViewById(R.id.stoppCriteria);
+            beersButton = view.findViewById(R.id.beersCriteria);
         }
     }
 

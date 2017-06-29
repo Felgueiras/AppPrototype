@@ -37,7 +37,7 @@ public class DisplayRecordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_second, container, false);
         // populate the ListView
-        ListView lv = (ListView) view.findViewById(R.id.recordInfo);
+        ListView lv = view.findViewById(R.id.recordInfo);
         // create the adapter
         ScalesListAdapter adapter = new ScalesListAdapter(this, session.getScalesFromSession());
         lv.setAdapter(adapter);

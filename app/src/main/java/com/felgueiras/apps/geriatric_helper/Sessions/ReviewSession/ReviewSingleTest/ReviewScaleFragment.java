@@ -52,7 +52,7 @@ public class ReviewScaleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.review_scale, container, false);
         // populate the ListView
-        ListView testQuestions = (ListView) view.findViewById(R.id.testQuestions);
+        ListView testQuestions = view.findViewById(R.id.testQuestions);
         // create the adapter
         QuestionsListAdapter adapter = new QuestionsListAdapter(
                 this.getActivity(),

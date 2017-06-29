@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -179,7 +181,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 
         if (positionsFilled.size() == nq) {
             if (!scale.isCompleted()) {
-                DrawerLayout layout = (DrawerLayout) context.findViewById(R.id.drawer_layout);
+                DrawerLayout layout = context.findViewById(R.id.drawer_layout);
                 Snackbar.make(layout, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
             }
 
@@ -293,10 +295,10 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
          */
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View questionView = inflater.inflate(R.layout.content_question_multiple_text_input, null);
-        TextView questionName = (TextView) questionView.findViewById(R.id.nameQuestion);
+        TextView questionName = questionView.findViewById(R.id.nameQuestion);
         questionName.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
 
-        EditText answer = (EditText) questionView.findViewById(R.id.question_answer);
+        EditText answer = questionView.findViewById(R.id.question_answer);
 
         // if question is already answered
         if (questionInDB.isAnswered()) {
@@ -359,10 +361,10 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
          */
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View questionView = inflater.inflate(R.layout.content_question_numerical, null);
-        TextView questionName = (TextView) questionView.findViewById(R.id.nameQuestion);
+        TextView questionName = questionView.findViewById(R.id.nameQuestion);
         questionName.setText((questionIndex + 1) + " - " + questionNonDB.getDescription());
 
-        EditText answer = (EditText) questionView.findViewById(R.id.question_answer);
+        EditText answer = questionView.findViewById(R.id.question_answer);
 
         // if question is already answered
         if (questionInDB.isAnswered()) {
@@ -436,12 +438,12 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
          */
         LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View questionView = infalInflater.inflate(R.layout.content_question_right_wrong_icons, null);
-        TextView questionName = (TextView) questionView.findViewById(R.id.nameQuestion);
+        TextView questionName = questionView.findViewById(R.id.nameQuestion);
         questionName.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
 
         // right and wrong button
-        final ImageButton right = (ImageButton) questionView.findViewById(R.id.rightChoice);
-        final ImageButton wrong = (ImageButton) questionView.findViewById(R.id.wrongChoice);
+        final ImageButton right = questionView.findViewById(R.id.rightChoice);
+        final ImageButton wrong = questionView.findViewById(R.id.wrongChoice);
 
         // if question is already answered
         if (questionInDB.isAnswered()) {
@@ -503,7 +505,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         final ArrayList<GradingNonDB> gradings = testNonDB.getScoring().getValuesBoth();
         testNonDB.getScoring().getValuesBoth();
         //ArrayList<ChoiceNonDB> choicesNonDB = currentQuestionNonDB.getChoices();
-        RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
+        RadioGroup radioGroup = questionView.findViewById(R.id.radioGroup);
 
         for (int i = 0; i < gradings.size(); i++) {
             RadioButton newRadioButton = new RadioButton(context);
@@ -623,7 +625,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 
             // create Choices and add to DB
             ArrayList<ChoiceNonDB> choicesNonDB = currentQuestionNonDB.getChoices();
-            radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
+            radioGroup = questionView.findViewById(R.id.radioGroup);
 
             for (int i = 0; i < choicesNonDB.size(); i++) {
                 ChoiceNonDB currentChoice = choicesNonDB.get(i);
@@ -649,7 +651,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             // get Question from DB
             question = FirebaseDatabaseHelper.getQuestionsFromScale(scale).get(position);
             // create Radio Group from the info in DB
-            radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
+            radioGroup = questionView.findViewById(R.id.radioGroup);
 
             for (int i = 0; i < FirebaseDatabaseHelper.getChoicesForQuestion(currentQuestionNonDB).size(); i++) {
                 ChoiceNonDB choice = FirebaseDatabaseHelper.getChoicesForQuestion(currentQuestionNonDB).get(i);
@@ -665,7 +667,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         if (question.isAnswered()) {
             //system.out.println("answered");
             Holder holder = new Holder();
-            holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
+            holder.question = questionView.findViewById(R.id.nameQuestion);
             holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
             // set the selected option
             String selectedChoice = question.getSelectedChoice();
@@ -685,7 +687,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         else {
             //system.out.println("not answered");
             Holder holder = new Holder();
-            holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
+            holder.question = questionView.findViewById(R.id.nameQuestion);
             holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
         }
         return questionView;
@@ -710,9 +712,26 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 //        builderSingle.setIcon(R.drawable.ic_launcher);
         builderSingle.setTitle(questionText);
 
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 context,
-                android.R.layout.select_dialog_singlechoice);
+                android.R.layout.select_dialog_singlechoice) {
+
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                if (position % 2 == 0) { // we're on an even row
+                    v.setBackgroundColor(context.getResources().getColor(R.color.multiple_choice_grey));
+//                } else {
+//                    v.setBackgroundColor(context.getResources().getColor(R.color.Aqua));
+//                }
+
+                }
+                return v;
+            }
+
+        };
+
 
         // check if is already in DB
 
@@ -792,7 +811,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         }
 
         final Holder holder = new Holder();
-        holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
+        holder.question = questionView.findViewById(R.id.nameQuestion);
         holder.question.setText(questionText);
 
         // check if already answered
@@ -898,15 +917,15 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
          */
         View questionView = inflater.inflate(R.layout.content_question_yes_no, null);
         Holder holder = new Holder();
-        holder.question = (TextView) questionView.findViewById(R.id.nameQuestion);
+        holder.question = questionView.findViewById(R.id.nameQuestion);
         holder.question.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
         // detect when choice changed
 //        RadioGroup radioGroup = (RadioGroup) questionView.findViewById(R.id.radioGroup);
 
 
         // yes and no buttons
-        final Button yes = (Button) questionView.findViewById(R.id.rightChoice);
-        final Button no = (Button) questionView.findViewById(R.id.wrongChoice);
+        final Button yes = questionView.findViewById(R.id.rightChoice);
+        final Button no = questionView.findViewById(R.id.wrongChoice);
 
         /**
          * Question already answered.

@@ -35,7 +35,7 @@ public class CGAGuideMainFragment extends Fragment {
         View view = inflater.inflate(R.layout.cga_guide_areas, container, false);
         getActivity().setTitle(getResources().getString(R.string.cga_guide));
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.areas_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.areas_recycler_view);
         CGAGuideAreaAdapter adapter = new CGAGuideAreaAdapter(getActivity());
 
         // create Layout

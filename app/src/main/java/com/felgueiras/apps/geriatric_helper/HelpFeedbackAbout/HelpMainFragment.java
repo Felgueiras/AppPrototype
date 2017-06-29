@@ -37,7 +37,7 @@ public class HelpMainFragment extends Fragment {
         View view = inflater.inflate(R.layout.help_main, container, false);
 
         // get list view
-        ListView helpTopicsList = (ListView) view.findViewById(R.id.help_topics_list);
+        ListView helpTopicsList = view.findViewById(R.id.help_topics_list);
 
         HelpTopicsAdapter adapter = new HelpTopicsAdapter(getActivity());
         helpTopicsList.setAdapter(adapter);

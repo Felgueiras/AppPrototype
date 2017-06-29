@@ -74,14 +74,14 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
         public ScaleCardHolder(View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.scaleName);
-            subCategory = (TextView) view.findViewById(R.id.testSubCategory);
-            description = (ImageButton) view.findViewById(R.id.scale_info);
-            result_qualitative = (TextView) view.findViewById(R.id.result_qualitative);
-            result_quantitative = (TextView) view.findViewById(R.id.result_quantitative);
-            addNotesButton = (ImageButton) view.findViewById(R.id.addNotes);
-            notes = (EditText) view.findViewById(R.id.testNotes);
-            patientProgress = (TextView) view.findViewById(R.id.patient_progress);
+            name = view.findViewById(R.id.scaleName);
+            subCategory = view.findViewById(R.id.testSubCategory);
+            description = view.findViewById(R.id.scale_info);
+            result_qualitative = view.findViewById(R.id.result_qualitative);
+            result_quantitative = view.findViewById(R.id.result_quantitative);
+            addNotesButton = view.findViewById(R.id.addNotes);
+            notes = view.findViewById(R.id.testNotes);
+            patientProgress = view.findViewById(R.id.patient_progress);
             this.view = view;
         }
     }
@@ -126,7 +126,9 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                 // click on the scale
                 scaleTourGuide = TourGuide.init(context).with(TourGuide.Technique.Click)
                         .setPointer(new Pointer())
-                        .setToolTip(new ToolTip().setTitle("Escalas").setDescription("Selecione esta escala e preencha-a")
+                        .setToolTip(new ToolTip().setTitle("Escalas").
+                                setDescription("Dentro de cada área há várias escalas. Selecione esta escala e preencha-a," +
+                                        " quando estiver completamente preenchida irá aparecer uma mensagem no ecrã.")
                                 .setGravity(Gravity.BOTTOM | Gravity.CENTER))
                         .setOverlay(new Overlay())
                         .playOn(holder.name);

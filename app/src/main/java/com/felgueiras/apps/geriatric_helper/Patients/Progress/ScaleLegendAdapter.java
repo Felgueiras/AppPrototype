@@ -44,8 +44,8 @@ public class ScaleLegendAdapter extends RecyclerView.Adapter<ScaleLegendAdapter.
 
         public MyViewHolder(View view) {
             super(view);
-            label = (TextView) view.findViewById(R.id.label);
-            labelColor = (Button) view.findViewById(R.id.labelColor);
+            label = view.findViewById(R.id.label);
+            labelColor = view.findViewById(R.id.labelColor);
         }
     }
 

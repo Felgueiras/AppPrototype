@@ -413,10 +413,10 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="syncBackendQuestion">Deseja que informações sobre os pacientes sejam
         sincronizadas entre vários dispositivos? \n (poderá alterar esta opção mais tarde)</string>
     <string name="hashString" translatable="false">hashString</string>
-    <string name="moduleCriteria">moduleCriteria</string>
-    <string name="modulePrescription">modulePrescription</string>
-    <string name="show_initial_tour">show_initial_tour</string>
-    <string name="show_tour">show_tour</string>
+    <string name="moduleCriteria" translatable="false">moduleCriteria</string>
+    <string name="modulePrescription" translatable="false">modulePrescription</string>
+    <string name="show_initial_tour" translatable="false">show_initial_tour</string>
+    <string name="show_tour" translatable="false">show_tour</string>
 
 
 </resources>

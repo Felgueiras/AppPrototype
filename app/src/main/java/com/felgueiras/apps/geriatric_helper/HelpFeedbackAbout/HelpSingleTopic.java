@@ -1,30 +1,18 @@
 package com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout;
 
 import android.app.Fragment;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
-import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseRemoteConfig;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatric_helper.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 
 
 public class HelpSingleTopic extends Fragment {
@@ -51,7 +39,7 @@ public class HelpSingleTopic extends Fragment {
         getActivity().setTitle(helpTopicText);
 
         // fill views
-        TextView helpText = (TextView) view.findViewById(R.id.help_text);
+        TextView helpText = view.findViewById(R.id.help_text);
         String text = "";
         switch (helpTopic) {
             case Constants.help_topic_cga:
@@ -86,9 +74,9 @@ public class HelpSingleTopic extends Fragment {
         }
         helpText.setText(text);
 
-        bar = (ProgressBar) view.findViewById(R.id.progressBar);
+        bar = view.findViewById(R.id.progressBar);
 
-        FirebaseStorageHelper.fetchVideoDisplay(vidView, bar, getActivity());
+        FirebaseStorageHelper.fetchVideoDisplay(helpTopic, vidView, bar, getActivity());
 
 
         return view;

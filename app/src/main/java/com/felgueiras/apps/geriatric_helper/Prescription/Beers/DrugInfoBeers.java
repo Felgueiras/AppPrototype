@@ -38,7 +38,7 @@ public class DrugInfoBeers extends Fragment {
             view = inflater.inflate(R.layout.drug_info_beers_multiple, container, false);
 
             // fill the RecyclerView
-            RecyclerView recommendationIndoRecyclerView = (RecyclerView) view.findViewById(R.id.beers_criteria_recycler_view);
+            RecyclerView recommendationIndoRecyclerView = view.findViewById(R.id.beers_criteria_recycler_view);
 
             // display card for each Patientndroid rec
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());

@@ -446,29 +446,89 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
         String tagCurrent = backEntryCurrent.getName();
         Log.d("Stack", "Current tag:" + tagCurrent);
 
-        if (tagCurrent.equals(Constants.tag_create_session_no_patient)) {
-            fragmentManager.popBackStack();
-            fragment = new PatientsMain();
+        switch (tagCurrent) {
+            case Constants.tag_create_session_no_patient:
+                fragmentManager.popBackStack();
+                fragment = new PatientsMain();
 
-        } else if (tagCurrent.equals(Constants.tag_create_session_with_patient)) {
-            FragmentManager.BackStackEntry backEntryPrevious = fragmentManager.getBackStackEntryAt(index - 1);
+                break;
+            case Constants.tag_create_session_with_patient:
+                FragmentManager.BackStackEntry backEntryPrevious = fragmentManager.getBackStackEntryAt(index - 1);
 
-            String tagPrevious = backEntryPrevious.getName();
-            Log.d("Stack", "Previous tag:" + tagPrevious);
-            if (tagPrevious.equals(Constants.tag_view_patient_info_records)) {
+                String tagPrevious = backEntryPrevious.getName();
+                Log.d("Stack", "Previous tag:" + tagPrevious);
+                if (tagPrevious.equals(Constants.tag_view_patient_info_records)) {
+                    /**
+                     * Session saved when viewing a scale - go to PATIENT's profile.
+                     */
+                    // lock session creation
+                    SharedPreferencesHelper.lockSessionCreation(context);
+                    fragmentManager.popBackStack();
+
+                    Bundle args = new Bundle();
+                    SessionFirebase session = FirebaseDatabaseHelper.getSessionByID(SharedPreferencesHelper.isThereOngoingPrivateSession(context));
+                    SharedPreferencesHelper.resetPrivateSession(context, "");
+
+                    args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
+                    args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+                    fragment = new ReviewSingleSessionWithPatient();
+
+                    fragment.setArguments(args);
+
+                    // Create new transaction and add to back stack
+                    FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
+                    Fragment currentFragment = context.getFragmentManager().findFragmentById(R.id.current_fragment);
+                    transaction.remove(currentFragment);
+                    transaction.replace(R.id.current_fragment, fragment);
+                    transaction.addToBackStack(Constants.tag_review_session_from_patient_profile);
+                    transaction.commit();
+                    return;
+
+                } else if (tagPrevious.equals(Constants.tag_view_patient_info_records_from_sessions_list)) {
+
+                    fragmentManager.popBackStack();
+                    Bundle args = new Bundle();
+                    Bundle arguments = fr.getArguments();
+
+                    // session is created -> go back to the Patient session view
+                    sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+                    String sessionID = sharedPreferences.getString(context.getString(R.string.saved_session_private), null);
+                    SessionFirebase session = FirebaseDatabaseHelper.getSessionByID(sessionID);
+                    sharedPreferences.edit().putString(context.getString(R.string.saved_session_private), null).apply();
+
+                    args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
+                    args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+                    fragment = new ReviewSingleSessionWithPatient();
+
+                    fragment.setArguments(args);
+                }
+
+
+                break;
+            case Constants.tag_create_session_with_patient_from_session:
+                fragmentManager.popBackStack();
+                fragment = new SessionsHistoryMainFragment();
+                break;
+            case Constants.tag_create_patient:
+                fragmentManager.popBackStack();
+                fragment = new PatientsMain();
+                break;
+            case Constants.tag_display_single_area_private: {
                 /**
-                 * Session saved when viewing a scale - go to PATIENT's profile.
+                 * Session saved when viewing an area - go to PATIENT's profile.
                  */
                 // lock session creation
                 SharedPreferencesHelper.lockSessionCreation(context);
                 fragmentManager.popBackStack();
-
+                fragmentManager.popBackStack();
                 Bundle args = new Bundle();
-                SessionFirebase session = FirebaseDatabaseHelper.getSessionByID(SharedPreferencesHelper.isThereOngoingPrivateSession(context));
+                Bundle arguments = fr.getArguments();
+                SessionFirebase currentSession = (SessionFirebase) arguments.getSerializable(CGAAreaPrivate.SESSION);
+
                 SharedPreferencesHelper.resetPrivateSession(context, "");
 
                 args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
-                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, currentSession);
                 fragment = new ReviewSingleSessionWithPatient();
 
                 fragment.setArguments(args);
@@ -481,81 +541,48 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 transaction.addToBackStack(Constants.tag_review_session_from_patient_profile);
                 transaction.commit();
                 return;
-
-            } else if (tagPrevious.equals(Constants.tag_view_patient_info_records_from_sessions_list)) {
-
+            }
+            case Constants.tag_display_session_scale: {
+                /**
+                 * Session saved when viewing a scale - go to PATIENT's profile.
+                 */
+                // lock session creation
+                SharedPreferencesHelper.lockSessionCreation(context);
                 fragmentManager.popBackStack();
+                fragmentManager.popBackStack();
+                fragmentManager.popBackStack();
+
+
                 Bundle args = new Bundle();
                 Bundle arguments = fr.getArguments();
+                GeriatricScaleFirebase scale = (GeriatricScaleFirebase) arguments.getSerializable(ScaleFragment.SCALE);
+                boolean containsFavorite = checkBackStackContainsTag(Constants.tag_create_session_from_favorites);
+                if (containsFavorite) {
+                    PatientFirebase patient = PatientsManagement.getInstance().getPatientFromSession(FirebaseDatabaseHelper.getSessionFromScale(scale), context);
 
-                // session is created -> go back to the Patient session view
-                sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
-                String sessionID = sharedPreferences.getString(context.getString(R.string.saved_session_private), null);
-                SessionFirebase session = FirebaseDatabaseHelper.getSessionByID(sessionID);
-                sharedPreferences.edit().putString(context.getString(R.string.saved_session_private), null).apply();
+                    args.putSerializable(PatientProfileFragment.PATIENT, patient);
+                    fragment = new PatientProfileFragment();
+                    fragment.setArguments(args);
 
+                    // Create new transaction and add to back stack
+                    FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
+                    Fragment currentFragment = context.getFragmentManager().findFragmentById(R.id.current_fragment);
+                    transaction.remove(currentFragment);
+                    transaction.replace(R.id.current_fragment, fragment);
+                    transaction.addToBackStack(Constants.tag_view_patient_info_records);
+                    transaction.commit();
+                    return;
+
+                }
+
+
+                SharedPreferencesHelper.resetPrivateSession(context, "");
+
+                args = new Bundle();
                 args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
-                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, session);
+                args.putSerializable(ReviewSingleSessionWithPatient.SESSION, FirebaseDatabaseHelper.getSessionFromScale(scale));
                 fragment = new ReviewSingleSessionWithPatient();
 
-                fragment.setArguments(args);
-            }
-
-
-        } else if (tagCurrent.equals(Constants.tag_create_session_with_patient_from_session)) {
-            fragmentManager.popBackStack();
-            fragment = new SessionsHistoryMainFragment();
-        } else if (tagCurrent.equals(Constants.tag_create_patient)) {
-            fragmentManager.popBackStack();
-            fragment = new PatientsMain();
-        } else if (tagCurrent.equals(Constants.tag_display_single_area_private)) {
-            /**
-             * Session saved when viewing an area - go to PATIENT's profile.
-             */
-            // lock session creation
-            SharedPreferencesHelper.lockSessionCreation(context);
-            fragmentManager.popBackStack();
-            fragmentManager.popBackStack();
-            Bundle args = new Bundle();
-            Bundle arguments = fr.getArguments();
-            SessionFirebase currentSession = (SessionFirebase) arguments.getSerializable(CGAAreaPrivate.SESSION);
-
-            SharedPreferencesHelper.resetPrivateSession(context, "");
-
-            args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
-            args.putSerializable(ReviewSingleSessionWithPatient.SESSION, currentSession);
-            fragment = new ReviewSingleSessionWithPatient();
-
-            fragment.setArguments(args);
-
-            // Create new transaction and add to back stack
-            FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
-            Fragment currentFragment = context.getFragmentManager().findFragmentById(R.id.current_fragment);
-            transaction.remove(currentFragment);
-            transaction.replace(R.id.current_fragment, fragment);
-            transaction.addToBackStack(Constants.tag_review_session_from_patient_profile);
-            transaction.commit();
-            return;
-        } else if (tagCurrent.equals(Constants.tag_display_session_scale)) {
-            /**
-             * Session saved when viewing a scale - go to PATIENT's profile.
-             */
-            // lock session creation
-            SharedPreferencesHelper.lockSessionCreation(context);
-            fragmentManager.popBackStack();
-            fragmentManager.popBackStack();
-            fragmentManager.popBackStack();
-
-
-            Bundle args = new Bundle();
-            Bundle arguments = fr.getArguments();
-            GeriatricScaleFirebase scale = (GeriatricScaleFirebase) arguments.getSerializable(ScaleFragment.SCALE);
-            boolean containsFavorite = checkBackStackContainsTag(Constants.tag_create_session_from_favorites);
-            if (containsFavorite) {
-                PatientFirebase patient = PatientsManagement.getInstance().getPatientFromSession(FirebaseDatabaseHelper.getSessionFromScale(scale), context);
-
-                args.putSerializable(PatientProfileFragment.PATIENT, patient);
-                fragment = new PatientProfileFragment();
                 fragment.setArguments(args);
 
                 // Create new transaction and add to back stack
@@ -563,30 +590,10 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 Fragment currentFragment = context.getFragmentManager().findFragmentById(R.id.current_fragment);
                 transaction.remove(currentFragment);
                 transaction.replace(R.id.current_fragment, fragment);
-                transaction.addToBackStack(Constants.tag_view_patient_info_records);
+                transaction.addToBackStack(Constants.tag_review_session_from_patient_profile);
                 transaction.commit();
                 return;
-
             }
-
-
-            SharedPreferencesHelper.resetPrivateSession(context, "");
-
-            args = new Bundle();
-            args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);
-            args.putSerializable(ReviewSingleSessionWithPatient.SESSION, FirebaseDatabaseHelper.getSessionFromScale(scale));
-            fragment = new ReviewSingleSessionWithPatient();
-
-            fragment.setArguments(args);
-
-            // Create new transaction and add to back stack
-            FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
-            Fragment currentFragment = context.getFragmentManager().findFragmentById(R.id.current_fragment);
-            transaction.remove(currentFragment);
-            transaction.replace(R.id.current_fragment, fragment);
-            transaction.addToBackStack(Constants.tag_review_session_from_patient_profile);
-            transaction.commit();
-            return;
         }
 
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);

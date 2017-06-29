@@ -51,10 +51,10 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
 
         public MyViewHolder(View view) {
             super(view);
-            patientName = (TextView) view.findViewById(R.id.patientName);
-            overflow = (ImageView) view.findViewById(R.id.overflow);
-            testsForDayRecycler = (RecyclerView) view.findViewById(R.id.recyclerview);
-            card = (CardView) view.findViewById(R.id.sessionHistoryCard);
+            patientName = view.findViewById(R.id.patientName);
+            overflow = view.findViewById(R.id.overflow);
+            testsForDayRecycler = view.findViewById(R.id.recyclerview);
+            card = view.findViewById(R.id.sessionHistoryCard);
         }
     }
 

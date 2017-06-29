@@ -163,12 +163,12 @@ public class LoginFragment extends Fragment {
 
 //        }
 
-        final EditText inputEmail = (EditText) view.findViewById(R.id.email);
-        final EditText inputPassword = (EditText) view.findViewById(R.id.password);
-        final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        Button btnSignup = (Button) view.findViewById(R.id.btn_signup);
-        Button btnLogin = (Button) view.findViewById(R.id.btn_login);
-        Button btnReset = (Button) view.findViewById(R.id.btn_reset_password);
+        final EditText inputEmail = view.findViewById(R.id.email);
+        final EditText inputPassword = view.findViewById(R.id.password);
+        final ProgressBar progressBar = view.findViewById(R.id.progressBar);
+        Button btnSignup = view.findViewById(R.id.btn_signup);
+        Button btnLogin = view.findViewById(R.id.btn_login);
+        Button btnReset = view.findViewById(R.id.btn_reset_password);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();

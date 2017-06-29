@@ -73,8 +73,8 @@ public class MainPageCustomButton extends LinearLayout {
 
         // When the previous button is pressed, select the previous value
         // in the list.
-        ImageView buttonImage = (ImageView) this.findViewById(R.id.custombutton_image);
-        TextView buttonText = (TextView) this.findViewById(R.id.custombutton_text);
+        ImageView buttonImage = this.findViewById(R.id.custombutton_image);
+        TextView buttonText = this.findViewById(R.id.custombutton_text);
 
         // set text and image
         buttonImage.setImageResource(pageIcon);

@@ -69,7 +69,7 @@ public class CGAAreaPublic extends Fragment {
         session = (SessionFirebase) args.getSerializable(sessionObject);
         getActivity().setTitle(area);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.area_scales_recycler_view);
         ScaleCard adapter;
         RecyclerView.Adapter finalAdapter = null;
         adapter = new ScaleCard(getActivity(), session, resuming, Constants.SESSION_GENDER, area);
@@ -93,7 +93,7 @@ public class CGAAreaPublic extends Fragment {
 
 
 
-        Button finishSession = (Button) view.findViewById(R.id.session_finish);
+        Button finishSession = view.findViewById(R.id.session_finish);
         finishSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,10 +104,12 @@ public class CGAAreaPublic extends Fragment {
             }
         });
 
-        if (currentScale.isCompleted()){
+        if (currentScale.isCompleted() && SharedPreferencesHelper.showTour(getActivity())){
             finishSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
                     .setPointer(new Pointer())
-                    .setToolTip(new ToolTip().setTitle("Terminar Sessão").setDescription("Clique aqui para terminar a sessão")
+                    .setToolTip(new ToolTip().setTitle("Terminar Sessão").
+                            setDescription("Depois de preencher as escalas que pretende, é altura de terminar a sessão." +
+                                    "Clique aqui para terminar a sessão.")
                             .setGravity(Gravity.TOP | Gravity.CENTER))
                     .setOverlay(new Overlay())
                     .playOn(finishSession);

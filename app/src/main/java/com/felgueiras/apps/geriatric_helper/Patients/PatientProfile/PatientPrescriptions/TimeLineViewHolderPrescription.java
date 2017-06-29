@@ -3,7 +3,6 @@ package com.felgueiras.apps.geriatric_helper.Patients.PatientProfile.PatientPres
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.R;

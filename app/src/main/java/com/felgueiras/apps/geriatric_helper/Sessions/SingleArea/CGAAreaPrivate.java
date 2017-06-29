@@ -62,7 +62,7 @@ public class CGAAreaPrivate extends Fragment {
         session = (SessionFirebase) args.getSerializable(SESSION);
         getActivity().setTitle(area);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.area_scales_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.area_scales_recycler_view);
         ScaleCard adapter;
         RecyclerView.Adapter finalAdapter = null;
 
@@ -95,8 +95,8 @@ public class CGAAreaPrivate extends Fragment {
 //        }
 
 
-        Button saveButton = (Button) view.findViewById(R.id.session_save);
-        Button cancelButton = (Button) view.findViewById(R.id.session_cancel);
+        Button saveButton = view.findViewById(R.id.session_save);
+        Button cancelButton = view.findViewById(R.id.session_cancel);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

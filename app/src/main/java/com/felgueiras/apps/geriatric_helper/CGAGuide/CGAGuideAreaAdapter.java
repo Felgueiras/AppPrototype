@@ -39,10 +39,10 @@ public class CGAGuideAreaAdapter extends RecyclerView.Adapter<CGAGuideAreaAdapte
 
         public CGACardHolder(View view) {
             super(view);
-            name = (TextView) view.findViewById(R.id.cga_area);
-            areaInfo = (TextView) view.findViewById(R.id.area_info);
-            scalesIcons = (RecyclerView) view.findViewById(R.id.area_scales);
-            areaIcon = (ImageView) view.findViewById(R.id.area_icon);
+            name = view.findViewById(R.id.cga_area);
+            areaInfo = view.findViewById(R.id.area_info);
+            scalesIcons = view.findViewById(R.id.area_scales);
+            areaIcon = view.findViewById(R.id.area_icon);
             this.view = view;
         }
     }

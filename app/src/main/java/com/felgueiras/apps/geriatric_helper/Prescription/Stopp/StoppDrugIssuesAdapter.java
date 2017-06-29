@@ -38,8 +38,8 @@ public class StoppDrugIssuesAdapter extends RecyclerView.Adapter<StoppDrugIssues
         public DrugIssue(View view) {
             super(view);
             // get view
-            description = (TextView) view.findViewById(R.id.issue_description);
-            risk = (TextView) view.findViewById(R.id.issue_risk);
+            description = view.findViewById(R.id.issue_description);
+            risk = view.findViewById(R.id.issue_risk);
         }
     }
 

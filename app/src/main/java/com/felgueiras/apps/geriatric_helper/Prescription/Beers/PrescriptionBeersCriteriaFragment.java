@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -75,7 +74,7 @@ public class PrescriptionBeersCriteriaFragment extends Fragment {
 
 
         // get the listview
-        expListView = (ExpandableListView) view.findViewById(R.id.lvExp);
+        expListView = view.findViewById(R.id.lvExp);
 
         // preparing list data
         prepareListDataOrganSystem();
@@ -86,7 +85,7 @@ public class PrescriptionBeersCriteriaFragment extends Fragment {
 
 
         // user's selection
-        RadioGroup beersSelection = (RadioGroup) view.findViewById(R.id.beersSelection);
+        RadioGroup beersSelection = view.findViewById(R.id.beersSelection);
 
         beersSelection.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

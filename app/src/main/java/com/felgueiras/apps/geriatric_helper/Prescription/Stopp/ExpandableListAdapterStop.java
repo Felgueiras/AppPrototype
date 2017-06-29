@@ -64,11 +64,11 @@ public class ExpandableListAdapterStop extends BaseExpandableListAdapter {
         }
 
         // drug names
-        TextView drugName = (TextView) childView.findViewById(R.id.drug_name);
+        TextView drugName = childView.findViewById(R.id.drug_name);
         drugName.setText(prescription.getDrugName());
 
         // issues
-        RecyclerView drugIssues = (RecyclerView) childView.findViewById(R.id.issues);
+        RecyclerView drugIssues = childView.findViewById(R.id.issues);
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(_context, LinearLayoutManager.VERTICAL, false);
@@ -116,7 +116,7 @@ public class ExpandableListAdapterStop extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_group, null);
         }
 
-        TextView lblListHeader = (TextView) convertView
+        TextView lblListHeader = convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);

@@ -65,11 +65,11 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
 
         public MyViewHolder(View view) {
             super(view);
-            questionTextView = (TextView) view.findViewById(R.id.nameQuestion);
+            questionTextView = view.findViewById(R.id.nameQuestion);
             // right and wrong button
-            right = (ImageButton) view.findViewById(R.id.rightChoice);
-            wrong = (ImageButton) view.findViewById(R.id.wrongChoice);
-            questionImage = (ImageView) view.findViewById(R.id.questionImage);
+            right = view.findViewById(R.id.rightChoice);
+            wrong = view.findViewById(R.id.wrongChoice);
+            questionImage = view.findViewById(R.id.questionImage);
         }
     }
 
@@ -146,7 +146,7 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
                                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
 
                                 View layout = inflater.inflate(R.layout.custom_fullimage_dialog, null);
-                                ImageView image = (ImageView) layout.findViewById(R.id.fullimage);
+                                ImageView image = layout.findViewById(R.id.fullimage);
                                 image.setImageBitmap(bitmap);
                                 imageDialog.setView(layout);
                                 imageDialog.setPositiveButton("Fechar", new DialogInterface.OnClickListener() {

@@ -34,7 +34,7 @@ public class SessionsHistoryMainFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.new_evaluation_fab);
+        FloatingActionButton fab = view.findViewById(R.id.new_evaluation_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

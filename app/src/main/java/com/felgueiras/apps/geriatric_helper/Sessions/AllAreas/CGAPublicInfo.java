@@ -2,11 +2,7 @@ package com.felgueiras.apps.geriatric_helper.Sessions.AllAreas;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,12 +16,8 @@ import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseRemoteConfig;
 import com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout.HelpMainFragment;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Main.FragmentTransitions;
-import com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.RegisterActivity;
 import com.felgueiras.apps.geriatric_helper.R;
 
-import tourguide.tourguide.Overlay;
-import tourguide.tourguide.Pointer;
-import tourguide.tourguide.ToolTip;
 import tourguide.tourguide.TourGuide;
 
 
@@ -60,7 +52,7 @@ public class CGAPublicInfo extends Fragment {
         /**
          * Start a session.
          */
-        Button startSession = (Button) view.findViewById(R.id.start_acg_evaluation);
+        Button startSession = view.findViewById(R.id.start_acg_evaluation);
         startSession.setText(FirebaseRemoteConfig.getString("create_session",
                 getResources().getString(R.string.create_session)));
 
@@ -120,7 +112,7 @@ public class CGAPublicInfo extends Fragment {
         /**
          * See more information.
          */
-        Button moreInfo = (Button) view.findViewById(R.id.more_info);
+        Button moreInfo = view.findViewById(R.id.more_info);
         moreInfo.setText(FirebaseRemoteConfig.getString("more_info",
                 getResources().getString(R.string.more_info)));
         moreInfo.setOnClickListener(new View.OnClickListener() {

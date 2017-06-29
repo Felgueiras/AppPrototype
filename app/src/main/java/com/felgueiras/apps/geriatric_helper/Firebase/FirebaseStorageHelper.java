@@ -1,7 +1,6 @@
 package com.felgueiras.apps.geriatric_helper.Firebase;
 
 import android.app.Activity;
-import android.app.MediaRouteButton;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -28,7 +27,6 @@ import com.felgueiras.apps.geriatric_helper.PatientMetadata;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -814,13 +812,15 @@ public class FirebaseStorageHelper {
     }
 
 
-    public static void fetchVideoDisplay(final VideoView vidView, final ProgressBar bar, final Activity activity) {
+    public static void fetchVideoDisplay(String helpTopic, final VideoView vidView, final ProgressBar bar, final Activity activity) {
 
         // download help video from Firebase
         bar.setVisibility(View.VISIBLE); //View.INVISIBLE, or View.GONE to hide it.
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
+        // TODO get video file by name
         String fileName = "video_sample.mp4";
+
         StorageReference storageRef = storage.getReferenceFromUrl(FirebaseHelper.firebaseURL).child("help_videos/" + fileName);
 
         try {
