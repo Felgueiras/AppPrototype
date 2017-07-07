@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseRemoteConfig;
 import com.felgueiras.apps.geriatric_helper.R;
 
 import java.io.Serializable;
@@ -70,13 +71,13 @@ public class CGAGuideAreaAdapter extends RecyclerView.Adapter<CGAGuideAreaAdapte
         holder.name.setText(area);
         switch (area) {
             case Constants.cga_mental:
-                holder.areaIcon.setImageResource(R.drawable.ic_mental);
+                holder.areaIcon.setImageResource(R.drawable.ic_cognitive);
                 break;
             case Constants.cga_functional:
                 holder.areaIcon.setImageResource(R.drawable.ic_functional);
                 break;
             case Constants.cga_nutritional:
-                holder.areaIcon.setImageResource(R.drawable.ic_nutritional_black);
+                holder.areaIcon.setImageResource(R.drawable.ic_nutritional);
                 break;
             case Constants.cga_social:
                 holder.areaIcon.setImageResource(R.drawable.ic_people_black_24dp);
@@ -87,20 +88,20 @@ public class CGAGuideAreaAdapter extends RecyclerView.Adapter<CGAGuideAreaAdapte
         // add info about this area
         String area_text = null;
         switch (area) {
-            case Constants.cga_mental:
-                area_text = context.getResources().getString(R.string.cga_mental);
-                break;
-            case Constants.cga_clinical:
-                area_text = Constants.clinical_evaluation_tips + "\n" + Constants.clinical_evaluation_what_to_do;
-                break;
             case Constants.cga_functional:
-                area_text = context.getResources().getString(R.string.cga_functional);
+                area_text = FirebaseRemoteConfig.getString("cga_functional", "");
+                break;
+            case Constants.cga_afective:
+                area_text = FirebaseRemoteConfig.getString("cga_afective", "");
                 break;
             case Constants.cga_nutritional:
-                area_text = context.getResources().getString(R.string.cga_nutritional);
+                area_text = FirebaseRemoteConfig.getString("cga_nutritional", "");
                 break;
-            case Constants.cga_social:
-                area_text = context.getResources().getString(R.string.cga_social);
+            case Constants.cga_cognitive:
+                area_text = FirebaseRemoteConfig.getString("cga_cognitive", "");
+                break;
+            case Constants.cga_march:
+                area_text = FirebaseRemoteConfig.getString("cga_march", "");
                 break;
         }
         holder.areaInfo.setText(area_text);

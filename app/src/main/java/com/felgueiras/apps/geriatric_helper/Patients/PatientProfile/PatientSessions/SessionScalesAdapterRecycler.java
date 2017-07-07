@@ -93,13 +93,13 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
 
         switch (area) {
             case Constants.cga_mental:
-                holder.scaleAreaIcon.setImageResource(R.drawable.ic_mental);
+                holder.scaleAreaIcon.setImageResource(R.drawable.ic_cognitive);
                 break;
             case Constants.cga_functional:
                 holder.scaleAreaIcon.setImageResource(R.drawable.ic_functional);
                 break;
             case Constants.cga_nutritional:
-                holder.scaleAreaIcon.setImageResource(R.drawable.ic_nutritional_black);
+                holder.scaleAreaIcon.setImageResource(R.drawable.ic_nutritional);
                 break;
             case Constants.cga_social:
                 holder.scaleAreaIcon.setImageResource(R.drawable.ic_people_black_24dp);

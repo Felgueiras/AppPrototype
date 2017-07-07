@@ -27,7 +27,7 @@ import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublic;
 import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
-import com.felgueiras.apps.geriatric_helper.Introduction.MyIntro;
+import com.felgueiras.apps.geriatric_helper.Introduction.GeriatricHelperIntro;
 import com.felgueiras.apps.geriatric_helper.Prescription.PrescriptionMainFragment;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
@@ -147,7 +147,7 @@ public class PublicAreaActivity extends AppCompatActivity {
                 //  If the activity has never started before...
                 if (isFirstStart) {
                     //  Launch app intro
-                    Intent i = new Intent(PublicAreaActivity.this, MyIntro.class);
+                    Intent i = new Intent(PublicAreaActivity.this, GeriatricHelperIntro.class);
                     startActivity(i);
                     //  Make a new preferences editor
                     SharedPreferences.Editor e = finalSharedPreferences.edit();

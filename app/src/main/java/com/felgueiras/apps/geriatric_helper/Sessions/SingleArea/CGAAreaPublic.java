@@ -88,7 +88,7 @@ public class CGAAreaPublic extends Fragment {
         // check if the tutorial scale is filled up
         // show guide to finish the session
         ArrayList<GeriatricScaleNonDB> testsForArea = Scales.getScalesForArea(area);
-        GeriatricScaleNonDB scaleNonDB = testsForArea.get(Constants.scalePosition);
+        GeriatricScaleNonDB scaleNonDB = testsForArea.get(Constants.tourScalePosition);
         GeriatricScaleFirebase currentScale = FirebaseDatabaseHelper.getScaleFromSession(session, scaleNonDB.getScaleName());
 
 

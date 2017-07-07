@@ -120,7 +120,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
         final GeriatricScaleFirebase currentScale = FirebaseDatabaseHelper.getScaleFromSession(session, scaleNonDB.getScaleName());
 
-        if (position == Constants.scalePosition && SharedPreferencesHelper.showTour(context) ) {
+        if (position == Constants.tourScalePosition && SharedPreferencesHelper.showTour(context) ) {
 
             if (!currentScale.isCompleted()){
                 // click on the scale
@@ -244,7 +244,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                 transaction.replace(R.id.current_fragment, newFragment);
                 transaction.addToBackStack(Constants.tag_display_session_scale).commit();
 
-                if (position == 1 && SharedPreferencesHelper.showTour(context) ) {
+                if (position == Constants.tourScalePosition && SharedPreferencesHelper.showTour(context) ) {
                     // close TourGuide
                     scaleTourGuide.cleanUp();
                 }

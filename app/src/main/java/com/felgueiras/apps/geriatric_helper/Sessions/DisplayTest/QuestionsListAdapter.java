@@ -759,6 +759,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                         arrayAdapter.add(currentChoice.getDescription());
                     } else {
                         if (!currentChoice.getName().equals(currentChoice.getDescription())) {
+                            // TODO put choice name in bold
                             arrayAdapter.add(currentChoice.getName() + " - " + currentChoice.getDescription());
                         } else {
                             arrayAdapter.add(currentChoice.getDescription());

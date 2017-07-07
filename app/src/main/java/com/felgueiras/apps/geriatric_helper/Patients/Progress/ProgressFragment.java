@@ -74,10 +74,10 @@ public class ProgressFragment extends Fragment {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         Fragment fragment = null;
                         switch (item.getItemId()) {
-                            case R.id.cga_mental:
-                                Constants.bottomNavigationPatientProgress = 0;
-                                fragment = fragments.get(0);
-                                break;
+//                            case R.id.cga_mental:
+//                                Constants.bottomNavigationPatientProgress = 0;
+//                                fragment = fragments.get(0);
+//                                break;
                             case R.id.cga_functional:
                                 Constants.bottomNavigationPatientProgress = 1;
                                 fragment = fragments.get(1);
@@ -86,10 +86,10 @@ public class ProgressFragment extends Fragment {
                                 Constants.bottomNavigationPatientProgress = 2;
                                 fragment = ProgressAreaScalesFragment.newInstance(Constants.cga_nutritional, patient);
                                 break;
-                            case R.id.cga_social:
-                                Constants.bottomNavigationPatientProgress = 3;
-                                fragment = ProgressAreaScalesFragment.newInstance(Constants.cga_social, patient);
-                                break;
+//                            case R.id.cga_social:
+//                                Constants.bottomNavigationPatientProgress = 3;
+//                                fragment = ProgressAreaScalesFragment.newInstance(Constants.cga_social, patient);
+//                                break;
                         }
 
                         FragmentManager fragmentManager = getChildFragmentManager();

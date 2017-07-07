@@ -36,33 +36,38 @@ public class HelpTopicsAdapter extends BaseAdapter {
         //String helpText = context.getResources().getString(R.string.help_cga_description);
         final String helpTopic = Constants.help_topics[position];
         // get text from RemoteConfig
-        String text = null;
+        String helpTopicString = null;
         switch (position) {
             case 0:
-                text = FirebaseRemoteConfig.getString("help_topic_cga", "");
+                helpTopicString = FirebaseRemoteConfig.getString("help_topic_cga", "");
                 break;
             case 1:
-                text = FirebaseRemoteConfig.getString("help_topic_functionalities", "");
+                helpTopicString = FirebaseRemoteConfig.getString("help_topic_functionalities", "");
                 break;
             case 2:
-                text = FirebaseRemoteConfig.getString("help_topic_personal_area", "");
+                helpTopicString = FirebaseRemoteConfig.getString("help_topic_personal_area", "");
                 break;
             case 3:
-                text = FirebaseRemoteConfig.getString("help_topic_patients", "");
+                helpTopicString = FirebaseRemoteConfig.getString("help_topic_patients", "");
                 break;
             case 4:
-                text = FirebaseRemoteConfig.getString("help_topic_sessions", "");
+                helpTopicString = FirebaseRemoteConfig.getString("help_topic_bibliography", "");
                 break;
-            case 5:
-                text = FirebaseRemoteConfig.getString("help_topic_prescriptions", "");
-                break;
-            case 6:
-                text = FirebaseRemoteConfig.getString("help_topic_cga_guide", "");
-                break;
+//            case 5:
+//                text = FirebaseRemoteConfig.getString("help_topic_prescriptions", "");
+//                break;
+//            case 6:
+//                text = FirebaseRemoteConfig.getString("help_topic_cga_guide", "");
+//                break;
+//            case 7:
+//                text = FirebaseRemoteConfig.getString("help_topic_bibliography", "");
+//                break;
         }
 
-        helpTextView.setText(text);
-        final String finalText = text;
+        helpTopicString = helpTopic;
+
+        helpTextView.setText(helpTopicString);
+        final String finalText = helpTopicString;
         helpTextView.getRootView().setOnClickListener(new View.OnClickListener() {
 
             @Override

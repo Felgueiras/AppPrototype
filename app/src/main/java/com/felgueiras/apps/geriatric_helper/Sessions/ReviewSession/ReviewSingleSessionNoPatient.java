@@ -128,10 +128,11 @@ public class ReviewSingleSessionNoPatient extends Fragment {
 
         bottomNavigationView.getMenu().getItem(defaultIndex).setChecked(true);
         final ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(ReviewAreaFragment.newInstance(Constants.cga_mental, session));
         fragments.add(ReviewAreaFragment.newInstance(Constants.cga_functional, session));
+        fragments.add(ReviewAreaFragment.newInstance(Constants.cga_afective, session));
+        fragments.add(ReviewAreaFragment.newInstance(Constants.cga_march, session));
+        fragments.add(ReviewAreaFragment.newInstance(Constants.cga_cognitive, session));
         fragments.add(ReviewAreaFragment.newInstance(Constants.cga_nutritional, session));
-        fragments.add(ReviewAreaFragment.newInstance(Constants.cga_social, session));
 
         Constants.bottomNavigationReviewSession = defaultIndex;
         transaction.replace(R.id.frame_layout_cga_area, fragments.get(defaultIndex));
@@ -139,10 +140,11 @@ public class ReviewSingleSessionNoPatient extends Fragment {
 
 
         final Map<Integer, Integer> fragmentMapping = new HashMap<>();
-        fragmentMapping.put(R.id.cga_mental, 0);
-        fragmentMapping.put(R.id.cga_functional, 1);
-        fragmentMapping.put(R.id.cga_nutritional, 2);
-        fragmentMapping.put(R.id.cga_social, 3);
+        fragmentMapping.put(R.id.cga_functional, 0);
+        fragmentMapping.put(R.id.cga_afective, 1);
+        fragmentMapping.put(R.id.cga_march, 2);
+        fragmentMapping.put(R.id.cga_cognitive, 3);
+        fragmentMapping.put(R.id.cga_nutritional, 4);
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -197,19 +199,19 @@ public class ReviewSingleSessionNoPatient extends Fragment {
                         .replace(R.id.current_fragment, fragment)
                         .commit();
 
-                if (SharedPreferencesHelper.showTour(getActivity())){
+                if (SharedPreferencesHelper.showTour(getActivity())) {
                     SharedPreferencesHelper.disableTour(getActivity());
                     finishReviewingSessionGuide.cleanUp();
                 }
             }
         });
 
-        if (SharedPreferencesHelper.showTour(getActivity())){
+        if (SharedPreferencesHelper.showTour(getActivity())) {
             finishReviewingSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
                     .setPointer(new Pointer())
                     .setToolTip(new ToolTip().setTitle("Fechar").
                             setDescription("Neste ecrã tem acesso ao resumo da sessão. Pode consultar os resultados" +
-                                    "de cada escala e, se pretender, gerar um documento PDF." +
+                                    " de cada escala e, se pretender, gerar um documento PDF. " +
                                     "Quando quiser sair, clique neste botão.")
                             .setGravity(Gravity.TOP | Gravity.LEFT))
                     .setOverlay(new Overlay())

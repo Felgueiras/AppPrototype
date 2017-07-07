@@ -1,5 +1,3 @@
-- suporte a múltiplas contas sem sync
-- ao fazer login com outra conta os pacientes da conta anterior continuam lá
+- automate retrieving help contents (don't use Constants file)
+- fetch help topics text from a file, not from remote config
 - area card: show already completed scales
-
-- bibliography of scales

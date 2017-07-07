@@ -280,7 +280,7 @@ serviços e intervenções, que respondam aos seus problemas,
         estão organizados por sistema/categoria terapêutica ou doença/síndrome.
     </string>
     <string name="intro_welcome_message" translatable="false">Bem-vindo ao GeriatricHelper</string>
-    <string name="intro_brief_description" translatable="false">Esta aplicação permite-lhe aplicar a Avaliação Geriátrica Global.</string>
+    <string name="intro_brief_description" translatable="false">Esta aplicação permite-lhe aplicar a Avaliação Geriátrica Global (AGG).</string>
     <string name="intro_patients" translatable="false">Ao registar-se na aplicação pode gerir os seus pacientes,
         avalià-los e acompanhar o seu progresso.</string>
     <string name="intro_prescription" translatable="false">Consulte critérios que o ajudarão a prescrever o medicamento mais
@@ -337,7 +337,9 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="cga_public">Sessão AGG</string>
     <string name="about">Informações</string>
     <string name="about_app">Aplicação desenvolvida no âmbito da Dissertação de Mestrado em Engenharia de Computadores
-    e Telemática da Universidade de Aveiro do aluno Rafael Salgueiro Felgueiras Pinto.</string>
+    e Telemática da Universidade de Aveiro do aluno Rafael Salgueiro Felgueiras Pinto.
+\n\n
+    Baseada no documento do GERMI sobre Avaliação Geriátrica</string>
     <string name="cga_guide">Guia da AGG</string>
     <string name="firstPublicEvaluation" translatable="false">Se quiser criar uma sessão associada a um paciente deve registar-se na aplicação.
         Ao registar-se pode criar perfis de pacientes, sessões e associar prescrições.
@@ -417,6 +419,81 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="modulePrescription" translatable="false">modulePrescription</string>
     <string name="show_initial_tour" translatable="false">show_initial_tour</string>
     <string name="show_tour" translatable="false">show_tour</string>
+    <string name="cga_definition">O processo normal de envelhecimento determina em todo o indivíduo, embora
+com intensidade variável, um défice físico, mental e funcional. E a intensidade
+deste défice condiciona o grau de dependência que vai afectar o idoso
+nas diversas áreas da sua vida individual e social.\n
+        A AGG é cosiderada a "pedra angular do cuidado ao idoso" e pode ser aplicada no
+        hospital, centro de saúde ou mesmo no domicílio.\n
+        O objetivo da AVALIAÇÃO GERIÁTRICA GLOBAL (AGG) é conhecer com mais precisão o estado do idoso
+e os seus problemas, possibilitando uma resposta mais completa e adequada
+dos profissionais e, consequentemente, uma melhor qualidade de vida para
+o idoso.
+    \n\n
+    “ Avaliação multidisciplinar do idoso nos planos em que é deficitário - físico,
+mental, funcional, social - com o objectivo de estabelecer e coordenar
+planos de cuidados, serviços e intervenções, que respondam aos seus problemas,
+às suas necessidades e às suas incapacidades.“\n\n
+Epstein</string>
+    <string name="cga_objective">
+        • Aumentar a precisão do diagnóstico\n
+        • Tornar o prognóstico mais correcto\n
+        • Diminuir o risco iatrogénico\n
+        • Facilitar condutas preventivas\n
+        • Orientar a escolha das intervenções\n
+        • Adequar as medidas assistenciais\n
+        • Facilitar o acompanhamento\n
+        • Melhorar a qualidade de vida</string>
+    <string name="cga_when">
+        Programada\n
+        • Inicial\n
+        • Periódica ( Anual ou Bi-anual )\n\n
+
+        Em situações de risco\n
+        • Perda / luto\n
+        • Alterações do modo de vida\n
+        • Doença grave\n
+        • Institucionalização
+    </string>
+    <string name="cga_who">
+        Aceitando-se hoje que os cuidados de saúde ao idoso devem assentar
+        em critérios biológicos, mais do que em critérios cronológicos, a AGG
+        deve ser praticada nos:\n
+        Idosos > 75 anos\n
+        Idosos > 65 anos em situações de risco\n
+        • Pluripatologia e Polifarmácia\n
+        • Doença crónica\n
+        • Diminuição funcional\n
+        • Falta de apoio social\n
+        • Institucionalização
+    </string>
+    <string name="cga_how">
+        Av. Clínica: Exame clínico; Exames complementares de diagnóstico.\n
+        Av. Física: Capacidade física; Marcha e equilíbrio; Estado de nutrição.\n
+        Av. Mental: Cognitiva; Afectiva.\n
+        Av. Funcional: Autonomia; Independência\n
+        Av. Social: Família; Habitat; Recursos económicos; Rede social.\n
+        Esta aplicação pretende auxiliar o estado funcional, estado afectivo, marcha, estado cognitivo e estado nutricional.
+    </string>
+    <string name="cga_instruments">
+        São muitos os instrumentos utilizados para fazer a avaliação das capacidades
+referidas. A sua utilização decorre de opções ditadas por razões variadas:
+objectivos; custos; disponibilidades técnicas; simplicidade; fiabilidade. Para os
+objetivos visados pela AVALIAÇÃO GERIÁTRICA GLOBAL e porque são os mais
+utilizados com essa finalidade, consideram-se recomendáveis os que nesta
+brochura são apresentados, por serem:\n
+• SIMPLES\n
+• FIÁVEIS\n
+• DE EXECUÇÃO FÁCIL\n
+• POUCO DEMORADOS\n
+• BEM ACEITES PELO IDOSO\n\n
+
+        O GERMI recomenda a sua utilização porque, além de obedecerem aos
+critérios referidos, a sua utilização universal permitirá uniformidade dos
+estudos e comparabilidade dos resultados obtidos, com os benefícios
+inerentes para os profissionais e para os utentes.
+
+    </string>
 
 
 </resources>

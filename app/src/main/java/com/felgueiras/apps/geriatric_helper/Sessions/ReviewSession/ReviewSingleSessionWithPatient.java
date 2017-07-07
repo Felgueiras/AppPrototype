@@ -121,10 +121,10 @@ public class ReviewSingleSessionWithPatient extends Fragment {
 
 
         final Map<Integer, Integer> fragmentMapping = new HashMap<>();
-        fragmentMapping.put(R.id.cga_mental, 0);
-        fragmentMapping.put(R.id.cga_functional, 1);
-        fragmentMapping.put(R.id.cga_nutritional, 2);
-        fragmentMapping.put(R.id.cga_social, 3);
+//        fragmentMapping.put(R.id.cga_mental, 0);
+//        fragmentMapping.put(R.id.cga_functional, 1);
+//        fragmentMapping.put(R.id.cga_nutritional, 2);
+//        fragmentMapping.put(R.id.cga_social, 3);
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(

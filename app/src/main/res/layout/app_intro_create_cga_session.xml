@@ -45,7 +45,7 @@
         android:gravity="center"
         android:paddingLeft="64dp"
         android:paddingRight="64dp"
-        android:text="A AGG é realizada dentro do contexto de uma sessão, onde as escalas se encontram divididas por área de aplicação"
+        android:text="Cada AGG é realizada numa sessão, onde as escalas se encontram divididas por área a avaliar (estado funcional, afetivo, cognitivo, nutricional e marcha)"
         android:textColor="#ffffff"
         android:textSize="16sp" />
 

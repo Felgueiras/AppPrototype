@@ -115,18 +115,22 @@ public class Constants {
      * CGA areas.
      */
     public static final String cga_clinical = "Avaliação clínica";
-    public static final String cga_afective = "Estado afetivo";
+    public static final String cga_afective = "Estado afectivo";
     public static final String cga_cognitive = "Estado cognitivo";
     public static final String cga_nutritional = "Estado nutricional";
     public static final String cga_functional = "Estado funcional";
     public static final String cga_mental = "Estado mental";
     public static final String cga_social = "Situação social";
+    public static final String cga_march = "Marcha";
+    /**
+     * CGA areas.
+     */
     public static String[] cga_areas = new String[]{
-            cga_mental,
-//            cga_clinical,
             cga_functional,
-            cga_nutritional,
-//            cga_social
+            cga_afective,
+            cga_march,
+            cga_cognitive,
+            cga_nutritional
     };
 
     /**
@@ -189,26 +193,39 @@ public class Constants {
     public static final String help_topic_sessions = "Sessões";
     public static final String help_topic_prescriptions = "Prescrições";
     public static final String help_topic_cga_guide = "Guia da AGG";
-
-    public static String[] help_topics = new String[]{
-            help_topic_cga,
-            help_topic_functionalities,
-            help_topic_personal_area,
-            help_topic_patients,
-            help_topic_sessions,
-            help_topic_prescriptions,
-            help_topic_cga_guide
-    };
+    public static final String help_topic_bibliography = "Bibliografia adicional";
+    /**
+     * CGA Help topics.
+     */
+    public static final String help_topic_cga_definition = "Definição e contexto";
+    public static final String help_topic_cga_objective = "Objectivo";
+    public static final String help_topic_cga_when= "Quando aplicar";
+    public static final String help_topic_cga_who= "Quem";
+    public static final String help_topic_cga_how= "Como";
+    public static final String help_topic_cga_instruments= "Instrumentos";
 
 
     /**
-     * GSON files with JSONArrays.
+     * Help topics.
      */
-    public static final String filePatients = "patients.txt";
-    public static final String fileSessions = "sessions.txt";
-    public static final String fileScales = "scales.txt";
-    public static final String fileQuestions = "questions.txt";
-    public static final String fileChoices = "choices.txt";
+    public static String[] help_topics = new String[]{
+            help_topic_cga,
+            help_topic_functionalities,
+//            help_topic_personal_area,
+//            help_topic_patients,
+//            help_topic_sessions,
+            help_topic_prescriptions,
+            help_topic_cga_guide,
+            help_topic_bibliography,
+            help_topic_cga_definition,
+            help_topic_cga_objective,
+            help_topic_cga_when,
+            help_topic_cga_who,
+            help_topic_cga_how,
+            help_topic_cga_instruments,
+    };
+
+
     public static ActionBarDrawerToggle toggle;
     public static boolean upButton;
 
@@ -260,6 +277,6 @@ public class Constants {
     /**
      * Tour guide constants
      */
-    public static final int scalePosition = 1;
+    public static final int tourScalePosition = 0;
     public static PublicAreaActivity publicArea;
 }

@@ -2,6 +2,7 @@ package com.felgueiras.apps.geriatric_helper.HelpFeedbackAbout;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,8 +72,31 @@ public class HelpSingleTopic extends Fragment {
                 text = FirebaseRemoteConfig.getString("help_cga_guide_description",
                         "");
                 break;
+            case Constants.help_topic_bibliography:
+                text = FirebaseRemoteConfig.getString("help_topic_bibliography_description",
+                        "");
+                break;
+            case Constants.help_topic_cga_definition:
+                text = getActivity().getString(R.string.cga_definition);
+                break;
+            case Constants.help_topic_cga_objective:
+                text = getActivity().getString(R.string.cga_objective);
+                break;
+            case Constants.help_topic_cga_when:
+                text = getActivity().getString(R.string.cga_when);
+                break;
+            case Constants.help_topic_cga_who:
+                text = getActivity().getString(R.string.cga_who);
+                break;
+            case Constants.help_topic_cga_how:
+                text = getActivity().getString(R.string.cga_how);
+                break;
+            case Constants.help_topic_cga_instruments:
+                text = getActivity().getString(R.string.cga_instruments);
+                break;
+
         }
-        helpText.setText(text);
+        helpText.setText(Html.fromHtml(text));
 
         bar = view.findViewById(R.id.progressBar);
 

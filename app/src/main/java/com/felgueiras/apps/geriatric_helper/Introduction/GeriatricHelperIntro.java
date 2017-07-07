@@ -8,14 +8,14 @@ import com.felgueiras.apps.geriatric_helper.Main.PublicAreaActivity;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.github.paolorotolo.appintro.AppIntro;
 
-public class MyIntro extends AppIntro {
+public class GeriatricHelperIntro extends AppIntro {
     // Please DO NOT override onCreate. Use init
     @Override
     public void init(Bundle savedInstanceState) {
 
         //adding the three slides for introduction app you can ad as many you needed
         // welcome to the App
-        addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro1));
+        addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro_fist_screen));
         addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro_create_cga_session));
         addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro_fill_session));
         addSlide(AppIntroSampleSlider.newInstance(R.layout.app_intro_review));

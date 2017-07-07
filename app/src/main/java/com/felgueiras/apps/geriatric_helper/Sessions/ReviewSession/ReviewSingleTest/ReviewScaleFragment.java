@@ -69,9 +69,10 @@ public class ReviewScaleFragment extends Fragment {
         // if this test allows to take photoDownloaded, inflate another menu
         if (scale.photos()) {
             inflater.inflate(R.menu.menu_scale_photo, menu);
-        } else if (scale.isContainsVideo()) {
-            inflater.inflate(R.menu.menu_scale_video, menu);
         }
+//        else if (scale.isContainsVideo()) {
+//            inflater.inflate(R.menu.menu_scale_video, menu);
+//        }
     }
 
     @Override

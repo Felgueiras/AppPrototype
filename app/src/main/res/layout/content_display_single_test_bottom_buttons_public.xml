@@ -24,7 +24,7 @@
     </RelativeLayout>
 
     <include
-        android:id="@+id/finishButton"
-        layout="@layout/bottom_buttons_finish" />
+        android:id="@+id/saveButtonLayout"
+        layout="@layout/bottom_buttons_save" />
 
 </LinearLayout>

@@ -26,6 +26,7 @@ public class HelpMainFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
