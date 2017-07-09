@@ -170,7 +170,7 @@
     <string name="help_functionalitites_description" translatable="false">
         Esta aplicação permite realizar a AGG e acompanhar a evolução de um paciente, caso o utilizador
         esteja autenticado no sistema. Tem como objetivo auxiliar os profissionais de saúde a aplicar este método e
-        fornecer-lhes auxílio enquanto realizam o ACG.\n\n
+        fornecer-lhes auxílio enquanto realizam a AGG.\n\n
         Para avaliar um paciente na área pública clique em "Criar Sessão", selecione o género do paciente (o resultado
         de certas escalas depende do género) e depois selecione a escala que pretende avaliar. Estas encontram-se agrupadas por
         áreas. Preencha somente as escalas que achar adequadas, não necessita de preencher todas à partida.
@@ -494,6 +494,8 @@ estudos e comparabilidade dos resultados obtidos, com os benefícios
 inerentes para os profissionais e para os utentes.
 
     </string>
+    <string name="modulePersonalArea">modulePersonalArea</string>
+    <string name="tourGuideState">tourGuideState</string>
 
 
 </resources>

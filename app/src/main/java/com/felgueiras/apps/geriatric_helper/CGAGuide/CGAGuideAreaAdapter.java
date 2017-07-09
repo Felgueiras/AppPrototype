@@ -70,17 +70,20 @@ public class CGAGuideAreaAdapter extends RecyclerView.Adapter<CGAGuideAreaAdapte
         final String area = Constants.cga_areas[position];
         holder.name.setText(area);
         switch (area) {
-            case Constants.cga_mental:
-                holder.areaIcon.setImageResource(R.drawable.ic_cognitive);
-                break;
             case Constants.cga_functional:
                 holder.areaIcon.setImageResource(R.drawable.ic_functional);
+                break;
+            case Constants.cga_afective:
+                holder.areaIcon.setImageResource(R.drawable.ic_afective);
                 break;
             case Constants.cga_nutritional:
                 holder.areaIcon.setImageResource(R.drawable.ic_nutritional);
                 break;
-            case Constants.cga_social:
-                holder.areaIcon.setImageResource(R.drawable.ic_people_black_24dp);
+            case Constants.cga_cognitive:
+                holder.areaIcon.setImageResource(R.drawable.ic_cognitive);
+                break;
+            case Constants.cga_march:
+                holder.areaIcon.setImageResource(R.drawable.ic_march);
                 break;
         }
 

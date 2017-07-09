@@ -11,6 +11,13 @@ import com.google.gson.annotations.Expose;
 @Table(name = "Scorings")
 public class Scoring extends Model {
 
+    /**
+     * Special scoring name
+     */
+    @Expose
+    @Column(name = "name")
+    boolean name;
+
     @Expose
     @Column(name = "guid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     String guid;
@@ -111,5 +118,13 @@ public class Scoring extends Model {
 
     public void setValuesWomen(Grading[] valuesWomen) {
         this.valuesWomen = valuesWomen;
+    }
+
+    public boolean isName() {
+        return name;
+    }
+
+    public void setName(boolean name) {
+        this.name = name;
     }
 }

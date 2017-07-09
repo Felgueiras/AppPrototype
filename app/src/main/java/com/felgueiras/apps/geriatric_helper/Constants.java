@@ -23,7 +23,12 @@ public class Constants {
     public static final String SCALE = "SCALE";
     public static final String AREA = "AREA";
     public static final String ALL_AREAS = "ALL_AREAS";
-    public static int SESSION_GENDER;
+
+    public static final int EDUCATION_LEVEL_ANALFABETO = 0;
+    public static final int EDUCATION_LEVEL_1_11_YEARS = 1;
+    public static final int EDUCATION_LEVEL_11_YEARS_PLUS = 2;
+    public static String EDUCATION_LEVEL;
+    public static int SESSION_GENDER = -1;
 
     public static String patient = "patientObject";
     public static String test = "TEST";
@@ -279,4 +284,5 @@ public class Constants {
      */
     public static final int tourScalePosition = 0;
     public static PublicAreaActivity publicArea;
+    public static String tag_display_bmi_calculator = "tag_display_bmi_calculator";
 }

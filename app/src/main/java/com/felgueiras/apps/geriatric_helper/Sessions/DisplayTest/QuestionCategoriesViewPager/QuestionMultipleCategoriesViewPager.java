@@ -31,7 +31,6 @@ public class QuestionMultipleCategoriesViewPager {
     public QuestionMultipleCategoriesViewPager(LayoutInflater inflater, GeriatricScaleNonDB testNonDB, Activity context, GeriatricScaleFirebase test, QuestionsListAdapter adapter) {
         this.inflater = inflater;
         this.scaleNonDB = testNonDB;
-        Activity context1 = context;
         this.scaleDB = test;
         this.questionsListAdapter = adapter;
     }

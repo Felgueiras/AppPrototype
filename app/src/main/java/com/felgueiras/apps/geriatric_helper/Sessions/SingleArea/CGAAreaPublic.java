@@ -2,6 +2,7 @@ package com.felgueiras.apps.geriatric_helper.Sessions.SingleArea;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ public class CGAAreaPublic extends Fragment {
     boolean resuming = false;
     private SessionFirebase session;
     private TourGuide finishSessionGuide;
+    private String area;
 
 
     @Override
@@ -65,14 +67,17 @@ public class CGAAreaPublic extends Fragment {
         Bundle args = getArguments();
         patientForThisSession = (PatientFirebase) args.getSerializable(PATIENT);
 
-        String area = args.getString(CGA_AREA);
+        area = args.getString(CGA_AREA);
         session = (SessionFirebase) args.getSerializable(sessionObject);
         getActivity().setTitle(area);
 
         RecyclerView recyclerView = view.findViewById(R.id.area_scales_recycler_view);
         ScaleCard adapter;
         RecyclerView.Adapter finalAdapter = null;
-        adapter = new ScaleCard(getActivity(), session, resuming, Constants.SESSION_GENDER, area);
+        Button finishSession = view.findViewById(R.id.session_finish);
+
+        adapter = new ScaleCard(getActivity(), session, resuming, Constants.SESSION_GENDER,
+                area, finishSession);
         finalAdapter = adapter;
 
         // display the different scales to choose from this area
@@ -92,28 +97,15 @@ public class CGAAreaPublic extends Fragment {
         GeriatricScaleFirebase currentScale = FirebaseDatabaseHelper.getScaleFromSession(session, scaleNonDB.getScaleName());
 
 
-
-        Button finishSession = view.findViewById(R.id.session_finish);
         finishSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finishSession();
-                if (finishSessionGuide!=null){
+                if (finishSessionGuide != null) {
                     finishSessionGuide.cleanUp();
                 }
             }
         });
-
-        if (currentScale.isCompleted() && SharedPreferencesHelper.showTour(getActivity())){
-            finishSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
-                    .setPointer(new Pointer())
-                    .setToolTip(new ToolTip().setTitle("Terminar Sessão").
-                            setDescription("Depois de preencher as escalas que pretende, é altura de terminar a sessão." +
-                                    "Clique aqui para terminar a sessão.")
-                            .setGravity(Gravity.TOP | Gravity.CENTER))
-                    .setOverlay(new Overlay())
-                    .playOn(finishSession);
-        }
 
         return view;
     }
@@ -129,7 +121,9 @@ public class CGAAreaPublic extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
-//        inflater.inflate(R.menu.menu_cga_public, menu);
+        if (area.equals(Constants.cga_nutritional)) {
+            inflater.inflate(R.menu.menu_cga_bmi, menu);
+        }
     }
 
 
@@ -137,14 +131,27 @@ public class CGAAreaPublic extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.session_finish:
-                finishSession();
+            case R.id.calculateBMI:
+                promptBMICalculator();
                 break;
         }
         return super.onOptionsItemSelected(item);
 
     }
 
+    /**
+     * Show DialogFragment with BMI calculator
+     */
+    private void promptBMICalculator() {
+        FragmentManager fm = getActivity().getFragmentManager();
+        BMICalculator editNameDialogFragment = new BMICalculator();
+        editNameDialogFragment.show(fm, "fragment_edit_name");
+
+    }
+
+    /**
+     * Finish a session.
+     */
     private void finishSession() {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         alertDialog.setTitle(getResources().getString(R.string.session_reset));

@@ -1,7 +1,6 @@
 package com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,21 +15,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SessionHelper;
-import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.R;
 import com.felgueiras.apps.geriatric_helper.PhotoVideoHandling.RecordVideoActivity;
-import com.felgueiras.apps.geriatric_helper.Sessions.AllAreas.CGAPublicInfo;
-import com.felgueiras.apps.geriatric_helper.Sessions.ReviewSession.ReviewSingleSessionNoPatient;
 import com.felgueiras.apps.geriatric_helper.PhotoVideoHandling.TakePhotoActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -59,6 +53,7 @@ public class ScaleFragment extends Fragment {
      */
     private GeriatricScaleFirebase scale;
     private boolean proceed;
+    private Button saveScaleButton;
 
 
     // Store instance variables based on arguments passed
@@ -66,7 +61,6 @@ public class ScaleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
 
         // get the list of tests
         Bundle bundle = getArguments();
@@ -93,13 +87,14 @@ public class ScaleFragment extends Fragment {
             view = inflater.inflate(R.layout.content_display_single_test_bottom_buttons_public, container, false);
 
             // save scale
-            Button saveScale = view.findViewById(R.id.saveButton);
-            saveScale.setOnClickListener(new View.OnClickListener() {
+            saveScaleButton = view.findViewById(R.id.saveButton);
+            saveScaleButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     saveScale();
                 }
             });
+
         } else {
             /**
              * Private area.
@@ -129,9 +124,52 @@ public class ScaleFragment extends Fragment {
         ListView testQuestions = view.findViewById(R.id.testQuestions);
         ProgressBar progress = view.findViewById(R.id.scale_progress);
         // create the adapter
-        QuestionsListAdapter adapter = new QuestionsListAdapter(this.getActivity(), scaleNonDB, scale, progress, getChildFragmentManager(), testQuestions);
+        QuestionsListAdapter adapter = new QuestionsListAdapter(this.getActivity(),
+                scaleNonDB,
+                scale,
+                progress,
+                getChildFragmentManager(),
+                testQuestions,
+                saveScaleButton);
         testQuestions.setAdapter(adapter);
 
+        if (scale.getScaleName().equals(Constants.test_name_mini_mental_state)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Escolariadade do paciente");
+
+            //list of items
+            String[] items = new String[]{"Analfabeto",
+                    "1 a 11 anos de escolaridade",
+                    "Escolaridade superior a 11 anos"};
+            builder.setSingleChoiceItems(items, -1,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // item selected logic
+                            if (which == 0)
+                                Constants.EDUCATION_LEVEL = "Analfabetos";
+                            else if (which == 1)
+                                Constants.EDUCATION_LEVEL = "1 a 11 anos de escolaridade";
+                            else if (which == 2)
+                                Constants.EDUCATION_LEVEL = "Escolaridade superior a 11 anos";
+                        }
+                    });
+
+            String positiveText = getString(android.R.string.ok);
+            builder.setPositiveButton(positiveText,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // positive button logic
+                            dialog.dismiss();
+                        }
+                    });
+            builder.setCancelable(false);
+
+            AlertDialog dialog = builder.create();
+            // display dialog
+            dialog.show();
+        }
 
         return view;
     }
@@ -198,8 +236,10 @@ public class ScaleFragment extends Fragment {
 //                    }
 //                });
 //        alertDialog.show();
-        Toast.makeText(getActivity(), "Escala guardada", Toast.LENGTH_SHORT).show();
-        BackStackHandler.getFragmentManager().popBackStack();
+        Snackbar.make(getView(), "Escala guardada", Snackbar.LENGTH_SHORT).show();
+
+        getActivity().onBackPressed();
+
     }
 
 

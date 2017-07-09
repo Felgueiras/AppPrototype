@@ -8,8 +8,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 
 import com.felgueiras.apps.geriatric_helper.Constants;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.R;
 
 public class SettingsPublic extends PreferenceActivity {
@@ -36,6 +38,16 @@ public class SettingsPublic extends PreferenceActivity {
                                                               String key) {
                             // update public area
                             Constants.publicArea.updateDrawer();
+
+                            // check if "tour" key was changed
+                            boolean tourGuideState = sharedPreferences.getBoolean(getResources().getString(R.string.tourGuideState),
+                                    false);
+                            if (tourGuideState) {
+                                // enable tour guide
+                                SharedPreferencesHelper.enableTour(getActivity());
+                            }
+
+
                         }
                     };
         }

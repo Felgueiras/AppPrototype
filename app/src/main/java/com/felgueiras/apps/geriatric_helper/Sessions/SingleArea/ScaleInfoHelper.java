@@ -9,6 +9,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
@@ -38,6 +39,11 @@ public class ScaleInfoHelper implements View.OnClickListener {
         this.context = context;
     }
 
+    /**
+     * Display scale's info.
+     *
+     * @param view
+     */
     @Override
     public void onClick(View view) {
 
@@ -50,10 +56,18 @@ public class ScaleInfoHelper implements View.OnClickListener {
         TextView scaleDescription = dialogView.findViewById(R.id.scale_description);
         scaleDescription.setText(currentScale.getDescription());
 
-        // create table with classification for this scale
+        // create table
         TableLayout table = dialogView.findViewById(R.id.scale_outcomes);
         GeriatricScaleNonDB test = Scales.getScaleByName(currentScale.getScaleName());
-        fillTableScaleScoring(test, table);
+
+//        if (currentScale.getScaleName().equals(Constants.test_name_mini_mental_state)) {
+        // TODO Mini mental scale displays education levels and not different scorings
+        fillTableScale(test, table, currentScale.getScoring().getName());
+
+//        } else {
+//            // create table with classification for this scale
+//            fillTableScale(test, table, false);
+//        }
 
         AlertDialog alertDialog = dialogBuilder.setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -64,10 +78,18 @@ public class ScaleInfoHelper implements View.OnClickListener {
         alertDialog.show();
     }
 
-    public void fillTableScaleScoring(GeriatricScaleNonDB test, TableLayout table) {
+
+    /**
+     * Create table for scorings.
+     *
+     * @param test
+     * @param table
+     * @param scoringName
+     */
+    public void fillTableScale(GeriatricScaleNonDB test, TableLayout table, String scoringName) {
         if (test.getScoring() != null) {
             if (!test.getScoring().isDifferentMenWomen()) {
-                addTableHeader(table, false);
+                addTableHeader(table, false, scoringName);
 
                 // add content
                 ArrayList<GradingNonDB> gradings = test.getScoring().getValuesBoth();
@@ -92,7 +114,7 @@ public class ScaleInfoHelper implements View.OnClickListener {
                     table.addView(row);
                 }
             } else {
-                addTableHeader(table, true);
+                addTableHeader(table, true, scoringName);
 
                 // show values for men and women
                 ArrayList<GradingNonDB> gradings = test.getScoring().getValuesBoth();
@@ -138,8 +160,9 @@ public class ScaleInfoHelper implements View.OnClickListener {
      *
      * @param table
      * @param differentMenWomen
+     * @param scoringName
      */
-    public void addTableHeader(TableLayout table, boolean differentMenWomen) {
+    public void addTableHeader(TableLayout table, boolean differentMenWomen, String scoringName) {
 
         if (!differentMenWomen) {
             // add header
@@ -150,7 +173,12 @@ public class ScaleInfoHelper implements View.OnClickListener {
             TextView points = new TextView(context);
             points.setBackgroundResource(background);
             points.setPadding(paddingValue, paddingValue, paddingValue, paddingValue);
-            result.setText("Resultado");
+            if (scoringName != null && !scoringName.equals("")) {
+                result.setText(scoringName);
+            } else {
+                // default scoring name
+                result.setText("Resultado");
+            }
             points.setText("Pontuação");
             result.setLayoutParams(new TableRow.LayoutParams(1));
             points.setLayoutParams(new TableRow.LayoutParams(2));
@@ -168,7 +196,12 @@ public class ScaleInfoHelper implements View.OnClickListener {
             TextView women = new TextView(context);
             women.setBackgroundResource(background);
             women.setPadding(paddingValue, paddingValue, paddingValue, paddingValue);
-            result.setText("Resultado");
+            if (scoringName != null && !scoringName.equals("")) {
+                result.setText(scoringName);
+            } else {
+                // default scoring name
+                result.setText("Resultado");
+            }
             men.setText("Homem");
             women.setText("Mulher");
             result.setLayoutParams(new TableRow.LayoutParams(1));

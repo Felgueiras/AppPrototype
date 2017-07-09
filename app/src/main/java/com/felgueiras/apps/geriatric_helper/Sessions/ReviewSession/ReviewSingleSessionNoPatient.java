@@ -24,6 +24,8 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFir
 import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.felgueiras.apps.geriatric_helper.TourGuide.TourGuideHelper;
+import com.felgueiras.apps.geriatric_helper.TourGuide.TourGuideStepHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +48,7 @@ public class ReviewSingleSessionNoPatient extends Fragment {
      */
     public static String SESSION = "session";
     private TourGuide finishReviewingSessionGuide;
+    private View createPdfView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class ReviewSingleSessionNoPatient extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_review_session_no_patient, menu);
+        createPdfView = menu.findItem(R.id.createPDF).getActionView();
     }
 
     @Override
@@ -69,7 +73,6 @@ public class ReviewSingleSessionNoPatient extends Fragment {
                 // create a PDF of the session for printing
                 new SessionPDF(session).createSessionPdf(getActivity(), false);
                 break;
-
         }
         return true;
 
@@ -182,6 +185,10 @@ public class ReviewSingleSessionNoPatient extends Fragment {
         closeFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // reset patient's gender
+                Constants.SESSION_GENDER = -1;
+
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.popBackStack();
                 Fragment currentFragment = fragmentManager.findFragmentById(R.id.current_fragment);
@@ -200,22 +207,40 @@ public class ReviewSingleSessionNoPatient extends Fragment {
                         .commit();
 
                 if (SharedPreferencesHelper.showTour(getActivity())) {
-                    SharedPreferencesHelper.disableTour(getActivity());
-                    finishReviewingSessionGuide.cleanUp();
+                    // TODO undisable
+//                    SharedPreferencesHelper.disableTour(getActivity());
                 }
             }
         });
 
         if (SharedPreferencesHelper.showTour(getActivity())) {
-            finishReviewingSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
-                    .setPointer(new Pointer())
-                    .setToolTip(new ToolTip().setTitle("Fechar").
-                            setDescription("Neste ecrã tem acesso ao resumo da sessão. Pode consultar os resultados" +
-                                    " de cada escala e, se pretender, gerar um documento PDF. " +
-                                    "Quando quiser sair, clique neste botão.")
-                            .setGravity(Gravity.TOP | Gravity.LEFT))
-                    .setOverlay(new Overlay())
-                    .playOn(closeFAB);
+//            finishReviewingSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
+//                    .setPointer(new Pointer())
+//                    .setToolTip(new ToolTip().setTitle("Fechar").
+//                            setDescription("Neste ecrã tem acesso ao resumo da sessão. Pode consultar os resultados" +
+//                                    " de cada escala e, se pretender, gerar um documento PDF. " +
+//                                    "Quando quiser sair, clique neste botão.")
+//                            .setGravity(Gravity.TOP | Gravity.LEFT))
+//                    .setOverlay(new Overlay())
+//                    .playOn(closeFAB);
+
+            // create tour guide
+            TourGuideStepHelper step1 = new TourGuideStepHelper(closeFAB,
+                    "Rever sessão",
+                    "Neste ecrã tem acesso ao resumo da sessão. Pode consultar os resultados" +
+                            " de cada escala e, se pretender, gerar um documento PDF.",
+                    Gravity.BOTTOM | Gravity.CENTER);
+            TourGuideStepHelper step2 = new TourGuideStepHelper(closeFAB,
+                    "Fechar",
+                    "Clique neste botão para sair do resumo.");
+            TourGuideStepHelper step3 = new TourGuideStepHelper(createPdfView,
+                    "PDF",
+                    "Ao clicar aqui pode gerar um documento PDF com o resumo da sessão," +
+                            " que pode juntar ao processo do doente.",
+                    Gravity.BOTTOM | Gravity.LEFT);
+            TourGuideStepHelper[] steps = new TourGuideStepHelper[]{step1, step2, step3};
+
+            TourGuideHelper.runOverlay_ContinueMethod(getActivity(), steps);
         }
 
 

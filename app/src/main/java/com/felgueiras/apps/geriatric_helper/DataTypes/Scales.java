@@ -2131,4 +2131,21 @@ public class Scales {
     }
 
 
+    /**
+     * Get the minimum score for education level bases test.
+     *
+     * @param scaleDefinition
+     * @param educationLevel
+     * @return
+     */
+    public static int getGradingMin(GeriatricScaleNonDB scaleDefinition, String educationLevel) {
+        int minScoreForEducationLevel = 0;
+        // search grading by education level
+        for (GradingNonDB grade : scaleDefinition.getScoring().getValuesBoth()) {
+            if (grade.getGrade().equals(educationLevel)) {
+                minScoreForEducationLevel = grade.getMin();
+            }
+        }
+        return minScoreForEducationLevel;
+    }
 }

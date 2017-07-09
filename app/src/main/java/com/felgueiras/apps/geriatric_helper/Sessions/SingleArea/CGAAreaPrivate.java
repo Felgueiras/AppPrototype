@@ -68,10 +68,10 @@ public class CGAAreaPrivate extends Fragment {
 
         // read PATIENT for this session
         if (patientForThisSession != null) {
-            adapter = new ScaleCard(getActivity(), session, resuming, patientForThisSession.getGender(), area);
+            adapter = new ScaleCard(getActivity(), session, resuming, patientForThisSession.getGender(), area, null);
         } else {
             // new evaluation created for no Patient
-            adapter = new ScaleCard(getActivity(), session, resuming, Constants.SESSION_GENDER, area);
+            adapter = new ScaleCard(getActivity(), session, resuming, Constants.SESSION_GENDER, area, null);
         }
         finalAdapter = adapter;
 

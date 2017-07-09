@@ -46,7 +46,7 @@ public class CGAGuideScale extends Fragment {
         ListView scaleQuestions = view.findViewById(testQuestions);
         
         // create fake session so doctor can fill out the questions
-        QuestionsListAdapter adapter = new QuestionsListAdapter(this.getActivity(), scaleNonDB, null, null, getChildFragmentManager(), scaleQuestions);
+        QuestionsListAdapter adapter = new QuestionsListAdapter(this.getActivity(), scaleNonDB, null, null, getChildFragmentManager(), scaleQuestions, null);
         scaleQuestions.setAdapter(adapter);
 
 

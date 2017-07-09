@@ -29,14 +29,13 @@ import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricS
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.PatientFirebase;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatric_helper.R;
+import com.felgueiras.apps.geriatric_helper.TourGuide.TourGuideHelper;
+import com.felgueiras.apps.geriatric_helper.TourGuide.TourGuideStepHelper;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import tourguide.tourguide.Overlay;
-import tourguide.tourguide.Pointer;
-import tourguide.tourguide.ToolTip;
 import tourguide.tourguide.TourGuide;
 
 
@@ -147,16 +146,25 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
 //            holder.cgaCompletion.setText("Todas as escalas foram preenchidas");
 //        }
 
-        // functional area
+        /**
+         * Tour Guide.
+         */
         if (position == 1 && SharedPreferencesHelper.showTour(context)) {
-            // create TourGuide on first area
-            areaCardTourGUide = TourGuide.init(context).with(TourGuide.Technique.Click)
-                    .setPointer(new Pointer())
-                    .setToolTip(new ToolTip().setTitle("Áreas").setDescription("A AGG encontra-se dividida por áreas." +
-                            " Selecione esta área.")
-                            .setGravity(Gravity.BOTTOM | Gravity.CENTER))
-                    .setOverlay(new Overlay())
-                    .playOn(holder.name);
+
+            // create tour guide
+            TourGuideStepHelper step1 = new TourGuideStepHelper(holder.name,
+                    "Áreas",
+                    "A AGG encontra-se dividida por áreas.",
+                    Gravity.BOTTOM | Gravity.CENTER);
+            TourGuideStepHelper step2 = new TourGuideStepHelper(holder.infoButton,
+                    "Info",
+                    "Pode clicar aqui para aceder a informações sobre uma área.");
+            TourGuideStepHelper step3 = new TourGuideStepHelper(holder.name,
+                    "Área",
+                    "Clique aqui para selecionar esta área.");
+            TourGuideStepHelper[] steps = new TourGuideStepHelper[]{step1, step2, step3};
+
+            TourGuideHelper.runOverlay_ContinueMethod(context, steps);
         }
 
 
@@ -282,5 +290,6 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
     public int getItemCount() {
         return Constants.cga_areas.length;
     }
+
 
 }

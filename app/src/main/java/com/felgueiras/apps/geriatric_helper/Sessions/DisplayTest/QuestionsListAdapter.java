@@ -17,9 +17,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -38,6 +41,7 @@ import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.QuestionNonDB;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatric_helper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.QuestionCategoriesViewPager.QuestionMultipleCategoriesViewPager;
 import com.felgueiras.apps.geriatric_helper.Sessions.DisplayTest.SingleQuestion.MultipleChoiceHandler;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
@@ -47,6 +51,11 @@ import com.felgueiras.apps.geriatric_helper.R;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
 
 /**
  * Create the layout of the Questions
@@ -69,11 +78,13 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
     private final ProgressBar progressBar;
     private final FragmentManager childFragmentManager;
     private final ListView listView;
+    private final Button saveScaleButton;
     /**
      * HasSet that will hold the numbers of the Questions that were already answered.
      */
     private HashSet<Integer> positionsFilled = new HashSet<>();
     private ViewPager viewPagerAux;
+    private TourGuide saveScaleTourGuide;
 
     public FragmentManager getChildFragmentManager() {
         return childFragmentManager;
@@ -91,8 +102,9 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
      * @param progress
      * @param childFragmentManager
      * @param listView
+     * @param saveScaleButton
      */
-    public QuestionsListAdapter(Activity context, GeriatricScaleNonDB testNonDb, GeriatricScaleFirebase test, ProgressBar progress, FragmentManager childFragmentManager, ListView listView) {
+    public QuestionsListAdapter(Activity context, GeriatricScaleNonDB testNonDb, GeriatricScaleFirebase test, ProgressBar progress, FragmentManager childFragmentManager, ListView listView, Button saveScaleButton) {
         this.context = context;
         this.questions = testNonDb.getQuestions();
         this.scale = test;
@@ -100,6 +112,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         this.progressBar = progress;
         this.childFragmentManager = childFragmentManager;
         this.listView = listView;
+        this.saveScaleButton = saveScaleButton;
 
 
         numquestions = questions.size();
@@ -183,6 +196,34 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             if (!scale.isCompleted()) {
                 DrawerLayout layout = context.findViewById(R.id.drawer_layout);
                 Snackbar.make(layout, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
+
+                // show tour guide to save this scale
+                if (SharedPreferencesHelper.showTour(context)) {
+
+                    Animation enterAnimation = new AlphaAnimation(0f, 1f);
+                    enterAnimation.setDuration(600);
+                    enterAnimation.setFillAfter(true);
+
+                    Animation exitAnimation = new AlphaAnimation(1f, 0f);
+                    exitAnimation.setDuration(600);
+                    exitAnimation.setFillAfter(true);
+
+                    // create TourGuide on first area
+                    saveScaleTourGuide = TourGuide.init(context).with(TourGuide.Technique.Click)
+                            .setPointer(new Pointer())
+                            .setToolTip(new ToolTip().setTitle("Guardar Escale").setDescription("Depois de preencher a escala, clique aqui para" +
+                                    " a guardar e voltar à lista de escalas da área selecionada")
+                                    .setGravity(Gravity.TOP | Gravity.CENTER))
+                            .setOverlay(new Overlay().
+                                    setEnterAnimation(enterAnimation)
+                                    .setExitAnimation(exitAnimation))
+                            .playOn(saveScaleButton);
+
+                    // TODO handle click on tour guide
+                    if (saveScaleTourGuide != null) {
+                        saveScaleTourGuide.cleanUp();
+                    }
+                }
             }
 
             // write that to DB

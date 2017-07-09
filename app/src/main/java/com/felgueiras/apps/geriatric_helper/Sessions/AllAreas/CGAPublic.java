@@ -108,40 +108,6 @@ public class CGAPublic extends Fragment {
                 // create a new session
                 createNewSession();
                 addScalesToSession();
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle(R.string.select_patient_gender);
-
-                //list of items
-                String[] items = new String[]{"M", "F"};
-                builder.setSingleChoiceItems(items, 0,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // item selected logic
-                                if (which == 0)
-                                    Constants.SESSION_GENDER = Constants.MALE;
-                                else
-                                    Constants.SESSION_GENDER = Constants.FEMALE;
-                            }
-                        });
-
-
-                String positiveText = getString(android.R.string.ok);
-                builder.setPositiveButton(positiveText,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // positive button logic
-                                dialog.dismiss();
-                            }
-                        });
-
-
-                builder.setCancelable(false);
-                AlertDialog dialog = builder.create();
-                // display dialog
-                dialog.show();
             }
         }
 

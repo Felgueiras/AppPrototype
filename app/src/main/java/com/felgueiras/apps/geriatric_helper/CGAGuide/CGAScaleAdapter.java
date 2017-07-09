@@ -87,10 +87,10 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
         holder.bibliography.setText(currentScale.getBibliography());
 
         // scale scoring
-        new ScaleInfoHelper(context,currentScale).fillTableScaleScoring(
+        new ScaleInfoHelper(context,currentScale).fillTableScale(
                 currentScale,
-                holder.scaleScoring
-        );
+                holder.scaleScoring,
+                currentScale.getScoring().getName());
 
 
         /**

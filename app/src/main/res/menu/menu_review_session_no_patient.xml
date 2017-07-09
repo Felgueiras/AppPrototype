@@ -7,6 +7,7 @@
         android:id="@+id/createPDF"
         android:icon="@drawable/ic_picture_as_pdf_white_24dp"
         android:title="@string/action_create_pdf"
+        android:actionViewClass="android.widget.ImageButton"
         app:showAsAction="ifRoom" />
 
 

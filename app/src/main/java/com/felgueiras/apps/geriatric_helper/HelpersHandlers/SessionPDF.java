@@ -19,6 +19,7 @@ import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
@@ -317,15 +318,44 @@ public class SessionPDF {
                     if (scaleFirebase.getScaleName().equals(scale.getScaleName())) {
                         Section scaleInfo = subCatPart.addSection(new Paragraph(scale.getScaleName()));
                         // present info - result (qualitative/quantitative)
+
+                        // check gender
+                        int gender;
                         if (patient != null) {
-                            match = Scales.getGradingForScale(
-                                    scaleFirebase,
-                                    patient.getGender());
+                            gender = patient.getGender();
+                        } else {
+                            gender = Constants.SESSION_GENDER;
+                        }
+
+                        // qualitative result
+
+                        // get static scale definition
+                        GeriatricScaleNonDB scaleDefinition = Scales.getScaleByName(scaleFirebase.getScaleName());
+                        if (scaleDefinition.getScoring().getName() != null) {
+                            // get min value for that category
+                            int minValue = Scales.getGradingMin(scaleDefinition, Constants.EDUCATION_LEVEL);
+                            Paragraph qualitativeResult;
+                            if (FirebaseHelper.generateScaleResult(scaleFirebase) < minValue) {
+                                qualitativeResult = new Paragraph("Resultado abaixo do esperado");
+
+                            } else {
+                                qualitativeResult = new Paragraph("Resultado dentro do esperado");
+
+                            }
+                            qualitativeResult.setIndentationLeft(leftIndentation);
+                            scaleInfo.add(qualitativeResult);
+
                         } else {
                             match = Scales.getGradingForScale(
                                     scaleFirebase,
-                                    Constants.SESSION_GENDER);
+                                    gender);
+                            if (match != null) {
+                                Paragraph qualitativeResult = new Paragraph("Resultado qualitativo: " + match.getGrade());
+                                qualitativeResult.setIndentationLeft(leftIndentation);
+                                scaleInfo.add(qualitativeResult);
+                            }
                         }
+
 
                         // add notes
                         if (scaleFirebase.getNotes() != null) {
@@ -334,12 +364,8 @@ public class SessionPDF {
                             scaleInfo.add(qualitativeResult);
                         }
 
-                        if (match != null) {
-                            Paragraph qualitativeResult = new Paragraph("Resultado qualitativo: " + match.getGrade());
-                            qualitativeResult.setIndentationLeft(leftIndentation);
-                            scaleInfo.add(qualitativeResult);
-                        }
 
+                        // quantitative result
                         Paragraph quantitativeResult = new Paragraph("Resultado quantitativo: " + scaleFirebase.getResult() + "");
                         // paragraph.setAlignment(Element.ALIGN_LEFT);
                         quantitativeResult.setIndentationLeft(leftIndentation);

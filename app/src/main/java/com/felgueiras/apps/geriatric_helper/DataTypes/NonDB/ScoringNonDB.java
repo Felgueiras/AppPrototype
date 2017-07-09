@@ -38,6 +38,8 @@ public class ScoringNonDB implements Serializable{
     private int minMen;
     private int maxMen;
 
+    String name;
+
     /**
      * Define a new Scoring for a Test
      *
@@ -169,5 +171,13 @@ public class ScoringNonDB implements Serializable{
 
     public void setMaxMen(int maxMen) {
         this.maxMen = maxMen;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

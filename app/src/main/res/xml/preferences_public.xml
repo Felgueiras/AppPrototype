@@ -45,17 +45,30 @@ ou ver só as opções de resposta quando selecionar a pergunta"
 
     <CheckBoxPreference
         android:defaultValue="false"
-        android:key="@string/moduleCriteria"
-        android:summary="Consultar critérios médicos para pacientes geriátricos"
-        android:title="Critérios" />
+        android:key="@string/modulePrescription"
+        android:summary="Consultar critérios de prescriçao para pacientes geriátricos"
+        android:title="Prescrição" />
 
     <CheckBoxPreference
         android:defaultValue="false"
-        android:key="@string/modulePrescription"
-        android:summary="Prescrever medicamentos a pacientes"
-        android:title="Prescrição" />
+        android:key="@string/modulePersonalArea"
+        android:summary="Criar e consultar processo de paciente"
+        android:title="Área Pessoal" />
 
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/modulePersonalArea"
+        android:summary="Avaliar o paciente por outra escala"
+        android:title="Outras escalas" />
 
+    <!--Help-->
+    <PreferenceCategory android:title="Ajuda" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="@string/tourGuideState"
+        android:summary="Percorrer o tour inicial da app"
+        android:title="Tour de Sessão" />
 
 
 </PreferenceScreen>

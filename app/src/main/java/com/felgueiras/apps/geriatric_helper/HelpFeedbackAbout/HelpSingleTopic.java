@@ -96,11 +96,11 @@ public class HelpSingleTopic extends Fragment {
                 break;
 
         }
-        helpText.setText(Html.fromHtml(text));
+        helpText.setText(text);
 
         bar = view.findViewById(R.id.progressBar);
 
-        FirebaseStorageHelper.fetchVideoDisplay(helpTopic, vidView, bar, getActivity());
+//        FirebaseStorageHelper.fetchVideoDisplay(helpTopic, vidView, bar, getActivity());
 
 
         return view;

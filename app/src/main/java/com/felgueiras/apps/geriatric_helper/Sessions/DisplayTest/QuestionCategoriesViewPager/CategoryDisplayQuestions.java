@@ -246,9 +246,12 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
             int qIdx = QuestionCategory.getQuestionIndex(categoryIndex,
                     i,
                     scaleNonDB);
-            String dummyID = scaleDB.getGuid() + "-" + qIdx;
-            QuestionFirebase questionInDB = FirebaseDatabaseHelper.getQuestionByID(dummyID);
-            if (questionInDB != null && questionInDB.isAnswered()) numQuestionsAnswered++;
+            if (scaleDB != null) {
+                String dummyID = scaleDB.getGuid() + "-" + qIdx;
+                QuestionFirebase questionInDB = FirebaseDatabaseHelper.getQuestionByID(dummyID);
+                if (questionInDB != null && questionInDB.isAnswered()) numQuestionsAnswered++;
+            }
+
 
         }
         return numQuestionsAnswered == numQuestionsTotal;

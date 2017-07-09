@@ -20,6 +20,7 @@ import com.felgueiras.apps.geriatric_helper.Constants;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatric_helper.DataTypes.Scales;
+import com.felgueiras.apps.geriatric_helper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatric_helper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatric_helper.PatientsManagement;
 import com.felgueiras.apps.geriatric_helper.Sessions.SingleArea.ScaleCard;
@@ -114,16 +115,23 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
         }
 
         // display Scoring to the user
-        GradingNonDB match;
-        if (patient != null) {
-            match = Scales.getGradingForScale(
-                    currentScale,
-                    patient.getGender());
+        GeriatricScaleNonDB scaleDefinition = Scales.getScaleByName(currentScale.getScaleName());
+        if (scaleDefinition.getScoring().getName() != null) {
+            // get min value for that category
+            int minValue = Scales.getGradingMin(scaleDefinition, Constants.EDUCATION_LEVEL);
+            if (FirebaseHelper.generateScaleResult(currentScale) < minValue) {
+                holder.result_qualitative.setText("Resultado abaixo do esperado");
+            } else {
+                holder.result_qualitative.setText("Resultado dentro do esperado");
+            }
+
         } else {
-            match = Scales.getGradingForScale(currentScale, Constants.SESSION_GENDER);
+            // display Scoring to the user
+            GradingNonDB match = Scales.getGradingForScale(currentScale, Constants.SESSION_GENDER);
+            // qualitative result
+            if (match != null)
+                holder.result_qualitative.setText(match.getGrade());
         }
-        if (match != null)
-            holder.result_qualitative.setText(match.getGrade());
 
         if (comparePrevious && patient != null) {
             comparePreviousSessions(currentScale, holder);
@@ -150,9 +158,15 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
                 quantitative += " (" + testNonDB.getScoring().getMinScore();
                 quantitative += "-" + testNonDB.getScoring().getMaxScore() + ")";
             } else {
-                if ((patient != null ? patient.getGender() : 0) == Constants.MALE) {
+                if ((patient != null ? patient.getGender() : Constants.SESSION_GENDER) == Constants.MALE) {
                     quantitative += " (" + testNonDB.getScoring().getMinMen();
                     quantitative += "-" + testNonDB.getScoring().getMaxMen() + ")";
+                }
+                else
+                {
+                    // MIN - MAX for women
+                    quantitative += " (" + testNonDB.getScoring().getMinScore();
+                    quantitative += "-" + testNonDB.getScoring().getMaxScore() + ")";
                 }
             }
         }

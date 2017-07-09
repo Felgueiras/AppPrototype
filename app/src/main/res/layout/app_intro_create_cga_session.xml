@@ -34,7 +34,7 @@
             android:layout_gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:src="@drawable/cga" />
+            android:src="@drawable/cga_areas" />
     </LinearLayout>
 
     <TextView

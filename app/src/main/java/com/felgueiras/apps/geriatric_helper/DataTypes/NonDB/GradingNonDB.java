@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by rafael on 30-09-2016.
  */
-public class GradingNonDB implements Serializable{
+public class GradingNonDB implements Serializable {
 
 
     private int min = -1;
@@ -72,12 +72,15 @@ public class GradingNonDB implements Serializable{
      * @return
      */
     public boolean containsScore(double testResult) {
-        List<String> values = Arrays.asList(score.split(","));
-        ArrayList<Double> vals = new ArrayList<>();
-        for (String s : values) {
-            vals.add(Double.parseDouble(s));
-        }
-        return vals.contains(testResult);
+//        List<String> values = Arrays.asList(score.split(","));
+//        ArrayList<Double> vals = new ArrayList<>();
+//        for (String s : values) {
+//            vals.add(Double.parseDouble(s));
+//        }
+//        return vals.contains(testResult);
+
+        return (testResult >= min && testResult <= max);
+
     }
 
 

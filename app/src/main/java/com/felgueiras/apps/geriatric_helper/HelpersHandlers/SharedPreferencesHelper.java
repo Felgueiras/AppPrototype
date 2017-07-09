@@ -31,7 +31,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class SharedPreferencesHelper {
 
 
-
     public static boolean showTour(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         return sharedPreferences.getBoolean(context.getResources().getString(R.string.show_tour), true);
@@ -59,10 +58,24 @@ public class SharedPreferencesHelper {
     }
 
 
-
+    /**
+     * Disable initial tour guide.
+     *
+     * @param context
+     */
     public static void disableTour(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(context.getString(R.string.show_tour), false).apply();
+    }
+
+    /**
+     * Enable initial tour guide.
+     *
+     * @param context
+     */
+    public static void enableTour(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean(context.getString(R.string.show_tour), true).apply();
     }
 
 
