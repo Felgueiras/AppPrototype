@@ -38,6 +38,7 @@ public class QuestionCategoryQuestionsAdapter extends Fragment {
     private ImageButton next;
     private RecyclerView questionsRecyclerView;
     QuestionsListAdapter adapter;
+    private TextView notes;
 
     public static QuestionCategoryQuestionsAdapter newInstance(int categoryIndex,
                                                                GeriatricScaleNonDB scaleNonDB,
@@ -73,6 +74,7 @@ public class QuestionCategoryQuestionsAdapter extends Fragment {
         categoryTextView = questionView.findViewById(R.id.category);
         categoryNumber = questionView.findViewById(R.id.categoryNumber);
         instructions = questionView.findViewById(R.id.instructions);
+        notes = questionView.findViewById(R.id.notes);
         // left and right arrows - switch category
         previous = questionView.findViewById(R.id.previousCategory);
         next = questionView.findViewById(R.id.nextCategory);
@@ -109,6 +111,10 @@ public class QuestionCategoryQuestionsAdapter extends Fragment {
         // display category info
         if (categoryInfo != null) {
             instructions.setText(categoryInfo);
+        }
+        if (currentCategory.getNotes() != null) {
+            notes.setVisibility(View.VISIBLE);
+            notes.setText(currentCategory.getNotes());
         }
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());

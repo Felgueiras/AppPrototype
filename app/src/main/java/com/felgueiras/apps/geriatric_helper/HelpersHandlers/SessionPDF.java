@@ -166,18 +166,17 @@ public class SessionPDF {
      * @param includePatientInfo
      */
     public void createSessionPdf(Activity activity, boolean includePatientInfo) {
+
         context = activity;
         if (includePatientInfo)
             patient = PatientsManagement.getInstance().getPatientFromSession(session, context);
-
 
         if (!verifyStoragePermissions(activity)) {
             // currently there are no permissions
             return;
         }
 
-        File pdfFolder = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOCUMENTS), "pdf");
+        File pdfFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "pdf");
         if (!pdfFolder.exists()) {
             pdfFolder.mkdir();
             Log.i(LOG_TAG, "Pdf Directory created");
@@ -208,7 +207,8 @@ public class SessionPDF {
             PdfWriter.getInstance(document, output);
             document.open();
             addMetaData(document);
-            addTitlePageSession(document, includePatientInfo);
+            if (includePatientInfo)
+                addTitlePageSession(document, includePatientInfo);
             addScalesInfo(document);
             document.close();
         } catch (DocumentException e) {
@@ -288,11 +288,15 @@ public class SessionPDF {
      * @throws DocumentException
      */
     private void addScalesInfo(Document document) throws DocumentException {
-        Anchor anchor = new Anchor("Relatório", catFont);
-        anchor.setName("Relatório");
+        // Anchor
+        Anchor anchor = new Anchor("Relatório médico de sessão de Avaliação Geriátrica Global", catFont);
+        anchor.setName("Relatório médico de sessão de Avaliação Geriátrica Global");
 
         // Second parameter is the number of the chapter
         Chapter catPart = new Chapter(new Paragraph(anchor), 1);
+        Paragraph subPara1 = new Paragraph("Data", subFont);
+        Section subCatPart1 = catPart.addSection(subPara1);
+        subCatPart1.add(new Paragraph(DatesHandler.dateToStringWithHour(new Date(), false)));
 
 
         // represent data from each CGA area

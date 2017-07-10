@@ -209,20 +209,20 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                     exitAnimation.setFillAfter(true);
 
                     // create TourGuide on first area
-                    saveScaleTourGuide = TourGuide.init(context).with(TourGuide.Technique.Click)
-                            .setPointer(new Pointer())
-                            .setToolTip(new ToolTip().setTitle("Guardar Escale").setDescription("Depois de preencher a escala, clique aqui para" +
-                                    " a guardar e voltar à lista de escalas da área selecionada")
-                                    .setGravity(Gravity.TOP | Gravity.CENTER))
-                            .setOverlay(new Overlay().
-                                    setEnterAnimation(enterAnimation)
-                                    .setExitAnimation(exitAnimation))
-                            .playOn(saveScaleButton);
-
-                    // TODO handle click on tour guide
-                    if (saveScaleTourGuide != null) {
-                        saveScaleTourGuide.cleanUp();
-                    }
+//                    saveScaleTourGuide = TourGuide.init(context).with(TourGuide.Technique.Click)
+//                            .setPointer(new Pointer())
+//                            .setToolTip(new ToolTip().setTitle("Guardar Escale").setDescription("Depois de preencher a escala, clique aqui para" +
+//                                    " a guardar e voltar à lista de escalas da área selecionada")
+//                                    .setGravity(Gravity.TOP | Gravity.CENTER))
+//                            .setOverlay(new Overlay().
+//                                    setEnterAnimation(enterAnimation)
+//                                    .setExitAnimation(exitAnimation))
+//                            .playOn(saveScaleButton);
+//
+//                    // TODO handle click on tour guide
+////                    if (saveScaleTourGuide != null) {
+////                        saveScaleTourGuide.cleanUp();
+////                    }
                 }
             }
 
@@ -556,6 +556,10 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             newRadioButton.setText(description);
             newRadioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     context.getResources().getDimension(R.dimen.font_size));
+            if (i % 2 == 0) { // we're on an even row
+                newRadioButton.setBackgroundColor(context.getResources().getColor(R.color.multiple_choice_grey));
+            }
+//
 
             LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(
                     RadioGroup.LayoutParams.WRAP_CONTENT,
@@ -600,6 +604,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
      * @param i
      * @return
      */
+
     private RadioButton addRadioButton(ChoiceNonDB choice, RadioGroup radioGroup, int i, Activity context) {
         RadioButton newRadioButton = new RadioButton(context);
         if (choice.getName().equals("") || choice.getName() == null) {
@@ -746,7 +751,13 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 
         View questionView = inflater.inflate(R.layout.content_question_multiple_choice_alertdialog, null);
 
-        String questionText = (questionIndex + 1) + " - " + currentQuestionNonDB.getDescription();
+        String questionText;
+        // questions that start with letters (A,B,C,...)
+        if (currentQuestionNonDB.getDescription().matches("^[A-Z][ ].*$")) {
+            questionText = currentQuestionNonDB.getDescription();
+        } else {
+            questionText = (questionIndex + 1) + " - " + currentQuestionNonDB.getDescription();
+        }
 
         //list of items
         final AlertDialog.Builder builderSingle = new AlertDialog.Builder(context);
@@ -855,6 +866,9 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         final Holder holder = new Holder();
         holder.question = questionView.findViewById(R.id.nameQuestion);
         holder.question.setText(questionText);
+        if (questionIndex % 2 == 0) { // we're on an even row
+            holder.question.setBackgroundColor(context.getResources().getColor(R.color.multiple_choice_grey));
+        }
 
         // check if already answered
         if (question != null && question.isAnswered()) {

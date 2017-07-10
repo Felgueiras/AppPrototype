@@ -62,6 +62,16 @@
         android:text="Instructions about this category"
         android:textSize="18sp"/>
 
+    <TextView
+        android:id="@+id/notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:text="Notes about this category"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:textStyle="italic"/>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/questions"

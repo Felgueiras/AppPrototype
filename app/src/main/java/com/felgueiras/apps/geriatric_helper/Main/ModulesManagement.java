@@ -24,7 +24,7 @@ public class ModulesManagement {
         // check if modules are active or not
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
         // criteria module
-        boolean moduleCriteria = SP.getBoolean(context.getResources().getString(R.string.moduleCriteria), false);
+        boolean moduleCriteria = SP.getBoolean(context.getResources().getString(R.string.modulePrescription), false);
 
 
         if (moduleCriteria)

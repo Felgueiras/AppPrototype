@@ -214,12 +214,12 @@ public class Constants {
      * Help topics.
      */
     public static String[] help_topics = new String[]{
-            help_topic_cga,
-            help_topic_functionalities,
+//            help_topic_cga,
+//            help_topic_functionalities,
 //            help_topic_personal_area,
 //            help_topic_patients,
 //            help_topic_sessions,
-            help_topic_prescriptions,
+//            help_topic_prescriptions,
             help_topic_cga_guide,
             help_topic_bibliography,
             help_topic_cga_definition,

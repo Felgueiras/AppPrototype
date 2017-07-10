@@ -96,13 +96,15 @@ public class DatesHandler {
         Calendar cal = Calendar.getInstance();
         Date currentDate = cal.getTime();
 
-
-        CharSequence relativeTimeSpanString = DateUtils.getRelativeTimeSpanString(date.getTime(),
-                currentDate.getTime(), DateUtils.DAY_IN_MILLIS);
-
         String ret = "";
+        if (currentDateAsToday) {
+            CharSequence relativeTimeSpanString = DateUtils.getRelativeTimeSpanString(date.getTime(),
+                    currentDate.getTime(), DateUtils.DAY_IN_MILLIS);
+            ret += relativeTimeSpanString.toString();
+        } else {
+            ret += day;
+        }
 
-        ret += relativeTimeSpanString.toString();
 
         /**
          * Hour.

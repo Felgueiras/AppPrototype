@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by rafael on 30-09-2016.
  */
-public class QuestionCategory implements Serializable{
+public class QuestionCategory implements Serializable {
 
 
     String category;
@@ -29,6 +29,11 @@ public class QuestionCategory implements Serializable{
     boolean yesOrNo;
     private ArrayList<QuestionNonDB> questions;
 
+    /**
+     * Notes about this category, when present.
+     */
+    String notes;
+
 
     /**
      * Constructor for the QuestionCategory data type.
@@ -38,7 +43,7 @@ public class QuestionCategory implements Serializable{
     public QuestionCategory(String category) {
         this.category = category;
         this.questions = new ArrayList<>();
-        this.description ="";
+        this.description = "";
     }
 
 
@@ -109,5 +114,13 @@ public class QuestionCategory implements Serializable{
         }
         index += questionInCategory;
         return index;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

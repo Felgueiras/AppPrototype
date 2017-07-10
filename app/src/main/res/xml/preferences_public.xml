@@ -64,10 +64,10 @@ ou ver só as opções de resposta quando selecionar a pergunta"
     <!--Help-->
     <PreferenceCategory android:title="Ajuda" />
 
-    <SwitchPreference
+    <Preference
         android:defaultValue="false"
-        android:key="@string/tourGuideState"
-        android:summary="Percorrer o tour inicial da app"
+        android:key="@string/tourGuide"
+        android:summary="Percorrer novamente o tour inicial da app. Clique aqui e depois inicie uma nova sessao AGG."
         android:title="Tour de Sessão" />
 
 

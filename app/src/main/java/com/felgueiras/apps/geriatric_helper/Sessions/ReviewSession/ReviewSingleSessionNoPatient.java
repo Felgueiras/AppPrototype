@@ -207,8 +207,7 @@ public class ReviewSingleSessionNoPatient extends Fragment {
                         .commit();
 
                 if (SharedPreferencesHelper.showTour(getActivity())) {
-                    // TODO undisable
-//                    SharedPreferencesHelper.disableTour(getActivity());
+                    SharedPreferencesHelper.disableTour(getActivity());
                 }
             }
         });
@@ -238,7 +237,7 @@ public class ReviewSingleSessionNoPatient extends Fragment {
                     "Ao clicar aqui pode gerar um documento PDF com o resumo da sessão," +
                             " que pode juntar ao processo do doente.",
                     Gravity.BOTTOM | Gravity.LEFT);
-            TourGuideStepHelper[] steps = new TourGuideStepHelper[]{step1, step2, step3};
+            TourGuideStepHelper[] steps = new TourGuideStepHelper[]{step1, step2};
 
             TourGuideHelper.runOverlay_ContinueMethod(getActivity(), steps);
         }
