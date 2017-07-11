@@ -203,10 +203,10 @@ public class Constants {
      * CGA Help topics.
      */
     public static final String help_topic_cga_definition = "Definição e contexto";
-    public static final String help_topic_cga_objective = "Objectivo";
+    public static final String help_topic_cga_objective = "Objetivo da AGG";
     public static final String help_topic_cga_when= "Quando aplicar";
-    public static final String help_topic_cga_who= "Quem";
-    public static final String help_topic_cga_how= "Como";
+    public static final String help_topic_cga_who= "A quem aplicar";
+    public static final String help_topic_cga_how= "Como aplicar";
     public static final String help_topic_cga_instruments= "Instrumentos";
 
 

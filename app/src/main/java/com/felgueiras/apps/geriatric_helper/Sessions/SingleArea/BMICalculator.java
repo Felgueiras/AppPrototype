@@ -18,7 +18,7 @@ import com.felgueiras.apps.geriatric_helper.R;
  * Created by rafae on 07/07/2017.
  */
 
-class BMICalculator extends DialogFragment {
+public class BMICalculator extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,17 +29,27 @@ class BMICalculator extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
-        getDialog().setTitle("Calculador de IMC");
+        getDialog().setTitle("Calculadora de IMC");
 
 
         final EditText height = view.findViewById(R.id.bmi_height);
         final EditText weight = view.findViewById(R.id.bmi_weight);
         final TextView result = view.findViewById(R.id.bmi_result);
-        Button calculateBMI = view.findViewById(R.id.bmi_button);
+        final Button calculateBMI = view.findViewById(R.id.bmi_button);
 
         // Show soft keyboard automatically and request focus to field
         height.requestFocus();
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+//        weight.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean hasFocus) {
+//                if (!hasFocus) {
+//                    calculateBMI.performClick();
+//                }
+//            }
+//        });
+
 
         calculateBMI.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,8 +64,9 @@ class BMICalculator extends DialogFragment {
                     return;
                 }
 
+                float heightVal = Float.parseFloat(heightText) * 0.01f;
                 int weightVal = Integer.parseInt(weightText);
-                float heightVal = Float.parseFloat(heightText);
+                // convert height from cm to m
                 float bmi = weightVal / (heightVal * heightVal);
 
 

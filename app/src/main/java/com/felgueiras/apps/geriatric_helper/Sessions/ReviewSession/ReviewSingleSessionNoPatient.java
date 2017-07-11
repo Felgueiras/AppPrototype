@@ -228,7 +228,7 @@ public class ReviewSingleSessionNoPatient extends Fragment {
                     "Rever sessão",
                     "Neste ecrã tem acesso ao resumo da sessão. Pode consultar os resultados" +
                             " de cada escala e, se pretender, gerar um documento PDF.",
-                    Gravity.BOTTOM | Gravity.CENTER);
+                    Gravity.TOP | Gravity.LEFT);
             TourGuideStepHelper step2 = new TourGuideStepHelper(closeFAB,
                     "Fechar",
                     "Clique neste botão para sair do resumo.");

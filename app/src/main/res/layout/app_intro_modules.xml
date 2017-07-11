@@ -46,7 +46,7 @@
         android:gravity="center"
         android:paddingLeft="64dp"
         android:paddingRight="64dp"
-        android:text="GeriatricHelper encontra-se organizado por módulos, sendo que estes podem ser ativados e desativados nas Definições da aplicação"
+        android:text="GeriatricHelper irá suportar módulos. Em versões futuras estes poderão ser ativados e desativados nas Definições da aplicação"
         android:textColor="#ffffff"
         android:textSize="16sp" />
 

@@ -3,6 +3,7 @@ package com.felgueiras.apps.geriatric_helper.Sessions.SingleArea;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TableLayout;
@@ -110,6 +111,7 @@ public class ScaleInfoHelper implements View.OnClickListener {
                         score.setText(grading.getMin() + "");
                     score.setLayoutParams(new TableRow.LayoutParams(2));
                     row.addView(grade);
+                    score.setGravity(Gravity.CENTER);
                     row.addView(score);
                     table.addView(row);
                 }
@@ -147,7 +149,11 @@ public class ScaleInfoHelper implements View.OnClickListener {
                         scoreWomen.setText(gradingWomen.getMin() + "");
                     scoreWomen.setLayoutParams(new TableRow.LayoutParams(3));
                     row.addView(grade);
+                    scoreMen.setGravity(Gravity.CENTER);
+
                     row.addView(scoreMen);
+                    scoreWomen.setGravity(Gravity.CENTER);
+
                     row.addView(scoreWomen);
                     table.addView(row);
                 }

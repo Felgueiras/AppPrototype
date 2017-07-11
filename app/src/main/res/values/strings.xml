@@ -419,7 +419,7 @@ Donec sed mi purus. Sed tincidunt laoreet turpis a ultrices. Vestibulum non ante
     <string name="modulePrescription" translatable="false">modulePrescription</string>
     <string name="show_initial_tour" translatable="false">show_initial_tour</string>
     <string name="show_tour" translatable="false">show_tour</string>
-    <string name="cga_definition">O processo normal de envelhecimento determina em todo o indivíduo, embora
+    <string name="cga_definition" translatable="false">O processo normal de envelhecimento determina em todo o indivíduo, embora
 com intensidade variável, um défice físico, mental e funcional. E a intensidade
 deste défice condiciona o grau de dependência que vai afectar o idoso
 nas diversas áreas da sua vida individual e social.\n
@@ -435,7 +435,7 @@ mental, funcional, social - com o objectivo de estabelecer e coordenar
 planos de cuidados, serviços e intervenções, que respondam aos seus problemas,
 às suas necessidades e às suas incapacidades.“\n\n
 Epstein</string>
-    <string name="cga_objective">
+    <string name="cga_objective" translatable="false">
         • Aumentar a precisão do diagnóstico\n
         • Tornar o prognóstico mais correcto\n
         • Diminuir o risco iatrogénico\n
@@ -444,7 +444,7 @@ Epstein</string>
         • Adequar as medidas assistenciais\n
         • Facilitar o acompanhamento\n
         • Melhorar a qualidade de vida</string>
-    <string name="cga_when">
+    <string name="cga_when" translatable="false">
         Programada\n
         • Inicial\n
         • Periódica ( Anual ou Bi-anual )\n\n
@@ -455,7 +455,7 @@ Epstein</string>
         • Doença grave\n
         • Institucionalização
     </string>
-    <string name="cga_who">
+    <string name="cga_who" translatable="false">
         Aceitando-se hoje que os cuidados de saúde ao idoso devem assentar
         em critérios biológicos, mais do que em critérios cronológicos, a AGG
         deve ser praticada nos:\n
@@ -467,7 +467,7 @@ Epstein</string>
         • Falta de apoio social\n
         • Institucionalização
     </string>
-    <string name="cga_how">
+    <string name="cga_how" translatable="false">
         Av. Clínica: Exame clínico; Exames complementares de diagnóstico.\n
         Av. Física: Capacidade física; Marcha e equilíbrio; Estado de nutrição.\n
         Av. Mental: Cognitiva; Afectiva.\n
@@ -475,7 +475,7 @@ Epstein</string>
         Av. Social: Família; Habitat; Recursos económicos; Rede social.\n
         Esta aplicação pretende auxiliar o estado funcional, estado afectivo, marcha, estado cognitivo e estado nutricional.
     </string>
-    <string name="cga_instruments">
+    <string name="cga_instruments" translatable="false">
         São muitos os instrumentos utilizados para fazer a avaliação das capacidades
 referidas. A sua utilização decorre de opções ditadas por razões variadas:
 objectivos; custos; disponibilidades técnicas; simplicidade; fiabilidade. Para os
@@ -494,8 +494,8 @@ estudos e comparabilidade dos resultados obtidos, com os benefícios
 inerentes para os profissionais e para os utentes.
 
     </string>
-    <string name="modulePersonalArea">modulePersonalArea</string>
-    <string name="tourGuide">tourGuideState</string>
+    <string name="modulePersonalArea" translatable="false">modulePersonalArea</string>
+    <string name="tourGuide" translatable="false">tourGuideState</string>
 
 
 </resources>

@@ -176,7 +176,7 @@ public class SessionPDF {
             return;
         }
 
-        File pdfFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "pdf");
+        File pdfFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "geriatric_helper");
         if (!pdfFolder.exists()) {
             pdfFolder.mkdir();
             Log.i(LOG_TAG, "Pdf Directory created");
@@ -186,7 +186,7 @@ public class SessionPDF {
         Date date = new Date();
         String timeStamp = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss", Locale.UK).format(date);
 
-        myFile = new File(pdfFolder + timeStamp + ".pdf");
+        myFile = new File(pdfFolder + "-" + timeStamp + ".pdf");
 
         OutputStream output = null;
         try {

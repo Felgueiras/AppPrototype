@@ -8,9 +8,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,17 +44,19 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
     private final QuestionsListAdapter adapter;
     private final TextView categoryTextView;
     private Activity context;
+    private RecyclerView recyclerView;
 
 
     public CategoryDisplayQuestions(Activity context,
                                     GeriatricScaleNonDB testNonDB, int categoryIndex, GeriatricScaleFirebase test,
-                                    QuestionsListAdapter adapter, TextView categoryTextView) {
+                                    QuestionsListAdapter adapter, TextView categoryTextView, RecyclerView questionsRecyclerView) {
         this.context = context;
         this.scaleNonDB = testNonDB;
         this.categoryIndex = categoryIndex;
         this.scaleDB = test;
         this.adapter = adapter;
         this.categoryTextView = categoryTextView;
+        this.recyclerView = questionsRecyclerView;
     }
 
     /**
@@ -150,16 +154,20 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
                                 image.setImageBitmap(bitmap);
                                 imageDialog.setView(layout);
                                 imageDialog.setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
-
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
                                     }
-
                                 });
 
+                                AlertDialog alertDialog = imageDialog.create();
+                                alertDialog.show();
 
-                                imageDialog.create();
-                                imageDialog.show();
+                                // update image size
+                                Display display = context.getWindowManager().getDefaultDisplay();
+                                image.getLayoutParams().width = (int) (display.getWidth() * 0.8f);
+                                image.getLayoutParams().height = (int) (display.getHeight() * 0.8f);
+
+
                             }
                         });
 
@@ -211,6 +219,9 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
                     new RightWrongQuestionHandler(finalQuestionInDB, adapter,
                             scaleNonDB, questionIdx, holder.right,
                             holder.wrong, categoryTextView, currentCategory).onClick(v);
+
+                    recyclerView.getLayoutManager().scrollToPosition(questionIndex + 2);
+
                 }
             });
             holder.wrong.setOnClickListener(new View.OnClickListener() {
@@ -225,6 +236,9 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
                     signalAllQuestionsAnswered();
                     new RightWrongQuestionHandler(finalQuestionInDB, adapter,
                             scaleNonDB, questionIdx, holder.right, holder.wrong, categoryTextView, currentCategory).onClick(v);
+
+                    recyclerView.getLayoutManager().scrollToPosition(questionIndex + 2);
+
                 }
             });
         }

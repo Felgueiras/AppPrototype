@@ -1,4 +1,2 @@
 - automate retrieving help contents (don't use Constants file)
-- fetch help topics text from a file, not from remote config
 - area card: show already completed scales
-- tour: when scale is completed, prompt user to select "save" button to save and go back

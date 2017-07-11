@@ -558,6 +558,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                     context.getResources().getDimension(R.dimen.font_size));
             if (i % 2 == 0) { // we're on an even row
                 newRadioButton.setBackgroundColor(context.getResources().getColor(R.color.multiple_choice_grey));
+//                newRadioButton.setBackgroundColor(context.getResources().getColor(R.color.blue_semi_transparent));
             }
 //
 
@@ -656,18 +657,89 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         View questionView = inflater.inflate(R.layout.content_question_multiple_choice, null);
 
         RadioGroup radioGroup;
-        // check if is already in DB
-        String questionID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
-        QuestionFirebase question = FirebaseDatabaseHelper.getQuestionByID(questionID);
-        if (question == null) {
-            // create question and add to DB
-            question = new QuestionFirebase();
-            question.setDescription(currentQuestionNonDB.getDescription());
-            question.setGuid(questionID);
-            question.setScaleID(scale.getGuid());
-            question.setYesOrNo(false);
-            FirebaseDatabaseHelper.createQuestion(question);
+        if (scale != null) {
+            // check if is already in DB
+            String questionID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription();
+            QuestionFirebase question = FirebaseDatabaseHelper.getQuestionByID(questionID);
+            if (question == null) {
+                // create question and add to DB
+                question = new QuestionFirebase();
+                question.setDescription(currentQuestionNonDB.getDescription());
+                question.setGuid(questionID);
+                question.setScaleID(scale.getGuid());
+                question.setYesOrNo(false);
+                FirebaseDatabaseHelper.createQuestion(question);
 
+
+                // create Choices and add to DB
+                ArrayList<ChoiceNonDB> choicesNonDB = currentQuestionNonDB.getChoices();
+                radioGroup = questionView.findViewById(R.id.radioGroup);
+
+                for (int i = 0; i < choicesNonDB.size(); i++) {
+                    ChoiceNonDB currentChoice = choicesNonDB.get(i);
+//                ChoiceFirebase choice = new ChoiceFirebase();
+//                String choiceID = scale.getGuid() + "-" + currentQuestionNonDB.getDescription() + "-" + currentChoice.getDescription();
+//                // check if already in DB
+//                if (FirebaseDatabaseHelper.getChoiceByID(choiceID) == null) {
+//                    choice.setGuid(choiceID);
+//                    choice.setQuestionID(question.getGuid());
+//                    if (currentChoice.getName() != null)
+//                        choice.setName(currentChoice.getName());
+//                    choice.setDescription(currentChoice.getDescription());
+//                    choice.setScore(currentChoice.getScore());
+//
+//                    FirebaseDatabaseHelper.createChoice(choice);
+//                }
+
+                    // create RadioButton for that choice
+                    addRadioButton(currentChoice, radioGroup, i, context);
+                }
+
+            } else {
+                // get Question from DB
+                question = FirebaseDatabaseHelper.getQuestionsFromScale(scale).get(position);
+                // create Radio Group from the info in DB
+                radioGroup = questionView.findViewById(R.id.radioGroup);
+
+                for (int i = 0; i < FirebaseDatabaseHelper.getChoicesForQuestion(currentQuestionNonDB).size(); i++) {
+                    ChoiceNonDB choice = FirebaseDatabaseHelper.getChoicesForQuestion(currentQuestionNonDB).get(i);
+
+                    // create RadioButton for that choice
+                    addRadioButton(choice, radioGroup, i, context);
+                }
+            }
+            radioGroup.setOnCheckedChangeListener(new MultipleChoiceHandler(question, this, position, listView, currentQuestionNonDB));
+
+            if (question.isAnswered()) {
+                //system.out.println("answered");
+                Holder holder = new Holder();
+                holder.question = questionView.findViewById(R.id.nameQuestion);
+                holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
+                // set the selected option
+                String selectedChoice = question.getSelectedChoice();
+                //system.out.println("sel choice is " + selectedChoice);
+                ArrayList<ChoiceNonDB> choices = FirebaseDatabaseHelper.getChoicesForQuestion(currentQuestionNonDB);
+                int selectedIdx = -1;
+                for (int i = 0; i < choices.size(); i++) {
+                    if (choices.get(i).getName().equals(selectedChoice)) {
+                        selectedIdx = i;
+                    }
+                }
+                RadioButton selectedButton = (RadioButton) radioGroup.getChildAt(selectedIdx);
+                selectedButton.setChecked(true);
+            }
+
+            // Test already opened, but question not answered
+            else {
+                //system.out.println("not answered");
+                Holder holder = new Holder();
+                holder.question = questionView.findViewById(R.id.nameQuestion);
+                holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
+            }
+        } else {
+            Holder holder = new Holder();
+            holder.question = questionView.findViewById(R.id.nameQuestion);
+            holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
 
             // create Choices and add to DB
             ArrayList<ChoiceNonDB> choicesNonDB = currentQuestionNonDB.getChoices();
@@ -692,50 +764,9 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                 // create RadioButton for that choice
                 addRadioButton(currentChoice, radioGroup, i, context);
             }
-
-        } else {
-            // get Question from DB
-            question = FirebaseDatabaseHelper.getQuestionsFromScale(scale).get(position);
-            // create Radio Group from the info in DB
-            radioGroup = questionView.findViewById(R.id.radioGroup);
-
-            for (int i = 0; i < FirebaseDatabaseHelper.getChoicesForQuestion(currentQuestionNonDB).size(); i++) {
-                ChoiceNonDB choice = FirebaseDatabaseHelper.getChoicesForQuestion(currentQuestionNonDB).get(i);
-
-                // create RadioButton for that choice
-                addRadioButton(choice, radioGroup, i, context);
-            }
         }
 
 
-        radioGroup.setOnCheckedChangeListener(new MultipleChoiceHandler(question, this, position, listView, currentQuestionNonDB));
-
-        if (question.isAnswered()) {
-            //system.out.println("answered");
-            Holder holder = new Holder();
-            holder.question = questionView.findViewById(R.id.nameQuestion);
-            holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
-            // set the selected option
-            String selectedChoice = question.getSelectedChoice();
-            //system.out.println("sel choice is " + selectedChoice);
-            ArrayList<ChoiceNonDB> choices = FirebaseDatabaseHelper.getChoicesForQuestion(currentQuestionNonDB);
-            int selectedIdx = -1;
-            for (int i = 0; i < choices.size(); i++) {
-                if (choices.get(i).getName().equals(selectedChoice)) {
-                    selectedIdx = i;
-                }
-            }
-            RadioButton selectedButton = (RadioButton) radioGroup.getChildAt(selectedIdx);
-            selectedButton.setChecked(true);
-        }
-
-        // Test already opened, but question not answered
-        else {
-            //system.out.println("not answered");
-            Holder holder = new Holder();
-            holder.question = questionView.findViewById(R.id.nameQuestion);
-            holder.question.setText((position + 1) + " - " + currentQuestionNonDB.getDescription());
-        }
         return questionView;
     }
 

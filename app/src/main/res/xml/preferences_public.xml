@@ -40,26 +40,26 @@ aceder mais rapidamente à escala a executar"
 ou ver só as opções de resposta quando selecionar a pergunta"
         android:title="Questões escolha múltipla" />-->
 
-    <!--Modules-->
-    <PreferenceCategory android:title="Módulos" />
+    <!--&lt;!&ndash;Modules&ndash;&gt;-->
+    <!--<PreferenceCategory android:title="Módulos" />-->
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/modulePrescription"
-        android:summary="Consultar critérios de prescriçao para pacientes geriátricos"
-        android:title="Prescrição" />
+    <!--<CheckBoxPreference-->
+        <!--android:defaultValue="false"-->
+        <!--android:key="@string/modulePrescription"-->
+        <!--android:summary="Consultar critérios de prescriçao para pacientes geriátricos"-->
+        <!--android:title="Prescrição" />-->
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/modulePersonalArea"
-        android:summary="Criar e consultar processo de paciente"
-        android:title="Área Pessoal" />
+    <!--<CheckBoxPreference-->
+        <!--android:defaultValue="false"-->
+        <!--android:key="@string/modulePersonalArea"-->
+        <!--android:summary="Criar e consultar processo de paciente"-->
+        <!--android:title="Área Pessoal" />-->
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/modulePersonalArea"
-        android:summary="Avaliar o paciente por outra escala"
-        android:title="Outras escalas" />
+    <!--<CheckBoxPreference-->
+        <!--android:defaultValue="false"-->
+        <!--android:key="@string/modulePersonalArea"-->
+        <!--android:summary="Avaliar o paciente por outra escala"-->
+        <!--android:title="Outras escalas" />-->
 
     <!--Help-->
     <PreferenceCategory android:title="Ajuda" />

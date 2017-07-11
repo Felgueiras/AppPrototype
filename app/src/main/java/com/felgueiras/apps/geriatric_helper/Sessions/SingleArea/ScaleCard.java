@@ -138,7 +138,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                 TourGuideStepHelper step3 = new TourGuideStepHelper(holder.notes,
                         "Notas",
                         "Pode adicionar notas sobre uma escala, por exemplo, o motivo para um paciente ter" +
-                                " obtido resultados negativos.", Gravity.BOTTOM | Gravity.CENTER);
+                                " obtido determinada pontuação.", Gravity.BOTTOM | Gravity.CENTER);
                 TourGuideStepHelper step4 = new TourGuideStepHelper(holder.name,
                         "Escala",
                         "Selecione esta escala e preencha-a, " +

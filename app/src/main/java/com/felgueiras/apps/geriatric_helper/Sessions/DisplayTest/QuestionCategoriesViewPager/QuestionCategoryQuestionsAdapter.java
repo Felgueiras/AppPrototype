@@ -122,7 +122,8 @@ public class QuestionCategoryQuestionsAdapter extends Fragment {
         questionsRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         final CategoryDisplayQuestions recyclerAdapter = new CategoryDisplayQuestions(getActivity(),
-                scaleNonDB, categoryIndex, scaleDB, adapter, categoryTextView);
+                scaleNonDB, categoryIndex, scaleDB, adapter, categoryTextView,
+                questionsRecyclerView);
         questionsRecyclerView.setAdapter(recyclerAdapter);
 
         /**
