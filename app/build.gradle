@@ -10,11 +10,11 @@ android {
     compileSdkVersion 26
     buildToolsVersion '26.0.0'
     defaultConfig {
-        applicationId "com.felgueiras.apps.geriatric_helper"
+        applicationId "com.felgueiras.apps.geriatrichelper"
         minSdkVersion 17
         targetSdkVersion 26
-        versionCode 9
-        versionName "5.0"
+        versionCode 1
+        versionName "1.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }

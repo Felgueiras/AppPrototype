@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.felgueiras.apps.geriatric_helper">
+    package="com.felgueiras.apps.geriatrichelper">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -16,7 +16,7 @@
         android:required="true" />
 
     <application
-        android:name=".MyApplication"
+        android:name="com.felgueiras.apps.geriatrichelper.MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/app_icon"
@@ -44,37 +44,37 @@
 
         <!-- Intro -->
         <activity
-            android:name=".Introduction.GeriatricHelperIntro"
+            android:name="com.felgueiras.apps.geriatrichelper.Introduction.GeriatricHelperIntro"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" />
         <activity
-            android:name=".Main.PublicAreaActivity"
+            android:name="com.felgueiras.apps.geriatrichelper.Main.PublicAreaActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".LockScreen.LockScreenActivity"
+            android:name="com.felgueiras.apps.geriatrichelper.LockScreen.LockScreenActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Main.PrivateAreaActivity"
+            android:name="com.felgueiras.apps.geriatrichelper.Main.PrivateAreaActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Settings.SettingsPrivate"
+            android:name="com.felgueiras.apps.geriatrichelper.Settings.SettingsPrivate"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Settings.SettingsPublic"
+            android:name="com.felgueiras.apps.geriatrichelper.Settings.SettingsPublic"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
-        <activity android:name=".PersonalAreaAccess.RegisterActivity" />
+        <activity android:name="com.felgueiras.apps.geriatrichelper.PersonalAreaAccess.RegisterActivity" />
         <activity
-            android:name=".VerticalViewPager.CustomViewPagerActivity"
+            android:name="com.felgueiras.apps.geriatrichelper.VerticalViewPager.CustomViewPagerActivity"
             android:label="@string/title_activity_custom_view_pager"
             android:theme="@style/AppTheme" />
-        <activity android:name=".PhotoVideoHandling.TakePhotoActivity" />
-        <activity android:name=".PhotoVideoHandling.RecordVideoActivity"></activity>
-        <activity android:name=".PersonalAreaAccess.ResetPasswordActivity"></activity>
+        <activity android:name="com.felgueiras.apps.geriatrichelper.PhotoVideoHandling.TakePhotoActivity" />
+        <activity android:name="com.felgueiras.apps.geriatrichelper.PhotoVideoHandling.RecordVideoActivity"></activity>
+        <activity android:name="com.felgueiras.apps.geriatrichelper.PersonalAreaAccess.ResetPasswordActivity"></activity>
         <activity
-            android:name=".Main.LaunchScreen"
+            android:name="com.felgueiras.apps.geriatrichelper.Main.LaunchScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -82,7 +82,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PersonalAreaAccess.PromptSyncBackend"></activity>
+        <activity android:name="com.felgueiras.apps.geriatrichelper.PersonalAreaAccess.PromptSyncBackend"></activity>
     </application>
 
 </manifest>

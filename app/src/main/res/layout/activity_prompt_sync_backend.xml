@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#0385a3"
     android:orientation="vertical"
-    tools:context="com.felgueiras.apps.geriatric_helper.PersonalAreaAccess.PromptSyncBackend">
+    tools:context="com.felgueiras.apps.geriatrichelper.PersonalAreaAccess.PromptSyncBackend">
 
 
     <TextView
