@@ -47,11 +47,11 @@ public class SharedPreferencesHelper {
     }
 
     public static void resetPublicSession(Activity context, String sessionID) {
-        if (sessionID != null) {
-            Session session = Session.getSessionByID(sessionID);
-            if (session != null)
-                session.delete();
-        }
+//        if (sessionID != null) {
+//            Session session = Session.getSessionByID(sessionID);
+//            if (session != null)
+//                session.delete();
+//        }
 
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         sharedPreferences.edit().putString(context.getString(R.string.saved_session_public), null).apply();
