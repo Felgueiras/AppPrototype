@@ -53,6 +53,8 @@ public class SharedPreferencesHelper {
 //                session.delete();
 //        }
 
+        Log.d("123","123");
+
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         sharedPreferences.edit().putString(context.getString(R.string.saved_session_public), null).apply();
     }
