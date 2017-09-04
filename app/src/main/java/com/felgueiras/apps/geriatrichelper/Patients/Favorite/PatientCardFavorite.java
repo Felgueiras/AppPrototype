@@ -102,8 +102,8 @@ public class PatientCardFavorite extends BaseAdapter {
         // inflate menu
         PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
-        /**
-         * Inflate menu depending on the fragment.
+        /*
+          Inflate menu depending on the fragment.
          */
 
         inflater.inflate(R.menu.menu_patient_favorite, popup.getMenu());

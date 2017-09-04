@@ -59,8 +59,8 @@ public class EvaluationsAllFragment extends Fragment implements Serializable {
         adapter = new SessionsAllDays(getActivity(), this);
         gridView.setAdapter(adapter);
 
-        /**
-         * On scroll, hide FAB.
+        /*
+          On scroll, hide FAB.
          */
 
         return view;
@@ -151,8 +151,8 @@ public class EvaluationsAllFragment extends Fragment implements Serializable {
             // get Sessions from that date
             List<SessionFirebase> sessionsFromDate = FirebaseDatabaseHelper.getSessionsFromDate(c.getTime());
             Log.d("Date", sessionsFromDate.size() + "");
-            /**
-             * Filter by date.
+            /*
+              Filter by date.
              */
             ListAdapter adapter = new SessionsSingleDay(getActivity(), c.getTime().getTime());
             GridView gridView = getActivity().findViewById(R.id.gridView);

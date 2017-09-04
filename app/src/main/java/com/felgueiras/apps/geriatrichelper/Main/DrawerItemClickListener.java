@@ -63,12 +63,12 @@ class DrawerItemClickListener implements NavigationView.OnNavigationItemSelected
 
         } else*/
 
-        /**
-         * Public area
+        /*
+          Public area
          */
         if (id == R.id.cga_public) {
-            /**
-             * Check if there's an ongoing session.
+            /*
+              Check if there's an ongoing session.
              */
             String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(context);
             if (sessionID != null)

@@ -195,8 +195,8 @@ public class SessionPDF {
             e.printStackTrace();
         }
 
-        /**
-         * Create PDF.
+        /*
+          Create PDF.
          */
 
         //Step 1

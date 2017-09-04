@@ -667,7 +667,7 @@ public class BeersCriteria {
     /**
      * Get Beers (grouped by disease or syndrome)
      *
-     * @return
+     * @return Beers criteria grouped by disease or syndrome
      */
     public static ArrayList<OrganSystemWithDiseasesSyndromes> getBeersDiseaseSyndrome() {
 
@@ -1102,8 +1102,8 @@ public class BeersCriteria {
     /**
      * Return the Beers criteria beersGeneral for a certain drug label.
      *
-     * @param selectedDrug
-     * @return
+     * @param selectedDrug selected drug to search
+     * @return Beers criteria for that drug
      */
     public static ArrayList<RecommendationInfo> getBeersCriteria(String selectedDrug) {
         ArrayList<RecommendationInfo> recommendationInfos = new ArrayList<>();

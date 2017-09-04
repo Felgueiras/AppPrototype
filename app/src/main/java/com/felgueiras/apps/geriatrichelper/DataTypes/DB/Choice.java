@@ -105,7 +105,7 @@ public class Choice extends Model {
     /**
      * Set the patientName of the Choice
      *
-     * @param name
+     * @param name name of the choice
      */
     public void setName(String name) {
         this.name = name;
@@ -122,7 +122,7 @@ public class Choice extends Model {
     /**
      * Get the score for this Choice
      *
-     * @return
+     * @return score
      */
     public double getScore() {
         return score;
@@ -131,7 +131,7 @@ public class Choice extends Model {
     /**
      * Set the score for this Choice
      *
-     * @param score
+     * @param score score
      */
     public void setScore(double score) {
         this.score = score;

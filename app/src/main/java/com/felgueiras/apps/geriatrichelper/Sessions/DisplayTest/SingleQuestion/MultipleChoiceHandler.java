@@ -51,8 +51,8 @@ public class MultipleChoiceHandler implements RadioGroup.OnCheckedChangeListener
         question.setAnswered(true);
 
         FirebaseDatabaseHelper.updateQuestion(question);
-        /**
-         * Signal that que Question was answered
+        /*
+          Signal that que Question was answered
          */
         adapter.questionAnswered(position);
 
@@ -68,8 +68,8 @@ public class MultipleChoiceHandler implements RadioGroup.OnCheckedChangeListener
 
         question.setAnswered(true);
         FirebaseDatabaseHelper.updateQuestion(question);
-        /**
-         * Signal that que Question was answered
+        /*
+          Signal that que Question was answered
          */
         adapter.questionAnswered(position);
     }

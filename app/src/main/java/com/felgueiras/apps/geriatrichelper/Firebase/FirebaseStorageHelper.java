@@ -250,6 +250,7 @@ public class FirebaseStorageHelper {
                         }
                     }
                     String fileName = scaleName + "-" + scaleLanguage + ".json";
+                    Log.d("Scales","Going to download " + fileName);
 
                     StorageReference storageRef = storage.getReferenceFromUrl(FirebaseHelper.firebaseURL).child("scales/" + fileName);
 
@@ -276,6 +277,7 @@ public class FirebaseStorageHelper {
                             public void onFailure(@NonNull Exception exception) {
                                 if (exception instanceof com.google.firebase.storage.StorageException) {
                                     // scale was not found for that language
+                                    Log.d("Firebase","Exception on " + scaleName);
                                 }
                                 FirebaseHelper.scalesCurrent++;
                                 if (FirebaseHelper.scalesCurrent == FirebaseHelper.scalesTotal)

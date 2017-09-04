@@ -54,8 +54,8 @@ public class BMICalculator extends DialogFragment {
         calculateBMI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /**
-                 * Fields validation.
+                /*
+                  Fields validation.
                  */
                 String heightText = height.getText().toString();
                 String weightText = weight.getText().toString();

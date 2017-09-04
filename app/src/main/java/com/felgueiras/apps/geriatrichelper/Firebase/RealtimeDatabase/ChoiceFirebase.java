@@ -95,7 +95,7 @@ public class ChoiceFirebase implements Serializable {
     /**
      * Set the patientName of the Choice
      *
-     * @param name
+     * @param name patient's name
      */
     public void setName(String name) {
         this.name = name;
@@ -112,7 +112,7 @@ public class ChoiceFirebase implements Serializable {
     /**
      * Get the score for this Choice
      *
-     * @return
+     * @return score
      */
     public double getScore() {
         return score;
@@ -121,7 +121,7 @@ public class ChoiceFirebase implements Serializable {
     /**
      * Set the score for this Choice
      *
-     * @param score
+     * @param score score
      */
     public void setScore(double score) {
         this.score = score;

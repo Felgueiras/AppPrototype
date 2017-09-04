@@ -174,8 +174,8 @@ public class PatientCardPatientsList extends RecyclerView.Adapter<PatientCardPat
         // inflate menu
         PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
-        /**
-         * Inflate menu depending on the fragment.
+        /*
+          Inflate menu depending on the fragment.
          */
 
         inflater.inflate(R.menu.menu_patient_card, popup.getMenu());

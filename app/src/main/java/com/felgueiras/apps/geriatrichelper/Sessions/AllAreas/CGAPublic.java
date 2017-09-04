@@ -90,8 +90,8 @@ public class CGAPublic extends Fragment {
         Log.d("Session", "Inside CGAPublicBottomButtons");
 
 
-        /**
-         * Resume an Evaluation.
+        /*
+          Resume an Evaluation.
          */
         final String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(getActivity());
         boolean canCreateSessions = SharedPreferencesHelper.isSessionCreationPermitted(getActivity());
@@ -100,8 +100,8 @@ public class CGAPublic extends Fragment {
             // get session by ID
             session = Constants.publicSession;
         }
-        /**
-         * Create a new one.
+        /*
+          Create a new one.
          */
         else {
             if (canCreateSessions) {

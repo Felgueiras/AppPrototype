@@ -87,8 +87,8 @@ public class TimeLineAdapterGeneralGroupByDay extends RecyclerView.Adapter<TimeL
 
         holder.date.setText(DatesHandler.dateToStringWithoutHour(currentDate));
 
-        /**
-         * Prescriptions.
+        /*
+          Prescriptions.
          */
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, 1);
         holder.prescriptionsForDate.setLayoutManager(mLayoutManager);
@@ -97,8 +97,8 @@ public class TimeLineAdapterGeneralGroupByDay extends RecyclerView.Adapter<TimeL
                 null);
         holder.prescriptionsForDate.setAdapter(prescriptionsAdapter);
 
-        /**
-         * Sessions.
+        /*
+          Sessions.
          */
         RecyclerView.LayoutManager sessionsLayoutManager = new GridLayoutManager(context, 1);
         holder.sessionsForDate.setLayoutManager(sessionsLayoutManager);

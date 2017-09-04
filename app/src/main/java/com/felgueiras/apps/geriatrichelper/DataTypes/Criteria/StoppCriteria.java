@@ -35,8 +35,8 @@ public class StoppCriteria {
      */
     public static ArrayList<StoppCriteria> getStoppCriteria() {
         ArrayList<StoppCriteria> stoppGeneral = new ArrayList<>();
-        /**
-         * Stopp criteria.
+        /*
+          Stopp criteria.
          */
         // Urogenital
         StoppCriteria urogenitalSystem = new StoppCriteria("Urogenital System");
@@ -342,8 +342,8 @@ public class StoppCriteria {
     /**
      * Get the issues associated to a given drug (start stopp criteria).
      *
-     * @param drugSearchingFor
-     * @return
+     * @param drugSearchingFor name of the drug being searched for
+     * @return Issues for a given drug
      */
     public ArrayList<Issue> getIssuesForGivenDrug(String drugSearchingFor, ArrayList<StoppCriteria> criterions) {
         for (StoppCriteria criterion : criterions) {
@@ -362,8 +362,8 @@ public class StoppCriteria {
     /**
      * Get the StoppCriteria for a given drug.
      *
-     * @param drugSearchingFor
-     * @return
+     * @param drugSearchingFor name of the drug being searched for
+     * @return Stopp criteria for a drug
      */
     public static ArrayList<PrescriptionStopp> getStoppCriteriaPresciptionForDrug(String drugSearchingFor, ArrayList<StoppCriteria> criterions) {
         ArrayList<PrescriptionStopp> prescriptionStopps = new ArrayList<>();
@@ -382,7 +382,7 @@ public class StoppCriteria {
     /**
      * Get all the drugs from StoppGeneral.
      *
-     * @return
+     * @return all Stopp drugs
      */
     public static ArrayList<String> getAllDrugsStopp(ArrayList<StoppCriteria> general) {
         ArrayList<String> drugs = new ArrayList<>();

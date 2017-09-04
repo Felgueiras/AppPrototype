@@ -67,8 +67,8 @@ public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder
             this.view = view;
             name = view.findViewById(R.id.patientName);
             photo = view.findViewById(R.id.patientPhoto);
-            /**
-             * Criteria buttons.
+            /*
+              Criteria buttons.
              */
             startButton = view.findViewById(R.id.startCriteria);
             stoppButton = view.findViewById(R.id.stoppCriteria);
@@ -131,8 +131,8 @@ public class DrugListItem extends RecyclerView.Adapter<DrugListItem.MyViewHolder
         } else {
             holder.stoppButton.setVisibility(View.GONE);
         }
-        /**
-         * Beers.
+        /*
+          Beers.
          */
         if (beersCriteriaDrugs.contains(currentDrug)) {
             holder.beersButton.setVisibility(View.VISIBLE);

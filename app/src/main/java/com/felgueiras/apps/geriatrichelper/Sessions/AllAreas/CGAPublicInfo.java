@@ -49,8 +49,8 @@ public class CGAPublicInfo extends Fragment {
         getActivity().setTitle(FirebaseRemoteConfig.getString("cga",
                 getResources().getString(R.string.cga)));
 
-        /**
-         * Start a session.
+        /*
+          Start a session.
          */
         Button startSession = view.findViewById(R.id.start_acg_evaluation);
         startSession.setText(FirebaseRemoteConfig.getString("create_session",
@@ -60,9 +60,9 @@ public class CGAPublicInfo extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d("Session", "Clicked in CGAPublicInfo!");
-                /**
-                 * If first public evaluation, show alert dialog about saving sessions
-                 * and registering in the app.
+                /*
+                  If first public evaluation, show alert dialog about saving sessions
+                  and registering in the app.
                  */
                 Activity context = getActivity();
                 boolean firstPublicEvaluation = SharedPreferencesHelper.checkFirstPublicEvaluation(getActivity());
@@ -109,8 +109,8 @@ public class CGAPublicInfo extends Fragment {
         });
 
 
-        /**
-         * See more information.
+        /*
+          See more information.
          */
         Button moreInfo = view.findViewById(R.id.more_info);
         moreInfo.setText(FirebaseRemoteConfig.getString("more_info",

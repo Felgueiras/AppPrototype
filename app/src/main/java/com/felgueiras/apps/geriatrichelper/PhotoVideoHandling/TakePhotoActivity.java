@@ -107,7 +107,7 @@ public class TakePhotoActivity extends AppCompatActivity {
     /**
      * Verify if there is permission to take photoDownloaded.
      *
-     * @param context
+     * @param context current context
      */
     public void verifyPhotoPermission(Context context) {
         // Check permission for CAMERA
@@ -125,9 +125,9 @@ public class TakePhotoActivity extends AppCompatActivity {
     /**
      * Handle request permission results.
      *
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
+     * @param requestCode requestCode
+     * @param permissions permissions as a String
+     * @param grantResults permission grant results
      */
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {

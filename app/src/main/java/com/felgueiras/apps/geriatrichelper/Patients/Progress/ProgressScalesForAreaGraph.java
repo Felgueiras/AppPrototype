@@ -91,8 +91,8 @@ public class ProgressScalesForAreaGraph extends RecyclerView.Adapter<ProgressSca
         // set test area in the gui
         holder.testName.setText(currentScale);
 
-        /**
-         * Patient has been evaluated by this scale.
+        /*
+          Patient has been evaluated by this scale.
          */
         if (scaleInstances.size() > 0) {
             // inflate the ViewStub
@@ -113,8 +113,8 @@ public class ProgressScalesForAreaGraph extends RecyclerView.Adapter<ProgressSca
                 // create graphview
                 GraphViewHelper.buildProgressGraph(graph, scaleInstances, scaleInfo, context, patient);
 
-                /**
-                 * View progress in detail.
+                /*
+                  View progress in detail.
                  */
 //                graph.setOnClickListener(new View.OnClickListener() {
 //                    @Override

@@ -81,8 +81,8 @@ public class ScaleFragment extends Fragment {
 
         // user already logged in
         if (auth.getCurrentUser() == null) {
-            /**
-             * Public area.
+            /*
+              Public area.
              */
             view = inflater.inflate(R.layout.content_display_single_test_bottom_buttons_public, container, false);
 
@@ -96,8 +96,8 @@ public class ScaleFragment extends Fragment {
             });
 
         } else {
-            /**
-             * Private area.
+            /*
+              Private area.
              */
             view = inflater.inflate(R.layout.content_display_single_test_bottom_buttons_private, container, false);
 
@@ -250,8 +250,8 @@ public class ScaleFragment extends Fragment {
         if (proceed)
             return true;
         if (!scale.isCompleted()) {
-            /**
-             * Scale is incomplete - inform user.
+            /*
+              Scale is incomplete - inform user.
              */
             // wait for option to be selected
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

@@ -60,8 +60,8 @@ public class PrivateAreaActivity extends AppCompatActivity {
 
 
 
-        /**
-         * Views/layout.
+        /*
+          Views/layout.
          */
         // setup toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

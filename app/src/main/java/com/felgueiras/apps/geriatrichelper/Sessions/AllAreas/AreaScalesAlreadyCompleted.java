@@ -41,7 +41,7 @@ public class AreaScalesAlreadyCompleted extends RecyclerView.Adapter<AreaScalesA
     /**
      * Display all Questions for a GeriatricScale
      *  @param scales  ArrayList of Questions
-     * @param session
+     * @param session CGA session
      */
     public AreaScalesAlreadyCompleted(Activity context, ArrayList<GeriatricScaleFirebase> scales, SessionFirebase session) {
         this.scales = scales;

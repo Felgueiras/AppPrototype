@@ -113,8 +113,8 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
         signalAllQuestionsAnswered();
 
 
-        /**
-         * Set View
+        /*
+          Set View
          */
         holder.questionTextView.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
 
@@ -273,8 +273,8 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
 
     @Override
     public int getItemCount() {
-        /**
-         * Number of questions for this category.
+        /*
+          Number of questions for this category.
          */
         QuestionCategory cat = scaleNonDB.getQuestionsCategories().get(categoryIndex);
         return cat.getQuestions().size();

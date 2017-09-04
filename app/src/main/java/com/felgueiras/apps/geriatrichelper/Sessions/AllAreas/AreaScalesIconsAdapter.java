@@ -40,7 +40,7 @@ public class AreaScalesIconsAdapter extends RecyclerView.Adapter<AreaScalesIcons
     /**
      * Display all Questions for a GeriatricScale
      * @param scales  ArrayList of Questions
-     * @param session
+     * @param session CGA Session
      */
     public AreaScalesIconsAdapter(Activity context, ArrayList<GeriatricScaleFirebase> scales, SessionFirebase session) {
         this.scales = scales;

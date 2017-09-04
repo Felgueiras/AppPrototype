@@ -29,10 +29,10 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
     /**
      * Get item to be displayed on the search suggestions.
      *
-     * @param position
-     * @param convertView
-     * @param parent
-     * @return
+     * @param position postiion
+     * @param convertView View
+     * @param parent parent View
+     * @return View
      */
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {

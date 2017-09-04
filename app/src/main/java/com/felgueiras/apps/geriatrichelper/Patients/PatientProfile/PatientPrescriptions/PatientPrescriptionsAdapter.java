@@ -212,8 +212,8 @@ public class PatientPrescriptionsAdapter extends RecyclerView.Adapter<PatientPre
             }
         });
 
-        /**
-         * Setup warning button
+        /*
+          Setup warning button
          */
         holder.warning.setBackgroundResource(R.drawable.ic_warning_24dp);
 

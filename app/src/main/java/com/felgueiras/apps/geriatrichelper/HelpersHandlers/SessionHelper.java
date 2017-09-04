@@ -29,8 +29,8 @@ import java.util.List;
 public class SessionHelper {
 
     public static void saveSession(final Activity context, final SessionFirebase session, PatientFirebase patient, final View view, View layout, int i) {
-        /**
-         * Create session.
+        /*
+          Create session.
          */
 
         // no test selected
@@ -62,8 +62,8 @@ public class SessionHelper {
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            /**
-                             * Open the fragment to pick an already existing Patient.
+                            /*
+                              Open the fragment to pick an already existing Patient.
                              */
                             FragmentManager fragmentManager = context.getFragmentManager();
 //                                    fragmentManager.popBackStack();
@@ -112,8 +112,8 @@ public class SessionHelper {
             return;
         }
 
-        /**
-         * If first session, all areas must be evaluated.
+        /*
+          If first session, all areas must be evaluated.
          */
 //        if (patient.isFirstSession()) {
 //            // check all areas are evaluated -> at least one test completed
@@ -150,8 +150,8 @@ public class SessionHelper {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        /**
-                         * Erase scales that weren't completed.
+                        /*
+                          Erase scales that weren't completed.
                          */
                         FirebaseDatabaseHelper.eraseScalesNotCompleted(session);
 

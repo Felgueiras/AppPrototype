@@ -57,8 +57,8 @@ public class ProgressAreaScalesFragment extends Fragment {
 
 //        areatextView.setText(area);
 
-        /**
-         * Show info about evaluations for every area.
+        /*
+          Show info about evaluations for every area.
          */
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String progressType = SP.getString(getActivity().getResources().getString(R.string.patientProgressType), "2");

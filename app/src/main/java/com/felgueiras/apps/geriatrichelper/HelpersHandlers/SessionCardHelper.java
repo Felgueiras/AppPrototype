@@ -54,8 +54,8 @@ public class SessionCardHelper implements View.OnClickListener {
         // inflate menu
         PopupMenu popup = new PopupMenu(context, view);
         MenuInflater inflater = popup.getMenuInflater();
-        /**
-         * Inflate menu depending on the fragment.
+        /*
+          Inflate menu depending on the fragment.
          */
         if (fragment instanceof SessionsHistoryMainFragment)
             inflater.inflate(R.menu.menu_session_card_session_list, popup.getMenu());

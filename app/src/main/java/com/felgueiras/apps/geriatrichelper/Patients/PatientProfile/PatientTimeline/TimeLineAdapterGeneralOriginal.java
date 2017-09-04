@@ -58,10 +58,10 @@ public class TimeLineAdapterGeneralOriginal extends RecyclerView.Adapter<Recycle
 //        return TimelineView.getTimeLineViewType(position, getItemCount());
 
 
-        /**
-         * Return is XY
-         * X - lineType
-         * Y - sessions/prescription
+        /*
+          Return is XY
+          X - lineType
+          Y - sessions/prescription
          */
         int lineType, objectType;
         if (objectsList.size() == 1) {

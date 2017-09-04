@@ -68,8 +68,8 @@ public class QuestionCategoryQuestionsAdapter extends Fragment {
         View questionView = inflater.inflate(R.layout.questions_multiple_categories_individual, null);
 
 
-        /**
-         * Access views.
+        /*
+          Access views.
          */
         categoryTextView = questionView.findViewById(R.id.category);
         categoryNumber = questionView.findViewById(R.id.categoryNumber);
@@ -126,8 +126,8 @@ public class QuestionCategoryQuestionsAdapter extends Fragment {
                 questionsRecyclerView);
         questionsRecyclerView.setAdapter(recyclerAdapter);
 
-        /**
-         * Hide previous/next icons
+        /*
+          Hide previous/next icons
          */
         previous.setVisibility(View.VISIBLE);
         next.setVisibility(View.VISIBLE);

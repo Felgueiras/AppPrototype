@@ -76,8 +76,8 @@ public class FirebaseHelper {
      */
     private static DatabaseReference firebaseTablePublic;
 
-    /**
-     * Firebase - patients table.
+    /*
+      Firebase - patients table.
      */
 //    public static DatabaseReference firebaseTablePatients;
     /**
@@ -104,12 +104,12 @@ public class FirebaseHelper {
     public static DatabaseReference firebaseTablePrescriptions;
 
 
-    /**
-     * Patients.
+    /*
+      Patients.
      */
 //    public static ArrayList<PatientFirebase> patients = new ArrayList<>();
-    /**
-     * Favorite Patients.
+    /*
+      Favorite Patients.
      */
 //    public static ArrayList<PatientFirebase> favoritePatients = new ArrayList<>();
     /**
@@ -213,7 +213,7 @@ public class FirebaseHelper {
 
     }
 
-    static int scalesTotal = 12;
+    static int scalesTotal = 7;
     static int scalesCurrent = 0;
 
 
@@ -241,8 +241,8 @@ public class FirebaseHelper {
                 if (scale.getScaleName().equals(Constants.test_name_hamilton) &&
                         questionsFromTest.indexOf(question) > 16)
                     break;
-                /**
-                 * Yes/no Question
+                /*
+                  Yes/no Question
                  */
                 if (question.isYesOrNo()) {
                     String selectedYesNoChoice = question.getSelectedYesNoChoice();
@@ -252,22 +252,22 @@ public class FirebaseHelper {
                         res += question.getNoValue();
                     }
                 }
-                /**
-                 * Right/ wrong question
+                /*
+                  Right/ wrong question
                  */
                 else if (question.isRightWrong()) {
                     if (question.getSelectedRightWrong().equals("right"))
                         res += 1;
                 }
-                /**
-                 * Numerical question.
+                /*
+                  Numerical question.
                  */
                 else if (question.isNumerical()) {
                     System.out.println("Numerical");
                     res += question.getAnswerNumber();
                 }
-                /**
-                 * Multiple Choice Question
+                /*
+                  Multiple Choice Question
                  */
                 else {
                     // get the selected Choice

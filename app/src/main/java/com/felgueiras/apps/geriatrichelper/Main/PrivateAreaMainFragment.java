@@ -118,13 +118,13 @@ public class PrivateAreaMainFragment extends Fragment {
         View view = inflater.inflate(R.layout.private_area_main_page, container, false);
         ButterKnife.bind(this,view);
 
-        /**
-         * Fetch Firebase data.
+        /*
+          Fetch Firebase data.
          */
         FirebaseHelper.initializeFirebase();
 
-        /**
-         * Set the image drawables - this had to be done to avoid errors in lower API versions.
+        /*
+          Set the image drawables - this had to be done to avoid errors in lower API versions.
          */
         patients.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_people_white_24dp);
         sessions.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_sessions_white_24dp);

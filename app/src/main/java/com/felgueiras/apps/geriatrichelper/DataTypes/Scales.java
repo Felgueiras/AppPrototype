@@ -1218,8 +1218,8 @@ public class Scales {
         do questionário para obter a pontuação indicadora de desnutrição.
          */
 
-        /**
-         * Triagem.
+        /*
+          Triagem.
          */
         // 1
         QuestionNonDB question = new QuestionNonDB("A - Nos últimos três meses houve diminuição da ingesta\n" +
@@ -1307,8 +1307,8 @@ public class Scales {
         tinettiScale.setScoring(scoring);
 
 
-        /**
-         * Equilíbrio estático.
+        /*
+          Equilíbrio estático.
          */
         // 1
         QuestionNonDB question = new QuestionNonDB("Equilíbrio sentado", false);
@@ -1394,8 +1394,8 @@ public class Scales {
         question.setChoices(choiceNonDBs);
         tinettiScale.addQuestion(question);
 
-        /**
-         * Equilíbrio dinâmico - marcha.
+        /*
+          Equilíbrio dinâmico - marcha.
          */
         // 10
         question = new QuestionNonDB("Início da marcha (imediatamente após o sinal de partida)", false);
@@ -1517,8 +1517,8 @@ public class Scales {
         nutritionalAssessment.setScoring(scoring);
 
 
-        /**
-         * Avaliação Global.
+        /*
+          Avaliação Global.
          */
         // 7
         QuestionNonDB question = new QuestionNonDB("G - O doente vive na sua própria casa\n" +
@@ -1892,8 +1892,8 @@ public class Scales {
         // add Scoring to Test
         setTest.setScoring(setTestScoring);
 
-        /**
-         * Questions - text input as answer.
+        /*
+          Questions - text input as answer.
          */
         String[] questions = new String[]{
                 "Cores",
@@ -1909,16 +1909,16 @@ public class Scales {
             question.setMultipleTextInput(true);
             setTest.addQuestion(question);
         }
-        /**
-         * Errors / repetitions
+        /*
+          Errors / repetitions
          */
         question = new QuestionNonDB("Erros/repetições");
         question.setRightWrong(false);
         question.setNumerical(true);
         question.setNumericalMax(40);
         setTest.addQuestion(question);
-        /**
-         * Pontuação total
+        /*
+          Pontuação total
          */
         question = new QuestionNonDB("Pontuação total");
         question.setRightWrong(false);

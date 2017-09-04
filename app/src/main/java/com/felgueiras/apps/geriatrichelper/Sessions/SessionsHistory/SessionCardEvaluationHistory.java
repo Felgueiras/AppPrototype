@@ -109,21 +109,21 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
             }
         };
 
-        /**
-         * Review a Session.
+        /*
+          Review a Session.
          */
         holder.card.setOnClickListener(clickListener);
 
-        /**
-         * Setup list.
+        /*
+          Setup list.
          */
         holder.testsForDayRecycler.setHasFixedSize(true);
 
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(context);
         String infoType = SP.getString(context.getResources().getString(R.string.sessionResumeInformation), "3");
         if (infoType.equals("2")) {
-            /**
-             * Patient questionTextView + scale.
+            /*
+              Patient questionTextView + scale.
              */
             holder.testsForDayRecycler.setHasFixedSize(true);
 
@@ -135,8 +135,8 @@ public class SessionCardEvaluationHistory extends RecyclerView.Adapter<SessionCa
             holder.testsForDayRecycler.setAdapter(adapter);
 
         } else if (infoType.equals("3")) {
-            /**
-             * Patient questionTextView + scale + result.
+            /*
+              Patient questionTextView + scale + result.
              */
             LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
             holder.testsForDayRecycler.setLayoutManager(layoutManager);

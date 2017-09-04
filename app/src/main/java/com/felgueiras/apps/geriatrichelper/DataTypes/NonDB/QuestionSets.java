@@ -49,7 +49,7 @@ public class QuestionSets {
     /**
      * Get all question sets.
      *
-     * @return
+     * @return every question set
      */
     public static ArrayList<QuestionSetNonDB> getAllQuestionSets() {
         ArrayList<QuestionSetNonDB> sets = new ArrayList<>();

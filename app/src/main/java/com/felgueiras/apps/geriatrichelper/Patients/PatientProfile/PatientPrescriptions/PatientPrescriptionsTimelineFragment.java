@@ -70,8 +70,8 @@ public class PatientPrescriptionsTimelineFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
 
-        /**
-         * Setup FABS
+        /*
+          Setup FABS
          */
         FloatingActionButton fabAddPrescription = view.findViewById(R.id.patientAddPrescription);
         fabAddPrescription.setOnClickListener(new View.OnClickListener() {

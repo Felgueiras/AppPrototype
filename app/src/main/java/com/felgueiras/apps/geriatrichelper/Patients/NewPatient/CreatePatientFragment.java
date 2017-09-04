@@ -111,8 +111,8 @@ public class CreatePatientFragment extends Fragment {
         savePatient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /**
-                 * Create PATIENT.
+                /*
+                  Create PATIENT.
                  */
 
                 if (patientName.getText().length() == 0) {
@@ -185,8 +185,8 @@ public class CreatePatientFragment extends Fragment {
                     getActivity().getFragmentManager().popBackStack();
                     getActivity().getFragmentManager().popBackStack();
                     Bundle args = new Bundle();
-                    /**
-                     * Go to new session with this PATIENT.
+                    /*
+                      Go to new session with this PATIENT.
                      */
                     args = new Bundle();
                     args.putSerializable(CGAPrivate.PATIENT, patient);
@@ -228,8 +228,8 @@ public class CreatePatientFragment extends Fragment {
 //                            .remove(currentFragment)
 //                            .replace(R.id.current_fragment, new PatientsMain())
 //                            .commit();
-                    /**
-                     * Review session created for PATIENT.
+                    /*
+                      Review session created for PATIENT.
                      */
                     args = new Bundle();
                     args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);

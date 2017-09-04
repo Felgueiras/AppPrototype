@@ -74,8 +74,8 @@ public class SessionScalesAdapterRecyclerIcons extends RecyclerView.Adapter<Sess
         // update views
         holder.testName.setText(name);
 
-        /**
-         * If a ClickListener was passed, add it
+        /*
+          If a ClickListener was passed, add it
          */
         if (onClickListener != null) {
             holder.card.setOnClickListener(onClickListener);

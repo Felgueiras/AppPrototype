@@ -102,8 +102,8 @@ public class CGAPrivate extends Fragment {
                 FirebaseHelper.firebaseTableSessions.child(session.getKey()).child("patientID").setValue(patient.getGuid());
             }
         }
-        /**
-         * Create a new one.
+        /*
+          Create a new one.
          */
         else {
             if (canCreateSessions) {

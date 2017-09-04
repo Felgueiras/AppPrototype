@@ -115,8 +115,8 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
                                     context.getFragmentManager().popBackStack();
                                     Bundle args = new Bundle();
 
-                                    /**
-                                     * Go to new session with this PATIENT.
+                                    /*
+                                      Go to new session with this PATIENT.
                                      */
                                     args = new Bundle();
                                     args.putSerializable(CGAPrivate.PATIENT, patient);
@@ -152,8 +152,8 @@ public class PatientCardPicker extends RecyclerView.Adapter<PatientCardPicker.My
 //                            .remove(currentFragment)
 //                            .replace(R.id.current_fragment, new PatientsMain())
 //                            .commit();
-                                    /**
-                                     * Review session created for PATIENT.
+                                    /*
+                                      Review session created for PATIENT.
                                      */
                                     Bundle args = new Bundle();
                                     args.putBoolean(ReviewSingleSessionWithPatient.COMPARE_PREVIOUS, true);

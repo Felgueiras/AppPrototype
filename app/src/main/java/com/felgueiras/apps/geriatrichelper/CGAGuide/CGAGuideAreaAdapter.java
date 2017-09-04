@@ -110,8 +110,8 @@ public class CGAGuideAreaAdapter extends RecyclerView.Adapter<CGAGuideAreaAdapte
         holder.areaInfo.setText(area_text);
 
 
-        /**
-         * For when the CGA area is selected.
+        /*
+          For when the CGA area is selected.
          */
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override

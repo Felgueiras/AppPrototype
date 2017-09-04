@@ -32,13 +32,13 @@ public class PrescriptionMainFragment extends Fragment {
         getActivity().setTitle(getResources().getString(R.string.tab_drug_prescription));
 
 
-        /**
-         * Setup bottom navigation.
+        /*
+          Setup bottom navigation.
          */
         BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_navigation);
 
-        /**
-         * Default fragment.
+        /*
+          Default fragment.
          */
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

@@ -95,10 +95,10 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
      *
      * @param context              current Context
      * @param test                 GeriatricScale that is being filled up
-     * @param progress
-     * @param childFragmentManager
-     * @param listView
-     * @param saveScaleButton
+     * @param progress ProgressBar which signals the scale completion's progress
+     * @param childFragmentManager FragmentManager
+     * @param listView listView where questions are to be displayed
+     * @param saveScaleButton Button which saves the scale
      */
     public QuestionsListAdapter(Activity context, GeriatricScaleNonDB testNonDb, GeriatricScaleFirebase test, ProgressBar progress, FragmentManager childFragmentManager, ListView listView, Button saveScaleButton) {
         this.context = context;
@@ -265,8 +265,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             return questionView;
         }
 
-        /**
-         * Single question.
+        /*
+          Single question.
          */
         if (testNonDB.isSingleQuestion()) {
             questionView = singleChoice();
@@ -274,15 +274,15 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         }
 
         QuestionNonDB currentQuestionNonDB = questions.get(questionIndex);
-        /**
-         * Numerical.
+        /*
+          Numerical.
          */
         if (currentQuestionNonDB.isNumerical()) {
             questionView = numericalQuestion(currentQuestionNonDB, questionIndex);
             return questionView;
         }
-        /**
-         * Text input.
+        /*
+          Text input.
          */
         if (currentQuestionNonDB.isMultipleTextInput()) {
             questionView = multipleTextInput(currentQuestionNonDB, questionIndex);
@@ -305,9 +305,9 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
     /**
      * Multiple text input.
      *
-     * @param currentQuestionNonDB
-     * @param questionIndex
-     * @return
+     * @param currentQuestionNonDB current Question
+     * @param questionIndex index of the Question
+     * @return View for question
      */
     private View multipleTextInput(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
         // question in DB
@@ -327,8 +327,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             FirebaseDatabaseHelper.createQuestion(questionInDB);
         }
 
-        /**
-         * Set View
+        /*
+          Set View
          */
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View questionView = inflater.inflate(R.layout.content_question_multiple_text_input, null);
@@ -372,9 +372,9 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
     /**
      * Numerical question.
      *
-     * @param questionNonDB
-     * @param questionIndex
-     * @return
+     * @param questionNonDB current Question
+     * @param questionIndex Question index
+     * @return View for the Question.
      */
     private View numericalQuestion(final QuestionNonDB questionNonDB, final int questionIndex) {
         // question in DB
@@ -393,8 +393,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             FirebaseDatabaseHelper.createQuestion(questionInDB);
         }
 
-        /**
-         * Set View
+        /*
+          Set View
          */
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View questionView = inflater.inflate(R.layout.content_question_numerical, null);
@@ -448,9 +448,9 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
     /**
      * Right or wrong question.
      *
-     * @param currentQuestionNonDB
-     * @param questionIndex
-     * @return
+     * @param currentQuestionNonDB current Question
+     * @param questionIndex Question index
+     * @return View for the Question
      */
     private View rightWrong(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
         // question in DB
@@ -470,8 +470,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         }
 
 
-        /**
-         * Set View
+        /*
+          Set View
          */
         LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View questionView = infalInflater.inflate(R.layout.content_question_right_wrong_icons, null);
@@ -513,8 +513,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                 finalQuestionInDB.setAnswered(true);
                 FirebaseDatabaseHelper.createQuestion(finalQuestionInDB);
 
-                /**
-                 * Signal that que Question was answered
+                /*
+                  Signal that que Question was answered
                  */
                 adapter.questionAnswered(questionIndex);
 
@@ -848,8 +848,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 
 
             } else {
-                /**
-                 * Question in DB,
+                /*
+                  Question in DB,
                  */
                 // get Question from DB
                 question = FirebaseDatabaseHelper.getQuestionsFromScale(scale).get(questionIndex);
@@ -995,8 +995,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         }
 
 
-        /**
-         * Set View
+        /*
+          Set View
          */
         View questionView = inflater.inflate(R.layout.content_question_yes_no, null);
         Holder holder = new Holder();
@@ -1010,8 +1010,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         final Button yes = questionView.findViewById(R.id.rightChoice);
         final Button no = questionView.findViewById(R.id.wrongChoice);
 
-        /**
-         * Question already answered.
+        /*
+          Question already answered.
          */
         if (question != null && question.isAnswered()) {
 //            questionView.setBackgroundResource(R.color.question_answered);
@@ -1042,12 +1042,12 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                     finalQuestion.setAnswered(true);
                     FirebaseDatabaseHelper.updateQuestion(finalQuestion);
 
-                    /**
-                     * Signal that que Question was answered
+                    /*
+                      Signal that que Question was answered
                      */
                     questionAnswered(questionIndex);
-                    /**
-                     * Scroll to next position.
+                    /*
+                      Scroll to next position.
                      */
                     listView.smoothScrollToPosition(questionIndex + 1);
                 }

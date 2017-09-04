@@ -65,8 +65,8 @@ public class PatientSessionsTimelineFragment extends Fragment {
         mRecyclerView.setLayoutManager(getLinearLayoutManager());
         mRecyclerView.setHasFixedSize(true);
 
-        /**
-         * Setup FABS
+        /*
+          Setup FABS
          */
         FloatingActionButton fabAddSession = view.findViewById(R.id.patient_createSession);
         fabAddSession.setOnClickListener(new View.OnClickListener() {

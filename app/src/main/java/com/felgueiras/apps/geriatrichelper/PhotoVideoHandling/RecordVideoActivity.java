@@ -81,8 +81,8 @@ public class RecordVideoActivity extends AppCompatActivity {
         Button btnRecordVideo = (Button) findViewById(R.id.btnRecordVideo);
 
 
-        /**
-         * Record video button click event
+        /*
+          Record video button click event
          */
         btnRecordVideo.setOnClickListener(new View.OnClickListener() {
 

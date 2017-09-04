@@ -106,8 +106,8 @@ public class SessionScalesAdapterRecycler extends RecyclerView.Adapter<SessionSc
                 break;
         }
 
-        /**
-         * If a ClickListener was passed, add it
+        /*
+          If a ClickListener was passed, add it
          */
         if (onClickListener != null) {
             holder.card.setOnClickListener(onClickListener);

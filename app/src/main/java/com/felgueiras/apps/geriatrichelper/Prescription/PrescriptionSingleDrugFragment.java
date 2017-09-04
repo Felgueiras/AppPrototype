@@ -98,8 +98,8 @@ public class PrescriptionSingleDrugFragment extends Fragment {
                     .replace(R.id.drug_info_stopp, fragment)
                     .commit();
         }
-        /**
-         * Beers.
+        /*
+          Beers.
          */
         if (beersCriteriaDrugs.contains(drug)) {
             ArrayList<RecommendationInfo> drugInfos = BeersCriteria.getBeersCriteria(drug);

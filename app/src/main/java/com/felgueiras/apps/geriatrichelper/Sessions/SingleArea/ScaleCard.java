@@ -188,8 +188,8 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
             holder.view.setAlpha(selected);
             // already complete
             if (currentScale.isCompleted()) {
-                /**
-                 * Qualitative result.
+                /*
+                  Qualitative result.
                  */
                 // get static scale definition
                 GeriatricScaleNonDB scaleDefinition = Scales.getScaleByName(currentScale.getScaleName());
@@ -211,8 +211,8 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
                 }
 
 
-                /**
-                 * Quantitative result.
+                /*
+                  Quantitative result.
                  */
                 String quantitative = "";
                 quantitative += currentScale.getResult();
@@ -259,8 +259,8 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 //        holder.addNotesButton.setOnClickListener(new SessionNoteshandler(context, finalCurrentTest, holder, parentView));
 //        holder.notes.setOnClickListener(new SessionNoteshandler(context, finalCurrentTest, holder, parentView));
 
-        /**
-         * For when the Test is selected.
+        /*
+          For when the Test is selected.
          */
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,8 +286,8 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
             }
         });
 
-        /**
-         * Add a listener for when a note is added.
+        /*
+          Add a listener for when a note is added.
          */
 //        /*
         holder.notes.addTextChangedListener(new TextWatcher() {

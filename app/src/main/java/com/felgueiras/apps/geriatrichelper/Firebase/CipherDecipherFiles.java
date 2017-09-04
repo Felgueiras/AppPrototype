@@ -43,7 +43,7 @@ public class CipherDecipherFiles {
     /**
      * Get Singleton instance.
      *
-     * @return
+     * @return CipherDecipherFiles singleton
      */
     public static CipherDecipherFiles getInstance() {
         return singleton;
@@ -71,8 +71,8 @@ public class CipherDecipherFiles {
     /**
      * Cipher contents of a file.
      *
-     * @param f
-     * @param context
+     * @param f File object
+     * @param context current Context
      */
     void cipherFileContents(File f, Context context) {
         try {

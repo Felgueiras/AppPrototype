@@ -147,10 +147,10 @@ public class PatientFirebase implements Serializable {
         this.favorite = favorite;
     }
 
-    /**
-     * Get a list of all the Patients
-     *
-     * @return
+    /*
+      Get a list of all the Patients
+
+      @return
      */
 //    public static ArrayList<PatientFirebase> getAllPatients() {
 //        List<PatientFirebase> list = new Select().from(PatientFirebase.class).orderBy("patientName ASC").execute();
@@ -170,10 +170,10 @@ public class PatientFirebase implements Serializable {
 //        return patients;
 //    }
 
-    /**
-     * Get a list of the favorite Patients
-     *
-     * @return
+    /*
+      Get a list of the favorite Patients
+
+      @return
      */
 //    public static ArrayList<PatientFirebase> getFavoritePatients() {
 //        List<PatientFirebase> list = new Select().from(PatientFirebase.class).where("favorite = ?", true).orderBy("patientName ASC").execute();

@@ -59,7 +59,7 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
      * Constructor of the SessionCardEvaluationHistory
      *
      * @param context current Context
-     * @param area
+     * @param area CGA Scale area
      */
     public CGAScaleAdapter(Activity context, String area) {
         this.context = context;
@@ -93,8 +93,8 @@ public class CGAScaleAdapter extends RecyclerView.Adapter<CGAScaleAdapter.ScaleC
                 currentScale.getScoring().getName());
 
 
-        /**
-         * For when the Test is selected.
+        /*
+          For when the Test is selected.
          */
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override

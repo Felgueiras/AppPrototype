@@ -113,8 +113,8 @@ public class PatientCardRecent extends RecyclerView.Adapter<PatientCardRecent.My
             }
         };
 
-        /**
-         * Review a Session.
+        /*
+          Review a Session.
          */
         this.patientView.setOnClickListener(clickListener);
         holder.icon.setOnClickListener(clickListener);

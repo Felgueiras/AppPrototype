@@ -32,9 +32,9 @@ public class DataHelperDrugs {
     /**
      * Get the 3 last patients to be searched.
      *
-     * @param context
-     * @param count
-     * @return
+     * @param context current context
+     * @param count number of drugs to be retrieved
+     * @return DrugSuggestions
      */
     public static List<DrugSuggestion> getHistory(Context context, int count) {
 

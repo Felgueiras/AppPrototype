@@ -177,8 +177,8 @@ public class ReviewScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHol
         }
 
 
-        /**
-         * Add a listener for when a note is added.
+        /*
+          Add a listener for when a note is added.
          */
         holder.notes.addTextChangedListener(new TextWatcher() {
             @Override

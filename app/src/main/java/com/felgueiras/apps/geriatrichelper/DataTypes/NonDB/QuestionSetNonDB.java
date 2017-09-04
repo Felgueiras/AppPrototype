@@ -70,7 +70,7 @@ public class QuestionSetNonDB implements Serializable {
     /**
      * Get all questions from a GeriatricScale object.
      *
-     * @return
+     * @return every Question from Scale
      */
     public ArrayList<QuestionNonDB> getQuestions() {
         if (questionsCategories.size() != 0) {
@@ -147,7 +147,7 @@ public class QuestionSetNonDB implements Serializable {
     /**
      * Add a Question to a Test
      *
-     * @param question
+     * @param question Question to be added
      */
     public void addQuestion(QuestionNonDB question) {
         questions.add(question);
@@ -184,7 +184,7 @@ public class QuestionSetNonDB implements Serializable {
     /**
      * Get the number of question
      *
-     * @return
+     * @return number of questions
      */
     public int getNumberQuestions() {
         int numQuestions = 0;

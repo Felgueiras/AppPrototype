@@ -60,8 +60,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
     /**
      * Constructor for the BackStackHandler class
      *
-     * @param fragmentManager
-     * @param mainActivity
+     * @param fragmentManager FragmentManager
+     * @param mainActivity Activity
      */
     public BackStackHandler(FragmentManager fragmentManager, Activity mainActivity) {
         BackStackHandler.fragmentManager = fragmentManager;
@@ -82,8 +82,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             String tag = backEntry.getName();
 
             Log.d("Stack", "handleBackButton (tag):" + tag);
-            /**
-             * Only pop backstack if changing fragments/screens.
+            /*
+              Only pop backstack if changing fragments/screens.
              */
             if (!tag.equals(Constants.tag_create_session_no_patient) &&
                     !tag.equals(Constants.tag_create_session_with_patient) &&
@@ -95,8 +95,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
             }
 //            return;
 
-            /**
-             * Viewing a scale.
+            /*
+              Viewing a scale.
              */
             switch (tag) {
                 case Constants.tag_display_session_scale: {
@@ -136,8 +136,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 case Constants.tag_display_session_scale_shortcut: {
                     // get the arguments
                     Bundle arguments = fr.getArguments();
-                    /**
-                     * bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(scaleName));
+                    /*
+                      bundle.putSerializable(ScaleFragment.testObject, Scales.getScaleByName(scaleName));
                      bundle.putSerializable(ScaleFragment.SCALE, currentScaleDB);
                      bundle.putSerializable(ScaleFragment.CGA_AREA, currentScaleDB.getArea());
                      bundle.putSerializable(ScaleFragment.PATIENT, session.getDrugName());
@@ -164,9 +164,9 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     }
                     break;
                 }
-                /**
-                 *
-                 * Viewing single area (public).
+                /*
+
+                  Viewing single area (public).
                  */
                 case Constants.tag_display_single_area_public:
                     args = new Bundle();
@@ -187,8 +187,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     args.putSerializable(CGAPrivate.PATIENT, patient);
                     break;
                 }
-                /**
-                 * Patient progress global -> PATIENT profile
+                /*
+                  Patient progress global -> PATIENT profile
                  */
                 case Constants.tag_patient_progress: {
 
@@ -203,8 +203,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
                     break;
                 }
-                /**
-                 * Patient progress detail -> Progress global.
+                /*
+                  Patient progress detail -> Progress global.
                  */
                 case Constants.tag_review_scale_from_progress: {
                     args = new Bundle();
@@ -255,8 +255,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                     args = new Bundle();
                     nextFragment = new HelpMainFragment();
                     break;
-                /**
-                 * Sessions history / review
+                /*
+                  Sessions history / review
                  */
                 case Constants.tag_review_session_from_sessions_list:
                     SharedPreferencesHelper.resetPrivateSession(context, "");
@@ -293,8 +293,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 case Constants.tag_create_patient:
                     ((CreatePatientFragment) fr).discardPatient();
                     return;
-                /**
-                 * CGA Guide.
+                /*
+                  CGA Guide.
                  */
                 case Constants.tag_guide_area:
                     nextFragment = new CGAGuideMainFragment();
@@ -330,8 +330,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 //                    .replace(R.id.current_fragment, nextFragment)
 //                    .commit();
         } else {
-            /**
-             * Empty stack - ask if user really wishes to close the app
+            /*
+              Empty stack - ask if user really wishes to close the app
              */
 
             AlertDialog alertDialog = new AlertDialog.Builder(context).create();
@@ -377,7 +377,7 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
 
     /**
      * Discard a session
-     * @param session
+     * @param session CGA Session
      */
     public static void discardSession(SessionFirebase session) {
         // check if initial tag is create session no PATIENT
@@ -458,8 +458,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 String tagPrevious = backEntryPrevious.getName();
                 Log.d("Stack", "Previous tag:" + tagPrevious);
                 if (tagPrevious.equals(Constants.tag_view_patient_info_records)) {
-                    /**
-                     * Session saved when viewing a scale - go to PATIENT's profile.
+                    /*
+                      Session saved when viewing a scale - go to PATIENT's profile.
                      */
                     // lock session creation
                     SharedPreferencesHelper.lockSessionCreation(context);
@@ -514,8 +514,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 fragment = new PatientsMain();
                 break;
             case Constants.tag_display_single_area_private: {
-                /**
-                 * Session saved when viewing an area - go to PATIENT's profile.
+                /*
+                  Session saved when viewing an area - go to PATIENT's profile.
                  */
                 // lock session creation
                 SharedPreferencesHelper.lockSessionCreation(context);
@@ -543,8 +543,8 @@ public class BackStackHandler implements FragmentManager.OnBackStackChangedListe
                 return;
             }
             case Constants.tag_display_session_scale: {
-                /**
-                 * Session saved when viewing a scale - go to PATIENT's profile.
+                /*
+                  Session saved when viewing a scale - go to PATIENT's profile.
                  */
                 // lock session creation
                 SharedPreferencesHelper.lockSessionCreation(context);

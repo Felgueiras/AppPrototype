@@ -63,8 +63,8 @@ public class ClinicalEvaluation extends RecyclerView.Adapter<ClinicalEvaluation.
             holder.notes.setText(clinicalField.getNotes());
 
         } else {
-            /**
-             * Create new.
+            /*
+              Create new.
              */
             clinicalField = new FreeTextField(fieldName);
             clinicalField.setGuid(fieldID);
@@ -73,8 +73,8 @@ public class ClinicalEvaluation extends RecyclerView.Adapter<ClinicalEvaluation.
         }
 
 
-        /**
-         * Add a listener for when a note is added.
+        /*
+          Add a listener for when a note is added.
          */
         holder.notes.addTextChangedListener(new TextWatcher() {
             @Override
@@ -103,8 +103,8 @@ public class ClinicalEvaluation extends RecyclerView.Adapter<ClinicalEvaluation.
      *
      * @param context       current Context
      * @param resuming      true if we are resuming a Session
-     * @param patientGender
-     * @param area
+     * @param patientGender patient's gender
+     * @param area CGA area
      */
     public ClinicalEvaluation(Activity context, Session session, boolean resuming, int patientGender, String area) {
         Activity context1 = context;

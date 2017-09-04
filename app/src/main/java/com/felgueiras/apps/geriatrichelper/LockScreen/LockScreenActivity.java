@@ -53,8 +53,8 @@ public class LockScreenActivity extends AppCompatActivity {
         setContentView(R.layout.content_lock_screen);
         setTitle(getResources().getString(R.string.prompt_password));
 
-        /**
-         * Set views
+        /*
+          Set views
          */
         passwordEditText = (EditText) findViewById(R.id.password);
         correctPassword = SharedPreferencesHelper.getUserPassword(this);

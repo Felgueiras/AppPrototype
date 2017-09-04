@@ -85,8 +85,8 @@ public class SessionsHistoryMainFragment extends Fragment {
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         Fragment fragment;
-        /**
-         * Setup fragment for FrameLayout.
+        /*
+          Setup fragment for FrameLayout.
          */
         if (FirebaseHelper.getSessions().isEmpty()) {
             fragment = new EmptyStateFragment();

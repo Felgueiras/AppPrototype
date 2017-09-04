@@ -35,10 +35,10 @@ import java.util.List;
 public class FirebaseDatabaseHelper {
 
 
-    /**
-     * Get all patients from Firebase.
-     *
-     * @return
+    /*
+      Get all patients from Firebase.
+
+      @return
      */
 //    public static void fetchPatients() {
 //
@@ -61,10 +61,10 @@ public class FirebaseDatabaseHelper {
 //        });
 //    }
 
-    /**
-     * Fetch favorite patients from Firebase.
-     *
-     * @return
+    /*
+      Fetch favorite patients from Firebase.
+
+      @return
      */
 //    public static void fetchFavoritePatients() {
 //

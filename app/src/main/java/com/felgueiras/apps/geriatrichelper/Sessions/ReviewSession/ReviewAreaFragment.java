@@ -62,8 +62,8 @@ public class ReviewAreaFragment extends Fragment {
 //                parentView.removeView(holder.scales);
 //            }
         } else {
-            /**
-             * Show info about evaluations for every area.
+            /*
+              Show info about evaluations for every area.
              */
             ReviewScaleCard adapter = new ReviewScaleCard(getActivity(), session, area, true);
             int numbercolumns = 1;

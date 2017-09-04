@@ -45,8 +45,8 @@ public class BeersSingleDrugInfo extends RecyclerView.Adapter<BeersSingleDrugInf
 
     /**
      * Constructor of the SessionCardEvaluationHistory
-     *  @param context
-     * @param infos
+     *  @param context current context
+     * @param infos RecommendationInfos for the drug
      */
     public BeersSingleDrugInfo(Activity context, ArrayList<RecommendationInfo> infos) {
         this.context = context;

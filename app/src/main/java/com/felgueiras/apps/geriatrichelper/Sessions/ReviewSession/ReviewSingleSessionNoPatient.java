@@ -88,8 +88,8 @@ public class ReviewSingleSessionNoPatient extends Fragment {
         getActivity().setTitle(getResources().getString(R.string.evaluation_results));
 
 
-        /**
-         * Setup bottom navigation.
+        /*
+          Setup bottom navigation.
          */
         BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_navigation);
 
@@ -116,8 +116,8 @@ public class ReviewSingleSessionNoPatient extends Fragment {
             }
 
         }
-        /**
-         * Default fragment.
+        /*
+          Default fragment.
          */
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

@@ -1,7 +1,7 @@
 package com.felgueiras.apps.geriatrichelper.Settings;
 
-/**
- * Created by felgueiras on 08/03/2017.
+/*
+  Created by felgueiras on 08/03/2017.
  */
 
 import android.content.SharedPreferences;

@@ -109,10 +109,10 @@ public class GeriatricScaleFirebase implements Serializable {
 //    }
 
 
-    /**
-     * Get the Questions from this Test.
-     *
-     * @return ArrayList of Question for the Test
+    /*
+      Get the Questions from this Test.
+
+      @return ArrayList of Question for the Test
      */
 //    public ArrayList<Question> getQuestionsFromScale() {
 //        ArrayList<Question> questions = new ArrayList<>();
@@ -259,10 +259,10 @@ public class GeriatricScaleFirebase implements Serializable {
         return guid;
     }
 
-    /**
-     * Get the GeriatricScale with a given ID
-     *
-     * @param testID
+    /*
+      Get the GeriatricScale with a given ID
+
+      @param testID
      * @return
      */
 //    public static GeriatricScaleFirebase getTestByID(String testID) {
@@ -273,10 +273,10 @@ public class GeriatricScaleFirebase implements Serializable {
 //    }
 
 
-    /**
-     * Get the result for a Test.
-     *
-     * @return
+    /*
+      Get the result for a Test.
+
+      @return
      */
 //    public double generateScaleResult() {
 //        double res = 0;

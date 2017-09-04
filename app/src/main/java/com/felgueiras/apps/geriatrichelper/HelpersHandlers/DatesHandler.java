@@ -81,8 +81,8 @@ public class DatesHandler {
      * @return
      */
     public static String dateToStringWithHour(Date date, boolean currentDateAsToday) {
-        /**
-         * Day.
+        /*
+          Day.
          */
         SimpleDateFormat dayFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
         String day = dayFormat.format(date);
@@ -106,8 +106,8 @@ public class DatesHandler {
         }
 
 
-        /**
-         * Hour.
+        /*
+          Hour.
          */
         SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm", Locale.UK);
         String hour = hourFormat.format(date);

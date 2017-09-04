@@ -297,8 +297,8 @@ public class GeriatricScale extends Model implements Serializable {
                 if (testName.equals(Constants.test_name_hamilton) &&
                         questionsFromTest.indexOf(question) > 16)
                     break;
-                /**
-                 * Yes/no Question
+                /*
+                  Yes/no Question
                  */
                 if (question.isYesOrNo()) {
                     String selectedYesNoChoice = question.getSelectedYesNoChoice();
@@ -308,22 +308,22 @@ public class GeriatricScale extends Model implements Serializable {
                         res += question.getNoValue();
                     }
                 }
-                /**
-                 * Right/ wrong question
+                /*
+                  Right/ wrong question
                  */
                 else if (question.isRightWrong()) {
                     if (question.getSelectedRightWrong().equals("right"))
                         res += 1;
                 }
-                /**
-                 * Numerical question.
+                /*
+                  Numerical question.
                  */
                 else if (question.isNumerical()) {
                     System.out.println("Numerical");
                     res += question.getAnswerNumber();
                 }
-                /**
-                 * Multiple Choice Question
+                /*
+                  Multiple Choice Question
                  */
                 else {
                     // get the selected Choice

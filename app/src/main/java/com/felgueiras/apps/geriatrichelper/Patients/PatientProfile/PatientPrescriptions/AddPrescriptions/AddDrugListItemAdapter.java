@@ -42,7 +42,7 @@ public class AddDrugListItemAdapter extends RecyclerView.Adapter<AddDrugListItem
     /**
      * Get the added drugs.
      *
-     * @return
+     * @return drugs list
      */
     public ArrayList<String> getAddedDrugsList() {
         if (addedDrugsList.get(addedDrugsList.size() - 1).equals("")) {
@@ -54,7 +54,7 @@ public class AddDrugListItemAdapter extends RecyclerView.Adapter<AddDrugListItem
     /**
      * Get the notes added for each drug.
      *
-     * @return
+     * @return notes array
      */
     public ArrayList<String> getAddedDrugsNotes() {
         if (addedDrugsNotes.get(addedDrugsNotes.size() - 1).equals("")) {
@@ -89,9 +89,9 @@ public class AddDrugListItemAdapter extends RecyclerView.Adapter<AddDrugListItem
     /**
      * Constructor of the SessionCardEvaluationHistory
      *
-     * @param context
-     * @param drugs
-     * @param patient
+     * @param context current context
+     * @param drugs drugs array
+     * @param patient patient object
      */
     AddDrugListItemAdapter(Activity context, ArrayList<String> drugs, PatientFirebase patient) {
         this.context = context;
