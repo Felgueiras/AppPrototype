@@ -8,7 +8,7 @@ android {
         }
     }
     compileSdkVersion 26
-    buildToolsVersion '26.0.0'
+    buildToolsVersion '26.0.1'
     defaultConfig {
         applicationId "com.felgueiras.apps.geriatrichelper"
         minSdkVersion 17
@@ -17,6 +17,7 @@ android {
         versionName "1.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -70,6 +71,28 @@ dependencies {
     compile 'com.itextpdf:itextg:5.5.10'
 //    View patient's timelin
     compile 'com.github.vipulasri:timelineview:1.0.5'
+
+
+    // Espresso
+    //Provides AndroidJUnitRunner
+    androidTestCompile ('com.android.support.test:runner:0.4') {
+        exclude module: 'support-annotations'
+    }
+    // Provides JUnit 4 rules
+    androidTestCompile ('com.android.support.test:rules:0.4') {
+        exclude module: 'support-annotations'
+    }
+    // Builds and runs Espresso tests
+    androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2.1') {
+        exclude module: 'support-annotations'
+    }
+
+    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2.1') {
+        exclude module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+    }
 }
 
 

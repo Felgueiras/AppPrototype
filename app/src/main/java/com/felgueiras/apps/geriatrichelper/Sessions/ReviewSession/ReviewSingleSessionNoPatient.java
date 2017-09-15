@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 
 import com.felgueiras.apps.geriatrichelper.Constants;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
+import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.QuestionFirebase;
 import com.felgueiras.apps.geriatrichelper.HelpersHandlers.SessionPDF;
 import com.felgueiras.apps.geriatrichelper.Sessions.AllAreas.CGAPublicInfo;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
@@ -26,7 +28,15 @@ import com.felgueiras.apps.geriatrichelper.Patients.PatientsMain;
 import com.felgueiras.apps.geriatrichelper.R;
 import com.felgueiras.apps.geriatrichelper.TourGuide.TourGuideHelper;
 import com.felgueiras.apps.geriatrichelper.TourGuide.TourGuideStepHelper;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -239,8 +249,77 @@ public class ReviewSingleSessionNoPatient extends Fragment {
             TourGuideHelper.runOverlay_ContinueMethod(getActivity(), steps);
         }
 
+        // TODO just for testing - update session/scale json to Firebase
+        uploadSessionForTesting();
+
 
         return view;
+    }
+
+    private void uploadSessionForTesting() {
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
+        Gson gson = builder.create();
+
+        ArrayList<GeriatricScaleFirebase> scalesFromSession = FirebaseDatabaseHelper.getScalesFromSession(session);
+
+
+        for (int i = 0; i < scalesFromSession.size(); i++) {
+
+            GeriatricScaleFirebase currentScale = scalesFromSession.get(i);
+
+            String jsonArray = gson.toJson(currentScale);
+
+            String fileName = currentScale.getScaleName() + ".json";
+            // upload file
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageReference = storage.
+                    getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                    .child("testing/" + currentScale.getScaleName() + "/" + fileName);
+
+            UploadTask uploadTask = storageReference.putBytes(jsonArray.getBytes());
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.d("Upload", "success");
+                }
+            });
+
+            ArrayList<QuestionFirebase> questionsFromScale = FirebaseDatabaseHelper.getQuestionsFromScale(currentScale);
+
+            for (int questionIndex = 0; questionIndex < questionsFromScale.size(); questionIndex++) {
+                QuestionFirebase currentQuestion = questionsFromScale.get(questionIndex);
+
+                jsonArray = gson.toJson(currentQuestion);
+
+                fileName = "question-" + currentQuestion.getDescription() + ".json";
+                // upload file
+                storage = FirebaseStorage.getInstance();
+                storageReference = storage.
+                        getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                        .child("testing/" + currentScale.getScaleName() + "/" + fileName);
+
+                uploadTask = storageReference.putBytes(jsonArray.getBytes());
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("Upload", "success");
+                    }
+                });
+            }
+
+        }
+
+
     }
 
 }

@@ -11,6 +11,8 @@ import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.GeriatricSc
 import com.felgueiras.apps.geriatrichelper.Firebase.FirebaseHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * This class holds  definition of all the scales that exist
@@ -2127,6 +2129,16 @@ public class Scales {
                 testsForArea.add(test);
             }
         }
+
+        // sort by name (ascending)
+        // sort by date ascending
+        Collections.sort(testsForArea, new Comparator<GeriatricScaleNonDB>() {
+            public int compare(GeriatricScaleNonDB o1, GeriatricScaleNonDB o2) {
+                return o1.getScaleName().compareTo(o2.getScaleName());
+            }
+        });
+
+
         return testsForArea;
     }
 

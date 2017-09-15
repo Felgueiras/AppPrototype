@@ -144,6 +144,9 @@ public class PublicAreaActivity extends AppCompatActivity {
             public void run() {
                 //  Create a new boolean and preference and set it to true
                 boolean isFirstStart = finalSharedPreferences.getBoolean("firstStart", true);
+
+                // TODO uncomment
+                isFirstStart= false;
                 //  If the activity has never started before...
                 if (isFirstStart) {
                     //  Launch app intro
@@ -321,7 +324,14 @@ public class PublicAreaActivity extends AppCompatActivity {
     public void isTherePublicSession() {
         Log.d("Session", "checking if there is public session");
         final String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(this);
+
         if (sessionID != null) {
+            // 1
+            SharedPreferencesHelper.resetPublicSession(context, sessionID);
+
+            // TODO uncomment and comment 1
+            /*
+
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
             alertDialog.setMessage("Deseja retomar a Sessão que tinha em curso?");
@@ -351,6 +361,7 @@ public class PublicAreaActivity extends AppCompatActivity {
                 }
             });
             alertDialog.show();
+            */
         }
 
     }

@@ -56,15 +56,15 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "25193509344-beg6s0pm018t8o4ndnc9900rjcn6dktk.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
               "client_id": "25193509344-hv57ljjlp72ls7ms675csecuu1e96qgv.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.felgueiras.GeriatricHelper"
               }
+            },
+            {
+              "client_id": "25193509344-beg6s0pm018t8o4ndnc9900rjcn6dktk.apps.googleusercontent.com",
+              "client_type": 3
             }
           ]
         },
@@ -82,6 +82,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "25193509344-1eo7880qj67tnudq9hj0gi6ijnf11k7e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.felgueiras.apps.geriatrichelper",
+            "certificate_hash": "ede7921cff2dbcaf8172433ef59adc66f1ffd19b"
+          }
+        },
+        {
           "client_id": "25193509344-beg6s0pm018t8o4ndnc9900rjcn6dktk.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -96,8 +104,20 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "25193509344-hv57ljjlp72ls7ms675csecuu1e96qgv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.felgueiras.GeriatricHelper"
+              }
+            },
+            {
+              "client_id": "25193509344-beg6s0pm018t8o4ndnc9900rjcn6dktk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

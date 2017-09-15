@@ -191,7 +191,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         if (positionsFilled.size() == nq) {
             if (!scale.isCompleted()) {
                 DrawerLayout layout = context.findViewById(R.id.drawer_layout);
-                Snackbar.make(layout, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
+                // TODO uncomment
+//                Snackbar.make(layout, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
 
                 // show tour guide to save this scale
                 if (SharedPreferencesHelper.showTour(context)) {
@@ -546,6 +547,8 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 
         for (int i = 0; i < gradings.size(); i++) {
             RadioButton newRadioButton = new RadioButton(context);
+            // set ID
+            newRadioButton.setId(i+100);
             GradingNonDB currentGrading = gradings.get(i);
             String grade = currentGrading.getGrade();
             String description = currentGrading.getDescription();

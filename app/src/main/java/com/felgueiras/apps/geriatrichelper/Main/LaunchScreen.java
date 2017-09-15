@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 
 import com.felgueiras.apps.geriatrichelper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatrichelper.Firebase.FirebaseRemoteConfig;
+import com.felgueiras.apps.geriatrichelper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatrichelper.R;
 
 public class LaunchScreen extends AppCompatActivity {
@@ -23,11 +24,16 @@ public class LaunchScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // TODO API 18 solve error for bitmap
         setContentView(R.layout.activity_launch_screen);
 
         context = this;
 
         // check scales version
+
+        // TODO remove this
+        SharedPreferencesHelper.disableTour(this);
 
         boolean isFirstStart = getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE)
                 .getBoolean("firstStart", true);

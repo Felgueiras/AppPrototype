@@ -156,7 +156,8 @@ public class CGAAreaPublic extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         // remove session
                         FirebaseDatabaseHelper.eraseScalesNotCompleted(session);
-                        Snackbar.make(getView(), "Sessão terminada", Snackbar.LENGTH_SHORT).show();
+                        // TODO uncomment
+//                        Snackbar.make(getView(), "Sessão terminada", Snackbar.LENGTH_SHORT).show();
 
                         SharedPreferencesHelper.lockSessionCreation(getActivity());
 

@@ -236,7 +236,8 @@ public class ScaleFragment extends Fragment {
 //                    }
 //                });
 //        alertDialog.show();
-        Snackbar.make(getView(), "Escala guardada", Snackbar.LENGTH_SHORT).show();
+        // TODO uncomment
+//        Snackbar.make(getView(), "Escala guardada", Snackbar.LENGTH_SHORT).show();
 
         getActivity().onBackPressed();
 
