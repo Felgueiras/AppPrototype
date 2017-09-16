@@ -578,7 +578,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup radioGroup, int radioButtonIndex) {
-                    radioButtonIndex = (radioButtonIndex - 1) % gradings.size();
+                    radioButtonIndex = (radioButtonIndex - 100) % gradings.size();
                     questionAnswered(0);
                     // get grade
                     GradingNonDB grading = gradings.get(radioButtonIndex);

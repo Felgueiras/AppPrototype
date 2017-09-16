@@ -8,73 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:25193509344:android:b0401f45280bc97d",
-        "android_client_info": {
-          "package_name": "com.felgueiras.apps.geriatric_helper"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "25193509344-gqfif37f31dueq3mudkdt52etnnq06f3.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.felgueiras.apps.geriatric_helper",
-            "certificate_hash": "c88fb4c4015335b557dd0654aab70acb21ac0214"
-          }
-        },
-        {
-          "client_id": "25193509344-5osqsr634cu98p06oohjlk3blljrmk4j.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.felgueiras.apps.geriatric_helper",
-            "certificate_hash": "30f37353b7e107e4863d86d6fb4e51d39584ed43"
-          }
-        },
-        {
-          "client_id": "25193509344-mqbi677su06uu92e199cu236bnmglpmj.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.felgueiras.apps.geriatric_helper",
-            "certificate_hash": "9c9b0ea1cbbd840ae82821c10b4aa513a5fd4f8b"
-          }
-        },
-        {
-          "client_id": "25193509344-beg6s0pm018t8o4ndnc9900rjcn6dktk.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAOhanhcUVKCjYH_shcRTCWmwo5XQLmXvE"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "25193509344-hv57ljjlp72ls7ms675csecuu1e96qgv.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.felgueiras.GeriatricHelper"
-              }
-            },
-            {
-              "client_id": "25193509344-beg6s0pm018t8o4ndnc9900rjcn6dktk.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:25193509344:android:707666c11c6a4eac",
         "android_client_info": {
           "package_name": "com.felgueiras.apps.geriatrichelper"
@@ -107,15 +40,15 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
+              "client_id": "25193509344-beg6s0pm018t8o4ndnc9900rjcn6dktk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
               "client_id": "25193509344-hv57ljjlp72ls7ms675csecuu1e96qgv.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.felgueiras.GeriatricHelper"
               }
-            },
-            {
-              "client_id": "25193509344-beg6s0pm018t8o4ndnc9900rjcn6dktk.apps.googleusercontent.com",
-              "client_type": 3
             }
           ]
         },
