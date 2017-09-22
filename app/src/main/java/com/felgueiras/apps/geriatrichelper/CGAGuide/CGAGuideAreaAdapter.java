@@ -117,7 +117,7 @@ public class CGAGuideAreaAdapter extends RecyclerView.Adapter<CGAGuideAreaAdapte
             @Override
             public void onClick(View v) {
 
-                String selectedArea = (String) holder.name.getText();
+                String selectedArea = (String) holder.name.getText().toString();
 
                 Fragment newFragment = new CGAGuideAreaFragment();
                 // add arguments
