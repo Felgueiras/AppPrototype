@@ -38,6 +38,8 @@ import static org.hamcrest.Matchers.is;
 @RunWith(AndroidJUnit4.class)
 public class ScalesTests {
 
+
+
     // TODO review issues with API 21
 
     @Rule
