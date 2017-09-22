@@ -22,6 +22,6 @@
 
     <include
         android:id="@+id/finishButton"
-        layout="@layout/bottom_buttons_finish" />
+        layout="@layout/bottom_buttons_finish_session" />
 
 </LinearLayout>

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.felgueiras.apps.geriatric_helper.VerticalViewPager.CustomViewPagerActivity"
+    tools:context="com.felgueiras.apps.geriatrichelper.VerticalViewPager.CustomViewPagerActivity"
     tools:showIn="@layout/activity_custom_view_pager">
 
-    <com.felgueiras.apps.geriatric_helper.VerticalViewPager.CustomViewPager
+    <com.felgueiras.apps.geriatrichelper.VerticalViewPager.CustomViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/view_pager"

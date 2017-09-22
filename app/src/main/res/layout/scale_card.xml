@@ -33,7 +33,8 @@
                     android:paddingTop="@dimen/album_title_padding"
                     android:text="Scale name"
                     android:textColor="@color/album_title"
-                    android:textSize="@dimen/test_name" />
+                    android:textSize="@dimen/test_name"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/testSubCategory"

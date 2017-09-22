@@ -51,13 +51,19 @@
             android:paddingLeft="@dimen/album_title_padding"
             android:paddingRight="@dimen/album_title_padding"
             android:paddingTop="5dp"
-            android:text="Result" />
+            android:text="Scale Info" />
 
         <TableLayout
             android:id="@+id/scale_scoring_table"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"></TableLayout>
+
+        <TextView
+            android:id="@+id/bibliography"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bibliography"/>
 
     </LinearLayout>
 

@@ -6,26 +6,25 @@
             android:id="@+id/cga_public"
             android:icon="@drawable/ic_assignment_black_24dp"
             android:title="@string/cga" />
-        <item
+        <!--<item
             android:id="@+id/prescription"
             android:icon="@drawable/pill_black"
-            android:title="@string/tab_drug_prescription" />
+            android:title="@string/tab_drug_prescription" />-->
     </group>
 
     <!--HelpMainFragment & Feedback-->
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/sendFeedback"
-            android:icon="@drawable/ic_feedback_black_24dp"
-            android:title="@string/send_feedback" />
+            android:id="@+id/cga_guide"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/cga_guide" />
+
+
         <item
             android:id="@+id/help"
             android:icon="@drawable/ic_help_black_24dp"
             android:title="@string/help" />
-        <item
-            android:id="@+id/cga_guide"
-            android:icon="@drawable/ic_search_black_24dp"
-            android:title="@string/cga_guide" />
+
 
     </group>
 
@@ -39,17 +38,17 @@
                 android:icon="@drawable/ic_info_outline_black_24dp"
                 android:title="Sobre" />
             <item
-                android:id="@+id/settings"
+                android:id="@+id/sendFeedback"
+                android:icon="@drawable/ic_feedback_black_24dp"
+                android:title="@string/send_feedback" />
+            <item
+                android:id="@+id/settingsPublic"
                 android:icon="@drawable/ic_settings_black_24dp"
                 android:title="Definições" />
-            <item
+            <!--<item
                 android:id="@+id/access_personal_area"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"
-                android:title="@string/personal_area" />
-            <!--<item-->
-                <!--android:id="@+id/transfer_db"-->
-                <!--android:icon="@drawable/ic_exit_to_app_black_24dp"-->
-                <!--android:title="DB ops" />-->
+                android:title="@string/personal_area" />-->
             <!--<item-->
             <!--android:id="@+id/options"-->
             <!--android:app_icon="@drawable/ic_exit_to_app_black_24dp"-->

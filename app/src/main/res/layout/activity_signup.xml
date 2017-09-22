@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PersonalAreaAccess.RegisterUser">
+    tools:context=".PersonalAreaAccess.RegisterActivity">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -32,8 +32,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:singleLine="true" />
+                android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -50,8 +49,7 @@
                 android:imeActionId="@+id/login"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true" />
+                android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
 
