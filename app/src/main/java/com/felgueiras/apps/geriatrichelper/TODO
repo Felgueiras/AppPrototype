@@ -1,2 +1,3 @@
-- automate retrieving help contents (don't use Constants file)
-- area card: show already completed scales
+- view issue for question 9 and 10 answered automatically
+- when giving permissions, listen to permission change
+- event bus?

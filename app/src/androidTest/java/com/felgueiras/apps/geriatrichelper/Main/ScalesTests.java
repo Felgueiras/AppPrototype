@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.felgueiras.apps.geriatrichelper.MyApplication;
 import com.felgueiras.apps.geriatrichelper.R;
 
 import org.hamcrest.Description;
@@ -38,9 +39,6 @@ import static org.hamcrest.Matchers.is;
 @RunWith(AndroidJUnit4.class)
 public class ScalesTests {
 
-
-
-    // TODO review issues with API 21
 
     @Rule
     public ActivityTestRule<LaunchScreen> mActivityTestRule = new ActivityTestRule<>(LaunchScreen.class);
@@ -99,6 +97,8 @@ public class ScalesTests {
 
     @Test
     public void katzTest() {
+
+
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.start_acg_evaluation), isDisplayed()));
@@ -997,8 +997,6 @@ public class ScalesTests {
 
     @Test
     public void nutritionalTest() {
-
-        // TODO handle offscreen
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.start_acg_evaluation), isDisplayed()));

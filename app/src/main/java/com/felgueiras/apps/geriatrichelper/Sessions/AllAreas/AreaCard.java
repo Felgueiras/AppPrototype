@@ -165,6 +165,9 @@ public class AreaCard extends RecyclerView.Adapter<AreaCard.CGACardHolder> {
             TourGuideStepHelper[] steps = new TourGuideStepHelper[]{step1, step2, step3};
 
             TourGuideHelper.runOverlay_ContinueMethod(context, steps);
+
+            // disable tour
+            SharedPreferencesHelper.disableTourNext(context);
         }
 
 

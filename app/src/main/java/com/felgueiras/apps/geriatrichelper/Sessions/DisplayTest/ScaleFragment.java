@@ -22,6 +22,7 @@ import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.FirebaseDat
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatrichelper.HelpersHandlers.SessionHelper;
+import com.felgueiras.apps.geriatrichelper.MyApplication;
 import com.felgueiras.apps.geriatrichelper.PatientsManagement;
 import com.felgueiras.apps.geriatrichelper.R;
 import com.felgueiras.apps.geriatrichelper.PhotoVideoHandling.RecordVideoActivity;
@@ -236,8 +237,9 @@ public class ScaleFragment extends Fragment {
 //                    }
 //                });
 //        alertDialog.show();
-        // TODO uncomment
-//        Snackbar.make(getView(), "Escala guardada", Snackbar.LENGTH_SHORT).show();
+        if (!MyApplication.isRunningTest()) {
+            Snackbar.make(getView(), "Escala guardada", Snackbar.LENGTH_SHORT).show();
+        }
 
         getActivity().onBackPressed();
 

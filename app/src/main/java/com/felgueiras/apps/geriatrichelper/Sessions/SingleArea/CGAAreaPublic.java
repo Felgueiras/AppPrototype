@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +34,8 @@ import com.felgueiras.apps.geriatrichelper.R;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import tourguide.tourguide.TourGuide;
 
 
@@ -53,11 +56,18 @@ public class CGAAreaPublic extends Fragment {
     private TourGuide finishSessionGuide;
     private String area;
 
+    // ButterKnife
+    @BindView(R.id.area_scales_recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.session_finish)
+    Button finishSession;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_single_area_public_bottom_buttons, container, false);
+        ButterKnife.bind(this,view);
         // check the Constants
         Bundle args = getArguments();
         patientForThisSession = (PatientFirebase) args.getSerializable(PATIENT);
@@ -66,10 +76,9 @@ public class CGAAreaPublic extends Fragment {
         session = (SessionFirebase) args.getSerializable(sessionObject);
         getActivity().setTitle(area);
 
-        RecyclerView recyclerView = view.findViewById(R.id.area_scales_recycler_view);
+
         ScaleCard adapter;
         RecyclerView.Adapter finalAdapter = null;
-        Button finishSession = view.findViewById(R.id.session_finish);
 
         adapter = new ScaleCard(getActivity(), session, resuming, Constants.SESSION_GENDER,
                 area, finishSession);
@@ -157,7 +166,7 @@ public class CGAAreaPublic extends Fragment {
                         // remove session
                         FirebaseDatabaseHelper.eraseScalesNotCompleted(session);
                         // TODO uncomment
-//                        Snackbar.make(getView(), "Sessão terminada", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(getView(), "Sessão terminada", Snackbar.LENGTH_SHORT).show();
 
                         SharedPreferencesHelper.lockSessionCreation(getActivity());
 
@@ -195,7 +204,7 @@ public class CGAAreaPublic extends Fragment {
 
                         dialog.dismiss();
 
-                        // Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
+//                        Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
                     }
                 });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),

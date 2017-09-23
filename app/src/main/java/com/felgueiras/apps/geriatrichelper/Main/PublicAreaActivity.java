@@ -18,12 +18,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
 import com.felgueiras.apps.geriatrichelper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatrichelper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatrichelper.Constants;
+import com.felgueiras.apps.geriatrichelper.MyApplication;
 import com.felgueiras.apps.geriatrichelper.PatientsManagement;
 import com.felgueiras.apps.geriatrichelper.Sessions.AllAreas.CGAPublic;
 import com.felgueiras.apps.geriatrichelper.Sessions.AllAreas.CGAPublicInfo;
@@ -32,6 +34,9 @@ import com.felgueiras.apps.geriatrichelper.Prescription.PrescriptionMainFragment
 import com.felgueiras.apps.geriatrichelper.R;
 import com.felgueiras.apps.geriatrichelper.HelpersHandlers.SharedPreferencesHelper;
 import com.google.firebase.auth.FirebaseAuth;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class PublicAreaActivity extends AppCompatActivity {
 
@@ -46,7 +51,13 @@ public class PublicAreaActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     BackStackHandler handler;
-    private NavigationView navigationView;
+    // ButterKnife
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
 
 
     @Override
@@ -59,6 +70,8 @@ public class PublicAreaActivity extends AppCompatActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer_public);
+
+        ButterKnife.bind(this);
 
 
         //Get Firebase auth instance
@@ -79,24 +92,21 @@ public class PublicAreaActivity extends AppCompatActivity {
           Views/layout.
          */
         // setup toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
         // display home
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         Constants.toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         Constants.toggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new DrawerItemClickListener(this, getFragmentManager(), drawer));
         navigationView.getMenu().getItem(0).setChecked(true);
 
         // show modules in navigation drawer
-        ModulesManagement.manageModulesPublicArea(context,navigationView);
+        ModulesManagement.manageModulesPublicArea(context, navigationView);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,8 +155,15 @@ public class PublicAreaActivity extends AppCompatActivity {
                 //  Create a new boolean and preference and set it to true
                 boolean isFirstStart = finalSharedPreferences.getBoolean("firstStart", true);
 
-                // TODO uncomment
-                isFirstStart= false;
+                /**
+                 * Disable launchinng app intro when testing
+                 * Disable tour guide
+                 */
+                if (MyApplication.isRunningTest()) {
+                    isFirstStart = false;
+                    SharedPreferencesHelper.disableTour(getApplicationContext());
+                }
+
                 //  If the activity has never started before...
                 if (isFirstStart) {
                     //  Launch app intro
@@ -326,49 +343,51 @@ public class PublicAreaActivity extends AppCompatActivity {
         final String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(this);
 
         if (sessionID != null) {
-            // 1
-            SharedPreferencesHelper.resetPublicSession(context, sessionID);
+            /**
+             * Avoid showing dialog about continuing last session when testing
+             */
+            if (MyApplication.isRunningTest()) {
+                SharedPreferencesHelper.resetPublicSession(context, sessionID);
+            } else {
+                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+                alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
+                alertDialog.setMessage("Deseja retomar a Sessão que tinha em curso?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Constants.SESSION_ID = sessionID;
+                                FragmentManager fragmentManager = getFragmentManager();
+                                fragmentManager.beginTransaction()
+                                        .replace(R.id.current_fragment, new CGAPublic())
+                                        .commit();
+                            }
+                        });
+                final SharedPreferences finalSharedPreferences1 = sharedPreferences;
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // erase the sessionID
+                                SharedPreferencesHelper.resetPublicSession(context, sessionID);
+                            }
+                        });
+                alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        // erase the sessionID
+                        SharedPreferencesHelper.resetPublicSession(context, sessionID);
+                    }
+                });
+                alertDialog.show();
+            }
 
-            // TODO uncomment and comment 1
-            /*
 
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
-            alertDialog.setMessage("Deseja retomar a Sessão que tinha em curso?");
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sim",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Constants.SESSION_ID = sessionID;
-                            FragmentManager fragmentManager = getFragmentManager();
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.current_fragment, new CGAPublic())
-                                    .commit();
-                        }
-                    });
-            final SharedPreferences finalSharedPreferences1 = sharedPreferences;
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Não",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // erase the sessionID
-                            SharedPreferencesHelper.resetPublicSession(context, sessionID);
-                        }
-                    });
-            alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialogInterface) {
-                    // erase the sessionID
-                    SharedPreferencesHelper.resetPublicSession(context, sessionID);
-                }
-            });
-            alertDialog.show();
-            */
         }
 
     }
 
     public void updateDrawer() {
-        Log.d("PublicArea","Updating drawer...");
-        ModulesManagement.manageModulesPublicArea(context,navigationView);
+        Log.d("PublicArea", "Updating drawer...");
+        ModulesManagement.manageModulesPublicArea(context, navigationView);
 
     }
 }

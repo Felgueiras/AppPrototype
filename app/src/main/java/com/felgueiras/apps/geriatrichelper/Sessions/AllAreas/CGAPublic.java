@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -35,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import tourguide.tourguide.TourGuide;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -50,6 +53,14 @@ public class CGAPublic extends Fragment {
 
     private SharedPreferences sharedPreferences;
     private TourGuide finishSessionGuide;
+
+    // ButterKnife
+    @BindView(R.id.area_scales_recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.session_finish)
+    Button finishSession;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,6 +95,8 @@ public class CGAPublic extends Fragment {
         View myInflatedView = inflater.inflate(R.layout.content_new_session_public_bottom_buttons, container, false);
         getActivity().setTitle(getResources().getString(R.string.cga_public));
 
+        ButterKnife.bind(this,myInflatedView);
+
         sharedPreferences = getActivity().getSharedPreferences(getResources().getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
 
 
@@ -112,10 +125,8 @@ public class CGAPublic extends Fragment {
         }
 
 
-        RecyclerView recyclerView = myInflatedView.findViewById(R.id.area_scales_recycler_view);
         AreaCard adapter = new AreaCard(getActivity(), session, resuming, Constants.SESSION_GENDER);
 
-        Button finishSession = myInflatedView.findViewById(R.id.session_finish);
         // TourGuide
         /*finishSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
                 .setPointer(new Pointer())
@@ -332,7 +343,7 @@ public class CGAPublic extends Fragment {
                             finishSessionGuide.cleanUp();
 
 
-                        // Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
+//                        Snackbar.make(getView(), getResources().getString(R.string.session_created), Snackbar.LENGTH_SHORT).show();
                     }
                 });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string.no),

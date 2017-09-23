@@ -5,35 +5,55 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.felgueiras.apps.geriatrichelper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatrichelper.Firebase.FirebaseRemoteConfig;
 import com.felgueiras.apps.geriatrichelper.HelpersHandlers.SharedPreferencesHelper;
 import com.felgueiras.apps.geriatrichelper.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class LaunchScreen extends AppCompatActivity {
 
     private Context context;
+
+    // Butterknife
+    @BindView(R.id.launchScreenLogo)
+    ImageView appLogo;
+    @BindView(R.id.progressBar)
+    ProgressBar bar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO API 18 solve error for bitmap
+        // TODO API 18 solve error for bitmap memory leak
         setContentView(R.layout.activity_launch_screen);
+        ButterKnife.bind(this);
+
+
+        // load image with glide
+        Glide.with(this).load(R.drawable.app_icon).apply(new RequestOptions().override(184,274)).into(appLogo);
+
 
         context = this;
 
         // check scales version
 
-        // TODO remove this
-        SharedPreferencesHelper.disableTour(this);
+        // SharedPreferencesHelper.disableTour(this);
 
         boolean isFirstStart = getSharedPreferences(getString(R.string.sharedPreferencesTag), MODE_PRIVATE)
                 .getBoolean("firstStart", true);
@@ -86,7 +106,6 @@ public class LaunchScreen extends AppCompatActivity {
 
     // The definition of our task class
     private class FirebaseLoadInitialData extends AsyncTask<String, Integer, String> {
-        private ProgressBar bar;
 
         @Override
         protected void onPreExecute() {
@@ -95,7 +114,6 @@ public class LaunchScreen extends AppCompatActivity {
         }
 
         private void displayProgressBar(String s) {
-            bar = (ProgressBar) findViewById(R.id.progressBar);
             bar.setVisibility(View.VISIBLE); //View.INVISIBLE, or View.GONE to hide it.
         }
 
@@ -135,6 +153,4 @@ public class LaunchScreen extends AppCompatActivity {
             finish();
         }
     }
-
-
 }

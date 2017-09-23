@@ -31,9 +31,19 @@ import static android.content.Context.MODE_PRIVATE;
 public class SharedPreferencesHelper {
 
 
+    /**
+     * Check if tour is to be run or not.
+     * @param context
+     * @return
+     */
     public static boolean showTour(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         return sharedPreferences.getBoolean(context.getResources().getString(R.string.show_tour), true);
+    }
+
+    public static boolean checkTourNext(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        return sharedPreferences.getBoolean("tour_next", true);
     }
 
     public static String isThereOngoingPublicSession(Context context) {
@@ -66,6 +76,12 @@ public class SharedPreferencesHelper {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(context.getString(R.string.show_tour), false).apply();
     }
+
+    public static void disableTourNext(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean("tour_next", false).apply();
+    }
+
 
     /**
      * Enable initial tour guide.

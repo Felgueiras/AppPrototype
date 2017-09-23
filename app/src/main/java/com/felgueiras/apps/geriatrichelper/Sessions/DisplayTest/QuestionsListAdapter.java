@@ -41,6 +41,7 @@ import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.GradingNonDB;
 import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.QuestionNonDB;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatrichelper.HelpersHandlers.SharedPreferencesHelper;
+import com.felgueiras.apps.geriatrichelper.MyApplication;
 import com.felgueiras.apps.geriatrichelper.Sessions.DisplayTest.QuestionCategoriesViewPager.QuestionMultipleCategoriesViewPager;
 import com.felgueiras.apps.geriatrichelper.Sessions.DisplayTest.SingleQuestion.MultipleChoiceHandler;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
@@ -95,10 +96,10 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
      *
      * @param context              current Context
      * @param test                 GeriatricScale that is being filled up
-     * @param progress ProgressBar which signals the scale completion's progress
+     * @param progress             ProgressBar which signals the scale completion's progress
      * @param childFragmentManager FragmentManager
-     * @param listView listView where questions are to be displayed
-     * @param saveScaleButton Button which saves the scale
+     * @param listView             listView where questions are to be displayed
+     * @param saveScaleButton      Button which saves the scale
      */
     public QuestionsListAdapter(Activity context, GeriatricScaleNonDB testNonDb, GeriatricScaleFirebase test, ProgressBar progress, FragmentManager childFragmentManager, ListView listView, Button saveScaleButton) {
         this.context = context;
@@ -191,8 +192,9 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         if (positionsFilled.size() == nq) {
             if (!scale.isCompleted()) {
                 DrawerLayout layout = context.findViewById(R.id.drawer_layout);
-                // TODO uncomment
-//                Snackbar.make(layout, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
+                if (!MyApplication.isRunningTest()) {
+                    Snackbar.make(layout, R.string.all_questions_answered, Snackbar.LENGTH_SHORT).show();
+                }
 
                 // show tour guide to save this scale
                 if (SharedPreferencesHelper.showTour(context)) {
@@ -307,7 +309,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
      * Multiple text input.
      *
      * @param currentQuestionNonDB current Question
-     * @param questionIndex index of the Question
+     * @param questionIndex        index of the Question
      * @return View for question
      */
     private View multipleTextInput(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
@@ -430,7 +432,10 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
 
                 questionAnswered(questionIndex);
                 if (answerNumber > questionNonDB.getNumericalMax()) {
-                    Snackbar.make(questionView, R.string.numerical_question_overflow, Snackbar.LENGTH_SHORT).show();
+                    // check running test
+                    if (!MyApplication.isRunningTest()) {
+                        Snackbar.make(questionView, R.string.numerical_question_overflow, Snackbar.LENGTH_SHORT).show();
+                    }
                 }
 
             }
@@ -450,7 +455,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
      * Right or wrong question.
      *
      * @param currentQuestionNonDB current Question
-     * @param questionIndex Question index
+     * @param questionIndex        Question index
      * @return View for the Question
      */
     private View rightWrong(QuestionNonDB currentQuestionNonDB, final int questionIndex) {
@@ -548,7 +553,7 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         for (int i = 0; i < gradings.size(); i++) {
             RadioButton newRadioButton = new RadioButton(context);
             // set ID
-            newRadioButton.setId(i+100);
+            newRadioButton.setId(i + 100);
             GradingNonDB currentGrading = gradings.get(i);
             String grade = currentGrading.getGrade();
             String description = currentGrading.getDescription();

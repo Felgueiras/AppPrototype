@@ -49,6 +49,11 @@ public class CGAPublicInfo extends Fragment {
         getActivity().setTitle(FirebaseRemoteConfig.getString("cga",
                 getResources().getString(R.string.cga)));
 
+        if(!SharedPreferencesHelper.checkTourNext(getActivity()))
+        {
+            SharedPreferencesHelper.disableTour(getActivity());
+        }
+
         /*
           Start a session.
          */
