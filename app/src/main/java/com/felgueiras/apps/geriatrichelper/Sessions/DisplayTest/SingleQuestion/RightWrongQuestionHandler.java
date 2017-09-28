@@ -27,11 +27,22 @@ public class RightWrongQuestionHandler implements View.OnClickListener {
     private final QuestionCategory currentCategory;
     private int index = 0;
 
+    /**
+     * Handle the answer of a right/wrong question.
+     *
+     * @param question
+     * @param adapter
+     * @param testNonDB
+     * @param index
+     * @param right
+     * @param wrong
+     * @param categoryTextView
+     * @param currentCategory
+     */
     public RightWrongQuestionHandler(QuestionFirebase question, QuestionsListAdapter adapter, GeriatricScaleNonDB testNonDB,
                                      int index, ImageButton right, ImageButton wrong, TextView categoryTextView, QuestionCategory currentCategory) {
         this.question = question;
         this.adapter = adapter;
-        GeriatricScaleNonDB testNonDB1 = testNonDB;
         this.index = index;
         this.right = right;
         this.wrong = wrong;
@@ -45,12 +56,12 @@ public class RightWrongQuestionHandler implements View.OnClickListener {
         // detect when choice changed
         if (v.getId() == R.id.rightChoice) {
             question.setSelectedRightWrong("right");
-            right.setImageResource(R.drawable.ic_check_box_black_24dp);
-            wrong.setImageResource(R.drawable.ic_close_black_24dp);
+            right.setImageResource(R.drawable.ic_right_selected);
+            wrong.setImageResource(R.drawable.ic_wrong_unselected);
         } else if (v.getId() == R.id.wrongChoice) {
             question.setSelectedRightWrong("wrong");
-            right.setImageResource(R.drawable.ic_check_black_24dp);
-            wrong.setImageResource(R.drawable.close_box);
+            right.setImageResource(R.drawable.ic_right_unselected);
+            wrong.setImageResource(R.drawable.ic_wrong_selected);
         }
         question.setAnswered(true);
 
@@ -63,7 +74,7 @@ public class RightWrongQuestionHandler implements View.OnClickListener {
         if (categoryText != null) {
             // check if all questions from category were answered
             boolean allAnswered = true;
-            for(QuestionNonDB question : currentCategory.getQuestions()){
+            for (QuestionNonDB question : currentCategory.getQuestions()) {
 
             }
         }

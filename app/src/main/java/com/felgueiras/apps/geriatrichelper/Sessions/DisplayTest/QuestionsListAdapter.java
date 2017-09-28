@@ -167,10 +167,10 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
     /**
      * Signal that a given Question was already answered
      *
-     * @param position position of the answered Question
+     * @param questionIndex position of the answered Question
      */
-    public void questionAnswered(int position) {
-        positionsFilled.add(position);
+    public void questionAnswered(int questionIndex) {
+        positionsFilled.add(questionIndex);
         if (progressBar != null) {
             if (positionsFilled.size() > progressBar.getProgress())
                 progressBar.setProgress(positionsFilled.size());
@@ -472,7 +472,6 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
             questionInDB.setYesOrNo(false);
             questionInDB.setRightWrong(true);
             FirebaseDatabaseHelper.createQuestion(questionInDB);
-
         }
 
 
@@ -492,9 +491,9 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
         if (questionInDB.isAnswered()) {
             ////system.out.println(questionInDB.toString());
             if (questionInDB.getSelectedRightWrong().equals("right")) {
-                right.setImageResource(R.drawable.ic_check_box_black_24dp);
+                right.setImageResource(R.drawable.ic_right_selected);
             } else {
-                wrong.setImageResource(R.drawable.close_box);
+                wrong.setImageResource(R.drawable.ic_wrong_selected);
             }
         }
 
@@ -507,12 +506,12 @@ public class QuestionsListAdapter extends BaseAdapter implements Serializable {
                 // detect when choice changed
                 if (v.getId() == R.id.rightChoice) {
                     finalQuestionInDB.setSelectedRightWrong("right");
-                    right.setImageResource(R.drawable.ic_check_box_black_24dp);
-                    wrong.setImageResource(R.drawable.ic_close_black_24dp);
+                    right.setImageResource(R.drawable.ic_right_selected);
+                    wrong.setImageResource(R.drawable.ic_wrong_unselected);
                 } else if (v.getId() == R.id.wrongChoice) {
                     finalQuestionInDB.setSelectedRightWrong("wrong");
-                    right.setImageResource(R.drawable.ic_check_black_24dp);
-                    wrong.setImageResource(R.drawable.close_box);
+                    right.setImageResource(R.drawable.ic_right_unselected);
+                    wrong.setImageResource(R.drawable.ic_wrong_selected);
                 } else {
                     return;
                 }

@@ -521,7 +521,6 @@ public class FirebaseDatabaseHelper {
             questionsToConsider = FirebaseHelper.questions;
         } else {
             questionsToConsider = Constants.publicQuestions;
-
         }
         for (QuestionFirebase question : questionsToConsider) {
             if (question.getGuid().equals(questionID))

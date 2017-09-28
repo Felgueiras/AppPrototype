@@ -171,7 +171,7 @@ public class CGAAreaPublic extends Fragment {
                         SharedPreferencesHelper.lockSessionCreation(getActivity());
 
                         if (FirebaseDatabaseHelper.getScalesFromSession(session).size() == 0) {
-                            SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
+                            SharedPreferencesHelper.resetPublicSession(getActivity());
 
                             BackStackHandler.clearBackStack();
                             FragmentManager fragmentManager = BackStackHandler.getFragmentManager();
@@ -183,7 +183,7 @@ public class CGAAreaPublic extends Fragment {
                                     .commit();
                         } else {
                             SessionFirebase sessionCopy = session;
-                            SharedPreferencesHelper.resetPublicSession(getActivity(), null);
+                            SharedPreferencesHelper.resetPublicSession(getActivity());
 
                             BackStackHandler.clearBackStack();
 
@@ -216,6 +216,8 @@ public class CGAAreaPublic extends Fragment {
         alertDialog.show();
 
     }
+
+
 
 
 }

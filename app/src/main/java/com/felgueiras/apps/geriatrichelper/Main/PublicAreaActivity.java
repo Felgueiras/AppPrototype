@@ -18,11 +18,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.activeandroid.ActiveAndroid;
 import com.felgueiras.apps.geriatrichelper.Firebase.FirebaseHelper;
+import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
+import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.QuestionFirebase;
 import com.felgueiras.apps.geriatrichelper.HelpersHandlers.BackStackHandler;
 import com.felgueiras.apps.geriatrichelper.Constants;
 import com.felgueiras.apps.geriatrichelper.MyApplication;
@@ -34,6 +35,8 @@ import com.felgueiras.apps.geriatrichelper.Prescription.PrescriptionMainFragment
 import com.felgueiras.apps.geriatrichelper.R;
 import com.felgueiras.apps.geriatrichelper.HelpersHandlers.SharedPreferencesHelper;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -338,6 +341,9 @@ public class PublicAreaActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Check if the app was closed when in the middle of a session.
+     */
     public void isTherePublicSession() {
         Log.d("Session", "checking if there is public session");
         final String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(this);
@@ -347,7 +353,7 @@ public class PublicAreaActivity extends AppCompatActivity {
              * Avoid showing dialog about continuing last session when testing
              */
             if (MyApplication.isRunningTest()) {
-                SharedPreferencesHelper.resetPublicSession(context, sessionID);
+                SharedPreferencesHelper.resetPublicSession(context);
             } else {
                 AlertDialog alertDialog = new AlertDialog.Builder(this).create();
                 alertDialog.setTitle("Foi Encontrada uma Sessão a decorrer");
@@ -356,6 +362,10 @@ public class PublicAreaActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Constants.SESSION_ID = sessionID;
+
+                                // get public scales from prefs
+                                Constants.publicScales = SharedPreferencesHelper.getPublicScales(context);
+                                Constants.publicQuestions = SharedPreferencesHelper.getPublicQuestions(context);
                                 FragmentManager fragmentManager = getFragmentManager();
                                 fragmentManager.beginTransaction()
                                         .replace(R.id.current_fragment, new CGAPublic())
@@ -367,14 +377,18 @@ public class PublicAreaActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // erase the sessionID
-                                SharedPreferencesHelper.resetPublicSession(context, sessionID);
+                                SharedPreferencesHelper.resetPublicSession(context);
+                                // reset public scales and questions from prefs
+                                SharedPreferencesHelper.resetPublicScalesQuestions(context);
                             }
                         });
                 alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialogInterface) {
                         // erase the sessionID
-                        SharedPreferencesHelper.resetPublicSession(context, sessionID);
+                        SharedPreferencesHelper.resetPublicSession(context);
+                        // reset public scales and questions from prefs
+                        SharedPreferencesHelper.resetPublicScalesQuestions(context);
                     }
                 });
                 alertDialog.show();
@@ -390,4 +404,22 @@ public class PublicAreaActivity extends AppCompatActivity {
         ModulesManagement.manageModulesPublicArea(context, navigationView);
 
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("PublicActiv", "On stop");
+
+        // persist public scales and questions
+        SharedPreferencesHelper.persistPublicScalesQuestions(this);
+
+        // get them
+        ArrayList<GeriatricScaleFirebase> publicScales = SharedPreferencesHelper.getPublicScales(this);
+        Log.d("PublicActiv", publicScales.size() + "");
+
+        // get them
+        ArrayList<QuestionFirebase> publicQuestions = SharedPreferencesHelper.getPublicQuestions(this);
+        Log.d("PublicActiv", publicQuestions.size() + "");
+    }
+
 }

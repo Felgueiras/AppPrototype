@@ -10,12 +10,16 @@ import com.felgueiras.apps.geriatrichelper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatrichelper.DataTypes.Criteria.StoppCriteria;
 import com.felgueiras.apps.geriatrichelper.DataTypes.DB.Session;
 import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.GeriatricScaleNonDB;
+import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.QuestionFirebase;
 import com.felgueiras.apps.geriatrichelper.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,6 +37,7 @@ public class SharedPreferencesHelper {
 
     /**
      * Check if tour is to be run or not.
+     *
      * @param context
      * @return
      */
@@ -56,12 +61,8 @@ public class SharedPreferencesHelper {
         return sharedPreferences.getString(context.getResources().getString(R.string.saved_session_private), null);
     }
 
-    public static void resetPublicSession(Activity context, String sessionID) {
-//        if (sessionID != null) {
-//            Session session = Session.getSessionByID(sessionID);
-//            if (session != null)
-//                session.delete();
-//        }
+    public static void resetPublicSession(Activity context) {
+
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         sharedPreferences.edit().putString(context.getString(R.string.saved_session_public), null).apply();
     }
@@ -532,5 +533,60 @@ public class SharedPreferencesHelper {
         SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
         return sharedPreferences.getString(context.getString(R.string.hashString), "");
     }
+
+    /**
+     * Persist public scales, in case closed app and then session to be resumed.
+     *
+     * @param context
+     */
+    public static void persistPublicScalesQuestions(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        // scales
+        Gson gson = new Gson();
+        String json = gson.toJson(Constants.publicScales);
+        editor.putString(context.getString(R.string.sharedPreferencesPublicScales), json);
+        // questions
+        gson = new Gson();
+        json = gson.toJson(Constants.publicQuestions);
+        editor.putString(context.getString(R.string.sharedPreferencesPublicQuestions), json);
+        editor.apply();
+    }
+
+    public static void resetPublicScalesQuestions(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(context.getString(R.string.sharedPreferencesPublicScales), "");
+        editor.putString(context.getString(R.string.sharedPreferencesPublicQuestions), "");
+        editor.apply();
+    }
+
+
+
+    /**
+     * Persist public scales, in case closed app and then session to be resumed.
+     *
+     * @param context
+     */
+    public static ArrayList<GeriatricScaleFirebase> getPublicScales(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(context.getString(R.string.sharedPreferencesPublicScales), null);
+        Type type = new TypeToken<ArrayList<GeriatricScaleFirebase>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+
+
+    public static ArrayList<QuestionFirebase> getPublicQuestions(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.sharedPreferencesTag), MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(context.getString(R.string.sharedPreferencesPublicQuestions), null);
+        Type type = new TypeToken<ArrayList<QuestionFirebase>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
 
 }

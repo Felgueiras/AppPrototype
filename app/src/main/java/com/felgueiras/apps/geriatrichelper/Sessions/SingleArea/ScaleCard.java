@@ -92,7 +92,8 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
     /**
      * Constructor of the SessionCardEvaluationHistory
-     *  @param context       current Context
+     *
+     * @param context       current Context
      * @param session
      * @param reviewing     true if we are reviewing a Session
      * @param patientGender
@@ -123,6 +124,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
         final GeriatricScaleNonDB scaleNonDB = testsForArea.get(position);
 
 
+        // Public Scale
         final GeriatricScaleFirebase currentScale = FirebaseDatabaseHelper.getScaleFromSession(session, scaleNonDB.getScaleName());
 
         if (position == Constants.tourScalePosition && SharedPreferencesHelper.showTour(context)) {
@@ -165,10 +167,7 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
         }
 
-
-//        String testCompletionNotSelected = context.getResources().getString(R.string.test_not_selected);
         String testCompletionSelectedIncomplete = context.getResources().getString(R.string.test_incomplete);
-
 
         holder.name.setText(scaleNonDB.getShortName());
 
@@ -268,7 +267,6 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
 
                 if (finalCurrentTest.getScaleName().equals(Constants.test_name_mini_nutritional_assessment_global)) {
                     // TODO check if triagem is already answered
-
                     GeriatricScaleFirebase triagem = FirebaseDatabaseHelper.getScaleFromSession(session,
                             Constants.test_name_mini_nutritional_assessment_triagem);
 

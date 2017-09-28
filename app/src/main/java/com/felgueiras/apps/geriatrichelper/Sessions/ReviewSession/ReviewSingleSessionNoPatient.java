@@ -205,7 +205,7 @@ public class ReviewSingleSessionNoPatient extends Fragment {
                     SharedPreferencesHelper.resetPrivateSession(getActivity(), session.getGuid());
                     fragment = new PatientsMain();
                 } else {
-                    SharedPreferencesHelper.resetPublicSession(getActivity(), session.getGuid());
+                    SharedPreferencesHelper.resetPublicSession(getActivity());
                     fragment = new CGAPublicInfo();
                 }
                 fragmentManager.beginTransaction()

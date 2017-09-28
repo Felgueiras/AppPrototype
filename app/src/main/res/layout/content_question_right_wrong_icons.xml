@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/transparent"
-                app:srcCompat="@drawable/ic_check_black_24dp" />
+                app:srcCompat="@drawable/ic_right_unselected" />
 
             <ImageButton
                 android:id="@+id/wrongChoice"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/transparent"
-                app:srcCompat="@drawable/ic_close_black_24dp" />
+                app:srcCompat="@drawable/ic_wrong_unselected" />
 
 
         </LinearLayout>

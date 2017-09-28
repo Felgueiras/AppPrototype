@@ -21,7 +21,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/ic_album_overflow_margin_top"
             android:scaleType="centerCrop"
-            card_view:srcCompat="@drawable/ic_close_black_24dp" />
+            card_view:srcCompat="@drawable/ic_wrong_unselected" />
 
         <TextView
             android:id="@+id/recordDate"

@@ -496,6 +496,8 @@ inerentes para os profissionais e para os utentes.
     </string>
     <string name="modulePersonalArea" translatable="false">modulePersonalArea</string>
     <string name="tourGuide" translatable="false">tourGuideState</string>
+    <string name="sharedPreferencesPublicScales">publicScalesInPrefs</string>
+    <string name="sharedPreferencesPublicQuestions">publicQuestionsInPrefs</string>
 
 
 </resources>

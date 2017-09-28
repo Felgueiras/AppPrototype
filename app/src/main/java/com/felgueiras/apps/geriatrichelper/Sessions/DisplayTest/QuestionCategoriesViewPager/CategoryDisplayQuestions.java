@@ -33,6 +33,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDisplayQuestions.MyViewHolder> {
@@ -46,9 +49,9 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
     private RecyclerView recyclerView;
 
 
-    public CategoryDisplayQuestions(Activity context,
-                                    GeriatricScaleNonDB testNonDB, int categoryIndex, GeriatricScaleFirebase test,
-                                    QuestionsListAdapter adapter, TextView categoryTextView, RecyclerView questionsRecyclerView) {
+    CategoryDisplayQuestions(Activity context,
+                             GeriatricScaleNonDB testNonDB, int categoryIndex, GeriatricScaleFirebase test,
+                             QuestionsListAdapter adapter, TextView categoryTextView, RecyclerView questionsRecyclerView) {
         this.context = context;
         this.scaleNonDB = testNonDB;
         this.categoryIndex = categoryIndex;
@@ -62,17 +65,20 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
      * Create a View
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private final ImageButton right, wrong;
-        private final ImageView questionImage;
-        public TextView questionTextView;
+        // ButterKnife
+        @BindView(R.id.nameQuestion)
+        TextView questionTextView;
+        @BindView(R.id.rightChoice)
+        ImageButton right;
+        @BindView(R.id.wrongChoice)
+        ImageButton wrong;
+        @BindView(R.id.questionImage)
+        ImageView questionImage;
+
 
         public MyViewHolder(View view) {
             super(view);
-            questionTextView = view.findViewById(R.id.nameQuestion);
-            // right and wrong button
-            right = view.findViewById(R.id.rightChoice);
-            wrong = view.findViewById(R.id.wrongChoice);
-            questionImage = view.findViewById(R.id.questionImage);
+            ButterKnife.bind(this, view);
         }
     }
 
@@ -84,18 +90,17 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int questionIndex) {
+    public void onBindViewHolder(final MyViewHolder holder, final int questionIndexInsideCategory) {
         final QuestionCategory currentCategory = scaleNonDB.getQuestionsCategories().get(categoryIndex);
 
         // question not in DB
-        final QuestionNonDB currentQuestionNonDB = currentCategory.getQuestions().get(questionIndex);
+        QuestionNonDB currentQuestionNonDB = currentCategory.getQuestions().get(questionIndexInsideCategory);
         // question in DB
         QuestionFirebase questionInDB = null;
-        final int questionIdx = QuestionCategory.getQuestionIndex(categoryIndex,
-                questionIndex,
-                scaleNonDB);
+        final int questionIdxGlobal = QuestionCategory.getQuestionIndex(categoryIndex,
+                questionIndexInsideCategory, scaleNonDB);
         if (scaleDB != null) {
-            String dummyID = scaleDB.getGuid() + "-" + questionIdx;
+            String dummyID = scaleDB.getGuid() + "-" + questionIdxGlobal;
             questionInDB = FirebaseDatabaseHelper.getQuestionByID(dummyID);
             if (questionInDB == null) {
                 questionInDB = new QuestionFirebase();
@@ -110,148 +115,147 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
         }
 
         // check if all questions were answered
-        signalAllQuestionsAnswered();
+        checkAllQuestionsAnswered();
 
 
         /*
           Set View
          */
-        holder.questionTextView.setText((questionIndex + 1) + " - " + currentQuestionNonDB.getDescription());
+        holder.questionTextView.setText((questionIndexInsideCategory + 1) + " - " + currentQuestionNonDB.getDescription());
 
+        // check if there is an associated image
         if (!currentQuestionNonDB.getImage().equals("")) {
-
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-
-            StorageReference storageRef = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
-                    .child("images/" + currentQuestionNonDB.getImage());
-
-            try {
-                final File imageFile = File.createTempFile("photoDownloaded", "png");
-                storageRef.getFile(imageFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-
-                        // display image
-                        BitmapFactory.Options options = new BitmapFactory.Options();
-
-                        // downsizing image as it throws OutOfMemory Exception for larger
-                        // images
-//                    options.inSampleSize = 8;
-
-                        final Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(),
-                                options);
-                        holder.questionImage.setVisibility(View.VISIBLE);
-
-                        holder.questionImage.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                AlertDialog.Builder imageDialog = new AlertDialog.Builder(context);
-                                LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-
-                                View layout = inflater.inflate(R.layout.custom_fullimage_dialog, null);
-                                ImageView image = layout.findViewById(R.id.fullimage);
-                                image.setImageBitmap(bitmap);
-                                imageDialog.setView(layout);
-                                imageDialog.setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
-
-                                AlertDialog alertDialog = imageDialog.create();
-                                alertDialog.show();
-
-                                // update image size
-                                Display display = context.getWindowManager().getDefaultDisplay();
-                                image.getLayoutParams().width = (int) (display.getWidth() * 0.8f);
-                                image.getLayoutParams().height = (int) (display.getHeight() * 0.8f);
-
-
-                            }
-                        });
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        if (exception instanceof com.google.firebase.storage.StorageException) {
-                            // scale was not found for that language
-                            Log.d("Download", "Image does not exist");
-                        }
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            setImage(holder, currentQuestionNonDB);
         }
-        // detect when choice changed
 
         // if question is already answered
         if (questionInDB != null && questionInDB.isAnswered()) {
             ////system.out.println(questionInDB.toString());
             if (questionInDB.getSelectedRightWrong().equals("right")) {
-                holder.right.setImageResource(R.drawable.ic_check_box_black_24dp);
+                holder.right.setImageResource(R.drawable.ic_right_selected);
             } else {
-                holder.wrong.setImageResource(R.drawable.close_box);
+                holder.wrong.setImageResource(R.drawable.ic_wrong_selected);
             }
         }
-
+        else
+        {
+            holder.right.setImageResource(R.drawable.ic_right_unselected);
+            holder.wrong.setImageResource(R.drawable.ic_wrong_unselected);
+        }
 
         if (scaleDB != null) {
-//            holder.right.setOnClickListener(new RightWrongQuestionHandler(questionInDB, adapter,
-//                    scaleNonDB, questionIdx, holder.right, holder.wrong, categoryTextView, currentCategory));
-//            holder.wrong.setOnClickListener(new RightWrongQuestionHandler(questionInDB, adapter,
-//                    scaleNonDB, questionIdx, holder.right, holder.wrong, categoryTextView,
-//                    currentCategory));
 
             final QuestionFirebase finalQuestionInDB = questionInDB;
-            holder.right.setOnClickListener(new View.OnClickListener() {
+            View.OnClickListener choiceSelectedClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // signal this question was answered
-                    finalQuestionInDB.setAnswered(true);
-
-                    FirebaseDatabaseHelper.updateQuestion(finalQuestionInDB);
-                    // check if question was answered
-                    signalAllQuestionsAnswered();
-
-                    new RightWrongQuestionHandler(finalQuestionInDB, adapter,
-                            scaleNonDB, questionIdx, holder.right,
-                            holder.wrong, categoryTextView, currentCategory).onClick(v);
-
-                    recyclerView.getLayoutManager().scrollToPosition(questionIndex + 2);
-
+                    choiceSelected(finalQuestionInDB, questionIdxGlobal, holder, currentCategory, v);
                 }
-            });
-            holder.wrong.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // signal this question was answered
-
-                    finalQuestionInDB.setAnswered(true);
-                    FirebaseDatabaseHelper.updateQuestion(finalQuestionInDB);
-
-                    // check if question was answered
-                    signalAllQuestionsAnswered();
-                    new RightWrongQuestionHandler(finalQuestionInDB, adapter,
-                            scaleNonDB, questionIdx, holder.right, holder.wrong, categoryTextView, currentCategory).onClick(v);
-
-                    recyclerView.getLayoutManager().scrollToPosition(questionIndex + 2);
-
-                }
-            });
+            };
+            holder.right.setOnClickListener(choiceSelectedClickListener);
+            holder.wrong.setOnClickListener(choiceSelectedClickListener);
         }
-
 
     }
 
-    public void signalAllQuestionsAnswered() {
-        if (allQuestionsFromCategoryAnswered()) {
-            categoryTextView.setBackgroundResource(R.color.question_answered);
+    /**
+     * Fetch image from firebase and set it to a question.
+     *
+     * @param holder
+     * @param currentQuestionNonDB
+     */
+    private void setImage(final MyViewHolder holder, QuestionNonDB currentQuestionNonDB) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                .child("images/" + currentQuestionNonDB.getImage());
+
+        try {
+            final File imageFile = File.createTempFile("photoDownloaded", "png");
+            storageRef.getFile(imageFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                    // display image
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+
+                    // downsizing image as it throws OutOfMemory Exception for larger
+                    // images
+//                    options.inSampleSize = 8;
+
+                    final Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(),
+                            options);
+                    holder.questionImage.setVisibility(View.VISIBLE);
+
+                    holder.questionImage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialog.Builder imageDialog = new AlertDialog.Builder(context);
+                            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+                            View layout = inflater.inflate(R.layout.custom_fullimage_dialog, null);
+                            ImageView image = layout.findViewById(R.id.fullimage);
+                            image.setImageBitmap(bitmap);
+                            imageDialog.setView(layout);
+                            imageDialog.setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+
+                            AlertDialog alertDialog = imageDialog.create();
+                            alertDialog.show();
+
+                            // update image size
+                            Display display = context.getWindowManager().getDefaultDisplay();
+                            image.getLayoutParams().width = (int) (display.getWidth() * 0.8f);
+                            image.getLayoutParams().height = (int) (display.getHeight() * 0.8f);
+
+
+                        }
+                    });
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    if (exception instanceof com.google.firebase.storage.StorageException) {
+                        // scale was not found for that language
+                        Log.d("Download", "Image does not exist");
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public boolean allQuestionsFromCategoryAnswered() {
+    /**
+     * Handle choice selection.
+     *
+     * @param questionDB
+     * @param questionIndex
+     * @param holder
+     * @param currentCategory
+     * @param v
+     */
+    private void choiceSelected(QuestionFirebase questionDB, int questionIndex, MyViewHolder holder, QuestionCategory currentCategory, View v) {
+        // signal this question was answered
+        questionDB.setAnswered(true);
+        FirebaseDatabaseHelper.updateQuestion(questionDB);
+        // check if question was answered
+        checkAllQuestionsAnswered();
+        recyclerView.getLayoutManager().scrollToPosition(questionIndex + 2);
+
+        new RightWrongQuestionHandler(questionDB, adapter,
+                scaleNonDB, questionIndex, holder.right,
+                holder.wrong, categoryTextView, currentCategory).onClick(v);
+    }
+
+    /**
+     * Check if all questions were answered.
+     */
+    private void checkAllQuestionsAnswered() {
         int numQuestionsAnswered = 0;
         int numQuestionsTotal = scaleNonDB.getQuestionsCategories().get(categoryIndex).getQuestions().size();
         for (int i = 0; i < numQuestionsTotal; i++) {
@@ -267,7 +271,9 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
 
 
         }
-        return numQuestionsAnswered == numQuestionsTotal;
+        if (numQuestionsAnswered == numQuestionsTotal) {
+            categoryTextView.setBackgroundResource(R.color.question_answered);
+        }
     }
 
 
