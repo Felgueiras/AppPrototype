@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -266,9 +267,15 @@ public class ScaleCard extends RecyclerView.Adapter<ScaleCard.ScaleCardHolder> {
             public void onClick(View v) {
 
                 if (finalCurrentTest.getScaleName().equals(Constants.test_name_mini_nutritional_assessment_global)) {
-                    // TODO check if triagem is already answered
+                    // check if triagem is already answered
                     GeriatricScaleFirebase triagem = FirebaseDatabaseHelper.getScaleFromSession(session,
                             Constants.test_name_mini_nutritional_assessment_triagem);
+
+
+                    if (!triagem.isCompleted()) {
+                        Snackbar.make(holder.view, "Precisa primeiro de completar a triagem", Snackbar.LENGTH_SHORT).show();
+                        return;
+                    }
 
                 }
 
