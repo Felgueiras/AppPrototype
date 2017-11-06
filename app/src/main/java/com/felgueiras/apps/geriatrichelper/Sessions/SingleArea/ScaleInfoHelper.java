@@ -61,7 +61,7 @@ public class ScaleInfoHelper implements View.OnClickListener {
         GeriatricScaleNonDB test = Scales.getScaleByName(currentScale.getScaleName());
 
 //        if (currentScale.getScaleName().equals(Constants.test_name_mini_mental_state)) {
-        // TODO Mini mental scale displays education levels and not different scorings
+        // Mini mental scale displays education levels and not different scorings
         fillTableScale(test, table, currentScale.getScoring().getName());
 
 //        } else {

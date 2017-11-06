@@ -1,3 +1,5 @@
+- download everything on the beginning
+- check bug when minimizing
+- hide/show questions in MMSE (they may leave little space for answers)
+
 - when giving permissions, listen to permission change
-- event bus?
-- Dagger2 for context?

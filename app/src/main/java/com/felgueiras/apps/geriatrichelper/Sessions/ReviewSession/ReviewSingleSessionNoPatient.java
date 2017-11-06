@@ -249,7 +249,7 @@ public class ReviewSingleSessionNoPatient extends Fragment {
             TourGuideHelper.runOverlay_ContinueMethod(getActivity(), steps);
         }
 
-        // TODO just for testing - update session/scale json to Firebase
+        // just for testing - update session/scale json to Firebase
         uploadSessionForTesting();
 
 

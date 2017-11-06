@@ -9,6 +9,7 @@ import com.felgueiras.apps.geriatrichelper.DataTypes.Criteria.StoppCriteria;
 import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.ChoiceNonDB;
 import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.GradingNonDB;
+import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.QuestionCategory;
 import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.ScoringNonDB;
 import com.felgueiras.apps.geriatrichelper.DataTypes.Scales;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
@@ -84,7 +85,7 @@ public class FirebaseHelper {
      * Firebase - sessions table.
      */
     public static DatabaseReference firebaseTableSessions;
-    public static DatabaseReference firebaseTablePatients ;
+    public static DatabaseReference firebaseTablePatients;
 
     /**
      * Firebase - scales table.
@@ -155,6 +156,7 @@ public class FirebaseHelper {
         Log.d("Firebase", "Checking scales version");
         firebaseTablePublic = mFirebaseInstance.getReference(FirebaseHelper.PUBLIC);
 
+        // check scales
         FirebaseHelper.firebaseTablePublic.child("scalesVersion").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -183,6 +185,7 @@ public class FirebaseHelper {
             }
         });
 
+        // check criteria
         FirebaseHelper.firebaseTablePublic.child("criteriaVersion").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -217,6 +220,12 @@ public class FirebaseHelper {
     static int scalesCurrent = 0;
 
 
+    /**
+     * Generate the result for a scale.
+     *
+     * @param scale
+     * @return
+     */
     public static double generateScaleResult(GeriatricScaleFirebase scale) {
         double res = 0;
         ArrayList<QuestionFirebase> questionsFromTest = FirebaseDatabaseHelper.getQuestionsFromScale(scale);
@@ -306,7 +315,55 @@ public class FirebaseHelper {
         // update scale result
         FirebaseDatabaseHelper.updateScale(scale);
 
+        // create method to check results by category
+        if (scaleNonDb.isMultipleCategories()) {
+            // for each category compute result
+            ArrayList<QuestionCategory> questionsCategories = scaleNonDb.getQuestionsCategories();
+            for (QuestionCategory cat : questionsCategories) {
+                // get questions from category
+                getScoreForCategory(questionsCategories.indexOf(cat), cat, scaleNonDb, scale);
+            }
+        }
+
         return res;
+    }
+
+    /**
+     * Get score for a category in a  multiple category scale.
+     *
+     * @param categoryIndex
+     * @param cat
+     * @param scaleNonDB
+     * @param scaleDB
+     */
+    private static double getScoreForCategory(int categoryIndex, QuestionCategory cat,
+                                              GeriatricScaleNonDB scaleNonDB,
+                                              GeriatricScaleFirebase scaleDB) {
+        int numQuestionsTotal = cat.getQuestions().size();
+        double categoryScore = 0;
+        for (int i = 0; i < numQuestionsTotal; i++) {
+
+            int qIdx = QuestionCategory.getQuestionIndex(categoryIndex,
+                    i,
+                    scaleNonDB);
+            if (scaleDB != null) {
+                String dummyID = scaleDB.getGuid() + "-" + qIdx;
+                QuestionFirebase question = FirebaseDatabaseHelper.getQuestionByID(dummyID);
+
+                /*
+                  Right/ wrong question
+                 */
+
+                if (question != null && question.getSelectedRightWrong().equals("right"))
+                    categoryScore += 1;
+            }
+
+
+        }
+        Log.d("Category",categoryIndex+"-"+categoryScore);
+
+        return categoryScore;
+
     }
 
 
@@ -332,7 +389,7 @@ public class FirebaseHelper {
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
 
-        firebaseTablePatients   = mFirebaseInstance.getReference(FirebaseHelper.PATIENTS);
+        firebaseTablePatients = mFirebaseInstance.getReference(FirebaseHelper.PATIENTS);
         firebaseTableSessions = mFirebaseInstance.getReference(FirebaseHelper.SESSIONS);
         firebaseTableScales = mFirebaseInstance.getReference(FirebaseHelper.SCALES);
         firebaseTableQuestions = mFirebaseInstance.getReference(FirebaseHelper.QUESTIONS);

@@ -40,7 +40,6 @@ public class LaunchScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO API 18 solve error for bitmap memory leak
         setContentView(R.layout.activity_launch_screen);
         ButterKnife.bind(this);
 

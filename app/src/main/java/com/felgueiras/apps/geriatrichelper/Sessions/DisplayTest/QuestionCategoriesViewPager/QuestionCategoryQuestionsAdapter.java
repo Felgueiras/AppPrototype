@@ -20,10 +20,12 @@ import com.felgueiras.apps.geriatrichelper.Sessions.DisplayTest.QuestionsListAda
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatrichelper.R;
 
+import java.io.Serializable;
+
 /**
  * Created by felgueiras on 27/03/2017.
  */
-public class QuestionCategoryQuestionsAdapter extends Fragment {
+public class QuestionCategoryQuestionsAdapter extends Fragment implements Serializable {
     public static final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
     public static final String SCALE_DB = "SCALE_DB";
     public static final String SCALE_NON_DB = "SCALE_NON_DB";

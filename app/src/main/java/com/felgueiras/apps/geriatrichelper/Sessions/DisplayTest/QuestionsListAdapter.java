@@ -58,6 +58,7 @@ import tourguide.tourguide.TourGuide;
  * Create the layout of the Questions
  */
 public class QuestionsListAdapter extends BaseAdapter implements Serializable {
+
     /**
      * Questions for a Test
      */

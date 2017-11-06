@@ -18,12 +18,14 @@ import android.widget.EditText;
 import com.felgueiras.apps.geriatrichelper.Constants;
 import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.GradingNonDB;
+import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.QuestionCategory;
 import com.felgueiras.apps.geriatrichelper.DataTypes.Scales;
 import com.felgueiras.apps.geriatrichelper.Firebase.FirebaseHelper;
 import com.felgueiras.apps.geriatrichelper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.PatientFirebase;
+import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.QuestionFirebase;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.SessionFirebase;
 import com.felgueiras.apps.geriatrichelper.PatientsManagement;
 import com.felgueiras.apps.geriatrichelper.R;
@@ -60,6 +62,7 @@ import java.util.Locale;
 public class SessionPDF {
 
     static int leftIndentation = 50;
+    static int leftIndentationPlus = 75;
 
 
     /**
@@ -160,7 +163,7 @@ public class SessionPDF {
 
 
     /**
-     * Cret
+     * Create a PDF for the session
      *
      * @param activity
      * @param includePatientInfo
@@ -334,10 +337,10 @@ public class SessionPDF {
                         // qualitative result
 
                         // get static scale definition
-                        GeriatricScaleNonDB scaleDefinition = Scales.getScaleByName(scaleFirebase.getScaleName());
-                        if (scaleDefinition.getScoring().getName() != null) {
+                        GeriatricScaleNonDB scaleNonDb = Scales.getScaleByName(scaleFirebase.getScaleName());
+                        if (scaleNonDb.getScoring().getName() != null) {
                             // get min value for that category
-                            int minValue = Scales.getGradingMin(scaleDefinition, Constants.EDUCATION_LEVEL);
+                            int minValue = Scales.getGradingMin(scaleNonDb, Constants.EDUCATION_LEVEL);
                             Paragraph qualitativeResult;
                             if (FirebaseHelper.generateScaleResult(scaleFirebase) < minValue) {
                                 qualitativeResult = new Paragraph("Resultado abaixo do esperado");
@@ -375,6 +378,17 @@ public class SessionPDF {
                         quantitativeResult.setIndentationLeft(leftIndentation);
                         scaleInfo.add(quantitativeResult);
 
+                        // if multiple categories -> display result by category
+                        if (scaleNonDb.isMultipleCategories()) {
+                            ArrayList<QuestionCategory> questionsCategories = scale.getQuestionsCategories();
+                            for (QuestionCategory cat : questionsCategories) {
+                                // get questions from category
+                                getScoreForCategory(questionsCategories.indexOf(cat), cat, scaleNonDb, scaleFirebase,
+                                        scaleInfo);
+                            }
+                        }
+
+
                         if (scaleFirebase.photos()) {
                             String photoPath = scaleFirebase.getPhotoPath();
                             if (photoPath != null) {
@@ -391,6 +405,7 @@ public class SessionPDF {
                             }
                         }
 
+
                     }
                 }
             }
@@ -399,6 +414,46 @@ public class SessionPDF {
 
         // automatically go to new page
         document.add(catPart);
+    }
+
+    /**
+     * Get score for a category in a  multiple category scale.
+     *
+     * @param categoryIndex
+     * @param cat
+     * @param scaleNonDB
+     * @param scaleDB
+     * @param scaleInfo
+     */
+    private static void getScoreForCategory(int categoryIndex, QuestionCategory cat,
+                                            GeriatricScaleNonDB scaleNonDB,
+                                            GeriatricScaleFirebase scaleDB, Section scaleInfo) {
+        int numQuestionsTotal = cat.getQuestions().size();
+        double categoryScore = 0;
+        for (int i = 0; i < numQuestionsTotal; i++) {
+
+            int qIdx = QuestionCategory.getQuestionIndex(categoryIndex,
+                    i,
+                    scaleNonDB);
+            if (scaleDB != null) {
+                String dummyID = scaleDB.getGuid() + "-" + qIdx;
+                QuestionFirebase question = FirebaseDatabaseHelper.getQuestionByID(dummyID);
+
+                /*
+                  Right/ wrong question
+                 */
+
+                if (question != null && question.getSelectedRightWrong().equals("right"))
+                    categoryScore += 1;
+            }
+
+        }
+
+        Paragraph categoryResult = new Paragraph(cat.getName() + ": " + (int) categoryScore + "/" + numQuestionsTotal);
+        categoryResult.setIndentationLeft(leftIndentationPlus);
+        scaleInfo.add(categoryResult);
+
+
     }
 
     private static void createTable(Section subCatPart)

@@ -3,11 +3,8 @@ package com.felgueiras.apps.geriatrichelper.Sessions.DisplayTest.QuestionCategor
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,26 +16,23 @@ import android.widget.TextView;
 import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.GeriatricScaleNonDB;
 import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.QuestionCategory;
 import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.QuestionNonDB;
+import com.felgueiras.apps.geriatrichelper.Firebase.FirebaseStorageHelper;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.FirebaseDatabaseHelper;
 import com.felgueiras.apps.geriatrichelper.Sessions.DisplayTest.QuestionsListAdapter;
 import com.felgueiras.apps.geriatrichelper.Sessions.DisplayTest.SingleQuestion.RightWrongQuestionHandler;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.QuestionFirebase;
 import com.felgueiras.apps.geriatrichelper.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
+import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
-public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDisplayQuestions.MyViewHolder> {
+public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDisplayQuestions.MyViewHolder> implements Serializable {
 
     private final GeriatricScaleNonDB scaleNonDB;
     private final int categoryIndex;
@@ -124,7 +118,7 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
         holder.questionTextView.setText((questionIndexInsideCategory + 1) + " - " + currentQuestionNonDB.getDescription());
 
         // check if there is an associated image
-        if (!currentQuestionNonDB.getImage().equals("")) {
+        if (!currentQuestionNonDB.getImage().equals("0")) {
             setImage(holder, currentQuestionNonDB);
         }
 
@@ -136,9 +130,7 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
             } else {
                 holder.wrong.setImageResource(R.drawable.ic_wrong_selected);
             }
-        }
-        else
-        {
+        } else {
             holder.right.setImageResource(R.drawable.ic_right_unselected);
             holder.wrong.setImageResource(R.drawable.ic_wrong_unselected);
         }
@@ -167,67 +159,42 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
     private void setImage(final MyViewHolder holder, QuestionNonDB currentQuestionNonDB) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
-                .child("images/" + currentQuestionNonDB.getImage());
+        String imageName = currentQuestionNonDB.getImage();
 
-        try {
-            final File imageFile = File.createTempFile("photoDownloaded", "png");
-            storageRef.getFile(imageFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-
-                    // display image
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-
-                    // downsizing image as it throws OutOfMemory Exception for larger
-                    // images
-//                    options.inSampleSize = 8;
-
-                    final Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(),
-                            options);
-                    holder.questionImage.setVisibility(View.VISIBLE);
-
-                    holder.questionImage.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            AlertDialog.Builder imageDialog = new AlertDialog.Builder(context);
-                            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-
-                            View layout = inflater.inflate(R.layout.custom_fullimage_dialog, null);
-                            ImageView image = layout.findViewById(R.id.fullimage);
-                            image.setImageBitmap(bitmap);
-                            imageDialog.setView(layout);
-                            imageDialog.setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-
-                            AlertDialog alertDialog = imageDialog.create();
-                            alertDialog.show();
-
-                            // update image size
-                            Display display = context.getWindowManager().getDefaultDisplay();
-                            image.getLayoutParams().width = (int) (display.getWidth() * 0.8f);
-                            image.getLayoutParams().height = (int) (display.getHeight() * 0.8f);
+        final Bitmap bitmap = FirebaseStorageHelper.loadImageFromStorage(imageName, context);
 
 
-                        }
-                    });
+        holder.questionImage.setVisibility(View.VISIBLE);
 
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    if (exception instanceof com.google.firebase.storage.StorageException) {
-                        // scale was not found for that language
-                        Log.d("Download", "Image does not exist");
+        holder.questionImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder imageDialog = new AlertDialog.Builder(context);
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+                View layout = inflater.inflate(R.layout.custom_fullimage_dialog, null);
+                ImageView image = layout.findViewById(R.id.fullimage);
+                image.setImageBitmap(bitmap);
+                imageDialog.setView(layout);
+                imageDialog.setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                });
+
+                AlertDialog alertDialog = imageDialog.create();
+                alertDialog.show();
+
+                // update image size
+                Display display = context.getWindowManager().getDefaultDisplay();
+                image.getLayoutParams().width = (int) (display.getWidth() * 0.8f);
+                image.getLayoutParams().height = (int) (display.getHeight() * 0.8f);
+
+
+            }
+        });
+
+
     }
 
     /**

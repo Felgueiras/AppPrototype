@@ -2,6 +2,7 @@ package com.felgueiras.apps.geriatrichelper.Firebase;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +20,8 @@ import android.widget.VideoView;
 import com.felgueiras.apps.geriatrichelper.DataTypes.Criteria.StartCriteria;
 import com.felgueiras.apps.geriatrichelper.DataTypes.Criteria.StoppCriteria;
 import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.GeriatricScaleNonDB;
+import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.QuestionCategory;
+import com.felgueiras.apps.geriatrichelper.DataTypes.NonDB.QuestionNonDB;
 import com.felgueiras.apps.geriatrichelper.DataTypes.Scales;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.PatientFirebase;
@@ -50,6 +53,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,6 +71,7 @@ import java.util.Map;
 public class FirebaseStorageHelper {
 
     private static FirebaseStorageHelper singleton = new FirebaseStorageHelper();
+    public static String directoryPath;
     private final FirebaseStorage storage;
     private StorageReference patientsStorageReference;
     final Gson gson;
@@ -199,6 +204,7 @@ public class FirebaseStorageHelper {
     public void downloadScales(final Context context, DatabaseReference firebaseTablePublic) {
         Log.d("Scales", "Downloading scales");
 
+
         // download scales from that language
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC).setPrettyPrinting();
@@ -250,7 +256,7 @@ public class FirebaseStorageHelper {
                         }
                     }
                     String fileName = scaleName + "-" + scaleLanguage + ".json";
-                    Log.d("Scales","Going to download " + fileName);
+                    Log.d("Scales", "Going to download " + fileName);
 
                     StorageReference storageRef = storage.getReferenceFromUrl(FirebaseHelper.firebaseURL).child("scales/" + fileName);
 
@@ -266,6 +272,22 @@ public class FirebaseStorageHelper {
                                     SharedPreferencesHelper.addScale(scaleNonDB, context);
                                     Scales.scales.add(scaleNonDB);
                                     FirebaseHelper.scalesCurrent++;
+
+                                    // check if there are any associated images
+                                    if (scaleNonDB.isMultipleCategories()) {
+                                        // browse questions from each category
+                                        for (QuestionCategory currentCategory : scaleNonDB.getQuestionsCategories()) {
+                                            for (QuestionNonDB currentQuestionNonDB : currentCategory.getQuestions()) {
+                                                if (!currentQuestionNonDB.getImage().equals("")) {
+                                                    downloadImage(currentQuestionNonDB, context);
+                                                }
+                                            }
+
+                                        }
+
+                                    }
+
+
                                     if (FirebaseHelper.scalesCurrent == FirebaseHelper.scalesTotal)
                                         FirebaseHelper.canLeaveLaunchScreen = true;
                                 } catch (FileNotFoundException e) {
@@ -277,7 +299,7 @@ public class FirebaseStorageHelper {
                             public void onFailure(@NonNull Exception exception) {
                                 if (exception instanceof com.google.firebase.storage.StorageException) {
                                     // scale was not found for that language
-                                    Log.d("Firebase","Exception on " + scaleName);
+                                    Log.d("Firebase", "Exception on " + scaleName);
                                 }
                                 FirebaseHelper.scalesCurrent++;
                                 if (FirebaseHelper.scalesCurrent == FirebaseHelper.scalesTotal)
@@ -304,6 +326,114 @@ public class FirebaseStorageHelper {
 
     }
 
+    /**
+     * Download and save an image from Firebase.
+     *
+     * @param currentQuestionNonDB
+     * @param context
+     */
+    private void downloadImage(final QuestionNonDB currentQuestionNonDB, final Context context) {
+        Log.d("Image", "Downloading image");
+
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://appprototype-bdd27.appspot.com")
+                .child("images/" + currentQuestionNonDB.getImage());
+
+
+        try {
+            final File imageFile = File.createTempFile("photoDownloaded", "png");
+            storageRef.getFile(imageFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                    // display image
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+
+                    final Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(),
+                            options);
+
+                    // save bitmap
+                    saveToInternalStorage(bitmap, context, currentQuestionNonDB.getImage());
+
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    if (exception instanceof com.google.firebase.storage.StorageException) {
+                        // scale was not found for that language
+                        Log.d("Download", "Image does not exist");
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Save a Bitmap to the Internal Storage.
+     *
+     * @param bitmapImage
+     * @param context
+     * @param imageName
+     * @return
+     */
+    private static void saveToInternalStorage(Bitmap bitmapImage, Context context, String imageName) {
+        ContextWrapper cw = new ContextWrapper(context);
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("images", Context.MODE_PRIVATE);
+        // Create imageDir
+        File mypath = new File(directory, imageName);
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
+    public static String getDirectoryPath(Context context) {
+        ContextWrapper cw = new ContextWrapper(context);
+
+        File directory = cw.getDir("images", Context.MODE_PRIVATE);
+
+        // save path
+        return directory.getAbsolutePath();
+    }
+
+
+    /**
+     * Load an image from internal storage.
+     *
+     * @param imageName
+     * @param context
+     * @return
+     */
+    public static Bitmap loadImageFromStorage(String imageName, Context context) {
+
+        try {
+
+            File f = new File(getDirectoryPath(context), imageName);
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            return b;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     /**
      * Download medical criteria.

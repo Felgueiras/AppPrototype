@@ -14,12 +14,13 @@ import com.felgueiras.apps.geriatrichelper.Sessions.DisplayTest.QuestionsListAda
 import com.felgueiras.apps.geriatrichelper.Firebase.RealtimeDatabase.GeriatricScaleFirebase;
 import com.felgueiras.apps.geriatrichelper.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by rafael on 08-01-2017.
  */
-public class QuestionMultipleCategoriesViewPager {
+public class QuestionMultipleCategoriesViewPager implements Serializable{
 
 
     private final LayoutInflater inflater;
@@ -28,7 +29,11 @@ public class QuestionMultipleCategoriesViewPager {
     private final QuestionsListAdapter questionsListAdapter;
 
 
-    public QuestionMultipleCategoriesViewPager(LayoutInflater inflater, GeriatricScaleNonDB testNonDB, Activity context, GeriatricScaleFirebase test, QuestionsListAdapter adapter) {
+    public QuestionMultipleCategoriesViewPager(LayoutInflater inflater,
+                                               GeriatricScaleNonDB testNonDB,
+                                               Activity context,
+                                               GeriatricScaleFirebase test,
+                                               QuestionsListAdapter adapter) {
         this.inflater = inflater;
         this.scaleNonDB = testNonDB;
         this.scaleDB = test;
@@ -67,7 +72,7 @@ public class QuestionMultipleCategoriesViewPager {
 
     }
 
-    private class MyPageAdapter extends FragmentPagerAdapter {
+    private class MyPageAdapter extends FragmentPagerAdapter implements Serializable {
         private ArrayList<Fragment> mFragmentList = new ArrayList<>();
 
         MyPageAdapter(FragmentManager fm) {
