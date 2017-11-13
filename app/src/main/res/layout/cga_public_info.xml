@@ -21,6 +21,27 @@
         android:background="@drawable/round_button"/>
 
     <Button
+        android:text="Última"
+        android:id="@+id/last_session"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/button_size2"
+        android:padding="20dp"
+        style="@style/header2"
+        android:textColor="@color/white"
+        android:background="@drawable/round_button_colorful"
+        android:layout_toRightOf="@id/start_acg_evaluation"
+        android:layout_below="@id/start_acg_evaluation"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/app_icon"
+        android:scaleX="0.6"
+        android:scaleY="0.6"
+        android:scaleType="fitCenter"
+        android:layout_above="@id/start_acg_evaluation"/>
+
+    <Button
         android:id="@+id/more_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

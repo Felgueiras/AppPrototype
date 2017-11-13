@@ -2,6 +2,8 @@ package com.felgueiras.apps.geriatrichelper.Sessions.AllAreas;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.felgueiras.apps.geriatrichelper.Constants;
 import com.felgueiras.apps.geriatrichelper.Firebase.FirebaseRemoteConfig;
@@ -18,6 +21,9 @@ import com.felgueiras.apps.geriatrichelper.HelpersHandlers.SharedPreferencesHelp
 import com.felgueiras.apps.geriatrichelper.Main.FragmentTransitions;
 import com.felgueiras.apps.geriatrichelper.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import tourguide.tourguide.TourGuide;
 
 
@@ -41,38 +47,26 @@ public class CGAPublicInfo extends Fragment {
         menu.clear();
     }
 
+    @BindView(R.id.start_acg_evaluation)
+    Button startSession;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.cga_public_info, container, false);
-        getActivity().setTitle(FirebaseRemoteConfig.getString("cga",
-                getResources().getString(R.string.cga)));
+    @BindView(R.id.last_session)
+    Button lastSession;
 
-        if(!SharedPreferencesHelper.checkTourNext(getActivity()))
-        {
-            SharedPreferencesHelper.disableTour(getActivity());
-        }
+    @BindView(R.id.more_info)
+    Button moreInfo;
 
-        /*
-          Start a session.
-         */
-        Button startSession = view.findViewById(R.id.start_acg_evaluation);
-        startSession.setText(FirebaseRemoteConfig.getString("create_session",
-                getResources().getString(R.string.create_session)));
-
-        startSession.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("Session", "Clicked in CGAPublicInfo!");
+    @OnClick(R.id.start_acg_evaluation)
+    public void startSession(View view) {
+        Log.d("Session", "Clicked in CGAPublicInfo!");
                 /*
                   If first public evaluation, show alert dialog about saving sessions
                   and registering in the app.
                  */
-                Activity context = getActivity();
-                boolean firstPublicEvaluation = SharedPreferencesHelper.checkFirstPublicEvaluation(getActivity());
+        Activity context = getActivity();
+        boolean firstPublicEvaluation = SharedPreferencesHelper.checkFirstPublicEvaluation(getActivity());
 
-                // TODO use in later versions
+        // TODO use in later versions
                 /*if (firstPublicEvaluation) {
                     AlertDialog alertDialog = new AlertDialog.Builder(context).create();
                     //alertDialog.setTitle(getResources().getString(R.string.session_discard));
@@ -101,46 +95,58 @@ public class CGAPublicInfo extends Fragment {
                     alertDialog.show();
                 } else {*/
 
-                SharedPreferencesHelper.unlockSessionCreation(getActivity());
-                FragmentTransitions.replaceFragment(getActivity(), new CGAPublic(), null, Constants.tag_cga_public);
+        SharedPreferencesHelper.unlockSessionCreation(getActivity());
+        FragmentTransitions.replaceFragment(getActivity(), new CGAPublic(), null, Constants.tag_cga_public);
 //                }
 
-                // remove tutorial
-                if (createSessionGuide != null)
-                    createSessionGuide.cleanUp();
+        // remove tutorial
+        if (createSessionGuide != null)
+            createSessionGuide.cleanUp();
 
 
-            }
-        });
+    }
 
+    @OnClick(R.id.more_info)
+    public void moreInfo(View view) {
+        FragmentTransitions.replaceFragment(getActivity(), new HelpMainFragment(), null, Constants.more_info_clicked);
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.cga_public_info, container, false);
+        getActivity().setTitle(FirebaseRemoteConfig.getString("cga",
+                getResources().getString(R.string.cga)));
+
+        if (!SharedPreferencesHelper.checkTourNext(getActivity())) {
+            SharedPreferencesHelper.disableTour(getActivity());
+        }
+
+        ButterKnife.bind(this, view);
+
+        /*
+          Start a session.
+         */
+        startSession.setText(FirebaseRemoteConfig.getString("create_session",
+                getResources().getString(R.string.create_session)));
 
         /*
           See more information.
          */
-        Button moreInfo = view.findViewById(R.id.more_info);
         moreInfo.setText(FirebaseRemoteConfig.getString("more_info",
                 getResources().getString(R.string.more_info)));
-        moreInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                FragmentTransitions.replaceFragment(getActivity(), new HelpMainFragment(), null, Constants.more_info_clicked);
-            }
-        });
-        
 
-        // TODO
-//        if (SharedPreferencesHelper.showTour(getActivity()))
-//        {
-//            // TourGuide
-//
-//            createSessionGuide = TourGuide.init(getActivity()).with(TourGuide.Technique.Click)
-//                    .setPointer(new Pointer())
-//                    .setToolTip(new ToolTip().setTitle("Criar Sessão AGG").setDescription("Clique aqui para iniciar uma nova sessão "))
-//                    .setOverlay(new Overlay())
-//                    .playOn(startSession);
-//        }
-
+        /**
+         * Check if there is a previous session.
+         */
+        final String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(getActivity());
+        if (sessionID != null) {
+            lastSession.setVisibility(View.VISIBLE);
+        } else {
+            lastSession.setVisibility(View.GONE);
+        }
 
         return view;
     }
