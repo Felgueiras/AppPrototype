@@ -46,7 +46,9 @@ public class AboutFragment extends Fragment {
 
     @OnClick(R.id.openPDF)
     public void openPDF(View view) {
-        Uri uri = Uri.parse("https://www.spmi.pt/docs_nucleos/GERMI_36.pdf");
+        // fetch GERMI PDF link
+        Uri uri = Uri.parse(FirebaseRemoteConfig.getString("about_germi_pdf",
+                ""));
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
