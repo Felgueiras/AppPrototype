@@ -143,7 +143,7 @@ public class CGAPublicInfo extends Fragment {
          */
         final String sessionID = SharedPreferencesHelper.isThereOngoingPublicSession(getActivity());
         if (sessionID != null) {
-            lastSession.setVisibility(View.VISIBLE);
+            lastSession.setVisibility(View.GONE);
         } else {
             lastSession.setVisibility(View.GONE);
         }

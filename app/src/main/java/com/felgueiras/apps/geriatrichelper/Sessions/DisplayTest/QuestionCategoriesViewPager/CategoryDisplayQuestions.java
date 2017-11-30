@@ -111,7 +111,6 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
         // check if all questions were answered
         checkAllQuestionsAnswered();
 
-
         /*
           Set View
          */
@@ -127,8 +126,10 @@ public class CategoryDisplayQuestions extends RecyclerView.Adapter<CategoryDispl
             ////system.out.println(questionInDB.toString());
             if (questionInDB.getSelectedRightWrong().equals("right")) {
                 holder.right.setImageResource(R.drawable.ic_right_selected);
+                holder.wrong.setImageResource(R.drawable.ic_wrong_unselected);
             } else {
                 holder.wrong.setImageResource(R.drawable.ic_wrong_selected);
+                holder.right.setImageResource(R.drawable.ic_right_unselected);
             }
         } else {
             holder.right.setImageResource(R.drawable.ic_right_unselected);
